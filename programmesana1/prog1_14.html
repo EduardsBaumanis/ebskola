@@ -1,169 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="lv">
 <head>
-  <title>OS resursi un darba efektivitāte</title>
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<title>1.4 GitHub un SSH drošība</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 </head>
-
 <body>
+<div class='galvenaisdiv'>
+<div><a href="../index.html">Tēmas</a></div>
+<div><a href="sasnRez.html" >Sasniedzamie rezultāti</a></div>
+<div><a href="paligm.html">Palīgmateriāli</a></div>
+</div>
 
-  <div class='galvenaisdiv'>
-    <div><a href="index.html">Tēmas</a></div>
-    <div><a href="sasnRez.html">Sasniedzamie rezultāti</a></div>
-    <div><a href="paligm.html">Palīgmateriāli</a></div>
-  </div>
+<div class='section'>
+<h1>1. tēma: Ievads un darba vide. 4. stunda: GitHub un drošs SSH savienojums.</h1>
+<p><b>Tavs šīs stundas izaicinājums:</b> Tu iemācīsies <b>atpazīt</b> atšķirību starp darbu savā datorā un mākonī, <b>izveidot</b> šifrētu SSH drošības atslēgu un <b>sinhronizēt</b> savu kodu ar GitHub serveri.</p>
+<a href="sasnRez.html">SR 2.4.9. (Git attālināti), 2.3.1. (Datu drošība tīklā)</a><br>
+</div>
 
-  <div class='section'>
-    <h1>
-      1. tēma: Operētājsistēmas resursi un darba efektivitāte
-    </h1>
+<div class='section'>
+<div>
+<h2>1. uzdevums (Vienkāršs): GitHub krātuves izveide</h2>
+<p>Sagatavot vietu savam projektam internetā, lai tam varētu piekļūt no jebkura datora.</p>
+<h3>Izpildes soļi:</h3>
+<ol>
+    <li>Atver pārlūkprogrammu un dodies uz <b>github.com</b>. Pieraksties savā kontā.</li>
+    <li>Augšējā labajā stūrī spied uz <b>+</b> ikonas un izvēlies <b>New repository</b>.</li>
+    <li>Laukā <i>Repository name</i> ieraksti: <code>mana_spele</code>.</li>
+    <li>Izvēlies <b>Private</b> (tā Tavu kodu redzēsi tikai Tu).</li>
+    <li>Nespied nevienu citu izvēles rūtiņu un spied pogu <b>Create repository</b>.</li>
+    <li>Atstāj atvērto lapu — mums tūlīt vajadzēs tajā redzamo adresi.</li>
+</ol>
+</div>
 
-    <p>Stundas sasniedzamais rezultāts</p>
-    <a href="sasnRez.html">
-      Stundas beigās skolēns <b>izskaidro</b> operētājsistēmas lomu,
-      <b>identificē</b> procesus un sistēmas resursus (CPU, RAM),
-      <b>izvērtē</b> nepieciešamos resursus konkrētam uzdevumam,
-      kā arī <b>piemēro</b> ergonomikas principus darba vidē.
-      (SR: 2.3.9; 2.3.11; 3.1.1)
-    </a><br>
-  </div>
+<div>
+<h2>2. uzdevums (Viduvējs): SSH drošības atslēgas iestatīšana</h2>
+<p>Izveidot unikālu digitālo atslēgu, lai GitHub serveris atpazītu Tavu datoru bez paroles ievadīšanas.</p>
+<h3>Izpildes soļi:</h3>
+<ol>
+    <li>Atver VS Code termināli un ieraksti: <code>ssh-keygen -t ed25519 -C "tavs_epasts@piemers.lv"</code> (izmanto savu e-pastu).</li>
+    <li>Spied <b>Enter</b> trīs reizes (nepievienojot paroli), līdz redzi simbolu zīmējumu.</li>
+    <li>Terminālī ieraksti komandu: <code>cat ~/.ssh/id_ed25519.pub</code>.</li>
+    <li>Iezīmē un nokopē parādīto teksta rindu (tā sākas ar <code>ssh-ed25519...</code>).</li>
+    <li>GitHub vietnē dodies uz <i>Settings -> SSH and GPG keys -> New SSH key</i>.</li>
+    <li>Ieraksti nosaukumu "Skolas dators", ielīmē nokopēto tekstu un spied <b>Add SSH key</b>.</li>
+</ol>
+</div>
 
-  <div class='section'>
+<div>
+<h2>3. uzdevums (Padziļināts): Koda nosūtīšana uz mākoni (Push)</h2>
+<p>Savienot savu lokālo mapi ar GitHub un pirmo reizi nosūtīt saglabāto vēsturi uz serveri.</p>
+<h3>Izpildes soļi:</h3>
+<ol>
+    <li>GitHub lapā, kur izveidoji krātuvi, izvēlies <b>SSH</b> cilni un nokopē adresi (piemēram, git@github.com:vards/mana_spele.git).</li>
+    <li>VS Code terminālī ieraksti: <code>git remote add origin [šeit ielīmē nokopēto adresi]</code>.</li>
+    <li>Ieraksti komandu: <code>git branch -M main</code>.</li>
+    <li>Nosūti kodu: <code>git push -u origin main</code>.</li>
+    <li>Ja terminālis jautā par savienojuma turpināšanu, ieraksti <code>yes</code> un spied Enter.</li>
+    <li>Atjaunini GitHub lapu pārlūkā — tur tagad jābūt redzamiem Taviem failiem.</li>
+</ol>
+</div>
+</div>
 
-    <!-- 1. UZDEVUMS -->
-    <div>
-      <h2>1. uzdevums — Kas ir OS? Procesi un resursi</h2>
+<div class='section'>
+<div><p>Jaunās vielas kopsavilkums</p></div>
+<div>
+<ul>
+    <li><b>GitHub:</b> Mākoņpakalpojums, kas glabā Tavu kodu un tā versiju vēsturi internetā.</li>
+    <li><b>Remote (Attālinātā krātuve):</b> Projekta kopija, kas atrodas uz servera. Galveno adresi parasti sauc par <code>origin</code>.</li>
+    <li><b>SSH atslēgas:</b> Drošības metode, kas izmanto divas atslēgas (privāto un publisko), lai šifrētu saziņu starp datoru un serveri.</li>
+    <li><b>Push (Grūdiens):</b> Komanda, kas nosūta Tavas lokālās izmaiņas no datora uz GitHub.</li>
+</ul>
 
-      <img
-        class="task-img"
-        src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Operating_system_placement.svg"
-        alt="Operētājsistēmas novietojums starp lietojumprogrammām un aparatūru"
-      />
-      <p class="img-source">
-        Avots: Wikimedia Commons — Operating system placement diagram.
-      </p>
+<h3>Biežākās kļūdas (un kā tās labot):</h3>
+<ul>
+    <li><b>Kļūda: "Permission denied (publickey)":</b> Tu, iespējams, ielīmēji nepareizo atslēgu. Pārliecinies, ka GitHub iestatījumos pievienoji <b>publisko</b> atslēgu (failu ar galotni <code>.pub</code>), nevis privāto.</li>
+    <li><b>Kļūda: "remote origin already exists":</b> Tu jau esi mēģinājis pievienot adresi. Lieto komandu <code>git remote remove origin</code> un tad mēģini 3. uzdevumu vēlreiz.</li>
+    <li><b>Kļūda: "Everything up-to-date", bet GitHub mapē nekā nav:</b> Tas nozīmē, ka Tu esi aizmirsis <code>git add</code> un <code>git commit</code> pirms nosūtīšanas. Git nav ko sūtīt, ja nekas nav saglabāts vēsturē.</li>
+    <li><b>Kļūda: SSH adrese pret HTTPS:</b> 3. uzdevumā pārliecinies, ka nokopēji adresi, kas sākas ar <code>git@github.com...</code>, nevis <code>https://...</code>. SSH atslēgas darbojas tikai ar pirmo variantu.</li>
+    <li><b>Terminālis "iesalst" pie jautājuma:</b> Kad parādās jautājums par <i>"Authenticity of host"</i>, nebaidies — dators vienkārši prasa apstiprinājumu. Ieraksti <code>yes</code> un spied Enter.</li>
+</ul>
 
-      <p>
-        <b>Mērķis:</b> saprast, kā operētājsistēma pārvalda datoru.
-        <br><br>
+<p><b>Atceries:</b> SSH atslēgu iestatīšana parasti ir jādara tikai vienreiz uz katra jauna datora. Turpmākajās stundās Tu varēsi nosūtīt darbu ar vienu vienkāršu komandu: <code>git push</code>.</p>
+</div>
 
-        <b>A. Apskati attēlu</b><br>
-        1) Atrodi, kur atrodas lietojumprogrammas.<br>
-        2) Atrodi, kur atrodas aparatūra (hardware).<br>
-        3) Paskaidro, kā OS savieno šos divus slāņus.<br><br>
-
-        <b>B. Atrodi procesus savā datorā</b><br>
-        1) Windows: Ctrl+Shift+Esc → Task Manager.<br>
-        2) macOS: Activity Monitor.<br>
-        3) Atrodi, cik procesi šobrīd darbojas.<br>
-        4) Noskaidro, kurš process izmanto visvairāk CPU vai RAM.<br><br>
-
-        <b>C. README failā</b> uzraksti:
-        <br>• Kas ir operētājsistēma?
-        <br>• Kas ir process?
-        <br>• Ko nozīmē CPU un RAM izmantošana?
-      </p>
-    </div>
-
-    <!-- 2. UZDEVUMS -->
-    <div>
-      <h2>2. uzdevums — Resursu izvēle konkrētam uzdevumam</h2>
-
-      <img
-        class="task-img"
-        src="https://upload.wikimedia.org/wikipedia/commons/2/25/Computer-system.svg"
-        alt="Datora sistēmas sastāvdaļas: CPU, RAM, Storage"
-      />
-      <p class="img-source">
-        Avots: Wikimedia Commons — Computer system diagram.
-      </p>
-
-      <p>
-        <b>Mērķis:</b> izvērtēt, cik jaudīgs dators nepieciešams dažādiem uzdevumiem.
-        <br><br>
-
-        README failā izveido tabulu ar 3 kolonnām:
-        <br>Uzdevums | Nepieciešamie resursi | Pamatojums
-      </p>
-
-<pre><code class="language-text">
-1) Teksta apstrāde
-2) Mašīnmācīšanās projekts
-3) Spēles izstrāde
+<div class='code-example'>
+<pre><code class="language-powershell">
+# Savienošanas un nosūtīšanas komandas:
+git remote add origin git@github.com:lietotajs/projekts.git
+git branch -M main
+git push -u origin main
 </code></pre>
-
-      <p>
-        <b>Norādījumi:</b><br>
-        • Teksta apstrādei parasti pietiek ar nelielu RAM un vidēju CPU.<br>
-        • ML projektam nepieciešams vairāk RAM un jaudīgs CPU (vai GPU).<br>
-        • Spēles izstrādei svarīgs CPU + grafiskā karte (GPU).<br><br>
-
-        <b>Uzdevums:</b> katram punktam <b>pamato</b>, kāpēc tieši šādi resursi ir vajadzīgi.
-      </p>
-    </div>
-
-    <!-- 3. UZDEVUMS -->
-    <div>
-      <h2>3. uzdevums — Ergonomika un sagatavošanās mini-projektam</h2>
-
-      <img
-        class="task-img"
-        src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Ergonomic_workstation.png"
-        alt="Ergonomiskas darba vietas diagramma"
-      />
-      <p class="img-source">
-        Avots: Wikimedia Commons — Ergonomic workstation diagram.
-      </p>
-
-      <p>
-        <b>Mērķis:</b> organizēt drošu un efektīvu darba vidi un sagatavoties mini-projektam.
-        <br><br>
-
-        <b>A. Ergonomika</b><br>
-        1) Pārbaudi monitora augstumu — augšējai malai jābūt acu līmenī.<br>
-        2) Novērtē, vai plaukstas atrodas taisnā līnijā ar klaviatūru.<br>
-        3) Uzraksti 2 riskus ilgstošam darbam (redze, mugura).<br>
-        4) Nosauc vienu ieradumu, kas palīdz (piem., pauze ik pēc 20 minūtēm).<br><br>
-
-        <b>B. Sagatavošanās mini-projektam</b><br>
-        README failā izveido sadaļu “Mini-projekta plāns” un definē:
-        <br>• Projekta mērķis (1–2 teikumi)
-        <br>• Nepieciešamie resursi (CPU, RAM, programmas)
-        <br>• Mapju struktūra (piem., src/, data/, README.md)
-        <br>• Git repo izveide (komanda: git init)
-      </p>
-
-<pre><code class="language-bash">
-git init
-git add .
-git commit -m "Prepare project structure"
-</code></pre>
-
-      <p>
-        <b>Paškontrole:</b>
-        <br>• Vai projekts ir strukturēts mapēs?
-        <br>• Vai ir izveidots Git repozitorijs?
-        <br>• Vai README apraksta mērķi un resursus?
-      </p>
-    </div>
-
-  </div>
-
-  <div class='section'>
-    <div><p>Papildus informācija</p></div>
-    <div>
-      <p>
-        Operētājsistēma pārvalda aparatūru un nodrošina, ka programmas var droši darboties vienlaicīgi.
-      </p>
-      <p>
-        CPU veic aprēķinus, RAM īslaicīgi glabā aktīvos datus, bet SSD uzglabā failus ilgtermiņā.
-      </p>
-      <p>
-        Ergonomiska darba vieta un regulāras pauzes palīdz saglabāt produktivitāti un veselību ilgtermiņā.
-      </p>
-    </div>
-  </div>
-
+<div class='result'>
+  Enumerating objects: 5, done.<br>
+  To github.com:lietotajvards/mana_spele.git<br>
+  * [new branch]      main -> main<br>
+  branch 'main' set up to track 'origin/main'.
+</div>
+</div>
+</div>
 </body>
 </html>

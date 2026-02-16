@@ -1,228 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="lv">
 <head>
-  <title>Komandrinda un drošība</title>
-  <link rel="stylesheet" type="text/css" href="../style.css">
-  <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-
+<title>1.2 Windows resursi un ceļi</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 </head>
-
 <body>
-  <!--Izvēlne -->
-  <div class='galvenaisdiv'>
-    <div><a href="index.html">Tēmas</a></div>
-    <div><a href="sasnRez.html" >Sasniedzamie rezultāti</a></div>
-    <div><a href="paligm.html">Palīgmateriāli</a></div>
-  </div>
+<div class='galvenaisdiv'>
+<div><a href="../index.html">Tēmas</a></div>
+<div><a href="sasnRez.html" >Sasniedzamie rezultāti</a></div>
+<div><a href="paligm.html">Palīgmateriāli</a></div>
+</div>
 
-  <!--Stundas apraksts -->
-  <div class='section'>
-    <h1><!--Saturs. Tēmas apraksts-->
-      1. tēma: Komandrinda un pamata drošība — mapes, komandas, PATH, licences
-    </h1>
+<div class='section'>
+<h1>1. tēma: Ievads un darba vide. 2. stunda: Windows resursu pārvaldība.</h1>
+<p><b>Tavs šīs stundas izaicinājums:</b> Tu iemācīsies <b>atpazīt</b> Windows failu sistēmas uzbūvi, <b>izskaidrot</b> atšķirību starp dažādiem failu atrašanās vietu veidiem un patstāvīgi <b>pārvaldīt</b> mapes un failus, izmantojot tikai komandrindu.</p>
+<a href="sasnRez.html">SR 2.3.9. (Operētājsistēmas resursu pārvaldība: failu sistēma, ceļi)</a><br>
+</div>
 
-    <p>Stundas sasniedzamais rezultāts</p>
-    <a href="sasnRez.html"><!--Saturs. Stundas sasniedamais rezultāts-->
-      Stundas beigās skolēns <b>izmanto</b> komandrindas pamatkomandas (cd, ls/dir, mkdir), <b>izpilda</b> Python programmu no CLI,
-      <b>izskaidro</b> PATH nozīmi un <b>piemēro</b> drošas darba vides principus (paroles/2FA/personas dati), kā arī <b>noformē</b> README ar autoru un licenci.
-      (SR: 2.3.1; 2.3.9; 3.1.5)
-    </a><br>
-  </div>
+<div class='section'>
+<div>
+<h2>1. uzdevums (Vienkāršs): Orientēšanās Windows mapēs</h2>
+<p>Iemācīties noteikt, kurā mapē Tu pašlaik atrodies, un apskatīt tās saturu bez pelītes klikšķiem.</p>
+<h3>Izpildes soļi:</h3>
+<ol>
+    <li>Atver programmu VS Code un loga apakšā atver <b>Terminal</b>.</li>
+    <li>Ieraksti pavēli <code>echo %cd%</code> un nospied Enter. Dators parādīs Tavu pašreizējo darba adresi (piemēram, C:\Lietotāji\Vārds).</li>
+    <li>Ieraksti pavēli <code>dir</code> un nospied Enter. Tu redzēsi sarakstu ar visām mapēm un failiem, kas atrodas šajā vietā.</li>
+    <li>Ieraksti pavēli <code>cd ..</code> (ievēro atstarpi un divus punktus) un nospied Enter. Tu pakāpsies vienu līmeni atpakaļ uz sākuma pusi.</li>
+    <li>Vēlreiz ieraksti <code>dir</code>, lai pārliecinātos, ka esi nonācis citā vietā.</li>
+</ol>
+</div>
 
-  <!--Uzdevumi -->
-  <div class='section'>
+<div>
+<h2>2. uzdevums (Viduvējs): Projekta "skeleta" izveide</h2>
+<p>Izveidot sakārtotu mapju struktūru topošajai spēlei, neizmantojot peli un logus.</p>
+<h3>Izpildes soļi:</h3>
+<ol>
+    <li>Terminālī ieraksti <code>cd Desktop</code>, lai nonāktu uz datora darbvirsmas.</li>
+    <li>Izveido jaunu mapi savam darbam, rakstot <code>mkdir laboratorija2</code>.</li>
+    <li>Ieej jaunajā mapē ar komandu <code>cd laboratorija2</code>.</li>
+    <li>Izveido tur trīs apakšmapes dažādiem spēles materiāliem: <code>mkdir kods</code>, <code>mkdir bildes</code> un <code>mkdir skanas</code>.</li>
+    <li>Ieraksti komandu <code>tree</code> un nospied Enter, lai vizuāli apskatītu izveidoto mapju koku.</li>
+</ol>
+</div>
 
-    <div>
-      <h2>1. uzdevums — komandrindas pamati un programmas palaišana no CLI</h2>
+<div>
+<h2>3. uzdevums (Padziļināts): Failu manipulācija un relatīvie ceļi</h2>
+<p>Iemācīties pārvietot failus starp mapēm un palaist kodu, norādot ceļu līdz tam.</p>
+<h3>Izpildes soļi:</h3>
+<ol>
+    <li>Mapē <code>laboratorija2</code> izveido tukšu failu, terminālī rakstot <code>type nul > tests.py</code>.</li>
+    <li>Pārvieto šo failu uz mapi kods, rakstot <code>move tests.py kods\</code>.</li>
+    <li>Atver VS Code kreisajā pusē failu <code>kods\tests.py</code> un ieraksti tajā kodu: <code>print("Skripts veiksmīgi palaists no citas mapes!")</code>. Saglabā to (Ctrl+S).</li>
+    <li>Pārliecinies, ka terminālī Tu joprojām atrodies mapē <code>laboratorija2</code> (to rāda adrese pirms kursora).</li>
+    <li>Mēģini palaist skriptu, rakstot <code>python kods\tests.py</code>.</li>
+</ol>
+</div>
+</div>
 
-      <!-- Attēls palīdz tieši uzdevumam: kur un kā terminālī redz komandas/ceļu -->
-      <img
-        class="task-img"
-        src="https://code.visualstudio.com/assets/docs/terminal/basics/integrated-terminal.png"
-        alt="VS Code integrētais terminālis ar komandu piemēriem (mkdir, cd u.c.)"
-      />
-      <p class="img-source">
-        Attēla avots: code.visualstudio.com (Terminal Basics — integrētais terminālis).
-      </p>
+<div class='section'>
+<div><p>Jaunās vielas kopsavilkums</p></div>
+<div>
+<ul>
+    <li><b>Datora resursi:</b> Viss, ko operētājsistēma Tev nodrošina — vieta uz diska (faili), operatīvā atmiņa un jauda.</li>
+    <li><b>Terminālis:</b> Tiešs teksta saziņas veids ar datoru, kas ļauj veikt darbības ātrāk nekā ar peli.</li>
+    <li><b>Absolūtais ceļš:</b> Pilna adrese no paša sākuma (piemēram, <code>C:\Lietotaji\Vards\Desktop\fails.py</code>).</li>
+    <li><b>Relatīvais ceļš:</b> Adrese attiecībā pret vietu, kurā Tu atrodies pašlaik (piemēram, <code>kods\fails.py</code>).</li>
+</ul>
 
-      <p><!-- Saturs. 1. uzdevuma apraksts -->
-        <b>Mērķis:</b> iemācīties pārvietoties pa mapēm un palaist programmu bez IDE pogas “Run”.
-        <br><br>
+<h3>Biežākās kļūdas (un kā tās labot):</h3>
+<ul>
+    <li><b>Kļūda: "The system cannot find the path specified":</b> Tu mēģini ieiet mapē, kuras nav šajā vietā, vai esi pieļāvis pārrakstīšanās kļūdu nosaukumā. Vienmēr ieraksti <code>dir</code>, lai pārliecinātos, kā tieši saucas mape.</li>
+    <li><b>Aizmirsta atstarpe:</b> Komanda un tās mērķis ir jāatdala ar atstarpi. Raksti <code>cd Desktop</code>, nevis <code>cdDesktop</code>.</li>
+    <li><b>Slīpsvītru lietošana:</b> Windows sistēmā mapes atdala ar reverso slīpsvītru <code>\</code> (Backslash). Ja ierakstīsi <code>kods/tests.py</code>, terminālis var nesaprast ceļu.</li>
+    <li><b>Atstarpes mapju nosaukumos:</b> Ja mapi sauc <i>mana spele</i>, terminālis domās, ka tās ir divas dažādas komandas. Šādos gadījumos lieto pēdiņas: <code>cd "mana spele"</code>.</li>
+    <li><b>Pazaudēta atrašanās vieta:</b> Ja esi "apmaldījies" mapēs, ieraksti <code>cd %userprofile%\Desktop</code>, lai ātri atgrieztos uz darbvirsmas.</li>
+</ul>
 
-        <b>A. Atver termināli/komandrindu</b><br>
-        Izvēlies vienu variantu:<br>
-        • VS Code: <b>View → Terminal</b><br>
-        • Windows: Start → <b>cmd</b> vai <b>PowerShell</b><br>
-        • macOS/Linux: <b>Terminal</b><br><br>
+<p><b>Zini, kāpēc tas ir svarīgi?</b> Programmējot spēles, Tavs kods bieži meklēs attēlus vai skaņas citās mapēs. Bez izpratnes par failu ceļiem spēle šos resursus neatradīs un nedarbosies.</p>
+</div>
 
-        <b>B. Aizej uz projekta mapi</b><br>
-        1) Atrodi, kur glabājas tavs <b>projekts_01</b> (no iepriekšējās stundas).<br>
-        2) Terminālī izmanto <b>cd</b>, lai atvērtu šo mapi.<br>
-        Piemēri (pielāgo savam ceļam):<br>
-        • Windows (cmd): <b>cd Documents\projekts_01</b><br>
-        • macOS/Linux: <b>cd ~/Documents/projekts_01</b><br><br>
-
-        <b>C. Pārbaudi mapes saturu</b><br>
-        1) Windows (cmd): ievadi <b>dir</b><br>
-        2) macOS/Linux: ievadi <b>ls</b><br>
-        3) Pārliecinies, ka sarakstā ir <b>main.py</b> un <b>README.md</b>.<br><br>
-
-        <b>D. Izveido jaunu mapi ar komandu mkdir</b><br>
-        1) Terminālī ievadi: <b>mkdir tests</b><br>
-        2) Pārbaudi ar <b>dir</b> vai <b>ls</b>, ka mape ir izveidota.<br>
-        3) Ieej mapē: <b>cd tests</b><br>
-        4) Atgriezies atpakaļ uz projekta mapi:<br>
-        • Windows/macOS/Linux: <b>cd ..</b><br><br>
-
-        <b>E. Palaid Python programmu tikai no CLI</b><br>
-        1) Pārliecinies, ka esi mapē <b>projekts_01</b> (kur atrodas main.py).<br>
-        2) Ievadi:<br>
-        • parasti: <b>python main.py</b><br>
-        • ja Windows vidē nestrādā: <b>py main.py</b><br>
-        3) Terminālī jāparādās “Hello, World!” (vai tavs teksts, ja esi to mainījis).<br><br>
-
-        <b>Paškontrole:</b> ja komandai <b>python main.py</b> parādās kļūda “file not found”, tu visticamāk esi nepareizajā mapē (atkārto B un C).
-      </p>
-    </div>
-
-    <div>
-      <h2>2. uzdevums — vides mainīgie un PATH: kā sistēma atrod python</h2>
-
-      <!-- Attēls palīdz tieši uzdevumam: kur vizuāli redz PATH sarakstu -->
-      <img
-        class="task-img"
-        src="https://www.architectryan.com/static/42eb044d39582f04f1f213e17e4fcb30/32056/edit_path_variable.png"
-        alt="Windows logs 'Edit environment variable' ar PATH sarakstu"
-      />
-      <p class="img-source">
-        Attēla avots: architectryan.com (Add to the PATH on Windows — PATH rediģēšanas logs).
-      </p>
-
-      <p><!-- Saturs. 2. uzdevuma apraksts -->
-        <b>Mērķis:</b> saprast, kāpēc dažreiz “python” terminālī strādā, bet citreiz ne, un kā to pārbaudīt.
-        <br><br>
-
-        <b>A. Izskaidro (1 teikumā): kas ir PATH?</b><br>
-        README failā (sadaļā “Problēmas” vai jaunā sadaļā “PATH”) uzraksti vienu teikumu, piemēram:<br>
-        <i>“PATH ir mapju saraksts, kurās operētājsistēma meklē programmas, kad terminālī ierakstu komandu (piem., python).”</i><br><br>
-
-        <b>B. Noskaidro, kur atrodas Python</b><br>
-        Terminālī izpildi atbilstošo komandu:<br>
-        • Windows (cmd): <b>where python</b><br>
-        • Windows (PowerShell): <b>where.exe python</b><br>
-        • macOS/Linux: <b>which python</b> vai <b>which python3</b><br>
-        Iekopē rezultātu README (ceļu, ko izvada).<br><br>
-
-        <b>C. Apskati PATH vērtību</b><br>
-        Izpildi vienu no šīm komandām (atkarībā no vides):<br>
-        • Windows (cmd): <b>echo %PATH%</b><br>
-        • Windows (PowerShell): <b>$env:Path</b><br>
-        • macOS/Linux: <b>echo $PATH</b><br><br>
-
-        <b>D. (Ja python nestrādā)</b><br>
-        1) Uztaisi ekrānšāviņu ar kļūdas paziņojumu (vai nokopē 1–2 rindas).<br>
-        2) Atver Windows meklētāju un ieraksti <b>environment variables</b> → izvēlies “Edit the system environment variables”.<br>
-        3) Atver <b>Environment Variables…</b> un atrodi <b>Path</b> (skat. attēlu augstāk).<br>
-        4) <b>Nerediģē</b> bez skolotāja norādes—šajā uzdevumā pietiek saprast, kur tas atrodas un kāpēc tas ietekmē komandu “python”.
-      </p>
-    </div>
-
-    <div>
-      <h2>3. uzdevums — droša darba vide + licence un IP + README noformēšana</h2>
-
-      <!-- Attēls palīdz tieši uzdevumam: kur GitHub piedāvā izvēlēties licences sagatavi -->
-      <img
-        class="task-img"
-        src="https://docs.github.com/assets/cb-18532/images/help/repository/license-tool.png"
-        alt="GitHub licence izvēles poga 'Choose a license template' pie LICENSE faila izveides"
-      />
-      <p class="img-source">
-        Attēla avots: docs.github.com (Adding a license to a repository — licenses sagataves izvēle).
-      </p>
-
-      <p><!-- Saturs. 3. uzdevuma apraksts -->
-        <b>Mērķis:</b> noformēt projektu tā, lai tas ir korekts un drošs koplietošanai.
-        <br><br>
-
-        <b>A. Drošības mini-tests (pieraksti README)</b><br>
-        README beigās izveido sadaļu <b>“Drošība”</b> un atbildi ar īsiem teikumiem:<br>
-        1) <b>Paskaidro</b>, kāpēc nedrīkst kodā (un repozitorijā) glabāt paroles vai piekļuves atslēgas.<br>
-        2) <b>Nosauc</b> vienu piemēru “personas datiem”, kurus nevajadzētu publicēt (piem., personas kods, adrese u.tml.).<br>
-        3) <b>Nosauc</b> vienu drošības soli kontam: spēcīga parole vai <b>2FA</b> (divfaktoru autentifikācija).<br><br>
-
-        <b>B. Licence un autorība (pieraksti README)</b><br>
-        README augšdaļā (zem virsraksta) pievieno:<br>
-        • <b>Autors:</b> Tavs vārds/uzvārds<br>
-        • <b>Apraksts:</b> 1–2 teikumi, ko projekts dara<br>
-        • <b>Licence:</b> <b>MIT</b> (vai cita, ja skolotājs norāda)<br><br>
-
-        <b>C. README sagatave (kopē un aizpildi)</b>
-      </p>
-
-      <div class='code-example'>
-        <pre><code class="language-markdown">
-# projekts_01
-Autors: [Tavs vārds Uzvārds]
-
-## Apraksts
-Šis projekts izpilda pirmo Python programmu un demonstrē palaišanu no komandrindas.
-
-## Kā palaist programmu?
-- Komandrindā / terminālī: python main.py
-  (ja Windows vidē nestrādā: py main.py)
-
-## Licence
-MIT
-
-## Drošība
-1) Kāpēc paroles nedrīkst glabāt kodā/repozitorijā? — [atbilde]
-2) Personas datu piemērs, ko nepublicēt — [piemērs]
-3) Konta drošības solis (spēcīga parole vai 2FA) — [atbilde]
-        </code></pre>
-      </div>
-
-      <p>
-        <b>Paškontrole:</b> README jābūt autoram, aprakstam un licences nosaukumam. “Drošība” sadaļā jābūt 3 īsām atbildēm.
-      </p>
-    </div>
-
-  </div>
-
-  <!-- 1. Papildus informācija -->
-  <div class='section'>
-    <div><p>Papildus informācija</p></div>
-
-    <div>
-      <p><!--Nepieciešamā informācija ne vairāk kā 3 rindkopas. Censties pēc iespējas īsāk.-->
-        <b>Komandrinda</b> programmētājam ir ikdienas rīks: ar <b>cd</b> tu nonāc pareizajā mapē, ar <b>dir/ls</b> pārbaudi failus, ar <b>mkdir</b>
-        izveido struktūru, un ar <b>python main.py</b> vari palaist programmu jebkurā datorā arī bez IDE.
-      </p>
-
-      <p>
-        <b>PATH</b> ir kā “meklēšanas maršruts” operētājsistēmai: ja Python mapes nav PATH sarakstā, komanda <b>python</b> var netikt atrasta.
-        Tāpēc šajā stundā tu mācies ne tikai “ko ierakstīt”, bet arī <b>kā pārbaudīt</b>, kur tieši sistēma atrod Python.
-      </p>
-
-      <p>
-        <b>Licence un drošība</b> ir daļa no profesionāla projekta: licence pasaka, ko citi drīkst darīt ar tavu kodu, bet drošības ieradumi pasargā kontus un datus.
-        Vienkāršākais noteikums: ja informāciju nebūtu droši uzrakstīt uz tāfeles klasē, tad to nedrīkst ievietot kodā vai publiskā repozitorijā.
-      </p>
-    </div>
-
-    <div class='code-example'>
-      <pre><code class="language-python">
-# Kods (main.py)
-print("Hello, World!")
-      </code></pre>
-
-      <div class='result'>
-        <!-- Koda vizualizācija-->
-        <p><b>Rezultāts:</b> Hello, World!</p>
-      </div>
-    </div>
-  </div>
-
+<div class='code-example'>
+<pre><code class="language-powershell">
+# Svarīgākās Windows komandas darbam ar failiem:
+dir          # Parāda mapes saturu
+cd mape      # Ieiet mapē
+cd ..        # Pakāpjas atpakaļ
+mkdir mape   # Izveido mapi
+move fails   # Pārvieto failu
+</code></pre>
+<div class='result'>
+  Directory of C:\Desktop\laboratorija2<br><br>
+  [kods] <br>
+  [bildes] <br>
+  [skanas] <br>
+  1 file(s) moved.
+</div>
+</div>
+</div>
 </body>
 </html>
