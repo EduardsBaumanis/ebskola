@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>5.6 Noslēguma darbs: CYOA 2.0</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>5. tēma: Noslēguma darbs. Projekts: "CYOA 2.0: Sistēmu integrācija"</h1>
+    <p>
+        <b>Mērķis:</b> Izveidot dinamisku teksta piedzīvojumu spēli, kurā spēlētāja progress un resursi tiek pārvaldīti ar Python kolekcijām. 
+        Šis darbs apvieno visu 5. tēmā apgūto — no sarakstiem un vārdnīcām līdz lietotāju datu analīzei.
+    </p>
+    <div class="info-box">
+        <strong>Svarīgi:</strong> Vērtēšana notiks, analizējot Tavu <b>GitHub repozitoriju</b>. Tiks ņemta vērā gan koda kvalitāte, gan izstrādes gaita (commits).
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Tehniskās prasības</h2>
+    <p>Tavam projektam obligāti jāsatur šādi elementi:</p>
+    <ul class="step-list">
+        <li><strong>Varoņa profils (Dictionary):</strong> Visi spēlētāja dati (HP, zelts, vārds) glabājas vienā vārdnīcā.</li>
+        <li><strong>Mugursoma (List):</strong> Dinamisks saraksts inventāra pārvaldībai (pievienošana/izņemšana).</li>
+        <li><strong>Datu pārlūkošana (For loop):</strong> Vismaz divas vietas, kur dati tiek apstrādāti ar ciklu (piem., inventāra izvade).</li>
+        <li><strong>Aptaujas integrācija:</strong> Spēlē jābūt vismaz 2 elementiem, kas izvēlēti, balstoties uz 5.5. stundas analīzi.</li>
+        <li><strong>Modularitāte:</strong> Projekts ir sadalīts vismaz 3 failos: <code>main.py</code>, <code>logic.py</code> un <code>data.py</code>.</li>
+    </ul>
+</section>
+
+<section class='section'>
+    <h2>Vērtēšanas kritēriji (SLA)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Kritērijs</th>
+                <th>Sācis apgūt (1-3)</th>
+                <th>Turpina apgūt (4-6)</th>
+                <th>Apguvis (7-8)</th>
+                <th>Padziļināti (9-10)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Datu arhitektūra</strong></td>
+                <td>Lieto atsevišķus mainīgos.</td>
+                <td>Lieto kolekcijas, bet ir kļūdas datu nodošanā.</td>
+                <td>Prasmīgi lieto vārdnīcas un sarakstus.</td>
+                <td>Lieto ligzdotas struktūras un universālas funkcijas.</td>
+            </tr>
+            <tr>
+                <td><strong>Sistēmu loģika</strong></td>
+                <td>Inventārs ir statisks.</td>
+                <td>Var pievienot mantas, bet tās neietekmē spēli.</td>
+                <td>Inventārs un resursi tieši ietekmē spēles gaitu.</td>
+                <td>Sarežģīta loģika (piem., tirgošanās, HP aprēķini).</td>
+            </tr>
+            <tr>
+                <td><strong>Git & Kvalitāte</strong></td>
+                <td>Viens commits, nav README.</td>
+                <td>Commits ir haotiski. PEP 8 ievērots daļēji.</td>
+                <td>Skaidra commit vēsture. Ievērotas PEP 8 un docstrings.</td>
+                <td>Profesionāls README un nevainojama commit vēsture.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class='section'>
+    <h2>Ieteicamā darba gaita</h2>
+    <ol class="step-list">
+        <li><strong>Sagatavošanās:</strong> Izveido mapi, inicializē Git un izveido <code>data.py</code> ar sākuma vārdnīcu.</li>
+        <li><strong>Sistēmu izveide:</strong> Uzraksti funkciju statusa rādīšanai (HUD) un mantu pievienošanai.</li>
+        <li><strong>Stāsta būvniecība:</strong> Pievieno lokācijas <code>logic.py</code> failā, padodot spēlētāja vārdnīcu kā parametru.</li>
+        <li><strong>Integrācija:</strong> Ievieto spēlē lietotāju aptaujas ieteikumus (piem., jaunu ieroci vai tēlu).</li>
+        <li><strong>Noslēgums:</strong> Veic pēdējo PEP 8 revīziju un <i>Push</i> visus labojumus uz GitHub.</li>
+    </ol>
+</section>
+
+<section class='section'>
+    <div class='code-example'>
+        <h3>Sistēmas paraugs (loģika)</h3>
+<pre><code class="language-python">
+def doties_uz_veikalu(speletajs, jauna_prece):
+    """Pievieno preci sarakstam un atņem zeltu no vārdnīcas."""
+    if speletajs["zelts"] >= 10:
+        speletajs["inventars"].append(jauna_prece)
+        speletajs["zelts"] -= 10
+        print(f"Iegādāts: {jauna_prece}")
+    else:
+        print("Nepietiek zelta!")
+    return speletajs
+</code></pre>
+        <div class='result'>
+            <strong>Padoms:</strong> Neaizmirsti izmantot <code>return</code>, lai atdotu atjaunoto vārdnīcu atpakaļ galvenajai programmai!
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

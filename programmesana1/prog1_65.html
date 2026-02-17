@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>6.5 Datu vizualizācija un analīze</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-json.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>6. tēma: Datu pastāvība un Analīze. 5. stunda: Analīze un Vizualizācija.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Ieraudzīt "kopbildi". Tu iemācīsies aprēķināt <b>statistiku</b> no saviem JSON failiem un izveidot <b>vizuālas diagrammas</b> (pat ja tās ir tikai terminālī). Tas palīdzēs saprast, vai Tava spēle ir par vieglu, par grūtu un kuras izvēles spēlētājiem patīk visvairāk.</p>
+    <a href="sasnRez.html">SR 2.3.6. (Datu vizualizācija un interpretācija)</a><br>
+</section>
+
+<section class='section'>
+    <div>
+        <h2>1. uzdevums (Vienkāršs): Statistiskais profils</h2>
+        <p>Iegūt galvenos rādītājus no uzkrātajiem rezultātiem, lai saprastu vidējo spēlētāju.</p>
+        <h3>Izpildes soļi:</h3>
+        <ol class="step-list">
+            <li>VS Code izveido failu <code>analize.py</code>.</li>
+            <li>Nolasi visus rezultātus no iepriekšējā stundā izveidotā <code>leaderboard.json</code>.</li>
+            <li>Aprēķini un izvadi: kopējo spēlētāju skaitu un augstāko rezultātu.</li>
+            <li>Aprēķini vidējo punktu skaitu pēc formulas: $$\bar{x} = \frac{\sum \text{punkti}}{n}$$</li>
+        </ol>
+    </div>
+
+    <div>
+        <h2>2. uzdevums (Viduvējs): Izvēļu "Siltuma karte"</h2>
+        <p>Saskaitīt biežumu katram izvēlētajam ierocim vai lokācijai un attēlot to kā teksta diagrammu.</p>
+        <h3>Izpildes soļi:</h3>
+        <ol class="step-list">
+            <li>Izmanto vārdnīcu, lai saskaitītu, cik reizes katrs ierocis parādās sarakstā (piem., <code>"Zobens": 12, "Lāpa": 4</code>).</li>
+            <li>Izmanto <code>for</code> ciklu, lai uzzīmētu stabiņu diagrammu terminālī, kur katrs punkts ir simbols <code>#</code>.</li>
+            <li>Piemērs: <code>Zobens: ############ (12)</code>.</li>
+        </ol>
+    </div>
+
+    <div>
+        <h2>3. uzdevums (Padziļināts): Eksports profesionālai analīzei</h2>
+        <p>Sagatavot "tīrus" datus eksportam uz Google Sheets, lai izveidotu īstu sektoru diagrammu.</p>
+        <h3>Izpildes soļi:</h3>
+        <ol class="step-list">
+            <li>Izveido skriptu, kas atlasa tikai tos spēlētājus, kuriem ir vairāk par 0 punktiem (izslēdz "feikos" mēģinājumus).</li>
+            <li>Saglabā šos datus failā <code>report.csv</code> ar galvenēm <code>Vards,Punkti</code>.</li>
+            <li>Importē šo failu Google Sheets un izveido <b>Pie Chart</b> (sektoru diagrammu), kas rāda, kā sadalās punkti starp TOP spēlētājiem.</li>
+        </ol>
+    </div>
+</section>
+
+---
+
+<section class='section'>
+    <div class="info-box">
+        <h2>Teorija: No skaitļiem uz secinājumiem</h2>
+        <p>Datu analīze nav tikai matemātika — tā ir spēja pieņemt lēmumus. Programmēšanā mēs izmantojam divus galvenos jēdzienus:</p>
+        
+        <ul>
+            <li><b>Agregācija:</b> Daudzu datu apvienošana vienā rādītājā (vidējais, summa, skaits).</li>
+            <li><b>Frekvence (Biežums):</b> Cik bieži konkrēts notikums (piem., nāve lokācijā "Mežs") atkārtojas.</li>
+        </ul>
+
+        <h3>Kāpēc tas ir svarīgi spēļu izstrādē?</h3>
+        <p>Ja Tava statistika rāda, ka 90% spēlētāju izvēlas "Zobenu", tas nozīmē, ka "Burvju nūjiņa" ir vai nu pārāk vāja, vai garlaicīga. To sauc par <b>Game Balancing</b> (spēles līdzsvarošanu).</p>
+
+        <h3>Biežākās kļūdas:</h3>
+        <blockquote>
+            <b>1. Dalīšana ar nulli:</b> Ja neviens vēl nav spēlējis, mēģinājums aprēķināt vidējo punktu skaitu izraisīs kļūdu. Vienmēr pārbaudi, vai saraksts nav tukšs!<br>
+            <b>2. Datu "troksnis":</b> Testa ieraksti (piem., vārds "Asdf" ar 0 punktiem) bojā Tavu statistiku. Pirms analīzes dati ir jāiztīra.<br>
+            <b>3. Nepareizs grafiks:</b> Nelieto sektoru diagrammu (Pie chart), ja Tev ir 50 dažādas vērtības — tajā nekas nebūs saprotams.
+        </blockquote>
+    </div>
+</section>
+
+---
+
+<section class='section'>
+    <div class='code-example'>
+<pre><code class="language-python">
+statistika = {"Mežs": 15, "Ala": 8, "Pils": 3}
+
+print("--- LOKĀCIJU POPULARITĀTE ---")
+for vieta, skaits in statistika.items():
+    # Reizinām simbolu ar skaitli, lai izveidotu stabiņu
+    stabiņš = "#" * skaits
+    print(f"{vieta:10} | {stabiņš} ({skaits})")
+</code></pre>
+        <div class='result'>
+            --- LOKĀCIJU POPULARITĀTE ---<br>
+            Mežs       | ############### (15)<br>
+            Ala        | ######## (8)<br>
+            Pils       | ### (3)
+        </div>
+    </div>
+</section>
+
+<section class='section'>
+    <p align="center">
+        <b>Mentora padoms:</b> Skaties uz datiem kā uz spēlētāju sarunu ar Tevi. Ja viņi visi "mirst" vienā un tajā pašā vietā, varbūt ir laiks to padarīt nedaudz vieglāku? 😉
+    </p>
+</section>
+
+</body>
+</html>

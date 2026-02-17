@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>6.3 Datu tīrīšana un transformācija</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>6. tēma: Datu pastāvība un Analīze. 3. stunda: Datu transformācija.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Pārvērst teksta blāķi par "viedo karti". Kad mēs ielādējam datus no CSV, tie bieži ir "netīri" (ar liekām atstarpēm vai nepareiziem tipiem). Tu iemācīsies <b>notīrīt</b> datus un <b>transformēt</b> tos no vienkārša saraksta par vārdnīcu vārdnīcā, nodrošinot acumirklīgu piekļuvi jebkurai spēles lokācijai.</p>
+    <a href="sasnRez.html">SR 2.4.14. (Datu apstrāde un validācija)</a><br>
+</section>
+
+<section class='section'>
+    <div>
+        <h2>1. uzdevums (Vienkāršs): Datu "pucēšana"</h2>
+        <p>Iemācīties apstrādāt teksta nepilnības, kas rodas datu eksporta laikā, izmantojot stīgu metodes.</p>
+        <h3>Izpildes soļi:</h3>
+        <ol class="step-list">
+            <li>VS Code izveido failu <code>tirisana.py</code>.</li>
+            <li>Pieņem, ka esi saņēmis sarakstu: <code>[" 1", "Mežs ", "  Tu ieej tumsā \n"]</code>.</li>
+            <li>Izmanto ciklu un metodi <span class="highlight">.strip()</span>, lai noņemtu liekās atstarpes un simbolus.</li>
+            <li>Konvertē ID vērtību no teksta uz veselu skaitli (<code>int</code>).</li>
+            <li>Izvadi "tīro" sarakstu terminālī.</li>
+        </ol>
+    </div>
+
+    <div>
+        <h2>2. uzdevums (Viduvējs): Pasaules kartes konstruktors</h2>
+        <p>Pārveidot CSV nolasītos datus par efektīvu "viedo vārdnīcu", kurā ID ir atslēga.</p>
+        <h3>Izpildes soļi:</h3>
+        <ol class="step-list">
+            <li>Izmanto iepriekšējā stundā izveidoto <code>pasaule.csv</code>.</li>
+            <li>Izveido tukšu vārdnīcu <code>pasaules_karte = {}</code>.</li>
+            <li>Ciklā ej cauri CSV rindām un katru rindu pievieno vārdnīcai, par atslēgu izmantojot lokācijas <b>ID</b>.</li>
+            <li>Pārliecinies, ka ID un mērķu ID tiek saglabāti kā skaitļi.</li>
+            <li>Pārbaudi rezultātu: <code>print(pasaules_karte[1])</code> – tam būtu jāizvada visa informācija par 1. lokāciju.</li>
+        </ol>
+    </div>
+
+    <div>
+        <h2>3. uzdevums (Padziļināts): Saišu auditors</h2>
+        <p>Izveidot algoritmu, kas automātiski pārbauda, vai Tavā stāstā nav "mirušo saišu" uz neeksistējošām vietām.</p>
+        <h3>Izpildes soļi:</h3>
+        <ol class="step-list">
+            <li>Uzraksti ciklu, kas pārlūko Tavu tikko izveidoto <code>pasaules_karte</code> vārdnīcu.</li>
+            <li>Katrai lokācijai pārbaudi: "Vai ID, uz kuru ved <code>merkis_a</code>, eksistē vārdnīcas atslēgās?".</li>
+            <li>Ja saite ved uz neeksistējošu ID, izvadi brīdinājumu: <code>"Kļūda lokācijā X: mērķis Y nav atrasts!"</code>.</li>
+            <li>Pievieno savā CSV failā kļūdainu ID, lai pārbaudītu, vai Tavs auditors strādā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <div class="info-box">
+        <h2>Teorija: No Saraksta uz Atlantu</h2>
+        <p>Kad mēs nolasām CSV ar <code>DictReader</code>, mēs iegūstam sarakstu. Lai tajā atrastu 50. lokāciju, datoram ir jāpārskata 49 iepriekšējās. Tas ir lēni! Transformējot datus vārdnīcā, mēs iegūstam tūlītēju piekļuvi.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Metode</th>
+                    <th>Ko tā dara?</th>
+                    <th>Kāpēc tas ir svarīgi?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.strip()</code></td>
+                    <td>Noņem atstarpes un <code>\n</code>.</td>
+                    <td>Novērš meklēšanas kļūdas.</td>
+                </tr>
+                <tr>
+                    <td><code>int()</code></td>
+                    <td>Pārvērš tekstu par skaitli.</td>
+                    <td>Ļauj veikt matemātisku loģiku.</td>
+                </tr>
+                <tr>
+                    <td><code>if x in dict:</code></td>
+                    <td>Pārbauda, vai atslēga eksistē.</td>
+                    <td>Novērš programmas "izlidošanu" (Crash).</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>ebSkola Mentora padomi:</h3>
+        <blockquote>
+            <b>1. Reģistrjutība:</b> Python atšķir <code>"id"</code> no <code>"ID"</code>. Pārliecinies, ka koda atslēgas precīzi sakrīt ar CSV galvenēm!<br>
+            <b>2. Tukšas ailes:</b> Ja Google Sheets šūna ir tukša, Python to redzēs kā <code>""</code>. Pirms <code>int()</code> konvertēšanas vienmēr pārbaudi, vai lauks nav tukšs.<br>
+            <b>3. Debugging:</b> Izmanto <code>print(type(rinda['id']))</code>, lai pārliecinātos, vai tiešām esi pārvērtis datus par skaitļiem.
+        </blockquote>
+    </div>
+</section>
+
+<section class='section'>
+    <div class='code-example'>
+<pre><code class="language-python">
+# Pieņemsim, ka dati ielādēti no CSV
+csv_dati = [
+    {'id': '1', 'vieta': 'Mežs'},
+    {'id': '2', 'vieta': 'Ala'}
+]
+
+karte = {}
+
+for rinda in csv_dati:
+    # Notīrām un konvertējam ID
+    id_skaitlis = int(rinda['id'].strip())
+    # Saglabājam lielajā vārdnīcā
+    karte[id_skaitlis] = rinda
+
+# Tagad piekļuve ir acumirklīga:
+print(karte[2]['vieta'])
+</code></pre>
+        <div class='result'>
+            Transformācija pabeigta!<br>
+            Piekļūstam lokācijai 2: Ala
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
