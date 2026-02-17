@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>4.3 Modularitāte un koda sadalīšana</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+</head>
+<body>
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>4. tēma: Funkcijas un Modularitāte. 3. stunda: Modularitāte.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Ieviest kārtību savā kodā. Tu iemācīsies sadalīt programmu vairākos <code>.py</code> failos, pārvēršot haotisku koda "palagu" par pārskatāmu un profesionālu sistēmu, kurā katram failam ir sava loma.</p>
+    <a href="sasnRez.html">SR 2.4.15. (Programmas sadalīšana moduļos)</a><br>
+</section>
+
+<section class='section'>
+    <div>
+        <h2>1. uzdevums (Vienkāršs): Instrumentu kaste</h2>
+        <p>Iemācīties pamata mehānismu, kā izsaukt funkciju, kas atrodas citā failā, izmantojot standarta <code>import</code> komandu.</p>
+        <h3>Izpildes soļi:</h3>
+        <ol class="step-list">
+            <li>Izveido jaunu mapi <code>mans_projekts</code> un atver to ar VS Code.</li>
+            <li>Izveido failu <code>riki.py</code>. Tajā definē funkciju <code>linija()</code>, kas izvada rindu ar 20 domuzīmēm.</li>
+            <li>Izveido otru failu <code>galvenais.py</code> tajā pašā mapē.</li>
+            <li>Faila <code>galvenais.py</code> augšā ieraksti: <span class="highlight">import riki</span>.</li>
+            <li>Izsauc funkciju, ierakstot: <code>riki.linija()</code>.</li>
+            <li>Novēro, kā Python "aiziet" uz otru failu, lai izpildītu Tavu komandu.</li>
+        </ol>
+    </div>
+
+    <div>
+        <h2>2. uzdevums (Viduvējs): Stāsta glabātuve</h2>
+        <p>Apgūt specifisku importēšanas veidu (from...import), kas ļauj ērtāk piekļūt konkrētiem mainīgajiem vai funkcijām.</p>
+        <h3>Izpildes soļi:</h3>
+        <ol class="step-list">
+            <li>Izveido failu <code>stasts.py</code>. Tajā definē funkciju <code>ievads()</code>, kas ar <code>return</code> atgriež garu spēles sākuma tekstu.</li>
+            <li>Failā <code>spele.py</code> pašā augšā ieraksti: <span class="highlight">from stasts import ievads</span>.</li>
+            <li>Izsauc funkciju pa tiešo: <code>print(ievads())</code>.</li>
+            <li>Pievieno vēl vienu funkciju failā <code>stasts.py</code> un importē arī to, atdalot ar komatu.</li>
+        </ol>
+    </div>
+
+    <div>
+        <h2>3. uzdevums (Padziļināts): CYOA Arhitekts</h2>
+        <p>Izveidot pilnvērtīgu trīs failu sistēmu savai topošajai spēlei, nodalot drošību, saturu un galveno dzinēju.</p>
+        <h3>Izpildes soļi:</h3>
+        <ol class="step-list">
+            <li>Izveido failu <code>drosiba.py</code> un ievieto tur savu <code>try/except</code> validācijas funkciju.</li>
+            <li>Izveido failu <code>pasaule.py</code> un definē tur vismaz divas lokāciju funkcijas (piem., mežs, pils).</li>
+            <li>Failā <code>main.py</code> importē nepieciešamos rīkus no abiem moduļiem.</li>
+            <li>Saliec visu kopā: pajautā lietotājam skaitli (validē), un, balstoties uz to, izsauc attiecīgo lokāciju no pasaules faila.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <div class="info-box">
+        <h2>Jaunā viela: Koda arhitektūra un Moduļi</h2>
+        <p>Programmētāji neraksta visu kodu vienā failā. Tieši otrādi – mēs cenšamies kodu sadalīt pēc iespējas mazākos, loģiskos failos jeb <b>moduļos</b>. Tas padara kodu vieglāk lasāmu, testējamu un ļauj vairākiem cilvēkiem strādāt pie viena projekta vienlaicīgi.</p>
+        
+        <h3>1. Kas ir modulis?</h3>
+        <p>Python valodā jebkurš <code>.py</code> fails ir modulis. Kad Tu raksti <code>import random</code>, Tu pieslēdz failu <code>random.py</code>, kas atrodas Python sistēmas mapēs. Tagad Tu vari veidot savas bibliotēkas.</p>
+
+        <h3>2. Importēšanas stratēģijas</h3>
+        <ul>
+            <li><code>import mans_fails</code> — Drošākais veids. Lai izsauktu funkciju, jālieto "uzvārds": <code>mans_fails.start()</code>. Tas novērš situācijas, kur divos failos ir funkcijas ar vienādiem nosaukumiem.</li>
+            <li><code>from mans_fails import start</code> — Ērtākais veids. Vari saukt funkciju pa tiešo: <code>start()</code>.</li>
+        </ul>
+
+        <h3>3. Kur Python meklē moduļus?</h3>
+        <p>Kad Tu veic importu, dators vispirms skatās <b>tajā pašā mapē</b>, kurā atrodas fails, kuru Tu pašlaik darbini. Tāpēc visiem spēles failiem jābūt vienā projektā.</p>
+
+        <h3>Biežākās kļūdas:</h3>
+        <blockquote>
+            <b>1. ModuleNotFoundError:</b> Kļūda nosaukumā (atceries: Python atšķir lielos/mazos burtus!) vai fails nav tajā pašā mapē.<br>
+            <b>2. Cikliskais imports:</b> Fails A importē B, bet fails B mēģina importēt A. Programma "iesprūst" bezgalīgā cilpā un avarē.<br>
+            <b>3. Nosaukumu konflikti:</b> Nekad nesauc savu failu <code>random.py</code> vai <code>string.py</code>. Python vispirms mēģinās importēt Tavu failu, nevis īsto bibliotēku, un programma pārstās darboties.
+        </blockquote>
+    </div>
+</section>
+
+<section class='section'>
+    <div class='code-example'>
+<pre><code class="language-python">
+# Failā: matematika.py
+def saskaitit(a, b):
+    return a + b
+
+# Failā: galvenais.py
+import matematika
+
+rezultats = matematika.saskaitit(5, 10)
+print(f"Summa ir: {rezultats}")
+</code></pre>
+        <div class='result'>
+            Summa ir: 15
+        </div>
+    </div>
+</section>
+</body>
+</html>
