@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>7.3 Big O notācija: Cik ātrs ir Tavs kods?</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>7. tēma: Algoritmi. 3. stunda: Big O un Sarežģītība.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Tu proti uzrakstīt kodu, kas strādā, bet vai tas strādā <i>labi</i>? Šodien mēs iemācīsimies skatīties uz kodu kā profesionāli inženieri, izmantojot <b>Big O notāciju</b>, lai paredzētu programmas uzvedību, kad tai jāapstrādā nevis desmit, bet desmit miljoni datu vienību.</p>
+    
+    <a href="../sasnRez.html">SR 2.4.16. (Skolēns novērtē algoritmu sarežģītību un efektivitāti dažādos izpildes apstākļos)</a><br><br>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Kas ir Big O?</h2>
+    <div class="logic-box">
+        <ul>
+            <li><b>Kāpēc nemērīt sekundēs?</b> Katrs dators ir atšķirīgs. Sekundes neko neizsaka par pašu algoritmu. Tā vietā mēs mēram, <b>kā pieaug veikto operāciju (soļu) skaits</b>, palielinoties datu apjomam (<i>n</i>).</li>
+            <li><b>Galvenās Big O klases:</b>
+                <ul>
+                    <li><b>O(1) — Konstants laiks:</b> Zibensātrs. Cik datu, nav svarīgi. Piemērs: paņemt saraksta pirmo elementu (<code>saraksts[0]</code>).</li>
+                    <li><b>O(log n) — Logaritmisks laiks:</b> Ļoti ātrs. Dati ar katru soli tiek dalīti uz pusēm. Piemērs: Binārā meklēšana.</li>
+                    <li><b>O(n) — Lineārs laiks:</b> Pieaug proporcionāli datu apjomam. 100 elementi = 100 soļi. Piemērs: Lineārā meklēšana, viens <code>for</code> cikls.</li>
+                    <li><b>O(n²) — Kvadrātisks laiks:</b> Lēns. Katram elementam jāpārbauda katrs cits elements. 100 elementi = 10 000 soļi. Piemērs: Burbuļkārtošana, divi iegulti <code>for</code> cikli.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Vides sagatavošana (Windows)</h2>
+    <ol class="step-list">
+        <li>Atver <b>PowerShell</b>.</li>
+        <li>Ieej algoritmu mapē: <code>cd Tema7_Algoritmi</code></li>
+        <li>Izveido jaunu failu un atver to kodu redaktorā: <code>ni big_o.py; code big_o.py</code></li>
+    </ol>
+</section>
+
+<section class='section'>
+    <h2>Praktiskie uzdevumi</h2>
+
+    <h3>1. Līmenis (Vienkāršs): "Konstantais ātrums — O(1)"</h3>
+    <p>Pierādīsim, ka O(1) darbības prasa vienādu laiku neatkarīgi no datu apjoma.</p>
+    <ol class="step-list">
+        <li>Failā <code>big_o.py</code> importē <code>time</code> bibliotēku.</li>
+        <li>Izveido funkciju <code>iegut_pirmo(dati)</code>, kas atgriež saraksta elementu ar indeksu <code>[0]</code>.</li>
+        <li>Izsauc to divreiz: vienreiz ar sarakstu, kurā ir 10 elementi, otreiz – ar 10 000 000 elementiem.</li>
+        <li>Nomēri un izdrukā laiku abiem izsaukumiem.</li>
+    </ol>
+    
+    <div class='code-example'>
+<pre><code class="language-python">
+import time
+
+def iegut_pirmo(dati):
+    return dati[0]
+
+mazs_saraksts = list(range(10))
+liels_saraksts = list(range(10000000))
+
+# Mērām mazam
+sakums = time.time()
+iegut_pirmo(mazs_saraksts)
+laiks_mazam = time.time() - sakums
+
+# Mērām lielam
+sakums = time.time()
+iegut_pirmo(liels_saraksts)
+laiks_lielam = time.time() - sakums
+
+print(f"O(1) laiks mazam sarakstam: {laiks_mazam:.7f}s")
+print(f"O(1) laiks milzīgam sarakstam: {laiks_lielam:.7f}s")
+</code></pre>
+        <div class="logic-box"><b>Sagaidāmais rezultāts (laiks būs gandrīz identisks un ļoti tuvu nullei):</b><br>O(1) laiks mazam sarakstam: 0.0000010s<br>O(1) laiks milzīgam sarakstam: 0.0000012s</div>
+    </div>
+
+    <hr>
+
+    <h3>2. Līmenis (Viduvējs): "Lineārais O(n) pret Kvadrātisko O(n²)"</h3>
+    <p>Apskatīsim, cik reāli soļus dators veic atkarībā no uzrakstīto ciklu daudzuma.</p>
+    <ol class="step-list">
+        <li>Pievieno failam divus mainīgos: <code>soli_n = 0</code> un <code>soli_n2 = 0</code>.</li>
+        <li>Izveido vienu parastu <code>for</code> ciklu no 0 līdz 100, kas katrā solī palielina <code>soli_n</code> par 1.</li>
+        <li>Izveido iegulto ciklu (cikls ciklā), kur abi iet no 0 līdz 100, un palielini <code>soli_n2</code> par 1.</li>
+        <li>Izdrukā abu mainīgo beigu vērtības.</li>
+    </ol>
+
+    <div class='code-example'>
+<pre><code class="language-python">
+elementu_skaits = 100
+
+soli_n = 0
+# O(n) - Lineārs algoritms
+for i in range(elementu_skaits):
+    soli_n += 1
+
+soli_n2 = 0
+# O(n^2) - Kvadrātisks algoritms
+for i in range(elementu_skaits):
+    for j in range(elementu_skaits):
+        soli_n2 += 1
+
+print(f"Datu apjoms: {elementu_skaits}")
+print(f"O(n) soļu skaits: {soli_n}")
+print(f"O(n^2) soļu skaits: {soli_n2}")
+</code></pre>
+        <div class="logic-box"><b>Sagaidāmais rezultāts:</b><br>Datu apjoms: 100<br>O(n) soļu skaits: 100<br>O(n^2) soļu skaits: 10000</div>
+    </div>
+
+    <hr>
+
+    <h3>3. Līmenis (Padziļināts): "Koda analītiķis"</h3>
+    <p>Tavs uzdevums kā inženierim ir nolasīt kodu un uzreiz saprast tā sarežģītību.</p>
+    <ol class="step-list">
+        <li>Pārkopē zemāk esošos trīs funkciju fragmentus savā Python failā.</li>
+        <li>Virs katras funkcijas pievieno komentāru (<code>#</code>), kurā norādi tās Big O notāciju (piem., O(1), O(n), O(n²)).</li>
+        <li>Komentārā ar vienu teikumu pamato savu atbildi.</li>
+    </ol>
+
+    <div class='code-example'>
+<pre><code class="language-python">
+# 1. Analīze
+# Tava atbilde: O(...) jo ...
+def dzes_pedejo(dati):
+    dati.pop()
+
+# 2. Analīze
+# Tava atbilde: O(...) jo ...
+def aprekinat_kopejo_rezultatu(punkti):
+    summa = 0
+    for punkts in punkti:
+        summa += punkts
+    return summa
+
+# 3. Analīze
+# Tava atbilde: O(...) jo ...
+def meklet_dublikatus(dati):
+    for i in dati:
+        for j in dati:
+            if i == j:
+                print("Atrasts dublikāts!")
+</code></pre>
+        <div class="logic-box"><b>Sagaidāmais rezultāts:</b><br>Tev ir veiksmīgi jāaizpilda komentāri, norādot, ka pirmā funkcija ir O(1), otrā O(n), bet trešā O(n²), apzinoties iterāciju skaitu.</div>
+    </div>
+
+</section>
+
+</body>
+</html>

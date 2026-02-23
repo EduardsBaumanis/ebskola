@@ -8,98 +8,101 @@
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 </head>
 <body>
-<div class='galvenaisdiv'>
-<div><a href="../index.html">Tēmas</a></div>
-<div><a href="sasnRez.html" >Sasniedzamie rezultāti</a></div>
-<div><a href="paligm.html">Palīgmateriāli</a></div>
-</div>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>1. tēma: Ievads un darba vide. 4. stunda: GitHub un drošs SSH savienojums.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Tu iemācīsies <b>atpazīt</b> atšķirību starp darbu lokāli un mākonī, <b>izveidot</b> šifrētu SSH drošības atslēgu un pirmo reizi <b>sinhronizēt</b> savu spēles kodu ar GitHub serveri.</p>
+    <a href="sasnRez.html">SR 2.4.9. (Git attālināti), 2.3.1. (Datu drošība tīklā)</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Kods mākonī un drošība</h2>
+    <ul>
+        <li><b>GitHub:</b> Globāls mākoņpakalpojums, kas glabā Tavu kodu. Tas ļauj programmētājiem strādāt kopā un nodrošina, ka darbs nepazūd, ja salūst dators.</li>
+        <li><b>Remote (Attālinātā krātuve):</b> Projekta kopija, kas atrodas uz servera. Galveno adresi, kas savieno Tavu datoru ar mākoni, sauc par <code>origin</code>.</li>
+        <li><b>SSH (Secure Shell):</b> Drošības protokols. Tā vietā, lai katru reizi rakstītu paroli, mēs izmantojam "atslēgu pāri" – privāto atslēgu (tavā datorā) un publisko atslēgu (serverī).</li>
+        <li><b>Push (Augšupielāde):</b> Process, kurā Tu "uzgrūd" savus lokālos <i>commit</i> punktus uz GitHub serveri.</li>
+    </ul>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: GitHub krātuves izveide</h2>
+    <p>Sagatavot vietu savam projektam internetā, lai tam varētu piekļūt no jebkuras vietas pasaulē.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver <b>github.com</b> un pieraksties savā kontā.</li>
+            <li>Augšējā labajā stūrī spied <b>+</b> un izvēlies <b>New repository</b>.</li>
+            <li>Nosaukums: <code>mana_spele</code>. Izvēlies <b>Private</b> (privāts).</li>
+            <li>Nespied nevienu citu rūtiņu (ne README, ne .gitignore) un spied <b>Create repository</b>.</li>
+            <li>Pagaidām atstāj atvērto lapu — tur ir svarīgas komandas!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: SSH drošības atslēgas iestatīšana</h2>
+    <p>Izveidot šifrētu savienojumu, lai GitHub atpazītu Tavu datoru bez paroles ievadīšanas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver VS Code termināli un ieraksti: <code>ssh-keygen -t ed25519 -C "tavs_epasts@piemers.lv"</code>.</li>
+            <li>Spied <b>Enter</b> trīs reizes (neatstāj paroli), līdz redzi "simbolu mākslu".</li>
+            <li>Ieraksti: <code>cat ~/.ssh/id_ed25519.pub</code>. Nokopē visu parādīto rindu (no <i>ssh-ed25519</i> līdz e-pastam).</li>
+            <li>GitHub vietnē dodies uz <b>Settings -> SSH and GPG keys -> New SSH key</b>.</li>
+            <li>Nosaukums: "Skolas dators". Ielīmē nokopēto tekstu un spied <b>Add SSH key</b>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Koda nosūtīšana (Push)</h2>
+    <p>Savienot lokālo mapi ar mākoni un pirmo reizi sinhronizēt darbu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>GitHub krātuves lapā izvēlies <b>SSH</b> (nevis HTTPS!) un nokopē adresi, kas sākas ar <code>git@github.com...</code>.</li>
+            <li>VS Code terminālī ieraksti: <code>git remote add origin [šeit_ielīmē_adresi]</code>.</li>
+            <li>Pārliecinies, ka galvenā zara nosaukums ir pareizs: <code>git branch -M main</code>.</li>
+            <li>Nosūti datus: <code>git push -u origin main</code>.</li>
+            <li>Ja parādās jautājums par drošību, ieraksti <code>yes</code> un spied Enter.</li>
+            <li>Atjaunini GitHub lapu pārlūkā — Tavi faili tagad ir mākonī!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>"Permission denied (publickey)":</b> Tu nokopēji nepareizo atslēgu. Jālieto fails ar galotni <code>.pub</code>.</li>
+        <li><b>"remote origin already exists":</b> Tu jau pievienoji adresi. Raksti <code>git remote remove origin</code> un tad mēģini 3. uzdevumu vēlreiz.</li>
+        <li><b>SSH pret HTTPS:</b> SSH adrese vienmēr sākas ar <code>git@</code>. Pārliecinies, ka GitHub lapā pārslēdzi uz SSH cilni pirms kopēšanas.</li>
+        <li><b>Nekas neparādās GitHub:</b> Atceries, ka <i>Push</i> sūta tikai to, kas ir saglabāts ar <code>git commit</code>.</li>
+    </ul>
+    <p><b>Zini, kāpēc tas ir svarīgi?</b> SSH atslēgas ir industrijas standarts. Tās pasargā Tavu kodu no nesankcionētas piekļuves un ļauj strādāt efektīvi, netērējot laiku paroļu rakstīšanai katrā darbības solī.</p>
+</section>
 
 <div class='section'>
-<h1>1. tēma: Ievads un darba vide. 4. stunda: GitHub un drošs SSH savienojums.</h1>
-<p><b>Tavs šīs stundas izaicinājums:</b> Tu iemācīsies <b>atpazīt</b> atšķirību starp darbu savā datorā un mākonī, <b>izveidot</b> šifrētu SSH drošības atslēgu un <b>sinhronizēt</b> savu kodu ar GitHub serveri.</p>
-<a href="sasnRez.html">SR 2.4.9. (Git attālināti), 2.3.1. (Datu drošība tīklā)</a><br>
+    <h2>Svarīgākās termināļa komandas</h2>
+    <div class='code-example'>
+        <pre><code class="language-powershell">ssh-keygen -t ed25519 -C "epasts"  # Izveido drošības atslēgu
+cat ~/.ssh/id_ed25519.pub          # Parāda publisko atslēgu kopēšanai
+git remote add origin [adrese]     # Savieno ar GitHub
+git push -u origin main            # Nosūta kodu uz mākoni</code></pre>
+        <div class='result'>
+            Enumerating objects: 5, done.<br>
+            To github.com:lietotajs/mana_spele.git<br>
+            * [new branch]      main -> main<br>
+            Branch 'main' set up to track 'origin/main'.
+        </div>
+    </div>
 </div>
 
-<div class='section'>
-<div>
-<h2>1. uzdevums (Vienkāršs): GitHub krātuves izveide</h2>
-<p>Sagatavot vietu savam projektam internetā, lai tam varētu piekļūt no jebkura datora.</p>
-<h3>Izpildes soļi:</h3>
-<ol>
-    <li>Atver pārlūkprogrammu un dodies uz <b>github.com</b>. Pieraksties savā kontā.</li>
-    <li>Augšējā labajā stūrī spied uz <b>+</b> ikonas un izvēlies <b>New repository</b>.</li>
-    <li>Laukā <i>Repository name</i> ieraksti: <code>mana_spele</code>.</li>
-    <li>Izvēlies <b>Private</b> (tā Tavu kodu redzēsi tikai Tu).</li>
-    <li>Nespied nevienu citu izvēles rūtiņu un spied pogu <b>Create repository</b>.</li>
-    <li>Atstāj atvērto lapu — mums tūlīt vajadzēs tajā redzamo adresi.</li>
-</ol>
-</div>
-
-<div>
-<h2>2. uzdevums (Viduvējs): SSH drošības atslēgas iestatīšana</h2>
-<p>Izveidot unikālu digitālo atslēgu, lai GitHub serveris atpazītu Tavu datoru bez paroles ievadīšanas.</p>
-<h3>Izpildes soļi:</h3>
-<ol>
-    <li>Atver VS Code termināli un ieraksti: <code>ssh-keygen -t ed25519 -C "tavs_epasts@piemers.lv"</code> (izmanto savu e-pastu).</li>
-    <li>Spied <b>Enter</b> trīs reizes (nepievienojot paroli), līdz redzi simbolu zīmējumu.</li>
-    <li>Terminālī ieraksti komandu: <code>cat ~/.ssh/id_ed25519.pub</code>.</li>
-    <li>Iezīmē un nokopē parādīto teksta rindu (tā sākas ar <code>ssh-ed25519...</code>).</li>
-    <li>GitHub vietnē dodies uz <i>Settings -> SSH and GPG keys -> New SSH key</i>.</li>
-    <li>Ieraksti nosaukumu "Skolas dators", ielīmē nokopēto tekstu un spied <b>Add SSH key</b>.</li>
-</ol>
-</div>
-
-<div>
-<h2>3. uzdevums (Padziļināts): Koda nosūtīšana uz mākoni (Push)</h2>
-<p>Savienot savu lokālo mapi ar GitHub un pirmo reizi nosūtīt saglabāto vēsturi uz serveri.</p>
-<h3>Izpildes soļi:</h3>
-<ol>
-    <li>GitHub lapā, kur izveidoji krātuvi, izvēlies <b>SSH</b> cilni un nokopē adresi (piemēram, git@github.com:vards/mana_spele.git).</li>
-    <li>VS Code terminālī ieraksti: <code>git remote add origin [šeit ielīmē nokopēto adresi]</code>.</li>
-    <li>Ieraksti komandu: <code>git branch -M main</code>.</li>
-    <li>Nosūti kodu: <code>git push -u origin main</code>.</li>
-    <li>Ja terminālis jautā par savienojuma turpināšanu, ieraksti <code>yes</code> un spied Enter.</li>
-    <li>Atjaunini GitHub lapu pārlūkā — tur tagad jābūt redzamiem Taviem failiem.</li>
-</ol>
-</div>
-</div>
-
-<div class='section'>
-<div><p>Jaunās vielas kopsavilkums</p></div>
-<div>
-<ul>
-    <li><b>GitHub:</b> Mākoņpakalpojums, kas glabā Tavu kodu un tā versiju vēsturi internetā.</li>
-    <li><b>Remote (Attālinātā krātuve):</b> Projekta kopija, kas atrodas uz servera. Galveno adresi parasti sauc par <code>origin</code>.</li>
-    <li><b>SSH atslēgas:</b> Drošības metode, kas izmanto divas atslēgas (privāto un publisko), lai šifrētu saziņu starp datoru un serveri.</li>
-    <li><b>Push (Grūdiens):</b> Komanda, kas nosūta Tavas lokālās izmaiņas no datora uz GitHub.</li>
-</ul>
-
-<h3>Biežākās kļūdas (un kā tās labot):</h3>
-<ul>
-    <li><b>Kļūda: "Permission denied (publickey)":</b> Tu, iespējams, ielīmēji nepareizo atslēgu. Pārliecinies, ka GitHub iestatījumos pievienoji <b>publisko</b> atslēgu (failu ar galotni <code>.pub</code>), nevis privāto.</li>
-    <li><b>Kļūda: "remote origin already exists":</b> Tu jau esi mēģinājis pievienot adresi. Lieto komandu <code>git remote remove origin</code> un tad mēģini 3. uzdevumu vēlreiz.</li>
-    <li><b>Kļūda: "Everything up-to-date", bet GitHub mapē nekā nav:</b> Tas nozīmē, ka Tu esi aizmirsis <code>git add</code> un <code>git commit</code> pirms nosūtīšanas. Git nav ko sūtīt, ja nekas nav saglabāts vēsturē.</li>
-    <li><b>Kļūda: SSH adrese pret HTTPS:</b> 3. uzdevumā pārliecinies, ka nokopēji adresi, kas sākas ar <code>git@github.com...</code>, nevis <code>https://...</code>. SSH atslēgas darbojas tikai ar pirmo variantu.</li>
-    <li><b>Terminālis "iesalst" pie jautājuma:</b> Kad parādās jautājums par <i>"Authenticity of host"</i>, nebaidies — dators vienkārši prasa apstiprinājumu. Ieraksti <code>yes</code> un spied Enter.</li>
-</ul>
-
-<p><b>Atceries:</b> SSH atslēgu iestatīšana parasti ir jādara tikai vienreiz uz katra jauna datora. Turpmākajās stundās Tu varēsi nosūtīt darbu ar vienu vienkāršu komandu: <code>git push</code>.</p>
-</div>
-
-<div class='code-example'>
-<pre><code class="language-powershell">
-# Savienošanas un nosūtīšanas komandas:
-git remote add origin git@github.com:lietotajs/projekts.git
-git branch -M main
-git push -u origin main
-</code></pre>
-<div class='result'>
-  Enumerating objects: 5, done.<br>
-  To github.com:lietotajvards/mana_spele.git<br>
-  * [new branch]      main -> main<br>
-  branch 'main' set up to track 'origin/main'.
-</div>
-</div>
-</div>
 </body>
 </html>

@@ -18,52 +18,13 @@
 
 <section class='section'>
     <h1>6. tēma: Datu pastāvība un Analīze. 1. stunda: Failu I/O.</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Piešķirt savai programmai "bezmirstību". Tu iemācīsies izmantot <b>Failu I/O (Input/Output)</b>, lai saglabātu informāciju (piemēram, spēles progresu vai rezultātu tabulas) failos, kas neizzūd pēc programmas aizvēršanas. Mēs apskatīsim trīs galvenos formātus: <b>TXT, JSON</b> un <b>CSV</b>.</p>
-    <a href="sasnRez.html">SR 2.4.14. (Failu lasīšana un rakstīšana)</a><br>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Piešķirt savai programmai "bezmirstību". Tu iemācīsies izmantot <b>Failu I/O (Input/Output)</b>, lai saglabātu informāciju (piemēram, spēles progresu vai rezultātu tabulas) cietajā diskā. Mēs apskatīsim trīs galvenos formātus: <b>TXT, JSON</b> un <b>CSV</b>.</p>
+    <a href="sasnRez.html">SR 2.4.14. (Failu lasīšana un rakstīšana)</a>
 </section>
 
 <section class='section'>
-    <div>
-        <h2>1. uzdevums (Vienkāršs): Digitālā dienasgrāmata (.txt)</h2>
-        <p>Iemācīties pamata darbus ar vienkāršiem teksta failiem: atvēršanu, ierakstīšanu un nolasīšanu.</p>
-        <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>VS Code izveido failu <code>dienasgramata.py</code>.</li>
-            <li>Pajautā lietotājam: "Kā Tev šodien gāja?".</li>
-            <li>Izmantojot <span class="highlight">with open("notes.txt", "w", encoding="utf-8") as f:</span>, ieraksti atbildi failā.</li>
-            <li>Pievieno koda daļu, kas atver šo pašu failu <code>"r"</code> režīmā un nolasa saturu.</li>
-            <li>Izvadi nolasīto tekstu terminālī: <code>print(f"Šodienas ieraksts: {saturs}")</code>.</li>
-        </ol>
-    </div>
-
-    <div>
-        <h2>2. uzdevums (Viduvējs): "Save Game" dzinējs (.json)</h2>
-        <p>Apgūt JSON formātu, kas ir ideāls Python vārdnīcu struktūras saglabāšanai.</p>
-        <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Izveido failu <code>game_save.py</code> un importē <code>json</code> bibliotēku.</li>
-            <li>Izveido vārdnīcu <code>speletajs</code> ar datiem: vārds, HP, zelts.</li>
-            <li>Izmanto <span class="highlight">json.dump(speletajs, f)</span>, lai saglabātu to failā <code>progress.json</code>.</li>
-            <li>Izveido funkciju, kas nolasa šo failu, palielina zeltu par 50 un saglabā izmaiņas atpakaļ failā.</li>
-        </ol>
-    </div>
-
-    <div>
-        <h2>3. uzdevums (Padziļināts): Spēlētāju saraksts (.csv)</h2>
-        <p>Iemācīties strādāt ar tabulāriem datiem, izmantojot CSV formātu, un veikt to analīzi.</p>
-        <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Importē <code>csv</code> moduli failā <code>rezultati.py</code>.</li>
-            <li>Izveido programmu, kas ciklā ļauj ievadīt vairāku spēlētāju vārdus un viņu punktus.</li>
-            <li>Saglabā šos datus failā <code>top_rezultati.csv</code> (katrs spēlētājs savā rindā).</li>
-            <li>Nolasi failu un aprēķini visu ievadīto spēlētāju <b>vidējo punktu skaitu</b>.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <h2>Jaunā viela: Failu apstrādes režīmi</h2>
+    <h2>Teorija: Failu apstrādes režīmi</h2>
+    <div class="logic-box">
         <p>Atverot failu, mums ir jāpasaka Python, ko mēs plānojam darīt. Katram režīmam ir sava loma un riski.</p>
         
         <table>
@@ -79,56 +40,96 @@
                 <tr>
                     <td><code>"r"</code></td>
                     <td>Read</td>
-                    <td>Atver tikai lasīšanai.</td>
-                    <td>Kļūda, ja fails neeksistē.</td>
+                    <td>Atver failu <b>tikai lasīšanai</b>.</td>
+                    <td>Izmetīs kļūdu, ja fails neeksistē.</td>
                 </tr>
                 <tr>
                     <td><code>"w"</code></td>
                     <td>Write</td>
-                    <td>Izveido jaunu vai <b>pārraksta</b> esošo.</td>
-                    <td><b>Viss iepriekšējais saturs pazūd!</b></td>
+                    <td>Izveido jaunu failu vai <b>pārraksta</b> esošo.</td>
+                    <td><b class="bad">Viss iepriekšējais saturs tiks neatgriezeniski izdzēsts!</b></td>
                 </tr>
                 <tr>
                     <td><code>"a"</code></td>
                     <td>Append</td>
-                    <td>Pieraksta datus faila beigās.</td>
-                    <td>Saglabā esošo saturu.</td>
+                    <td>Pieraksta jaunus datus faila <b>beigās</b>.</td>
+                    <td>Drošs — saglabā esošo saturu.</td>
                 </tr>
             </tbody>
         </table>
 
         <h3>Kāpēc lietot "with open()"?</h3>
-        <p>Šī konstrukcija nodrošina, ka fails tiek automātiski aizvērts pat tad, ja programmā rodas kļūda. Tas novērš datu korupciju un atmiņas noplūdes.</p>
-
-        <h3>Biežākās kļūdas:</h3>
-        <blockquote>
-            <b>1. encoding="utf-8":</b> Neaizmirsti šo parametru, citādi latviešu burti pārvērtīsies par ķeburiem.<br>
-            <b>2. Write vs Append:</b> Izmantojot <code>"w"</code>, Tu izdzēs visu, kas failā bija iepriekš. Lieto <code>"a"</code>, lai papildinātu.<br>
-            <b>3. Import:</b> Pirms lietot JSON vai CSV funkcijas, faila augšā ir jābūt <code>import json</code> vai <code>import csv</code>.
-        </blockquote>
+        <p>Šī konstrukcija nodrošina, ka fails tiek <b>automātiski aizvērts</b>, tiklīdz beidzas ar atkāpi rakstītais koda bloks (pat tad, ja programmā rodas kļūda). Tas novērš failu korupciju.</p>
     </div>
 </section>
 
 <section class='section'>
+    <h2>Praktiskie uzdevumi</h2>
+
+    <h3>1. uzdevums: Digitālā dienasgrāmata (.txt)</h3>
+    <div class='logic-box'>
+        <ol class="step-list">
+            <li>VS Code izveido failu <code>dienasgramata.py</code>.</li>
+            <li>Pajautā lietotājam: "Kā Tev šodien gāja?".</li>
+            <li>Izmanto <span class="highlight">with open("notes.txt", "w", encoding="utf-8") as f:</span> un ieraksti atbildi failā, izmantojot <code>f.write(atbilde)</code>.</li>
+            <li>Pievieno koda daļu, kas atver šo pašu failu <code>"r"</code> režīmā.</li>
+            <li>Nolasi saturu mainīgajā (<code>saturs = f.read()</code>) un izvadi to terminālī: <code>print(f"Ieraksts: {saturs}")</code>.</li>
+        </ol>
+    </div>
+
+    <h3>2. uzdevums: "Save Game" dzinējs (.json)</h3>
+    <div class='logic-box'>
+        <ol class="step-list">
+            <li>Izveido failu <code>game_save.py</code> un faila augšā importē <code>json</code> bibliotēku.</li>
+            <li>Izveido vārdnīcu <code>speletajs</code> ar datiem: vārds, HP, zelts.</li>
+            <li>Izmanto <span class="highlight">json.dump(speletajs, f, indent=4)</span> iekš <code>"w"</code> bloka, lai saglabātu to failā <code>progress.json</code>.</li>
+            <li>Izveido funkciju (vai jaunu <code>"r"</code> bloku), kas nolasa šo failu, izmantojot <code>json.load(f)</code>.</li>
+            <li>Palielini ielādēto zeltu par 50 un paziņo jauno daudzumu terminālī.</li>
+        </ol>
+    </div>
+
+    <h3>3. uzdevums: Spēlētāju rezultātu tabula (.csv)</h3>
+    <div class='logic-box'>
+        <ol class="step-list">
+            <li>Importē <code>csv</code> moduli failā <code>rezultati.py</code>.</li>
+            <li>Izmanto <code>"a"</code> režīmu, lai atvērtu failu <code>top_rezultati.csv</code> (ar papildus parametru <code>newline=""</code>).</li>
+            <li>Izveido ciklu, kas prasa ievadīt "Spēlētāja vārdu" un "Punktus".</li>
+            <li>Izmanto <code>writer = csv.writer(f)</code> un <code>writer.writerow([vards, punkti])</code>, lai saglabātu datus.</li>
+            <li>Kā papildus izaicinājumu — nolasi šo failu <code>"r"</code> režīmā un aprēķini vidējo punktu skaitu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas:</h2>
+    <blockquote>
+        <b>1. <code>encoding="utf-8"</code> trūkums:</b> Neaizmirsti šo parametru <code>open()</code> funkcijā, citādi latviešu burti (ā, č, ē) failā pārvērtīsies par "ķeburiem".<br>
+        <b>2. Write vs Append (w pret a):</b> Atceries, ka <code>"w"</code> izdzēsīs visu Tavu faila vēsturi! Ja gribi tikai pievienot jaunu rindiņu, izmanto <code>"a"</code>.<br>
+        <b>3. Aizmirsts <code>import</code>:</b> Tu nevari izmantot <code>json.dump()</code> vai <code>csv.writer()</code>, ja faila pirmajā rindā nav veikts attiecīgais imports.
+    </blockquote>
+</section>
+
+<section class='section'>
+    <h2>Koda paraugs: JSON "Save" sistēma</h2>
     <div class='code-example'>
-<pre><code class="language-python">
-import json
+<pre><code class="language-python">import json
 
-dati = {"vards": "Drosmīgais", "hp": 100}
+dati = {"vards": "Drosmīgais", "hp": 100, "inventars": ["lāpa"]}
 
-# Saglabāšana
+# Datu saglabāšana diskā
 with open("save.json", "w", encoding="utf-8") as f:
+    # indent=4 padara failu viegli lasāmu cilvēkiem
     json.dump(dati, f, indent=4)
+    print("Spēle saglabāta!")
 
-# Nolasīšana
+# Datu nolasīšana (ielādēšana)
 with open("save.json", "r", encoding="utf-8") as f:
     ieladetie_dati = json.load(f)
 
-print(ieladetie_dati["vards"])
-</code></pre>
+print(f"Ielādēts varonis: {ieladetie_dati['vards']}")</code></pre>
         <div class='result'>
-            Dati saglabāti failā save.json<br>
-            Nolasīts: Drosmīgais
+            Spēle saglabāta!<br>
+            Ielādēts varonis: Drosmīgais
         </div>
     </div>
 </section>

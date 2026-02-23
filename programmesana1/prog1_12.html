@@ -6,100 +6,111 @@
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
 </head>
 <body>
-<div class='galvenaisdiv'>
-<div><a href="../index.html">Tēmas</a></div>
-<div><a href="sasnRez.html" >Sasniedzamie rezultāti</a></div>
-<div><a href="paligm.html">Palīgmateriāli</a></div>
-</div>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>1. tēma: Ievads un darba vide. 2. stunda: Windows resursu pārvaldība.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Tu iemācīsies <b>atpazīt</b> Windows failu sistēmas uzbūvi, <b>izskaidrot</b> atšķirību starp absolūtiem un relatīviem ceļiem un patstāvīgi <b>pārvaldīt</b> mapes un failus, izmantojot komandrindu (Terminal).</p>
+    <a href="sasnRez.html">SR 2.3.9. (Operētājsistēmas resursu pārvaldība: failu sistēma, ceļi)</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Failu sistēma un komandrinda</h2>
+    <ul>
+        <li><b>Datora resursi:</b> Viss, ko operētājsistēma (Windows) pārvalda — vieta uz diska (faili), operatīvā atmiņa un procesora jauda.</li>
+        <li><b>Terminālis (Command Line):</b> Profesionāls rīks saziņai ar datoru. Tas ļauj veikt darbības daudz ātrāk un precīzāk nekā grafiskā saskarne ar peli.</li>
+        <li><b>Absolūtais ceļš:</b> Pilna faila adrese no pašas "saknes" (piemēram, <code>C:\Users\Skolens\Desktop\spele\kods.py</code>).</li>
+        <li><b>Relatīvais ceļš:</b> Adrese attiecībā pret vietu, kurā Tu atrodies pašlaik (piemēram, <code>bildes\varonis.png</code>). Šis veids ir kritiski svarīgs spēļu izstrādē, lai spēle darbotos arī uz cita datora.</li>
+    </ul>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums : Orientēšanās Windows mapēs</h2>
+    <p>Iemācīties noteikt pašreizējo atrašanās vietu un apskatīt mapes saturu, neizmantojot peli.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver VS Code un loga apakšā atver <b>Terminal</b> (Ctrl + `).</li>
+            <li>Ieraksti komandu <code>echo %cd%</code> un nospied Enter. Dators izvadīs Tavu pašreizējo darba adresi.</li>
+            <li>Ieraksti <code>dir</code> un nospied Enter. Tu redzēsi sarakstu ar mapēm un failiem, kas atrodas šajā vietā.</li>
+            <li>Ieraksti <code>cd ..</code> (ievēro atstarpi un divus punktus) un nospied Enter. Tu pakāpsies vienu līmeni augšup failu sistēmā.</li>
+            <li>Vēlreiz ieraksti <code>dir</code>, lai redzētu, kā mainījies pieejamais saturs.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Projekta "skeleta" izveide</h2>
+    <p>Izveidot sakārtotu mapju struktūru topošajai spēlei, izmantojot tikai termināļa komandas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Terminālī ieraksti <code>cd Desktop</code> (vai <code>cd Darbvirsma</code>), lai nonāktu uz darbvirsmas.</li>
+            <li>Izveido jaunu mapi savam projektam: <code>mkdir speles_projekts</code>.</li>
+            <li>Ieej jaunajā mapē: <code>cd speles_projekts</code>.</li>
+            <li>Izveido trīs apakšmapes resursiem: <code>mkdir kods</code>, <code>mkdir bildes</code> un <code>mkdir skanas</code>.</li>
+            <li>Ieraksti komandu <code>tree</code>, lai vizuāli pārliecinātos par izveidoto struktūru.</li>
+        </ol>
+    </div>
+    <div class='code-example'>
+        <pre><code class="language-powershell"># Mapju izveides piemērs
+mkdir bildes
+mkdir skanas
+tree</code></pre>
+        <div class='result'>
+            Folder PATH listing<br>
+            ├───bildes<br>
+            ├───kods<br>
+            └───skanas
+        </div>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Failu manipulācija un relatīvie ceļi</h2>
+    <p>Iemācīties pārvietot failus un izsaukt tos, izmantojot ceļus (Paths).</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atrodoties mapē <code>speles_projekts</code>, izveido tukšu failu: <code>type nul > tests.py</code>.</li>
+            <li>Pārvieto šo failu uz apakšmapi <code>kods</code>: <code>move tests.py kods\</code>.</li>
+            <li>VS Code kreisajā sānā atver <code>kods\tests.py</code> un ieraksti kodu: <code class="language-python">print("Skripts palaists, izmantojot ceļu!")</code>. Saglabā (Ctrl+S).</li>
+            <li>Terminālī (joprojām esot <code>speles_projekts</code>) palaid skriptu, rakstot: <code>python kods\tests.py</code>.</li>
+            <li>Pārbaudi, vai programma darbojas, lai gan Tu neatrodies tajā pašā mapē, kurā ir fails.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>"The system cannot find the path specified":</b> Pārbaudi, vai mapes nosaukumā nav drukas kļūdu. Lieto <code>dir</code>, lai redzētu precīzus nosaukumus.</li>
+        <li><b>Aizmirsta atstarpe:</b> Komandai un mērķim jābūt atdalītiem. Raksti <code>cd Desktop</code>, nevis <code>cdDesktop</code>.</li>
+        <li><b>Slīpsvītras:</b> Windows izmanto reverso slīpsvītru <code>\</code> mapju atdalīšanai.</li>
+        <li><b>Atstarpes nosaukumos:</b> Ja mapes nosaukumā ir atstarpe, liec to pēdiņās: <code>cd "Mana Spele"</code>.</li>
+    </ul>
+    <p><b>Zini, kāpēc tas ir svarīgi?</b> Programmējot spēles, Tavs kods meklēs attēlus, skaņas un līmeņu datus dažādās mapēs. Ja Tu neizpratīsi failu ceļus, spēle nespēs ielādēt resursus un avarēs.</p>
+</section>
 
 <div class='section'>
-<h1>1. tēma: Ievads un darba vide. 2. stunda: Windows resursu pārvaldība.</h1>
-<p><b>Tavs šīs stundas izaicinājums:</b> Tu iemācīsies <b>atpazīt</b> Windows failu sistēmas uzbūvi, <b>izskaidrot</b> atšķirību starp dažādiem failu atrašanās vietu veidiem un patstāvīgi <b>pārvaldīt</b> mapes un failus, izmantojot tikai komandrindu.</p>
-<a href="sasnRez.html">SR 2.3.9. (Operētājsistēmas resursu pārvaldība: failu sistēma, ceļi)</a><br>
+    <h2>Svarīgākās Windows termināļa komandas</h2>
+    <div class='code-example'>
+        <pre><code class="language-powershell">dir          # Parāda mapes saturu
+cd mape      # Ieiet norādītajā mapē
+cd ..        # Atgriežas vienu līmeni atpakaļ
+mkdir mape   # Izveido jaunu mapi
+move fails   # Pārvieto failu uz citu vietu
+echo %cd%    # Parāda pašreizējo pilno ceļu</code></pre>
+    </div>
 </div>
 
-<div class='section'>
-<div>
-<h2>1. uzdevums (Vienkāršs): Orientēšanās Windows mapēs</h2>
-<p>Iemācīties noteikt, kurā mapē Tu pašlaik atrodies, un apskatīt tās saturu bez pelītes klikšķiem.</p>
-<h3>Izpildes soļi:</h3>
-<ol>
-    <li>Atver programmu VS Code un loga apakšā atver <b>Terminal</b>.</li>
-    <li>Ieraksti pavēli <code>echo %cd%</code> un nospied Enter. Dators parādīs Tavu pašreizējo darba adresi (piemēram, C:\Lietotāji\Vārds).</li>
-    <li>Ieraksti pavēli <code>dir</code> un nospied Enter. Tu redzēsi sarakstu ar visām mapēm un failiem, kas atrodas šajā vietā.</li>
-    <li>Ieraksti pavēli <code>cd ..</code> (ievēro atstarpi un divus punktus) un nospied Enter. Tu pakāpsies vienu līmeni atpakaļ uz sākuma pusi.</li>
-    <li>Vēlreiz ieraksti <code>dir</code>, lai pārliecinātos, ka esi nonācis citā vietā.</li>
-</ol>
-</div>
-
-<div>
-<h2>2. uzdevums (Viduvējs): Projekta "skeleta" izveide</h2>
-<p>Izveidot sakārtotu mapju struktūru topošajai spēlei, neizmantojot peli un logus.</p>
-<h3>Izpildes soļi:</h3>
-<ol>
-    <li>Terminālī ieraksti <code>cd Desktop</code>, lai nonāktu uz datora darbvirsmas.</li>
-    <li>Izveido jaunu mapi savam darbam, rakstot <code>mkdir laboratorija2</code>.</li>
-    <li>Ieej jaunajā mapē ar komandu <code>cd laboratorija2</code>.</li>
-    <li>Izveido tur trīs apakšmapes dažādiem spēles materiāliem: <code>mkdir kods</code>, <code>mkdir bildes</code> un <code>mkdir skanas</code>.</li>
-    <li>Ieraksti komandu <code>tree</code> un nospied Enter, lai vizuāli apskatītu izveidoto mapju koku.</li>
-</ol>
-</div>
-
-<div>
-<h2>3. uzdevums (Padziļināts): Failu manipulācija un relatīvie ceļi</h2>
-<p>Iemācīties pārvietot failus starp mapēm un palaist kodu, norādot ceļu līdz tam.</p>
-<h3>Izpildes soļi:</h3>
-<ol>
-    <li>Mapē <code>laboratorija2</code> izveido tukšu failu, terminālī rakstot <code>type nul > tests.py</code>.</li>
-    <li>Pārvieto šo failu uz mapi kods, rakstot <code>move tests.py kods\</code>.</li>
-    <li>Atver VS Code kreisajā pusē failu <code>kods\tests.py</code> un ieraksti tajā kodu: <code>print("Skripts veiksmīgi palaists no citas mapes!")</code>. Saglabā to (Ctrl+S).</li>
-    <li>Pārliecinies, ka terminālī Tu joprojām atrodies mapē <code>laboratorija2</code> (to rāda adrese pirms kursora).</li>
-    <li>Mēģini palaist skriptu, rakstot <code>python kods\tests.py</code>.</li>
-</ol>
-</div>
-</div>
-
-<div class='section'>
-<div><p>Jaunās vielas kopsavilkums</p></div>
-<div>
-<ul>
-    <li><b>Datora resursi:</b> Viss, ko operētājsistēma Tev nodrošina — vieta uz diska (faili), operatīvā atmiņa un jauda.</li>
-    <li><b>Terminālis:</b> Tiešs teksta saziņas veids ar datoru, kas ļauj veikt darbības ātrāk nekā ar peli.</li>
-    <li><b>Absolūtais ceļš:</b> Pilna adrese no paša sākuma (piemēram, <code>C:\Lietotaji\Vards\Desktop\fails.py</code>).</li>
-    <li><b>Relatīvais ceļš:</b> Adrese attiecībā pret vietu, kurā Tu atrodies pašlaik (piemēram, <code>kods\fails.py</code>).</li>
-</ul>
-
-<h3>Biežākās kļūdas (un kā tās labot):</h3>
-<ul>
-    <li><b>Kļūda: "The system cannot find the path specified":</b> Tu mēģini ieiet mapē, kuras nav šajā vietā, vai esi pieļāvis pārrakstīšanās kļūdu nosaukumā. Vienmēr ieraksti <code>dir</code>, lai pārliecinātos, kā tieši saucas mape.</li>
-    <li><b>Aizmirsta atstarpe:</b> Komanda un tās mērķis ir jāatdala ar atstarpi. Raksti <code>cd Desktop</code>, nevis <code>cdDesktop</code>.</li>
-    <li><b>Slīpsvītru lietošana:</b> Windows sistēmā mapes atdala ar reverso slīpsvītru <code>\</code> (Backslash). Ja ierakstīsi <code>kods/tests.py</code>, terminālis var nesaprast ceļu.</li>
-    <li><b>Atstarpes mapju nosaukumos:</b> Ja mapi sauc <i>mana spele</i>, terminālis domās, ka tās ir divas dažādas komandas. Šādos gadījumos lieto pēdiņas: <code>cd "mana spele"</code>.</li>
-    <li><b>Pazaudēta atrašanās vieta:</b> Ja esi "apmaldījies" mapēs, ieraksti <code>cd %userprofile%\Desktop</code>, lai ātri atgrieztos uz darbvirsmas.</li>
-</ul>
-
-<p><b>Zini, kāpēc tas ir svarīgi?</b> Programmējot spēles, Tavs kods bieži meklēs attēlus vai skaņas citās mapēs. Bez izpratnes par failu ceļiem spēle šos resursus neatradīs un nedarbosies.</p>
-</div>
-
-<div class='code-example'>
-<pre><code class="language-powershell">
-# Svarīgākās Windows komandas darbam ar failiem:
-dir          # Parāda mapes saturu
-cd mape      # Ieiet mapē
-cd ..        # Pakāpjas atpakaļ
-mkdir mape   # Izveido mapi
-move fails   # Pārvieto failu
-</code></pre>
-<div class='result'>
-  Directory of C:\Desktop\laboratorija2<br><br>
-  [kods] <br>
-  [bildes] <br>
-  [skanas] <br>
-  1 file(s) moved.
-</div>
-</div>
-</div>
 </body>
 </html>

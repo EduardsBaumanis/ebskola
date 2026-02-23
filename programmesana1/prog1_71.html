@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>7.1 Meklēšanas pamati: Lineārā pret Bināro meklēšanu</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>7. tēma: Algoritmi. 1. stunda: Meklēšanas pamati.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Saprast atšķirību starp "meklēt visu pēc kārtas" un "gudro meklēšanu". Tu izveidosi savus pirmos meklēšanas algoritmus, lai atrastu svarīgus spēles elementus spēlētāja inventārā, un sapratīsi, kāpēc datu kārtošana ir kritiska ātrdarbībai.</p>
+    
+    <a href="../sasnRez.html" style="color: #948979; font-weight: bold;">SR 2.4.19. (Gatavi algoritmi tipveida uzdevumu risināšanai - meklēšana)</a><br><br>
+
+</section>
+
+<section class='section'>
+    <h2>Teorija: Meklēšanas algoritmi</h2>
+    <div class="logic-box">
+        <ul>
+            <li><b>Algoritms:</b> Precīza instrukciju virkne konkrēta uzdevuma veikšanai (piemēram, kā atrast "Slepeno atslēgu" starp 1000 priekšmetiem).</li>
+            <li><b>Lineārā meklēšana (Linear Search):</b>
+                <ul>
+                    <li>Pārbauda katru elementu pēc kārtas no sākuma līdz beigām.</li>
+                    <li>Darbojas ar jebkuru sarakstu (arī nesakārtotu).</li>
+                    <li>Sliktākais scenārijs: Jāpārbauda pilnīgi visi elementi. Ļoti lēna lielos datu apjomos.</li>
+                </ul>
+            </li>
+            <li><b>Binārā meklēšana (Binary Search):</b>
+                <ul>
+                    <li>Izmanto "skaldi un valdi" principu, katrā solī atmetot pusi no nederīgajiem datiem.</li>
+                    <li>Pārbauda saraksta vidējo elementu. Ja meklētais ir lielāks, meklē labajā pusē; ja mazāks — kreisajā.</li>
+                    <li><b>Kritisks nosacījums:</b> Darbojas <u>tikai sakārtotos</u> sarakstos.</li>
+                    <li>Zibensātra: Pat 1 miljona elementu sarakstā vajadzēs maksimāli 20 pārbaudes.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Vides sagatavošana (Windows)</h2>
+    <p>Pirms rakstām kodu, izveidosim pareizu struktūru mūsu jaunajai tēmai.</p>
+    <ol class="step-list">
+        <li>Atver <b>PowerShell</b> vai <b>Command Prompt</b>.</li>
+        <li>Izveido jaunu mapi 7. tēmai un ieej tajā, izpildot šīs komandas:</li>
+    </ol>
+    <pre><code class="language-powershell">
+mkdir Tema7_Algoritmi
+cd Tema7_Algoritmi
+    </code></pre>
+    <ol class="step-list" start="3">
+        <li>Izveido tukšu Python failu šodienas stundai un atver to kodu redaktorā (piemēram, VS Code):</li>
+    </ol>
+    <pre><code class="language-powershell">
+ni mekle_skaitli.py
+code .
+    </code></pre>
+</section>
+
+<section class='section'>
+    <h2>Praktiskie uzdevumi</h2>
+
+    <h3>1. Līmenis (Vienkāršs): "Kur ir mans skaitlis?"</h3>
+    <p>Sāksim ar lineāro meklēšanu. Tavs uzdevums ir izveidot funkciju, kas pārbauda spēlētāja inventāru.</p>
+    <ol class="step-list">
+        <li>Failā <code>mekle_skaitli.py</code> izveido sarakstu ar nejaušiem priekšmetu ID numuriem.</li>
+        <li>Izveido funkciju <code>linear_search(saraksts, mekletais)</code>.</li>
+        <li>Izmanto <code>for</code> ciklu un <code>enumerate()</code>, lai ietu cauri sarakstam un atgrieztu indeksa numuru, kur priekšmets atrasts.</li>
+        <li>Ja priekšmets nav atrasts, atgriez <code>-1</code>.</li>
+    </ol>
+    
+    <div class='code-example'>
+<pre><code class="language-python">
+def linear_search(inventars, meklejama_atslega):
+    for indekss, prieksmets in enumerate(inventars):
+        if prieksmets == meklejama_atslega:
+            return indekss
+    return -1
+
+speletaja_inventars = [45, 12, 89, 3, 99, 21]
+atraduma_vieta = linear_search(speletaja_inventars, 99)
+
+print(f"Slepenā atslēga atrasta slotā: {atraduma_vieta}")
+</code></pre>
+        <div class="logic-box"><b>Sagaidāmais rezultāts:</b><br>Slepenā atslēga atrasta slotā: 4</div>
+    </div>
+
+    <hr>
+
+    <h3>2. Līmenis (Viduvējs): "Grāmatas metode" un Datu kārtošana</h3>
+    <p>Lai izmantotu bināro meklēšanu, dati ir jāsakārto. Sagatavosim datus un simulēsim bināro meklēšanu.</p>
+    <ol class="step-list">
+        <li>Pievieno esošajam kodam jaunu sarakstu: <code>nesakartoti_dati = [42, 15, 8, 99, 23, 4, 16, 81, 100, 5, 1, 33, 50, 60, 11]</code>.</li>
+        <li>Izmanto Python iebūvēto funkciju <code>sorted()</code>, lai izveidotu jaunu, sakārtotu sarakstu un to izdrukātu.</li>
+        <li>Izveido daudzrindu komentāru (<code>""" ... """</code>), kurā apraksti soļus, kā Tu, izmantojot binārās meklēšanas loģiku, atrastu skaitli <b>42</b> šajā sakārtotajā sarakstā.</li>
+    </ol>
+
+    <div class='code-example'>
+<pre><code class="language-python">
+nesakartoti_dati = [42, 15, 8, 99, 23, 4, 16, 81, 100, 5, 1, 33, 50, 60, 11]
+sakartoti_dati = sorted(nesakartoti_dati)
+print(f"Sakārtots inventārs: {sakartoti_dati}")
+
+"""
+Binārās meklēšanas simulācija skaitlim 42:
+Saraksts: [1, 4, 5, 8, 11, 15, 16, 23, 33, 42, 50, 60, 81, 99, 100]
+1. solis: Vidējais elements ir 23. 42 ir lielāks, atmetam kreiso pusi un 23.
+2. solis: Jauns diapazons [33, 42, 50, 60, 81, 99, 100]. Vidējais ir 60. 42 ir mazāks, atmetam labo pusi.
+3. solis: Jauns diapazons [33, 42, 50]. Vidējais ir 42. Atrasts! Pārbaudes prasīja 3 soļus.
+"""
+</code></pre>
+        <div class="logic-box"><b>Sagaidāmais rezultāts:</b><br>Sakārtots inventārs: [1, 4, 5, 8, 11, 15, 16, 23, 33, 42, 50, 60, 81, 99, 100]</div>
+    </div>
+
+    <hr>
+
+    <h3>3. Līmenis (Padziļināts): "Efektivitātes mērītājs"</h3>
+    <p>Cik lēna patiesībā ir lineārā meklēšana? Pārbaudīsim to ar miljonu ierakstiem!</p>
+    <ol class="step-list">
+        <li>Faila sākumā importē bibliotēku: <code>import time</code>.</li>
+        <li>Izmanto <code>range()</code> un <code>list()</code>, lai izveidotu sarakstu <code>lieli_dati</code> ar 1 000 000 secīgiem skaitļiem.</li>
+        <li>Mēģini atrast pēdējo skaitli (999999), izmantojot savu iepriekš izveidoto <code>linear_search</code> funkciju.</li>
+        <li>Piefiksē sākuma un beigu laiku, lai aprēķinātu, cik sekundes aizņēma meklēšana.</li>
+    </ol>
+
+    <div class='code-example'>
+<pre><code class="language-python">
+import time
+
+# Izveidojam milzīgu inventāru
+lieli_dati = list(range(1000000))
+
+# Mērām laiku
+sakuma_laiks = time.time()
+rezultats = linear_search(lieli_dati, 999999)
+beigu_laiks = time.time()
+
+pateretais_laiks = beigu_laiks - sakuma_laiks
+
+print(f"Skaitlis atrasts indeksā: {rezultats}")
+print(f"Lineārā meklēšana aizņēma: {pateretais_laiks:.5f} sekundes")
+</code></pre>
+        <div class="logic-box"><b>Sagaidāmais rezultāts (laiks atšķirsies atkarībā no datora):</b><br>Skaitlis atrasts indeksā: 999999<br>Lineārā meklēšana aizņēma: 0.04512 sekundes</div>
+    </div>
+
+</section>
+
+</body>
+</html>

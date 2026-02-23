@@ -19,97 +19,95 @@
 <section class='section'>
     <h1>6. tēma: Datu pastāvība un Analīze. 4. stunda: Rezultātu tabulas.</h1>
     <p><b>Tavs šīs stundas izaicinājums:</b> Izveidot "Slavas zāli", kas atceras visus spēlētājus. Tu iemācīsies <b>Read-Modify-Write</b> ciklu: nolasīt esošos rezultātus no JSON faila, pievienot jaunu ierakstu, sakārtot tos pēc punktiem un saglabāt TOP 5 labākos rezultātus.</p>
-    <a href="sasnRez.html">SR 2.4.14. (Datu struktūru kārtošana un JSON)</a><br>
+    <a href="sasnRez.html">SR 2.4.14. (Datu struktūru kārtošana un JSON)</a>
 </section>
 
 <section class='section'>
-    <div>
-        <h2>1. uzdevums (Vienkāršs): Pirmais ieraksts</h2>
-        <p>Sagatavot JSON struktūru un saglabāt pirmo spēlētāju kā vārdnīcu sarakstā.</p>
-        <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>VS Code izveido failu <code>rezultati.py</code> un importē <code>json</code>.</li>
-            <li>Izveido tukšu sarakstu <code>visi_rezultati = []</code>.</li>
-            <li>Pajautā lietotājam vārdu un punktus.</li>
-            <li>Izveido vārdnīcu <code>dati = {"vards": vards, "punkti": int(punkti)}</code>.</li>
-            <li>Pievieno vārdnīcu sarakstam un saglabā to failā <code>leaderboard.json</code>.</li>
-        </ol>
-    </div>
-
-    <div>
-        <h2>2. uzdevums (Viduvējs): Hall of Fame papildinātājs</h2>
-        <p>Iemācīties nolasīt esošos rezultātus, pirms pievienot jaunu, lai dati neizdzēstos.</p>
-        <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Pirms jauna rezultāta prasīšanas, mēģini nolasīt <code>leaderboard.json</code>.</li>
-            <li>Izmanto <span class="highlight">try...except FileNotFoundError</span>, lai, ja fails neeksistē, <code>visi_rezultati</code> būtu tukšs saraksts.</li>
-            <li>Pievieno jauno rezultātu sarakstam un saglabā atpakaļ failā.</li>
-            <li>Palaid programmu vairākas reizes un pārbaudi, vai failā punkti uzkrājas.</li>
-        </ol>
-    </div>
-
-    <div>
-        <h2>3. uzdevums (Padziļināts): TOP 5 kārtošanas sistēma</h2>
-        <p>Iemācīties sakārtot sarakstu pēc vārdnīcas atslēgas un saglabāt tikai labākos rezultātus.</p>
-        <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Pēc jauna rezultāta pievienošanas sakārto sarakstu no lielākā uz mazāko.</li>
-            <li>Izmanto: <code class="language-python">saraksts.sort(key=lambda x: x['punkti'], reverse=True)</code>.</li>
-            <li>Izmanto <i>slicing</i> (nogriešanu), lai saglabātu tikai pirmos piecus: <code>saraksts[:5]</code>.</li>
-            <li>Izveido funkciju <code>paradit_top()</code>, kas izvada rezultātus glītā tabulā.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <h2>Teorija: JSON apstrādes cikls</h2>
-        <p>JSON faili nav kā parasts teksts, kuram var "pierakstīt klāt" rindas beigās. Tie ir vienoti datu objekti. Lai tos papildinātu, jāievēro trīs soļi:</p>
+    <h2>Teorija: JSON apstrādes cikls</h2>
+    <div class="logic-box">
+        <p>JSON faili nav kā parasts teksta dokuments, kuram var vienkārši "pierakstīt klāt" rindas beigās. Tie ir vienoti datu objekti (parasti liels saraksts ar vārdnīcām). Lai tos pareizi papildinātu, jāievēro trīs soļi:</p>
         
-        <ol>
-            <li><b>LASĪT:</b> Ielādē visu failu Python sarakstā.</li>
-            <li><b>MAINĪT:</b> Pievieno jaunu elementu un sakārto sarakstu.</li>
-            <li><b>RAKSTĪT:</b> Pārraksti visu failu ar jauno, papildināto sarakstu.</li>
+        <ol class="step-list">
+            <li><b>LASĪT (Read):</b> Ielādē visu faila saturu Python sarakstā. Ja fails neeksistē (pirmā spēles reize), izveido tukšu sarakstu <code>[]</code>.</li>
+            <li><b>MAINĪT (Modify):</b> Pievieno sarakstam jaunā spēlētāja datus (kā vārdnīcu) un sakārto to.</li>
+            <li><b>RAKSTĪT (Write):</b> Pārraksti visu failu ar jauno, papildināto sarakstu, izmantojot <code>"w"</code> režīmu.</li>
         </ol>
 
         <h3>Kārtošana ar Lambda</h3>
-        <p>Kad sarakstā ir vārdnīcas, Python nezin, pēc kura "stabiņa" kārtot. Mums ir jādod "ceļa rādītājs":</p>
+        <p>Kad sarakstā atrodas vārdnīcas, Python nezina, pēc kura "stabiņa" (atslēgas) veikt kārtošanu. Mums ir jādod instrukcija:</p>
         <p>$$key=lambda\ x:\ x['punkti']$$</p>
-        <p>Tas pasaka: "Skaties uz katru elementu <b>x</b> un kārtošanai izmanto tā vērtību pie atslēgas <b>'punkti'</b>."</p>
-
-        <h3>Biežākās kļūdas:</h3>
-        <blockquote>
-            <b>1. Pārrakstīšana:</b> Ja Tu aizmirsti vispirms nolasīt esošos datus, katrs jauns spēlētājs izdzēsīs iepriekšējo.<br>
-            <b>2. Datu tipi:</b> Ja punkti tiks saglabāti kā teksts <code>"9"</code>, kārtojot tas būs "lielāks" par <code>"100"</code>. Vienmēr lieto <code>int()</code>!<br>
-            <b>3. indent=4:</b> Saglabājot JSON, lieto <code>indent=4</code> parametru, lai fails būtu lasāms cilvēkam.
-        </blockquote>
+        <p>Tas pasaka: <i>"Apskati katru elementu (x) un kārtošanai izmanto tā vērtību pie atslēgas 'punkti'."</i></p>
     </div>
 </section>
 
 <section class='section'>
+    <h2>Praktiskie uzdevumi</h2>
+
+    <h3>1. uzdevums: Pirmais ieraksts</h3>
+    <div class='logic-box'>
+        <ol class="step-list">
+            <li>VS Code izveido failu <code>rezultati.py</code> un importē <code>json</code>.</li>
+            <li>Izveido tukšu sarakstu <code>visi_rezultati = []</code>.</li>
+            <li>Pajautā lietotājam vārdu un punktu skaitu.</li>
+            <li>Izveido vārdnīcu <code>dati = {"vards": vards, "punkti": int(punkti)}</code> (svarīgi: punkti ir jākonvertē uz skaitli!).</li>
+            <li>Pievieno šo vārdnīcu sarakstam un saglabā to failā <code>leaderboard.json</code>.</li>
+        </ol>
+    </div>
+
+    <h3>2. uzdevums: Hall of Fame papildinātājs (Read & Write)</h3>
+    <div class='logic-box'>
+        <p>Iemācīties nolasīt esošos rezultātus, pirms pievienot jaunu, lai dati netiktu pārrakstīti.</p>
+        <ol class="step-list">
+            <li>Pirms jauna rezultāta prasīšanas, mēģini atvērt un nolasīt <code>leaderboard.json</code> ar <code>json.load()</code>.</li>
+            <li>Ieliec nolasīšanu <code>try...except FileNotFoundError:</code> blokā. Ja fails neeksistē, definē <code>visi_rezultati = []</code>.</li>
+            <li>Pēc nolasīšanas pievieno jauno rezultātu (no 1. uzdevuma) un saglabā visu sarakstu atpakaļ failā.</li>
+            <li>Palaid programmu 3 reizes ar dažādiem vārdiem un pārbaudi JSON failu — tajā vajadzētu būt 3 ierakstiem.</li>
+        </ol>
+    </div>
+
+    <h3>3. uzdevums: TOP 5 kārtošanas sistēma</h3>
+    <div class='logic-box'>
+        <p>Iemācīties sakārtot sarakstu un saglabāt tikai labākos rezultātus.</p>
+        <ol class="step-list">
+            <li>Pirms saraksta saglabāšanas failā, sakārto to no lielākā uz mazāko: <br><code class="language-python">visi_rezultati.sort(key=lambda x: x['punkti'], reverse=True)</code></li>
+            <li>Izmanto <i>slicing</i> (nogriešanu), lai saglabātu tikai pirmos piecus: <code>top_5 = visi_rezultati[:5]</code>.</li>
+            <li>Izveido funkciju <code>paradit_top()</code>, kas ar <code>for</code> ciklu izvada rezultātus glītā, numurētā sarakstā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas:</h2>
+    <blockquote>
+        <b>1. Datu pārrakstīšana:</b> Ja Tu aizmirsti vispirms nolasīt esošos datus (1. solis), katrs jauns spēlētājs izdzēsīs visus iepriekšējos, atstājot failā tikai vienu ierakstu.<br>
+        <b>2. Kārtošana kā tekstam:</b> Ja punktus saglabāsi kā tekstu (piem., <code>"9"</code>), kārtojot tas tiks uzskatīts par "lielāku" nekā <code>"100"</code> (jo 9 ir lielāks par 1 alfabētā). Vienmēr lieto <code>int()</code>!<br>
+        <b>3. Neērti lasāms JSON:</b> Saglabājot failu, vienmēr lieto <code>json.dump(dati, f, indent=4)</code>, lai fails būtu strukturēts un viegli pārbaudāms.
+    </blockquote>
+</section>
+
+<section class='section'>
+    <h2>Koda paraugs: Pilns Read-Modify-Write cikls</h2>
     <div class='code-example'>
-        <h3>Piemērs: Rezultātu ielāde un kārtošana</h3>
-<pre><code class="language-python">
-import json
+<pre><code class="language-python">import json
 
 # 1. Mēģinām nolasīt datus
 try:
-    with open("scores.json", "r") as f:
+    with open("scores.json", "r", encoding="utf-8") as f:
         top_saraksts = json.load(f)
 except FileNotFoundError:
-    top_saraksts = []
+    top_saraksts = [] # Ja faila nav, sākam ar tukšu lapu
 
 # 2. Pievienojam jaunu rezultātu
 jauns = {"vards": "Drosmīgais", "punkti": 150}
 top_saraksts.append(jauns)
 
-# 3. Sakārtojam un saglabājam TOP 5
+# 3. Sakārtojam un atstājam tikai TOP 5
 top_saraksts.sort(key=lambda x: x['punkti'], reverse=True)
-top_5 = top_saraksts[:5]
+top_saraksts = top_saraksts[:5]
 
-with open("scores.json", "w") as f:
-    json.dump(top_5, f, indent=4)
-</code></pre>
+# Saglabājam atpakaļ failā
+with open("scores.json", "w", encoding="utf-8") as f:
+    json.dump(top_saraksts, f, indent=4)</code></pre>
         <div class='result'>
             Dati sakārtoti un saglabāti!<br>
             TOP 1: Drosmīgais (150 punkti)

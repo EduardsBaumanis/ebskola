@@ -18,58 +18,20 @@
 
 <section class='section'>
     <h1>6. tēma: Datu pastāvība un Analīze. 2. stunda: Digitālais rīks.</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Nodalīt stāstu no koda. Tu iemācīsies izmantot <b>Google Sheets</b>, lai izveidotu strukturētu spēles pasauli, un eksportēt to <b>CSV</b> formātā. Tas ļaus Tev mainīt visu spēles stāstu, neaiztiekot nevienu Python koda rindiņu!</p>
-    <a href="sasnRez.html">SR 2.3.5. (Datu strukturēšana izklājlapās)</a><br>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Nodalīt stāstu no koda. Tu iemācīsies izmantot <b>Google Sheets</b>, lai izveidotu strukturētu spēles pasauli, un eksportēt to <b>CSV</b> formātā. Tas ļaus Tev uzrakstīt 100 istabu spēli, nepievienojot nevienu jaunu Python funkciju!</p>
+    <a href="sasnRez.html">SR 2.3.5. (Datu strukturēšana izklājlapās) un SR 2.4.1. (Sistēmas dekompozīcija)</a>
 </section>
 
 <section class='section'>
-    <div>
-        <h2>1. uzdevums (Vienkāršs): Tabulas arhitekts</h2>
-        <p>Izveidot precīzu struktūru Google Sheets, lai dators prastu "nolasīt" Tavu stāstu.</p>
-        <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Atver Google Sheets un izveido jaunu tabulu.</li>
-            <li>Pirmajā rindā ieraksti galvenes: <code>id</code>, <code>nosaukums</code>, <code>teksts</code>, <code>izvele_a</code>, <code>merkis_a</code>, <code>izvele_b</code>, <code>merkis_b</code>.</li>
-            <li>Izveido vismaz 3 savstarpēji saistītas lokācijas (piemēram, Sākums ved uz Mežu vai Alu).</li>
-            <li><b>Svarīgi:</b> <code>merkis_a</code> un <code>merkis_b</code> ailēs ieraksti tās lokācijas <code>id</code>, uz kuru spēlētājam jādodas.</li>
-        </ol>
-    </div>
-
-    <div>
-        <h2>2. uzdevums (Viduvējs): Pasaules eksports un CSV analīze</h2>
-        <p>Pārvērst vizuālo tabulu mašīnlasāmā formātā un saprast, kā dati tiek atdalīti ar komatiem.</p>
-        <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Papildini savu tabulu, līdz Tev ir vismaz 8 lokācijas (iekļaujot uzvaras un zaudējumu beigas).</li>
-            <li>Dodies uz <code>File -> Download -> Comma Separated Values (.csv)</code>.</li>
-            <li>Lejupielādēto failu pārsauc par <code>pasaule.csv</code> un ieliec sava projekta mapē.</li>
-            <li>Atver failu ar VS Code – redzēsi, ka katra rinda ir atdalīta ar komatiem.</li>
-        </ol>
-    </div>
-
-    <div>
-        <h2>3. uzdevums (Padziļināts): Python "Pirmā lasīšana"</h2>
-        <p>Pārbaudīt, vai Tavs Python dzinējs spēj piekļūt datiem, kas sagatavoti Google Sheets.</p>
-        <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>VS Code izveido failu <code>tests.py</code>.</li>
-            <li>Importē <code>csv</code> moduli.</li>
-            <li>Atver <code>pasaule.csv</code> un, izmantojot <code>csv.DictReader</code>, izprintē visas lokācijas un to aprakstus.</li>
-            <li>Pārliecinies, ka visi dati terminālī izskatās pareizi un nav dīvainu simbolu.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <h2>Teorija: Saturs pret Loģiku</h2>
-        <p>Profesionālā izstrādē mēs cenšamies pēc <b>modularitātes</b>. Programmētājs uzbūvē "dzinēju" (Python kodu), bet rakstnieks sagatavo "degvielu" (Google Sheets stāstu).</p>
+    <h2>Teorija: Saturs pret Loģiku</h2>
+    <div class="logic-box">
+        <p>Profesionālā spēļu izstrādē mēs cenšamies pēc <b>modularitātes</b>. Programmētājs uzbūvē "dzinēju" (Python kodu), bet rakstnieks sagatavo "degvielu" (Google Sheets stāstu).</p>
         
-        <h3>Kā izskatās spēles datu modelis?</h3>
+        <h3>Kā izskatās datubāzes modelis?</h3>
         <table>
             <thead>
                 <tr>
-                    <th>Kolonna</th>
+                    <th>Kolonna (Galvene)</th>
                     <th>Nozīme</th>
                     <th>Piemērs</th>
                 </tr>
@@ -77,47 +39,95 @@
             <tbody>
                 <tr>
                     <td><code>id</code></td>
-                    <td>Unikāls numurs katrai vietai.</td>
-                    <td>1, 2, 3...</td>
+                    <td>Unikāls numurs katrai lokācijai.</td>
+                    <td>1</td>
                 </tr>
                 <tr>
                     <td><code>teksts</code></td>
                     <td>Kas notiek šajā vietā?</td>
-                    <td>Tu esi pie upes...</td>
+                    <td>Tu stāvi pie upes...</td>
+                </tr>
+                <tr>
+                    <td><code>izvele_a</code></td>
+                    <td>Darbības nosaukums.</td>
+                    <td>Peldēt</td>
                 </tr>
                 <tr>
                     <td><code>merkis_a</code></td>
-                    <td>Kurp doties (ID)?</td>
+                    <td>Kurp šī izvēle ved (Nākamās vietas ID)?</td>
                     <td>2</td>
                 </tr>
             </tbody>
         </table>
-
-        <h3>ebSkola Life Hacks:</h3>
-        <blockquote>
-            <b>1. ID ir svēts:</b> Ja Tavā izvēlē ir mērķis <code>5</code>, bet tabulā nav rindas ar ID <code>5</code>, spēle "salūzīs".<br>
-            <b>2. Galvenes bez kļūdām:</b> Python meklēs precīzi tādus vārdus, kādus Tu ierakstīji tabulas pirmajā rindā. Lieto mazos burtus un izvairies no atstarpēm.<br>
-            <b>3. Komati tekstā:</b> Ja stāstā lieto komatus, Google Sheets tos automātiski ieliks pēdiņās. Python <code>csv</code> modulis ir pietiekami gudrs, lai ar to tiktu galā!
-        </blockquote>
     </div>
 </section>
 
 <section class='section'>
-    <div class='code-example'>
-<pre><code class="language-python">
-import csv
+    <h2>Praktiskie uzdevumi</h2>
 
+    <h3>1. uzdevums: Tabulas arhitekts (Google Sheets)</h3>
+    <div class='logic-box'>
+        <ol class="step-list">
+            <li>Atver Google Sheets un izveido jaunu tabulu.</li>
+            <li>Pirmajā rindā ieraksti galvenes precīzi šādi (bez lielajiem burtiem vai atstarpēm): <br><code>id</code>, <code>nosaukums</code>, <code>teksts</code>, <code>izvele_a</code>, <code>merkis_a</code>, <code>izvele_b</code>, <code>merkis_b</code>.</li>
+            <li>Izveido vismaz 3 savstarpēji saistītas lokācijas (piemēram, Sākums (ID: 1) ved uz Mežu (ID: 2) vai Alu (ID: 3)).</li>
+            <li><b>Svarīgi:</b> <code>merkis_a</code> un <code>merkis_b</code> ailēs ieraksti tikai skaitļus (tās lokācijas ID, uz kuru spēlētājam jādodas).</li>
+        </ol>
+    </div>
+
+    <h3>2. uzdevums: Pasaules eksports (CSV)</h3>
+    <div class='logic-box'>
+        <ol class="step-list">
+            <li>Papildini savu tabulu, līdz Tev ir vismaz 8 lokācijas (iekļaujot vismaz vienu uzvaras un vienu zaudējuma beigu punktu, kur mērķa ID vari atstāt tukšus).</li>
+            <li>Dodies uz izvēlni: <b>File &rarr; Download &rarr; Comma Separated Values (.csv)</b>.</li>
+            <li>Lejupielādēto failu pārsauc par <code>pasaule.csv</code> un ievieto sava Python projekta mapē.</li>
+            <li>Atver šo failu ar VS Code – redzēsi, ka katra rinda ir atdalīta ar komatiem. Tas ir "neapstrādāts" datu formāts.</li>
+        </ol>
+    </div>
+
+    <h3>3. uzdevums: Python "Pirmā lasīšana"</h3>
+    <div class='logic-box'>
+        <ol class="step-list">
+            <li>VS Code izveido failu <code>tests.py</code> un faila augšā ieraksti <code>import csv</code>.</li>
+            <li>Atver <code>pasaule.csv</code> lasīšanas režīmā (<code>"r"</code>) ar UTF-8 kodējumu.</li>
+            <li>Izmanto <code>csv.DictReader(fails)</code>, lai datus nolasītu.</li>
+            <li>Izveido <code>for</code> ciklu, kas iet cauri šim "lasītājam" un izprintē katras lokācijas ID un nosaukumu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas plānošanā:</h2>
+    <blockquote>
+        <b>1. "Aklie zari":</b> Ja Tavā izvēlē mērķis ir ID <code>5</code>, bet tabulā nav rindas, kas sākas ar ID <code>5</code>, spēle šajā brīdī avarēs ar kļūdu.<br>
+        <b>2. Galveņu nesakritība:</b> Python kodā Tu atsauksies uz kolonnu nosaukumiem (piem., <code>rinda['izvele_a']</code>). Ja tabulā ierakstīji "Izvele A", kods atgriezīs KeyError.<br>
+        <b>3. Komati tekstā:</b> Ja stāstā lieto komatus, Google Sheets tos eksportējot automātiski ieliks pēdiņās. Python <code>csv</code> modulis to saprot, tāpēc droši lieto pieturzīmes stāstā!
+    </blockquote>
+</section>
+
+<section class='section'>
+    <h2>Koda paraugs: CSV nolasīšana vārdnīcās</h2>
+    <div class='code-example'>
+<pre><code class="language-python">import csv
+
+# Atveram eksportēto failu
 with open('pasaule.csv', mode='r', encoding='utf-8') as f:
-    # DictReader pārvērš katru rindu par vārdnīcu (dict)
-    reader = csv.DictReader(f)
     
-    for rinda in reader:
-        # Piekļūstam datiem, izmantojot galveņu nosaukumus
+    # DictReader pārvērš katru CSV rindu par Python vārdnīcu (dict),
+    # kur atslēgas ir tabulas pirmās rindas (galveņu) nosaukumi.
+    lasitajs = csv.DictReader(f)
+    
+    for rinda in lasitajs:
         print(f"ID: {rinda['id']} | Vieta: {rinda['nosaukums']}")
-</code></pre>
+        print(f"Apraksts: {rinda['teksts'][:30]}...") # Izvada tikai pirmos 30 burtus
+        print("-" * 20)</code></pre>
         <div class='result'>
             ID: 1 | Vieta: Krustceles<br>
-            ID: 2 | Vieta: Vecais mežs
+            Apraksts: Tu stāvi uz putekļainas takas...<br>
+            --------------------<br>
+            ID: 2 | Vieta: Vecais mežs<br>
+            Apraksts: Koki šeit aug tik cieši, ka...<br>
+            --------------------
         </div>
     </div>
 </section>

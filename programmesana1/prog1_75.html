@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>7.5 Eksperiments: Algoritmu salīdzināšana ar Big Data</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>7. tēma: Algoritmi. 5. stunda: Eksperiments ar Big Data.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Līdz šim mēs kārtojām un meklējām sarakstos ar 5 vai 10 elementiem. Bet reālajā pasaulē, piemēram, MMO spēļu serveros, dati ir mērāmi miljonos. Šodien Tu izveidosi automātisku datu ģeneratoru un pakļausi savus algoritmus "stresa testam", lai reāli redzētu, kā tie "lūzt" zem milzīga datu spiediena.</p>
+    
+    <a href="../sasnRez.html">SR 2.4.16. (Skolēns novērtē algoritmu sarežģītību un efektivitāti dažādos izpildes apstākļos)</a><br><br>
+
+</section>
+
+<section class='section'>
+    <h2>Teorija: "Big Data" un Veiktspējas Mērīšana</h2>
+    <div class="logic-box">
+        <ul>
+            <li><b>Kas ir "Big Data" spēļu izstrādē?</b>
+                <ul>
+                    <li>Nelielā spēlē inventārā ir 50 priekšmeti. Tur algoritma ātrums nav nozīmīgs.</li>
+                    <li>Lielā tiešsaistes spēlē (piem., <i>CS:GO</i> vai <i>Minecraft</i> serverī) vienlaikus jāapstrādā 100 000 spēlētāju koordinātas 60 reizes sekundē. Slikts algoritms radīs milzīgu <i>lag</i> (aizturi) vai servera avāriju.</li>
+                </ul>
+            </li>
+            <li><b>Veiktspējas mērīšana (Benchmarking):</b>
+                <ul>
+                    <li>Tā ir prakse, kurā mēs darbinām programmu ar vienu mērķi — izmērīt tās ātrumu dažādos apstākļos.</li>
+                    <li>Lai mērījums būtu objektīvs, cilvēks nevar manuāli rakstīt datus. Testēšanas rīkam tie ir <b>jāģenerē automātiski</b>.</li>
+                </ul>
+            </li>
+            <li><b>Kā algoritmi "lūzt":</b>
+                <ul>
+                    <li>Labi algoritmi (O(1), O(log n)) strādās zibensātri pat ar miljardiem ierakstu.</li>
+                    <li>Slikti algoritmi (piem., Burbuļkārtošana O(n²)) sākumā strādās ātri, bet, datu apjomam pārsniedzot 10 000 elementus, aprēķini prasīs minūtes, stundas vai pat dienas.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Vides sagatavošana (Windows)</h2>
+    <ol class="step-list">
+        <li>Atver <b>PowerShell</b>.</li>
+        <li>Ieej algoritmu mapē: <code>cd Tema7_Algoritmi</code></li>
+        <li>Izveido jaunu failu stresa testiem un atver to kodu redaktorā: <code>ni stresa_tests.py; code stresa_tests.py</code></li>
+    </ol>
+</section>
+
+<section class='section'>
+    <h2>Praktiskie uzdevumi</h2>
+
+    <h3>1. Līmenis (Vienkāršs): "Datu ģenerators"</h3>
+    <p>Lai testētu kodu, mums vajag tūkstošiem nejaušu skaitļu. Uzrakstīsim rīku, kas tos saražo automātiski.</p>
+    <ol class="step-list">
+        <li>Failā <code>stresa_tests.py</code> importē bibliotēku <code>random</code>.</li>
+        <li>Izveido funkciju <code>generet_datus(skaits)</code>.</li>
+        <li>Funkcijas iekšpusē izveido tukšu sarakstu, ar <code>for</code> ciklu atkārto darbību <code>skaits</code> reizes, pievienojot sarakstam nejaušu skaitli no 1 līdz 100. Atgriez šo sarakstu.</li>
+        <li>Izsauc funkciju, paprasot 5 skaitļus, un izdrukā rezultātu.</li>
+    </ol>
+    
+    <div class='code-example'>
+<pre><code class="language-python">
+import random
+
+def generet_datus(skaits):
+    dati = []
+    for _ in range(skaits):
+        dati.append(random.randint(1, 100))
+    return dati
+
+testa_dati = generet_datus(5)
+print(f"Ģenerētie dati
