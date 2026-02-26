@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>5.3 Spēles pamatloģikas programmēšana</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>5.3. tēma: Spēles pamatloģikas programmēšana</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot UI elementus ar spēles dzinēju, nodrošinot pilnu spēles ciklu: palaišanu, aktīvo darbību un rezultātu fiksēšanu.</p>
+    <a href="sasnRez.html">2.6.1. Programmē un strukturē kodu; 2.6.2. Veic algoritmu un programmu testēšanu.</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Spēles stāvokļa vadība</h2>
+    <p>Laba spēle sastāv no skaidriem stāvokļiem (States). Tavai programmai ir jāzina:
+        <ul>
+            <li><b>Gaidīšanas režīms:</b> Redzama sākuma izvēlne, nekas nekustas.</li>
+            <li><b>Aktīvā spēle:</b> Izvēlne paslēpta, taimeri darbojas, ienaidnieki kustas.</li>
+            <li><b>Beigu stāvoklis (Game Over):</b> Viss apstājas, parādās rezultāts un poga "Mēģināt vēlreiz".</li>
+        </ul>
+    <b>Svarīgi:</b> Atceries vienmēr <i>resetot</i> (atjaunot uz sākuma vērtībām) mainīgos, kad spēle tiek sākta no jauna, citādi punkti turpinās skaitīties no iepriekšējās reizes!
+    </p>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Starta pogas loģika</h2>
+    <p>Nodrošināt, ka spēle sākas tikai tad, kad lietotājs nospiež pogu, nevis uzreiz ielādējot lapu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido galveno funkciju <code>saktSpeli()</code>.</li>
+            <li>Šajā funkcijā ieraksti kodu, kas paslēpj sākuma ekrānu (pieliek <code>.hidden</code> klasi).</li>
+            <li>Palaid visus <code>setInterval</code> vai <code>requestAnimationFrame</code> ciklus tieši šīs funkcijas iekšpusē.</li>
+            <li>Piesaisti šo funkciju pogai "SĀKT", izmantojot <code>addEventListener</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Varoņa un šķēršļu mijiedarbība</h2>
+    <p>Aktualizēt kustības un sadursmju loģiku, lai tā strādātu ar jaunajiem UI elementiem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pārliecinies, ka tavs <code>keydown</code> klausītājs darbojas tikai tad, kad spēle ir aktīva.</li>
+            <li>Ievieto sadursmju pārbaudi galvenajā spēles ciklā.</li>
+            <li>Kad notiek sadursme, izsauc funkciju <code>beigtSpeli()</code>, kas apstādina visus taimerus un parāda beigu ziņojumu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Rezultātu atjaunošana reāllaikā</h2>
+    <p>Savienot spēles mainīgos ar HUD paneli, lai spēlētājs redzētu savu progresu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Katru reizi, kad mainās punkti vai laiks, nekavējoties atjaunini atbilstošā HTML elementa <code>innerText</code>.</li>
+            <li>Pārbaudi, vai pēc spēles beigām punkti tiek saglabāti un parādīti "Game Over" ekrānā.</li>
+            <li>Veic <b>Commit</b> un <b>Push</b> ar ziņu "Pamatloģika ir pabeigta un spēle ir spēlējama".</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>"Restart" kļūda:</b> Spēlētājs nospiež "Mēģināt vēlreiz", bet laiks iet divreiz ātrāk. Risinājums: Vienmēr izmanto <code>clearInterval()</code> pirms jauna taimera sākšanas.</li>
+        <li><b>Mainīgie netiek atiestatīti:</b> Jaunā spēlē dzīvības joprojām ir 0. Risinājums: Funkcijas <code>saktSpeli()</code> sākumā manuāli iestati <code>dzivibas = 3; punkti = 0;</code>.</li>
+        <li><b>Klaviatūras "bug":</b> Spēlētājs var kustināt varoni, kamēr vēl redzama sākuma izvēlne. Risinājums: Pievieno mainīgo <code>let spēleDarbojas = false;</code> un pārbaudi to pirms kustības veikšanas.</li>
+    </ul>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs: Pilnais sākuma cikls</h2>
+    <div class='code-example'>
+        <pre><code class="language-javascript">let spelesIntervals;
+let punkti = 0;
+
+function saktSpeli() {
+    // 1. Atiestatām datus
+    punkti = 0;
+    atjaunotHUD();
+    
+    // 2. UI vadība
+    document.getElementById("start-screen").style.display = "none";
+    
+    // 3. Palaižam dzinēju
+    spelesIntervals = setInterval(galvenaisCikls, 20);
+}
+
+function galvenaisCikls() {
+    kustinatObjektus();
+    parbauditSadursmes();
+}
+
+function beigtSpeli() {
+    clearInterval(spelesIntervals);
+    document.getElementById("final-score").innerText = punkti;
+    document.getElementById("game-over-screen").style.display = "block";
+}</code></pre>
+    </div>
+</div>
+
+</body>
+</html>

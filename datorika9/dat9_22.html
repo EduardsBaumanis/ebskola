@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>2.2 Izkārtojuma kontrole un Box Model</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-css.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>2.2. tēma: Izkārtojuma kontrole un "Box Model"</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Pārveidot haotisku saturu sakārtotā dizainā, kontrolējot elementu izmērus, atkāpes un apmales atbilstoši "Box Model" principiem.</p>
+    <a href="sasnRez.html">1.1.1. Secina par struktūru un ergonomiku; 2.4.1. Strukturē teksta dokumentu atbilstoši prasībām.</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Kas ir Box Model?</h2>
+    <p>Katrs HTML elements pārlūka acīs ir taisnstūra kaste. <b>Box Model</b> sastāv no četrām daļām:
+        <ul>
+            <li><b>Content:</b> Pašsaturs (teksts, attēls).</li>
+            <li><b>Padding (Iekšējā atkāpe):</b> Telpa starp saturu un apmali. Tā padara elementu "elpojošāku".</li>
+            <li><b>Border (Apmale):</b> līnija apkārt paddingam un saturam.</li>
+            <li><b>Margin (Ārējā atkāpe):</b> Telpa ap elementu, kas atgrūž citus elementus.</li>
+        </ul>
+    Pareiza šo īpašību lietošana nodrošina spēles saskarnes (UI) skaidrību un lietojamību.
+    </p>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Kastes vizualizācija</h2>
+    <p>Piešķirt elementiem redzamas robežas un iekšējās atkāpes, lai izprastu to aizņemto vietu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izvēlies savā HTML failā kādu <code>&lt;section&gt;</code> vai <code>&lt;div&gt;</code> bloku.</li>
+            <li>CSS failā piešķir tam <code>background-color</code>, <code>border</code> (piem., 2px solid black) un <code>padding: 20px;</code>.</li>
+            <li>Vēro, kā saturs attālinās no apmales, padarot tekstu daudz vieglāk lasāmu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Atstatumu regulēšana starp blokiem</h2>
+    <p>Izmantot <code>margin</code>, lai izveidotu tīru un organizētu lapas struktūru.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno vairākiem <code>&lt;section&gt;</code> blokiem klasi <code>.kaste</code>.</li>
+            <li>CSS vidē iestati <code>margin-bottom: 30px;</code>, lai bloki nesaliptu kopā.</li>
+            <li>Izmēģini <code>margin: 0 auto;</code> kopā ar fiksētu <code>width</code> (piem., 80%), lai nocentrētu visu satura bloku ekrāna vidū.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Spēles laukuma rāmja sagatave</h2>
+    <p>Izveidot vizuālu konteineru, kas nākotnē kalpos kā tavas spēles laukums.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>HTML failā izveido jaunu <code>&lt;div id="game-container"&gt;&lt;/div&gt;</code>.</li>
+            <li>CSS failā šim ID piešķiri konkrētu platumu un augstumu (piem., 600x400px), izteiksmīgu apmali un fonu.</li>
+            <li>Veic <b>Commit</b> un <b>Push</b> ar ziņu "Izveidots spēles laukuma rāmis ar Box Model".</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>Kastes kopējais platums:</b> Atceries, ka <code>width</code> + <code>padding</code> + <code>border</code> summējas. Ja lapa "iziet" no rāmjiem, izmanto <code>box-sizing: border-box;</code>.</li>
+        <li><b>Margin sabrukšana:</b> Divi kaimiņu margini nevis saskaitās, bet pārklājas (lielākais uzvar).</li>
+        <li><b>Padding trūkums:</b> Teksts, kas pieskaras apmalei, izskatās neprofesionāli un ir grūti lasāms.</li>
+    </ul>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (Box Model rīki)</h2>
+    <div class='code-example'>
+        <pre><code class="language-css">#game-container {
+    width: 400px;
+    height: 300px;
+    padding: 10px;    /* Iekšpusē */
+    border: 5px solid #333; 
+    margin: 20px auto; /* Ārpusē, centrēts */
+    background-color: #95a5a6;
+    box-sizing: border-box; /* Ļoti svarīgi! */
+}</code></pre>
+        <div class='result'>
+            <div style="width: 200px; height: 100px; padding: 10px; border: 5px solid #333; margin: 10px auto; background-color: #95a5a6; color: white; text-align: center; font-size: 0.8em;">
+                Spēles laukuma prototips (demonstrācija)
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

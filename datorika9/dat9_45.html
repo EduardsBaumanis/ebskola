@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>4.5 Sadursmju noteikšana (Collision detection)</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>4.5. tēma: Sadursmju noteikšanas (Collision detection) pamati</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izstrādāt matemātisku algoritmu, kas reāllaikā pārbauda, vai divi spēles elementi (piemēram, spēlētājs un šķērslis) ekrānā pārklājas, un atbilstoši reaģēt.</p>
+    <a href="sasnRez.html">2.6.1. Izstrādā komplicētas darbības un algoritmus; 5.2.1. Definē problēmas būtību un risina kompleksus izaicinājumus.</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Kā dators redz sadursmi?</h2>
+    <p>Dators neskatās uz tavu uzzīmēto varoni kā uz cilvēku. Tas redz tikai kastes (taisnstūrus). Divas kastes saduras TIKAI TAD, ja vienlaicīgi izpildās četri nosacījumi:
+        <ul>
+            <li>Varoņa kreisā mala ir tālāk par ienaidnieka labo malu? NĒ.</li>
+            <li>Varoņa labā mala ir pirms ienaidnieka kreisās malas? NĒ.</li>
+            <li>Varoņa augša ir zemāk par ienaidnieka apakšu? NĒ.</li>
+            <li>Varoņa apakša ir augstāk par ienaidnieka augšu? NĒ.</li>
+        </ul>
+    Tīmekļa pārlūkprogrammās ir iebūvēts ģeniāls rīks <code>getBoundingClientRect()</code>, kas uzreiz iedod elementa X un Y koordinātas, kā arī tā platumu un augstumu, padarot šo matemātiku daudz vieglāku!
+    </p>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Objektu robežu nolasīšana</h2>
+    <p>Iemācīties iegūt precīzas elementu koordinātas un izmērus no HTML lapas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Sava JS faila apakšā izveido jaunu funkciju <code>function parbauditSadursmi() { ... }</code>.</li>
+            <li>Funkcijas iekšienē iegūsti abu elementu (varoņa un ienaidnieka) "kastes" datus: <br><code>let varonisKaste = varonisObj.getBoundingClientRect();</code><br><code>let ienaidnieksKaste = ienaidnieksObj.getBoundingClientRect();</code></li>
+            <li>Izvadi konsolē varoņa datus, lai saprastu, kā tie izskatās: <code>console.log(varonisKaste.left, varonisKaste.top);</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Sadursmes loģikas algoritms (If)</h2>
+    <p>Uzrakstīt milzu "If" nosacījumu, kas pārbauda visu četru malu pārklāšanos.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Funkcijā dzēs <code>console.log</code> un pievieno sekojošu nosacījumu: <br><code>if (varonisKaste.left &lt; ienaidnieksKaste.right && varonisKaste.right &gt; ienaidnieksKaste.left && varonisKaste.top &lt; ienaidnieksKaste.bottom && varonisKaste.bottom &gt; ienaidnieksKaste.top) { ... }</code></li>
+            <li>Šī bloka iekšienē ieraksti kodu, kas notiek sadursmes brīdī, piemēram: <code>alert("Sadursme!");</code>.</li>
+            <li>Pārbaudi kodu manuāli: pārvieto varoni ar bultiņām, līdz tas pieskaras ienaidniekam, un manuāli izsauc <code>parbauditSadursmi()</code> konsolē. Vai "alert" parādās?</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Sadursmes pārbaude reāllaikā (Spēles ciklā)</h2>
+    <p>Ievietot sadursmes pārbaudi spēles ciklā, lai tā notiktu automātiski, bez apstājas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atrodi savu iepriekšējā stundā izveidoto spēles ciklu (<code>setInterval</code>, kurā kustas ienaidnieks vai krīt laiks).</li>
+            <li>Ievieto <code>parbauditSadursmi();</code> funkcijas izsaukumu tieši šī cikla (intervāla) iekšpusē. Tagad pārlūks pārbaudīs sadursmi 50 reizes sekundē!</li>
+            <li>Nomaini kaitinošo <code>alert</code> pret kaut ko elegantāku: samazini spēlētāja dzīvības vai izsauc funkciju <code>clearInterval()</code>, lai apstādinātu spēli ("Game Over"). Veic <b>Commit</b> un <b>Push</b> uz GitHub.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>Nepārtraukti "Game Over" paziņojumi:</b> Ja sadursme fiksējas un tu izmanto <code>alert</code>, tas var izlēkt 50 reizes sekundē un "uzkārt" pārlūku. Vienmēr labāk nomainīt HTML tekstu vai apturēt ciklu ar <code>clearInterval</code>!</li>
+        <li><b>Sajaukta "top" un "bottom" loģika:</b> Atceries, tīmeklī Y koordinātas iet UZ LEJU. Tāpēc elementa <code>bottom</code> (apakša) vērtība vienmēr ir lielāka (vairāk pikseļu) nekā <code>top</code> (augša).</li>
+        <li><b>Pārbaude ārpus cikla:</b> Ja tu izsauksi <code>parbauditSadursmi()</code> faila sākumā tikai vienu reizi, dators to pārbaudīs tikai lapas ielādes brīdī un pēc tam vairs nekad. Tai obligāti jābūt ciklā vai uz taustiņa nospiešanas notikuma!</li>
+    </ul>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-javascript">function parbauditSadursmi() {
+    // 1. Iegūstam abu elementu kastes (izveidojot 'taisnstūrus' atmiņā)
+    let speletajs = document.getElementById("speletajs").getBoundingClientRect();
+    let skerslis = document.getElementById("ienaidnieks").getBoundingClientRect();
+
+    // 2. AABB Sadursmes matemātika (vai tie PĀRKLĀJAS?)
+    if (
+        speletajs.left < skerslis.right &&
+        speletajs.right > skerslis.left &&
+        speletajs.top < skerslis.bottom &&
+        speletajs.bottom > skerslis.top
+    ) {
+        // SADURSME IR NOTIKUSI!
+        console.log("BOOM! Spēle beigusies.");
+        document.getElementById("status").innerText = "GAME OVER";
+        
+        // Šeit parasti aptur spēles dzinēju
+        // clearInterval(spelesCiklsID);
+    }
+}
+
+// 3. Spēles dzinējs, kas kustina lietas un vienmēr pārbauda sadursmes
+let spelesCiklsID = setInterval(function() {
+    // Kustinām ienaidnieku...
+    // Atjauninām laiku...
+    
+    // Un katru kadru pārbaudām, vai neesam saskrējušies!
+    parbauditSadursmi(); 
+}, 20); // 20 milisekundes = 50 FPS</code></pre>
+        <div class='result'>
+            <i>Tagad tava spēle ir kļuvusi reāla – tā saprot, kad objekti saskaras, un spēj paziņot par uzvaru vai zaudējumu!</i>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

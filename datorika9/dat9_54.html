@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>5.4 Papildfunkciju ieviešana</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>5.4. tēma: Papildfunkciju ieviešana (Power-ups, līmeņi, skaņa)</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Papildināt spēles prototipu ar unikālām funkcijām, kas uzlabo spēlējamību (Game Juice), piemēram, pieaugošu grūtības pakāpi vai multimediju efektiem.</p>
+    <a href="sasnRez.html">5.2.1. Definē problēmas būtību un risina izaicinājumus; 2.3.1. Izmanto lietojumprogrammatūras specifiskas funkcijas.</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: "Game Juice" un grūtības līkne</h2>
+    <p>Kas atšķir garlaicīgu spēli no tādas, kuru gribas spēlēt vēlreiz?
+        <ul>
+            <li><b>Atgriezeniskā saite (Feedback):</b> Spēlētājam ir jājūt, ka viņa darbībai ir rezultāts. Skaņa pie monētas pacelšanas vai ekrāna nodrebēšana pie sadursmes sniedz šo sajūtu.</li>
+            <li><b>Grūtības līkne (Difficulty Curve):</b> Ja spēle visu laiku ir vienādi viegla, tā ātri apnīk. Grūtībai ir jāpieaug līdz ar spēlētāja prasmēm (piem., ienaidnieki sāk kustēties ātrāk, kad sasniegti 100 punkti).</li>
+            <li><b>Bonusi (Power-ups):</b> Elementi, kas uz laiku maina spēles noteikumus (piem., "vairogs", kas pasargā no vienas sadursmes, vai "magnēts").</li>
+        </ul>
+    </p>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Audio efektu integrācija</h2>
+    <p>Pievienot skaņas signālus galvenajiem spēles notikumiem, lai sniegtu tūlītēju atgriezenisko saiti.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pārliecinies, ka tavā <code>assets/audio/</code> mapē ir īsi MP3 faili (piem., <code>collect.mp3</code> un <code>hit.mp3</code>).</li>
+            <li>JS failā izveido funkciju skaņas atskaņošanai: <code>function atskanotSkanu(failaNosaukums) { new Audio("assets/audio/" + failaNosaukums).play(); }</code>.</li>
+            <li>Izsauc šo funkciju monētas pacelšanas un sadursmes brīžos.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Grūtības pakāpes pieaugums</h2>
+    <p>Iemācīt spēles dzinējam paātrināt darbību, kad spēlētājs kļūst veiksmīgāks.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido mainīgo <code>let kustibasAtrums = 2;</code> un izmanto to ienaidnieku kustības funkcijā.</li>
+            <li>Galvenajā ciklā pievieno pārbaudi: <code>if (punkti % 10 === 0 && punkti !== 0) { kustibasAtrums += 0.1; }</code>.</li>
+            <li>Tas nozīmē: ik pēc 10 iegūtiem punktiem spēle kļūs nedaudz ātrāka un grūtāka.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Bonusa elementu (Power-ups) izveide</h2>
+    <p>Ieviest spēlē īpašu objektu, kas sniedz spēlētājam pagaidu priekšrocības.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido jaunu masīvu vai objektu "SuperMonēta".</li>
+            <li>Pievieno sadursmes loģiku: ja spēlētājs tai pieskaras, viņš saņem 50 punktus vai papildu dzīvību.</li>
+            <li>Izmanto <code>setTimeout</code>, lai šāds bonuss uz ekrāna parādītos tikai reizi 15 sekundēs. Veic <b>Commit</b> un <b>Push</b>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>Skaņu pārklāšanās:</b> Ja skaņa tiek atskaņota pārāk bieži (piem., katru sekundi), tā var sākt "raustīties". Izmanto tikai īsus efektus.</li>
+        <li><b>Pārāk liela grūtība:</b> Ja <code>kustibasAtrums</code> pieaug pārāk strauji, spēle kļūst nespēlējama jau pēc 20 sekundēm. Testē un pielāgo skaitļus!</li>
+        <li><b>Atmiņas noplūde:</b> Ja tu katrā ciklā veido jaunu <code>new Audio()</code> objektu, dators var sākt bremzēt. Labāk definē audio mainīgo vienreiz faila sākumā.</li>
+    </ul>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs: Skaņa un Līmeņi</h2>
+    <div class='code-example'>
+        <pre><code class="language-javascript">// Audio objekta sagatavošana
+const punktaSkanas = new Audio("assets/audio/point.mp3");
+let limenis = 1;
+
+function savaktPunktus() {
+    punkti += 10;
+    punktaSkanas.play(); // Atskaņojam skaņu
+    
+    // Pārbaudām līmeņa maiņu
+    if (punkti >= 100 * limenis) {
+        limenis++;
+        ienaidniekaAtrums += 1;
+        document.getElementById("status").innerText = "LĪMENIS " + limenis;
+        console.log("Grūtība palielināta!");
+    }
+    
+    atjaunotHUD();
+}</code></pre>
+    </div>
+</div>
+
+</body>
+</html>
