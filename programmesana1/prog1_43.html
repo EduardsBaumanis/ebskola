@@ -6,6 +6,7 @@
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 </head>
 <body>
 
@@ -24,41 +25,55 @@
 <section class='section'>
     <h2>Teorija: Koda arhitektūra un Moduļi</h2>
     <div class="logic-box">
-        <ul>
-            <li><b>Modulis:</b> Python valodā jebkurš <code>.py</code> fails ir modulis. Koda dalīšana moduļos padara to lasāmu, testējamu un ļauj komandai strādāt vienlaicīgi.</li>
-            <li><b>Meklēšana:</b> Kad veic importu, Python vispirms meklē failus <b>tajā pašā mapē</b>, kur atrodas galvenais darbināmais fails. Visiem spēles failiem jābūt vienā projektā.</li>
-            <li><b>import fails:</b> Drošākais importēšanas veids. Lai izsauktu funkciju, obligāti jālieto "uzvārds": <code>fails.funkcija()</code>. Tas novērš nosaukumu konfliktus.</li>
-            <li><b>from fails import funkcija:</b> Ērtākais veids. Ļauj izsaukt konkrētu funkciju pa tiešo, bez faila nosaukuma priekšā: <code>funkcija()</code>.</li>
+        <p>Python valodā jebkurš <code class="language-powershell">.py</code> fails ir <b>modulis</b>. Koda dalīšana moduļos padara to lasāmu un ļauj komandai strādāt vienlaicīgi. Visiem Tavas spēles failiem jāatrodas vienā mapē, lai dators tos varētu atrast.</p>
+        
+        <pre><code class="language-python"># Iedomājies, ka vienā mapē tev ir divi faili:
+# 1. spele.py (tavs galvenais fails)
+# 2. ieroci.py (modulis, kurā ir funkcija saut())
+
+# --- 1. variants: Drošais imports ---
+import ieroci
+
+ieroci.saut() # Funkcijai obligāti jāliek priekšā faila "uzvārds"
+
+# --- 2. variants: Ērtais imports ---
+from ieroci import saut
+
+saut() # Funkciju var saukt pa tiešo, bez "uzvārda"</code></pre>
+
+        <ul class="step-list">
+            <li><code class="language-python">import fails</code> – Ielādē visu moduli. Tas ir drošākais veids lieliem projektiem, jo novērš situācijas, kur divos failos ir funkcijas ar vienādiem nosaukumiem (piemēram, <code class="language-python">ieroci.saut()</code> un <code class="language-python">ienaidnieki.saut()</code>).</li>
+            <li><code class="language-python">from fails import funkcija</code> – Ielādē tikai vienu konkrētu komandu. Tas ir ērtāk, jo ļauj rakstīt īsāku kodu, bet jāuzmanās no nosaukumu konfliktiem.</li>
         </ul>
     </div>
 </section>
 
 <section class='section'>
     <h2>1. uzdevums: Instrumentu kaste</h2>
-    <p>Pielietot pamata mehānismu funkciju izsaukšanai no cita faila, izmantojot standarta <code>import</code> komandu.</p>
+    <p>Pielietot pamata mehānismu funkciju izsaukšanai no cita faila, izmantojot standarta <code class="language-python">import</code> komandu.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol class="step-list">
-            <li>Izveido jaunu mapi <code>mans_projekts</code> un atver to ar VS Code.</li>
-            <li>Izveido failu <code>riki.py</code>. Tajā definē funkciju <code>def linija():</code>, kas izvada rindu ar 20 domuzīmēm.</li>
-            <li>Izveido otru failu <code>galvenais.py</code> tajā pašā mapē.</li>
-            <li>Faila <code>galvenais.py</code> augšā ieraksti: <code>import riki</code>.</li>
-            <li>Izsauc funkciju, ierakstot: <code>riki.linija()</code>.</li>
-            <li>Palaid <code>galvenais.py</code> un novēro, kā Python izpilda komandu no cita faila.</li>
+            <li>Izveido jaunu mapi <code class="language-powershell">mans_projekts</code> un atver to ar VS Code.</li>
+            <li>Izveido failu <code class="language-powershell">riki.py</code>. Tajā definē funkciju: <br><code class="language-python">def linija():</code>, kas izvada rindu ar 20 domuzīmēm.</li>
+            <li>Izveido otru failu <code class="language-powershell">galvenais.py</code> tajā pašā mapē.</li>
+            <li>Faila <code class="language-powershell">galvenais.py</code> augšā ieraksti: <br><code class="language-python">import riki</code>.</li>
+            <li>Izsauc funkciju, ierakstot: <br><code class="language-python">riki.linija()</code>.</li>
+            <li>Palaid <code class="language-powershell">galvenais.py</code> un novēro, kā Python izpilda komandu no cita faila.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
     <h2>2. uzdevums: Stāsta glabātuve</h2>
-    <p>Izmantot specifisku importēšanas veidu (<code>from ... import</code>), lai tieši piekļūtu konkrētiem koda blokiem.</p>
+    <p>Izmantot specifisku importēšanas veidu (<code class="language-python">from ... import</code>), lai tieši piekļūtu konkrētiem koda blokiem.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol class="step-list">
-            <li>Izveido failu <code>stasts.py</code>. Tajā definē funkciju <code>def ievads():</code>, kas ar <code>return</code> atgriež garu spēles sākuma tekstu.</li>
-            <li>Failā <code>spele.py</code> pašā augšā ieraksti: <code>from stasts import ievads</code>.</li>
-            <li>Izsauc funkciju pa tiešo un izvadi to ekrānā: <code>print(ievads())</code>.</li>
-            <li>Pievieno vēl vienu funkciju failā <code>stasts.py</code> (piemēram, <code>beigas()</code>) un importē arī to, atdalot nosaukumus ar komatu: <code>from stasts import ievads, beigas</code>.</li>
+            <li>Izveido failu <code class="language-powershell">stasts.py</code>. Tajā definē funkciju <code class="language-python">def ievads():</code>, kas ar <code class="language-python">return</code> atgriež garu spēles sākuma tekstu.</li>
+            <li>Failā <code class="language-powershell">spele.py</code> pašā augšā ieraksti: <br><code class="language-python">from stasts import ievads</code>.</li>
+            <li>Izsauc funkciju pa tiešo un izvadi to ekrānā: <br><code class="language-python">print(ievads())</code>.</li>
+            <li>Pievieno vēl vienu funkciju failā <code class="language-powershell">stasts.py</code> (piemēram, <code class="language-python">def beigas():</code>) un importē arī to, atdalot nosaukumus ar komatu: <br><code class="language-python">from stasts import ievads, beigas</code>.</li>
         </ol>
     </div>
 </section>
@@ -69,21 +84,23 @@
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol class="step-list">
-            <li>Izveido failu <code>drosiba.py</code> un ievieto tur savu iepriekš izveidoto <code>try/except</code> lietotāja ievades validācijas funkciju.</li>
-            <li>Izveido failu <code>pasaule.py</code> un definē tur vismaz divas lokāciju aprakstu funkcijas (piemēram, mežs, pils).</li>
-            <li>Izveido failu <code>main.py</code> un tajā importē nepieciešamos rīkus no abiem iepriekšējiem moduļiem.</li>
-            <li>Saliec visu kopā <code>main.py</code> failā: pajautā lietotājam izvēli (validējot ievadi ar funkciju no <code>drosiba.py</code>) un, balstoties uz to, izsauc attiecīgo lokāciju no <code>pasaule.py</code>.</li>
+            <li>Izveido failu <code class="language-powershell">drosiba.py</code> un ievieto tur savu iepriekš izveidoto <code class="language-python">try/except</code> lietotāja ievades validācijas funkciju.</li>
+            <li>Izveido failu <code class="language-powershell">pasaule.py</code> un definē tur vismaz divas lokāciju aprakstu funkcijas (piemēram, mežs, pils).</li>
+            <li>Izveido failu <code class="language-powershell">main.py</code> un tajā importē nepieciešamos rīkus no abiem iepriekšējiem moduļiem.</li>
+            <li>Saliec visu kopā <code class="language-powershell">main.py</code> failā: pajautā lietotājam izvēli (validējot ievadi ar funkciju no <code class="language-powershell">drosiba.py</code>) un, balstoties uz to, izsauc attiecīgo lokāciju no <code class="language-powershell">pasaule.py</code>.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <ul>
-        <li><b>ModuleNotFoundError:</b> Kļūda nosaukumā (atceries: Python atšķir lielos un mazos burtus) vai fails neatrodas tajā pašā mapē, kur galvenais skripts. <i>Risinājums: Pārbaudi failu nosaukumus un mapes struktūru.</i></li>
-        <li><b>Cikliskais imports:</b> Fails A importē B, bet fails B tajā pašā laikā mēģina importēt A. Programma "iesprūst" bezgalīgā cilpā un avarē. <i>Risinājums: Pārplāno koda struktūru; parasti galvenais fails importē citus, bet pakārtotie faili neimportē galveno.</i></li>
-        <li><b>Nosaukumu konflikti:</b> Sava faila nosaukšana sistēmas moduļu vārdos (piemēram, <code>random.py</code> vai <code>string.py</code>). Python vispirms mēģinās importēt Tavu failu, nevis īsto bibliotēku. <i>Risinājums: Izmanto unikālus un aprakstošus failu nosaukumus.</i></li>
-    </ul>
+    <div class="logic-box">
+        <ul>
+            <li><b>ModuleNotFoundError:</b> Kļūda nosaukumā (atceries: Python atšķir lielos un mazos burtus) vai fails neatrodas tajā pašā mapē, kur galvenais skripts. <i>Risinājums: Pārbaudi failu nosaukumus un mapes struktūru.</i></li>
+            <li><b>Cikliskais imports:</b> Fails A importē B, bet fails B tajā pašā laikā mēģina importēt A. Programma "iesprūst" bezgalīgā cilpā un avarē. <i>Risinājums: Pārplāno koda struktūru; parasti galvenais fails importē citus, bet pakārtotie faili neimportē galveno.</i></li>
+            <li><b>Nosaukumu konflikti:</b> Sava faila nosaukšana sistēmas moduļu vārdos (piemēram, <code class="language-powershell">random.py</code> vai <code class="language-powershell">string.py</code>). Python vispirms mēģinās importēt Tavu failu, nevis īsto bibliotēku. <i>Risinājums: Izmanto unikālus un aprakstošus failu nosaukumus.</i></li>
+        </ul>
+    </div>
 </section>
 
 <div class='section'>

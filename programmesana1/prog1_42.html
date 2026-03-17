@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-<title>4.2 Mainīgo redzamība un return</title>
+<title>4.2 Vērtību atgriešana (return)</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 </head>
 <body>
 
@@ -16,96 +17,114 @@
 </nav>
 
 <section class='section'>
-    <h1>4. tēma: Funkcijas un Modularitāte. 2. stunda: Scope un return.</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Izprast mainīgo redzamības (scope) principus, izmantot <code>return</code> komandu datu atgriešanai un izveidot funkcijas, kas spēj apmainīties ar informāciju ar programmas galveno daļu.</p>
-    <a href="sasnRez.html">SR 2.4.15. (Atgriežamās vērtības un lokālie mainīgie)</a>
+    <h1>4. tēma: Funkcijas un Modularitāte. 2. stunda: Vērtību atgriešana.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Iemācīt funkcijai ne tikai izpildīt darbību, bet arī "atdot" rezultātu atpakaļ programmai. Tas ļaus Tev veikt aprēķinus un saglabāt to rezultātus mainīgajos turpmākai izmantošanai spēlē.</p>
+    <a href="sasnRez.html">SR 2.4.15. (Vērtību atgriešana no funkcijas)</a>
 </section>
 
 <section class='section'>
-    <h2>Teorija: Svarīgākie noteikumi</h2>
+    <h2>Teorija: "Return" mehānisms</h2>
     <div class="logic-box">
-        <ul>
-            <li><b>Return pret Print:</b> <code>print()</code> tikai parāda tekstu ekrānā. <code>return</code> "izmet" vērtību no funkcijas ārā, lai to varētu saglabāt mainīgajā un lietot tālāk.</li>
-            <li><b>Lokālie mainīgie (Scope):</b> Mainīgie, kas definēti funkcijas iekšpusē, ir "dzīvi" tikai tajā. Ārpusē tie neeksistē.</li>
-            <li><b>Funkcijas beigas:</b> Tiklīdz dators sasniedz komandu <code>return</code>, funkcijas darbs tiek tūlītēji pārtraukts. Jebkurš kods zem tās netiks izpildīts.</li>
+        <p>Ja <code>print()</code> tikai parāda rezultātu uz ekrāna, tad <code>return</code> to "atdod" atpakaļ programmai, lai mēs to varētu izmantot tālāk (piemēram, saglabāt mainīgajā vai izmantot aprēķinos).</p>
+        
+        <pre><code class="language-python">def saskaiti(a, b):
+    rezultats = a + b
+    return rezultats # Funkcija atdod rezultātu un beidz darbu
+    print("Šis teksts nekad neparādīsies!") # Kods pēc return netiek izpildīts
+
+# Saglabājam atgriezto vērtību mainīgajā
+mana_summa = saskaiti(10, 5)
+
+# Tagad mēs šo vērtību varam izmantot tālāk
+jauna_summa = mana_summa + 100
+print(f"Gala rezultāts ir {jauna_summa}")</code></pre>
+
+        <ul class="step-list">
+            <li><code class="language-python">return</code> atslēgvārds – Nosūta datus no funkcijas iekšienes atpakaļ uz vietu, kur funkcija tika izsaukta.</li>
+            <li><b>Funkcijas pārtraukšana</b> – Tiklīdz dators sasniedz <code class="language-python">return</code>, funkcijas darbība nekavējoties apstājas.</li>
+            <li><b>Rezultāta saglabāšana</b> – Izsaucot funkciju, tās rezultātu ieteicams saglabāt mainīgajā, piemēram: <code class="language-python">mans_skaitlis = funkcija()</code>.</li>
+            <li><b>Datu tipi</b> – Funkcija var atgriezt jebko – skaitļus, tekstu (<i>string</i>), loģiskās vērtības (<i>bool</i>) vai pat sarakstus un vairākas vērtības reizē.</li>
         </ul>
     </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Zāļu eliksīrs (return)</h2>
-    <p>Vienkārša uzdevuma ietvaros izveidosi matemātisku aprēķinu funkciju, kas atgriež rezultātu tālākai izmantošanai spēlē.</p>
+    <h2>1. uzdevums: Punktu kalkulators</h2>
+    <p>Izveido vienkāršu funkciju, kas aprēķina kopējo punktu skaitu pēc raunda, pieskaitot bonusu.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol class="step-list">
-            <li>VS Code izveido failu <code>eliksirs.py</code>.</li>
-            <li>Definē funkciju <code>def izrekinat_veselibu(pasreizeja, eliksira_speks):</code>.</li>
-            <li>Funkcijas iekšienē saskaiti abus skaitļus, piemēram, <code>summa = pasreizeja + eliksira_speks</code>.</li>
-            <li>Tā vietā, lai izmantotu <code>print()</code>, ieraksti: <code>return summa</code>.</li>
-            <li>Ārpus funkcijas izsauc to un <b>saglabā rezultātu mainīgajā</b>: <code>jauna_veseliba = izrekinat_veselibu(50, 20)</code>.</li>
-            <li>Izvadi galarezultātu lietotājam: <code>print(f"Pēc eliksīra lietošanas Tev ir {jauna_veseliba} HP!")</code>.</li>
+            <li>VS Code izveido failu <code class="language-powershell">punktu_sistema.py</code>.</li>
+            <li>Definē funkciju: <br><code class="language-python">def aprekinat_punktus(punkti, bonuss):</code>.</li>
+            <li>Funkcijas iekšienē izveido mainīgo: <br><code class="language-python">kopa = punkti + bonuss</code>.</li>
+            <li>Atgriez šo vērtību, izmantojot <code class="language-python">return kopa</code>.</li>
+            <li>Ārpus funkcijas izsauc to un saglabā rezultātu mainīgajā: <br><code class="language-python">rezultats = aprekinat_punktus(100, 20)</code>.</li>
+            <li>Izdrukā <code class="language-python">rezultats</code> terminālī.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Lokālais "slazds" (Scope)</h2>
-    <p>Vidējas grūtības uzdevumā analizēsi kļūdas paziņojumu, ko izraisa lokālo mainīgo nepieejamība ārpus funkcijas, un pielietosi <code>return</code> tā labošanai.</p>
+    <h2>2. uzdevums: Veselības pārbaude</h2>
+    <p>Lieto funkciju ar vērtības atgriešanu, lai noteiktu, vai spēlētājs vēl ir "dzīvs" (True/False).</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol class="step-list">
-            <li>Izveido failu <code>scope_tests.py</code>.</li>
-            <li>Definē funkciju <code>def pievienot_zeltu():</code>.</li>
-            <li>Funkcijas iekšienē izveido mainīgo <code>zelts = 100</code>.</li>
-            <li>Izsauc funkciju un tūlīt pēc tam mēģini izpildīt <code>print(zelts)</code> ārpus funkcijas.</li>
-            <li>Palaid programmu un novēro <code>NameError</code> kļūdu terminālī.</li>
-            <li><b>Labojums:</b> Pārveido funkciju, pievienojot <code>return zelts</code>, un piešķir to mainīgajam ārpusē pirms izvadīšanas.</li>
+            <li>Izveido failu <code class="language-powershell">speletaja_statuss.py</code>.</li>
+            <li>Definē funkciju: <br><code class="language-python">def ir_dzivs(hp):</code>.</li>
+            <li>Ja <code class="language-python">hp</code> ir lielāks par 0, atgriez <code class="language-python">True</code>, citādi atgriez <code class="language-python">False</code>.</li>
+            <li>Izveido mainīgo <code class="language-python">mana_veseliba = 45</code>.</li>
+            <li>Izmanto <code class="language-python">if</code> konstrukciju, kuras nosacījumā izsauc funkciju: <br><code class="language-python">if ir_dzivs(mana_veseliba):</code>.</li>
+            <li>Ja funkcija atgriež <code class="language-python">True</code>, izvadi "Turpini cīņu!", ja <code class="language-python">False</code> – "Spēle beigusies!".</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: CYOA Izvēles dzinējs</h2>
-    <p>Padziļinātā uzdevumā izstrādāsi interaktīvu izvēļņu sistēmu, kas pieņem lietotāja ievadi un atgriež to spēles loģikas vadīšanai.</p>
+    <h2>3. uzdevums: Nejaušs ienaidnieka ģenerators</h2>
+    <p>Izveido funkciju, kas izvēlas un atgriež uzreiz divas vērtības – nejaušu pretinieka vārdu un tā spēka līmeni.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol class="step-list">
-            <li>Izveido failu <code>izveles_dzinejs.py</code>.</li>
-            <li>Definē funkciju <code>def veikt_izveli(jautajums, opcija_a, opcija_b):</code>.</li>
-            <li>Funkcijas iekšienē izvadi jautājumu, abas opcijas un palūdz lietotājam ievadi ("A" vai "B").</li>
-            <li>Izmanto <code>return</code>, lai "atdotu" ievadīto burtu spēles galvenajai daļai.</li>
-            <li>Izsauc funkciju, saglabājot to mainīgajā, piemēram, <code>cels = veikt_izveli("Kurp dosies?", "A - Mežs", "B - Pils")</code>.</li>
-            <li>Ar <code>if</code> pārbaudi: ja atgrieztais rezultāts ir "A", izvadi "Tu dodies uz mežu", ja "B" — "Tu dodies uz pili".</li>
+            <li>Izveido failu <code class="language-powershell">ienaidnieki.py</code>. Failā importē <code class="language-python">random</code> bibliotēku.</li>
+            <li>Definē funkciju: <br><code class="language-python">def generet_ienaidnieku():</code>.</li>
+            <li>Funkcijā izveido sarakstu ar vismaz 3 pretinieku veidiem (piem., "Skelets", "Orks", "Pūķis").</li>
+            <li>Izmanto <code class="language-python">random.choice()</code>, lai izvēlētos vienu vārdu un <code class="language-python">random.randint(1, 10)</code> spēkam.</li>
+            <li>Atgriez abus datus reizē (atdalot ar komatu): <br><code class="language-python">return vards, speks</code>.</li>
+            <li>Izsauc funkciju un saglabā abus mainīgos uzreiz: <br><code class="language-python">v, s = generet_ienaidnieku()</code> un parādi ziņojumu par ienaidnieka parādīšanos.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <ul>
-        <li><b>"Pazudusī" vērtība:</b> Tu izmanto <code>return</code>, bet ārpusē nepiešķir rezultātu mainīgajam. Tad vērtība vienkārši izgaist. <i>Risinājums: Vienmēr piesaisti atgriezto vērtību mainīgajam, piemēram, <code>rezultats = mana_funkcija()</code>.</i></li>
-        <li><b>Scope kļūda:</b> Mēģinājums piekļūt mainīgajam, kas "pieder" funkcijai, no programmas ārpuses. <i>Risinājums: Atceries, ka funkcijas iekšējie mainīgie ir lokāli; lai tos iegūtu, tie ir jāatgriež ar <code>return</code>.</i></li>
-        <li><b>None tips:</b> Ja funkcijā trūkst <code>return</code>, bet Tu mēģini rezultātu saglabāt mainīgajā, tas saņems tukšu vērtību <code>None</code>. <i>Risinājums: Pārbaudi, vai funkcijas loģika beidzas ar atbilstošu atgriežamo datu rindu.</i></li>
-    </ul>
+    <div class="logic-box">
+        <ul>
+            <li><b>None atgriešana:</b> Tu izsauci funkciju un mēģini to izdrukāt, bet Python atgriež <code class="language-python">None</code>. <i>Risinājums: Tu aizmirsi pielikt <code class="language-python">return</code> atslēgvārdu funkcijas beigās.</i></li>
+            <li><b>Kods pēc return:</b> Tu mēģini kaut ko izdarīt vai izdrukāt <b>zem</b> <code class="language-python">return</code> rindas. <i>Risinājums: Visas darbības jāveic pirms vērtības atgriešanas.</i></li>
+            <li><b>Datu nesakritība:</b> Mēģinājums saskaitīt funkcijas atgriezto <code class="language-python">None</code> ar skaitli. <i>Risinājums: Pārliecinies, ka funkcija visos gadījumos tiešām atgriež skaitlisku vērtību.</i></li>
+        </ul>
+    </div>
 </section>
 
 <div class='section'>
     <h2>Koda piemērs</h2>
     <div class='code-example'>
-        <pre><code class="language-python">def dabu_punktus():
-    bonuss = 50 # Lokālais mainīgais
-    return bonuss
+        <pre><code class="language-python"># Funkcija, kas "sagatavo" datus un atdod tos atpakaļ
+def dabut_ieroca_boju(tips):
+    if tips == "zobens":
+        return 15
+    elif tips == "loks":
+        return 10
+    
+    # Ja neizpildās neviens if, atgriežam šo:
+    return 5
 
-# Ārpusē 'bonuss' neeksistē, mums ir jāizmanto funkcijas rezultāts
-rezultats = dabu_punktus()
-print(f"Tu ieguvi {rezultats} punktus!")
-
-# Kods pēc return nekad netiek izpildīts:
-def beigas():
-    return "Pirmais ziņojums"
-    print("Šo rindu dators ignorēs!")</code></pre>
+# Saglabājam atgriezto vērtību mainīgajā
+bojajums = dabut_ieroca_boju("zobens")
+print(f"Tu nodarīji {bojajums} HP bojājumu!")</code></pre>
         <div class='result'>
-            Tu ieguvi 50 punktus!
+            Tu nodarīji 15 HP bojājumu!
         </div>
     </div>
 </div>
