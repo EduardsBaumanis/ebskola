@@ -17,7 +17,7 @@
 
 <section class='section'>
     <h1>4. tēma: Funkcijas un Modularitāte. 2. stunda: Scope un return.</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Tu iemācīsi funkcijām "sarunāties" ar pārējo programmu. Tu apgūsi, kā izmantot <code>return</code>, lai saņemtu aprēķinu rezultātus, un uzzināsi, kāpēc daži mainīgie ir "slepeni" un pieejami tikai funkcijas iekšienē.</p>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izprast mainīgo redzamības (scope) principus, izmantot <code>return</code> komandu datu atgriešanai un izveidot funkcijas, kas spēj apmainīties ar informāciju ar programmas galveno daļu.</p>
     <a href="sasnRez.html">SR 2.4.15. (Atgriežamās vērtības un lokālie mainīgie)</a>
 </section>
 
@@ -27,63 +27,72 @@
         <ul>
             <li><b>Return pret Print:</b> <code>print()</code> tikai parāda tekstu ekrānā. <code>return</code> "izmet" vērtību no funkcijas ārā, lai to varētu saglabāt mainīgajā un lietot tālāk.</li>
             <li><b>Lokālie mainīgie (Scope):</b> Mainīgie, kas definēti funkcijas iekšpusē, ir "dzīvi" tikai tajā. Ārpusē tie neeksistē.</li>
-            <li><b>Funkcijas beigas:</b> Tiklīdz dators sasniedz komandu <code>return</code>, funkcijas darbs tiek pārtraukts. Jebkurš kods zem tās netiks izpildīts.</li>
+            <li><b>Funkcijas beigas:</b> Tiklīdz dators sasniedz komandu <code>return</code>, funkcijas darbs tiek tūlītēji pārtraukts. Jebkurš kods zem tās netiks izpildīts.</li>
         </ul>
     </div>
 </section>
 
 <section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-
-    <h3>1. uzdevums: Zāļu eliksīrs (return)</h3>
+    <h2>1. uzdevums: Zāļu eliksīrs (return)</h2>
+    <p>Vienkārša uzdevuma ietvaros izveidosi matemātisku aprēķinu funkciju, kas atgriež rezultātu tālākai izmantošanai spēlē.</p>
     <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
         <ol class="step-list">
             <li>VS Code izveido failu <code>eliksirs.py</code>.</li>
-            <li>Definē funkciju <code>izrekinat_veselibu(pasreizeja, eliksira_speks):</code>.</li>
-            <li>Funkcijas iekšienē saskaiti abus skaitļus.</li>
-            <li>Tā vietā, lai izmantotu <code>print()</code>, ieraksti: <span class="highlight">return summa</span>.</li>
+            <li>Definē funkciju <code>def izrekinat_veselibu(pasreizeja, eliksira_speks):</code>.</li>
+            <li>Funkcijas iekšienē saskaiti abus skaitļus, piemēram, <code>summa = pasreizeja + eliksira_speks</code>.</li>
+            <li>Tā vietā, lai izmantotu <code>print()</code>, ieraksti: <code>return summa</code>.</li>
             <li>Ārpus funkcijas izsauc to un <b>saglabā rezultātu mainīgajā</b>: <code>jauna_veseliba = izrekinat_veselibu(50, 20)</code>.</li>
-            <li>Izvadi galarezultātu lietotājam: "Pēc eliksīra lietošanas Tev ir 70 HP!".</li>
+            <li>Izvadi galarezultātu lietotājam: <code>print(f"Pēc eliksīra lietošanas Tev ir {jauna_veseliba} HP!")</code>.</li>
         </ol>
     </div>
+</section>
 
-    <h3>2. uzdevums: Lokālais "slazds" (Scope)</h3>
+<section class='section'>
+    <h2>2. uzdevums: Lokālais "slazds" (Scope)</h2>
+    <p>Vidējas grūtības uzdevumā analizēsi kļūdas paziņojumu, ko izraisa lokālo mainīgo nepieejamība ārpus funkcijas, un pielietosi <code>return</code> tā labošanai.</p>
     <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
         <ol class="step-list">
             <li>Izveido failu <code>scope_tests.py</code>.</li>
-            <li>Definē funkciju <code>pievienot_zeltu():</code>.</li>
+            <li>Definē funkciju <code>def pievienot_zeltu():</code>.</li>
             <li>Funkcijas iekšienē izveido mainīgo <code>zelts = 100</code>.</li>
             <li>Izsauc funkciju un tūlīt pēc tam mēģini izpildīt <code>print(zelts)</code> ārpus funkcijas.</li>
-            <li>Palaid programmu un novēro <span class="bad">NameError</span> kļūdu.</li>
-            <li><b>Labojums:</b> Pārveido funkciju, lai tā atgrieztu vērtību (<code>return</code>), un piešķir to mainīgajam ārpusē.</li>
+            <li>Palaid programmu un novēro <code>NameError</code> kļūdu terminālī.</li>
+            <li><b>Labojums:</b> Pārveido funkciju, pievienojot <code>return zelts</code>, un piešķir to mainīgajam ārpusē pirms izvadīšanas.</li>
         </ol>
     </div>
+</section>
 
-    <h3>3. uzdevums: CYOA Izvēles dzinējs</h3>
+<section class='section'>
+    <h2>3. uzdevums: CYOA Izvēles dzinējs</h2>
+    <p>Padziļinātā uzdevumā izstrādāsi interaktīvu izvēļņu sistēmu, kas pieņem lietotāja ievadi un atgriež to spēles loģikas vadīšanai.</p>
     <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
         <ol class="step-list">
             <li>Izveido failu <code>izveles_dzinejs.py</code>.</li>
-            <li>Definē funkciju <code>veikt_izveli(jautajums, opcija_a, opcija_b):</code>.</li>
-            <li>Funkcijas iekšienē izvadi jautājumu, opcijas un palūdz lietotājam ievadi ("A" vai "B").</li>
+            <li>Definē funkciju <code>def veikt_izveli(jautajums, opcija_a, opcija_b):</code>.</li>
+            <li>Funkcijas iekšienē izvadi jautājumu, abas opcijas un palūdz lietotājam ievadi ("A" vai "B").</li>
             <li>Izmanto <code>return</code>, lai "atdotu" ievadīto burtu spēles galvenajai daļai.</li>
-            <li>Izsauc funkciju mainīgajā <code>cels = veikt_izveli(...)</code> un ar <code>if</code> pārbaudi: ja rezultāts ir "A", izvadi "Tu dodies uz mežu", ja "B" — "Tu dodies uz pili".</li>
+            <li>Izsauc funkciju, saglabājot to mainīgajā, piemēram, <code>cels = veikt_izveli("Kurp dosies?", "A - Mežs", "B - Pils")</code>.</li>
+            <li>Ar <code>if</code> pārbaudi: ja atgrieztais rezultāts ir "A", izvadi "Tu dodies uz mežu", ja "B" — "Tu dodies uz pili".</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>Biežākās kļūdas:</h2>
-    <blockquote>
-        <b>1. "Pazudusī" vērtība:</b> Tu izmanto <code>return</code>, bet ārpusē nepiešķir rezultātu mainīgajam. Tad vērtība vienkārši izgaist.<br>
-        <b>2. Scope kļūda:</b> Mēģinājums piekļūt mainīgajam, kas "pieder" funkcijai, no ārpuses.<br>
-        <b>3. None tips:</b> Ja funkcijā trūkst <code>return</code>, bet Tu mēģini rezultātu saglabāt, mainīgais saņems tukšu vērtību <code>None</code>.
-    </blockquote>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>"Pazudusī" vērtība:</b> Tu izmanto <code>return</code>, bet ārpusē nepiešķir rezultātu mainīgajam. Tad vērtība vienkārši izgaist. <i>Risinājums: Vienmēr piesaisti atgriezto vērtību mainīgajam, piemēram, <code>rezultats = mana_funkcija()</code>.</i></li>
+        <li><b>Scope kļūda:</b> Mēģinājums piekļūt mainīgajam, kas "pieder" funkcijai, no programmas ārpuses. <i>Risinājums: Atceries, ka funkcijas iekšējie mainīgie ir lokāli; lai tos iegūtu, tie ir jāatgriež ar <code>return</code>.</i></li>
+        <li><b>None tips:</b> Ja funkcijā trūkst <code>return</code>, bet Tu mēģini rezultātu saglabāt mainīgajā, tas saņems tukšu vērtību <code>None</code>. <i>Risinājums: Pārbaudi, vai funkcijas loģika beidzas ar atbilstošu atgriežamo datu rindu.</i></li>
+    </ul>
 </section>
 
-<section class='section'>
-    <h2>Koda paraugs</h2>
+<div class='section'>
+    <h2>Koda piemērs</h2>
     <div class='code-example'>
-<pre><code class="language-python">def dabu_punktus():
+        <pre><code class="language-python">def dabu_punktus():
     bonuss = 50 # Lokālais mainīgais
     return bonuss
 
@@ -99,7 +108,7 @@ def beigas():
             Tu ieguvi 50 punktus!
         </div>
     </div>
-</section>
+</div>
 
 </body>
 </html>
