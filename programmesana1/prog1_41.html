@@ -79,16 +79,23 @@ funkcijas_nosaukums(10, 5)</code></pre>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Istabu aprakstītājs (CYOA sagatave)</h2>
-    <p>Padziļinātā uzdevumā izstrādāsi funkciju, kas veido vizuāli noformētu teksta izvadi dažādu spēles lokāciju aprakstiem.</p>
+    <h2>3. uzdevums: Istabu aprakstītājs ar "Typewriter" efektu</h2>
+    <p>Padziļinātā uzdevumā izveidosi funkciju, kas ne tikai noformē tekstu, bet arī "izritina" (scroll) to pa vienam simbolam, radot klasisku datorspēļu sajūtu.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol class="step-list">
-            <li>Izveido failu <code class="language-powershell">cyoa_pamati.py</code>.</li>
-            <li>Definē funkciju: <br><code class="language-python">def apraksti_vietu(nosaukums, apraksts):</code>.</li>
-            <li>Funkcijas iekšienē izveido glītu rāmīti (piemēram, izvadi <code class="language-python">"==="</code> virs un zem teksta).</li>
-            <li>Izvadi vietas nosaukumu lielajiem burtiem un zem tā – vietas aprakstu.</li>
-            <li>Izsauc funkciju divas reizes ar dažādiem datiem (piemēram, "Tumšs mežs" un "Vecā pils").</li>
+            <li>Izveido failu <code class="language-powershell">cyoa_scrolling.py</code>.</li>
+            <li>Faila pašā augšā importē laika moduli: <br><code class="language-python">import time, sys</code>.</li>
+            <li>Definē "ritināšanas" funkciju:
+                <pre><code class="language-python">def druka_lenam(teksts):
+    for simbols in teksts:
+        print(simbols, end="", flush=True)
+        time.sleep(0.05) # Pauze starp burtiem (sekundēs)
+    print() # Beigās pāriet jaunā rindā</code></pre>
+            </li>
+            <li>Definē galveno funkciju <code class="language-python">def apraksti_vietu(nosaukums, apraksts):</code>.</li>
+            <li>Funkcijas iekšienē izmanto <code class="language-python">print("===")</code> rāmītim, bet apraksta izvadei izsauc savu jauno funkciju <code class="language-python">druka_lenam(apraksts)</code>.</li>
+            <li>Pārbaudi rezultātu, izsaucot <code class="language-python">apraksti_vietu()</code> ar kādu garāku stāsta fragmentu.</li>
         </ol>
     </div>
 </section>
