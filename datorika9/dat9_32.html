@@ -7,7 +7,6 @@
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-markup.min.js"></script>
 </head>
 <body>
 
@@ -19,57 +18,75 @@
 
 <section class='section'>
     <h1>3.2. tēma: Datu tipi un interaktivitāte (Input/Output)</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Saņemt datus no lietotāja, pareizi apstrādāt dažādus datu tipus un dinamiski izvadīt rezultātu HTML lapā.</p>
-    <a href="sasnRez.html">2.6.1. Izmanto atbilstošas datu struktūras; 2.4.7. Veido kompleksu pieeju uzdevuma atrisināšanai.</a>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izstrādāt interaktīvu datu apmaiņas ciklu, kurā programma pieņem lietotāja ievadi, identificē datu tipu un izvada apstrādātu rezultātu.</p>
+    <a href="sasnRez.html">2.6.1. Izmanto mainīgos un datu tipus; 5.2.1. Kritiskā domāšana un problēmrisināšana; 5.2.6. Digitālā pratība.</a>
 </section>
 
 <section class='section'>
-    <h2>Teorija: Kā dators saprot informāciju?</h2>
-    <p>Lai gan cilvēkam "5" un 5 ir viens un tas pats, datoram tie ir atšķirīgi <b>datu tipi</b>:
+    <h2>Teorija: Saziņa ar lietotāju</h2>
+    <div class="logic-box">
+        <p>Programmēšanā <b>Input</b> ir dati, ko lietotājs iedod datoram, bet <b>Output</b> ir informācija, ko dators parāda lietotājam. Lai šī saziņa notiktu veiksmīgi, mums jāpārvalda datu tipi.</p>
         <ul>
-            <li><b>Teksts (String):</b> Jebkas, kas ielikts pēdiņās <code>"Sveiki!"</code> vai <code>"5"</code>. Ar tekstu nevar veikt matemātiku.</li>
-            <li><b>Skaitlis (Number):</b> Cipari bez pēdiņām, piemēram, <code>5</code> vai <code>3.14</code>.</li>
-            <li><b>Loģiskā vērtība (Boolean):</b> Var būt tikai <code>true</code> (patiess) vai <code>false</code> (aplams). Ideāli piemērots stāvokļiem, piemēram, <code>irDzivs = true</code>.</li>
+            <li><b>Datu tipi:</b> <code class="language-javascript">String</code> (teksts), <code class="language-javascript">Number</code> (skaitlis), <code class="language-javascript">Boolean</code> (loģiskā vērtība <i>true/false</i>).</li>
+            <li><b>Input:</b> <code class="language-javascript">prompt("Ziņa")</code> — funkcija, kas atver ievades lodziņu. <b>Svarīgi:</b> viss, ko lietotājs tur ieraksta, automātiski kļūst par <i>String</i>.</li>
+            <li><b>Conversion:</b> <code class="language-javascript">Number()</code> — funkcija, kas pārvērš tekstu par skaitli, lai ar to varētu veikt matemātikas darbības.</li>
+            <li><b>Output:</b> <code class="language-javascript">console.log()</code> (izvade programmētājam) vai <code class="language-javascript">alert()</code> (paziņojums lietotājam).</li>
         </ul>
-    <b>Interaktivitāte:</b> Mēs varam prasīt lietotājam ievadīt datus ar <code>prompt()</code> un ievietot rezultātu tieši HTML lapā, izmantojot <code>document.getElementById().innerText</code>.
-    </p>
+    </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Lietotāja ievades saņemšana (Input)</h2>
-    <p>Izmantot uznirstošo logu, lai pajautātu spēlētājam viņa vārdu un saglabātu to mainīgajā.</p>
+    <h2>1. uzdevums: "Datu detektīvs" (15 min)</h2>
+    <p>Identificēt, kā dators uztver lietotāja ievadīto informāciju un pārbaudīt datu tipu maiņu.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Savā <code>script.js</code> failā izveido jaunu mainīgo: <code>let speletajaVards = prompt("Kā tevi sauc, spēlētāj?");</code>.</li>
-            <li>Izmanto <code>alert()</code> funkciju, lai izvadītu sveicienu: <code>alert("Sveicināts spēlē, " + speletajaVards + "!");</code>.</li>
-            <li>Palaid lapu pārlūkā un pārbaudi, vai uznirstošie logi parādās un pareizi izvada tavu ievadīto vārdu.</li>
+            <li>JS failā izveido mainīgo <code class="language-javascript">let ievade = prompt("Ieraksti jebko!");</code>.</li>
+            <li>Izmanto <code class="language-javascript">console.log(typeof ievade);</code>, lai redzētu, kādu tipu dators piešķīra ievadei.</li>
+            <li>Pievieno otru mainīgo: <code class="language-javascript">let skaitlis = Number(ievade);</code>.</li>
+            <li>Izvadi konsolē jaunā mainīgā tipu. Eksperimentē — ievadi vārdu, pēc tam skaitli.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Matemātika un Datu tipu pārveidošana</h2>
-    <p>Demonstrēt atšķirību starp teksta apvienošanu un reālu matemātisku saskaitīšanu.</p>
+    <h2>2. uzdevums: Varoņa reģistrācija (25 min)</h2>
+    <p>Izveidot interaktīvu dialogu ar lietotāju, lai sagatavotu spēles sākuma datus.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Paprasi lietotājam ievadīt sākuma bonusu: <code>let bonuss = prompt("Ievadi sākuma punktus (1-10):");</code></li>
-            <li>Saskaiti esošos punktus ar bonusu: <code>let kopejiePunkti = 100 + bonuss;</code> un izvadi to konsolē. Pamanīsi kļūdu (100 + "5" kļūs par "1005").</li>
-            <li>Izlabo kļūdu, pārveidojot tekstu par skaitli: <code>let kopejiePunkti = 100 + Number(bonuss);</code>. Tagad matemātika strādās pareizi!</li>
+            <li>Izveido funkciju <code class="language-javascript">registretVaroni()</code>.</li>
+            <li>Funkcijas iekšienē ar <code class="language-javascript">prompt()</code> pajautā lietotājam vārdu un spēles grūtības pakāpi (skaitli).</li>
+            <li>Izvadi sveicienu, izmantojot abus datus: <code class="language-javascript">alert("Sveiks, " + vards + "! Tu izvēlējies " + limenis + ". līmeni.");</code>.</li>
+            <li>Piesaisti šo funkciju pogai HTML failā.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Dinamiska izvade HTML lapā (Output)</h2>
-    <p>Aizstāt kaitinošos <code>alert</code> logus ar elegantu datu izvadi tieši spēles ekrānā.</p>
+    <h2>3. uzdevums: Punkti un Matemātika (25 min)</h2>
+    <p>Konstruēt algoritmu, kas pieņem skaitlisku ievadi un veic matemātisku aprēķinu spēles progresam.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Savā <code>index.html</code> failā pievieno elementu ar unikālu ID, piemēram: <code>&lt;h2&gt;Spēlētājs: &lt;span id="varda-lauks"&gt;Nezināms&lt;/span&gt;&lt;/h2&gt;</code>.</li>
-            <li>Sava <code>script.js</code> faila beigās ieraksti komandu, kas atrod šo elementu un nomaina tā tekstu: <code>document.getElementById("varda-lauks").innerText = speletajaVards;</code>.</li>
-            <li>Veic <b>Commit</b> un <b>Push</b> uz GitHub ar ziņu "Pievienota spēlētāja ievade un DOM manipulācija".</li>
+            <li>Izveido mainīgo <code class="language-javascript">let kopejiePunkti = 100;</code>.</li>
+            <li>Izveido funkciju, kas ar <code class="language-javascript">prompt</code> pajautā, cik punktus lietotājs vēlas atņemt.</li>
+            <li><b>Svarīgi:</b> Pārvērt ievadi par skaitli, izmantojot <code class="language-javascript">Number()</code>, pirms veic atņemšanu.</li>
+            <li>Izvadi jauno rezultātu konsolē ziņojumā: "Pēc izmaiņām Tev palika [punkti] punkti."</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>4. uzdevums: Statistikas lapa (Papildus)</h2>
+    <p>Izstrādāt kompleksu ievades un izvades sistēmu, kas apkopo un strukturē varoņa spējas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido funkciju, kas pajautā lietotājam trīs dažādus spēles parametrus (piem., spēku, ātrumu, maģiju).</li>
+            <li>Aprēķini šo trīs parametru vidējo vērtību.</li>
+            <li>Izvadi rezultātu konsolē, noapaļojot vai pievienojot tekstu par to, vai varonis ir gatavs cīņai.</li>
+            <li>Pievieno pogu "Ģenerēt statistiku", kas izsauc šo procesu.</li>
         </ol>
     </div>
 </section>
@@ -77,29 +94,27 @@
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
     <ul>
-        <li><b>"null" kļūda (Cannot set properties of null):</b> Tas notiek, ja JS fails tiek ielādēts PIRMS HTML ir paspējis uzzīmēt tavu elementu ar attiecīgo ID. Pārliecinies, ka <code>&lt;script&gt;</code> tags HTML failā ir pašās beigās, tieši pirms <code>&lt;/body&gt;</code>.</li>
-        <li><b>Teksta un mainīgo jaukšana:</b> Atceries – teksts ir pēdiņās <code>"vards"</code>, bet mainīgais ir bez pēdiņām <code>vards</code>.</li>
-        <li><b>Nepareizs lielais/mazais burts ID nosaukumā:</b> <code>getElementById("Vards")</code> neatradīs <code>id="vards"</code>. Jābūt 100% sakritībai.</li>
+        <li><b>NaN (Not a Number):</b> Parādās, ja mēģini pārvērst tekstu (piem., "Sveiki") par skaitli. Pārbaudi, vai ievadīji ciparus!</li>
+        <li><b>Pazuduši dati pēc prompt:</b> Ja lietotājs nospiež "Cancel", vērtība kļūst <code class="language-javascript">null</code>.</li>
+        <li><b>Teksta savienošana tā vietā, lai saskaitītu:</b> Ja neizmanto <code class="language-javascript">Number()</code>, tad "10" + "10" būs "1010".</li>
     </ul>
 </section>
 
 <div class='section'>
     <h2>Koda piemērs</h2>
     <div class='code-example'>
-        <pre><code class="language-javascript">// 1. Saņemam datus (Input) kā tekstu (String)
-let spelesVards = prompt("Ievadi sava varoņa nosaukumu:");
-let ievaditiePunkti = prompt("Cik punktus vēlies sākumā?");
+        <pre><code class="language-javascript">let punkti = 0;
 
-// 2. Pārveidojam tekstu par skaitli un veicam aprēķinu
-let saktSpeliAr = Number(ievaditiePunkti) + 50; 
-
-// 3. Mainām HTML saturu (Output)
-document.getElementById("varda-lauks").innerText = spelesVards;
-document.getElementById("punktu-lauks").innerText = saktSpeliAr;</code></pre>
+function pievienotPunktus() {
+    let ievade = prompt("Cik monētas atradi?");
+    // Pārveidojam tekstu par skaitli
+    let jaunasMonetas = Number(ievade);
+    
+    punkti = punkti + jaunasMonetas;
+    console.log("Kopā sakrāts: " + punkti + " zelts.");
+}</code></pre>
         <div class='result'>
-            <i>HTML lapā redzamais rezultāts pēc ievades:</i><br><br>
-            <h3>Spēlētājs: <span style="color: blue;">Kosmosa Kuģis</span></h3>
-            <h3>Punkti: <span style="color: green;">150</span></h3>
+            Kopā sakrāts: 15 zelts.
         </div>
     </div>
 </div>
@@ -108,5 +123,6 @@ document.getElementById("punktu-lauks").innerText = saktSpeliAr;</code></pre>
     <a href="dat9_31.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
     <a href="dat9_33.html" class="nav-btn">Nākamā stunda ➡</a>
 </div>
+
 </body>
 </html>
