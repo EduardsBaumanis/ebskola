@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>9. stunda: Kustība bez LEGO (Servo motors)</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>9. tēma: Aktuatori elektronikā un Servo motora precīza vadība</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izprast Servo motora darbības principu, pievienot to mikrokontrolierim un uzrakstīt programmu, kas ļauj fiziski kontrolēt motora leņķi, izmantojot potenciometra kloķi.</p>
+    <a href="sasnRez.html">Datorika 7. klase (D.7.1.1., D.7.4.2., D.7.6.1.)</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Kas ir Servo motors un kā ar to "sarunāties"?</h2>
+    <p>Atšķirībā no parastajiem motoriem (kā ventilatoriem), kas griežas uz riņķi nepārtraukti, <b>Servo motors</b> ir īpašs – tam var pateikt precīzu leņķi (parasti no 0° līdz 180°), un tas turēs šo pozīciju. Tas ir ideāli piemērots robotu rokām, stūres mehānismiem un durvju slēdzenēm.</p>
+    <ul>
+        <li><b>Trīs vadi:</b> Servo motoram ir 3 vadi. Sarkanais iet uz 5V (strāva), brūnais/melnais iet uz GND (mīnuss), bet dzeltenais/oranžais ir "Signāla" vads, kas jāsavieno ar Arduino pinu.</li>
+        <li><b>C++ Bibliotēkas:</b> Lai pašiem nebūtu jāraksta sarežģīts matemātiskais kods motora vadībai, programmētāji izmanto gatavas "bibliotēkas". Koda pašā sākumā jāieraksta <code>#include &lt;Servo.h&gt;</code>.</li>
+        <li><b>Objekta izveide:</b> Tāpat kā mainīgajam, mums jādod motoram vārds, ierakstot <code>Servo mansMotors;</code>.</li>
+        <li><b>Map() funkcija:</b> Mūsu potenciometrs dod datus no 0 līdz 1023, bet motors saprot tikai leņķus no 0 līdz 180. Lai šos skaitļus automātiski proporcionāli pārveidotu, C++ valodā ir maģiskā komanda <code>map(vērtība, no_min, no_max, uz_min, uz_max)</code>.</li>
+    </ul>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Virtuālā Servo motora pieslēgšana</h2>
+    <p>Tinkercad vidē pievienojiet "Micro Servo" un pareizi savienojiet tā trīs vadus ar Arduino un maketo plati.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveidojiet jaunu Tinkercad projektu. Pievienojiet Arduino un Breadboard (savienojiet 5V un GND).</li>
+            <li>Atrodiet "Micro Servo" un novietojiet to darba laukumā.</li>
+            <li>Pietuviniet peli motora vadiem, lai redzētu to nosaukumus: savienojiet "Ground" ar melno (-) līniju, "Power" ar sarkano (+) līniju.</li>
+            <li>Trešo vadu, ko sauc par "Signal", savienojiet ar Arduino <b>9. portu</b>. Iekrāsojiet šo vadu oranžu vai dzeltenu!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: "Logu tīrītāja" algoritms</h2>
+    <p>Uzrakstiet kodu, kas liek motoram automātiski pagriezties uz 0 grādiem, tad uz 90 grādiem un tad uz 180 grādiem, radot logu tīrītāja efektu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atveriet koda logu. Pašā augšā (virs <code>setup()</code>) pievienojiet bibliotēku: <code>#include &lt;Servo.h&gt;</code> un izveidojiet motoru: <code>Servo mansMotors;</code></li>
+            <li>Iekš <code>setup()</code> pasakiet, pie kura pina motors pieslēgts: <code>mansMotors.attach(9);</code></li>
+            <li>Iekš <code>loop()</code> dodiet komandu pagriezties uz 0 grādiem: <code>mansMotors.write(0);</code> un pagaidiet sekundi: <code>delay(1000);</code></li>
+            <li>Pievienojiet vēl komandas, lai tas pagriežas uz 90 grādiem (pagaida) un uz 180 grādiem (pagaida). Nospiediet Start!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Analogo dzinēju vadība (Potenciometrs + Servo)</h2>
+    <p>Apvienojiet iepriekšējās stundas zināšanas! Pievienojiet potenciometru un izmantojiet to kā "stūri", lai kontrolētu motora leņķi reāllaikā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievienojiet maketo platei potenciometru (ārējās kājas pie 5V un GND, vidējo pie <b>A0</b> porta).</li>
+            <li>Sadaļā <code>loop()</code> izdzēsiet iepriekšējo kodu. Izveidojiet mainīgo nolasīšanai: <code>int kloķis = analogRead(A0);</code></li>
+            <li>Pievienojiet rindiņu, kas pārveido 1023 uz 180 grādiem: <code>int lenkis = map(kloķis, 0, 1023, 0, 180);</code></li>
+            <li>Nosūtiet šo jauno leņķi uz motoru: <code>mansMotors.write(lenkis);</code> un pievienojiet īsu <code>delay(15);</code>, lai motors paspēj noreaģēt.</li>
+            <li>Palaidiet simulāciju – griežot potenciometru ar peli, motoram ir precīzi jāseko jūsu kustībai!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>4. uzdevums (Zvaigznītes izaicinājums): "Kodu atslēga" ar pogām</h2>
+    <p>Ātrākajām komandām – noņemiet potenciometru un pievienojiet divas spiedpogas. Kreisā poga griež motoru pa kreisi (-10 grādi), labā – pa labi (+10 grādi).</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievienojiet divas pogas ar <code>INPUT_PULLUP</code> loģiku pie portiem (piem., 2 un 3).</li>
+            <li>Izveidojiet globālu mainīgo <code>int pozicija = 90;</code> virs <code>setup()</code>.</li>
+            <li>Izmantojiet "If" loģiku: Ja nospiež 2. pogu, <code>pozicija = pozicija - 10;</code> (un obigāti <code>delay(100);</code>, lai nepārlektu pārāk ātri).</li>
+            <li>Ja nospiež 3. pogu, <code>pozicija = pozicija + 10;</code>.</li>
+            <li>Beigās nosūtiet <code>pozicija</code> vērtību uz motoru: <code>mansMotors.write(pozicija);</code></li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>Kods uzrāda kļūdu pie vārda "Servo":</b> Jūs aizmirsāt koda pašā augšā iekļaut bibliotēku <code>#include &lt;Servo.h&gt;</code>, vai arī uzrakstījāt vārdu "servo" ar mazo burtu. C++ ir ļoti jutīgs pret lielo/mazo burtu lietojumu!</li>
+        <li><b>Motors simulācijā "dreb" vai raustās:</b> Jūs aizmirsāt <code>loop()</code> beigās pievienot <code>delay(15);</code>. Ja mikrokontrolieris sūta komandas tūkstošiem reižu sekundē, fiziskais motors nespēj tikt līdzi un sāk vibrēt.</li>
+        <li><b>Map funkcija nestrādā pareizi:</b> Pārbaudiet mainīgo nosaukumus. Vai jūs mēģināt motoram nosūtīt nolasītos potenciometra datus (0-1023) tiešā veidā, nepārveidojot tos ar <code>map</code>? Motors saprot tikai vērtības no 0 līdz 180!</li>
+    </ul>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (Stūres mehānisms ar potenciometru)</h2>
+    <div class='code-example'>
+        <pre><code class="language-powershell">
+#include &lt;Servo.h&gt; // Pievieno Servo bibliotēku
+
+Servo mansMotors;   // Izveido motora objektu
+int potPin = A0;    // Potenciometra ports
+
+void setup() {
+  // Pievieno motoru 9. portam
+  mansMotors.attach(9); 
+}
+
+void loop() {
+  // 1. Nolasa potenciometra stāvokli (0 līdz 1023)
+  int klokaStavoklis = analogRead(potPin);
+  
+  // 2. Pārveido šos datus leņķu skalā (0 līdz 180)
+  int motoraLenkis = map(klokaStavoklis, 0, 1023, 0, 180);
+  
+  // 3. Pasaka motoram fiziski pagriezties uz šo leņķi
+  mansMotors.write(motoraLenkis);
+  
+  // 4. Pagaida, lai motors pabeidz kustību
+  delay(15); 
+}
+        </code></pre>
+        <div class='result'>
+            Griežot potenciometra kloķi pa kreisi un pa labi, Servo motora rotējošā ass proporcionāli sekos jūsu pirksta/peles kustībām. Tas ir pamats, kā darbojas automašīnu tālvadības pulšu stūres mehānismi.
+        </div>
+    </div>
+</div>
+<div class="stundas-navigacija">
+    <a href="stunda8.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="stunda10.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

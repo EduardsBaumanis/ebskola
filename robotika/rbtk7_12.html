@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>2. stunda: Distances sensors un izvairīšanās no šķēršļiem</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>2. tēma: Robota uztvere un distances sensors</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Pievienot robotikas bāzes modelim ultraskaņas distances sensoru, ieprogrammēt to automātiski apstāties pirms sienas un veiksmīgi apbraukt šķēršļus, demonstrējot izpratni par nosacījumu algoritmiem.</p>
+    <a href="sasnRez.html">Datorika 7. klase (D.7.2.1., D.7.4.1.)</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Kā robots "redz" šķēršļus?</h2>
+    <p>Iepriekšējā stundā mēs teicām robotam precīzi, cik tālu braukt (piemēram, 50 cm). Bet reālajā pasaulē robotiem bieži jābrauc nezināmā vidē, līdz tie kaut ko pamana. Šim nolūkam izmanto sensorus un "Gaidīšanas" (Wait) komandas.</p>
+    <ul>
+        <li><b>Distances sensors:</b> Izraida cilvēka ausij nedzirdamus skaņas viļņus (ultraskaņu) un klausās atbalsi. Jo ātrāk atbalss atgriežas, jo tuvāk ir šķērslis. Tas mēra attālumu procentos vai centimetros.</li>
+        <li><b>"Start Moving" bloks:</b> Atšķirībā no "Move for [10] cm", kas liek robotam nobraukt un apstāties, zaļais <code>start moving</code> bloks ieslēdz motorus un atstāj tos ieslēgtus uz visiem laikiem... ja vien mēs nepavēlam citādi!</li>
+        <li><b>"Wait until" bloks (Oranžais):</b> Šis ir maģiskais bloks! Tas liek programmai "iesaldēties" un gaidīt. Ja mēs ieslēdzam motorus un tad ieliekam <code>wait until [Distance in cm] < [15]</code>, motors turpinās darboties TIKAI TIK ILGI, kamēr attālums kļūs mazāks par 15 cm. Pēc tam programma pāries pie nākamā bloka (piemēram, apstāšanās).</li>
+    </ul>
+    <p><i>[Ievietot attēlu šeit: Ekrānuzņēmums ar "start moving [Straight]", kam seko oranžais "wait until [sensor port] is closer than [15] cm", un beigās "stop moving" bloks]</i></p>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Sensora pievienošana un testēšana</h2>
+    <p>Uzmontējiet distances sensoru robota priekšpusē un iemācieties nolasīt tā datus datora ekrānā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atrodiet distances sensoru (ar "divām acīm") un pievienojiet to bāzes modelim tā, lai tas skatītos tieši uz priekšu.</li>
+            <li>Ar kabeli pievienojiet sensoru brīvam Hub portam (piemēram, portam C vai D).</li>
+            <li>Atveriet SPIKE programmu. Ekrāna augšdaļā, kur redzams savienotais Hubs, atveriet portu skatu (Dashboard).</li>
+            <li>Pielieciet roku pirms sensora un vērojiet, kā mainās centimetru rādījumi portu skatā. Noskaidrojiet, kāds ir minimālais un maksimālais attālums, ko tas spēj "redzēt".</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Automātiskā bremzēšana pirms sienas</h2>
+    <p>Ieprogrammējiet robotu braukt uz priekšu un automātiski apstāties tieši 10 cm pirms šķēršļa (kastes vai sienas).</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Koda sākumā, kā parasti, iestatiet savus kustības motorus (<code>set movement motors</code>).</li>
+            <li>Pievienojiet rozā bloku <code>start moving [Straight]</code>. (Uzmanību: neizmantojiet bloku, kurā ir norādīts attālums!).</li>
+            <li>Pievienojiet oranžo kontroles bloku <code>wait until</code>. Tajā ievietojiet gaiši zilo sensora bloku <code>[Distance Sensor] closer than [10] [cm]</code>.</li>
+            <li>Pēc gaidīšanas bloka pievienojiet rozā bloku <code>stop moving</code>. Pārbaudiet robotu trasē!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Nebeidzamais ceļojums (Šķēršļu apbraukšana)</h2>
+    <p>Pārveidojiet kodu tā, lai robots nekad neapstātos: ieraugot šķērsli, tas pabrauc atpakaļ, pagriežas un turpina ceļu citā virzienā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Ielieciet sava 2. uzdevuma kodu (braukšanu un apstāšanos pie šķēršļa) oranžajā <code>forever</code> ciklā.</li>
+            <li>Uzreiz pēc <code>stop moving</code> bloka, pievienojiet komandu pabraukt nedaudz atpakaļ (piem., <code>move [backward] for [10] [cm]</code>).</li>
+            <li>Pēc tam pievienojiet pagrieziena bloku, lai robots pagrieztos pa labi vai pa kreisi (piem., <code>move [Right] for [150] [degrees]</code>).</li>
+            <li>Tā kā viss atrodas <code>forever</code> ciklā, pēc pagrieziena robots automātiski atkal sāks braukt uz priekšu, līdz ieraudzīs nākamo šķērsli.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>4. uzdevums (Zvaigznītes izaicinājums): "Viedais kruīza kontroles" sekotājs</h2>
+    <p>Ātrākajām komandām – izveidojiet programmu, kurā robots cenšas ieturēt precīzi 15 cm distanci no jūsu rokas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izmantojiet <code>forever</code> ciklu un <code>If... Else</code> (Ja... Tad...) loģikas blokus.</li>
+            <li>Ja attālums līdz rokai ir lielāks par 20 cm, robotam jābrauc uz priekšu (tuvojas).</li>
+            <li>Ja attālums ir mazāks par 10 cm, robotam jābrauc atpakaļgaitā (bēg).</li>
+            <li>Ja attālums ir starp 10 un 20 cm, robotam jāstāv uz vietas.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>Robots ietriecas sienā, neapstājoties:</b> Jūs kļūdījāties ar starta bloku. Ja izmantojat <code>move [Straight] for [10] cm</code> (kam ir norādīts beigu punkts), tas ignorēs jūsu <code>wait until</code> sensoru. Vienmēr izmantojiet bezgalīgo <code>start moving</code> bloku kopā ar sensoriem.</li>
+        <li><b>Sensors nereaģē:</b> Pārbaudiet, vai <code>wait until</code> blokā izvēlētais borts (piem., C) sakrīt ar reālo portu, kurā vads iesprausts fiziskajā Hubā.</li>
+        <li><b>Robots šķērsli "pamana" pārāk vēlu:</b> Distances sensors vislabāk redz cietus, plakanus priekšmetus. Ja šķērslis ir apaļš, ļoti tievs (kā krēsla kāja) vai no mīksta auduma, skaņa var neatbalsoties pareizi. Mēģiniet testēt ar grāmatu vai kasti.</li>
+    </ul>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (Šķēršļu apbraukšanas algoritms)</h2>
+    <div class='code-example'>
+        <pre><code class="language-powershell">
+# SPIKE Word Blocks vizuālā koda tekstuālā reprezentācija
+
+when program starts
+set movement motors to [A] and [B]
+set movement speed to [50]%
+
+forever:
+    start moving [Straight]
+    wait until [Distance Sensor on C] closer than [15] [cm]
+    stop moving
+    move [Backward] for [10] [cm]
+    move [Right] for [180] [degrees]
+        </code></pre>
+        <div class='result'>
+            Robots brauks taisni, līdz šķērslis būs tuvāk par 15 cm. Tad tas apstāsies, pabrauks 10 cm atpakaļ, pagriezīsies prom no šķēršļa un atsāks ciklu no jauna.
+        </div>
+    </div>
+</div>
+<div class="stundas-navigacija">
+    <a href="stunda1.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="stunda3.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

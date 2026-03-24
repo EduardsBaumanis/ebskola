@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>4. stunda: Trešā ass un manipulatori (Satvērējs)</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>4. tēma: Manipulatoru mehānika un objektu pārvietošana</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izveidot mehānisku satvērēju, izmantojot trešo motoru, un ieprogrammēt robotu autonomi piebraukt pie objekta, satvert to un nogādāt citā laukuma vietā.</p>
+    <a href="sasnRez.html">Datorika 7. klase (D.7.1.1., D.7.4.2., D.7.5.1.)</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Neatkarīgu motoru vadība un zobrati</h2>
+    <p>Līdz šim mēs izmantojām tikai rozā "Movement" blokus, kas darbina divus motorus vienlaicīgi kā automašīnas riteņus. Bet lai kustinātu robota roku, pacēlāju vai satvērēju, mums nepieciešams vadīt vienu konkrētu motoru neatkarīgi no pārējiem.</p>
+    <ul>
+        <li><b>"Motor" bloki (Zilā krāsā):</b> Zilie bloki kontrolē tikai vienu norādīto portu (piemēram, portu C). Tie neietekmē robota braukšanu. Jūs varat likt ziliem blokiem darboties paralēli rozā blokiem!</li>
+        <li><b>Pozīcijas un Leņķi:</b> SPIKE motoriem iebūvēts precīzs rotācijas sensors. Kad jūs pievienojat roku motoram, ir svarīgi zināt, kura pozīcija (grādi) atbilst "Atvērts" stāvoklim, un kura – "Aizvērts".</li>
+        <li><b>Mehāniskā priekšrocība (Zobrati):</b> Ja mazs zobrats griež lielu zobratu, spēks palielinās, bet ātrums samazinās. Ja lielais griež mazo – ātrums palielinās, bet spēks samazinās. Padomājiet, kas nepieciešams labam satvērējam – ātrums vai spēks noturēt klucīti?</li>
+    </ul>
+    <p><i>[Ievietot attēlu šeit: Ekrānuzņēmums no SPIKE lietotnes ar zilajiem "run motor [C] for [90] degrees" un "go to shortest path to position [0]" blokiem]</i></p>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Satvērēja (Spīļu) konstruēšana</h2>
+    <p>Pievienojiet robota bāzei trešo motoru un uzbūvējiet vienkāršu mehānismu objektu satveršanai vai stumšanai.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atrodiet brīvu motoru (vēlams vidējo, Medium Motor) un pievienojiet to Hubam (piemēram, portā C).</li>
+            <li>Izmantojot pieejamos LEGO klučus, izveidojiet roku vai spīles, kas var satvert nelielu objektu (piemēram, riepu vai LEGO klucīti). Pievienojiet šo mehānismu motoram.</li>
+            <li>Pirms rakstāt kodu, portu skatā manuāli pagrieziet motoru un piefiksējiet grādu rādījumus "Atvērts" un "Aizvērts" pozīcijās.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: "Pacel un Nolaid" (Zilo bloku testēšana)</h2>
+    <p>Ieprogrammējiet tikko uzbūvēto manipulatoru atvērties un aizvērties, nospiežot Hub pogas, nepārvietojot pašu robotu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveidojiet jaunu programmu un atrodiet "Events" (Dzeltenie) blokus, piemēram, <code>when [Left Button] pressed</code>.</li>
+            <li>Zem "Kreisās pogas" pievienojiet zilo bloku <code>run motor [C] for [90] [degrees]</code>. Pārbaudiet, vai spīles aizveras.</li>
+            <li>Zem "Labās pogas" bloka pievienojiet zilo komandu, lai atvērtu spīles (piemēram, <code>run motor [C] for [-90] [degrees]</code> vai izmantojiet absolūto pozīciju <code>go to position [0]</code>).</li>
+            <li>Pārbaudiet, vai mehānisms neiesprūst. Ja spīles nevar aizvērties pilnībā objekta dēļ, izmantojiet bloku <code>set motor [C] power to [30]%</code>, lai nesabojātu motoru ar pārslodzi.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Autonomā piegādes misija</h2>
+    <p>Savienojiet braukšanas (rozā) un manipulatora (zilos) blokus! Robotam jāaizbrauc līdz objektam (piemēram, 30 cm attālumā), jāsatver tas un jāatved atpakaļ starta pozīcijā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Sāciet programmu, atverot satvērēju (zilais bloks).</li>
+            <li>Pievienojiet rozā <code>move [forward] for [30] cm</code> bloku. Pārliecinieties, ka robots apstājas tieši pie objekta.</li>
+            <li>Pievienojiet zilo bloku satvērēja aizvēršanai, lai cieši satvertu priekšmetu.</li>
+            <li>Pievienojiet rozā bloku <code>move [backward]</code> vai pagriezieties par 180 grādiem un aizbrauciet atpakaļ ar objektu.</li>
+            <li>Beigās pievienojiet zilo bloku satvērēja atvēršanai, lai noliktu kravu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>4. uzdevums (Zvaigznītes izaicinājums): "Sargātāja" režīms ar diviem sensoriem</h2>
+    <p>Ātrākajām komandām – savienojiet šīs stundas satvērēju ar iepriekšējo stundu sensoriem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievienojiet robotam gan distances, gan krāsu sensoru.</li>
+            <li>Ieprogrammējiet robotu stāvēt uz vietas ar atvērtu satvērēju.</li>
+            <li>Kad distances sensors pamana objektu tuvāk par 5 cm, satvērējs zibenīgi aizveras.</li>
+            <li>Pēc tam robots griežas ap savu asi, kamēr krāsu sensors ierauga noteiktu krāsu (piemēram, Zaļu). Kad redz zaļu – satvērējs atveras un "izspļauj" objektu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>Satvērējs kustas pārāk vāji vai nespēj pacelt objektu:</b> Jūsu mehānisms ir pārāk tiešs. Pamēģiniet izmantot zobratus, lai palielinātu griezes momentu (spēku), uzliekot mazu zobratu uz motora ass un lielu zobratu uz satvērēja ass.</li>
+        <li><b>Programma "iestrēgst" pie zilā bloka un robots nebrauc tālāk:</b> Ja izmantojat <code>run motor for [degrees]</code> bloku un spīles fiziski nevar sasniegt šos grādus (jo priekšmets ir pa vidu), programma gaidīs mūžīgi un neies uz priekšu. Risinājums: pirms satveršanas izmantojiet zilo bloku <code>set motor [C] to run for [X] seconds</code> vai nomainiet stāvokli uz "stop motor" pēc sekundi ilgas piepūles.</li>
+        <li><b>Satvērējs atveras vaļā pats no sevis pēc satveršanas:</b> LEGO motoriem ir pretestība, bet lieli smagumi tos var atgriezt atpakaļ. Iestatiet motora "Hold" (turēšanas) funkciju vai mehāniski pievienojiet tārpa zobratu (worm gear), kas bloķē kustību atpakaļ.</li>
+    </ul>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (Misijas algoritms)</h2>
+    <div class='code-example'>
+        <pre><code class="language-powershell">
+# SPIKE Word Blocks vizuālā koda tekstuālā reprezentācija
+
+when program starts
+set movement motors to [A] and [B]
+
+# 1. Atver satvērēju
+run motor [C] to position [0] degrees at [50]% speed
+
+# 2. Brauc pie mērķa
+move [Straight] for [30] [cm]
+
+# 3. Satver objektu (izmantojot laiku, lai neiesprūstu)
+start motor [C] at [50]% speed
+wait [1] seconds
+stop motor [C]
+
+# 4. Atgriežas un noliek
+move [Backward] for [30] [cm]
+run motor [C] to position [0] degrees
+        </code></pre>
+        <div class='result'>
+            Robots sagatavo spīles atvērtā pozīcijā, aizbrauc norādīto distanci, saspiež spīles uz 1 sekundi (pietiekami, lai satvertu objektu bez motora iestrēgšanas), atbrauc atpakaļ un noliek objektu.
+        </div>
+    </div>
+</div>
+<div class="stundas-navigacija">
+    <a href="stunda3.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="stunda5.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>
