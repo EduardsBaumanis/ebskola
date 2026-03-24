@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>6. stunda: Ievads Arduino un Tinkercad</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>6. tēma (Arduino 1. nodarbība): Ievads mikrokontrolieros un elektronikas pamati</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izprast maketo plates darbības principus, izveidot savu pirmo elektronisko slēgumu virtuālajā Tinkercad vidē un uzrakstīt C++ kodu, kas kontrolē LED diodes mirgošanu.</p>
+    <a href="sasnRez.html">Datorika 7. klase (D.7.1.1., D.7.2.1., D.7.6.1.)</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Elektronikas un C++ valodas pamati</h2>
+    <p>Laipni lūgti mehatronikas pasaulē! Arduino nav gatavs robots – tās ir robota "smadzenes" (mikrokontrolieris), kurām mums pašiem fiziski jāpievieno vadi, sensori un motori. Lai nesadedzinātu reālas detaļas, mēs vispirms trenēsimies virtuālā laboratorijā <b>Tinkercad Circuits</b>.</p>
+    <ul>
+        <li><b>Maketo plate (Breadboard):</b> Tā ir plastmasas dēlis ar caurumiem, kas ļauj savienot vadus bez lodēšanas. Sānu līnijas (+ un -) ir savienotas vertikāli (elektrības padevei), bet vidējās līnijas ir savienotas horizontāli (komponenšu savienošanai).</li>
+        <li><b>LED un Rezistors:</b> LED (gaismas diodei) ir divas kājas: Anods (garākā kāja, +) un Katods (īsākā kāja, - jeb GND). LED diodei OBLIGĀTI jāpievieno rezistors (pretestība), citādi tā no pārāk lielas strāvas sadegs!</li>
+        <li><b>C++ Koda struktūra:</b> Arduino kods sastāv no divām galvenajām daļām: <code>void setup()</code> (kods, kas izpildās tikai vienu reizi, ieslēdzot ierīci) un <code>void loop()</code> (kods, kas atkārtojas mūžīgi, kā LEGO "forever" cikls).</li>
+        <li><b>Sintakse:</b> C++ valoda ir ļoti stingra. Katras komandas beigās OBLIGĀTI jāliek semikols <code>;</code>. Tāpat ir milzīga atšķirība starp lielajiem un mazajiem burtiem!</li>
+    </ul>
+    <p><i>[Ievietot attēlu šeit: Ekrānuzņēmums no Tinkercad ar Arduino Uno, Maketo plati un paskaidrojošām bultiņām par to, kā savienoti Breadboard caurumi]</i></p>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Virtuālās darba stacijas iekārtošana</h2>
+    <p>Izveidojiet jaunu projektu Tinkercad un nodrošiniet strāvas padevi maketo platei.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Ienāciet <i>Tinkercad.com</i>, izvēlieties sadaļu "Designs" -> "Create" -> "Circuit".</li>
+            <li>Labās puses izvēlnē atrodiet un ievelciet darba laukumā "Arduino Uno R3" un "Breadboard Small".</li>
+            <li>Ar peli novelciet vadu no Arduino "5V" (5 volti) pina uz Breadboard sarkano (+) līniju. Iekrāsojiet šo vadu sarkanu!</li>
+            <li>Novelciet vadu no Arduino "GND" (Ground jeb mīnuss) pina uz Breadboard melno (-) līniju. Iekrāsojiet šo vadu melnu!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: LED diodes un rezistora slēgums</h2>
+    <p>Fiziski (virtuāli) saslēdziet komponentes, lai tās būtu gatavas saņemt signālu no Arduino 13. pina.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atrodiet "LED" un ievietojiet to maketo plates vidū tā, lai katra kāja būtu savā vertikālajā kolonnā.</li>
+            <li>Atrodiet "Resistor", iestatiet tā pretestību uz <b>220 Ω (omi)</b>. Pievienojiet vienu rezistora galu pie LED Anoda (salietās kājas), bet otru galu pie Arduino <b>13. pina</b>.</li>
+            <li>Pievienojiet melnu vadu no LED Katoda (taisno kāju kolonna) uz maketo plates melno (-) līniju (GND).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Pirmās C++ programmas rakstīšana ("Blink")</h2>
+    <p>Pārslēdzieties uz teksta koda vidi un uzrakstiet komandas, kas liks diodei mirgot ar 1 sekundes intervālu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Ekrāna augšējā labajā stūrī noklikšķiniet uz pogas "Code". Nolaižamajā izvēlnē nomainiet "Blocks" uz "Text" (apstipriniet brīdinājumu).</li>
+            <li>Iekš <code>void setup()</code> ierakstiet: <code>pinMode(13, OUTPUT);</code> (Tas pasaka Arduino, ka 13. pins dos strāvu ārā).</li>
+            <li>Iekš <code>void loop()</code> ierakstiet: <code>digitalWrite(13, HIGH);</code> (Ieslēdz strāvu) un nākamajā rindiņā <code>delay(1000);</code> (Pagaida 1000 milisekundes jeb 1 sekundi).</li>
+            <li>Pievienojiet vēl divas rindiņas, lai izslēgtu diodi: <code>digitalWrite(13, LOW);</code> un <code>delay(1000);</code>. Nospiediet "Start Simulation"!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>4. uzdevums (Zvaigznītes izaicinājums): Policijas bākugunis ar mainīgajiem (Variables)</h2>
+    <p>Ātrākajām komandām – pievienojiet otru LED diodi (zilu) un izmantojiet "mainīgos", lai kontrolētu mirgošanas ātrumu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievienojiet maketo platei zilu LED diodi un rezistoru, savienojot to ar Arduino 12. pinu. Atcerieties par GND vadu!</li>
+            <li>Koda pašā sākumā (virs <code>void setup()</code>) izveidojiet mainīgo laika kontrolei: <code>int atrums = 200;</code></li>
+            <li>Nomainiet <code>void loop()</code> kodā visus <code>delay(1000);</code> uz <code>delay(atrums);</code>.</li>
+            <li>Izveidojiet kodu, kur pārmaiņus ieslēdzas un izslēdzas 13. pins, tad 12. pins. Mainot tikai vienu ciparu pašā augšā (mainīgo), jūs varēsiet paātrināt abas gaismas uzreiz!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>Kods nestrādā, rāda sarkanas kļūdas (Syntax error):</b> Pārbaudiet, vai KARTAS komandas beigās iekš setup un loop ir semikols <code>;</code>. Pārbaudiet burtu reģistru – jāraksta <code>digitalWrite</code> (ar mazo 'd' un lielo 'W'), nevis Digitalwrite vai digitalwrite!</li>
+        <li><b>Simulācija darbojas, bet LED nedeg:</b> Visticamāk, LED ir pievienots otrādi. Katodam jābūt pievienotam pie mīnusa (GND), bet Anodam caur rezistoru pie Arduino pina. Pārbaudiet arī, vai vadi iesprausti pareizajās Breadboard caurumu līnijās!</li>
+        <li><b>LED diode uzsprāgst simulācijā:</b> Jūs aizmirsāt pievienot rezistoru vai arī tā pretestība ir pārāk maza. Noklikšķiniet uz rezistora un pārliecinieties, ka iestatīts "220" un simbols ir "Ω" (omi), nevis "kΩ" (kilo omi, kas ir pārāk liela pretestība, un diode nespīdēs vispār).</li>
+    </ul>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs ("Blink" algoritms)</h2>
+    <div class='code-example'>
+        <pre><code class="language-powershell">
+// C++ kods (divas slīpsvītras nozīmē komentāru, ko dators ignorē)
+
+void setup() {
+  // Šis kods izpildās vienreiz, konfigurējot portus
+  pinMode(13, OUTPUT); 
+}
+
+void loop() {
+  // Šis kods atkārtojas bezgalīgi
+  digitalWrite(13, HIGH);  // Padod 5V strāvu uz 13. pinu (Ieslēdz LED)
+  delay(1000);             // Gaida 1000 milisekundes (1 sekundi)
+  digitalWrite(13, LOW);   // Atslēdz strāvu (Izslēdz LED)
+  delay(1000);             // Gaida 1 sekundi
+}
+        </code></pre>
+        <div class='result'>
+            LED diode iedegsies uz vienu sekundi un izdzisīs uz vienu sekundi, un šis cikls turpināsies, kamēr vien darbosies simulācija (vai kamēr Arduino būs pieslēgts strāvai).
+        </div>
+    </div>
+</div>
+<div class="stundas-navigacija">
+    <a href="stunda5.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="stunda7.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

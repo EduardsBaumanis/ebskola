@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>3. stunda: Krāsu sensors un līniju sekotājs</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+</head>
+<body>
+
+<nav class='galvenaisdiv'>
+    <a href="../index.html">Tēmas</a>
+    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>3. tēma: Krāsu sensors un lēmumu pieņemšana (If-Else)</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Aprīkot robotu ar krāsu sensoru, ieprogrammēt spēju atšķirt krāsas un izveidot algoritmu, kas ļauj robotam autonomi sekot melnai līnijai uz laukuma.</p>
+    <a href="sasnRez.html">Datorika 7. klase (D.7.2.1., D.7.3.1., D.7.4.2.)</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Kā robots pieņem lēmumus?</h2>
+    <p>Līdz šim mūsu robots darīja vienu darbību, kamēr kaut kas notika (Wait until). Bet ko darīt, ja robotam nepārtraukti jāizvēlas starp divām rīcībām? Tam mēs izmantojam "If-Else" (Ja-Tad-Citādi) blokus.</p>
+    <ul>
+        <li><b>Krāsu sensors:</b> Šis sensors var strādāt divos režīmos. Tas var atpazīt konkrētas krāsas (Sarkans, Zils, Zaļš) VAI mērīt <b>atstarotās gaismas intensitāti (Reflected Light)</b> no 0% (pilnīgi melns) līdz 100% (pilnīgi balts). Līnijas sekošanai gaismas intensitātes režīms ir daudz precīzāks!</li>
+        <li><b>"If - Else" (Ja - Citādi) bloks:</b> Atrodams dzeltenajā "Control" sadaļā. Tas uzdod jautājumu. <i>Piemērs: JA (If) es redzu melnu krāsu, TAD es griežos pa kreisi. CITĀDI (Else) [tas nozīmē - redzu baltu], es griežos pa labi.</i></li>
+        <li><b>Cikla nozīme:</b> Lai robots sekotu līnijai, šis "If-Else" jautājums ir jāuzdod tūkstošiem reižu sekundē. Tāpēc "If-Else" bloks vienmēr jāliek iekšā "Forever" (Mūžīgi) vai "Repeat until" (Atkārtot līdz) ciklā.</li>
+    </ul>
+    <p><i>[Ievietot attēlu šeit: Ekrānuzņēmums no SPIKE lietotnes ar dzelteno If-Else bloku iekš Forever cikla, kur If nosacījumā ir Color Sensor mērījums]</i></p>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Krāsu atpazīšana un "Sarkanā gaisma"</h2>
+    <p>Pievienojiet krāsu sensoru un lieciet robotam braukt taisni, līdz tas ierauga sarkanu līniju (vai sarkanu LEGO klucīti uz grīdas).</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievienojiet krāsu sensoru robota priekšpusē tā, lai tas būtu vērsts uz leju (pret zemi). Optimālais augstums no grīdas ir aptuveni 1-2 LEGO klucīšu biezumā.</li>
+            <li>Pievienojiet sensoru brīvam portam (piem., E).</li>
+            <li>Izmantojiet blokus: <code>start moving [Straight]</code>.</li>
+            <li>Pievienojiet oranžo <code>wait until</code> bloku un tajā ievietojiet gaiši zilo sensora bloku <code>[Color Sensor on E] sees [Red]</code>.</li>
+            <li>Pēc tam pievienojiet <code>stop moving</code> bloku. Pārbaudiet!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Divu stāvokļu līniju sekotājs (Zig-zag)</h2>
+    <p>Izveidojiet programmu, kas ļauj robotam sekot melnas līnijas malai, izmantojot atstarotās gaismas intensitāti.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveidojiet jaunu kodu. Sākumā iestatiet motorus. Tad pievienojiet oranžo <code>forever</code> ciklu.</li>
+            <li>Iekšā ciklā ievietojiet oranžo <code>If ... Else ...</code> bloku.</li>
+            <li>"If" nosacījumā ielieciet bloku, kas pārbauda gaismas intensitāti: <code>[Color Sensor on E] reflection < [50]%</code>. (Viss, kas tumšāks par 50%, skaitīsies līnija).</li>
+            <li>Sadaļā "If" (kad redz melnu) ielieciet komandu nedaudz pagriezties pa labi (piemēram, <code>start moving at [30] % steering</code>).</li>
+            <li>Sadaļā "Else" (kad redz baltu) ielieciet komandu nedaudz pagriezties pa kreisi (piemēram, <code>start moving at [-30] % steering</code>).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Koda pielāgošana reālajai trasei</h2>
+    <p>Pārbaudiet robotu uz robotikas paklāja un noregulējiet parametrus tā, lai kustība kļūtu vienmērīgāka un ātrāka.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Novietojiet robotu uz līnijas MALAS (sensors daļēji uz melnā, daļēji uz baltā).</li>
+            <li>Ja robots raustās pārāk traki (ass zig-zag), samaziniet stūrēšanas (steering) procentus no 30 uz 15 vai 20.</li>
+            <li>Pievienojiet programmai <code>set movement speed</code> bloku. Kas notiek, ja palielina ātrumu? Robots, visticamāk, līniju pazaudēs. Atrodiet labāko balansu starp ātrumu un stabilitāti!</li>
+            <li>Pārbaudiet, vai jūsu sensors nav pārāk tuvu grīdai (strīķējas) vai pārāk augstu (neredz atšķirību starp melnu un baltu).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>4. uzdevums (Zvaigznītes izaicinājums): "Saskaitītie krustojumi"</h2>
+    <p>Izaicinājums ātrākajām komandām – izveidojiet programmu, kurā robots brauc pa līniju, bet saskaita, cik reizes tas šķērsojis zaļu līniju/krustojumu, un apstājas pēc 3. reizes.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Jums būs nepieciešams izveidot Mainīgo (Variable) – nosauciet to "Krustojumi". Koda sākumā iestatiet to uz 0.</li>
+            <li>Nomainiet <code>forever</code> ciklu uz <code>repeat until [Krustojumi = 3]</code>.</li>
+            <li>Papildiniet "If-Else" loģiku. Jums būs nepieciešams vēl viens If bloks, kas pārbauda: JA sensors redz ZAĻU krāsu, TAD <code>change [Krustojumi] by 1</code> un nedaudz pagaidīt (lai nesaskaitītu vienu līniju vairākas reizes).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>Robots riņķo uz vietas, kad atrod līniju:</b> Jūsu stūrēšanas vērtības (steering) ir pārāk lielas (piemēram, 100%), vai arī motors A un B griežas pretējos virzienos. Līnijas sekošanai pietiek ar nelielu pagrieziena leņķi (10% līdz 30%).</li>
+        <li><b>Robots pazaudē līniju līkumos:</b> Izvēlētais braukšanas ātrums ir pārāk liels, vai arī "If" nosacījuma slieksnis (50%) neatbilst jūsu klases apgaismojumam. Paskatieties portu skatā, kādu procentu sensors rāda uz melnā un baltā, un izrēķiniet vidējo aritmētisko.</li>
+        <li><b>Sensors "redz" līniju tikai dažreiz:</b> Iespējams, izmantojat "Color" (Krāsas) atpazīšanas režīmu melnas līnijas meklēšanai. Krāsu atpazīšana prasa ideālu apgaismojumu. Vienmēr līniju sekošanai izmantojiet "Reflected Light" (Atstarotā gaisma) bloku!</li>
+    </ul>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (Vienkāršais līniju sekotājs)</h2>
+    <div class='code-example'>
+        <pre><code class="language-powershell">
+# SPIKE Word Blocks vizuālā koda tekstuālā reprezentācija
+
+when program starts
+set movement motors to [A] and [B]
+set movement speed to [25]%
+
+forever:
+    if [Color Sensor on E] reflection < [50]% then:
+        start moving at [25] % steering  # Griežas uz vienu pusi (prom no līnijas)
+    else:
+        start moving at [-25] % steering # Griežas uz otru pusi (atpakaļ uz līniju)
+        </code></pre>
+        <div class='result'>
+            Robots nepārtraukti "lēkās" no līnijas malas uz balto laukumu un atpakaļ, radot zig-zag kustību, kas vidēji virzīs to uz priekšu pa līnijas trajektoriju.
+        </div>
+    </div>
+</div>
+<div class="stundas-navigacija">
+    <a href="stunda2.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="stunda4.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>
