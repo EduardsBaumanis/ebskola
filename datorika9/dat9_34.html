@@ -18,57 +18,99 @@
 
 <section class='section'>
     <h1>3.4. tēma: Masīvi (Arrays) un datu strukturēšana</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Pielietot masīvus, lai organizētu, saglabātu un atjauninātu vairākus saistītus spēles elementus (piemēram, inventāru vai labākos rezultātus) vienuviet.</p>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Pielietot masīvus, lai organizētu, saglabātu un atjauninātu vairākus saistītus spēles elementus (inventāru un rezultātus) vienuviet, veidojot interaktīvu datu bāzi.</p>
     <a href="sasnRez.html">2.6.1. Izmanto atbilstošas vienkāršas datu struktūras; 2.4.2. Strukturē datus, izvēloties racionālākos paņēmienus.</a>
 </section>
 
 <section class='section'>
     <h2>Teorija: Datu vilciens (Masīvi)</h2>
-    <p>Mainīgais ir kā viena kaste. Bet ko darīt, ja spēlētājam ir mugursoma ar 10 lietām? Mēs izmantojam <b>masīvu (Array)</b> – tas ir kā vilciens, kur katrā vagonā ir savs saturs.
-        <ul>
-            <li><b>Sintakse:</b> Masīvu veido ar kvadrātiekavām <code>[]</code>, elementus atdalot ar komatu. Piemēram: <code>let inventars = ["Atslēga", "Monēta", "Karte"];</code></li>
-            <li><b>Indeksācija (SVARĪGI!):</b> Programmēšanā skaitīšana sākas no <b>0</b>. Lai dabūtu pirmo lietu ("Atslēga"), mēs rakstām <code>inventars[0]</code>. Otrā lieta ir <code>inventars[1]</code>.</li>
-            <li><b>Metodes:</b> Mēs varam masīvam pievienot jaunas lietas ar <code>.push()</code> un uzzināt, cik lietu tajā ir ar <code>.length</code>.</li>
-        </ul>
-    </p>
+    <div class="logic-box">
+        <p>Mainīgais ir kā viena kaste. Bet ko darīt, ja spēlētājam ir mugursoma ar 10 lietām? Mēs izmantojam <b>masīvu (Array)</b> – tas ir kā vilciens, kur katrā vagonā ir savs saturs. Programmēšanā vagonus (indeksus) sāk skaitīt no <b>0</b>!</p>
+        
+        <table style="width:100%; border-collapse: collapse; margin-bottom: 15px; margin-top: 10px;">
+            <tr style="background-color: #333; color: white;">
+                <th style="padding: 10px; border: 1px solid #555;">Darbība</th>
+                <th style="padding: 10px; border: 1px solid #555;">Kods (Sintakse)</th>
+                <th style="padding: 10px; border: 1px solid #555;">Skaidrojums</th>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b>Izveidot</b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">let soma = ["Koks", "Akmens"];</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Izmanto kvadrātiekavas <b>[ ]</b> un komatus.</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b>Izlasīt (Indekss)</b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">console.log( soma[0] );</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Dabū pirmo elementu ("Koks").</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b>Pievienot</b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">soma.push("Zelts");</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Pieliek jaunu vagonu vilciena beigās.</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b>Saskaitīt</b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">soma.length</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Pasaka, cik elementu kopā ir masīvā.</td>
+            </tr>
+        </table>
+    </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Pirmā masīva izveide un indeksācija</h2>
-    <p>Izveidot spēlētāja inventāra sarakstu un iemācīties no tā izvilkt konkrētus datus.</p>
+    <h2>1. uzdevums: "Mugursomas atvēršana" (20 min)</h2>
+    <p>Izveidot spēlētāja inventāra sarakstu un iemācīties no tā izvilkt konkrētus datus pēc pogas nospiešanas.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Savā <code>script.js</code> failā izveido masīvu <code>let soma = ["Zobens", "Vairogs", "Dziras pudele"];</code>.</li>
-            <li>Izvadi konsolē visu masīvu, ierakstot <code>console.log(soma);</code>.</li>
-            <li>Izvadi konsolē tikai otro elementu (Vairogs). Atceries, ka indekss otrajam elementam ir 1: <code>console.log("Es paņēmu: " + soma[1]);</code>.</li>
+            <li>HTML failā pievieno pogu: <code class="language-html">&lt;button onclick="parbauditSomu()"&gt;Apskatīt somu&lt;/button&gt;</code>.</li>
+            <li>Savā <code class="language-javascript">script.js</code> failā (pašā augšā, ārpus funkcijām) izveido masīvu: <br><code class="language-javascript">let inventars = ["Koka Zobens", "Vairogs", "Dziras pudele"];</code></li>
+            <li>Izveido funkciju <code class="language-javascript">parbauditSomu()</code>.</li>
+            <li>Funkcijas iekšienē izvadi konsolē <b>otro</b> elementu (Vairogu). Atceries, ka indekss otrajam elementam ir 1: <br><code class="language-javascript">console.log("Mana aizsardzība: " + inventars[1]);</code></li>
+            <li>Pārbaudi lapā, vai poga strādā un konsole parāda pareizo vārdu.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Masīva satura atjaunināšana (Manipulācija)</h2>
-    <p>Simulēt spēles gaitu, pievienojot jaunas lietas inventāram un nomainot esošās.</p>
+    <h2>2. uzdevums: "Atrasta dārgumu lāde!" (20 min)</h2>
+    <p>Simulēt spēles gaitu, dinamiski pievienojot jaunas lietas inventāram un nomainot esošās.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Pievieno masīvam jaunu lietu, izmantojot metožu komandu <code>soma.push("Burvju nūjiņa");</code>.</li>
-            <li>Pārveido pirmo elementu (Zobenu), nomainot to uz kaut ko labāku: <code>soma[0] = "Lāzera zobens";</code>.</li>
-            <li>Izmanto <code>console.log("Somā ir " + soma.length + " priekšmeti.");</code>, lai saskaitītu, cik tagad mantu pieder spēlētājam.</li>
+            <li>HTML failā pievieno otru pogu: <code class="language-html">&lt;button onclick="atvertLadi()"&gt;Atvērt lādi&lt;/button&gt;</code>.</li>
+            <li>JS failā izveido funkciju <code class="language-javascript">atvertLadi()</code>.</li>
+            <li>Funkcijā pievieno jaunu mantu masīvam: <code class="language-javascript">inventars.push("Maģiskais kristāls");</code>.</li>
+            <li>Pārveido pirmo elementu (nomaini "Koka Zobens" uz labāku ieroci): <br><code class="language-javascript">inventars[0] = "Uguns Zobens";</code></li>
+            <li>Izmanto <code class="language-javascript">inventars.length</code>, lai paziņotu, cik mantu tagad ir: <br><code class="language-javascript">alert("Tu atradi kristālu! Somā tagad ir " + inventars.length + " priekšmeti.");</code></li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Masīva un HTML lapas savienošana</h2>
+    <h2>3. uzdevums: Rezultātu tablo savienošana ar HTML (20 min)</h2>
     <p>Izvadīt spēles labāko rezultātu tieši HTML lapā, izvelkot to no masīva.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Izveido jaunu masīvu ar skaitļiem <code>let topRezultati = [150, 300, 950, 420];</code>.</li>
-            <li>HTML failā pievieno tekstu ar ID: <code>&lt;p&gt;Labākais sasniegums: &lt;span id="top-score"&gt;&lt;/span&gt; punkti&lt;/p&gt;</code>.</li>
-            <li>JS failā atrodi šo elementu un ievieto tajā augstāko rezultātu no sava masīva (indekss 2): <code>document.getElementById("top-score").innerText = topRezultati[2];</code>.</li>
-            <li>Veic <b>Commit</b> un <b>Push</b>, fiksējot datu struktūru izveidi.</li>
+            <li>JS faila augšā izveido jaunu masīvu ar skaitļiem: <code class="language-javascript">let topRezultati = [150, 300, 950, 420];</code>.</li>
+            <li>HTML failā (zem pogām) pievieno tekstu ar ID: <br><code class="language-html">&lt;p&gt;Labākais sasniegums: &lt;span id="top-score"&gt;?&lt;/span&gt; punkti&lt;/p&gt;</code>.</li>
+            <li>HTML failā pievieno pogu "Rādīt labāko rezultātu", kas izsauc funkciju <code class="language-javascript">raditRezultatu()</code>.</li>
+            <li>JS failā izveido šo funkciju. Tajā atrodi HTML elementu un ievieto trešo rezultātu (950): <br><code class="language-javascript">document.getElementById("top-score").innerText = topRezultati[2];</code></li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>4. uzdevums: Izaicinājums - Mantu zaudēšana (10 min)</h2>
+    <p>Izmantot jaunu komandu, lai noņemtu elementus no masīva, ja spēlētājs saņem triecienu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Papildus <code class="language-javascript">.push()</code> (kas pievieno elementu beigās), eksistē komanda <code class="language-javascript">.pop()</code>, kas izdzēš pašu pēdējo elementu masīvā.</li>
+            <li>Izveido HTML pogu "Saņemt triecienu".</li>
+            <li>Izveido funkciju, kura izpilda <code class="language-javascript">inventars.pop();</code> un konsolē izvadi atjaunoto masīvu ar <code class="language-javascript">console.log(inventars);</code>.</li>
+            <li>Spied pogu "Atvērt lādi", tad "Saņemt triecienu" un skaties, kā tavas mantas parādās un pazūd! Veic failu <b>Commit & Push</b>.</li>
         </ol>
     </div>
 </section>
@@ -76,9 +118,9 @@
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
     <ul>
-        <li><b>Nobīde par viens (Off-by-one error):</b> Mēģinot dabūt pirmo elementu ar <code>masivs[1]</code>. Atceries: pirmā elementa numurs ir 0!</li>
-        <li><b>Neatrodams elements (undefined):</b> Ja masīvā ir 3 lietas (indeksi 0, 1, 2) un tu prasi <code>masivs[3]</code>, JavaScript atbildēs ar "undefined", jo ceturtā vagona nav.</li>
-        <li><b>Kvadrātiekavu sajaukšana ar figūriekavām:</b> Masīvi izmanto <code>[]</code>, nevis <code>{}</code>. Figūriekavas kalpo objektu izveidei, ko mācīsimies vēlāk.</li>
+        <li><b>Nobīde par viens (Off-by-one error):</b> Mēģinot dabūt pirmo elementu ar <code class="language-javascript">masivs[1]</code>. Atceries: pirmā elementa numurs ir 0!</li>
+        <li><b>Neatrodams elements (undefined):</b> Ja masīvā ir 3 lietas (indeksi 0, 1, 2) un tu prasi <code class="language-javascript">masivs[3]</code>, JavaScript atbildēs ar "undefined", jo ceturtā vagona nav.</li>
+        <li><b>Kvadrātiekavu sajaukšana ar figūriekavām:</b> Masīvi izmanto <code class="language-javascript">[ ]</code>, nevis <code class="language-javascript">{ }</code>. Figūriekavas kalpo objektu izveidei un funkciju blokiem.</li>
     </ul>
 </section>
 

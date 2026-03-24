@@ -18,57 +18,100 @@
 
 <section class='section'>
     <h1>3.5. tēma: Cikli (Loops) un atkārtošanās loģika</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Izstrādāt ciklisku algoritmu, lai automātiski apstrādātu datu masīvus un ģenerētu HTML saturu, novēršot koda atkārtošanos.</p>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izstrādāt ciklisku algoritmu, lai automātiski apstrādātu datu masīvus un ģenerētu HTML saturu, izvairoties no manuālas koda pārrakstīšanas.</p>
     <a href="sasnRez.html">2.6.1. Pieraksta, lasa un izpilda algoritmus ar cikliskām darbībām; 5.2.1. Problēmrisināšana un optimizācija.</a>
 </section>
 
 <section class='section'>
     <h2>Teorija: Automātiskais dzinējs (For cikls)</h2>
-    <p>Lai liktu datoram atkārtot darbību, mēs izmantojam <b>for</b> ciklu. Tas sastāv no trim svarīgām daļām:
-        <ul>
-            <li><b>Sākums:</b> <code>let i = 0;</code> (Kur mēs sākam skaitīt? Parasti no 0, jo masīvi sākas ar 0).</li>
-            <li><b>Nosacījums:</b> <code>i &lt; 5;</code> (Cik ilgi mēs atkārtosim? Kamēr <i>i</i> ir mazāks par 5).</li>
-            <li><b>Solis:</b> <code>i++</code> (Ko darām pēc katra apļa? Palielinām <i>i</i> par 1).</li>
-        </ul>
-    Cikli ir ideāli piemēroti, lai "izietu cauri" visiem masīva elementiem, izmantojot <code>masivs.length</code>.
-    </p>
+    <div class="logic-box">
+        <p>Vai gribi lapā parādīt 100 ienaidniekus? Tev nav jāraksta 100 koda rindiņas! Lai liktu datoram atkārtot darbību, mēs izmantojam <b>for</b> ciklu. Tas sastāv no trim svarīgām daļām iekavās, kas atdalītas ar <b>semikolu (;)</b>:</p>
+        
+        <table style="width:100%; border-collapse: collapse; margin-bottom: 15px; margin-top: 10px;">
+            <tr style="background-color: #333; color: white;">
+                <th style="padding: 10px; border: 1px solid #555;">Daļa</th>
+                <th style="padding: 10px; border: 1px solid #555;">Kods (Sintakse)</th>
+                <th style="padding: 10px; border: 1px solid #555;">Ko tas nozīmē?</th>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b>1. Sākums</b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">let i = 0;</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Kur sākam skaitīt? Parasti no 0, jo masīvi sākas ar 0.</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b>2. Nosacījums</b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">i &lt; 5;</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Cik ilgi atkārtosim? (Kamēr <i>i</i> ir mazāks par 5).</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b>3. Solis</b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">i++</code></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Ko darām pēc katra apļa? Palielinām <i>i</i> par 1.</td>
+            </tr>
+        </table>
+
+        <p><b>Kā tas izskatās kopā:</b></p>
+        <pre><code class="language-javascript">for (let i = 0; i &lt; 5; i++) {
+    console.log("Šis teksts parādīsies 5 reizes!");
+}</code></pre>
+    </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Skaitīšanas mašīna</h2>
-    <p>Uzrakstīt savu pirmo ciklu, kas automātiski izvada skaitļus konsolē.</p>
+    <h2>1. uzdevums: "Laika atskaite" (15 min)</h2>
+    <p>Uzrakstīt savu pirmo ciklu, kas automātiski izvada skaitļu virkni, reaģējot uz lietotāja klikšķi.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Savā <code>script.js</code> failā izveido struktūru: <code>for (let i = 1; i &lt;= 5; i++) { }</code>.</li>
-            <li>Starp figūriekavām ieraksti komandu: <code>console.log("Šis ir aplis numur: " + i);</code>.</li>
-            <li>Palaid kodu un apskaties konsolē – tu redzēsi piecus ziņojumus, kaut gan uzrakstīji tikai vienu koda rindu!</li>
+            <li>HTML failā izveido pogu: <code class="language-html">&lt;button onclick="saktAtskaiti()"&gt;Sākt atskaiti&lt;/button&gt;</code>.</li>
+            <li>Savā <code class="language-javascript">script.js</code> failā izveido funkciju <code class="language-javascript">saktAtskaiti()</code>.</li>
+            <li>Funkcijas iekšienē izveido ciklu: <code class="language-javascript">for (let i = 1; i &lt;= 5; i++) { ... }</code>.</li>
+            <li>Cikla figūriekavās ieraksti komandu: <code class="language-javascript">console.log("Aplis numur: " + i);</code>.</li>
+            <li>Spied pogu pārlūkā un apskaties konsolē – tu redzēsi piecus ziņojumus uzreiz!</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Masīva apstrāde ar ciklu</h2>
-    <p>Savienot ciklu ar masīvu, lai izvadītu visus spēlētāja inventāra priekšmetus.</p>
+    <h2>2. uzdevums: "Burvju dziru brūvēšana" (20 min)</h2>
+    <p>Savienot ciklu ar masīvu, lai dators pats "izietu cauri" visiem spēlētāja inventāra priekšmetiem.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Izveido inventāra masīvu: <code>let inventars = ["Zobens", "Vairogs", "Zelts", "Atslēga"];</code>.</li>
-            <li>Izveido <code>for</code> ciklu, kas sākas no 0, bet nosacījumā izmanto masīva garumu: <code>i &lt; inventars.length</code>.</li>
-            <li>Cikla iekšpusē izvadi katru elementu konsolē: <code>console.log("Priekšmets: " + inventars[i]);</code>. Mainīgais <i>i</i> katrā aplī kļūs par nākamo indeksu (0, tad 1, tad 2...).</li>
+            <li>HTML failā izveido pogu "Pārbaudīt krājumus".</li>
+            <li>JS failā, ārpus funkcijām, izveido masīvu: <code class="language-javascript">let krajumi = ["Ūdens", "Sēnes", "Zelts", "Krupja acs"];</code>.</li>
+            <li>Izveido jaunu funkciju pogai. Tajā raksti ciklu: <code class="language-javascript">for (let i = 0; i &lt; krajumi.length; i++) { ... }</code>. <i>(Pievērs uzmanību: mēs izmantojam .length, lai dators pats zina, cik mantu ir!)</i></li>
+            <li>Cikla iekšpusē izvadi katru elementu konsolē: <code class="language-javascript">console.log("Sastāvdaļa atrasta: " + krajumi[i]);</code>. Mainīgais <i>i</i> katrā aplī kļūs par nākamo indeksu (0, 1, 2, 3).</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: HTML saraksta ģenerēšana</h2>
-    <p>Izmantot ciklu, lai automātiski izveidotu redzamu sarakstu spēles tīmekļa lapā.</p>
+    <h2>3. uzdevums: Interaktīvā inventāra drukāšana (20 min)</h2>
+    <p>Izmantot ciklu, lai automātiski ģenerētu HTML sarakstu spēles tīmekļa lapā, nevis tikai konsolē.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Sava <code>index.html</code> faila saskarnes daļā pievieno tukšu sarakstu ar ID: <code>&lt;ul id="inventara-saraksts"&gt;&lt;/ul&gt;</code>.</li>
-            <li>JS faila cikla iekšpusē pievieno komandu, kas katru priekšmetu ievieto HTML formātā (kā saraksta elementu <code>&lt;li&gt;</code>): <br><code>document.getElementById("inventara-saraksts").innerHTML += "&lt;li&gt;" + inventars[i] + "&lt;/li&gt;";</code>.</li>
-            <li>Ievēro <b>+=</b> zīmi! Tā nozīmē "pievieno klāt esošajam", nevis "aizstāj". Sinhronizē darbu ar GitHub.</li>
+            <li>HTML failā pievieno tukšu sarakstu un dod tam ID: <code class="language-html">&lt;ul id="inventara-saraksts"&gt;&lt;/ul&gt;</code>. Pievieno arī pogu "Rādīt inventāru lapā".</li>
+            <li>JS failā izveido funkciju. Vispirms atrodi HTML sarakstu: <br><code class="language-javascript">let saraksts = document.getElementById("inventara-saraksts");</code></li>
+            <li>Pirms cikla iztukšo sarakstu, lai mantas nedublētos, ja pogu spiedīs vairākkārt: <code class="language-javascript">saraksts.innerHTML = "";</code></li>
+            <li>Uzraksti <code class="language-javascript">for</code> ciklu, kas iet cauri <code class="language-javascript">krajumi.length</code>.</li>
+            <li>Cikla iekšpusē izmanto <b>+=</b> (pievienot klāt), lai ģenerētu HTML: <br><code class="language-javascript">saraksts.innerHTML += "&lt;li&gt;" + krajumi[i] + "&lt;/li&gt;";</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>4. uzdevums: Izaicinājums – Briesmoņu klonēšana (15 min)</h2>
+    <p>Izveidot vizuālu ciklu, kas uzģenerē lietotāja izvēlētu skaitu elementu uz ekrāna.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>HTML failā izveido tukšu <code class="language-html">&lt;div id="arēna"&gt;&lt;/div&gt;</code> un pogu "Izsaukt briesmoņus".</li>
+            <li>JS funkcijā pajautā lietotājam skaitu: <code class="language-javascript">let skaits = Number(prompt("Cik briesmoņus izsaukt?"));</code></li>
+            <li>Uzraksti <code class="language-javascript">for</code> ciklu, kurš atkārtojas tik reizes, cik ievadīja lietotājs (<code class="language-javascript">i &lt; skaits</code>).</li>
+            <li>Cikla iekšpusē pievieno arēnai Emoji: <br><code class="language-javascript">document.getElementById("arēna").innerHTML += "👺 ";</code></li>
+            <li>Spied pogu un liec datoram uzģenerēt 100 briesmoņus vienā sekundē! Neaizmirsti veikt <b>Commit & Push</b>.</li>
         </ol>
     </div>
 </section>
@@ -76,9 +119,9 @@
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
     <ul>
-        <li><b>Mūžīgais cikls (Infinite Loop):</b> Ja uzrakstīsi <code>i--</code> (samazināt) vietā <code>i++</code> (palielināt), nosacījums <code>i &lt; 5</code> vienmēr būs patiess. Pārlūks uzkārsies un "iesaldēs" lapu. Rūpīgi pārbaudi cikla soli!</li>
-        <li><b>Komati semikolu vietā:</b> For cikla iekavās trīs daļas ir jāatdala ar <b>semikolu (;)</b>, nevis komatu. <code>for (let i = 0, i &lt; 5, i++)</code> izmetīs kļūdu.</li>
-        <li><b>Kļūda "undefined" pēdējā aplī:</b> Ja izmantosi <code>i &lt;= inventars.length</code> (mazāks vai vienāds), cikls mēģinās nolasīt neeksistējošu elementu. Indeksi beidzas pirms garuma, tāpēc izmanto tikai <code>&lt;</code> (mazāks).</li>
+        <li><b>Mūžīgais cikls (Infinite Loop):</b> Ja uzrakstīsi <code class="language-javascript">i--</code> (samazināt) vietā <code class="language-javascript">i++</code> (palielināt), nosacījums vienmēr būs patiess. Pārlūks uzkārsies un "iesaldēs" lapu. Rūpīgi pārbaudi cikla soli!</li>
+        <li><b>Komati semikolu vietā:</b> For cikla iekavās trīs daļas ir jāatdala ar <b>semikolu (;)</b>, nevis komatu. <code class="language-javascript">for (let i = 0, i &lt; 5, i++)</code> izmetīs kļūdu.</li>
+        <li><b>Kļūda "undefined" pēdējā aplī:</b> Ja izmantosi <code class="language-javascript">i &lt;= masivs.length</code> (mazāks vai vienāds), cikls mēģinās nolasīt neeksistējošu elementu. Indeksi beidzas pirms garuma, tāpēc izmanto tikai <code class="language-javascript">&lt;</code> (mazāks).</li>
     </ul>
 </section>
 
@@ -91,8 +134,8 @@
 let sarakstaElements = document.getElementById("top-saraksts");
 
 // Cikls izies cauri visiem 4 spēlētājiem (indeksi 0, 1, 2, 3)
-for (let i = 0; i < labakieSpeletaji.length; i++) {
-    // Katru apmācāmo pievienojam kā jaunu <li> elementu
+for (let i = 0; i &lt; labakieSpeletaji.length; i++) {
+    // Katru apmācāmo pievienojam kā jaunu &lt;li&gt; elementu
     sarakstaElements.innerHTML += "&lt;li&gt;" + (i+1) + ". vieta: " + labakieSpeletaji[i] + "&lt;/li&gt;";
 }</code></pre>
         <div class='result'>

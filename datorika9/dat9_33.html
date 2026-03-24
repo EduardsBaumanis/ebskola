@@ -23,51 +23,112 @@
 </section>
 
 <section class='section'>
-    <h2>Teorija: Lēmumu pieņemšana kodā</h2>
-    <p>Lai spēle zinātu, kad spēlētājs ir uzvarējis vai zaudējis, mēs izmantojam nosacījumus (<b>if statements</b>). Tie pārbauda, vai apgalvojums ir patiess (<i>true</i>) vai aplams (<i>false</i>).
-        <ul>
-            <li><b>Salīdzināšana:</b> <code>&gt;</code> (lielāks), <code>&lt;</code> (mazāks), <code>===</code> (precīzi vienāds), <code>!==</code> (nav vienāds). Noteikti ievēro, ka viens vienādības zīmes <code>=</code> nozīmē <i>piešķirt vērtību</i>, bet trīs <code>===</code> nozīmē <i>salīdzināt</i>!</li>
-            <li><b>Struktūra:</b> <code>if (nosacījums) { dari šo } else { dari citu }</code>.</li>
-            <li><b>Loģiskie operatori:</b> <code>&&</code> (UN - abiem jābūt patiesiem), <code>||</code> (VAI - vismaz vienam jābūt patiesam). Piemēram: Ja punkti &gt; 100 <b>UN</b> laiks &gt; 0, tad uzvara.</li>
-        </ul>
-    </p>
+    <h2>Teorija: Kā dators pieņem lēmumus?</h2>
+    <div class="logic-box">
+        <p>Dators nesaprot vārdu "varbūt". Tas atpazīst tikai divus stāvokļus: <b>true</b> (patiess) un <b>false</b> (aplams). Lai spēle pati saprastu, vai spēlētājs ir uzvarējis, mēs izmantojam <b>If/Else</b> (Ja/Citādi) blokus un operatorus.</p>
+        
+        <table style="width:100%; border-collapse: collapse; margin-bottom: 15px; margin-top: 10px;">
+            <tr style="background-color: #333; color: white;">
+                <th style="padding: 10px; border: 1px solid #555;">Kods</th>
+                <th style="padding: 10px; border: 1px solid #555;">Ko tas dara?</th>
+                <th style="padding: 10px; border: 1px solid #555;">Piemērs spēlē</th>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b><code class="language-javascript">===</code></b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Precīzi vienāds <i>(Svarīgi: trīs vienādības zīmes!)</i></td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">dzivibas === 0</code> (Vai esi miris?)</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b><code class="language-javascript">!==</code></b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Nav vienāds</td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">atslega !== true</code> (Nav atslēgas?)</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b><code class="language-javascript">&gt;</code></b> un <b><code class="language-javascript">&lt;</code></b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Lielāks / Mazāks</td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">punkti &gt; 100</code></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b><code class="language-javascript">&&</code></b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b>UN</b> (Abiem nosacījumiem jāizpildās)</td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">punkti &gt; 50 && laiks &gt; 0</code></td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b><code class="language-javascript">||</code></b></td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><b>VAI</b> (Vismaz vienam jāizpildās)</td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">dzivibas === 0 || laiks === 0</code></td>
+            </tr>
+        </table>
+
+        <p><b>Pareizais rakstības stils (Sintakse):</b></p>
+        <pre><code class="language-javascript">if (punkti &gt;= 100) {
+    console.log("Uzvara!"); // Notiks tikai tad, ja nosacījums ir TRUE
+} else {
+    console.log("Turpini cīnīties!"); // Notiks visos citos gadījumos (FALSE)
+}</code></pre>
+    </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Vienkāršs sazarojums (If)</h2>
-    <p>Izveidot loģiku, kas pārbauda spēlētāja punktu skaitu un paziņo par sasniegumu.</p>
+    <h2>1. uzdevums: Slepenais kods (If) (20 min)</h2>
+    <p>Izveidot pamatloģiku, kas pārbauda spēlētāja ievadīto paroli un atver "durvis", ja tā ir pareiza.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Savā <code>script.js</code> failā izveido mainīgo <code>let punkti = prompt("Cik punktus tu ieguvi?");</code> un pārveido to par skaitli (izmanto <code>Number()</code>).</li>
-            <li>Uzraksti <code>if</code> bloku: pārbaudi, vai <code>punkti &gt;= 100</code> (lielāks vai vienāds ar 100).</li>
-            <li>Ja nosacījums izpildās, izvadi konsolē vai ar <code>alert()</code> ziņojumu: "Apsveicu, tu esi atbloķējis slepeno līmeni!". Pārbaudi pārlūkā, ievadot 150 un pēc tam 50.</li>
+            <li>HTML failā izveido pogu: <code class="language-html">&lt;button onclick="parbauditKodu()"&gt;Ievadīt paroli&lt;/button&gt;</code>.</li>
+            <li>Savā <code>script.js</code> failā izveido funkciju <code class="language-javascript">function parbauditKodu() { ... }</code>.</li>
+            <li>Funkcijas iekšienē pieprasi lietotājam paroli: <code class="language-javascript">let parole = prompt("Ievadi slepeno kodu:");</code>.</li>
+            <li>Uzraksti <code>if</code> bloku: pārbaudi, vai <code class="language-javascript">parole === "777"</code>.</li>
+            <li>Ja nosacījums izpildās, izvadi konsolē paziņojumu: <i>"Durvis atvērtas! Esi sveicināts bāzē."</i>.</li>
+            <li>Saglabā un pārbaudi lapā, nospiežot pogu un ievadot pareizo kodu. Pēc tam ievadi nepareizu kodu un novēro, ka nenotiek nekas.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Alternatīvais ceļš (If / Else)</h2>
-    <p>Papildināt algoritmu ar rīcību gadījumam, ja nosacījums netiek izpildīts (piemēram, "Game Over").</p>
+    <h2>2. uzdevums: "Bosa cīņa" (If / Else) (20 min)</h2>
+    <p>Papildināt algoritmu ar alternatīvo rīcību, lai spēle dotu atgriezenisko saiti arī tad, ja spēlētājs zaudē.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Pievieno iepriekšējam <code>if</code> blokam <code>else</code> sadaļu.</li>
-            <li>Iekš <code>else</code> bloka figūriekavām <code>{}</code> ieraksti ziņojumu: "Diemžēl tev nepietiek punktu. Mēģini vēlreiz!".</li>
-            <li>Izveido vēl vienu mainīgo <code>let dzivibas = 0;</code> un ar jaunu <code>if/else</code> pārbaudi: ja dzīvības ir lielākas par 0, izvadi "Spēle turpinās", citādi izvadi "Game Over".</li>
+            <li>HTML failā pievieno jaunu pogu: <code class="language-html">&lt;button onclick="uzbruktBosam()"&gt;Uzbrukt Bosam!&lt;/button&gt;</code>.</li>
+            <li>JS failā izveido jaunu funkciju un definē bosa dzīvības: <code class="language-javascript">let bosaHP = 50;</code>.</li>
+            <li>Pajautā spēlētājam viņa uzbrukuma spēku: <code class="language-javascript">let speks = Number(prompt("Cik stipri sitīsi? (Ievadi skaitli)"));</code>.</li>
+            <li>Uzraksti <code class="language-javascript">if</code> pārbaudi: vai tavs spēks ir lielāks vai vienāds ar bosa HP (<code class="language-javascript">speks &gt;= bosaHP</code>)?</li>
+            <li>Iekš <code class="language-javascript">if</code> figūriekavām izvadi: <i>"BOSS IR SAKAUTS! Uzvara!"</i>.</li>
+            <li>Tieši pēc <code class="language-javascript">if</code> bloka beigām pievieno <code class="language-javascript">else { ... }</code> bloku. Tajā izvadi: <i>"Tavs trieciens bija par vāju. Boss tevi iznīcināja. Game Over."</i></li>
+            <li>Pārbaudi abas situācijas, ievadot gan lielus, gan mazus skaitļus.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Sarežģīta loģika (Else If un AND/OR)</h2>
-    <p>Izmantot vairākus nosacījumus vienā blokā, lai spēle reaģētu atšķirīgi uz dažādiem punktu diapazoniem.</p>
+    <h2>3. uzdevums: Varoņu rangu sistēma (Else If) (20 min)</h2>
+    <p>Izmantot daudzpakāpju pārbaudi, lai spēle spētu klasificēt spēlētāja rezultātu vairākos līmeņos.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Izveido punktu rangu sistēmu. Sāc ar <code>if (punkti &gt; 1000) { ... "Tu esi meistars!" }</code>.</li>
-            <li>Pievieno <code>else if (punkti &gt; 500 && punkti &lt;= 1000) { ... "Labs rezultāts!" }</code>.</li>
-            <li>Pievieno beigās <code>else { ... "Tev vēl jātrenējas!" }</code>. Pārbaudi kodu, ievadot dažādus skaitļus, un sinhronizē failus ar GitHub.</li>
+            <li>Izveido HTML pogu "Uzzināt savu rangu".</li>
+            <li>JS failā izveido atbilstošu funkciju, kas ar <code class="language-javascript">prompt</code> pajautā spēlētāja iegūtos punktus (pārvērt par skaitli!).</li>
+            <li>Sāc ar augstāko līmeni: <code class="language-javascript">if (punkti &gt; 1000) { alert("Tu esi Leģenda!"); }</code>.</li>
+            <li>Turpini ar vidējo līmeni: pievieno <code class="language-javascript">else if (punkti &gt; 500) { alert("Tu esi Pieredzējis cīnītājs."); }</code>.</li>
+            <li>Noslēdz ar bāzes līmeni: pievieno <code class="language-javascript">else { alert("Tev vēl daudz jāmācās, Iesācēj."); }</code>.</li>
+            <li><b>Svarīgi:</b> Pārbaudi savu programmu, ierakstot 1200, tad 600, tad 100. Vai visi trīs paziņojumi strādā pareizi?</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>4. uzdevums: Izaicinājums ar AND (&&) operatoru (Papildus)</h2>
+    <p>Apvienot divus nosacījumus, lai uzdevums būtu izpildīts tikai tad, ja <b>abas</b> prasības ir izpildītas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pēdējā funkcijā "Uzzināt savu rangu" pievieno jaunu mainīgo: <code class="language-javascript">let irVIP = prompt("Vai tev ir VIP pase? (ja/ne)");</code></li>
+            <li>Modificē pašu pirmo pārbaudi (Leģendas rangu), izmantojot <b>&&</b> operatoru.</li>
+            <li>Pārveido to šādi: <code class="language-javascript">if (punkti &gt; 1000 && irVIP === "ja")</code>.</li>
+            <li>Tagad, lai kļūtu par Leģendu, spēlētājam vajag gan vairāk par 1000 punktiem, gan jāieraksta vārds "ja". Pārbaudi, kā tas strādā!</li>
+            <li>Neaizmirsti veikt koda saglabāšanu savā GitHub (Commit un Push).</li>
         </ol>
     </div>
 </section>
@@ -75,9 +136,9 @@
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
     <ul>
-        <li><b>Viens vienādības zīmes <code>=</code> izmantošana <code>if</code> iekavās:</b> <code>if (dzivibas = 0)</code> vienmēr būs aplams un nejauši nomainīs tavas dzīvības uz 0. Vienmēr izmanto <code>===</code> salīdzināšanai!</li>
-        <li><b>Aizmirstas figūriekavas <code>{}</code>:</b> Ja aizmirsīsi figūriekavas, JavaScript izpildīs tikai pirmo rindu pēc <code>if</code>, kas var novest pie haotiskas programmas darbības.</li>
-        <li><b>Nepareiza secība <code>else if</code> blokos:</b> Vienmēr sāc pārbaudīt no visstingrākā vai lielākā nosacījuma uz mazāko. Ja sāksi ar <code>punkti &gt; 0</code>, tad kods nekad nenonāks līdz <code>punkti &gt; 1000</code> pārbaudei.</li>
+        <li><b>Vienas = zīmes izmantošana pārbaudē:</b> Ja rakstīsi <code class="language-javascript">if (parole = "777")</code>, kods nevis pārbaudīs, bet gan nomainīs paroli un vienmēr atļaus ieeju. Vienmēr izmanto <code class="language-javascript">===</code>!</li>
+        <li><b>Aizmirstas figūriekavas <code>{}</code>:</b> Katram <code>if</code>, <code>else if</code> un <code>else</code> blokam ir nepieciešamas savas figūriekavas.</li>
+        <li><b>Nepareiza secība <code>else if</code> blokos:</b> Vienmēr sāc pārbaudi no visstingrākā/lielākā nosacījuma (piem. > 1000) uz mazāko. Dators lasa kodu no augšas uz leju!</li>
     </ul>
 </section>
 
