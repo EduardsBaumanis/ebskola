@@ -28,9 +28,9 @@
         <p>JSON faili nav kā parasts teksta dokuments, kuram var vienkārši "pierakstīt klāt" rindas beigās. Tie ir vienoti datu objekti (parasti liels saraksts ar vārdnīcām). Lai tos pareizi papildinātu, jāievēro trīs soļi:</p>
         
         <ol class="step-list">
-            <li><b>LASĪT (Read):</b> Ielādē visu faila saturu Python sarakstā. Ja fails neeksistē (pirmā spēles reize), izveido tukšu sarakstu <code>[]</code>.</li>
+            <li><b>LASĪT (Read):</b> Ielādē visu faila saturu Python sarakstā. Ja fails neeksistē (pirmā spēles reize), izveido tukšu sarakstu <code class="language-python">[]</code>.</li>
             <li><b>MAINĪT (Modify):</b> Pievieno sarakstam jaunā spēlētāja datus (kā vārdnīcu) un sakārto to.</li>
-            <li><b>RAKSTĪT (Write):</b> Pārraksti visu failu ar jauno, papildināto sarakstu, izmantojot <code>"w"</code> režīmu.</li>
+            <li><b>RAKSTĪT (Write):</b> Pārraksti visu failu ar jauno, papildināto sarakstu, izmantojot <code class="language-python">"w"</code> režīmu.</li>
         </ol>
 
         <h3>Kārtošana ar Lambda</h3>
@@ -46,11 +46,11 @@
     <h3>1. uzdevums: Pirmais ieraksts</h3>
     <div class='logic-box'>
         <ol class="step-list">
-            <li>VS Code izveido failu <code>rezultati.py</code> un importē <code>json</code>.</li>
-            <li>Izveido tukšu sarakstu <code>visi_rezultati = []</code>.</li>
+            <li>VS Code izveido failu <code class="language-python">rezultati.py</code> un importē <code class="language-python">json</code>.</li>
+            <li>Izveido tukšu sarakstu <code class="language-python">visi_rezultati = []</code>.</li>
             <li>Pajautā lietotājam vārdu un punktu skaitu.</li>
-            <li>Izveido vārdnīcu <code>dati = {"vards": vards, "punkti": int(punkti)}</code> (svarīgi: punkti ir jākonvertē uz skaitli!).</li>
-            <li>Pievieno šo vārdnīcu sarakstam un saglabā to failā <code>leaderboard.json</code>.</li>
+            <li>Izveido vārdnīcu <code class="language-python">dati = {"vards": vards, "punkti": int(punkti)}</code> (svarīgi: punkti ir jākonvertē uz skaitli!).</li>
+            <li>Pievieno šo vārdnīcu sarakstam un saglabā to failā <code class="language-python">leaderboard.json</code>.</li>
         </ol>
     </div>
 
@@ -58,8 +58,8 @@
     <div class='logic-box'>
         <p>Iemācīties nolasīt esošos rezultātus, pirms pievienot jaunu, lai dati netiktu pārrakstīti.</p>
         <ol class="step-list">
-            <li>Pirms jauna rezultāta prasīšanas, mēģini atvērt un nolasīt <code>leaderboard.json</code> ar <code>json.load()</code>.</li>
-            <li>Ieliec nolasīšanu <code>try...except FileNotFoundError:</code> blokā. Ja fails neeksistē, definē <code>visi_rezultati = []</code>.</li>
+            <li>Pirms jauna rezultāta prasīšanas, mēģini atvērt un nolasīt <code class="language-python">leaderboard.json</code> ar <code class="language-python">json.load()</code>.</li>
+            <li>Ieliec nolasīšanu <code class="language-python">try...except FileNotFoundError:</code> blokā. Ja fails neeksistē, definē <code class="language-python">visi_rezultati = []</code>.</li>
             <li>Pēc nolasīšanas pievieno jauno rezultātu (no 1. uzdevuma) un saglabā visu sarakstu atpakaļ failā.</li>
             <li>Palaid programmu 3 reizes ar dažādiem vārdiem un pārbaudi JSON failu — tajā vajadzētu būt 3 ierakstiem.</li>
         </ol>
@@ -70,8 +70,8 @@
         <p>Iemācīties sakārtot sarakstu un saglabāt tikai labākos rezultātus.</p>
         <ol class="step-list">
             <li>Pirms saraksta saglabāšanas failā, sakārto to no lielākā uz mazāko: <br><code class="language-python">visi_rezultati.sort(key=lambda x: x['punkti'], reverse=True)</code></li>
-            <li>Izmanto <i>slicing</i> (nogriešanu), lai saglabātu tikai pirmos piecus: <code>top_5 = visi_rezultati[:5]</code>.</li>
-            <li>Izveido funkciju <code>paradit_top()</code>, kas ar <code>for</code> ciklu izvada rezultātus glītā, numurētā sarakstā.</li>
+            <li>Izmanto <i>slicing</i> (nogriešanu), lai saglabātu tikai pirmos piecus: <code class="language-python">top_5 = visi_rezultati[:5]</code>.</li>
+            <li>Izveido funkciju <code class="language-python">paradit_top()</code>, kas ar <code class="language-python">for</code> ciklu izvada rezultātus glītā, numurētā sarakstā.</li>
         </ol>
     </div>
 </section>
@@ -80,8 +80,8 @@
     <h2>Biežākās kļūdas:</h2>
     <blockquote>
         <b>1. Datu pārrakstīšana:</b> Ja Tu aizmirsti vispirms nolasīt esošos datus (1. solis), katrs jauns spēlētājs izdzēsīs visus iepriekšējos, atstājot failā tikai vienu ierakstu.<br>
-        <b>2. Kārtošana kā tekstam:</b> Ja punktus saglabāsi kā tekstu (piem., <code>"9"</code>), kārtojot tas tiks uzskatīts par "lielāku" nekā <code>"100"</code> (jo 9 ir lielāks par 1 alfabētā). Vienmēr lieto <code>int()</code>!<br>
-        <b>3. Neērti lasāms JSON:</b> Saglabājot failu, vienmēr lieto <code>json.dump(dati, f, indent=4)</code>, lai fails būtu strukturēts un viegli pārbaudāms.
+        <b>2. Kārtošana kā tekstam:</b> Ja punktus saglabāsi kā tekstu (piem., <code class="language-python">"9"</code>), kārtojot tas tiks uzskatīts par "lielāku" nekā <code class="language-python">"100"</code> (jo 9 ir lielāks par 1 alfabētā). Vienmēr lieto <code class="language-python">int()</code>!<br>
+        <b>3. Neērti lasāms JSON:</b> Saglabājot failu, vienmēr lieto <code class="language-python">json.dump(dati, f, indent=4)</code>, lai fails būtu strukturēts un viegli pārbaudāms.
     </blockquote>
 </section>
 

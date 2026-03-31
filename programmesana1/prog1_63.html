@@ -24,7 +24,7 @@
 <section class='section'>
     <h2>Teorija: No Saraksta uz Vārdnīcu</h2>
     <div class="logic-box">
-        <p>Kad mēs nolasām CSV ar <code>csv.DictReader</code>, mēs iegūstam rindu <b>sarakstu</b>. Lai tajā atrastu 50. lokāciju, datoram ir jāpārskata 49 iepriekšējās. Transformējot datus lielā <b>vārdnīcā</b>, mēs iegūstam tūlītēju piekļuvi pēc atslēgas (ID).</p>
+        <p>Kad mēs nolasām CSV ar <code class="language-python">csv.DictReader</code>, mēs iegūstam rindu <b>sarakstu</b>. Lai tajā atrastu 50. lokāciju, datoram ir jāpārskata 49 iepriekšējās. Transformējot datus lielā <b>vārdnīcā</b>, mēs iegūstam tūlītēju piekļuvi pēc atslēgas (ID).</p>
         
         <table>
             <thead>
@@ -36,17 +36,17 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><code>.strip()</code></td>
+                    <td><code class="language-python">.strip()</code></td>
                     <td>Noņem tukšās atstarpes no teksta sākuma un beigām.</td>
-                    <td>Izlabo Excel eksporta kļūdas (piem., <code>" 1 "</code> kļūst par <code>"1"</code>).</td>
+                    <td>Izlabo Excel eksporta kļūdas (piem., <code class="language-python">" 1 "</code> kļūst par <code class="language-python">"1"</code>).</td>
                 </tr>
                 <tr>
-                    <td><code>int(teksts)</code></td>
+                    <td><code class="language-python">int(teksts)</code></td>
                     <td>Pārvērš tekstu par veselu skaitli.</td>
-                    <td>CSV visi dati ir teksts (<code>str</code>). Mums ID vajag kā skaitļus.</td>
+                    <td>CSV visi dati ir teksts (<code class="language-python">str</code>). Mums ID vajag kā skaitļus.</td>
                 </tr>
                 <tr>
-                    <td><code>if atslēga in dict:</code></td>
+                    <td><code class="language-python">if atslēga in dict:</code></td>
                     <td>Pārbauda, vai konkrētā atslēga eksistē vārdnīcā.</td>
                     <td>Novērš programmas avarēšanu, ja spēlētājs izvēlas neesošu vietu.</td>
                 </tr>
@@ -61,11 +61,11 @@
     <h3>1. uzdevums: Pasaules kartes konstruktors</h3>
     <div class='logic-box'>
         <ol class="step-list">
-            <li>Izmanto iepriekšējā stundā izveidoto nolasīšanas kodu failā <code>tests.py</code>.</li>
-            <li>Pirms faila atvēršanas izveido tukšu vārdnīcu <code>pasaules_karte = {}</code>.</li>
-            <li>CSV lasīšanas ciklā izveido jaunu mainīgo: <code>id_numurs = int(rinda['id'].strip())</code>.</li>
-            <li>Pievieno visu rindu lielajai vārdnīcai: <code>pasaules_karte[id_numurs] = rinda</code>.</li>
-            <li>Ārpus (pēc) <code>with open()</code> bloka pārbaudi rezultātu: <code>print(pasaules_karte[1])</code> – tam būtu jāizvada visa informācija par 1. lokāciju.</li>
+            <li>Izmanto iepriekšējā stundā izveidoto nolasīšanas kodu failā <code class="language-python">tests.py</code>.</li>
+            <li>Pirms faila atvēršanas izveido tukšu vārdnīcu <code class="language-python">pasaules_karte = {}</code>.</li>
+            <li>CSV lasīšanas ciklā izveido jaunu mainīgo: <code class="language-python">id_numurs = int(rinda['id'].strip())</code>.</li>
+            <li>Pievieno visu rindu lielajai vārdnīcai: <code class="language-python">pasaules_karte[id_numurs] = rinda</code>.</li>
+            <li>Ārpus (pēc) <code class="language-python">with open()</code> bloka pārbaudi rezultātu: <code class="language-python">print(pasaules_karte[1])</code> – tam būtu jāizvada visa informācija par 1. lokāciju.</li>
         </ol>
     </div>
 
@@ -74,8 +74,8 @@
         <p>Spēles failos mēdz būt "tukšumi" (piemēram, beigu lokācijām nav nākamā mērķa). Mums tie jāapstrādā droši.</p>
         <ol class="step-list">
             <li>Koda failā atrodi vietu, kur transformē ID numurus.</li>
-            <li>Pievieno pārbaudes loģiku <code>merkis_a</code> un <code>merkis_b</code> kolonnām: 
-                <br><i>"Ja <code>rinda['merkis_a']</code> nav tukšs (<code>!= ""</code>), tad pārvērt to par <code>int()</code>, citādi atstāj kā <code>None</code>"</i>.</li>
+            <li>Pievieno pārbaudes loģiku <code class="language-python">merkis_a</code> un <code class="language-python">merkis_b</code> kolonnām: 
+                <br><i>"Ja <code class="language-python">rinda['merkis_a']</code> nav tukšs (<code class="language-python">!= ""</code>), tad pārvērt to par <code class="language-python">int()</code>, citādi atstāj kā <code class="language-python">None</code>"</i>.</li>
             <li>Izdari to pašu mērķim B. Tagad Tava karte ir droša pret tukšām Excel šūnām.</li>
         </ol>
     </div>
@@ -84,9 +84,9 @@
     <div class='logic-box'>
         <p>Izveidosim algoritmu, kas automātiski pārbauda, vai Tavā stāstā nav "mirušo saišu" (norādes uz neeksistējošām vietām).</p>
         <ol class="step-list">
-            <li>Pašās faila beigās uzraksti <code>for</code> ciklu, kas pārlūko Tavu jaunizveidoto <code>pasaules_karte</code> vārdnīcu (izmanto <code>.values()</code>).</li>
-            <li>Katrai lokācijai pārbaudi: <i>"Vai mērķis A eksistē un vai tas ir atrodams kartes atslēgās?"</i> (<code>if rinda['merkis_a'] and rinda['merkis_a'] not in pasaules_karte:</code>).</li>
-            <li>Ja atrod kļūdu, izvadi brīdinājumu: <code>f"Kļūda lokācijā {rinda['id']}: mērķis {rinda['merkis_a']} nav atrasts!"</code>.</li>
+            <li>Pašās faila beigās uzraksti <code class="language-python">for</code> ciklu, kas pārlūko Tavu jaunizveidoto <code class="language-python">pasaules_karte</code> vārdnīcu (izmanto <code class="language-python">.values()</code>).</li>
+            <li>Katrai lokācijai pārbaudi: <i>"Vai mērķis A eksistē un vai tas ir atrodams kartes atslēgās?"</i> (<code class="language-python">if rinda['merkis_a'] and rinda['merkis_a'] not in pasaules_karte:</code>).</li>
+            <li>Ja atrod kļūdu, izvadi brīdinājumu: <code class="language-python">f"Kļūda lokācijā {rinda['id']}: mērķis {rinda['merkis_a']} nav atrasts!"</code>.</li>
             <li>Ieraksti savā CSV failā kļūdainu ID, saglabā to un pārbaudi, vai Tavs auditors strādā.</li>
         </ol>
     </div>
@@ -95,9 +95,9 @@
 <section class='section'>
     <h2>Biežākās kļūdas datu tīrīšanā:</h2>
     <blockquote>
-        <b>1. Reģistrjutība:</b> Python atšķir <code>'id'</code> no <code>'ID'</code>. Pārliecinies, ka koda atslēgas precīzi sakrīt ar CSV galvenēm!<br>
-        <b>2. ValueError konvertējot tukšumu:</b> Tu nevari izdarīt <code>int("")</code>. Vienmēr pārbaudi (<code>if rinda['merkis'] != "":</code>), pirms mēģini tekstu pārvērst par skaitli.<br>
-        <b>3. Lokālo mainīgo pazušana:</b> Ja <code>pasaules_karte = {}</code> definēsi <b>iekšpusē</b> <code>with open()</code> blokam vai ciklā, tai būs grūti piekļūt no ārpuses vai tā pārrakstīsies katru reizi no jauna.
+        <b>1. Reģistrjutība:</b> Python atšķir <code class="language-python">'id'</code> no <code class="language-python">'ID'</code>. Pārliecinies, ka koda atslēgas precīzi sakrīt ar CSV galvenēm!<br>
+        <b>2. ValueError konvertējot tukšumu:</b> Tu nevari izdarīt <code class="language-python">int("")</code>. Vienmēr pārbaudi (<code class="language-python">if rinda['merkis'] != "":</code>), pirms mēģini tekstu pārvērst par skaitli.<br>
+        <b>3. Lokālo mainīgo pazušana:</b> Ja <code class="language-python">pasaules_karte = {}</code> definēsi <b>iekšpusē</b> <code class="language-python">with open()</code> blokam vai ciklā, tai būs grūti piekļūt no ārpuses vai tā pārrakstīsies katru reizi no jauna.
     </blockquote>
 </section>
 
