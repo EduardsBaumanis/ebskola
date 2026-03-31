@@ -1,125 +1,52 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-<title>1. stunda: Ievads SPIKE un pamatkustības</title>
+<meta charset="UTF-8">
+<title>Robotika 7 — 2. tēma</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 </head>
 <body>
 
 <nav class='galvenaisdiv'>
-    <a href="../index.html">Tēmas</a>
+    <a href="../index.html">Visas Tēmas</a>
     <a href="sasnRez.html">Sasniedzamie rezultāti</a>
     <a href="paligm.html">Palīgmateriāli</a>
 </nav>
 
 <section class='section'>
-    <h1>1. tēma: Ievads LEGO SPIKE un robota pamatkustības</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Konstruēt bāzes robotu, ieprogrammēt tā taisnvirziena kustību, pārbaudīt pagriezienu loģiku un analizēt leņķu ietekmi uz trajektoriju.</p>
-    <a href="sasnRez.html">Datorika 7. klase (D.7.1.1., D.7.2.1.)</a>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Robota smadzenes un kustības loģika</h2>
-    <p>Lai robots varētu patstāvīgi kustēties, tam ir nepieciešamas trīs lietas: "smadzenes" jeb Hubs (kas dod komandas), motori (kas veic fizisko darbu) un programma (instrukcijas angļu valodā).</p>
-    <ul>
-        <li><b>Porti (A līdz F):</b> Hubam ir 6 pieslēgvietas. Ir ļoti svarīgi atcerēties, kuros portos ir pieslēgti tavi labās un kreisās puses motori.</li>
-        <li><b>"Movement" bloki (Rozā krāsā):</b> SPIKE lietotnē ir zili "Motor" bloki un rozā "Movement" bloki. Tā kā mūsu robotam ir divi motori un mēs gribam, lai tie strādātu reizē (kā automašīnai), mēs izmantosim tikai rozā blokus.</li>
-        <li><b>Konfigurācija:</b> Pašā programmas sākumā robotam OBLIGĀTI jāpasaka, kuros portos atrodas riteņi, izmantojot bloku <code>set movement motors to [A] and [B]</code>.</li>
-    </ul>
-    <p><i>[Ievietot attēlu šeit: Ekrānuzņēmums no SPIKE lietotnes ar rozā "set movement motors" un "move forward" blokiem]</i></p>
-    <p><b>Svarīgi par pagriezieniem:</b> Ja tu pasaki robotam pagriezties par 90 grādiem (degrees), tas nenozīmē, ka pats robots pagriezīsies par 90 grādiem telpā! Tas nozīmē, ka <i>robota motors (ritenis)</i> veiks 90 grādu apgriezienu. Lai robots pagrieztos par 90 grādiem pret istabas sienu, riteņiem bieži vien jāgriežas vairāk, piemēram, 175 vai 185 grādus. Tas jums būs jāatklāj eksperimentējot!</p>
-</section>
-
-<section class='section'>
-    <h2>1. uzdevums: Bāzes robota konstruēšana</h2>
-    <p>Kopā ar komandu uzbūvējiet pārvietošanās bāzi (Driving Base) un savienojiet to ar datoru.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Atveriet LEGO SPIKE lietotni datorā, dodieties uz sadaļu "Build" un atrodiet "Driving Base 1".</li>
-            <li>Sadaliet pienākumus (piemēram, divi meklē detaļas, divi būvē), lai strādātu ātrāk.</li>
-            <li>Kad robots gatavs, ieslēdziet Hubu un savienojiet to ar datoru (izmantojot USB vadu vai Bluetooth).</li>
-            <li>Izveidojiet jaunu "Word Blocks" projektu.</li>
-        </ol>
+    <h1>2. Tēma — Ievads Arduino un elektronikas pamatos</h1>
+    
+    <div class="info-box">
+        <h3>Par šo tēmu</h3>
+        <p>Šī tēma ievada mehatronikas un fiziskās skaitļošanas pasaulē. Piecu stundu laikā notiek pāreja no vizuālās programmēšanas uz tekstuālo C++ valodu, izmantojot virtuālo vidi Tinkercad un reālus Arduino mikrokontrolierus.</p>
+        
+        <p>Tiek apgūti elektronikas pamati (maketo plate, slēgumi, pretestība), digitālo un analogo signālu nolasīšana (pogas, potenciometri) un aktuatoru vadība (LED, Servo motori). Tēma noslēdzas ar praktisku projektu — interaktīva Morzes koda raidītāja izveidi.</p>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Precīzā braukšana (Taisne)</h2>
-    <p>Ieprogrammējiet robotu nobraukt tieši 50 centimetrus uz priekšu un atgriezties starta pozīcijā atpakaļgaitā.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Programmas sākumā pievienojiet bloku <code>set movement motors to</code> un norādiet savu motoru portus (piem., A un B).</li>
-            <li>Izmantojiet bloku <code>move [forward] for [10] [cm]</code> un nomainiet vērtību uz 50.</li>
-            <li>Pievienojiet nākamo bloku, norādot virzienu <code>[backward]</code>, lai tas atgrieztos atpakaļ.</li>
-            <li>Palaidiet kodu un ar mērlenti pārbaudiet, vai tiešām nobraukti 50cm. Ja riteņi izslīd, mēģiniet pievienot ātruma samazināšanas bloku <code>set movement speed to [50]%</code>.</li>
-        </ol>
+    <h2>Tēmas saturs (5 stundas)</h2>
+    
+    <div class="logic-box">
+        <ul class="step-list">
+            <li><a href="rbtk7_21.html"><b>1. stunda:</b> Ievads Arduino un Tinkercad (Elektronikas pamati un "Blink")</a></li>
+            <li><a href="rbtk7_22.html"><b>2. stunda:</b> Ievade un izvade (Pogas un If-Else loģika)</a></li>
+            <li><a href="rbtk7_23.html"><b>3. stunda:</b> Analogie signāli (Potenciometrs un gaismas regulēšana)</a></li>
+            <li><a href="rbtk7_24.html"><b>4. stunda:</b> Kustība bez LEGO (Servo motora vadība)</a></li>
+            <li><a href="rbtk7_25.html"><b>5. stunda:</b> Tēmas noslēgums (Morzes koda raidītāja projekts)</a></li>
+        </ul>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Kvadrāta dejsolis</h2>
-    <p>Liekam robotam apbraukt iedomātu kasti – izveidojiet kodu, kas liek robotam nobraukt precīzu kvadrātu.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Kvadrātam ir 4 vienādas malas. Pievienojiet bloku braukšanai uz priekšu par 20 cm.</li>
-            <li>Pievienojiet pagrieziena bloku <code>move [Right] for [180] [degrees]</code>. Atcerieties – 180 riteņa grādi var nebūt 90 grādi telpā! Pārbaudiet un mainiet ciparu, līdz robots pagriežas tieši par 90 grādiem (taisnā leņķī).</li>
-            <li>Tā vietā, lai kopētu šos divus blokus vēl trīs reizes, izmantojiet oranžo "Control" bloku <code>repeat [4]</code> un ielieciet braukšanas/griešanās komandas tajā iekšā (Cikls).</li>
-        </ol>
+    <h2>Papildus resursi</h2>
+    <div class="logic-box">
+        <p>Nepieciešama palīdzība ar C++ sintaksi vai shēmu slēgumiem?</p>
+        <a href="paligm.html" style="font-weight: bold; font-size: 1.1em; color: #4CAF50; text-decoration: none;">&rarr; Atvērt 2. tēmas palīgmateriālus</a>
     </div>
 </section>
 
-<section class='section'>
-    <h2>4. uzdevums (Zvaigznītes izaicinājums): "Astoņnieks"</h2>
-    <p>Izaicinājums ātrākajām komandām – ieprogrammējiet robotu, lai tas izbrauc "8" cipara trajektoriju.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pārveidojiet programmu tā, lai robots sākumā izbrauktu pilnu apli pa labi.</li>
-            <li>Lai robota kustība nebūtu stūraina kā kvadrātam, izpētiet, kā izmantot kustības blokus ar stūrēšanas (steering) vērtību, piemēram, <code>start moving at [50] % steering</code>.</li>
-            <li>Pēc viena pilna apļa pa labi, uzrakstiet kodu pilnam aplim pa kreisi, lai noslēgtu astoņnieku.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <ul>
-        <li><b>Robots griežas uz riņķi, nevis brauc uz priekšu:</b> Koda sākumā esat sajaukuši labā un kreisā motora portus. Samainiet vietām portu burtus iekš <code>set movement motors</code>.</li>
-        <li><b>Robots nebrauc taisni, bet "velk" uz vienu pusi:</b> Pārbaudiet, vai abi riteņi ir stingri uzspiesti uz motoru asīm un nekur nerīvējas gar robota rāmi. Vai arī viens no kabeļiem traucē riteņa kustībai.</li>
-        <li><b>Pēc pagrieziena robots neapstājas un turpina griezties:</b> Jūs izmantojāt <code>start moving</code> bloku bez beigu nosacījuma. Pagriezieniem vienmēr labāk izmantot <code>move for [degrees/cm/rotations]</code> bloku, kas apstājas pats.</li>
-    </ul>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (Kvadrāta algoritms)</h2>
-    <div class='code-example'>
-        <pre><code class="language-powershell">
-# SPIKE Word Blocks vizuālā koda tekstuālā reprezentācija
-
-when program starts
-set movement motors to [A] and [B]
-set movement speed to [50]%
-
-repeat [4] times:
-    move [Straight] for [20] [cm]
-    move [Right] for [180] [degrees] 
-    # Piezīme: 180 grādi šeit ir riteņa apgrieziens, kas jāpielāgo, 
-    # lai fiziski sanāktu 90 grādu pagrieziens uz paklāja.
-        </code></pre>
-        <div class='result'>
-            Robots nobrauks vienādu distanci, pagriezīsies par aptuveni 90 grādiem telpā, un atkārtos to 4 reizes, izveidojot slēgtu kvadrāta trajektoriju.
-        </div>
-    </div>
-</div>
-<div class="stundas-navigacija">
-    <a href="#" class="nav-btn" style="visibility: hidden;">⬅ Iepriekšējā stunda</a>
-    <a href="stunda2.html" class="nav-btn">Nākamā stunda ➡</a>
-</div>
 </body>
 </html>
