@@ -6,9 +6,8 @@
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 </head>
-<body class="has-sidebar">
+<body>
 
 <aside class="sidebar-nav">
   <h3>ebskola</h3>
@@ -22,111 +21,148 @@
 
 <nav class='galvenaisdiv'>
     <a href="../index.html">Tēmas</a>
-    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
-    <a href="paligm.html">Palīgmateriāli</a>
+    <a href="../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../paligm.html">Palīgmateriāli</a>
 </nav>
 
 <section class='section'>
-    <h1>4. tēma: Funkcijas un Modularitāte. 5. stunda: Stāsta plānošana un shēmas.</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Analizēt spēles gaitu un izveidot vizuālu algoritma shēmu, lai strukturētu un plānotu teksta piedzīvojumu spēles loģiku pirms koda rakstīšanas.</p>
-    <a href="sasnRez.html">SR 2.4.1. (Algoritmu dekompozīcija un plānošana)</a>
+    <h1>4. tēma: 4.5 CYOA stāsta zaru plānošana</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> <b>Analizēt</b> teksta piedzīvojumu spēles gaitu, <b>izstrādāt</b> vizuālu algoritma shēmu un <b>strukturēt</b> spēles loģiku pirms reālā koda rakstīšanas.</p>
+    <a href="../sasnRez.html">2.4.1. Analizē problēmu, identificē datus un veic dekompozīciju.</a><br>
+    <a href="../sasnRez.html">2.4.6. Plāno un dokumentē programmatūras izstrādes procesu.</a>
 </section>
 
 <section class='section'>
-    <h2>Teorija: Algoritmu shēmu simboli</h2>
-    <div class="logic-box">
-        <p>Pirms rakstīt kodu, stāsta gaita ir jāuzzīmē. Programmēšanā tam izmanto standartizētus algoritmu shēmu simbolus, kas tieši atbilst konkrētām Python komandām:</p>
-        
-        <pre><code class="language-python"># (SĀKUMS)   --> Ovāls: Programmas starts
-#    ↓       --> Bulta: Plūsmas virziens
-# [ISTABA]   --> Taisnstūris: Funkcija (apraksts, darbība)
-#    ↓
-# <IZVĒLE?>  --> Rombs: Jautājums spēlētājam (if/else)
-#  ↙   ↘
-# (BEIGAS)   [CITA ISTABA]</code></pre>
-
-        <ul class="step-list">
-            <li><b>( ) Ovāls (Sākums / Beigas):</b> Apzīmē spēles startu vai "Game Over" (uzvaras/zaudējuma) galapunktu.</li>
-            <li><b>[ ] Taisnstūris (Process):</b> Attēlo konkrētu darbību vai istabas aprakstu. Kodā tā būs <b>funkcija</b> (piemēram, <code class="language-python">def istaba():</code>).</li>
-            <li><b>&lt; &gt; Rombs (Lēmums):</b> Norāda jautājumu spēlētājam. Kodā tas ir <code class="language-python">input()</code> un <code class="language-python">if/else</code> loģikas pārbaudes bloks.</li>
-            <li><b>→ Bulta (Plūsma):</b> Parāda programmas virzienu. Kodā tā ir <b>citas funkcijas izsaukšana</b>.</li>
-            <li><b>Kāpēc plānot?</b> Teksta piedzīvojumi ātri kļūst sarežģīti. Shēma palīdz izvairīties no "aklajiem zariem" (vietām, no kurām nevar tikt tālāk).</li>
-        </ul>
-    </div>
+    <h2>Teorija: Algoritmu shēmu simboli un to nozīme kodā</h2>
+    <p>Pirms programmēšanas sarežģīta spēles loģika (Kā spēlētājs pārvietosies starp telpām?) ir jāvizualizē. Izstrādē tam izmanto standartizētus algoritmu shēmu simbolus, kuriem ir tieša saistība ar Python sintaksi.</p>
+    <ul>
+        <li><b>Oval (<i>Ovāls</i>):</b> Sākuma vai beigu punkts ("Game Over" vai "Uzvara").
+            <pre><code class="language-python"># Beigu punkts kodā bieži nozīmē vienkārši funkcijas beigas
+print("Spēle beigusies! Tu uzvarēji!")
+return</code></pre>
+        </li>
+        <li><b>Rectangle (<i>Taisnstūris</i>):</b> Process vai darbība. Mūsu spēlē katra istaba vai lokācija būs atsevišķa funkcija.
+            <pre><code class="language-python"># Taisnstūris shēmā = Funkcija kodā
+def pils_varti():
+    print("Tu stāvi pie lieliem dzelzs vārtiem.")</code></pre>
+        </li>
+        <li><b>Diamond (<i>Rombs</i>):</b> Lēmuma pieņemšanas punkts. Lietotājam tiek uzdots jautājums.
+            <pre><code class="language-python"># Rombs shēmā = Input un If/Else zarošanās
+izvele = input("Atvērt vārtus (A) vai bēgt (B)? ")
+if izvele == "A":
+    # Iet tālāk...</code></pre>
+        </li>
+        <li><b>Arrow (<i>Bulta</i>):</b> Plūsmas virziens. Norāda, kura koda daļa vai funkcija tiks izsaukta nākamā.
+            <pre><code class="language-python"># Bulta shēmā = Funkcijas izsaukšana
+pils_pagrabs() # Pāreja uz nākamo lokāciju</code></pre>
+        </li>
+    </ul>
 </section>
 
 <section class='section'>
     <h2>1. uzdevums: Mini-zara skice</h2>
-    <p>Izveidot vienkāršu algoritma shēmu ar vienu lēmuma punktu un diviem iznākumiem, izmantojot pareizos simbolus.</p>
+    <p>Sagatavo vienkāršu algoritma shēmu ar vienu lēmuma punktu un diviem iznākumiem, izmantojot pareizos simbolus.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Uz papīra vai digitālā rīkā (piemēram, <i>Draw.io</i> interneta pārlūkā) uzzīmē sākuma punktu "Meža mala" (izmanto ovālu).</li>
-            <li>Pievieno izvēles punktu, uzzīmējot rombu: "Iet alā vai kāpt kalnā?".</li>
-            <li>Katram virzienam izveido beigu punktu (ovālus): "Atradi dārgumus" (Uzvara) vai "Iekriti bedrē" (Zaudējums).</li>
-            <li>Savieno blokus ar bultām, norādot spēlētāja ceļu no sākuma līdz beigām.</li>
+        <ol>
+            <li>Izmanto digitālu rīku (piemēram, bezmaksas atvērtā pirmkoda rīku <i>Draw.io</i> pārlūkprogrammā) vai lapu un zīmuli.</li>
+            <li>Uzzīmē sākuma punktu "Meža mala" (izmanto Taisnstūri vai Ovālu atkarībā no tā, vai tas ir stāsta pats sākums).</li>
+            <li>Pievieno lēmuma punktu, uzzīmējot rombu: "Iet alā vai kāpt kalnā?".</li>
+            <li>No romba izvelc divas bultas uz diviem atšķirīgiem beigu punktiem (Ovāliem): "Atradi dārgumus" (Uzvara) un "Iekriti bedrē" (Zaudējums).</li>
+            <li>Saglabā shēmu savā datorā.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
     <h2>2. uzdevums: Lielā piedzīvojuma karte</h2>
-    <p>Projektēt sarežģītāku spēles plūsmu, savienojot vairākas lokācijas un lēmumus vienotā, loģiskā tīklā.</p>
+    <p>Projektē sarežģītāku spēles plūsmu, savienojot vairākas lokācijas vienotā tīklā, lai izvairītos no loģikas kļūdām.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Izplāno stāstu ar vismaz <b>5 dažādām lokācijām</b>, attēlojot tās kā taisnstūrus.</li>
-            <li>Nodrošini vismaz divus dažādus veidus, kā spēlē zaudēt, un vienu ceļu uz uzvaru (izmantojot rombus lēmumiem un ovālus beigām).</li>
-            <li>Iekļauj vismaz vienu "atgriešanās" punktu, kur divi dažādi ceļi atkal savienojas vienā lokācijā (bultas norāda uz vienu un to pašu taisnstūri).</li>
-            <li>Pārbaudi, vai visa shēma ir savienota un nav atrautu bloku.</li>
+        <ol>
+            <li>Izplāno stāstu, uzzīmējot vismaz <b>5 dažādas lokācijas</b> kā taisnstūrus (piem., "Sākums", "Gaitenis", "Sarga istaba", "Dārgumu zāle", "Lamatas").</li>
+            <li>Nodrošini vismaz divus dažādus veidus, kā spēlē zaudēt, un vienu ceļu uz uzvaru.</li>
+            <li>Iekļauj vismaz vienu "atgriešanās" punktu — vietu, kur divi dažādi lēmumi (bultas) aizved uz vienu un to pašu lokāciju.</li>
+            <li>Pārliecinies, ka no katra taisnstūra iziet vismaz viena bulta uz nākamo lēmumu (vai uz beigu ovālu).</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Tehniskais projekts</h2>
-    <p>Sasaistīt izveidoto vizuālo shēmu ar reāliem programmēšanas elementiem – topošajām funkcijām un mainīgajiem.</p>
+    <h2>3. uzdevums: Tehniskais projekts (Shēmas sasaiste ar kodu)</h2>
+    <p>Sasaisti izveidoto vizuālo plānu ar reāliem Python elementiem — topošajām funkcijām un mainīgajiem.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li><b>Funkciju sasaiste:</b> Pie katra taisnstūra shēmā pieraksti funkcijas nosaukumu, ko vēlāk definēsi kodā (piemēram, <code class="language-python">def pils_varti():</code>).</li>
-            <li><b>Mainīgo plāns:</b> Izdomā, vai Tev vajadzēs mainīgos progresam (piemēram, <code class="language-python">ir_atslega = False</code>).</li>
-            <li>Atzīmē shēmā precīzu vietu, kurā šis mainīgais mainīs vērtību (piemēram, norādi pie konkrēta taisnstūra: "Alā iegūst atslēgu", kodā: <code class="language-python">ir_atslega = True</code>).</li>
-            <li>Izseko ar pirkstu vai peli bultu pārejām un pārliecinies, ka katra pāreja atbilst reālam un loģiskam funkcijas izsaukumam kodā.</li>
+        <ol>
+            <li>Blakus katram taisnstūrim shēmā pieraksti Python funkcijas nosaukumu, izmantojot <i>Snake Case</i> (piemēram, <code class="language-python">def sarga_istaba():</code>).</li>
+            <li>Identificē, vai spēlē būs nepieciešams priekšmets (piemēram, atslēga). Atzīmē shēmā, kurā telpā šis mainīgais tiks iegūts (piem., pievieno tekstu <code class="language-python">ir_atslega = True</code>).</li>
+            <li>Atzīmē rombu (Lēmumu), kurā šī atslēga tiks pārbaudīta (piem., <code class="language-python">if ir_atslega:</code>).</li>
+            <li>Iesūtīt uzdevuma github saiti e-klasē.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Nebeidzamais cikls (Loop) shēmā</h2>
+    <p>Izveido plānu situācijai, kur spēlētājs var iestrēgt un mēģināt atkal, līdz atrisina mīklu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno savai shēmai jaunu lokāciju "Sfinksas mīkla".</li>
+            <li>Izveido Rombu ar jautājumu.</li>
+            <li>Ja atbilde ir nepareiza, izvelc bultu <i>atpakaļ</i> uz pašu "Sfinksas mīkla" taisnstūri (vizuāli attēlojot <code>while</code> ciklu vai funkcijas atkārtotu izsaukšanu).</li>
+            <li>Ja atbilde ir pareiza, bulta ved uz nākamo istabu. Apraksti šo loģiku ar īsu pseidokodu blakus shēmai.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <div class="logic-box">
-        <ul>
-            <li><b>Aklie zari (Dead ends):</b> Shēmā ir lokācija (taisnstūris), no kuras neiet neviena bulta tālāk, bet tā nav spēles beigas. <i>Risinājums: Vienmēr nodrošini pāreju uz nākamo funkciju vai piedāvā iespēju atgriezties iepriekšējā lokācijā.</i></li>
-            <li><b>Neiespējami nosacījumi:</b> Izveidots ceļš, kuram nepieciešams priekšmets (mainīgais), ko spēlētājs fiziski vēl nevarēja iegūt. <i>Risinājums: Simulē spēles gaitu no sākuma līdz beigām, sekojot līdzi, kādi mainīgie ir aktīvi katrā solī.</i></li>
-            <li><b>Pārāk sarežģīta shēma:</b> Simboli ir saputroti un bultas krustojas tā, ka plūsmai nevar izsekot. <i>Risinājums: Zīmē shēmu strukturēti no augšas uz leju, grupējot saistītās lokācijas vienuviet.</i></li>
-        </ul>
-    </div>
+    <ul>
+        <li><b>Aklie zari (<i>Dead ends</i>):</b> Situācija, kad funkcija (istaba) beidzas, bet nepiedāvā pāreju uz citu funkciju un nav arī "Game Over". Programma vienkārši apstājas.
+            <pre><code class="language-python"># Slikti: Spēlētājs izlasa tekstu un programma aizveras
+def tuksa_istaba():
+    print("Šeit nekā nav.")
+    # Trūkst turpinājuma!
+
+# Labi: Spēlētājs tiek nosūtīts atpakaļ
+def tuksa_istaba():
+    print("Šeit nekā nav. Tu atgriezies gaitenī.")
+    gaitenis()</code></pre>
+        </li>
+        <li><b>Neiespējami nosacījumi:</b> Izveidots ceļš, kas pārbauda mainīgo (piemēram, atslēgu), kurš programmā vēl nav definēts, izraisot <i>NameError</i>. Mainīgie vienmēr jādefinē stāsta pašā sākumā.
+            <pre><code class="language-python"># Slikti: Mainīgais tiek radīts tikai 1. istabā
+def otra_istaba():
+    if ir_atslega: # Ja spēlētājs šeit nonāk pirms 1. istabas, spēle sabruks!
+        print("Atvērts")
+
+# Labi: Mainīgais tiek definēts globāli pirms spēles sākuma
+ir_atslega = False</code></pre>
+        </li>
+    </ul>
 </section>
 
 <div class='section'>
-    <h2>Koda piemērs</h2>
+    <h2>Koda piemērs: No shēmas uz kodu</h2>
     <div class='code-example'>
-        <pre><code class="language-python"># 1. Taisnstūris (Apraksts)
+        <pre><code class="language-python"># 1. Taisnstūris: Sākuma lokācija
 def meza_taka():
     print("Tu stāvi uz sūnainas takas.")
     
-    # 2. Rombs (Izvēle)
+    # 2. Rombs: Izvēle
     izvele = input("Iet (A)ugšup vai (L)ejup? ").upper()
     
-    # 3. Bultas (Pārejas/Plūsma)
+    # 3. Bultas: Pārejas (Plūsma uz citām funkcijām)
     if izvele == "A":
         kalna_virsotne()
+    elif izvele == "L":
+        upes_leja()
     else:
-        upes_leja()</code></pre>
+        print("Nesapratu.")
+        meza_taka() # Atgriežas sākumā (Cikls)</code></pre>
         <div class='result'>
-            Vizuālais plāns kodā:<br>
-            [Mežs] --(A)--> [Kalns]<br>
-            [Mežs] --(L)--> [Upe]
+            Tu stāvi uz sūnainas takas.<br>
+            Iet (A)ugšup vai (L)ejup? A
         </div>
     </div>
 </div>
@@ -135,5 +171,6 @@ def meza_taka():
     <a href="prog1_44.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
     <a href="prog1_46.html" class="nav-btn">Nākamā stunda ➡</a>
 </div>
+
 </body>
 </html>

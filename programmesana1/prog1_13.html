@@ -1,88 +1,100 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-<title>1.3 Git uzstādīšana un krātuve</title>
+<title>1.3 Koda sinhronizācija (Desktop)</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
 </head>
-<body class="has-sidebar">
+<body>
 
 <aside class="sidebar-nav">
   <h3>ebskola</h3>
-  <a href="prog1_11.html">1.1 Datora sagatavošana</a>
-  <a href="prog1_12.html">1.2 Windows resursi un ceļi</a>
-  <a class="active" href="prog1_13.html">1.3 Git uzstādīšana un krātuve</a>
-  <a href="prog1_14.html">1.4 GitHub un SSH drošība</a>
-  <a href="prog1_15.html">1.5 Dokumentēšana un etiķete</a>
+  <a href="prog1_11.html">1.1 Datora sagatavošana un IDE</a>
+  <a href="prog1_12.html">1.2 GitHub un Mākoņkrātuve</a>
+  <a class="active" href="prog1_13.html">1.3 Koda sinhronizācija (Desktop)</a>
+  <a href="prog1_14.html">1.4 Failu sistēma un organizācija</a>
+  <a href="prog1_15.html">1.5 Dokumentēšana un README</a>
   <a href="prog1_16.html">1.6 Tēmas noslēguma darbs</a>
 </aside>
 
 <nav class='galvenaisdiv'>
     <a href="../index.html">Tēmas</a>
-    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
-    <a href="paligm.html">Palīgmateriāli</a>
+    <a href="../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../paligm.html">Palīgmateriāli</a>
 </nav>
 
 <section class='section'>
-    <h1>1. tēma: Ievads un darba vide. 3. stunda: Git uzstādīšana un pirmie saglabāšanas punkti.</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Tu iemācīsies patstāvīgi <b>uzstādīt</b> Git vadības sistēmu savā datorā, <b>iestatīt</b> savu digitālo parakstu un <b>izveidot</b> pirmo lokālo krātuvi, lai nodrošinātu sava darba saglabāšanu vēsturē.</p>
-    <a href="sasnRez.html">SR 2.4.9. (Versiju pārvaldības lietošana lokāli: krātuves izveide, koda versiju saglabāšana)</a>
+    <h1>1. tēma: 1.3 Koda sinhronizācija (Desktop)</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> <b>Klonēt</b> mākoņkrātuvi, <b>nofiksēt</b> lokālās izmaiņas kodā un <b>sinhronizēt</b> tās ar galveno projektu, izmantojot versiju kontroles pamatdarbības.</p>
+    <a href="../sasnRez.html">2.4.9. Lieto versiju pārvaldības sistēmas (Git).</a>
 </section>
 
 <section class='section'>
-    <h2>Teorija: Kas ir Git un kāpēc tas ir nepieciešams?</h2>
+    <h2>Teorija: Sinhronizācijas darba cikls</h2>
+    <p>Lai Tavas koda izmaiņas nonāktu no VS Code uz GitHub mākoni, vienmēr tiek izmantots konkrēts trīs soļu cikls.</p>
     <ul>
-        <li><b>Versiju vadības sistēma (Git):</b> Profesionāla "laika mašīna", kas atceras katru koda izmaiņu un ļauj pie tām atgriezties, ja kaut kas noiet greizi.</li>
-        <li><b>Krātuve (Repository):</b> Slēpta mape tavam projektam (<code class="language-python">.git</code>), kurā dators glabā visu izmaiņu vēsturi.</li>
-        <li><b>Sagatavošanas zona (Staging Area):</b> Vieta, kur Tu sakārto failus pirms to galīgās saglabāšanas vēsturē.</li>
-        <li><b>Saglabāšanas punkts (Commit):</b> Fiksēts vēstures brīdis ar Tavu parakstu un aprakstu. Tas ir kā "Check Point" video spēlē.</li>
+        <li><b>Clone (<i>Klonēšana</i>):</b> Vienreizējs process, kurā Tu lejupielādē krātuves kopiju no interneta savā datorā.</li>
+        <li><b>Commit (<i>Fiksēšana</i>):</b> Kad esi veicis izmaiņas, Tu radi "saglabāšanas punktu" lokālajā datorā, pievienojot tam īsu aprakstu.</li>
+        <li><b>Push (<i>Augšupielāde</i>):</b> Tavu lokālo fiksējumu nosūtīšana uz GitHub mākoni, lai tie būtu pieejami citiem.</li>
+        <li><b>Diff (<i>Atšķirības</i>):</b> Vizuāls rīks GitHub Desktop vidē, kas parāda izdzēsto kodu ar sarkanu mīnusu un pievienoto – ar zaļu plusu.</li>
     </ul>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Git uzstādīšana un pārbaude</h2>
-    <p>Sagatavot datoru darbam ar versiju pārvaldības sistēmu Windows vidē.</p>
+    <h2>1. uzdevums: Krātuves klonēšana uz datora</h2>
+    <p>Savienot GitHub mākoņkrātuvi ar savu lokālo failu sistēmu.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Dodies uz vietni <b>git-scm.com</b> un lejuplādē <i>Windows</i> versiju.</li>
-            <li>Veic instalāciju, visos soļos spiežot "Next" (atstājot standarta iestatījumus).</li>
-            <li>Atver <b>VS Code</b> termināli (Ctrl+Shift+`).</li>
-            <li>Ieraksti komandu: <code class="language-python">git --version</code>.</li>
-            <li>Ja terminālis izvada versijas numuru (piem., <i>git version 2.4x.x</i>), instalācija ir veiksmīga.</li>
+            <li>Atver <b>GitHub Desktop</b> programmu.</li>
+            <li>Sākuma ekrānā izvēlies <b>Clone a repository from the Internet</b> (vai dodies uz <i>File -> Clone repository...</i>).</li>
+            <li>Sadaļā <i>GitHub.com</i> sarakstā atrodi un izvēlies savu iepriekšējā stundā izveidoto <code>programmesana-pamatkurss</code> krātuvi.</li>
+            <li>Pievērs uzmanību <b>Local path</b> (vietai, kur fails tiks saglabāts tavā datorā, piem., Dokumentos) un nospied zilto pogu <b>Clone</b>.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Identitāte un krātuves inicializācija</h2>
-    <p>Pateikt datoram, kas veic izmaiņas, un izveidot pirmo krātuvi projekta mapē.</p>
+    <h2>2. uzdevums: Izmaiņu veikšana un fiksēšana (Commit)</h2>
+    <p>Uzrakstīt pirmo kodu klonētajā mapē un reģistrēt izmaiņas versiju kontrolē.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Iestati savu vārdu: <code class="language-python">git config --global user.name "Tavs Vārds"</code>.</li>
-            <li>Iestati e-pastu: <code class="language-python">git config --global user.email "tavs@epasts.lv"</code>.</li>
-            <li>VS Code atver savu mapi <code class="language-python">mana_spele</code> (File -> Open Folder).</li>
-            <li>Terminālī ieraksti komandu: <code class="language-python">git init</code>.</li>
-            <li>Pārbaudi stāvokli: <code class="language-python">git status</code>. Failiem jābūt sarkaniem, jo tie vēl nav pievienoti krātuvei.</li>
+            <li>GitHub Desktop logā nospied pogu <b>Open in Visual Studio Code</b>. Tas atvērs tavu klonēto mapi editorā.</li>
+            <li>VS Code izveido jaunu failu ar nosaukumu <code>diena1.py</code> un ieraksti tajā: <code class="language-python">print("Mans pirmais koda fiksējums!")</code>. Saglabā failu (Ctrl+S).</li>
+            <li>Atgriezies GitHub Desktop. Kreisajā panelī (<i>Changes</i>) Tu redzēsi savu jauno failu atzīmētu ar zaļu <code>+</code>.</li>
+            <li>Apakšējā kreisajā stūrī, laukā <i>Summary</i> ieraksti īsu un saprotamu ziņojumu (piem., "Pievienots diena1.py").</li>
+            <li>Nospied zilo pogu <b>Commit to main</b>.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Pirmā saglabāšanas punkta (Commit) izveide</h2>
-    <p>Apgūt pilnu ciklu, lai fiksētu pašreizējo progresu vēsturē.</p>
+    <h2>3. uzdevums: Izmaiņu sinhronizācija (Push)</h2>
+    <p>Nosūtīt savus lokālos fiksējumus uz mākoņkrātuvi, lai pasniedzējs tos varētu redzēt.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Sagatavo visus failus: <code class="language-python">git add .</code> (punkts nozīmē "visu").</li>
-            <li>Ieraksti <code class="language-python">git status</code> – failu nosaukumiem jākļūst zaļiem.</li>
-            <li>Izveido vēstures punktu: <code class="language-python">git commit -m "Projekta struktura un pirmais skripts"</code>.</li>
-            <li>Atver <code class="language-python">apraksts.txt</code>, pieraksti jaunu teikumu un saglabā (Ctrl+S).</li>
-            <li>Atkārto: <code class="language-python">git add .</code> un <code class="language-python">git commit -m "Papildināts apraksts"</code>.</li>
-            <li>Apskati vēsturi: <code class="language-python">git log --oneline</code>. Nospied <b>Q</b>, lai izietu no saraksta.</li>
+            <li>Pēc veiksmīga <i>Commit</i>, GitHub Desktop augšējā joslā parādīsies poga ar bultiņu uz augšu: <b>Push origin</b>. Nospied to.</li>
+            <li>Pagaidi dažas sekundes, kamēr izmaiņas tiek augšupielādētas.</li>
+            <li>Pārlūkprogrammā dodies uz <b>github.com</b> un atver savu <code>programmesana-pamatkurss</code> krātuvi.</li>
+            <li>Pārliecinies, ka tavs jaunais fails <code>diena1.py</code> tagad ir redzams tiešsaistē!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Kļūdu labošana (Discard un Revert)</h2>
+    <p>Izmantot vizuālo rīku, lai atceltu nevēlamas izmaiņas kodā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>VS Code izdzēs tekstu failā <code>diena1.py</code>, ieraksti kādas nejaušas zīmes un saglabā.</li>
+            <li>Atver GitHub Desktop. Apskati <b>Diff</b> logu labajā pusē — tas skaidri parādīs sarkanās (izdzēstās) un zaļās (pievienotās) rindiņas.</li>
+            <li>Lai atceltu šo nepareizo izmaiņu (pirms esi to nofiksējis ar <i>Commit</i>), kreisajā panelī ar labo peles klikšķi spied uz faila un izvēlies <b>Discard changes...</b></li>
+            <li>Ja kļūda jau ir nofiksēta (uztaisīts <i>Commit</i>), dodies uz <b>History</b> cilni kreisajā pusē, atrodi attiecīgo fiksējumu, spied labo klikšķi un izvēlies <b>Revert commit</b>. Tas automātiski atgriezīs kodu iepriekšējā stāvoklī.</li>
         </ol>
     </div>
 </section>
@@ -90,32 +102,32 @@
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
     <ul>
-        <li><b>"git is not recognized...":</b> Restartē VS Code programmu, lai Windows pamanītu jauno Git instalāciju.</li>
-        <li><b>Aizmirsts punkts:</b> Komandā <code class="language-python">git add .</code> punkts ir obligāts, lai pievienotu visas izmaiņas.</li>
-        <li><b>Sarkani faili pēc commit:</b> Pārliecinies, vai esi saglabājis pašu failu (Ctrl+S). Git neredz to, kas nav ierakstīts diskā.</li>
-        <li><b>Iestrēgšana vēsturē:</b> Ja terminālis neļauj rakstīt pēc <code class="language-python">git log</code>, nospied <b>Q</b>.</li>
+        <li><b>GitHub Desktop neredz izmaiņas:</b> Tu esi aizmirsis saglabāt failu iekš VS Code (ja pie faila nosaukuma augšā ir balts aplītis, izmanto Ctrl+S).</li>
+        <li><b>Izmaiņas nav redzamas internetā:</b> Tu uztaisīji <i>Commit</i>, bet aizmirsi nospiest <b>Push origin</b>. <i>Commit</i> notiek tikai tavā lokālajā datorā, <i>Push</i> sūta datus uz internetu.</li>
+        <li><b>Bezjēdzīgi Commit ziņojumi:</b> Atstājot tukšu vai rakstot "asdfgh", vēlāk <i>History</i> cilnē būs neiespējami saprast, kad kura kļūda tikusi izlabota. Vienmēr raksti aprakstošu kopsavilkumu!</li>
     </ul>
 </section>
 
 <div class='section'>
-    <h2>Git pamata komandu kopsavilkums</h2>
+    <h2>Koda piemērs: Vizuālā "Diff" loģika</h2>
     <div class='code-example'>
-        <pre><code class="language-powershell">git init          # Inicializē (izveido) krātuvi
-git add .         # Sagatavo visas izmaiņas saglabāšanai
-git commit -m ""  # Izveido saglabāšanas punktu ar ziņojumu
-git status        # Parāda pašreizējo krātuves stāvokli
-git log --oneline # Parāda īsu izmaiņu vēsturi</code></pre>
+        <pre><code class="language-python"># GitHub Desktop parādīs izmaiņas, iekrāsojot rindiņas.
+
+# Vecais kods (Tiks iekrāsots SARKANS un ar '-' zīmi):
+# print("Sveiks, pasaule")
+
+# Jaunais kods (Tiks iekrāsots ZAĻŠ un ar '+' zīmi):
+print("Sveika, pasaule! Esmu klāt!")
+print("Šis būs mans pirmais Commit.")</code></pre>
         <div class='result'>
-            [main (root-commit) 5b1d2e4] Projekta struktura<br>
-            2 files changed, 5 insertions(+)<br>
-            create mode 100644 tests.py
+            Skatoties GitHub Desktop programmā, Tu uzreiz redzēsi, kas kodā ir mainījies, kas palīdz izvairīties no nejaušu kļūdu augšupielādes.
         </div>
     </div>
-    <p><b>Atceries:</b> Kļūdas terminālī ir normāla programmēšanas sastāvdaļa. Lasi ziņojumus — Git bieži vien pats priekšā pasaka pareizo komandu!</p>
 </div>
 <div class="stundas-navigacija">
     <a href="prog1_12.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
     <a href="prog1_14.html" class="nav-btn">Nākamā stunda ➡</a>
 </div>
+
 </body>
 </html>

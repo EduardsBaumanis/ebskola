@@ -1,88 +1,101 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-<title>1.4 GitHub un SSH drošība</title>
+<title>1.4 Failu sistēma un organizācija</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
 </head>
-<body class="has-sidebar">
+<body>
 
 <aside class="sidebar-nav">
   <h3>ebskola</h3>
-  <a href="prog1_11.html">1.1 Datora sagatavošana</a>
-  <a href="prog1_12.html">1.2 Windows resursi un ceļi</a>
-  <a href="prog1_13.html">1.3 Git uzstādīšana un krātuve</a>
-  <a class="active" href="prog1_14.html">1.4 GitHub un SSH drošība</a>
-  <a href="prog1_15.html">1.5 Dokumentēšana un etiķete</a>
+  <a href="prog1_11.html">1.1 Datora sagatavošana un IDE</a>
+  <a href="prog1_12.html">1.2 GitHub un Mākoņkrātuve</a>
+  <a href="prog1_13.html">1.3 Koda sinhronizācija (Desktop)</a>
+  <a class="active" href="prog1_14.html">1.4 Failu sistēma un organizācija</a>
+  <a href="prog1_15.html">1.5 Dokumentēšana un README</a>
   <a href="prog1_16.html">1.6 Tēmas noslēguma darbs</a>
 </aside>
 
 <nav class='galvenaisdiv'>
     <a href="../index.html">Tēmas</a>
-    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
-    <a href="paligm.html">Palīgmateriāli</a>
+    <a href="../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../paligm.html">Palīgmateriāli</a>
 </nav>
 
 <section class='section'>
-    <h1>1. tēma: Ievads un darba vide. 4. stunda: GitHub un drošs SSH savienojums.</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Tu iemācīsies <b>atpazīt</b> atšķirību starp darbu lokāli un mākonī, <b>izveidot</b> šifrētu SSH drošības atslēgu un pirmo reizi <b>sinhronizēt</b> savu spēles kodu ar GitHub serveri.</p>
-    <a href="sasnRez.html">SR 2.4.9. (Git attālināti), 2.3.1. (Datu drošība tīklā)</a>
+    <h1>1. tēma: 1.4 Failu sistēma un organizācija</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> <b>Izprast</b> projektu struktūras nozīmi, <b>strukturēt</b> savus koda failus apakšmapēs un <b>konfigurēt</b> izņēmumus, izmantojot <code>.gitignore</code> failu.</p>
+    <a href="../sasnRez.html">2.4.12. Sagatavo un konfigurē programmēšanas vidi.</a><br>
+    <a href="../sasnRez.html">2.4.9. Lieto versiju pārvaldības sistēmas (Git).</a>
 </section>
 
 <section class='section'>
-    <h2>Teorija: Kods mākonī un drošība</h2>
+    <h2>Teorija: Kārtība projektā un .gitignore</h2>
+    <p>Profesionālos projektos faili netiek glabāti vienā lielā mapē. Tos organizē loģiskās struktūrās, izmantojot apakšmapes un ceļus (<i>Paths</i>). Lai GitHub mākoni nepiesārņotu ar liekiem failiem, izmanto īpašu sistēmas failu.</p>
     <ul>
-        <li><b>GitHub:</b> Globāls mākoņpakalpojums, kas glabā Tavu kodu. Tas ļauj programmētājiem strādāt kopā un nodrošina, ka darbs nepazūd, ja salūst dators.</li>
-        <li><b>Remote (Attālinātā krātuve):</b> Projekta kopija, kas atrodas uz servera. Galveno adresi, kas savieno Tavu datoru ar mākoni, sauc par <code class="language-python">origin</code>.</li>
-        <li><b>SSH (Secure Shell):</b> Drošības protokols. Tā vietā, lai katru reizi rakstītu paroli, mēs izmantojam "atslēgu pāri" – privāto atslēgu (tavā datorā) un publisko atslēgu (serverī).</li>
-        <li><b>Push (Augšupielāde):</b> Process, kurā Tu "uzgrūd" savus lokālos <i>commit</i> punktus uz GitHub serveri.</li>
+        <li><b>Projekta sakne (<i>Root directory</i>):</b> Tava projekta galvenā mape (mūsu gadījumā — krātuve <code>programmesana-pamatkurss</code>). Tajā atrodas visas pārējās mapes.</li>
+        <li><b>Relatīvie ceļi (<i>Relative paths</i>):</b> Norāde uz failu attiecībā pret vietu, kur Tu pašlaik atrodies. Piemēram, <code>uzdevumi/diena1.py</code> nozīmē "diena1.py fails, kas atrodas mapē uzdevumi".</li>
+        <li><b>.gitignore:</b> Teksta fails, kurā uzskaitīti faili vai mapes, kurus <i>Git</i> sistēmai vajadzētu "ignorēt" (neuzskaitīt un nesūtīt uz GitHub). Tie parasti ir personīgie piezīmju faili, paroles vai programmu ģenerētie pagaidu faili.</li>
     </ul>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: GitHub krātuves izveide</h2>
-    <p>Sagatavot vietu savam projektam internetā, lai tam varētu piekļūt no jebkuras vietas pasaulē.</p>
+    <h2>1. uzdevums: Projekta mapju struktūras izveide</h2>
+    <p>Sakārtot savu GitHub krātuvi, izveidojot loģisku apakšmapju sistēmu turpmākajam mācību gadam.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Atver <b>github.com</b> un pieraksties savā kontā.</li>
-            <li>Augšējā labajā stūrī spied <b>+</b> un izvēlies <b>New repository</b>.</li>
-            <li>Nosaukums: <code class="language-python">mana_spele</code>. Izvēlies <b>Private</b> (privāts).</li>
-            <li>Nespied nevienu citu rūtiņu (ne README, ne .gitignore) un spied <b>Create repository</b>.</li>
-            <li>Pagaidām atstāj atvērto lapu — tur ir svarīgas komandas!</li>
+            <li>Atver VS Code savu klonēto <code>programmesana-pamatkurss</code> mapi.</li>
+            <li>Kreisajā sānjoslā (<i>Explorer</i>) izveido trīs jaunas mapes (ikona <i>New Folder</i>): <code>teorija</code>, <code>uzdevumi</code> un <code>projekti</code>.</li>
+            <li>Ar peli "paņem" un ievelc savu iepriekšējā stundā izveidoto <code>diena1.py</code> failu iekš mapes <code>uzdevumi</code>. Ja VS Code jautā apstiprinājumu faila pārvietošanai, spied "Move".</li>
+            <li>Atver GitHub Desktop un aplūko <i>Changes</i> logu. Ievēro, ka programma ir fiksējusi faila pārvietošanu (veco lokāciju atzīmējot ar mīnusu, jauno ar plusu).</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: SSH drošības atslēgas iestatīšana</h2>
-    <p>Izveidot šifrētu savienojumu, lai GitHub atpazītu Tavu datoru bez paroles ievadīšanas.</p>
+    <h2>2. uzdevums: .gitignore faila izveide un testēšana</h2>
+    <p>Izveidot noteikumus, lai pasargātu noteiktus failus no nejaušas augšupielādes mākoņkrātuvē.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Atver VS Code termināli un ieraksti: <code class="language-python">ssh-keygen -t ed25519 -C "tavs_epasts@piemers.lv"</code>.</li>
-            <li>Spied <b>Enter</b> trīs reizes (neatstāj paroli), līdz redzi "simbolu mākslu".</li>
-            <li>Ieraksti: <code class="language-python">cat ~/.ssh/id_ed25519.pub</code>. Nokopē visu parādīto rindu (no <i>ssh-ed25519</i> līdz e-pastam).</li>
-            <li>GitHub vietnē dodies uz <b>Settings -> SSH and GPG keys -> New SSH key</b>.</li>
-            <li>Nosaukums: "Skolas dators". Ielīmē nokopēto tekstu un spied <b>Add SSH key</b>.</li>
+            <li>VS Code projekta saknes mapē (blakus README failam) izveido jaunu failu ar precīzu nosaukumu: <code>.gitignore</code> (neaizmirsti punktu pašā sākumā!).</li>
+            <li>Šajā failā ieraksti vienu vārdu: <code>noslepums.txt</code> un saglabā (Ctrl+S).</li>
+            <li>Izveido jaunu teksta failu ar nosaukumu <code>noslepums.txt</code>. Ieraksti tajā jebkādu tekstu un saglabā.</li>
+            <li>Atver GitHub Desktop. Apskati, kādi faili ir redzami <i>Changes</i> sarakstā.</li>
+            <li><b>Svarīgi:</b> Sarakstā vajadzētu parādīties failam <code>.gitignore</code>, bet fails <code>noslepums.txt</code> tur <b>nedrīkst</b> būt. Sistēma to sekmīgi ignorē!</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Koda nosūtīšana (Push)</h2>
-    <p>Savienot lokālo mapi ar mākoni un pirmo reizi sinhronizēt darbu.</p>
+    <h2>3. uzdevums: Izmaiņu fiksēšana (Commit & Push)</h2>
+    <p>Nofiksēt jauno failu struktūru un izņēmumu noteikumus, nosūtot tos uz GitHub.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>GitHub krātuves lapā izvēlies <b>SSH</b> (nevis HTTPS!) un nokopē adresi, kas sākas ar <code class="language-python">git@github.com...</code>.</li>
-            <li>VS Code terminālī ieraksti: <code class="language-python">git remote add origin [šeit_ielīmē_adresi]</code>.</li>
-            <li>Pārliecinies, ka galvenā zara nosaukums ir pareizs: <code class="language-python">git branch -M main</code>.</li>
-            <li>Nosūti datus: <code class="language-python">git push -u origin main</code>.</li>
-            <li>Ja parādās jautājums par drošību, ieraksti <code class="language-python">yes</code> un spied Enter.</li>
-            <li>Atjaunini GitHub lapu pārlūkā — Tavi faili tagad ir mākonī!</li>
+            <li>Pārliecinies, ka GitHub Desktop sarakstā ir atzīmēti <code>.gitignore</code> faila pievienošana un tava Python faila pārvietošana.</li>
+            <li><i>Summary</i> laukā ieraksti aprakstu: "Izveidota mapju struktūra un pievienots gitignore".</li>
+            <li>Nospied <b>Commit to main</b>.</li>
+            <li>Nospied <b>Push origin</b>, lai nosūtītu izmaiņas uz internetu.</li>
+            <li>Dodies uz savu GitHub profilu pārlūkprogrammā un pārbaudi, vai jaunās mapes un <code>.gitignore</code> fails ir redzami publiski. Fails <code>noslepums.txt</code> tur nebūs!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Mapju (Directories) ignorēšana</h2>
+    <p>Pielāgot .gitignore failu, lai tas izslēgtu veselu mapi, nevis tikai atsevišķu failu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>VS Code izveido jaunu mapi ar nosaukumu <code>pagaidu_dati</code>.</li>
+            <li>Ieliec tajā jebkādu jaunu Python vai teksta failu.</li>
+            <li>Atver savu <code>.gitignore</code> failu un jaunā rindiņā ieraksti <code>pagaidu_dati/</code> (slīpsvītra beigās norāda, ka tā ir mape).</li>
+            <li>Pārbaudi GitHub Desktop — visai šai mapei un tās saturam jābūt ignorētam. Nofiksē un augšupielādē atjaunināto <code>.gitignore</code> failu.</li>
         </ol>
     </div>
 </section>
@@ -90,32 +103,37 @@
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
     <ul>
-        <li><b>"Permission denied (publickey)":</b> Tu nokopēji nepareizo atslēgu. Jālieto fails ar galotni <code class="language-python">.pub</code>.</li>
-        <li><b>"remote origin already exists":</b> Tu jau pievienoji adresi. Raksti <code class="language-python">git remote remove origin</code> un tad mēģini 3. uzdevumu vēlreiz.</li>
-        <li><b>SSH pret HTTPS:</b> SSH adrese vienmēr sākas ar <code class="language-python">git@</code>. Pārliecinies, ka GitHub lapā pārslēdzi uz SSH cilni pirms kopēšanas.</li>
-        <li><b>Nekas neparādās GitHub:</b> Atceries, ka <i>Push</i> sūta tikai to, kas ir saglabāts ar <code class="language-python">git commit</code>.</li>
+        <li><b>Aizmirsts punkts:</b> Faila nosaukumam jābūt tieši <code>.gitignore</code>. Ja to nosauksi par <code>gitignore.txt</code> vai <code>gitignore</code>, sistēma to neatpazīs kā versiju kontroles noteikumu failu.</li>
+        <li><b>Nepareiza atrašanās vieta:</b> <code>.gitignore</code> failam ir jāatrodas projekta pašā galvenajā mapē (saknē). Ja ieliksi to apakšmapē, tas darbosies tikai uz to konkrēto mapi.</li>
+        <li><b>Mēģinājums ignorēt jau nofiksētus failus:</b> <code>.gitignore</code> strādā tikai uz failiem, kas vēl nav tikuši uztaisīti par <i>Commit</i>. Ja fails jau iepriekš tika augšupielādēts, tā pievienošana <code>.gitignore</code> failam viņu automātiski neizdzēsīs no GitHub mākoni.</li>
     </ul>
-    <p><b>Zini, kāpēc tas ir svarīgi?</b> SSH atslēgas ir industrijas standarts. Tās pasargā Tavu kodu no nesankcionētas piekļuves un ļauj strādāt efektīvi, netērējot laiku paroļu rakstīšanai katrā darbības solī.</p>
 </section>
 
 <div class='section'>
-    <h2>Svarīgākās termināļa komandas</h2>
+    <h2>Koda piemērs: Kā izskatās klasisks .gitignore fails</h2>
     <div class='code-example'>
-        <pre><code class="language-powershell">ssh-keygen -t ed25519 -C "epasts"  # Izveido drošības atslēgu
-cat ~/.ssh/id_ed25519.pub          # Parāda publisko atslēgu kopēšanai
-git remote add origin [adrese]     # Savieno ar GitHub
-git push -u origin main            # Nosūta kodu uz mākoni</code></pre>
+        <pre><code class="language-python"># Ar tēmturi (#) arī šeit var rakstīt komentārus
+# Ignorēt konkrētu failu:
+noslepums.txt
+paroles.csv
+
+# Ignorēt visus failus ar konkrētu paplašinājumu (piem., attēlus):
+*.jpg
+*.png
+
+# Ignorēt veselu mapi:
+pagaidu_dati/
+__pycache__/</code></pre>
         <div class='result'>
-            Enumerating objects: 5, done.<br>
-            To github.com:lietotajs/mana_spele.git<br>
-            * [new branch]      main -> main<br>
-            Branch 'main' set up to track 'origin/main'.
+            Visi faili un mapes, kas atbilst šiem noteikumiem, tiks paslēpti no GitHub Desktop acīm un paliks tikai tavā personīgajā datorā.
         </div>
     </div>
 </div>
+
 <div class="stundas-navigacija">
     <a href="prog1_13.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
     <a href="prog1_15.html" class="nav-btn">Nākamā stunda ➡</a>
 </div>
+
 </body>
 </html>

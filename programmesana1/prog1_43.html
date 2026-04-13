@@ -6,9 +6,8 @@
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 </head>
-<body class="has-sidebar">
+<body>
 
 <aside class="sidebar-nav">
   <h3>ebskola</h3>
@@ -22,150 +21,153 @@
 
 <nav class='galvenaisdiv'>
     <a href="../index.html">Tēmas</a>
-    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
-    <a href="paligm.html">Palīgmateriāli</a>
+    <a href="../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../paligm.html">Palīgmateriāli</a>
 </nav>
 
 <section class='section'>
-    <h1>4. tēma: Funkcijas un Modularitāte. 3. stunda: Modularitāte.</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Izprast koda arhitektūras pamatprincipus un sadalīt savu spēles loģiku vairākos moduļos, izveidojot pārskatāmu un profesionālu failu sistēmu.</p>
-    <a href="sasnRez.html">SR 2.4.15. (Programmas sadalīšana moduļos)</a>
+    <h1>4. tēma: 4.3 Modularitāte un koda sadalīšana</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> <b>Izprast</b> programmatūras arhitektūras pamatprincipus un <b>sadalīt</b> spēles loģiku vairākos izolētos failos, izveidojot pārskatāmu un profesionālu projekta struktūru.</p>
+    <a href="../sasnRez.html">2.4.15. Veido modulāras programmas un funkcijas.</a><br>
+    <a href="../sasnRez.html">2.4.6. Plāno un dokumentē programmatūras izstrādes procesu.</a>
 </section>
 
 <section class='section'>
-    <h2>Teorija: Koda arhitektūra un Moduļi</h2>
-    <div class="logic-box">
-        <p>Python valodā jebkurš <code class="language-powershell">.py</code> fails ir <b>modulis</b>. Koda dalīšana moduļos padara to lasāmu un ļauj komandai strādāt vienlaicīgi. Visiem Tavas spēles failiem jāatrodas vienā mapē, lai dators tos varētu atrast.</p>
-        
-        <pre><code class="language-python"># Iedomājies, ka vienā mapē tev ir divi faili:
-# 1. spele.py (tavs galvenais fails)
-# 2. ieroci.py (modulis, kurā ir funkcija saut())
-
-# --- 1. variants: Drošais imports ---
+    <h2>Teorija: Koda arhitektūra un moduļi</h2>
+    <p>Python valodā jebkurš fails ar <code>.py</code> paplašinājumu ir <i>Module (Modulis)</i>. Koda dalīšana moduļos padara to lasāmu, novērš viena milzīga faila veidošanos un ļauj komandai strādāt vienlaicīgi pie dažādām projekta daļām.</p>
+    
+    <ul>
+        <li><b>Absolute Import (<i>Pilnā importēšana</i>):</b> Izmanto <code>import fails</code>. Ielādē visu moduli. Izsaucot funkciju, obligāti jānorāda moduļa nosaukums.
+            <pre><code class="language-python"># Importē visu moduli
 import ieroci
 
-ieroci.saut() # Funkcijai obligāti jāliek priekšā faila "uzvārds"
-
-# --- 2. variants: Ērtais imports ---
+# Funkcijas izsaukums prasa moduļa prefiksu
+ieroci.saut()</code></pre>
+        </li>
+        <li><b>Specific Import (<i>Specifiskā importēšana</i>):</b> Izmanto <code>from fails import funkcija</code>. Ielādē tikai konkrētu komponenti. Funkciju var izsaukt tieši, bet jāuzmanās no nosaukumu konfliktiem ar esošo kodu.
+            <pre><code class="language-python"># Importē tikai vienu funkciju
 from ieroci import saut
 
-saut() # Funkciju var saukt pa tiešo, bez "uzvārda"</code></pre>
-
-        <ul class="step-list">
-            <li><code class="language-python">import fails</code> – Ielādē visu moduli. Tas ir drošākais veids lieliem projektiem, jo novērš situācijas, kur divos failos ir funkcijas ar vienādiem nosaukumiem (piemēram, <code class="language-python">ieroci.saut()</code> un <code class="language-python">ienaidnieki.saut()</code>).</li>
-            <li><code class="language-python">from fails import funkcija</code> – Ielādē tikai vienu konkrētu komandu. Tas ir ērtāk, jo ļauj rakstīt īsāku kodu, bet jāuzmanās no nosaukumu konfliktiem.</li>
-        </ul>
-    </div>
+# Funkciju var izsaukt tieši
+saut()</code></pre>
+        </li>
+    </ul>
+    <p>Visiem Tavas spēles moduļiem jāatrodas vienā <i>Directory (Mapē)</i>, lai dators varētu tos automātiski atrast bez sarežģītas ceļu konfigurēšanas.</p>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Varoņa Pase (Vienkāršs)</h2>
-    <p><i>Paredzamais laiks: 15 minūtes</i><br>
-    Sāksim ar vienkāršu vizuālo moduli. Tu izveidosi failu, kura vienīgais mērķis ir glīti parādīt spēlētāja datus, un izsauksi to no galvenā faila.</p>
+    <h2>1. uzdevums: Varoņa profila interfeiss (UI modulis)</h2>
+    <p>Izveido atsevišķu moduli, kura vienīgais uzdevums ir vizuāla datu formatēšana, atdalot dizainu no loģikas.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Izveido mapi <code class="language-python">rpg_spele</code> un atver to VS Code.</li>
-            <li>Izveido failu <code class="language-python">ui.py</code> (User Interface). Tajā definē funkciju <code class="language-python">def radit_pasi(vards, klase):</code>, kas izvada formatētu tekstu ar spēlētāja vārdu un klasi (piemēram, "Kareivis" vai "Mags").</li>
-            <li>Tajā pašā mapē izveido failu <code class="language-python">main.py</code>.</li>
-            <li>Faila <code class="language-python">main.py</code> augšā ieraksti: <code >import ui</code>.</li>
-            <li>Izsauc funkciju, nosūtot tai datus: <code class="language-python">ui.radit_pasi("Gendalfs", "Burvis")</code>.</li>
-            <li>Palaid <code class="language-python">main.py</code> caur termināli.</li>
+        <ol>
+            <li>VS Code izveido jaunu mapi <code>rpg_spele</code> un atver to.</li>
+            <li>Izveido failu <code>ui.py</code> (<i>User Interface</i> modulis).</li>
+            <li>Tajā definē funkciju <code class="language-python">def radit_pasi(vards, klase):</code>, kas izvada formatētu tekstu ar rāmīšiem, spēlētāja vārdu un klasi (piemēram, "Kareivis").</li>
+            <li>Tajā pašā mapē izveido galveno failu <code>main.py</code>.</li>
+            <li>Faila <code>main.py</code> pirmajā rindā ieraksti: <code class="language-python">import ui</code>.</li>
+            <li>Izsauc funkciju, nosūtot tai savus datus: <code class="language-python">ui.radit_pasi("Gendalfs", "Burvis")</code>. Palaid <code>main.py</code> un pārbaudi rezultātu.</li>
         </ol>
-        
-        <h3>Sagaidāmais rezultāts terminālī:</h3>
-        <div class='result'>
-            +----------------------+<br>
-            | SPĒLĒTĀJA PROFILS    |<br>
-            | Vārds: Gendalfs      |<br>
-            | Klase: Burvis        |<br>
-            +----------------------+
-        </div>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Nejaušais laupījums (Viduvējs)</h2>
-    <p><i>Paredzamais laiks: 20 minūtes</i><br>
-    Izmanto <code class="language-python">from ... import</code>, lai padarītu kodu īsāku. Tu izveidosi sistēmu, kas no lādēm met ārā nejaušus priekšmetus, apvienojot savu moduli ar Python iebūvēto <code class="language-python">random</code> moduli.</p>
+    <h2>2. uzdevums: Nejaušais laupījums (Inventāra modulis)</h2>
+    <p>Izmanto specifisko importēšanu, lai savienotu savu izveidoto moduli ar Python iebūvēto <code>random</code> moduli.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Mapē izveido jaunu failu <code class="language-python">inventars.py</code>. Faila augšā pievieno: <code class="language-python">import random</code>.</li>
-            <li>Sagatavo sarakstu: <code class="language-python">lietas = ["Zobens", "Vairogs", "Dziras pudele", "Koka nūja"]</code>.</li>
-            <li>Definē funkciju <code class="language-python">def atvert_ladi():</code>, kas ar <code class="language-python">random.choice(lietas)</code> atgriež (<code class="language-python">return</code>) vienu nejaušu priekšmetu.</li>
-            <li>Pārej uz <code class="language-python">main.py</code>. Pašā augšā pievieno jaunu rindu: <code class="language-python">from inventars import atvert_ladi</code>.</li>
-            <li>Failā <code class="language-python">main.py</code> izveido <code class="language-python">for</code> ciklu, kas atkārtojas 3 reizes. Katrā ciklā izsauc <code class="language-python">atvert_ladi()</code> un ar <code class="language-python">print()</code> paziņo spēlētājam, ko viņš atrada.</li>
+        <ol>
+            <li>Mapē izveido failu <code>inventars.py</code>. Faila sākumā importē bibliotēku: <code class="language-python">import random</code>.</li>
+            <li>Sagatavo sarakstu: <code class="language-python">lietas = ["Zobens", "Vairogs", "Dzira", "Nūja"]</code>.</li>
+            <li>Definē funkciju <code class="language-python">def atvert_ladi():</code>, kas izmanto <code>random.choice()</code> un atgriež (<i>return</i>) vienu priekšmetu no saraksta.</li>
+            <li>Pārej uz <code>main.py</code> failu. Augšā pievieno: <code class="language-python">from inventars import atvert_ladi</code>.</li>
+            <li>Failā <code>main.py</code> izveido <code>for</code> ciklu ar 3 iterācijām. Cikla iekšienē izsauc <code>atvert_ladi()</code> un ar formatētu virkni paziņo, ko spēlētājs atrada.</li>
         </ol>
-        
-        <h3>Sagaidāmais rezultāts (var atšķirties):</h3>
-        <div class='result'>
-            Tu atvēri lādi un atradi: Vairogs!<br>
-            Tu atvēri lādi un atradi: Koka nūja!<br>
-            Tu atvēri lādi un atradi: Vairogs!
-        </div>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Mini-Arēnas Dzinējs (Padziļināts)</h2>
-    <p><i>Paredzamais laiks: 35 minūtes</i><br>
-    Uzprogrammē spēles galveno cilpu (game loop), kas savieno datu aprēķinus no viena faila ar vizuālo attēlojumu no otra faila. Šis simulē īstu spēļu izstrādes arhitektūru!</p>
+    <h2>3. uzdevums: Mini-Arēnas dzinējs (Galvenā cilpa)</h2>
+    <p>Uzprogrammē <i>Game loop (Spēles galveno cilpu)</i>, kas integrē matemātiskos aprēķinus no viena faila un grafiku no otra.</p>
     <div class='logic-box'>
-        <h3>Sistēmas plāns un soļi:</h3>
-        <ol class="step-list">
-            <li><b>Fails 1: <code class="language-python">kauja.py</code></b> — Importē <code class="language-python">random</code>. Definē funkciju <code class="language-python">def speletaja_uzbrukums():</code>, kas atgriež skaitli no 5 līdz 15. Definē otru funkciju <code class="language-python">def ienaidnieka_uzbrukums():</code>, kas atgriež skaitli no 2 līdz 10.</li>
-            <li><b>Fails 2: <code class="language-python">grafika.py</code></b> — Definē funkciju <code class="language-python">def zimet_hp(vārds, hp):</code>. Liec tai izdrukāt vārdu un tik daudz '█' simbolu, cik ir HP (padoms: <code class="language-python">print(vārds + ": " + "█" * hp)</code>).</li>
-            <li><b>Fails 3: <code class="language-python">main.py</code></b> — Importē <code class="language-python">kauja</code> un <code class="language-python">grafika</code>.</li>
-            <li><b>Galvenā loģika ( <code class="language-python">main.py</code>):</b>
-                <ul>
-                    <li>Definē mainīgos: <code class="language-python">speletaja_hp = 20</code> un <code class="language-python">orka_hp = 30</code>.</li>
-                    <li>Izveido <code class="language-python">while speletaja_hp > 0 and orka_hp > 0:</code> ciklu.</li>
-                    <li>Ciklā: pieprasi <code class="language-python">input("Spied Enter, lai uzbruktu!")</code>.</li>
-                    <li>Atskaiti no <code class="language-python">orka_hp</code> spēlētāja uzbrukuma vērtību (izmantojot funkciju no <code class="language-python">kauja.py</code>).</li>
-                    <li>Atskaiti no <code class="language-python">speletaja_hp</code> orka uzbrukuma vērtību.</li>
-                    <li>Izsauc <code class="language-python">grafika.zimet_hp</code> abiem tēliem, lai parādītu atlikušo dzīvību.</li>
-                </ul>
-            </li>
-            <li>Pabeidz kodu ar paziņojumu ārpus cikla, kurš uzvarēja.</li>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido failu <code>kauja.py</code>. Importē <code>random</code> un definē divas funkcijas: <code>speletaja_uzbrukums()</code> (atgriež <i>int</i> no 5 līdz 15) un <code>ienaidnieka_uzbrukums()</code> (atgriež <i>int</i> no 2 līdz 10).</li>
+            <li>Izveido failu <code>grafika.py</code>. Definē funkciju <code>zimet_hp(vards, hp)</code>, kas izdrukā vārdu un HP joslu (piemēram, reizinot tekstu: <code class="language-python">"█" * hp</code>).</li>
+            <li>Atver <code>main.py</code>. Importē <code>kauja</code> un <code>grafika</code> moduļus.</li>
+            <li>Definē sākuma mainīgos: <code>speletaja_hp = 20</code> un <code>orka_hp = 30</code>.</li>
+            <li>Izveido ciklu <code class="language-python">while speletaja_hp > 0 and orka_hp > 0:</code>. Ciklā pieprasi lietotājam nospiest <i>Enter</i>, lai uzbruktu.</li>
+            <li>Atskaiti no katra tēla HP pretinieka uzbrukuma vērtību (izsaucot atbilstošās funkcijas no <code>kauja.py</code>). Uzreiz pēc tam izsauc <code>grafika.zimet_hp()</code> abiem tēliem. Pievieno pārbaudi, lai HP nekļūtu negatīvs.</li>
+            <li>Iesūtīt uzdevuma github saiti e-klasē.</li>
         </ol>
-        <div class="logic-box">
-            <b>Svarīgi:</b> Pārliecinies, ka HP nenokrīt zem nulles. Ja gribi būt precīzs, pirms HP zīmēšanas pārbaudi <code class="language-python">if hp < 0: hp = 0</code>.
-        </div>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Konfigurācijas modulis (Iestatījumi)</h2>
+    <p>Izveido atsevišķu failu spēles globālo parametru glabāšanai, atvieglojot balansa regulēšanu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido failu <code>konfiguracija.py</code>. Šajā failā neiekļauj nevienu funkciju, tikai definē konstantus mainīgos (<i>Constants</i> ar lielajiem burtiem): <code>MAX_HP = 100</code>, <code>BAZES_SPEKS = 15</code>, <code>SPELTATAJA_VARDS = "Varonis"</code>.</li>
+            <li>Failā <code>main.py</code> veic importēšanu: <code class="language-python">import konfiguracija as konf</code> (izmanto <i>Alias (Pseidonīmu)</i> īsākam pierakstam).</li>
+            <li>Aizstāj visus cietkodētos (<i>Hardcoded</i>) sākuma parametrus <code>main.py</code> skriptā ar atsauci uz konfigurācijas failu (piemēram, <code class="language-python">speletaja_hp = konf.MAX_HP</code>).</li>
+            <li>Izmaini vērtības <code>konfiguracija.py</code> failā un pārliecinies, ka izmaiņas automātiski atspoguļojas galvenajā spēlē.</li>
+        </ol>
     </div>
 </section>
 
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <div class="logic-box">
-        <ul>
-            <li><b>ModuleNotFoundError:</b> Kļūda nosaukumā (Python atšķir lielos un mazos burtus) vai faili neatrodas vienā Windows mapē. <i>Risinājums: Pārbaudi failu nosaukumus un atver pareizo mapi VS Code.</i></li>
-            <li><b>Cikliskais imports (Circular Import):</b> Fails A importē B, bet fails B tajā pašā laikā mēģina importēt A. Programma "iesprūst" bezgalīgā cilpā. <i>Risinājums: Pārplāno koda struktūru. Galvenais fails importē citus, bet pakārtotie faili nekad neimportē galveno.</i></li>
-            <li><b>Sistēmas nosaukumu konflikti:</b> Sava faila nosaukšana iebūvēto bibliotēku vārdos (piemēram, <code class="language-python">random.py</code> vai <code class="language-python">math.py</code>). Python vispirms ielādēs Tavu failu, "salaužot" īsto bibliotēku. <i>Risinājums: Izmanto unikālus failu nosaukumus.</i></li>
-        </ul>
-    </div>
+    <ul>
+        <li><b>ModuleNotFoundError (<i>Moduļa neatrašanas kļūda</i>):</b> Rodas, ja faila nosaukums ierakstīts nepareizi vai fails neatrodas vienā mapē ar skriptu, kurš to mēģina importēt.
+            <pre><code class="language-python"># Slikti: (Ja fails patiesībā saucas ui.py)
+import UI_modulis
+
+# Labi:
+import ui</code></pre>
+        </li>
+        <li><b>Circular Import (<i>Cikliskais imports</i>):</b> Fails A importē B, bet fails B tajā pašā laikā importē A. Programma iesprūst bezgalīgā cilpā un izmet kļūdu.
+            <pre><code class="language-python"># Slikti: 
+# (Failā main.py): import kauja
+# (Failā kauja.py): import main
+
+# Labi: 
+# Atstāj galveno loģiku main.py, bet palīgmoduļi tikai veic aprēķinus.</code></pre>
+        </li>
+        <li><b>Sistēmas nosaukumu konflikti (<i>Shadowing</i>):</b> Savas mapes failu nosaukšana iebūvēto bibliotēku vārdos (piemēram, <code>random.py</code>). Python ignorēs sistēmas moduli un lādēs Tavu tukšo failu.
+            <pre><code class="language-python"># Slikti:
+# Sava faila nosaukšana par "random.py" un tad rakstīšana:
+import random # Python ielādēs tavu failu, un random.randint() nedarbosies.
+
+# Labi:
+# Faila nosaukums: "mans_ģenerators.py"</code></pre>
+        </li>
+    </ul>
 </section>
 
 <div class='section'>
-    <h2>Koda piemērs</h2>
+    <h2>Koda piemērs: Koda sadalīšana</h2>
     <div class='code-example'>
-        <pre><code class="language-python"># 1. fails: cina.py (Modulis)
+        <pre><code class="language-python"># ==========================================
+# 1. fails: cina.py (Modulis aprēķiniem)
 def aprekinat_bojajumu(ierocis):
     if ierocis == "zobens":
         return 15
     return 5
 
 # ==========================================
-
 # 2. fails: main.py (Galvenais skripts)
 import cina
 
 speletaja_ierocis = "zobens"
+
+# Izsaucam funkciju, norādot moduļa vārdu "cina"
 bojajums = cina.aprekinat_bojajumu(speletaja_ierocis)
 
 print(f"Tu cērti ar {speletaja_ierocis} un izdari {bojajums} bojājumu!")</code></pre>
         <div class='result'>
-            Tu cērt ar zobenu un izdari 15 bojājumu!
+            Tu cērti ar zobens un izdari 15 bojājumu!
         </div>
     </div>
 </div>

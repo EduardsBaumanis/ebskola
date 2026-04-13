@@ -1,153 +1,161 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-<title>4.4 PEP 8 stila vadlīnijas</title>
+<title>4.4 Mainīgo tvērums un vārdnīcas</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 </head>
-<body class="has-sidebar">
+<body>
 
 <aside class="sidebar-nav">
   <h3>ebskola</h3>
   <a href="prog1_41.html">4.1 Funkciju definēšana un parametri</a>
   <a href="prog1_42.html">4.2 Vērtību atgriešana (return)</a>
   <a href="prog1_43.html">4.3 Modularitāte un koda sadalīšana</a>
-  <a class="active" href="prog1_44.html">4.4 PEP 8 stila vadlīnijas</a>
+  <a class="active" href="prog1_44.html">4.4 Mainīgo tvērums un vārdnīcas</a>
   <a href="prog1_45.html">4.5 CYOA stāsta zaru plānošana</a>
   <a href="prog1_46.html">4.6 Noslēguma darbs: CYOA 2.0</a>
 </aside>
 
 <nav class='galvenaisdiv'>
     <a href="../index.html">Tēmas</a>
-    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
-    <a href="paligm.html">Palīgmateriāli</a>
+    <a href="../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../paligm.html">Palīgmateriāli</a>
 </nav>
 
 <section class='section'>
-    <h1>4. tēma: Funkcijas un Modularitāte. 4. stunda: PEP 8 vadlīnijas.</h1>
-    <p><b>Sasniedzamais rezultāts:</b> Lietot PEP 8 stila vadlīnijas un automatizētus rīkus, lai strukturētu kodu pa failiem un izveidotu spēles mehānikas funkcijas.</p>
-    <a href="sasnRez.html">SR 2.4.8. (Koda noformēšanas kultūra)</a>
+    <h1>4. tēma: 4.4 Lokālie/globālie mainīgie un vārdnīcas</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> <b>Diferencēt</b> mainīgo redzamību programmā, <b>izmantot</b> vārdnīcas kompleksu datu glabāšanai un <b>optimizēt</b> spēles tēla īpašību pārvaldību.</p>
+    <a href="../sasnRez.html">2.4.13. Lieto mainīgos, datu tipus un pamatkonstrukcijas.</a><br>
+    <a href="../sasnRez.html">2.4.16. Lieto saliktas datu struktūras (saraksti, vārdnīcas).</a>
 </section>
 
 <section class='section'>
-    <h2>Teorija: PEP 8 Galvenie Standarti</h2>
-    <div class="logic-box">
-        <p>PEP 8 ir pasaulē atzīts Python "etiķetes noteikumu" standarts. Labi noformēts kods ietaupa laiku gan Tev, gan Taviem komandas biedriem, jo kodu praksē daudz biežāk lasa nekā raksta.</p>
-        
-        <pre><code class="language-python"># 1. Konstantes raksta ar lielajiem burtiem
-MAKS_HP = 100
+    <h2>Teorija: Scope un Dictionaries</h2>
+    <p>Lai veidotu sarežģītas spēles, mums jāzina, kur mainīgie "dzīvo" un kā efektīvi glabāt tēla statistiku.</p>
+    
+    <h3>Variable Scope (<i>Mainīgo tvērums</i>)</h3>
+    <ul>
+        <li><b>Local variables (<i>Lokālie mainīgie</i>):</b> Mainīgie, kas definēti funkcijas iekšpusē. Tie ir pieejami tikai šai funkcijai un pazūd, kad funkcija beidz darbu.</li>
+        <li><b>Global variables (<i>Globālie mainīgie</i>):</b> Mainīgie, kas definēti ārpus funkcijām. Tie ir redzami visā programmā.</li>
+    </ul>
+    <pre><code class="language-python">zelts = 100 # Globāls
 
-# 2. snake_case nosaukumi un 3. atstarpes ap operatoriem
-def aprekinat_bojas(pamata_bojas, bonuss):
-    # Atkāpes ir tieši 4 atstarpes
-    kopejas_bojas = pamata_bojas + bonuss
-    return kopejas_bojas
+def veikt_pirkumu():
+    cena = 20 # Lokāls (ārpus funkcijas neeksistē)
+    print(f"Iztērēti {cena}")</code></pre>
 
+    <h3>Dictionaries (<i>Vārdnīcas</i>) <code>{}</code></h3>
+    <p><i>Dictionary</i> ir datu struktūra, kas glabā informāciju pāros: <b>Key (<i>Atslēga</i>) : Value (<i>Vērtība</i>)</b>. Tas ir ideāls veids, kā glabāt spēlētāja statistiku vienuviet.</p>
+    <pre><code class="language-python"># Vārdnīcas izveide
+speletajs = {"vards": "Artūrs", "hp": 100, "limenis": 5}
 
-# 4. Starp funkcijām ir tieši divas tukšas rindas
-rezultats = aprekinat_bojas(10, 5)</code></pre>
+# Piekļūšana vērtībai pēc atslēgas
+print(speletajs["vards"]) # Izvada: Artūrs
 
-        <ul class="step-list">
-            <li><b>Nosaukumi (snake_case):</b> Mainīgos un funkcijas raksta tikai ar mazajiem burtiem, vārdus atdalot ar pasvītrojumu (piemēram, <code class="language-python">mana_spele</code>).</li>
-            <li><b>Konstantes:</b> Vērtības, kas programmas laikā nemainās, raksta ar lielajiem burtiem (piemēram, <code class="language-python">MAKS_HP = 100</code>).</li>
-            <li><b>Atstarpes:</b> Ap operatoriem (<code class="language-python">=, +, -, *</code> u.c.) un aiz komatiem vienmēr jāliek atstarpes.</li>
-            <li><b>Struktūra:</b> Starp funkciju definīcijām kodā obligāti jāatstāj tieši <b>divas</b> tukšas rindas.</li>
-            <li><b>Dokumentācija (Docstring):</b> Katrai funkcijai sākumā pievieno īsu aprakstu trīskāršās pēdiņās <code class="language-python">"""..."""</code>.</li>
-        </ul>
-    </div>
+# Vērtības atjaunināšana
+speletajs["hp"] -= 10</code></pre>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: "Briesmīgā koda" glābšana (Vienkāršs - 15 min)</h2>
-    <p>Tavs uzdevums ir izglābt un padarīt modulāru nekārtīgi uzrakstītu laupījuma (<i>loot</i>) ģenerēšanas skriptu, stingri sekojot PEP 8 standartiem.</p>
+    <h2>1. uzdevums: Lokālā "pazušana"</h2>
+    <p>Eksperimentē ar mainīgo tvērumu, lai saprastu, kāpēc funkcijas iekšienē radīti mainīgie nav pieejami galvenajā programmā.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>VS Code izveido failu <code class="language-powershell">inventars.py</code> un iekopē tajā šo haotisko kodu:
-                <pre><code class="language-python">
-def genLoot(lvl):
-import random
-  #ģenerē dārgumus
-  somLiel = 20
-  m=["Zelts","Zobens","Nekas"]
-  if random.randint(1,100)<=lvl*10:return m[0]
-  else:return random.choice(m)
-def PrintInv(inv):
- print("Inventārs:"+str(inv))</code></pre>
-            </li>
-            <li>Pārveido funkciju un mainīgo nosaukumus uz saprotamu <i>snake_case</i> (piem., <code class="language-python">generet_laupijumu</code>).</li>
-            <li>Izlabo atkāpes – visur jābūt tieši <b>4 atstarpēm</b>. Saliec atstarpes ap operatoriem un aiz komatiem.</li>
-            <li>Aizstāj komentāru <code class="language-python">#ģenerē mantas</code> ar profesionālu <b>docstring</b> funkcijas iekšpusē un atstāj 2 tukšas rindas starp funkcijām.</li>
-            <li>Izveido otru failu <code class="language-powershell">spele.py</code>. Tajā importē šīs funkcijas un notestē to darbību, padodot spēlētāja līmeni.</li>
+        <ol>
+            <li>VS Code izveido failu <code>tverums.py</code>.</li>
+            <li>Definē funkciju <code>uzbrukums()</code>. Funkcijas iekšpusē izveido mainīgo <code>bojajums = 25</code> un izdrukā to.</li>
+            <li>Ārpus funkcijas (galvenajā programmā) izsauc funkciju <code>uzbrukums()</code>.</li>
+            <li>Mēģini ārpus funkcijas izdrukāt mainīgo <code>bojajums</code>.</li>
+            <li>Novēro <i>NameError</i> terminālī. Pieraksti komentārā virs kļūdas, kāpēc tas notika.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Automātiskais stilists (Viduvējs - 15 min)</h2>
-    <p>Integrēsi un izmantosi koda formatēšanas paplašinājumu VS Code vidē, lai automatizētu stila kļūdu labošanu.</p>
+    <h2>2. uzdevums: Varoņa datu karte (Dictionary)</h2>
+    <p>Aizstāj vairākus atsevišķus mainīgos ar vienu strukturētu vārdnīcu un izmanto to funkcijās.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Atver VS Code paplašinājumu sadaļu (Extensions) un instalē paplašinājumu <b>Black Formatter</b>.</li>
-            <li>Izveido jaunu failu <code class="language-powershell">testa_vide.py</code> un saraksti tīši nepareizi noformētu kodu vienā garā rindā bez atstarpēm (piem., <code class="language-python">import time;def f(x):time.sleep(1);return x*2+5</code>).</li>
-            <li>Izmanto Windows taustiņu kombināciju <code class="language-python">Shift + Alt + F</code> (Format Document).</li>
-            <li>Ja VS Code prasa izvēlēties noklusējuma formatētāju, izvēlies <b>Black Formatter</b>.</li>
-            <li>Novēro, kā VS Code pats automātiski sadala rindas, sakārto atstarpes un atkāpes.</li>
+        <ol>
+            <li>Izveido failu <code>statistika.py</code>.</li>
+            <li>Izveido globālu vārdnīcu <code>varonis</code> ar atslēgām: "vards", "hp", "speks", "zelts" un piešķir tām sākuma vērtības.</li>
+            <li>Definē funkciju <code>paradi_datus(tels)</code>, kas saņem vārdnīcu kā parametru un glīti izdrukā visus datus, izmantojot <i>f-string</i>.</li>
+            <li>Izsauc funkciju, padodot tai savu <code>varonis</code> vārdnīcu.</li>
+            <li>Programmas beigās izmaini varoņa zelta daudzumu (<code>varonis["zelts"] += 50</code>) un izsauc funkciju vēlreiz, lai redzētu izmaiņas.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Spēles laika mehānika (Padziļināts - 20 min)</h2>
-    <p>Izstrādāsi modularizētu spēles teksta izvades funkciju, kas izmanto <i>time</i> bibliotēku un perfekti atbilst PEP 8 standartiem.</p>
+    <h2>3. uzdevums: Spēles inventāra datubāze</h2>
+    <p>Izveido funkciju, kas meklē informāciju vārdnīcā un atgriež (<i>return</i>) datus galvenajai programmai.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Izveido jaunu failu <code class="language-powershell">riki.py</code>.</li>
-            <li>Izveido funkciju <code class="language-python">pauze_pirms_teksta(teksts, sekundes)</code>, kas vispirms pagaida norādīto laiku izmantojot <code class="language-python">time.sleep()</code>, un tad izvada tekstu.</li>
-            <li>Pievieno funkcijai <i>docstring</i> un nodrošini pareizu atstarpju lietojumu. Izmanto <i>Black Formatter</i> pārbaudei.</li>
-            <li>Failā <code class="language-powershell">spele.py</code> importē šo funkciju un izmanto to, lai radītu spriedzi pirms cīņas sākuma (piem., izvadot "Gatavojies cīņai...", tad pēc 2 sekundēm "...CĪŅA SĀKAS!").</li>
+        <ol>
+            <li>Izveido failu <code>veikals.py</code>.</li>
+            <li>Izveido vārdnīcu <code>cenradis</code>, kur atslēgas ir priekšmetu nosaukumi (piem., "Zobens", "Vairogs"), bet vērtības — to cenas (<i>int</i>).</li>
+            <li>Definē funkciju <code>pirkt_lietu(nosaukums)</code>.</li>
+            <li>Funkcijas iekšienē pārbaudi, vai <code>nosaukums</code> eksistē vārdnīcā (izmanto <code>if nosaukums in cenradis:</code>).</li>
+            <li>Ja eksistē, atgriez cenu, ja nē — atgriez 0.</li>
+            <li>Galvenajā programmā pieprasi lietotājam ievadīt priekšmetu, izsauc funkciju un paziņo cenu vai informē, ka tāda nav.</li>
+            <li>Iesūtīt uzdevuma github saiti e-klasē.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>4. EKSTRA uzdevums: Kritiskā trāpījuma pārbaude (20 min)</h2>
-    <p><b>Izaicinājums:</b> Izveido neatkarīgu kaujas loģikas moduli un veic tā pilnu stilistisko pārbaudi.</p>
+    <h2>Papildus uzdevums: Lokālo mainīgo prioritāte</h2>
+    <p>Izpēti situāciju, kad globālais un lokālais mainīgais saucas vienādi (<i>Shadowing</i>).</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
-        <ol class="step-list">
-            <li>Izveido failu <code class="language-powershell">kaujas_logika.py</code> un importē <code class="language-python">random</code>.</li>
-            <li>Izveido funkciju <code class="language-python">aprekinat_uzbrukumu(bazes_bojas, krit_sance)</code>.</li>
-            <li>Funkcijas iekšienē izmanto <code class="language-python">random.random()</code>. Ja nejaušais skaitlis (no 0.0 līdz 1.0) ir mazāks vai vienāds ar <code class="language-python">krit_sance</code> (piemēram, 0.2 jeb 20%), funkcija atgriež dubultotas bāzes bojājumus. Ja nē, atgriež parastos.</li>
-            <li>Pievieno <i>docstring</i>, paskaidrojot abus parametrus un atgriezto vērtību.</li>
-            <li>Importē un izsauc šo funkciju <code class="language-powershell">spele.py</code> failā vismaz 5 reizes ciklā, lai notestētu, cik bieži izkrīt kritiskais trāpījums. Formatē visu projektu ar <code class="language-python">Shift + Alt + F</code>.</li>
+        <ol>
+            <li>Izveido failu <code>prioritate.py</code>.</li>
+            <li>Faila sākumā definē <code>vards = "Globālais"</code>.</li>
+            <li>Definē funkciju <code>mainit_vardu()</code>, kuras iekšpusē nodefinē <code>vards = "Lokālais"</code> un izdrukā to.</li>
+            <li>Izsauc funkciju un pēc tam vēlreiz izdrukā <code>vards</code> ārpus funkcijas.</li>
+            <li>Pievieno komentāru ar skaidrojumu, kāpēc globālais mainīgais neizmainījās, un kādā situācijā būtu jāizmanto <code>return</code>, lai atgrieztu jauno vērtību.</li>
         </ol>
     </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>KeyError (<i>Atslēgas kļūda</i>):</b> Mēģinājums piekļūt vārdnīcas atslēgai, kas neeksistē (piemēram, drukas kļūda: <code>"HP"</code> vietā <code>"hp"</code>).
+            <pre><code class="language-python"># Slikti:
+print(tels["HP"]) # Ja atslēga ir "hp" (mazie burti)
+
+# Labi:
+print(tels.get("HP", "Nav atrasts")) # .get() drošai piekļuvei</code></pre>
+        </li>
+        <li><b>Mainīgo jaukšana:</b> Mēģinājums funkcijas iekšienē izmantot mainīgo, kas definēts citā funkcijā.
+            <pre><code class="language-python"># Atceries:
+# Lokālie mainīgie pieder tikai tai funkcijai, kurā tie radīti!</code></pre>
+        </li>
+        <li><b>Pēdiņu trūkums atslēgās:</b> Definējot vai piekļūstot vārdnīcai, atslēgas (vārdi) vienmēr jāliek pēdiņās. Bez pēdiņām Python domās, ka tas ir mainīgais.</li>
+    </ul>
 </section>
 
 <div class='section'>
-    <h2>Koda piemērs</h2>
+    <h2>Koda piemērs: Vārdnīca un Funkcija</h2>
     <div class='code-example'>
-        <pre><code class="language-python"># --- SLIKTI ---
-def f(x,y):
- return x+y
-print(f(1,2))
+        <pre><code class="language-python"># Globālie dati
+ienaidnieks = {"tips": "Orks", "hp": 50}
 
-# --- LABI (PEP 8) ---
-def aprekinat_summu(pirmais_skaitlis, otrais_skaitlis):
-    """Atgriež divu skaitļu matemātisko summu."""
-    return pirmais_skaitlis + otrais_skaitlis
+def sanemt_bojajumu(tels, punkti):
+    """Samazina tēla hp par norādīto punktu skaitu."""
+    tels["hp"] -= punkti
+    print(f"{tels['tips']} saņēma triecienu!")
 
-
-rezultats = aprekinat_summu(1, 2)
-print(rezultats)</code></pre>
+# Izsaukums
+sanemt_bojajumu(ienaidnieks, 15)
+print(f"Atlikušais HP: {ienaidnieks['hp']}")</code></pre>
         <div class='result'>
-            3
+            Orks saņēma triecienu!<br>
+            Atlikušais HP: 35
         </div>
     </div>
 </div>
@@ -156,5 +164,6 @@ print(rezultats)</code></pre>
     <a href="prog1_43.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
     <a href="prog1_45.html" class="nav-btn">Nākamā stunda ➡</a>
 </div>
+
 </body>
 </html>
