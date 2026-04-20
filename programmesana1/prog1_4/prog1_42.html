@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>4.2 Vērtību atgriešana (return)</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+</head>
+<body>
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_4main.html">4. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_41.html">4.1 Funkciju definēšana un parametri</a>
+  <a class="active" href="prog1_42.html">4.2 Vērtību atgriešana (return)</a>
+  <a href="prog1_43.html">4.3 Modularitāte un koda sadalīšana</a>
+  <a href="prog1_44.html">4.4 Mainīgo tvērums un vārdnīcas</a>
+  <a href="prog1_45.html">4.5 CYOA stāsta zaru plānošana</a>
+  <a href="prog1_46.html">4.6 Noslēguma darbs: CYOA 2.0</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>4. tēma: 4.2 Vērtību atgriešana (return)</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> <b>Izprast</b> datu plūsmu funkcijās un <b>pielietot</b> <i>Return statement (Atgriešanas komandu)</i>, lai aprēķinu rezultātus padotu atpakaļ galvenajai programmai tālākai apstrādei.</p>
+    <a href="../../sasnRez.html">2.4.15. Veido modulāras programmas un funkcijas.</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Datu atgriešanas mehānisms</h2>
+    <p>Funkcijas var ne tikai veikt darbības (kā teksta izvadīšanu), bet arī izrēķināt jaunu vērtību un "atdot" to atpakaļ vietai, no kuras funkcija tika izsaukta. To dara ar atslēgvārdu <code>return</code>.</p>
+    
+    <ul>
+        <li><b>Return statement (<i>Atgriešanas komanda</i>):</b> Pārtrauc funkcijas darbību un nosūta rezultātu atpakaļ. Atšķirībā no <code>print()</code>, kas datus tikai parāda ekrānā, <code>return</code> datus nodod tālākai izmantošanai kodā.
+            <pre><code class="language-python"># Funkcija atgriež matemātisku rezultātu
+def saskaiti(a, b):
+    return a + b</code></pre>
+        </li>
+        <li><b>Saving returned values (<i>Atgriezto vērtību saglabāšana</i>):</b> Kad izsaucam funkciju, kas atgriež vērtību, tās rezultāts parasti ir jāsaglabā <i>Variable (Mainīgajā)</i>.
+            <pre><code class="language-python"># Izsaucam funkciju un saglabājam rezultātu
+summa = saskaiti(10, 5)
+print(f"Rezultāts ir {summa}")</code></pre>
+        </li>
+        <li><b>Multiple returns (<i>Vairāku vērtību atgriešana</i>):</b> Python ļauj funkcijai atgriezt vairākas vērtības vienlaicīgi, atdalot tās ar komatiem. Tas izveido <i>Tuple (Kortežu)</i>.
+            <pre><code class="language-python">def ienaidnieka_dati():
+    return "Pūķis", 100
+
+vards, dzivibas = ienaidnieka_dati()</code></pre>
+        </li>
+    </ul>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Punktu kalkulators</h2>
+    <p>Izveido vienkāršu funkciju, kas veic aprēķinu un atgriež rezultātu tālākai apstrādei.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>VS Code izveido failu <code>punktu_sistema.py</code>.</li>
+            <li>Definē funkciju ar diviem <i>Parameters (Parametriem)</i>: <code class="language-python">def aprekinat_punktus(punkti, bonuss):</code>.</li>
+            <li>Funkcijas iekšienē izveido lokālu mainīgo: <code class="language-python">kopa = punkti + bonuss</code>.</li>
+            <li>Nākamajā rindā atgriez šo vērtību, izmantojot <code>return kopa</code>.</li>
+            <li>Ārpus funkcijas bloka (koda kreisajā malā) izsauc to un saglabā rezultātu mainīgajā: <code class="language-python">rezultats = aprekinat_punktus(100, 20)</code>.</li>
+            <li>Izdrukā iegūto <code>rezultats</code> terminālī.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Veselības stāvokļa pārbaude</h2>
+    <p>Izmanto <i>Return</i> kopā ar <i>Boolean (Patiesumvērtību)</i>, lai funkcija kalpotu kā spēles loģikas pārbaude.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido failu <code>speletaja_statuss.py</code>.</li>
+            <li>Definē funkciju: <code class="language-python">def ir_dzivs(hp):</code>.</li>
+            <li>Funkcijas iekšienē izmanto zarošanos (<code>if/else</code>): ja <code>hp</code> ir lielāks par 0, atgriez <code>True</code>, citādi atgriez <code>False</code>.</li>
+            <li>Ārpus funkcijas izveido mainīgo <code class="language-python">mana_veseliba = 45</code>.</li>
+            <li>Izmanto <code>if</code> konstrukciju, kuras nosacījumā pa tiešo izsauc funkciju: <code class="language-python">if ir_dzivs(mana_veseliba):</code>.</li>
+            <li>Ja funkcija atgriež <i>True</i>, izvadi "Turpini cīņu!", ja <i>False</i> – "Spēle beigusies!".</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Nejaušs ienaidnieka ģenerators</h2>
+    <p>Apvieno <code>random</code> moduli un iespēju atgriezt vairākus mainīgos vienlaicīgi no vienas funkcijas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido failu <code>ienaidnieki.py</code> un faila sākumā importē <code>random</code> moduli.</li>
+            <li>Definē funkciju bez parametriem: <code class="language-python">def generet_ienaidnieku():</code>.</li>
+            <li>Funkcijā izveido sarakstu ar pretiniekiem: <code class="language-python">veidi = ["Skelets", "Orks", "Pūķis"]</code>.</li>
+            <li>Izmanto <code>random.choice(veidi)</code>, lai izvēlētos nosaukumu, un <code>random.randint(1, 10)</code> spēka līmenim.</li>
+            <li>Atgriez abus datus vienā rindā (atdalot ar komatu): <code class="language-python">return vards, speks</code>.</li>
+            <li>Ārpus funkcijas izsauc to un "atpako" mainīgos: <code class="language-python">v, s = generet_ienaidnieku()</code>. Pēc tam izvadi tos terminālī.</li>
+            <li>Iesūtīt uzdevuma github saiti e-klasē.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Universāla ievades validācijas funkcija</h2>
+    <p>Apvieno funkcijas ar kļūdu apstrādi, lai izveidotu rīku drošai skaitļu iegūšanai jebkurā spēles brīdī.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido failu <code>drosa_ievade.py</code>.</li>
+            <li>Definē funkciju: <code class="language-python">def iegut_skaitli(jautajums):</code>.</li>
+            <li>Iekšpusē izveido <code>while True:</code> ciklu ar <code>try/except ValueError</code> bloku.</li>
+            <li>Iekš <code>try</code> bloka mēģini iegūt lietotāja ievadi: <code class="language-python">vertiba = int(input(jautajums))</code>.</li>
+            <li>Ja konvertācija izdodas, atgriez vērtību: <code>return vertiba</code> (<code>return</code> automātiski pārtrauc arī <code>while</code> ciklu!).</li>
+            <li>Kļūdas gadījumā izvadi brīdinājumu, ļaujot ciklam atkārtoties.</li>
+            <li>Pārbaudi funkciju ārpus tās: <code class="language-python">vecums = iegut_skaitli("Cik Tev gadu? ")</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>None atgriešana (<i>Missing return</i>):</b> Ja funkcijas beigās nav atslēgvārda <code>return</code>, Python automātiski atgriež <code>None</code>. Slikti, ja tālāk kodā mēģināsi veikt matemātiku ar <code>None</code> vērtību.
+            <pre><code class="language-python"># Slikti: Funkcija aprēķina, bet neko neatdod
+def saskaiti(a, b):
+    rezultats = a + b
+
+# Labi:
+def saskaiti(a, b):
+    return a + b</code></pre>
+        </li>
+        <li><b>Unreachable code (<i>Nesasniedzams kods</i>):</b> Tiklīdz Python izpilda <code>return</code> komandu, funkcija beidzas. Viss, kas atrodas zem <code>return</code> tajā pašā <i>Indentation (Atkāpē)</i>, tiks ignorēts.
+            <pre><code class="language-python"># Slikti: print komanda nekad neizpildīsies
+def paziņot():
+    return True
+    print("Funkcija pabeigta") 
+
+# Labi:
+def paziņot():
+    print("Funkcija pabeigta")
+    return True</code></pre>
+        </li>
+    </ul>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs: Vērtību iegūšana un atdošana</h2>
+    <div class='code-example'>
+        <pre><code class="language-python"># Funkcija ieroča bojājuma noteikšanai
+def dabut_ieroca_boju(tips):
+    if tips == "zobens":
+        return 15
+    elif tips == "loks":
+        return 10
+    
+    # Noklusējuma vērtība, ja neizpildās if/elif
+    return 5
+
+# Saglabājam atgriezto vērtību jaunā mainīgajā
+mans_bojajums = dabut_ieroca_boju("zobens")
+
+print(f"Tu nodarīji ienaidniekam {mans_bojajums} HP bojājumu!")</code></pre>
+        <div class='result'>
+            Tu nodarīji ienaidniekam 15 HP bojājumu!
+        </div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_41.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_43.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+
+</body>
+</html>

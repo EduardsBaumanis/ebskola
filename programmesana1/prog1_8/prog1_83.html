@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>8.3 Datu modeļa un UI plūsmas projektēšana</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_81.html">8.1 Problēmas formulēšana un automatizācija</a>
+  <a href="prog1_82.html">8.2 Prasību specifikācija: Lietotāju stāsti (User Stories)</a>
+  <a class="active" href="prog1_83.html">8.3 Datu modeļa un UI plūsmas projektēšana</a>
+  <a href="prog1_84.html">8.4 Prezentācijas māksla: Kā sagatavot efektīvu Pitch?</a>
+  <a href="prog1_85.html">8.5 Sasniedzamo rezultātu un resursu plānošana</a>
+  <a href="prog1_86.html">8.6 Noslēguma darbs: Projektējuma aizstāvēšana</a>
+  <a href="prog1_8main.html">Programmēšana I — 8. tēma</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>8. tēma: Projektēšana. 3. stunda: Datu modeļi un UI plūsma.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izveidot "rentgena uzņēmumu" savai programmai. Pirms ķeries pie koda, Tev ir precīzi jāzina, kādi dati Tev būs nepieciešami un kā spēlētājs pārvietosies starp spēles lokācijām. Šodien mēs projektēsim datu struktūras un vizualizēsim spēles gaitu.</p>
+    
+    <a href="../../sasnRez.html" style="color: #948979; font-weight: bold;">SR 2.4.5. (Izstrādā programmatūras projektējumu — shēmas un diagrammas)</a><br><br>
+
+    <div class="logic-box">
+        <h3>Stundas mērķi:</h3>
+        <ul>
+            <li><b>Atpazīt</b> būtības (entities) un to atribūtus CYOA spēles kontekstā.</li>
+            <li><b>Izveidot</b> vienkāršu ER (Entity-Relationship) diagrammu datu glabāšanai.</li>
+            <li><b>Projektēt</b> UI (lietotāja saskarnes) plūsmas diagrammu (Wireflow).</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: ER diagrammas un UI plūsma</h2>
+    <div class="logic-box">
+        <ul>
+            <li><b>ER diagramma (Entity-Relationship):</b> Shēma, kas parāda, kādi objekti (būtības) eksistē sistēmā un kā tie ir saistīti.
+                <ul>
+                    <li><b>Būtība (Entity):</b> Galvenais objekts (piem., Spēlētājs, Lokācija).</li>
+                    <li><b>Atribūts (Attribute):</b> Objekta īpašība (piem., Lokācijas ID, Spēlētāja HP).</li>
+                    <li><b>Saite (Relationship):</b> Kā tie ir saistīti (piem., Spēlētājs <i>atrodas</i> Lokācijā).</li>
+                </ul>
+            </li>
+            <li><b>UI plūsma (User Interface Flow):</b> Diagramma, kas parāda spēlētāja ceļu.
+                <ul>
+                    <li>Katra lokācija ir taisnstūris.</li>
+                    <li>Izvēles ir bultas, kas ved uz nākamo taisnstūri.</li>
+                    <li>Šī shēma palīdz ieraudzīt "strupceļus", kur spēlētājs varētu iesprūst.</li>
+                </ul>
+            </li>
+            <li><b>Rīki:</b> Profesionāļi izmanto <i>Draw.io</i> vai <i>Lucidchart</i>, bet programmētāji bieži lieto arī vienkāršas teksta diagrammas tieši kodā.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Vides sagatavošana (Windows)</h2>
+    <p>Diagrammas var zīmēt uz papīra, bet arhitektūras dokumentācijā mēs tās saglabāsim kā attēlus vai teksta shēmas.</p>
+    <ol class="step-list">
+        <li>Atver pārlūkprogrammu un dodies uz <a href="https://app.diagrams.net/" target="_blank">diagrams.net</a> (agrāk Draw.io).</li>
+        <li>Izvēlies "Create New Diagram" -> "Blank Diagram".</li>
+        <li>Sagatavo savu projekta mapi <code class="language-python">CYOA_Arhitektura</code>, kurā saglabāsi eksportētos attēlus.</li>
+    </ol>
+</section>
+
+<section class='section'>
+    <h2>Praktiskie uzdevumi</h2>
+
+    <h3>1. solis (Vienkāršs): "Būtību saraksts"</h3>
+    <p>Identificē visus datus, kas Tavam dzinējam būs jāpārvalda.</p>
+    <ol class="step-list">
+        <li>Failā <code class="language-python">PRASIBAS.md</code> izveido jaunu sadaļu "Datu modelis".</li>
+        <li>Uzskaiti vismaz 3 būtības (piem., <code class="language-python">Speletajs</code>, <code class="language-python">Lokacija</code>, <code class="language-python">Prieksmets</code>).</li>
+        <li>Katrai būtībai pieraksti vismaz 3 atribūtus (piem., Lokācijai: ID, Teksts, Mērķa_ID).</li>
+    </ol>
+    
+    <div class="logic-box">
+        <b>Sagaidāmais rezultāts:</b> Saraksts ar skaidri definētiem datu laukiem, kas būs pamatā CSV faila kolonnām.
+    </div>
+
+    <hr>
+
+    <h3>2. solis (Viduvējs): "ER Diagrammas izveide"</h3>
+    <p>Vizualizē saites starp datiem, izmantojot <i>diagrams.net</i>.</p>
+    <ol class="step-list">
+        <li>Izveido ER diagrammu, kurā attēloti iepriekšējā solī definētie objekti.</li>
+        <li>Savieno tos ar līnijām. Piemēram: Spēlētājs ---> Lokācija (saite: "atrodas").</li>
+        <li>Eksportē diagrammu kā <code class="language-python">.png</code> failu un saglabā to savā projekta mapē.</li>
+    </ol>
+
+    <div class="logic-box">
+        <b>Sagaidāmais rezultāts:</b> Attēla fails <code class="language-python">datu_modelis.png</code>, kas skaidri parāda sistēmas uzbūvi.
+    </div>
+
+    <hr>
+
+    <h3>3. solis (Padziļināts): "Spēles plūsmas Wireflow"</h3>
+    <p>Projektē lietotāja saskarnes loģiku – kā spēlētājs pārvietojas pa Tavu stāstu.</p>
+    <ol class="step-list">
+        <li>Izveido jaunu diagrammu "UI Flow".</li>
+        <li>Uzzīmē vismaz 5 lokācijas (mezglus) un savieno tās ar bultām atbilstoši izvēlēm.</li>
+        <li>Iekļauj vismaz vienu "Ciklu" (spēlētājs atgriežas atpakaļ) un vienu "Beigu stāvokli".</li>
+        <li>Eksportē šo shēmu kā <code class="language-python">ui_plusma.png</code>.</li>
+    </ol>
+
+    <div class="logic-box">
+        <b>Sagaidāmais rezultāts:</b> Shēma, kas kalpos kā instrukcija rakstniekam, veidojot <code class="language-python">pasaule.csv</code> failu.
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Snieguma līmeņa apraksts (SLA)</h2>
+    <div class="info-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Kritēriji</th>
+                    <th class="level-header">4-6 (Turpina apgūt)</th>
+                    <th class="level-header">7-8 (Apguvis)</th>
+                    <th class="level-header">9-10 (Padziļināti)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Datu modelis</b></td>
+                    <td>Būtības ir sajauktas ar darbībām; trūkst atribūtu.</td>
+                    <td>Skaidri definētas būtības un to galvenie atribūti.</td>
+                    <td>Pilnīgs ER modelis ar datu tipu norādēm (int, str, list).</td>
+                </tr>
+                <tr>
+                    <td><b>ER Diagramma</b></td>
+                    <td>Shēma ir nepārskatāma vai trūkst saišu starp objektiem.</td>
+                    <td>Diagramma vizuāli attēlo galvenās datu saites.</td>
+                    <td>Profesionāli noformēta ER diagramma, kas gatava izstrādei.</td>
+                </tr>
+                <tr>
+                    <td><b>UI plūsma</b></td>
+                    <td>Shēma ir lineāra, bez izvēļu iespējām.</td>
+                    <td>Shēma parāda vairākus ceļus un lēmumu punktus.</td>
+                    <td>Sarežģīta plūsma ar nosacījumiem (piem., "ja ir atslēga").</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+<pre><code class="language-python"># ER modeļa realizācija ar vārdnīcu struktūru:
+
+datu_modelis = {
+    "Speletajs": {
+        "vards": "str",
+        "pasreizeja_lokacija_id": "int",
+        "inventars": "list"
+    },
+    "Lokacija": {
+        "id": "int",
+        "apraksts": "str",
+        "izveles": {
+            "A": {"teksts": "str", "merkis_id": "int"},
+            "B": {"teksts": "str", "merkis_id": "int"}
+        }
+    }
+}</code></pre>
+        <div class="logic-box">
+            <b>Statuss:</b> Projektējums pabeigts.<br>
+            <b>Atceries:</b> Diagramma ir Tavs līgums ar sevi. Ja projektējums ir labs, koda rakstīšana būs vienkārša "tulkošana".
+        </div>
+    </div>
+</section>
+
+<div class="stundas-navigacija">
+    <a href="prog1_82.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_84.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

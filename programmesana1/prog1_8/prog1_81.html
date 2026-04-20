@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>8.1 Problēmas formulēšana un automatizācija</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a class="active" href="prog1_81.html">8.1 Problēmas formulēšana un automatizācija</a>
+  <a href="prog1_82.html">8.2 Prasību specifikācija: Lietotāju stāsti (User Stories)</a>
+  <a href="prog1_83.html">8.3 Datu modeļa un UI plūsmas projektēšana</a>
+  <a href="prog1_84.html">8.4 Prezentācijas māksla: Kā sagatavot efektīvu Pitch?</a>
+  <a href="prog1_85.html">8.5 Sasniedzamo rezultātu un resursu plānošana</a>
+  <a href="prog1_86.html">8.6 Noslēguma darbs: Projektējuma aizstāvēšana</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>8. tēma: Projektēšana. 1. stunda: Problēmas formulēšana.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Pārtraukt būt tikai "kodētājam" un kļūt par "sistēmu arhitektu". Pirms mēs būvējam jaudīgu spēles dzinēju, mums ir jāsaprot, kādu tieši problēmu mēs risinām un kuras darbības mēs varam deleģēt datoram, lai atvieglotu savu darbu nākotnē.</p>
+    
+    <a href="../../sasnRez.html" style="color: #948979; font-weight: bold;">SR 2.4.1. (Atpazīst problēmas dāļas, kuras iespējams automatizēt)</a><br><br>
+
+    <div class="logic-box">
+        <h3>Stundas mērķi:</h3>
+        <ul>
+            <li><b>Atpazīt</b> procesus spēles izstrādē, kurus nepieciešams automatizēt efektivitātes paaugstināšanai.</li>
+            <li><b>Formulēt</b> skaidru problēmas pieteikumu (Problem Statement) izvēlētajam projektam.</li>
+            <li><b>Analizēt</b> atšķirību starp manuālu datu apstrādi un programmatūras vadītu automatizāciju.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: No Problēmas līdz Automatizācijai</h2>
+    <div class="logic-box">
+        <ul>
+            <li><b>Projektēšanas sākumpunkts:</b> Programmēšana nesākas ar kodu, bet ar problēmas saprašanu. Ja nezinām, ko precīzi risinām, kods būs haotisks un grūti labojams.</li>
+            <li><b>Problēmas formulēšana (Problem Statement):</b> Tas ir skaidrs apraksts tam, kas pašlaik kavē izstrādi (piemēram: "Jauna stāsta pievienošana spēlei prasa manuāli mainīt 20 Python funkcijas, kas rada loģikas kļūdas").</li>
+            <li><b>Automatizācija izstrādē:</b>
+                <ul>
+                    <li>Rutīnas darbu (datu ievade, aprēķini, navigācija) nodošana datoram.</li>
+                    <li>Mērķis: Atbrīvot programmētāja laiku radošiem un sarežģītiem uzdevumiem.</li>
+                </ul>
+            </li>
+            <li><b>Ko mēs automatizēsim CYOA 2.0 projektā?</b>
+                <ul>
+                    <li><b>Satura ielāde:</b> Tekstus vairs nerakstīsim kodā, bet ielādēsim automātiski no CSV faila.</li>
+                    <li><b>Lokāciju sasaiste:</b> Izmantosim ID sistēmu, lai dators pats zinātu, kurp spēlētājam jādodas, neizmantojot milzīgus <code class="language-python">if/else</code> blokus.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Vides sagatavošana (Windows)</h2>
+    <p>Šajā tēmā mēs strādāsim pie arhitektūras dokumentācijas. Sagatavo darba vidi jaunam projektam.</p>
+    <ol class="step-list">
+        <li>Atver <b>PowerShell</b>.</li>
+        <li>Izveido mapi jaunajam arhitektūras projektam un ieej tajā:</li>
+    </ol>
+    <pre><code class="language-powershell">
+mkdir CYOA_Arhitektura
+cd CYOA_Arhitektura
+    </code></pre>
+    <ol class="step-list" start="3">
+        <li>Izveido plānošanas failu, kurā šodien fiksēsi savas idejas:</li>
+    </ol>
+    <pre><code class="language-powershell">
+ni projekta_plans.txt
+code projekta_plans.txt
+    </code></pre>
+</section>
+
+<section class='section'>
+    <h2>Praktiskie uzdevumi</h2>
+
+    <h3>1. Līmenis (Vienkāršs): "Rutīnas detektīvs"</h3>
+    <p>Identificē garlaicīgākos darbus, kurus Tu gribētu uzticēt datoram.</p>
+    <ol class="step-list">
+        <li>Failā <code class="language-python">projekta_plans.txt</code> izveido sarakstu ar 3 darbībām, kuras spēles izstrādē Tev šķiet laikietilpīgas (piem., jauna ienaidnieka pievienošana, rezultātu tabulas pārrakstīšana utt.).</li>
+        <li>Katram punktam pieraksti, kāpēc tas ir "bīstami" (piem., "var viegli kļūdīties ar iekavām").</li>
+    </ol>
+    
+    <div class="logic-box">
+        <b>Sagaidāmais rezultāts:</b> Saraksts ar vismaz 3 pamatotiem kandidātiem automatizācijai.
+    </div>
+
+    <hr>
+
+    <h3>2. Līmenis (Viduvējs): "Pirms un Pēc" loģika</h3>
+    <p>Salīdzināsim manuālu darbu ar viedu sistēmu.</p>
+    <ol class="step-list">
+        <li>Izveido salīdzinājuma tabulu savā plānošanas failā.</li>
+        <li>Apraksti, kā pašlaik (manuāli) notiek spēlētāja izvēles apstrāde (ar <code class="language-python">if</code> nosacījumiem).</li>
+        <li>Apraksti, kā to varētu darīt automatizēti (izmantojot vārdnīcu un ID sistēmu no faila).</li>
+    </ol>
+
+    <div class="logic-box">
+        <b>Sagaidāmais rezultāts:</b> Tabula, kas skaidri parāda ieguvumus (ātrums, vieglāka satura papildināšana).
+    </div>
+
+    <hr>
+
+    <h3>3. Līmenis (Padziļināts): "Sistēmas Problēmas Ziņojums"</h3>
+    <p>Tavs uzdevums ir noformēt oficiālu projekta pieteikumu jauna CYOA dzinēja izstrādei.</p>
+    <ol class="step-list">
+        <li>Uzraksti strukturētu ziņojumu, kas ietver:
+            <ul>
+                <li><b>Pašreizējā problēma:</b> Kāpēc "vecais" koda rakstīšanas veids neder lielai spēlei?</li>
+                <li><b>Vēlamais stāvoklis:</b> Kā spēle darbosies pēc automatizācijas ieviešanas?</li>
+                <li><b>Tehniskais risinājums:</b> Kuras datu struktūras (saraksti, vārdnīcas) un failu formāti tiks izmantoti?</li>
+            </ul>
+        </li>
+    </ol>
+
+    <div class="logic-box">
+        <b>Sagaidāmais rezultāts:</b> Profesionāls apraksts (vismaz 150 vārdi), kas kalpos par pamatu nākamajām projektēšanas stundām.
+    </div>
+
+</section>
+
+<div class="stundas-navigacija">
+    <a href="prog1_8main.html" class="nav-btn">⬅ Tēmas apkopojums</a>
+    <a href="prog1_82.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

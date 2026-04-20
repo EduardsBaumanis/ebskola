@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>4.4 Mainīgo tvērums un vārdnīcas</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+</head>
+<body>
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_4main.html">4. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_41.html">4.1 Funkciju definēšana un parametri</a>
+  <a href="prog1_42.html">4.2 Vērtību atgriešana (return)</a>
+  <a href="prog1_43.html">4.3 Modularitāte un koda sadalīšana</a>
+  <a class="active" href="prog1_44.html">4.4 Mainīgo tvērums un vārdnīcas</a>
+  <a href="prog1_45.html">4.5 CYOA stāsta zaru plānošana</a>
+  <a href="prog1_46.html">4.6 Noslēguma darbs: CYOA 2.0</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>4. tēma: 4.4 Lokālie/globālie mainīgie un vārdnīcas</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> <b>Diferencēt</b> mainīgo redzamību programmā, <b>izmantot</b> vārdnīcas kompleksu datu glabāšanai un <b>optimizēt</b> spēles tēla īpašību pārvaldību.</p>
+    <a href="../../sasnRez.html">2.4.13. Lieto mainīgos, datu tipus un pamatkonstrukcijas.</a><br>
+    <a href="../../sasnRez.html">2.4.16. Lieto saliktas datu struktūras (saraksti, vārdnīcas).</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Scope un Dictionaries</h2>
+    <p>Lai veidotu sarežģītas spēles, mums jāzina, kur mainīgie "dzīvo" un kā efektīvi glabāt tēla statistiku.</p>
+    
+    <h3>Variable Scope (<i>Mainīgo tvērums</i>)</h3>
+    <ul>
+        <li><b>Local variables (<i>Lokālie mainīgie</i>):</b> Mainīgie, kas definēti funkcijas iekšpusē. Tie ir pieejami tikai šai funkcijai un pazūd, kad funkcija beidz darbu.</li>
+        <li><b>Global variables (<i>Globālie mainīgie</i>):</b> Mainīgie, kas definēti ārpus funkcijām. Tie ir redzami visā programmā.</li>
+    </ul>
+    <pre><code class="language-python">zelts = 100 # Globāls
+
+def veikt_pirkumu():
+    cena = 20 # Lokāls (ārpus funkcijas neeksistē)
+    print(f"Iztērēti {cena}")</code></pre>
+
+    <h3>Dictionaries (<i>Vārdnīcas</i>) <code class="language-python">{}</code></h3>
+    <p><i>Dictionary</i> ir datu struktūra, kas glabā informāciju pāros: <b>Key (<i>Atslēga</i>) : Value (<i>Vērtība</i>)</b>. Tas ir ideāls veids, kā glabāt spēlētāja statistiku vienuviet.</p>
+    <pre><code class="language-python"># Vārdnīcas izveide
+speletajs = {"vards": "Artūrs", "hp": 100, "limenis": 5}
+
+# Piekļūšana vērtībai pēc atslēgas
+print(speletajs["vards"]) # Izvada: Artūrs
+
+# Vērtības atjaunināšana
+speletajs["hp"] -= 10</code></pre>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Lokālā "pazušana"</h2>
+    <p>Eksperimentē ar mainīgo tvērumu, lai saprastu, kāpēc funkcijas iekšienē radīti mainīgie nav pieejami galvenajā programmā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>VS Code izveido failu <code class="language-python">tverums.py</code>.</li>
+            <li>Definē funkciju <code class="language-python">uzbrukums()</code>. Funkcijas iekšpusē izveido mainīgo <code class="language-python">bojajums = 25</code> un izdrukā to.</li>
+            <li>Ārpus funkcijas (galvenajā programmā) izsauc funkciju <code class="language-python">uzbrukums()</code>.</li>
+            <li>Mēģini ārpus funkcijas izdrukāt mainīgo <code class="language-python">bojajums</code>.</li>
+            <li>Novēro <i>NameError</i> terminālī. Pieraksti komentārā virs kļūdas, kāpēc tas notika.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Varoņa datu karte (Dictionary)</h2>
+    <p>Aizstāj vairākus atsevišķus mainīgos ar vienu strukturētu vārdnīcu un izmanto to funkcijās.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido failu <code class="language-python">statistika.py</code>.</li>
+            <li>Izveido globālu vārdnīcu <code class="language-python">varonis</code> ar atslēgām: "vards", "hp", "speks", "zelts" un piešķir tām sākuma vērtības.</li>
+            <li>Definē funkciju <code class="language-python">paradi_datus(tels)</code>, kas saņem vārdnīcu kā parametru un glīti izdrukā visus datus, izmantojot <i>f-string</i>.</li>
+            <li>Izsauc funkciju, padodot tai savu <code class="language-python">varonis</code> vārdnīcu.</li>
+            <li>Programmas beigās izmaini varoņa zelta daudzumu (<code class="language-python">varonis["zelts"] += 50</code>) un izsauc funkciju vēlreiz, lai redzētu izmaiņas.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Spēles inventāra datubāze</h2>
+    <p>Izveido funkciju, kas meklē informāciju vārdnīcā un atgriež (<i>return</i>) datus galvenajai programmai.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido failu <code class="language-python">veikals.py</code>.</li>
+            <li>Izveido vārdnīcu <code class="language-python">cenradis</code>, kur atslēgas ir priekšmetu nosaukumi (piem., "Zobens", "Vairogs"), bet vērtības — to cenas (<i>int</i>).</li>
+            <li>Definē funkciju <code class="language-python">pirkt_lietu(nosaukums)</code>.</li>
+            <li>Funkcijas iekšienē pārbaudi, vai <code class="language-python">nosaukums</code> eksistē vārdnīcā (izmanto <code class="language-python">if nosaukums in cenradis:</code>).</li>
+            <li>Ja eksistē, atgriez cenu, ja nē — atgriez 0.</li>
+            <li>Galvenajā programmā pieprasi lietotājam ievadīt priekšmetu, izsauc funkciju un paziņo cenu vai informē, ka tāda nav.</li>
+            <li>Iesūtīt uzdevuma github saiti e-klasē.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Lokālo mainīgo prioritāte</h2>
+    <p>Izpēti situāciju, kad globālais un lokālais mainīgais saucas vienādi (<i>Shadowing</i>).</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido failu <code class="language-python">prioritate.py</code>.</li>
+            <li>Faila sākumā definē <code class="language-python">vards = "Globālais"</code>.</li>
+            <li>Definē funkciju <code class="language-python">mainit_vardu()</code>, kuras iekšpusē nodefinē <code class="language-python">vards = "Lokālais"</code> un izdrukā to.</li>
+            <li>Izsauc funkciju un pēc tam vēlreiz izdrukā <code class="language-python">vards</code> ārpus funkcijas.</li>
+            <li>Pievieno komentāru ar skaidrojumu, kāpēc globālais mainīgais neizmainījās, un kādā situācijā būtu jāizmanto <code class="language-python">return</code>, lai atgrieztu jauno vērtību.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot):</h2>
+    <ul>
+        <li><b>KeyError (<i>Atslēgas kļūda</i>):</b> Mēģinājums piekļūt vārdnīcas atslēgai, kas neeksistē (piemēram, drukas kļūda: <code class="language-python">"HP"</code> vietā <code class="language-python">"hp"</code>).
+            <pre><code class="language-python"># Slikti:
+print(tels["HP"]) # Ja atslēga ir "hp" (mazie burti)
+
+# Labi:
+print(tels.get("HP", "Nav atrasts")) # .get() drošai piekļuvei</code></pre>
+        </li>
+        <li><b>Mainīgo jaukšana:</b> Mēģinājums funkcijas iekšienē izmantot mainīgo, kas definēts citā funkcijā.
+            <pre><code class="language-python"># Atceries:
+# Lokālie mainīgie pieder tikai tai funkcijai, kurā tie radīti!</code></pre>
+        </li>
+        <li><b>Pēdiņu trūkums atslēgās:</b> Definējot vai piekļūstot vārdnīcai, atslēgas (vārdi) vienmēr jāliek pēdiņās. Bez pēdiņām Python domās, ka tas ir mainīgais.</li>
+    </ul>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs: Vārdnīca un Funkcija</h2>
+    <div class='code-example'>
+        <pre><code class="language-python"># Globālie dati
+ienaidnieks = {"tips": "Orks", "hp": 50}
+
+def sanemt_bojajumu(tels, punkti):
+    """Samazina tēla hp par norādīto punktu skaitu."""
+    tels["hp"] = tels["hp"] - punkti
+    print(f"{tels['tips']} saņēma triecienu!")
+
+# Izsaukums
+sanemt_bojajumu(ienaidnieks, 15)
+print(f"Atlikušais HP: {ienaidnieks['hp']}")</code></pre>
+        <div class='result'>
+            Orks saņēma triecienu!<br>
+            Atlikušais HP: 35
+        </div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_43.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_45.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+
+</body>
+</html>

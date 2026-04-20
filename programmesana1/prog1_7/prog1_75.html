@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<title>7.4 Python iebūvēto funkciju efektivitāte</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_71.html">7.1 Meklēšanas pamati: Lineārā pret Bināro meklēšanu</a>
+  <a href="prog1_72.html">7.2 Kārtošanas loģika: Kā dators sakārto datus?</a>
+  <a href="prog1_73.html">7.3 Big O notācija: Cik ātrs ir Tavs kods?</a>
+  <a href="prog1_74.html">7.4 Python iebūvēto funkciju efektivitāte</a>
+  <a class="active" href="prog1_75.html">7.4 Python iebūvēto funkciju efektivitāte</a>
+  <a href="prog1_76.html">7.6 Noslēguma darbs: Slepeno koda lauzējs</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<div class="stundas-navigacija">
+    <a href="7_3.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="7_5.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+
+<section class='section'>
+    <h1>7. tēma: Algoritmi. 4. stunda: Iebūvēto funkciju efektivitāte.</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Tu proti rakstīt kārtošanas un meklēšanas algoritmus no nulles, kas ir būtiski loģikas izpratnei. Taču profesionālā izstrādē prioritāte ir koda efektivitāte un izpildes ātrums. Šajā stundā pētīsim, kāpēc Python iebūvētās funkcijas ātrdarbībā pārspēj mūsu pašu rakstīto kodu un kāpēc tās ir nozares standarts.</p>
+    
+    <a href="../../sasnRez.html">SR 2.4.19. (Skolēns izmanto gatavus algoritmus tipveida uzdevumu risēšanai)</a><br>
+    <a href="../../sasnRez.html">SR 2.4.16. (Skolēns novērtē algoritmu sarežģītību un efektivitāti)</a>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Kāpēc iebūvētās funkcijas ir ātrākas?</h2>
+    <div class="logic-box">
+        <ul class="step-list">
+            <li><b>Zem pārsega slēpjas "C" valoda:</b> Python iebūvētās funkcijas nav rakstītas pašā Python valodā. Tās ir ieprogrammētas "C" valodā, kas atrodas tuvāk datora aparatūrai (dzelžiem). Tāpēc tās darbojas ievērojami ātrāk.</li>
+            <li><b><code class="language-python">min()</code> un <code class="language-python">max()</code> funkcijas:</b>
+                <ul>
+                    <li>Dators tik un tā iziet cauri visam sarakstam, tātad sarežģītība joprojām ir <b>O(n)</b> (lineāra).</li>
+                    <li>Atšķirība ir tajā, ka šis cikls izpildās "C" valodas līmenī, nevis caur Python interpretatoru, iegūstot ievērojamu ātruma pārsvaru.</li>
+                </ul>
+            </li>
+            <li><b><code class="language-python">sorted()</code> un Timsort:</b>
+                <ul>
+                    <li>Python neizmanto lēno burbuļkārtošanu (O(n²)).</li>
+                    <li>Kārtošanai tiek izmantots hibrīdalgoritms <b>Timsort</b>, kura sarežģītība ir <b>O(n log n)</b>. Tas spēj sakārtot miljoniem elementu sekundes daļā.</li>
+                </ul>
+            </li>
+            <li><b>Zelta likums:</b> Vienmēr izmanto iebūvētās funkcijas datu meklēšanai un kārtošanai, ja vien nav nepieciešama ļoti specifiska spēles loģika, ko standartfunkcijas neatbalsta.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Vides sagatavošana (Windows)</h2>
+    <div class="logic-box">
+        <ol class="step-list">
+            <li>Atver <b>PowerShell</b>.</li>
+            <li>Ieej algoritmu mapē: <code class="language-python">cd Tema7_Algoritmi</code></li>
+            <li>Izveido jaunu failu un atver to kodu redaktorā: <code class="language-python">ni iebuvetas_funkcijas.py; code iebuvetas_funkcijas.py</code></li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Praktiskie uzdevumi</h2>
+
+    <h3>1. Līmenis (Vienkāršs): "Lielākais ienaidnieks"</h3>
+    <p>Atradīsim vājāko un spēcīgāko ienaidnieku datu masīvā, izmantojot vienas rindas iebūvētās komandas.</p>
+    <div class="logic-box">
+        <ol class="step-list">
+            <li>Failā <code class="language-python">iebuvetas_funkcijas.py</code> izveido sarakstu <code class="language-python">ienaidnieku_hp</code> ar 10 dažādām skaitliskām vērtībām.</li>
+            <li>Izmanto funkciju <code class="language-python">min()</code>, lai atrastu mazāko vērtību, un saglabā to mainīgajā <code class="language-python">vajakais</code>.</li>
+            <li>Izmanto funkciju <code class="language-python">max()</code>, lai atrastu lielāko vērtību, un saglabā to mainīgajā <code class="language-python">stiprakais</code>.</li>
+            <li>Izdrukā abus rezultātus.</li>
+        </ol>
+    </div>
+    
+    <div class='code-example'>
+<pre><code class="language-python">ienaidnieku_hp = [45, 12, 89, 3, 99, 21, 50, 77, 8, 34]
+
+vajakais = min(ienaidnieku_hp)
+stiprakais = max(ienaidnieku_hp)
+
+print(f"Vājākais ienaidnieks: {vajakais} HP")
+print(f"Spēcīgākais ienaidnieks: {stiprakais} HP")
+</code></pre>
+        <div class="result">
+Vājākais ienaidnieks: 3 HP<br>
+Spēcīgākais ienaidnieks: 99 HP
+        </div>
+    </div>
+
+    <h3>2. Līmenis (Viduvējs): "Ātruma sacīkstes (O(n) pret O(n))"</h3>
+    <p>Pārbaudīsim praksē apgalvojumu, ka iebūvētais "C" kods ir ātrāks par tīru Python kodu, pat ja abiem ir lineāra sarežģītība O(n).</p>
+    <div class="logic-box">
+        <ol class="step-list">
+            <li>Faila sākumā importē bibliotēku <code class="language-python">time</code>.</li>
+            <li>Izveido sarakstu <code class="language-python">lieli_dati = list(range(5000000))</code> (5 miljoni skaitļu).</li>
+            <li>Uzraksti savu <code class="language-python">for</code> ciklu, kas atrod lielāko skaitli sarakstā, un nomēri tā izpildes laiku.</li>
+            <li>Nomēri izpildes laiku Python iebūvētajai funkcijai <code class="language-python">max(lieli_dati)</code>.</li>
+            <li>Izdrukā un salīdzini abus rezultātus.</li>
+        </ol>
+    </div>
+
+    <div class='code-example'>
+<pre><code class="language-python">import time
+
+lieli_dati = list(range(5000000))
+
+# 1. Mūsu pašu rakstītais O(n) cikls
+sakums_savs = time.time()
+lielakais_savs = lieli_dati[0]
+for skaitlis in lieli_dati:
+    if skaitlis > lielakais_savs:
+        lielakais_savs = skaitlis
+laiks_savs = time.time() - sakums_savs
+
+# 2. Python iebūvētā O(n) funkcija
+sakums_ieb = time.time()
+lielakais_ieb = max(lieli_dati)
+laiks_ieb = time.time() - sakums_ieb
+
+print(f"Paša rakstīts cikls aizņēma: {laiks_savs:.5f}s")
+print(f"Iebūvētā max() funkcija aizņēma: {laiks_ieb:.5f}s")
+</code></pre>
+        <div class="result">
+Paša rakstīts cikls aizņēma: 0.18520s<br>
+Iebūvētā max() funkcija aizņēma: 0.04110s
+        </div>
+    </div>
+
+    <h3>3. Līmenis (Padziļināts): "Timsort pret Burbuli"</h3>
+    <p>Ja pie O(n) atšķirība ir mērāma sekundes simtdaļās, kas notiks, ja salīdzināsim mūsu O(n²) <i>Bubble Sort</i> ar Python iebūvēto O(n log n) <i>Timsort</i> algoritmu?</p>
+    <div class="logic-box">
+        <ol class="step-list">
+            <li>Iekopē savu <code class="language-python">bubble_sort(saraksts)</code> funkciju no iepriekšējām stundām (izņem no tās `print` komandu, lai nepiesārņotu ekrānu).</li>
+            <li>Izveido apgrieztā secībā sakārtotu sarakstu ar 5000 elementiem (tas ir sliktākais scenārijs kārtošanai): <code class="language-python">dati_burbulim = list(range(5000, 0, -1))</code> un tādu pašu sarakstu <code class="language-python">dati_timsort</code>.</li>
+            <li>Nomēri, cik ilgu laiku prasa izsaukt <code class="language-python">bubble_sort(dati_burbulim)</code>.</li>
+            <li>Nomēri, cik ilgu laiku prasa izsaukt <code class="language-python">sorted(dati_timsort)</code>.</li>
+        </ol>
+    </div>
+
+    <div class='code-example'>
+<pre><code class="language-python">def bubble_sort(saraksts):
+    elementu_skaits = len(saraksts)
+    for j in range(elementu_skaits):
+        for i in range(elementu_skaits - 1):
+            if saraksts[i] > saraksts[i + 1]:
+                saraksts[i], saraksts[i + 1] = saraksts[i + 1], saraksts[i]
+    return saraksts
+
+# Sagatavojam datus (5000 elementi apgrieztā secībā)
+dati_burbulim = list(range(5000, 0, -1))
+dati_timsort = list(range(5000, 0, -1))
+
+# Mērām Burbuli O(n^2)
+sakums = time.time()
+bubble_sort(dati_burbulim)
+laiks_burbulis = time.time() - sakums
+
+# Mērām Python iebūvēto sorted() O(n log n)
+sakums = time.time()
+sorted(dati_timsort)
+laiks_timsort = time.time() - sakums
+
+print(f"Bubble Sort (5000 el.) laiks: {laiks_burbulis:.5f}s")
+print(f"Timsort (sorted) laiks: {laiks_timsort:.5f}s")
+</code></pre>
+        <div class="result">
+Bubble Sort (5000 el.) laiks: 1.25010s<br>
+Timsort (sorted) laiks: 0.00015s
+        </div>
+    </div>
+
+</section>
+
+<div class="stundas-navigacija">
+    <a href="prog1_74.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_76.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+
+</body>
+</html>
