@@ -34,7 +34,7 @@
 </section>
 
 <section class='section'>
-    <h2>Teorija: Automātiskais dzinējs (For cikls)</h2>
+    <h2>Teorija: Automātiskais dzinējs (For cikls) un DOM manipulācija</h2>
     <div class="logic-box">
         <p>Vai gribi lapā parādīt 100 ienaidniekus? Tev nav jāraksta 100 koda rindiņas! Lai liktu datoram atkārtot darbību, mēs izmantojam <b>for</b> ciklu. Tas sastāv no trim svarīgām daļām iekavās, kas atdalītas ar <b>semikolu (;)</b>:</p>
         
@@ -64,6 +64,26 @@
         <p><b>Kā tas izskatās kopā:</b></p>
         <pre><code class="language-javascript">for (let i = 0; i &lt; 5; i++) {
     console.log("Šis teksts parādīsies 5 reizes!");
+}</code></pre>
+
+        <hr style="border: 1px solid #948979; margin: 25px 0;">
+
+        <h3>Saziņa ar HTML lapu (document.getElementById)</h3>
+        <p>Lai JavaScript varētu dinamiski mainīt to, ko lietotājs redz ekrānā, tam ir jāatrod konkrēts HTML elements. Programmēšanā mēs to panākam ar <code class="language-javascript">document.getElementById()</code>, kas sameklē elementu pēc tā unikālā <b>id</b> atribūta. Kad elements ir atrasts, varam mainīt tā saturu, izmantojot <code class="language-javascript">.innerHTML</code> (ja satur HTML tagus) vai <code class="language-javascript">.innerText</code> (tikai tekstam).</p>
+        
+        <p><b>1. HTML sagatave:</b></p>
+        <pre><code class="language-html">&lt;!-- Izveidojam elementu ar unikālu identifikatoru (id) --&gt;
+&lt;div id="rezultats"&gt;Sākotnējais teksts&lt;/div&gt;</code></pre>
+
+        <p><b>2. JavaScript rīcība:</b></p>
+        <pre><code class="language-javascript">// Atrodam elementu un pārrakstām tā saturu
+document.getElementById("rezultats").innerHTML = "Sistēma veiksmīgi ielādēta!";
+
+// Apvienojumā ar 'for' ciklu, lai pakāpeniski papildinātu saturu
+document.getElementById("rezultats").innerHTML = ""; // Vispirms iztukšojam saturu
+for (let i = 1; i &lt;= 3; i++) {
+    // Izmantojam += , lai pievienotu jaunu informāciju klāt esošajai
+    document.getElementById("rezultats").innerHTML += "Ielādēts modulis " + i + "&lt;br&gt;";
 }</code></pre>
     </div>
 </section>
