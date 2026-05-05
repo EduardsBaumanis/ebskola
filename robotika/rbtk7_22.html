@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
+<meta charset="UTF-8">
 <title>7. stunda: Ievade un Izvade (Pogas un If-Else)</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 </head>
-<body>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="rbtk7_2main.html">2. Tēmas apkopojums</a>
+  <a href="rbtk7_21.html">2.1 Ievads Arduino un Tinkercad</a>
+  <a href="rbtk7_22.html">2.2 Pogas un If-Else</a>
+  <a href="rbtk7_23.html">2.3 Analogie signāli (Potenciometrs)</a>
+  <a href="rbtk7_24.html">2.4 Servo motors</a>
+  <a href="rbtk7_25.html">2.5 Noslēguma projekts: Reakcijas spēle</a>
+</aside>
+
 
 <nav class='galvenaisdiv'>
     <a href="../index.html">Tēmas</a>
@@ -16,7 +28,7 @@
 </nav>
 
 <section class='section'>
-    <h1>7. tēma: Signālu ievade, pogas un lēmumu pieņemšana (If-Else)</h1>
+    <h1>2.2 Pogas un If-Else loģika</h1>
     <p><b>Tavs šīs stundas izaicinājums:</b> Pareizi pieslēgt spiedpogu maketo platei, nolasīt tās stāvokli (nospiesta vai atlaista) un izveidot C++ programmu, kas ieslēdz LED diodi tikai tad, kad poga ir nospiesta.</p>
     <a href="sasnRez.html">Datorika 7. klase (D.7.2.1., D.7.3.1., D.7.6.1.)</a>
 </section>
@@ -141,145 +153,3 @@ void loop() {
 </div>
 </body>
 </html><!DOCTYPE html>
-<html lang="lv">
-<head>
-<title>7. stunda: Ievade un Izvade (Pogas un If-Else)</title>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
-</head>
-<body>
-
-<nav class='galvenaisdiv'>
-    <a href="../index.html">Tēmas</a>
-    <a href="sasnRez.html">Sasniedzamie rezultāti</a>
-    <a href="paligm.html">Palīgmateriāli</a>
-</nav>
-
-<section class='section'>
-    <h1>7. tēma: Signālu ievade, pogas un lēmumu pieņemšana (If-Else)</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Pareizi pieslēgt spiedpogu maketo platei, nolasīt tās stāvokli (nospiesta vai atlaista) un izveidot C++ programmu, kas ieslēdz LED diodi tikai tad, kad poga ir nospiesta.</p>
-    <a href="sasnRez.html">Datorika 7. klase (D.7.2.1., D.7.3.1., D.7.6.1.)</a>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Kā Arduino nolasa pogas spiedienu?</h2>
-    <p>Iepriekš mēs devām komandas uz āru (OUTPUT), lai ieslēgtu gaismu. Tagad mums jāsaņem informācija iekšā (INPUT) no pogas. Bet elektrībā ir kāds āķis – ja vads "karājas gaisā" un nav nekur pieslēgts, tas uztver traucējumus un "kļūst traks" (Floating pin). Lai to novērstu, mēs izmantosim iebūvēto drošības sistēmu – <b>PULL-UP</b> rezistoru.</p>
-    <ul>
-        <li><b>Spiedpoga (Pushbutton):</b> Tinkercad vidē spiedpogai ir 4 kājas. Tomēr pa diagonāli izvietotās kājas ir savienotas kopā. Kad pogu nospiež, tā savieno kreiso un labo pusi.</li>
-        <li><b>INPUT_PULLUP:</b> Rakstot <code>pinMode(2, INPUT_PULLUP);</code>, Arduino iekšēji pieslēdz pinu pie 5V (HIGH). Ja pogu savienosim ar mīnusu (GND), nospiežot to, strāva aizskries uz mīnusu un rādījums kļūs <b>LOW</b>. Tātad: Poga atlaista = HIGH; Poga nospiesta = LOW.</li>
-        <li><b>digitalRead(pin):</b> Šī komanda nolasa, vai pinā ir strāva (HIGH) vai nav (LOW). Mēs šo vērtību varam saglabāt mainīgajā, piemēram: <code>int pogasStavoklis = digitalRead(2);</code></li>
-        <li><b>If-Else sintakse:</b> C++ valodā "Ja-Tad" bloks izskatās šādi: <code>if (nosacījums) { ...kods... } else { ...kods... }</code>. Ļoti svarīgi – lai pārbaudītu, vai kaut kas ir vienāds ar kaut ko citu, OBLIGĀTI jāraksta divas vienādības zīmes <b>==</b>, nevis viena!</li>
-    </ul>
-    <p><i>[Ievietot attēlu šeit: Ekrānuzņēmums no Tinkercad ar pareizi pieslēgtu pogu pāri maketo plates viduslīnijai un bultiņām uz GND un Arduino 2. pinu]</i></p>
-</section>
-
-<section class='section'>
-    <h2>1. uzdevums: Pogas un LED shēmas izveide</h2>
-    <p>Virtuālajā vidē pievienojiet spiedpogu un atjaunojiet LED diodes slēgumu no iepriekšējās stundas.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Tinkercad vidē izveidojiet jaunu Circuit projektu un pievienojiet Arduino Uno, maketo plati (Breadboard) un savienojiet 5V un GND līnijas.</li>
-            <li>Pievienojiet LED diodi 13. pinam (neaizmirstiet 220 omu rezistoru no Anoda uz 13. pinu un vadu no Katoda uz GND).</li>
-            <li>Atrodiet komponenti "Pushbutton". Novietojiet to <b>tieši pāri maketo plates vidusdalījuma gropītei</b>, lai kājas būtu abās pusēs.</li>
-            <li>Vienu pogas apakšējo kāju savienojiet ar vadu pie Arduino <b>2. pina</b>.</li>
-            <li>Otru pogas apakšējo kāju (tajā pašā horizontālajā līnijā) savienojiet ar melno <b>GND</b> (-) līniju.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>2. uzdevums: Serial Monitor (Saziņa ar datoru)</h2>
-    <p>Uzrakstiet kodu, kas nolasa pogas stāvokli un izdrukā to ekrānā, lai mēs redzētu, vai elektronika strādā.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pārslēdzieties uz koda (Text) skatu. <code>void setup()</code> ierakstiet: <code>Serial.begin(9600);</code> (Tas atver saziņas kanālu).</li>
-            <li>Tajā pašā <code>setup()</code> pievienojiet: <code>pinMode(2, INPUT_PULLUP);</code></li>
-            <li><code>void loop()</code> izveidojiet mainīgo, kas nolasa pogu: <code>int pogasStavoklis = digitalRead(2);</code></li>
-            <li>Zem tā ierakstiet: <code>Serial.println(pogasStavoklis);</code>. Pievienojiet īsu pauzi: <code>delay(100);</code>, lai dators nepārkarstu no datu daudzuma.</li>
-            <li>Nospiediet "Start Simulation". Koda loga pašā apakšā atveriet "Serial Monitor". Spaidot pogu, jums jāredz ekrānā skaitļi 1 (atlaista) un 0 (nospiesta).</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>3. uzdevums: Interaktīvā LED vadība (If-Else)</h2>
-    <p>Apvienojiet pogas nolasīšanu ar LED diodes kontroli – uzrakstiet "If-Else" loģiku.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Neaizmirstiet <code>void setup()</code> pievienot LED pinu: <code>pinMode(13, OUTPUT);</code></li>
-            <li>Sadaļā <code>void loop()</code>, pēc pogas stāvokļa nolasīšanas mainīgajā, izveidojiet <code>if</code> bloku.</li>
-            <li>Ierakstiet nosacījumu: <code>if (pogasStavoklis == LOW) {</code> (atcerieties, LOW nozīmē, ka poga piespiesta pie GND).</li>
-            <li>Iekšā figūriekavās <code>{ }</code> ierakstiet komandu LED diodes ieslēgšanai: <code>digitalWrite(13, HIGH);</code></li>
-            <li>Pēc aizverošās figūriekavas pievienojiet <code>} else {</code> un iekšā ierakstiet komandu LED izslēgšanai <code>digitalWrite(13, LOW);</code>. Palaidiet un testējiet!</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>4. uzdevums (Zvaigznītes izaicinājums): "Reversais" luksofors</h2>
-    <p>Ātrākajām komandām – pievienojiet shēmai sarkanu un zaļu LED. Kad poga nav nospiesta, deg sarkanā gaisma. Kad nospiež, sarkanā izslēdzas un iedegas zaļā.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Maketo platei pievienojiet vēl vienu LED diodi (ar savu rezistoru) pie brīva pina, piemēram, 12.</li>
-            <li>Neaizmirstiet <code>setup()</code> sadaļā pieteikt jauno pinu kā <code>OUTPUT</code>.</li>
-            <li>Papildiniet savu <code>if-else</code> bloku. "If" daļā (kad poga nospiesta) viena diode jāieslēdz (HIGH), bet otra jāizslēdz (LOW).</li>
-            <li>"Else" daļā (kad poga atlaista) komandām jābūt tieši otrādāk.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <ul>
-        <li><b>Poga visu laiku lēkā starp 0 un 1 pati no sevis:</b> Jūs setup daļā uzrakstījāt <code>INPUT</code> nevis <code>INPUT_PULLUP</code>. Bez pull-up rezistora pins karājas gaisā un uztver radio viļņus kā traucējumus.</li>
-        <li><b>Kods nestrādā, un rāda kļūdu pie "if" rindiņas:</b> Pārbaudiet vienādības zīmes! Lai salīdzinātu, jāraksta <code>if (pogasStavoklis == LOW)</code>. Ja uzrakstījāt tikai vienu <code>=</code> zīmi, dators domā, ka jūs mēģināt mainīt mainīgā vērtību, nevis uzdot jautājumu.</li>
-        <li><b>Pogu nospiežot nekas nenotiek, shēma ir pareiza:</b> Tinkercad vidē, ja pogu ievieto nevis pāri dalījuma gropītei, bet gan vienā līnijā, tās kājas var saslēgties īssavienojumā uzreiz. Vienmēr lieciet pogu pāri maketo plates vidum!</li>
-    </ul>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (Pogas kontrolēta LED diode)</h2>
-    <div class='code-example'>
-        <pre><code class="language-powershell">
-int buttonPin = 2; // Nodefinējam portus ar vārdiem ērtībai
-int ledPin = 13;
-
-void setup() {
-  pinMode(ledPin, OUTPUT);
-  // INPUT_PULLUP pieslēdz iekšējo rezistoru, padarot pinu HIGH (1) 
-  pinMode(buttonPin, INPUT_PULLUP);
-  Serial.begin(9600);
-}
-
-void loop() {
-  // Nolasām pogas stāvokli (0 vai 1)
-  int pogasStavoklis = digitalRead(buttonPin);
-  
-  // Drukājam monitorā testēšanai
-  Serial.println(pogasStavoklis);
-
-  // Ja poga nospiesta (savienota ar zemi / LOW)
-  if (pogasStavoklis == LOW) {
-    digitalWrite(ledPin, HIGH); // Ieslēdz LED
-  } else {
-    digitalWrite(ledPin, LOW);  // Izslēdz LED
-  }
-}
-        </code></pre>
-        <div class='result'>
-            Pēc simulācijas palaišanas LED diode nedegs. Nospiežot un turot pogu ar peli, LED diode iedegsies. Atlaižot pogu, tā uzreiz izslēgsies. Serial Monitor vienlaicīgi rādīs ciparu 0 (nospiesta) vai 1 (atlaista).
-        </div>
-    </div>
-</div>
-<div class="stundas-navigacija">
-    <a href="stunda6.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="stunda8.html" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
-</html>

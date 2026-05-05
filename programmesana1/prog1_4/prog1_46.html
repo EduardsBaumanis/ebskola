@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="lv">
 <head>
-<title>4.6 Noslēguma darbs: CYOA 2.0</title>
-<link rel="stylesheet" type="text/css" href="../../style.css">>
+<meta charset="UTF-8">
+<title>4.6 Noslēguma projekts: Skaitļu minētājs</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
 </head>
 <body class="has-sidebar">
@@ -17,8 +17,8 @@
   <a href="prog1_42.html">4.2 Vērtību atgriešana (return)</a>
   <a href="prog1_43.html">4.3 Modularitāte un koda sadalīšana</a>
   <a href="prog1_44.html">4.4 Mainīgo tvērums un vārdnīcas</a>
-  <a href="prog1_45.html">4.5 CYOA stāsta zaru plānošana</a>
-  <a class="active" href="prog1_46.html">4.6 Noslēguma darbs: CYOA 2.0</a>
+  <a href="prog1_45.html">4.5 Spēles plānošana ar shēmām</a>
+  <a class="active" href="prog1_46.html">4.6 Noslēguma projekts: Skaitļu minētājs</a>
 </aside>
 
 <nav class='galvenaisdiv'>
@@ -28,48 +28,64 @@
 </nav>
 
 <section class='section'>
-    <h1>4. tēma: Noslēguma darbs. Projekts: "CYOA 2.0: Sistēmu integrācija".</h1>
-    <p><b>Tavs mērķis:</b> Papildināt iepriekšējā tēmā plānoto spēli ar "atmiņu", izveidojot sistēmu, kas seko līdzi spēlētāja inventāram, veselībai un progresam, demonstrējot prasmes darbā ar datu struktūrām un to plūsmu moduļos.</p>
-    <a href="../../sasnRez.html">SR 2.4.13. (Kolekcijas), 2.4.14. (Cikli), 2.4.1. (Datu struktūru izvēle)</a>
+    <h1>4. tēma — Noslēguma projekts: "Skaitļu minētājs"</h1>
+    <p><b>Tavs mērķis:</b> Apvienot visas tēmā apgūtās prasmes — funkcijas, parametrus, <code>return</code>, mainīgo tvērumu un moduļus — lai izveidotu pilnvērtīgu, terminālī spēlējamu skaitļu minēšanas spēli.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas un funkcijas</a>
+        <a href="../../sasnRez.html">SR 2.4.14. Vadības struktūras (cikli, sazarojumi)</a>
+        <a href="../../sasnRez.html">SR 2.4.13. Mainīgie un datu tipi</a>
+        <a href="../../sasnRez.html">SR 2.4.10. Atkļūdošana un testēšana</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Spēles apraksts</h2>
+    <div class='logic-box'>
+        <p>Dators izvēlas nejaušu skaitli no 1 līdz 100. Spēlētājs mēģina to uzminēt, ievadot skaitli terminālī. Pēc katra mēģinājuma spēle dod mājienu — vai patiesais skaitlis ir lielāks vai mazāks. Spēle beidzas, kad spēlētājs uzmin skaitli vai kad mēģinājumi izbeigušies (10 mēģinājumi). Beigās tiek parādīts mēģinājumu skaits.</p>
+    </div>
 </section>
 
 <section class='section'>
     <h2>Darba uzdevuma gaita</h2>
-    
+
     <div class='logic-box'>
-        <h3>1. solis: Spēlētāja profila izveide (Pamata datu glabāšana)</h3>
+        <h3>1. solis: Funkciju projektēšana (1. līmenis)</h3>
         <ol>
-            <li>Izveido failu <code class="language-python">data.py</code> un nodefinē tajā vārdnīcu <code class="language-python">speletajs</code> ar atslēgām: <code class="language-python">vards</code>, <code class="language-python">hp</code> (dzīvības punkti), <code class="language-python">zelts</code> un <code class="language-python">inventars</code> (sākotnēji kā tukšs saraksts <code class="language-python">[]</code>).</li>
-            <li>Izveido spēles sākuma funkciju, kas ar <code class="language-python">input()</code> pieprasa lietotāja vārdu un saglabā to šajā vārdnīcā.</li>
-            <li>Nodrošini, ka šī vārdnīca tiek padota kā parametrs spēles sākuma lokācijas funkcijai, lai dati būtu pieejami tālākajā kodā.</li>
+            <li>Izveido failu <code class="language-python">spele.py</code>.</li>
+            <li>Definē funkciju <code class="language-python">izveido_skaitli()</code>, kas ar <code class="language-python">random.randint(1, 100)</code> izveido un <b>atgriež</b> nejaušu skaitli.</li>
+            <li>Definē funkciju <code class="language-python">salidzina(minetais, patiesais)</code>, kas atgriež teksta mājienu — <code>"par lielu"</code>, <code>"par mazu"</code> vai <code>"trāpīts"</code>.</li>
+            <li>Definē galveno funkciju <code class="language-python">spele()</code>, kas izsauc abas iepriekšējās funkcijas un izvada mājienu.</li>
         </ol>
     </div>
 
     <div class='logic-box'>
-        <h3>2. solis: Dinamiskais inventārs (Cikli un datu atjaunināšana)</h3>
+        <h3>2. solis: Cikls un mēģinājumu skaits (2. līmenis)</h3>
         <ol>
-            <li>Izveido funkciju <code class="language-python">paradit_inventaru(speletaja_dati)</code>, kura izmanto <code class="language-python">for</code> ciklu, lai pārskatāmi izvadītu visus priekšmetus no spēlētāja inventāra saraksta terminālī.</li>
-            <li>Izveido vai papildini vismaz vienu lokāciju, kurā spēlētājs var "pacelt" jaunu priekšmetu, pievienojot to inventāra sarakstam ar <code class="language-python">.append()</code> metodi.</li>
-            <li>Pievieno loģikas pārbaudi citā lokācijā: spēlētājs var turpināt ceļu (izsaukt nākamo funkciju) tikai tad, ja inventārā atrodas noteikts priekšmets (piemēram, "zelta_atslega").</li>
+            <li>Spēles funkcijā pievieno <code class="language-python">while</code> ciklu, kas atkārtojas, līdz spēlētājs uzmin skaitli vai sasniegts 10 mēģinājumu limits.</li>
+            <li>Saglabā mēģinājumu skaitu lokālā mainīgajā <code class="language-python">megi</code>, kuru palielini katrā cikla iterācijā.</li>
+            <li>Pēc spēles beigām izvadi rezultātu: cik mēģinājumos uzminēts vai paziņojumu, ka mēģinājumi izbeigušies.</li>
+            <li>Pārbaudi, vai kods strādā ar dažādām spēlētāja stratēģijām (visi par lielu, visi par mazu, jaukti).</li>
         </ol>
     </div>
 
     <div class='logic-box'>
-        <h3>3. solis: Arhitektūra, stils un versiju kontrole</h3>
+        <h3>3. solis: Modularitāte un PEP 8 (3. līmenis)</h3>
         <ol>
-            <li>Sadalīt spēles kodu trīs jēgpilnos moduļos: <code class="language-python">main.py</code> (programmas sākumpunkts), <code class="language-python">engine.py</code> (pamatloģika un lokāciju funkcijas) un <code class="language-python">data.py</code> (sākotnējie dati un inventāra palīgfunkcijas).</li>
-            <li>Sakārtot kodu atbilstoši <b>PEP 8</b> vadlīnijām (atstarpes, mainīgo nosaukumi) un katrai funkcijai pievienot <i>docstring</i>, kas paskaidro tās mērķi.</li>
-            <li>Projekta izstrādes laikā veikt vismaz 4 jēgpilnus <i>commit</i> savā GitHub krātuvē (piemēram, "Izveidota vārdnīcu sistēma", "Pievienots inventāra cikls").</li>
+            <li>Sadali kodu divos failos: <code class="language-python">main.py</code> (palaiž spēli) un <code class="language-python">spele.py</code> (visas spēles funkcijas).</li>
+            <li>Failā <code class="language-python">main.py</code> izmanto <code class="language-python">from spele import spele</code> un izsauc <code class="language-python">spele()</code>.</li>
+            <li>Pievieno katrai funkcijai īsu <i>docstring</i>, kas paskaidro tās mērķi.</li>
+            <li>Pārbaudi kodu pret <b>PEP 8</b>: atstarpes, mainīgo nosaukumi <i>snake_case</i>, atkāpes 4 atstarpes.</li>
+            <li>Saglabā darbu GitHub ar vismaz 3 jēgpilniem <i>commit</i> ziņojumiem.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>Vērtēšanas kritēriji (SLA)</h2>
+    <h2>Vērtēšanas kritēriji</h2>
     <table>
         <thead>
             <tr>
-                <th>Kritēriji</th>
+                <th>Kritērijs</th>
                 <th class="level-header">Sācis apgūt (1-3)</th>
                 <th class="level-header">Turpina apgūt (4-6)</th>
                 <th class="level-header">Apguvis (7-8)</th>
@@ -78,25 +94,25 @@
         </thead>
         <tbody>
             <tr>
-                <td><b>Datu struktūras</b></td>
-                <td>Dati netiek saglabāti vai tiek izmantoti tikai atsevišķi mainīgie bez loģiskas sasaistes.</td>
-                <td>Lieto sarakstus un vārdnīcas, bet datu piekļuve vai atjaunināšana vietām ir statiska un neelastīga.</td>
-                <td>Efektīvi lieto vārdnīcu spēlētāja profilam un sarakstus inventāram. Dati mainās dinamiski.</td>
-                <td>Lieto ligzdotas datu struktūras loģikas optimizācijai un nodrošina pilnīgu datu saglabāšanos spēles gaitā.</td>
+                <td><b>Funkcijas un <code>return</code></b></td>
+                <td>Programma uzrakstīta vienā kodu blokā bez funkcijām.</td>
+                <td>Lieto vienu funkciju, bet vērtības tiek nodotas caur globāliem mainīgajiem.</td>
+                <td>Lieto vairākas funkcijas ar parametriem un <code>return</code>; mainīgie ir lokāli.</td>
+                <td>Funkcijas ir universālas (var mainīt skaitļu robežas un mēģinājumu limitu kā parametrus).</td>
             </tr>
             <tr>
-                <td><b>Cikli un iterācijas</b></td>
-                <td>Mēģina izmantot ciklu datu nolasīšanai, bet tas satur kļūdas vai neizpildās.</td>
-                <td>Izmanto <code class="language-python">for</code> ciklu kolekciju nolasīšanai, bet izvades noformējums ir haotisks vai nepilnīgs.</td>
-                <td>Lieto ciklus inventāra izvadē un metodes (append, remove) datu vadībai spēles laikā.</td>
-                <td>Veic datu validāciju vai sarežģītu meklēšanu kolekcijās, izmantojot ciklus un loģikas operatorus.</td>
+                <td><b>Cikli un sazarojumi</b></td>
+                <td>Cikls darbojas neparedzami vai izraisa kļūdu.</td>
+                <td>Cikls strādā, bet pārtraukšanas nosacījumi ir kļūdaini.</td>
+                <td>Cikls korekti pārtrauc darbību pie pareizās atbildes vai mēģinājumu izbeigšanās.</td>
+                <td>Pievienotas papildu pārbaudes (piem., neskaitliska ievade) bez programmas avārijas.</td>
             </tr>
             <tr>
-                <td><b>Arhitektūra un stils</b></td>
-                <td>Viss kods ir vienā failā, netiek ievēroti stila pamati un nav izmantota versiju kontrole.</td>
-                <td>Kods ir sadalīts failos, taču novērojams lieks globālo mainīgo lietojums; trūkst GitHub vēstures.</td>
-                <td>Funkcijas saņem un atgriež datus kā parametrus (pareizs <i>scope</i>). Kods atbilst PEP 8, pievienoti 4 <i>commit</i>.</td>
-                <td>Universālas un pašdokumentējošas funkcijas. Pilnīga un profesionāla moduļu sadarbība. Izvērsta Git vēsture.</td>
+                <td><b>Modularitāte un stils</b></td>
+                <td>Viens fails, nav PEP 8 ievērošanas.</td>
+                <td>Sadalīts vairākos failos, bet imports vai struktūra nepilnīga.</td>
+                <td>Pareiza moduļu sadarbība, atbilst PEP 8, pievienoti <i>docstring</i>.</td>
+                <td>Profesionāla struktūra: tipi (<i>type hints</i>), izvērsti komentāri, GitHub ar 3+ <i>commit</i>.</td>
             </tr>
         </tbody>
     </table>
@@ -105,12 +121,12 @@
 <section class='section'>
     <h2>Pašpārbaudes saraksts</h2>
     <ul>
-        <li>Spēli var veiksmīgi un bez kļūdām palaist, palaižot tikai <code class="language-python">main.py</code> failu.</li>
-        <li>Spēlētāja profila informācija (vārds, dzīvības) tiek veiksmīgi nodota starp dažādām lokāciju funkcijām.</li>
-        <li>Inventārs tiek glīti parādīts ekrānā, izmantojot <code class="language-python">for</code> ciklu.</li>
-        <li>Spēles laikā es varu pievienot priekšmetu inventāram un vēlāk izmantot to, lai atslēgtu jaunu ceļu.</li>
-        <li>Viss kods ir vizuāli pārskatāms (nav garu rindu, ir pareizas atkāpes) un katrai funkcijai ir <i>docstring</i>.</li>
-        <li>Manā GitHub krātuvē ir vismaz 4 saglabāšanas punkti (commits) ar skaidriem aprakstiem.</li>
+        <li>Programma startē, palaižot tikai <code class="language-python">main.py</code>.</li>
+        <li>Katra funkcija veic tikai vienu darbību (princips "viena funkcija — viens uzdevums").</li>
+        <li>Spēle pēc katra mēģinājuma sniedz mājienu (par lielu / par mazu / trāpīts).</li>
+        <li>Spēles beigās tiek izvadīts mēģinājumu skaits.</li>
+        <li>Visi funkciju nosaukumi ir <i>snake_case</i> un atspoguļo darbību.</li>
+        <li>GitHub vēsture satur vismaz 3 saturīgus <i>commit</i>.</li>
     </ul>
 </section>
 
