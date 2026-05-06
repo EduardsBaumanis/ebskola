@@ -14,9 +14,9 @@
 - SR kodi `sasnRez.html` failā: **61**
 - SR kodi izmantoti stundu materiālos: **42**
 - Kodi `sasnRez.html` bet ne stundās: **21** (rezerve / paplašinājumam)
-- Kodi stundās bet ne `sasnRez.html`: **2** ⚠️
+- Kodi stundās bet ne `sasnRez.html`: **2** ⚠
 
-### ⚠️ Kodi, kas atrodas stundās, bet trūkst `sasnRez.html`
+### ⚠ Kodi, kas atrodas stundās, bet trūkst `sasnRez.html`
 
 | Kods | Stundu skaits | Pirmā stunda |
 |------|---------------|---------------|

@@ -35,21 +35,21 @@ Katra tēma noslēdzas ar **vienkāršu spēli**, kas izmanto visu, kas tēmā a
 | Programmēšana I — 1. tēma (Vide) | Personīgais GitHub repo ar dokumentāciju |
 | Programmēšana I — 2. tēma (Python pamati) | "Lielais skaitļu duelītis" |
 | Programmēšana I — 3. tēma (Vadības struktūras) | "Gudrais Akmens-Šķēres-Papīrīts" |
-| Programmēšana I — 4. tēma (Funkcijas) | **"Skaitļu minētājs"** ⭐ (jauns) |
-| Programmēšana I — 5. tēma (Kolekcijas) | **"Atmiņu kāršu spēle"** ⭐ (jauns) |
-| Programmēšana I — 6. tēma (Datu pastāvība) | **"Quiz spēle ar Highscore"** ⭐ (jauns) |
+| Programmēšana I — 4. tēma (Funkcijas) | **"Skaitļu minētājs"** ★ (jauns) |
+| Programmēšana I — 5. tēma (Kolekcijas) | **"Atmiņu kāršu spēle"** ★ (jauns) |
+| Programmēšana I — 6. tēma (Datu pastāvība) | **"Quiz spēle ar Highscore"** ★ (jauns) |
 | Programmēšana I — 7. tēma (Algoritmi) | "Slepenā koda lauzējs" |
-| Programmēšana I — 8. tēma (Projektēšana) | **"Krustiņi un nullītes" arhitektūra** ⭐ (jauns) |
-| Programmēšana I — 9. tēma (Web) | **"Krustiņi un nullītes" pārlūkā** ⭐ (jauns) |
+| Programmēšana I — 8. tēma (Projektēšana) | **"Krustiņi un nullītes" arhitektūra** ★ (jauns) |
+| Programmēšana I — 9. tēma (Web) | **"Krustiņi un nullītes" pārlūkā** ★ (jauns) |
 | Datorika 9 — 1. tēma | Spēles projekta pieteikums |
 | Datorika 9 — 2. tēma | Stilizēta spēles lapa |
 | Datorika 9 — 3. tēma | Vienkārša teksta spēle JS |
 | Datorika 9 — 4. tēma | Spēles dzinēja prototips |
 | Datorika 9 — 5. tēma | Pilnvērtīga spēle internetā |
 | Robotika — 1. tēma | LEGO SPIKE Pārbaudes misija |
-| Robotika — 2. tēma | **Reakcijas spēle (Arduino)** ⭐ (jauns) |
+| Robotika — 2. tēma | **Reakcijas spēle (Arduino)** ★ (jauns) |
 
-⭐ = aizstāj iepriekšējo "CYOA / Choose Your Own Adventure" projektu, kas tika noņemts saskaņā ar 2026. maija revīziju.
+★ = aizstāj iepriekšējo "CYOA / Choose Your Own Adventure" projektu, kas tika noņemts saskaņā ar 2026. maija revīziju.
 
 ## 2. Stundas laika rāmis (80 min)
 
@@ -112,19 +112,19 @@ Skala: 1 (slikti) – 5 (izcili) trijās dimensijās:
 | 4.3 | Modularitāte un koda sadalīšana | 4 | 3 | 4 | Imports tiek izskaidrots |
 | 4.4 | Lokālie/globālie mainīgie un vārdnīcas | 4 | 4 | 4 | Vārdnīcas pirmais ievads |
 | 4.5 | Spēles plānošana ar shēmām | 5 | 4 | 5 | Pārstrādāts uz "Skaitļu minētāju" |
-| 4.6 | Noslēguma projekts: Skaitļu minētājs | 5 | 5 | 5 | ⭐ jauns saturs, vienkārša spēle |
+| 4.6 | Noslēguma projekts: Skaitļu minētājs | 5 | 5 | 5 | ★ jauns saturs, vienkārša spēle |
 | 5.1 | Saraksti (list) un to metodes | 5 | 4 | 5 | Append/pop demonstrēti |
 | 5.2 | Vārdnīcas (dict) | 5 | 4 | 5 | Atslēga-vērtība |
 | 5.3 | For cikli un iterācija | 5 | 4 | 5 | Iter caur kolekcijām |
 | 5.4 | Google Forms aptauja | 3 | 4 | 3 | Kontekstuāli nepieciešama |
 | 5.5 | Aptaujas datu analīze un integrācija | 4 | 3 | 4 | Izņemta CYOA atsauce |
-| 5.6 | Noslēguma projekts: Atmiņu kāršu spēle | 5 | 5 | 5 | ⭐ jauns saturs |
+| 5.6 | Noslēguma projekts: Atmiņu kāršu spēle | 5 | 5 | 5 | ★ jauns saturs |
 | 6.1 | Failu lasīšana un rakstīšana | 5 | 3 | 5 | with open() pamati |
 | 6.2 | Google Sheets un eksports | 4 | 3 | 4 | Praktisks rīks |
 | 6.3 | Datu tīrīšana un transformācija | 4 | 3 | 4 | Strip/replace |
 | 6.4 | Rezultātu tabulas (Highscores) | 5 | 5 | 5 | Pastāvīga spēles atmiņa |
 | 6.5 | Datu vizualizācija un analīze | 4 | 4 | 4 | matplotlib ievads |
-| 6.6 | Noslēguma projekts: Quiz spēle | 5 | 5 | 5 | ⭐ jauns saturs |
+| 6.6 | Noslēguma projekts: Quiz spēle | 5 | 5 | 5 | ★ jauns saturs |
 | 7.1 | Lineārā pret bināro meklēšanu | 5 | 4 | 5 | Klasisks algoritmu temats |
 | 7.2 | Kārtošanas loģika | 4 | 4 | 4 | Bubble + sort |
 | 7.3 | Big O notācija | 4 | 3 | 4 | Sausa, bet svarīga |
@@ -138,7 +138,7 @@ Skala: 1 (slikti) – 5 (izcili) trijās dimensijās:
 | 8.5 | Sasniedzamie rezultāti un resursi | 3 | 3 | 4 | Plānošana |
 | 8.6 | Projektējuma aizstāvēšana | 4 | 4 | 3 | Prezentācija |
 | 9.1–9.5 | Web (Flask/Streamlit) lessons | — | — | — | Stub failu — saturs vēl izstrādājams |
-| 9.6 | Noslēguma projekts: Krustiņi pārlūkā | 5 | 5 | — | ⭐ definēts main lapā |
+| 9.6 | Noslēguma projekts: Krustiņi pārlūkā | 5 | 5 | — | ★ definēts main lapā |
 
 ### Datorika 9. klasei
 
@@ -188,7 +188,7 @@ Skala: 1 (slikti) – 5 (izcili) trijās dimensijās:
 | 2.2 | Pogas un If-Else | 5 | 5 | 5 | INPUT_PULLUP |
 | 2.3 | Analogie signāli (Potenciometrs) | 5 | 5 | 4 | analogRead |
 | 2.4 | Servo motors | 5 | 5 | 4 | Aktuatori |
-| 2.5 | Noslēguma projekts: Reakcijas spēle | 5 | 5 | 5 | ⭐ pārstrādāts no Morzes koda |
+| 2.5 | Noslēguma projekts: Reakcijas spēle | 5 | 5 | 5 | ★ pārstrādāts no Morzes koda |
 
 ## 5. CSS optimizācijas (style.css)
 
