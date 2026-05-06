@@ -2,12 +2,33 @@
 <html lang="lv">
 <head>
 <meta charset="UTF-8">
-<title>9.5 Interaktivitāte pārlūkprogrammā</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9.5 Interaktivitāte pārlūkprogrammā — ebSkola</title>
+<meta name="description" content="Pievienot interaktivitāti, izmantojot session_state, callback-us un dinamisku satura atjauninājumu.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_9/prog1_95.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="9.5 Interaktivitāte pārlūkprogrammā">
+<meta property="og:description" content="Pievienot interaktivitāti, izmantojot session_state, callback-us un dinamisku satura atjauninājumu.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_9/prog1_95.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="9.5 Interaktivitāte pārlūkprogrammā">
+<meta name="twitter:description" content="Pievienot interaktivitāti, izmantojot session_state, callback-us un dinamisku satura atjauninājumu.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "9.5 Interaktivitāte pārlūkprogrammā", "description": "Pievienot interaktivitāti, izmantojot session_state, callback-us un dinamisku satura atjauninājumu.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_9/prog1_95.html", "isPartOf": {"@type": "Course", "name": "ebSkola — programmesana1", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 </head>
 <body class="has-sidebar">
 
@@ -140,14 +161,14 @@ st.dataframe(st.session_state.saraksts)</code></pre>
     <div class='code-example'>
         <pre><code class="language-python">import streamlit as st
 
-st.title("📋 Mans To-Do")
+st.title("▸ Mans To-Do")
 
 if "todo" not in st.session_state:
     st.session_state.todo = []
 
 with st.form("forma", clear_on_submit=True):
     jauns = st.text_input("Jauns uzdevums")
-    ok = st.form_submit_button("➕ Pievienot")
+    ok = st.form_submit_button("+ Pievienot")
 
 if ok and jauns:
     st.session_state.todo.append({"teksts": jauns, "izpildīts": False})
@@ -159,10 +180,10 @@ for i, t in enumerate(st.session_state.todo):
             t["teksts"], value=t["izpildīts"], key=f"cb{i}"
         )
     with col2:
-        if st.button("🗑️", key=f"d{i}"):
+        if st.button("✕", key=f"d{i}"):
             st.session_state.todo.pop(i)
             st.rerun()</code></pre>
-        <div class='result'>Pievieno uzdevumus → atzīmē kā izpildītus → dzēš ar 🗑️.<br>Saraksts saglabājas starp lapas pārlādēm.</div>
+        <div class='result'>Pievieno uzdevumus → atzīmē kā izpildītus → dzēš ar ✕.<br>Saraksts saglabājas starp lapas pārlādēm.</div>
     </div>
 </div>
 
