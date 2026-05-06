@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>11.4 Mantošana un super()</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_11main.html">11. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_111.html">11.1 Klases un objekti</a>
+  <a href="prog1_112.html">11.2 Konstruktori un atribūti</a>
+  <a href="prog1_113.html">11.3 Metodes un self</a>
+  <a class="active" href="prog1_114.html">11.4 Mantošana un super()</a>
+  <a href="prog1_115.html">11.5 Polimorfisms un dunder metodes</a>
+  <a href="prog1_116.html">11.6 Noslēguma projekts: RPG cīņas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>11.4 Mantošana un super()</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apgūt klašu hierarhiju, izveidojot specializētas bērna klases ar mantotu un papildinātu uzvedību.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.18. Lieto OOP pamatus</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas un funkcijas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Mantošana — kods atkārtoti lietojams</h2>
+    <div class='logic-box'>
+<p>Mantošana ļauj izveidot specializētas klases no vispārējām. Vecāku klase satur kopīgo loģiku, bērna klase pievieno specifisko.</p>
+<pre><code class="language-python">class Varonis:
+    def __init__(self, vards, hp=100, speks=10):
+        self.vards = vards
+        self.hp = hp
+        self.speks = speks
+
+    def uzbrukums(self, merkis):
+        merkis.hp -= self.speks
+
+class Burvis(Varonis):
+    def __init__(self, vards, mana=50):
+        # Izsauc vecāku konstruktoru
+        super().__init__(vards, hp=80, speks=5)
+        self.mana = mana  # papildu atribūts
+
+    def burvojums(self, merkis):
+        if self.mana &gt;= 10:
+            self.mana -= 10
+            merkis.hp -= 25
+            print(f"{self.vards} izšauj uguni! ({merkis.vards} -25)")
+        else:
+            print("Nepietiek manas!")
+
+class Bruninieks(Varonis):
+    def __init__(self, vards):
+        super().__init__(vards, hp=150, speks=18)
+        self.brunas = 5
+
+    # Pārraksta vecāku metodi (override)
+    def cizt(self, b):
+        b = max(0, b - self.brunas)  # bruņas absorbē
+        super().cizt(b)
+
+m = Burvis("Merlins")
+b = Bruninieks("Lanselots")
+m.burvojums(b)</code></pre>
+<p><code class="language-python">isinstance(m, Varonis)</code> atgriež <code>True</code>, jo <code>Burvis</code> ir <code>Varonis</code>.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Bērna klase</h2>
+    <p>Izveido vienkāršu klases hierarhiju.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Saglabā vecāku klasi <code>Varonis</code> no iepriekšējām stundām.</li>
+            <li>Izveido <code>class Bruninieks(Varonis)</code>, kas izsauc <code>super().__init__(vards, hp=150, speks=18)</code>.</li>
+            <li>Pievieno <code>self.brunas = 5</code> atribūtu.</li>
+            <li>Izveido objektu un pārbaudi, vai mantotā <code>uzbrukums()</code> metode strādā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Metodes pārrakstīšana (override)</h2>
+    <p>Izmaina vecāku uzvedību bērnu klasē.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Klasei <code>Bruninieks</code> pievieno <code>def cizt(self, b)</code>, kas atņem <code>self.brunas</code> no bojājuma.</li>
+            <li>Izsauc vecāku metodi: <code>super().cizt(jaunais_bojajums)</code>.</li>
+            <li>Pārbaudi: ar 10 bojājumu, bruņinieks zaudē tikai 5 HP (jo bruņas 5).</li>
+            <li>Pievieno otru bērna klasi <code>Strelnieks(Varonis)</code> ar augstāku <code>speks</code>, bet zemu <code>hp</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Daudzpakāpju hierarhija</h2>
+    <p>Veido klašu koku ar 3 līmeņiem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido <code>class Burvis(Varonis)</code> ar <code>self.mana</code>.</li>
+            <li>Izveido <code>class UgunsBurvis(Burvis)</code>, kas pievieno spēju <code>uguns_lietus</code>, kas izšauj 50 bojājumu, bet patērē 25 manas.</li>
+            <li>Pārbaudi <code>isinstance(ub, Varonis)</code> un <code>isinstance(ub, Burvis)</code> — abi <code>True</code>.</li>
+            <li>Demonstrē, ka <code>UgunsBurvis</code> manto gan <code>Burvis</code>, gan <code>Varonis</code> metodes.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Vairākkārtēja mantošana</h2>
+    <p>Klase manto no vairākām vecāku klasēm.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Definē <code>class Lidotajs</code> ar metodi <code>lidot()</code>.</li>
+            <li>Definē <code>class Pukis(Varonis, Lidotajs)</code>.</li>
+            <li>Pārbaudi, ka pūķis var gan <code>uzbrukums()</code>, gan <code>lidot()</code>.</li>
+            <li>Izpēti MRO: <code>print(Pukis.__mro__)</code> — kā Python meklē metodes.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Aizmirsts super().__init__():</b> Bērna konstruktoram NEPIECIEŠAMS izsaukt vecāku, citādi atribūti netiks iestatīti.</li>
+        <li><b>Pārrakstīta metode neizsauc super():</b> Ja vajag papildināt (nevis aizstāt) — vienmēr <code>super().method()</code>.</li>
+        <li><b>Diamond problem vairākkārtējā mantošanā:</b> Sarežģīts MRO. Izvairies, ja iespējams.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">class Varonis:
+    def __init__(self, vards, hp=100, speks=10):
+        self.vards = vards
+        self.hp = hp
+        self.speks = speks
+
+class Bruninieks(Varonis):
+    def __init__(self, vards):
+        super().__init__(vards, hp=150, speks=18)
+        self.brunas = 5
+
+    def cizt(self, b):
+        b = max(0, b - self.brunas)
+        self.hp = max(0, self.hp - b)
+        print(f"{self.vards} bruņas absorbēja, atlikušais {self.hp} HP")
+
+bruno = Bruninieks("Lanselots")
+bruno.cizt(20)  # bruņas absorbē 5 → faktiski 15 bojājuma
+print(f"isinstance(bruno, Varonis) = {isinstance(bruno, Varonis)}")</code></pre>
+        <div class='result'>Lanselots bruņas absorbēja, atlikušais 135 HP<br>isinstance(bruno, Varonis) = True</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_113.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_115.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_10main.html">prog1_10. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_101.html">10.1 Ievads datubāzēs un PostgreSQL</a>
+  <a class="active" href="prog1_102.html">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+  <a href="prog1_103.html">10.3 Tabulu projektēšana un saites</a>
+  <a href="prog1_104.html">10.4 JOIN un sarežģīti vaicājumi</a>
+  <a href="prog1_105.html">10.5 Python ↔ PostgreSQL (psycopg2)</a>
+  <a href="prog1_106.html">10.6 Noslēguma projekts: Highscore datubāze</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apgūt visu četru SQL CRUD operāciju sintaksi un izpildīt tās praktiski savā datubāzē.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.17. Darbs ar failiem un ārējām datu krātuvēm</a>
+        <a href="../../sasnRez.html">SR 2.4.13. Mainīgie un datu tipi</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: CRUD — datu pārvaldības četri stūrakmeņi</h2>
+    <div class='logic-box'>
+<p>CRUD ir akronīms četrām pamata datu operācijām:</p>
+<ul>
+<li><b>C</b>reate — <code class="language-sql">INSERT</code></li>
+<li><b>R</b>ead — <code class="language-sql">SELECT</code></li>
+<li><b>U</b>pdate — <code class="language-sql">UPDATE</code></li>
+<li><b>D</b>elete — <code class="language-sql">DELETE</code></li>
+</ul>
+<pre><code class="language-sql">-- INSERT (var ievadīt vairākas rindas reizē)
+INSERT INTO speletaji (vards, punkti) VALUES ('Anna', 120), ('Jānis', 95);
+
+-- SELECT (filtrēšana, kārtošana, ierobežošana)
+SELECT vards, punkti FROM speletaji
+WHERE punkti &gt; 100
+ORDER BY punkti DESC
+LIMIT 5;
+
+-- UPDATE (vienmēr ar WHERE — citādi atjaunina visu!)
+UPDATE speletaji SET punkti = punkti + 10 WHERE vards = 'Anna';
+
+-- DELETE (uzmanīgi! vienmēr ar WHERE)
+DELETE FROM speletaji WHERE punkti &lt; 50;</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: INSERT — ievadi datus</h2>
+    <p>Aizpildi tabulu ar testa datiem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver pgAdmin Query Tool.</li>
+            <li>Pievieno 5 spēlētājus: <code>INSERT INTO speletaji (vards, punkti) VALUES ('Anna', 120), ('Jānis', 95), ('Eva', 145), ('Pēteris', 60), ('Marta', 200);</code></li>
+            <li>Pārbaudi: <code>SELECT * FROM speletaji;</code> — vajadzētu būt 5 rindām.</li>
+            <li>Pamēģini ievadīt dublikātu (ja vārds ir UNIQUE): kāda kļūda?</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: SELECT ar filtriem</h2>
+    <p>Atrod konkrētus datus pēc nosacījumiem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Visus, kam punkti virs 100: <code>SELECT * FROM speletaji WHERE punkti &gt; 100;</code></li>
+            <li>TOP 3 spēlētāji: <code>SELECT vards, punkti FROM speletaji ORDER BY punkti DESC LIMIT 3;</code></li>
+            <li>Saskaiti, cik kopā: <code>SELECT COUNT(*) FROM speletaji;</code></li>
+            <li>Vidējie punkti: <code>SELECT AVG(punkti) FROM speletaji;</code></li>
+            <li>Saskaņa pēc vārda: <code>SELECT * FROM speletaji WHERE vards LIKE 'A%';</code> (sākas ar A)</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: UPDATE un DELETE</h2>
+    <p>Maina un dzēš ierakstus, sapratoties ar WHERE svarīgumu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno Annai 50 punktus: <code>UPDATE speletaji SET punkti = punkti + 50 WHERE vards = 'Anna';</code></li>
+            <li>Pārliecinies, ka mainījies tikai Annai (SELECT...).</li>
+            <li>Dzēš spēlētājus ar mazāk par 70 punktiem: <code>DELETE FROM speletaji WHERE punkti &lt; 70;</code></li>
+            <li><b>EKSPERIMENTS:</b> Mēģini izpildīt <code>UPDATE speletaji SET punkti = 0;</code> bez WHERE — tas atjauninās VISUS! (Lai atgrieztu, vēlreiz INSERT.)</li>
+            <li>Saglabā skriptu kā <code>crud_demo.sql</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Agregātu funkcijas</h2>
+    <p>Apgūsti SUM, MIN, MAX, GROUP BY.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Maksimālais rezultāts: <code>SELECT MAX(punkti) FROM speletaji;</code></li>
+            <li>Vārds ar maksimālo rezultātu: <code>SELECT vards, punkti FROM speletaji ORDER BY punkti DESC LIMIT 1;</code></li>
+            <li>Pievieno kolonnu <code>limenis INTEGER DEFAULT 1</code> un grupē: <code>SELECT limenis, COUNT(*) FROM speletaji GROUP BY limenis;</code></li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>UPDATE bez WHERE atjaunina visu:</b> Vienmēr divreiz pārbaudi <code>WHERE</code>.</li>
+        <li><b>Jaucās virkņu pēdiņas:</b> SQL lieto <code>'pēdiņas'</code>, nevis dubultās <code>"pēdiņas"</code>.</li>
+        <li><b>Trūkst semikola:</b> Katrs SQL paziņojums beidzas ar <code>;</code>.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">-- Pilns CRUD demo
+INSERT INTO speletaji (vards, punkti) VALUES ('Anna', 120), ('Jānis', 95);
+
+SELECT vards, punkti FROM speletaji
+ORDER BY punkti DESC LIMIT 3;
+
+UPDATE speletaji SET punkti = punkti + 10 WHERE vards = 'Anna';
+
+DELETE FROM speletaji WHERE punkti &lt; 50;
+
+-- Statistika
+SELECT COUNT(*), AVG(punkti), MAX(punkti) FROM speletaji;</code></pre>
+        <div class='result'>vards | punkti<br>------|-------<br>Anna  | 130<br>Jānis | 95<br>(skaits, vidējais, maks)</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_101.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_103.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

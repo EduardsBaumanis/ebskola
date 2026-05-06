@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>10.3 Tabulu projektēšana un saites</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_10main.html">prog1_10. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_101.html">10.1 Ievads datubāzēs un PostgreSQL</a>
+  <a href="prog1_102.html">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+  <a class="active" href="prog1_103.html">10.3 Tabulu projektēšana un saites</a>
+  <a href="prog1_104.html">10.4 JOIN un sarežģīti vaicājumi</a>
+  <a href="prog1_105.html">10.5 Python ↔ PostgreSQL (psycopg2)</a>
+  <a href="prog1_106.html">10.6 Noslēguma projekts: Highscore datubāze</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>10.3 Tabulu projektēšana un saites</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Projektēt vairākas saistītas tabulas, izmantojot primārās un ārējās atslēgas.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.1. Analizē problēmu un veic dekompozīciju</a>
+        <a href="../../sasnRez.html">SR 2.4.6. Plāno un dokumentē izstrādes procesu</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Primārās un ārējās atslēgas</h2>
+    <div class='logic-box'>
+<p>Datubāze ir tikai tik laba, cik labi tā ir <b>projektēta</b>. Galvenie principi:</p>
+<ul>
+<li><b>Primary Key (PK)</b> — viens lauks, kas unikāli identificē rindu (parasti <code>id SERIAL</code>).</li>
+<li><b>Foreign Key (FK)</b> — lauks vienā tabulā, kas norāda uz citas tabulas PK.</li>
+<li><b>Normalizācija</b> — neatkārto vienus un tos pašus datus vairākās tabulās.</li>
+</ul>
+<pre><code class="language-sql">-- Spēlētāji un viņu spēles (1 → daudzi)
+CREATE TABLE speletaji (
+    id SERIAL PRIMARY KEY,
+    vards TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE speles (
+    id SERIAL PRIMARY KEY,
+    speletajs_id INTEGER NOT NULL REFERENCES speletaji(id) ON DELETE CASCADE,
+    punkti INTEGER NOT NULL,
+    spelets TIMESTAMP DEFAULT NOW()
+);</code></pre>
+<p><b>ON DELETE CASCADE</b> — ja izdzēš spēlētāju, automātiski tiek izdzēstas arī viņa spēles.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Saistītas tabulas</h2>
+    <p>Izveido sistēmu spēlētājs → spēles.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izdzēš iepriekšējo tabulu: <code>DROP TABLE speletaji CASCADE;</code></li>
+            <li>Izveido <code>speletaji</code> ar UNIQUE vārdu.</li>
+            <li>Izveido <code>speles</code> ar <code>speletajs_id INTEGER REFERENCES speletaji(id) ON DELETE CASCADE</code>.</li>
+            <li>Pievieno 3 spēlētājus un 5 spēles dažādiem spēlētājiem.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Datu integritātes pārbaude</h2>
+    <p>Pārbaudi, ka FK ierobežojumi strādā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Mēģini ievadīt spēli ar neeksistējošu <code>speletajs_id</code>: <code>INSERT INTO speles (speletajs_id, punkti) VALUES (999, 100);</code></li>
+            <li>Pieraksti, kāda kļūda parādās (foreign key violation).</li>
+            <li>Dzēš spēlētāju ar id=1: <code>DELETE FROM speletaji WHERE id = 1;</code></li>
+            <li>Pārbaudi <code>SELECT * FROM speles;</code> — vai automātiski izdzēstas viņa spēles?</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Daudzi-pret-daudziem</h2>
+    <p>Izveido sarežģītāku struktūru: spēlētāji → komandas (m:n).</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>CREATE TABLE komandas (id SERIAL PRIMARY KEY, nosaukums TEXT NOT NULL);</code></li>
+            <li>Saites tabula: <code>CREATE TABLE komandu_dalibnieki (speletajs_id INTEGER REFERENCES speletaji(id), komanda_id INTEGER REFERENCES komandas(id), PRIMARY KEY (speletajs_id, komanda_id));</code></li>
+            <li>Pievieno 2 komandas un 3 spēlētājus.</li>
+            <li>Pievieno spēlētājus komandām, izmantojot saites tabulu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Constraints (ierobežojumi)</h2>
+    <p>Izmēģini CHECK un NOT NULL ierobežojumus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno tabulai <code>speles</code> ierobežojumu: <code>ALTER TABLE speles ADD CONSTRAINT pozitivi_punkti CHECK (punkti &gt;= 0);</code></li>
+            <li>Mēģini ievadīt negatīvos punktus — vai DB to atļauj?</li>
+            <li>Eksperimentē ar <code>NOT NULL</code> ierobežojumu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>FK norāda uz neeksistējošu rindu:</b> Vispirms ievadi vecāku tabulā, tad bērnu.</li>
+        <li><b>Aizmirsts CASCADE:</b> Bez tā nevarēsi dzēst vecāku rindas, kamēr ir bērnu rindas.</li>
+        <li><b>Daudzi-pret-daudziem bez saites tabulas:</b> NEKAD nelieto FK masīvu — vienmēr trešo tabulu.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">CREATE TABLE speletaji (
+    id SERIAL PRIMARY KEY,
+    vards TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE speles (
+    id SERIAL PRIMARY KEY,
+    speletajs_id INTEGER NOT NULL REFERENCES speletaji(id) ON DELETE CASCADE,
+    punkti INTEGER NOT NULL CHECK (punkti &gt;= 0),
+    spelets TIMESTAMP DEFAULT NOW()
+);
+
+INSERT INTO speletaji (vards) VALUES ('Anna'), ('Jānis');
+INSERT INTO speles (speletajs_id, punkti) VALUES (1, 120), (1, 85), (2, 200);</code></pre>
+        <div class='result'>Tabulu shēma izveidota.<br>3 spēļu rezultāti pievienoti.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_102.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_104.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

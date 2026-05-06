@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>11.2 Konstruktori un atribūti</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_11main.html">11. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_111.html">11.1 Klases un objekti</a>
+  <a class="active" href="prog1_112.html">11.2 Konstruktori un atribūti</a>
+  <a href="prog1_113.html">11.3 Metodes un self</a>
+  <a href="prog1_114.html">11.4 Mantošana un super()</a>
+  <a href="prog1_115.html">11.5 Polimorfisms un dunder metodes</a>
+  <a href="prog1_116.html">11.6 Noslēguma projekts: RPG cīņas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>11.2 Konstruktori un atribūti</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Iemācīties pareizi inicializēt objektus, izmantojot __init__ metodi un noklusējuma argumentus.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.18. Lieto OOP pamatus</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas un funkcijas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: __init__ — objekta dzimšana</h2>
+    <div class='logic-box'>
+<p>Manuāli iestatīt katra objekta atribūtus ir kļūdu pilna pieeja. <code class="language-python">__init__</code> ir <b>konstruktors</b> — speciāla metode, ko Python automātiski izsauc, kad veido jaunu objektu.</p>
+<pre><code class="language-python">class Varonis:
+    def __init__(self, vards, hp=100, klase="bruninieks"):
+        # self ir norāde uz JAUNO objektu
+        self.vards = vards
+        self.hp = hp
+        self.maks_hp = hp
+        self.klase = klase
+        self.dziva = True
+
+    def info(self):
+        return f"{self.vards} ({self.klase}): {self.hp}/{self.maks_hp} HP"
+
+# Izveide ar pozicionāliem argumentiem
+v1 = Varonis("Artūrs")
+# Izveide ar nosauktiem argumentiem
+v2 = Varonis(vards="Merlins", hp=80, klase="burvis")
+
+print(v1.info())  # Artūrs (bruninieks): 100/100 HP
+print(v2.info())  # Merlins (burvis): 80/80 HP</code></pre>
+<p><b>Atribūtu tipi:</b></p>
+<ul>
+<li><b>Objekta atribūti</b> (<code>self.x</code>) — katram objektam savs.</li>
+<li><b>Klases atribūti</b> (definēti klases ķermenī ārpus metodēm) — kopīgi visiem objektiem.</li>
+<li><b>Privātie atribūti</b> (sākas ar <code>_</code>) — paredzēti tikai iekšējai lietošanai.</li>
+</ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Konstruktors ar parametriem</h2>
+    <p>Pārveido iepriekšējās stundas klasi, lai izmanto __init__.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Definē <code>class Speletajs</code> ar <code>__init__(self, vards, hp=100)</code>.</li>
+            <li>Konstruktorā saglabā <code>self.vards</code>, <code>self.hp</code>, <code>self.maks_hp</code>.</li>
+            <li>Izveido 3 spēlētājus ar dažādiem parametriem (viens ar noklusējuma hp).</li>
+            <li>Pārbaudi, ka katrs ir patstāvīgs (mainot viena hp, otrs nemainās).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Validācija konstruktorā</h2>
+    <p>Pievieno argumentu validāciju.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>__init__</code> sākumā: ja <code>hp &lt;= 0</code>, izmet <code>raise ValueError("HP jābūt pozitīvam")</code>.</li>
+            <li>Ja vārds ir tukšs (<code>not vards</code>), izmet <code>ValueError</code>.</li>
+            <li>Mēģini izveidot nederīgus objektus — pārliecinies, ka kļūdas paziņojumi ir skaidri.</li>
+            <li>Pievieno <code>try/except</code> bloku, kurš noķer šīs kļūdas un parāda lietotājam.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Vairāki klases atribūti</h2>
+    <p>Eksperimentē ar klases vs objekta atribūtiem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Klases līmenī definē: <code>visi_speletaji = []</code>.</li>
+            <li>Konstruktorā: <code>Speletajs.visi_speletaji.append(self)</code>.</li>
+            <li>Izveido 5 spēlētājus.</li>
+            <li>Izvada visus: <code>for s in Speletajs.visi_speletaji: print(s.vards)</code>.</li>
+            <li><b>UZMANĪBA:</b> Maināmi (list) klases atribūti var radīt pārsteigumus — paskaidro klasē, kāpēc.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: @dataclass dekorators</h2>
+    <p>Atklāj Python automātisko klases ģenerēšanu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Imports: <code>from dataclasses import dataclass</code></li>
+            <li>Definē klasi: <code>@dataclass class Speletajs: vards: str; hp: int = 100</code></li>
+            <li>Izveido objektu un izvada — automātiski ir saprātīgs <code>__repr__</code>.</li>
+            <li>Salīdzini ar manuāli rakstīto klasi.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Aizmirsts self konstruktora pirmajā argumentā:</b> <code>__init__(self, ...)</code> — vienmēr.</li>
+        <li><b>Maināmi klases atribūti:</b> <code>klase_atrib = []</code> tiek dalīts starp objektiem!</li>
+        <li><b>__init__ atgriež None:</b> Nelieto <code>return self</code> — tas nav pareizi.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">class Varonis:
+    def __init__(self, vards, hp=100, klase="bruninieks"):
+        if hp &lt;= 0:
+            raise ValueError("HP jābūt pozitīvam")
+        if not vards:
+            raise ValueError("Vārds nedrīkst būt tukšs")
+        self.vards = vards
+        self.hp = hp
+        self.maks_hp = hp
+        self.klase = klase
+
+v1 = Varonis("Artūrs")
+v2 = Varonis(vards="Merlins", hp=80, klase="burvis")
+print(f"{v1.vards}: {v1.hp}/{v1.maks_hp}")
+print(f"{v2.vards} ({v2.klase}): {v2.hp}/{v2.maks_hp}")</code></pre>
+        <div class='result'>Artūrs: 100/100<br>Merlins (burvis): 80/80</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_111.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_113.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

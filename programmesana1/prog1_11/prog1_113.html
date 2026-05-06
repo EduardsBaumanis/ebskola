@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>11.3 Metodes un self</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_11main.html">11. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_111.html">11.1 Klases un objekti</a>
+  <a href="prog1_112.html">11.2 Konstruktori un atribūti</a>
+  <a class="active" href="prog1_113.html">11.3 Metodes un self</a>
+  <a href="prog1_114.html">11.4 Mantošana un super()</a>
+  <a href="prog1_115.html">11.5 Polimorfisms un dunder metodes</a>
+  <a href="prog1_116.html">11.6 Noslēguma projekts: RPG cīņas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>11.3 Metodes un self</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Iemācīties rakstīt metodes, kas modificē objekta stāvokli un mijiedarbojas savā starpā.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.18. Lieto OOP pamatus</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas un funkcijas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Metodes — objekta uzvedība</h2>
+    <div class='logic-box'>
+<p>Klases <b>metode</b> ir funkcija, kas piesieta objektam. Pirmais parametrs vienmēr ir <code class="language-python">self</code> — atsauce uz objektu, kura metode tiek izsaukta.</p>
+<pre><code class="language-python">class Varonis:
+    def __init__(self, vards, hp=100, speks=10):
+        self.vards = vards
+        self.hp = hp
+        self.maks_hp = hp
+        self.speks = speks
+
+    def cizt(self, bojajums):
+        """Saņem ievainojumu."""
+        self.hp = max(0, self.hp - bojajums)
+        if self.hp == 0:
+            print(f"{self.vards} ir kritis!")
+
+    def uzbrukums(self, merkis):
+        """Uzbrūk citam varonim."""
+        print(f"{self.vards} uzbrūk {merkis.vards} ar {self.speks} bojājumu!")
+        merkis.cizt(self.speks)
+
+    def dziedinas(self, daudzums):
+        self.hp = min(self.maks_hp, self.hp + daudzums)
+
+# Lietošana
+artur = Varonis("Artūrs", hp=120, speks=15)
+orks = Varonis("Orks", hp=60, speks=8)
+
+artur.uzbrukums(orks)  # Artūrs uzbrūk Orks ar 15 bojājumu!
+orks.uzbrukums(artur)
+artur.dziedinas(20)</code></pre>
+<p><b>Metodes tipi:</b></p>
+<ul>
+<li><b>Instances metode</b> — pirmais arg <code>self</code>. Visbiežāk lietotā.</li>
+<li><b>@classmethod</b> — pirmais arg <code>cls</code> (klase, nevis objekts).</li>
+<li><b>@staticmethod</b> — bez <code>self</code>/<code>cls</code>; vienkārša funkcija klases iekšpusē.</li>
+</ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pirmās metodes</h2>
+    <p>Pievieno spēlētāja klasei reālas darbības.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Klasei <code>Speletajs</code> pievieno metodi <code>cizt(self, bojajums)</code>, kas atņem HP.</li>
+            <li>Pievieno <code>dziedinas(self, daudzums)</code>, kas pievieno HP, bet ne pāri <code>maks_hp</code>.</li>
+            <li>Pievieno <code>vai_dzivs(self)</code>, kas atgriež <code>True/False</code> atkarībā no HP.</li>
+            <li>Testē visas trīs metodes ar dažādām vērtībām.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Objektu mijiedarbība</h2>
+    <p>Divi objekti var komunicēt savā starpā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno metodi <code>uzbrukums(self, merkis)</code>, kas izsauc <code>merkis.cizt(self.speks)</code>.</li>
+            <li>Pievieno <code>self.speks</code> atribūtu konstruktorā.</li>
+            <li>Izveido divus varoņus un liec viņiem cīnīties (<code>while</code> cikls līdz viens nokrīt).</li>
+            <li>Pievieno izvades <code>print()</code> par notikumiem.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: @classmethod un @staticmethod</h2>
+    <p>Apgūsti dekoratoru lomu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno klases metodi: <code>@classmethod def izveidot_orku(cls): return cls("Orks", hp=50, speks=8)</code></li>
+            <li>Pievieno statisku metodi: <code>@staticmethod def aprekinat_bojajumu(speks, brunas): return max(1, speks - brunas)</code></li>
+            <li>Lieto: <code>orks = Varonis.izveidot_orku()</code> un <code>b = Varonis.aprekinat_bojajumu(15, 5)</code>.</li>
+            <li>Paskaidro, kad katrs no dekoratoriem ir noderīgs.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Property dekorators</h2>
+    <p>Padari atribūtus pārvaldītus, piemēram, lai HP nevarētu pārsniegt maksimumu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>@property</code> izveido "viltus" atribūtu, kas iekšēji izpilda kodu.</li>
+            <li>Pievieno <code>@property def hp(self)</code> un <code>@hp.setter def hp(self, value)</code>.</li>
+            <li>Setteri pārbauda, ka jaunā vērtība ir robežās 0–maks_hp.</li>
+            <li>Tagad <code>v.hp = -50</code> automātiski iestatīs 0.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Aizmirsts <code>self</code> atribūta priekšā:</b> <code>def cizt(self, b): hp -= b</code> meklē globālu <code>hp</code>!</li>
+        <li><b>Atgriež None vietā saraksta vai vērtības:</b> Vienmēr pievērs uzmanību, vai metode jāatgriež kaut kas.</li>
+        <li><b>Maina objekta atribūtu vietā ievada parametru:</b> <code>def cizt(self, hp)</code> ievieš lokālu <code>hp</code>!</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">class Varonis:
+    def __init__(self, vards, hp=100, speks=10):
+        self.vards = vards
+        self.hp = hp
+        self.speks = speks
+
+    def cizt(self, b):
+        self.hp = max(0, self.hp - b)
+        if self.hp == 0:
+            print(f"{self.vards} ir miris!")
+
+    def uzbrukums(self, merkis):
+        print(f"{self.vards} → {merkis.vards}: {self.speks}")
+        merkis.cizt(self.speks)
+
+art = Varonis("Artūrs", 120, 15)
+ork = Varonis("Orks", 50, 8)
+
+while art.hp &gt; 0 and ork.hp &gt; 0:
+    art.uzbrukums(ork)
+    if ork.hp &gt; 0:
+        ork.uzbrukums(art)</code></pre>
+        <div class='result'>Artūrs → Orks: 15<br>Orks → Artūrs: 8<br>... (cīņa turpinās)<br>Orks ir miris!</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_112.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_114.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

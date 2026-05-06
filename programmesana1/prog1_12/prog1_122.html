@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>12.2 Flask: Python kā web serveris</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_12main.html">12. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_121.html">12.1 Front-end un back-end arhitektūra</a>
+  <a class="active" href="prog1_122.html">12.2 Flask: Python kā web serveris</a>
+  <a href="prog1_123.html">12.3 REST API izstrāde</a>
+  <a href="prog1_124.html">12.4 Front-end + API integrācija</a>
+  <a href="prog1_125.html">12.5 Izvietošana mākonī un drošība</a>
+  <a href="prog1_126.html">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>12.2 Flask: Python kā web serveris</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Uzbūvēt savu pirmo Flask web serveri ar vairākām maršrutēm un atgriezt JSON datus.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.11. Lieto standartizētas bibliotēkas un API</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas un funkcijas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Flask pamatkomponenti</h2>
+    <div class='logic-box'>
+<p><b>Flask</b> ir mikro-ietvars Python — tikai 100 KB, bet pietiekams reāliem projektiem. Instalācija: <code>pip install flask</code>.</p>
+<pre><code class="language-python">from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+# Vienkārša maršruta
+@app.route("/")
+def home():
+    return "&lt;h1&gt;Sveiks!&lt;/h1&gt;"
+
+# JSON atbilde
+@app.route("/api/speletaji")
+def saraksts():
+    return jsonify([
+        {"vards": "Anna", "punkti": 120},
+        {"vards": "Jānis", "punkti": 95}
+    ])
+
+# Maršruta ar parametru
+@app.route("/api/speletajs/&lt;int:id&gt;")
+def viens(id):
+    return jsonify({"id": id, "vards": "Anna"})
+
+# POST pieprasījums
+@app.route("/api/saglabat", methods=["POST"])
+def saglabat():
+    dati = request.json
+    return jsonify({"status": "ok", "saņēmu": dati}), 201
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)</code></pre>
+<p>Palaiž ar <code>python app.py</code> → atver <code>http://localhost:5000/</code>.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pirmais Flask serveris</h2>
+    <p>Izveido un palaiž pamatu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Termināli: <code>pip install flask</code>.</li>
+            <li>Izveido failu <code>app.py</code> ar minimālo "Hello World" maršrutu.</li>
+            <li>Palaiž: <code>python app.py</code>.</li>
+            <li>Atver pārlūkā <code>http://localhost:5000</code>.</li>
+            <li>Pievieno otru maršrutu <code>/par</code>, kas atgriež HTML par tevi.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: JSON API maršrutas</h2>
+    <p>Pievieno datu maršrutas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido sarakstu <code>SPELETAJI = [{"id": 1, "vards": "Anna", "punkti": 120}, ...]</code> globāli.</li>
+            <li>Maršruta <code>GET /api/speletaji</code>: atgriež visus.</li>
+            <li>Maršruta <code>GET /api/speletaji/&lt;int:id&gt;</code>: atgriež vienu pēc ID; 404, ja nav atrasts.</li>
+            <li>Pārbaudi pārlūkā vai ar <code>curl http://localhost:5000/api/speletaji</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: POST un dati no klienta</h2>
+    <p>Pieņem datus no pārlūka.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Maršruta <code>POST /api/speletaji</code>: lasa <code>request.json</code>, pievieno sarakstam, atgriež jauno ar 201 status.</li>
+            <li>Pievieno validāciju: ja trūkst <code>vards</code>, atgriež 400 ar kļūdas paziņojumu.</li>
+            <li>Pārbaudi ar <code>curl</code>: <code>curl -X POST -H "Content-Type: application/json" -d '{"vards":"Eva","punkti":150}' http://localhost:5000/api/speletaji</code>.</li>
+            <li>Pievieno <code>DELETE /api/speletaji/&lt;int:id&gt;</code> maršrutu.</li>
+            <li>Sadali kodu moduļos: <code>routes.py</code> un <code>main.py</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Flask templates ar Jinja</h2>
+    <p>Renderē HTML lapas no Python.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido mapi <code>templates/</code> un tajā <code>index.html</code> ar <code>{{ vards }}</code> placeholder.</li>
+            <li>Maršruta: <code>return render_template("index.html", vards="Anna")</code>.</li>
+            <li>Pievieno <code>{% for s in saraksts %}...{% endfor %}</code> ciklu.</li>
+            <li>Salīdzini ar JSON API pieeju.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Aizmirsts <code>jsonify()</code>:</b> Bez tā Flask atgriež dictionary kā string, ne JSON.</li>
+        <li><b>Ports aizņemts:</b> <code>OSError: Address already in use</code> — nogalini iepriekšējo procesu vai mainī portu.</li>
+        <li><b>JSON parametra trūkums:</b> <code>request.json</code> ir <code>None</code>, ja klients nesūta <code>Content-Type: application/json</code>.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+SPELETAJI = [{"id": 1, "vards": "Anna", "punkti": 120}]
+
+@app.route("/api/speletaji")
+def visi():
+    return jsonify(SPELETAJI)
+
+@app.route("/api/speletaji", methods=["POST"])
+def pievienot():
+    d = request.json
+    if not d or "vards" not in d:
+        return jsonify({"kluda": "Trūkst vārds"}), 400
+    jauns = {"id": len(SPELETAJI) + 1, "vards": d["vards"], "punkti": d.get("punkti", 0)}
+    SPELETAJI.append(jauns)
+    return jsonify(jauns), 201
+
+if __name__ == "__main__":
+    app.run(debug=True)</code></pre>
+        <div class='result'>GET /api/speletaji → [{...}]<br>POST /api/speletaji → 201 Created</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_121.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_123.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

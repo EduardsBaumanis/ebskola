@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>12.4 Front-end + API integrācija</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_12main.html">12. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_121.html">12.1 Front-end un back-end arhitektūra</a>
+  <a href="prog1_122.html">12.2 Flask: Python kā web serveris</a>
+  <a href="prog1_123.html">12.3 REST API izstrāde</a>
+  <a class="active" href="prog1_124.html">12.4 Front-end + API integrācija</a>
+  <a href="prog1_125.html">12.5 Izvietošana mākonī un drošība</a>
+  <a href="prog1_126.html">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>12.4 Front-end + API integrācija</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Savienot HTML/CSS/JS priekšgalu ar Flask backend, lai izveidotu pilnvērtīgu lietotni.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.7. Lietotāja saskarne</a>
+        <a href="../../sasnRez.html">SR 2.4.11. Standartizētas bibliotēkas un API</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: fetch() un async — pārlūks runā ar serveri</h2>
+    <div class='logic-box'>
+<p>JavaScript <code>fetch()</code> API ļauj nosūtīt HTTP pieprasījumus no pārlūka uz serveri.</p>
+<pre><code class="language-javascript">// GET pieprasījums
+async function ielādētRezultātus() {
+  const r = await fetch("http://localhost:5000/api/rezultati");
+  if (!r.ok) {
+    console.error("Kļūda:", r.status);
+    return;
+  }
+  const dati = await r.json();
+  console.log(dati);
+}
+
+// POST ar JSON
+async function pievienot(vards, punkti) {
+  const r = await fetch("/api/rezultati", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ vards, punkti })
+  });
+  return await r.json();
+}</code></pre>
+<p><b>CORS:</b> Ja frontend ir uz <code>http://localhost:8080</code>, bet backend uz <code>:5000</code>, pārlūks bloķē pieprasījumus drošības dēļ. Risinājums Flask pusē:</p>
+<pre><code class="language-python">from flask_cors import CORS
+CORS(app)  # atļauj visiem; produkcijā konkrēti norādi atļautos domēnus</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Statisks HTML + Flask</h2>
+    <p>Flask kalpo gan API, gan HTML lapu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido mapi <code>static/</code> un tajā <code>index.html</code> ar pamata struktūru.</li>
+            <li>Pievieno Flask maršrutu <code>@app.route("/")</code>, kas atgriež <code>send_from_directory("static", "index.html")</code>.</li>
+            <li>Pārbaudi: <code>http://localhost:5000/</code> rāda HTML.</li>
+            <li>Pievieno <code>style.css</code> un <code>spele.js</code> failus.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Dati no API uz lapu</h2>
+    <p>Lasa rezultātus un parāda tabulā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>JS: <code>const dati = await (await fetch("/api/rezultati")).json();</code></li>
+            <li>Iterē caur datiem un dinamiski izveido <code>&lt;tr&gt;</code> elementus tabulā.</li>
+            <li>Pievieno "Atjaunot" pogu, kas pārlādē sarakstu.</li>
+            <li>Pievieno indikatorus: <code>Ielādējas...</code> kamēr fetch notiek.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Forma + POST + dinamisks atjauninājums</h2>
+    <p>Lietotājs ievada datus, kas saglabājas serverī.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>HTML formā: 2 input lauki (vards, punkti) un Submit poga.</li>
+            <li>JS: <code>form.addEventListener("submit", e =&gt; { e.preventDefault(); ... })</code></li>
+            <li>POST uz API ar <code>fetch("/api/rezultati", { method: "POST", ... })</code>.</li>
+            <li>Pēc veiksmīga POST: notīri formu un atjaunini sarakstu.</li>
+            <li>Pievieno kļūdu apstrādi: ja API atgriež 400, parādi paziņojumu lietotājam.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Reāllaika atjauninājumi</h2>
+    <p>Polling vai WebSocket.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Vienkārša versija: <code>setInterval(() =&gt; ielādētRezultātus(), 5000)</code> — atjaunina ik 5 sek.</li>
+            <li>Saproti, kāpēc tas ir neefektīvs.</li>
+            <li>Izpēti, kas ir Server-Sent Events un WebSocket — kad katru lietot.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>CORS bloķē:</b> Pārliecinies, ka frontend un backend ir uz tā paša domēna vai izmanto Flask-CORS.</li>
+        <li><b>Forma pārlādē lapu:</b> Aizmirsts <code>e.preventDefault()</code> — vienmēr pirmais POST handler-ī.</li>
+        <li><b>JSON nav valid:</b> Ja serveris atgriež HTML kļūdu lapu, <code>r.json()</code> mestu izņēmumu.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python"><!-- index.html -->
+<form id="forma">
+  <input id="vards" placeholder="Vārds">
+  <input id="punkti" type="number" placeholder="Punkti">
+  <button>Saglabāt</button>
+</form>
+<table id="saraksts"></table>
+
+<script>
+async function atjaunot() {
+  const dati = await (await fetch("/api/rezultati")).json();
+  document.getElementById("saraksts").innerHTML =
+    dati.map(r => `<tr><td>${r.vards}</td><td>${r.punkti}</td></tr>`).join("");
+}
+
+document.getElementById("forma").onsubmit = async (e) => {
+  e.preventDefault();
+  await fetch("/api/rezultati", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      vards: vards.value,
+      punkti: parseInt(punkti.value)
+    })
+  });
+  forma.reset();
+  atjaunot();
+};
+
+atjaunot();
+</script></code></pre>
+        <div class='result'>Lapa rāda dinamisku tabulu;<br>Forma pievieno datus;<br>Tabula atjaunojas automātiski.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_123.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_125.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

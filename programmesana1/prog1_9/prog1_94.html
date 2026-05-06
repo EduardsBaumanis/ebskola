@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>9.4 HTML un Python sasaiste</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_9main.html">9. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_91.html">9.1 Ārējās bibliotēkas un instalēšana</a>
+  <a href="prog1_92.html">9.2 Atvērtā koda licences un dokumentācija</a>
+  <a href="prog1_93.html">9.3 Python pārvēršana tīmekļa saskarnē</a>
+  <a class="active" href="prog1_94.html">9.4 HTML un Python sasaiste</a>
+  <a href="prog1_95.html">9.5 Interaktivitāte pārlūkprogrammā</a>
+  <a href="prog1_96.html">9.6 Noslēguma projekts: "Krustiņi un nullītes" pārlūkā</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>9.4 HTML un Python sasaiste</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Saprast HTML un Python sasaisti — kā Streamlit ģenerē HTML un kā pielāgot izskatu.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.7. Lietotāja saskarne</a>
+        <a href="../../sasnRez.html">SR 2.4.11. Bibliotēkas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: HTML/CSS Streamlit kontekstā</h2>
+    <div class='logic-box'>
+<p>Streamlit aiz kulisēm ģenerē HTML, CSS un JavaScript. Tu vari ielikt savu HTML/CSS, lai padarītu lietotni unikālu.</p>
+<pre><code class="language-python">import streamlit as st
+
+# Pielāgots HTML
+st.markdown(
+    "&lt;h1 style='color: #FFB142;'&gt;Krāsains virsraksts&lt;/h1&gt;",
+    unsafe_allow_html=True
+)
+
+# Pielāgots CSS visai lapai
+st.markdown("""
+&lt;style&gt;
+.stButton button {
+    background-color: #948979;
+    color: white;
+    border-radius: 6px;
+    padding: 10px 20px;
+}
+&lt;/style&gt;
+""", unsafe_allow_html=True)
+
+# Kolonnas izkārtojumam
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.metric("Spēlētāji", 142)
+with col2:
+    st.metric("Spēles", 1024, delta=12)
+with col3:
+    st.metric("Vidējais", 87, delta=-3)</code></pre>
+<p><b>UZMANĪBA:</b> <code>unsafe_allow_html=True</code> ir bīstams, ja saturs nāk no lietotāja — XSS uzbrukums!</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pielāgots stils</h2>
+    <p>Izmaini sava lietotnes izskatu ar CSS.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>app.py</code> sākumā ievadi <code>st.markdown("&lt;style&gt;...&lt;/style&gt;", unsafe_allow_html=True)</code>.</li>
+            <li>Pielāgo pogu krāsu uz <code>#FFB142</code>.</li>
+            <li>Maini fonu uz <code>#222831</code> ar <code>body { background: ... }</code>.</li>
+            <li>Pielāgo virsrakstu fontu uz "JetBrains Mono".</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Kolonnu izkārtojums</h2>
+    <p>Izmanto <code>st.columns()</code>.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Sadali ekrānu 3 kolonnās.</li>
+            <li>Katrā kolonnā <code>st.metric()</code> ar dažādu datu (kopējie spēlētāji, spēles, vidējais).</li>
+            <li>Pievieno <code>st.expander("Vairāk")</code>, kas atklājas pēc klikšķa.</li>
+            <li>Pievieno <code>st.tabs(["Cilne 1", "Cilne 2"])</code> divām cilnēm.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Pielāgots HTML komponents</h2>
+    <p>Iebūvē sarežģītu HTML, piem., karšu izkārtojumu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido funkciju <code>render_speletaja_karte(vards, punkti, avatars)</code>, kas atgriež HTML virkni.</li>
+            <li><code>st.markdown(html, unsafe_allow_html=True)</code>.</li>
+            <li>Lieto Flexbox CSS, lai izkārtotu kartes.</li>
+            <li>Iterē caur 5 spēlētājiem un izvada katra karti.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Streamlit Components</h2>
+    <p>Iebūvēt jebkuru HTML/JS lapā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>import streamlit.components.v1 as components</code>.</li>
+            <li><code>components.html("&lt;iframe ...&gt;...&lt;/iframe&gt;", height=400)</code>.</li>
+            <li>Iebūvē YouTube video vai Google Maps kartes.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+                <li><b>unsafe_allow_html ar lietotāja datiem:</b> XSS risks. Vienmēr <code>html.escape()</code> ievadīto.</li>
+        <li><b>CSS netiek piemērots:</b> Streamlit izolē CSS — lieto specifiskus selektorus.</li>
+        <li><b>Aizmirsts close-tag HTML:</b> Pārlūks parsē kļūdu, lapa salauzta.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">import streamlit as st
+
+st.markdown("""
+<style>
+.metric-card {
+    background: #393E46;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 5px solid #FFB142;
+}
+</style>
+""", unsafe_allow_html=True)
+
+col1, col2 = st.columns(2)
+with col1:
+    st.markdown(
+        '<div class="metric-card"><h3>Spēlētāji</h3><h1>142</h1></div>',
+        unsafe_allow_html=True
+    )
+with col2:
+    st.metric("Vidējie punkti", 87, delta=5)</code></pre>
+        <div class='result'>Pielāgota karte ar oranžu apmali un lielu skaitli.<br>Paralēls metric ar zaļu delta zīmi.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_93.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_95.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

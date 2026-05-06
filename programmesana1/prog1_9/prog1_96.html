@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>9.6 Noslēguma projekts: "Krustiņi un nullītes" pārlūkā</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_9main.html">9. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_91.html">9.1 Ārējās bibliotēkas un instalēšana</a>
+  <a href="prog1_92.html">9.2 Atvērtā koda licences un dokumentācija</a>
+  <a href="prog1_93.html">9.3 Python pārvēršana tīmekļa saskarnē</a>
+  <a href="prog1_94.html">9.4 HTML un Python sasaiste</a>
+  <a href="prog1_95.html">9.5 Interaktivitāte pārlūkprogrammā</a>
+  <a class="active" href="prog1_96.html">9.6 Noslēguma projekts: "Krustiņi un nullītes" pārlūkā</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>9.6 Noslēguma projekts: "Krustiņi un nullītes" pārlūkā</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot visas tēmas prasmes — Streamlit, session_state, ārējie API — pilnvērtīgā tīmekļa spēlē "Krustiņi un nullītes".</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.1. Problēmas dekompozīcija</a>
+        <a href="../../sasnRez.html">SR 2.4.7. Lietotāja saskarne</a>
+        <a href="../../sasnRez.html">SR 2.4.18. OOP</a>
+        <a href="../../sasnRez.html">SR 2.4.11. Bibliotēkas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Spēles apraksts un arhitektūra</h2>
+    <div class='logic-box'>
+<p>Tava noslēguma spēle ir <b>"Krustiņi un nullītes" pārlūkā</b>, kas izmanto Streamlit, lai abi spēlētāji uz viena datora var spēlēt pret otru (vai pret vienkāršu AI).</p>
+<p><b>Funkcijas:</b></p>
+<ul>
+<li>3×3 spēles laukums ar pogām.</li>
+<li>Maiņa starp X un O spēlētājiem.</li>
+<li>Uzvaras pārbaude (8 kombinācijas).</li>
+<li>Statistika sesijas laikā: kurš ir uzvarējis vairāk reizes.</li>
+<li>Reset poga jaunai spēlei.</li>
+<li>Opcija "Spēlēt pret AI" ar minimax algoritmu.</li>
+</ul>
+<p><b>Failu struktūra:</b></p>
+<pre><code class="language-python">krustini/
+├── app.py            # Streamlit galvenā lapa
+├── spele.py          # Spele klase ar loģiku
+├── ai.py             # AISpeletajs ar minimax
+└── requirements.txt</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Spēles loģika ar OOP (1. līmenis)</h2>
+    <p>Atsevišķi failā uzraksti spēles klasi.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>spele.py</code>: <code>class Spele</code> ar <code>laukums</code> (saraksts ar 9 elementiem), <code>pasreizejais</code>.</li>
+            <li>Metodes: <code>gajiens(poz)</code>, <code>uzvaretajs()</code>, <code>reset()</code>.</li>
+            <li><code>UZVARES = [(0,1,2), (3,4,5), ...]</code> — 8 kombinācijas.</li>
+            <li>Testē bez Streamlit: izveido <code>Spele</code>, izpildi 5 gājienus, pārbaudi uzvarētāju.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Streamlit saskarne (2. līmenis)</h2>
+    <p>Pievieno vizuālo saskarni.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>app.py</code>: <code>session_state.spele = Spele()</code>.</li>
+            <li><code>st.columns(3)</code> × 3 reizēm — 3×3 režģis.</li>
+            <li>Katra šūna: <code>st.button(spele.laukums[i] or " ", key=i, on_click=...)</code>.</li>
+            <li>Callback funkcija: <code>def gajiens(poz): st.session_state.spele.gajiens(poz)</code>.</li>
+            <li>Izvada uzvarētāju vai pašreizējo spēlētāju.</li>
+            <li>Reset poga.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: AI pretinieks un statistika (3. līmenis)</h2>
+    <p>Pabeidz spēli ar bonusiem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>ai.py</code>: <code>class AISpeletajs</code> ar <code>minimax(laukums, dziluma, ir_max)</code>.</li>
+            <li>Sadali UI: <code>režīms = st.radio("Spēlēt pret", ["Cilvēks", "AI"])</code>.</li>
+            <li>Ja AI: pēc cilvēka gājiena automātiski izpilda labāko AI gājienu.</li>
+            <li>Pievieno statistiku <code>session_state.uzvaras = {"X": 0, "O": 0, "Neizšķirts": 0}</code>.</li>
+            <li>Pielāgots CSS: oranžas pogas, saglabā Latvijas paleti.</li>
+            <li>GitHub: vismaz 5 commit, README.md ar palaišanas instrukciju, public deploy uz <a href='https://share.streamlit.io'>share.streamlit.io</a>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Animācijas un efekti</h2>
+    <p>Padari spēli atraktīvāku.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pēc uzvaras: <code>st.balloons()</code>.</li>
+            <li>Pievieno skaņu (HTML5 audio) ar <code>components.html()</code>.</li>
+            <li>Animē uzvaras līniju ar CSS keyframes.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+                <li><b>Pogu re-render visu lapu:</b> Streamlit pārpalaiž skriptu — visas pogas jāzina savu key.</li>
+        <li><b>session_state sajaukts:</b> Piedēvē unikālus atslēgvārdus visiem objektiem (<code>game_id</code>, <code>spele</code>, etc).</li>
+        <li><b>AI pārāk lēns:</b> Minimax 9 līmeņu dziļumam ir ātrs (8! = 40320 stāvokļi); ja lietotnē kavējās, pievieno alpha-beta pruning.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">import streamlit as st
+
+class Spele:
+    UZVARES = [(0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)]
+
+    def __init__(self):
+        self.laukums = ["" for _ in range(9)]
+        self.pasreizejais = "X"
+
+    def gajiens(self, p):
+        if self.laukums[p] or self.uzvaretajs(): return
+        self.laukums[p] = self.pasreizejais
+        self.pasreizejais = "O" if self.pasreizejais == "X" else "X"
+
+    def uzvaretajs(self):
+        for a,b,c in self.UZVARES:
+            if self.laukums[a] == self.laukums[b] == self.laukums[c] != "":
+                return self.laukums[a]
+        return "neizšķirts" if "" not in self.laukums else None
+
+if "spele" not in st.session_state:
+    st.session_state.spele = Spele()
+
+s = st.session_state.spele
+for r in range(3):
+    cols = st.columns(3)
+    for c in range(3):
+        i = r*3 + c
+        cols[c].button(s.laukums[i] or " ", key=i, on_click=s.gajiens, args=(i,))
+
+u = s.uzvaretajs()
+if u: st.success(f"Uzvarētājs: {u}")
+else: st.info(f"Gājiens: {s.pasreizejais}")
+
+if st.button("🔄 Jauna spēle"):
+    st.session_state.spele = Spele()
+    st.rerun()</code></pre>
+        <div class='result'>3×3 režģis ar pogām;<br>Pēc katra klikšķa simbols mainās;<br>Uzvaras paziņojums tiek parādīts.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_95.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_9main.html" class="nav-btn">Tēmas apkopojums ➡</a>
+</div>
+</body>
+</html>

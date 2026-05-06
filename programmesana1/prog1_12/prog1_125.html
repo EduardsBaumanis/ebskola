@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>12.5 Izvietošana mākonī un drošība</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_12main.html">12. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_121.html">12.1 Front-end un back-end arhitektūra</a>
+  <a href="prog1_122.html">12.2 Flask: Python kā web serveris</a>
+  <a href="prog1_123.html">12.3 REST API izstrāde</a>
+  <a href="prog1_124.html">12.4 Front-end + API integrācija</a>
+  <a class="active" href="prog1_125.html">12.5 Izvietošana mākonī un drošība</a>
+  <a href="prog1_126.html">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>12.5 Izvietošana mākonī un drošība</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izvietot lietotni publiski un saprast pamata drošības principus produkcijas vidē.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.6. Plāno un dokumentē izstrādes procesu</a>
+        <a href="../../sasnRez.html">SR 3.1.1. Ergonomika un drošība</a>
+        <a href="../../sasnRez.html">SR 3.2.5. Drošības riski</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: No localhost uz internetu</h2>
+    <div class='logic-box'>
+<p>Lokālā lietotne, kas darbojas uz <code>localhost:5000</code>, nav pieejama citiem. Lai pasaule to redzētu, jāizvieto mākonī.</p>
+<p><b>Bezmaksas mākoņi (2026):</b></p>
+<ul>
+<li><b>Render</b> (render.com) — bezmaksas Python apps, viegls process.</li>
+<li><b>Railway</b> (railway.app) — bezmaksas $5 kredīts mēnesī.</li>
+<li><b>Fly.io</b> — bezmaksas mazām aplikācijām.</li>
+<li><b>Vercel/Netlify</b> — tikai statiskām lapām un serverless funkcijām.</li>
+</ul>
+<p><b>Drošības pamati:</b></p>
+<ul>
+<li><b>Vides mainīgie</b> — paroles, API atslēgas NEKAD kodā. Lieto <code>.env</code>.</li>
+<li><b>HTTPS</b> — vienmēr produkcijā (Render to dod automātiski).</li>
+<li><b>Validē visus ievadus</b> — pārlūkā IR un servera pusē.</li>
+<li><b>Lietotāja paroles</b> — bcrypt hash, NEKAD plain text.</li>
+<li><b>SQL injekcija</b> — vienmēr parametrizēti vaicājumi.</li>
+</ul>
+<pre><code class="language-python">import os
+from dotenv import load_dotenv
+load_dotenv()  # nolasa .env failu
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+SECRET_KEY = os.getenv("SECRET_KEY")</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Sagatavošana izvietošanai</h2>
+    <p>Sagatavo lietotni produkcijai.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido <code>requirements.txt</code> ar visām atkarībām: <code>pip freeze &gt; requirements.txt</code>.</li>
+            <li>Izveido <code>Procfile</code> ar saturu <code>web: gunicorn app:app</code> (instalē <code>gunicorn</code>).</li>
+            <li>Pievieno <code>.env</code> failu ar <code>SECRET_KEY=<random_string></code>; pievieno to <code>.gitignore</code>.</li>
+            <li>Pārveido kodu, lai lasa <code>os.environ</code>, nevis hard-coded vērtības.</li>
+            <li>Push uz GitHub.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Izvietošana Render</h2>
+    <p>Publicē projektu internetā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Reģistrējies <code>render.com</code> (ar GitHub).</li>
+            <li>New → Web Service → Connect savu repo.</li>
+            <li>Build command: <code>pip install -r requirements.txt</code>; Start command: <code>gunicorn app:app</code>.</li>
+            <li>Pievieno vides mainīgo <code>SECRET_KEY</code>.</li>
+            <li>Sagaidi, kamēr deploy pabeidzas, atver public URL.</li>
+            <li>Pārbaudi, ka API strādā: <code>curl https://tavs-app.onrender.com/api/rezultati</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: PostgreSQL + drošība</h2>
+    <p>Pievieno datubāzi mākonī un nostiprini.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Render: New → PostgreSQL (bezmaksas tier).</li>
+            <li>Pievieno DB URL kā <code>DATABASE_URL</code> vides mainīgo savai web servisam.</li>
+            <li>Pielāgo Python kodu, lai lasa <code>DATABASE_URL</code> un savienojas ar <code>psycopg2.connect(os.environ["DATABASE_URL"])</code>.</li>
+            <li>Sagatavo migrāciju skriptu <code>migrate.py</code>, kas izpilda <code>schema.sql</code> pēc deploy.</li>
+            <li>Pievieno <code>flask_limiter</code> rate limit (max 100 pieprasījumu minūtē uz IP), lai pasargātu no DDoS.</li>
+            <li>Pārbaudi visu galaprodukciju — pievieno datus, atver no cita datora.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Custom domēns un HTTPS</h2>
+    <p>Pievieno savu domēnu ar HTTPS.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Reģistrē domēnu (piem., "freenom.com" vai .tk bezmaksas).</li>
+            <li>Render: Settings → Custom Domain → ievadi domēnu.</li>
+            <li>DNS: pievieno CNAME ierakstu, kas norāda uz Render URL.</li>
+            <li>Sagaidi DNS propagāciju (līdz 24h).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>.env failā ielikts GitHub:</b> Slepenās atslēgas tagad publiski. Atsauc tās un izveido jaunas. Nekad neielādē <code>.env</code>!</li>
+        <li><b>App nedarbojas mākonī, bet darbojās lokāli:</b> Pārbaudi vides mainīgos un Python versiju (<code>runtime.txt</code>).</li>
+        <li><b>DB savienojuma kļūdas:</b> Pārliecinies, ka <code>DATABASE_URL</code> izmanto SSL un pareizu psycopg2 sintakse (Render dod URL sākot ar <code>postgres://</code> — pielāgo uz <code>postgresql://</code>).</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python"># app.py — produkcijai gatavs
+import os
+from flask import Flask, jsonify, request
+import psycopg2
+
+app = Flask(__name__)
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-key")
+
+def get_db():
+    return psycopg2.connect(DATABASE_URL, sslmode="require")
+
+@app.route("/api/rezultati")
+def saraksts():
+    with get_db() as conn, conn.cursor() as cur:
+        cur.execute("SELECT vards, punkti FROM rezultati ORDER BY punkti DESC LIMIT 10")
+        return jsonify([dict(zip(["vards","punkti"], r)) for r in cur.fetchall()])
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))</code></pre>
+        <div class='result'>Public URL: https://tavs-app.onrender.com<br>API atbild ar JSON;<br>Datu bāze pieslēgta.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_124.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_126.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

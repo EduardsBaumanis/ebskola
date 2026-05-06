@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>12.1 Front-end un back-end arhitektūra</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_12main.html">12. Tēmas apkopojums + Špikeris</a>
+  <a class="active" href="prog1_121.html">12.1 Front-end un back-end arhitektūra</a>
+  <a href="prog1_122.html">12.2 Flask: Python kā web serveris</a>
+  <a href="prog1_123.html">12.3 REST API izstrāde</a>
+  <a href="prog1_124.html">12.4 Front-end + API integrācija</a>
+  <a href="prog1_125.html">12.5 Izvietošana mākonī un drošība</a>
+  <a href="prog1_126.html">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>12.1 Front-end un back-end arhitektūra</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Saprast, kā mūsdienu lietotnes ir sadalītas priekšgalā un aizmugurē, un ka starp tām notiek HTTP komunikācija.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.1. Analizē problēmu un veic dekompozīciju</a>
+        <a href="../../sasnRez.html">SR 2.4.7. Lietotāja saskarne (UI)</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Klients-serveris arhitektūra</h2>
+    <div class='logic-box'>
+<p>Mūsdienu web lietotnes sastāv no divām atšķirīgām daļām:</p>
+<ul>
+<li><b>Priekšgals (frontend)</b> — tas, ko redz lietotājs pārlūkprogrammā: HTML, CSS, JavaScript.</li>
+<li><b>Aizmugure (backend)</b> — serveris, kas glabā datus un izpilda biznesa loģiku: Python (Flask/Django), Node.js u.c.</li>
+</ul>
+<pre><code class="language-bash"># Komunikācija notiek caur HTTP pieprasījumiem
+[Pārlūks]  ── GET /api/speletaji ──&gt;  [Serveris]
+[Pārlūks] &lt;── 200 OK + JSON ────────  [Serveris]
+                                         │
+                                         ▼
+                                    [Datubāze]</code></pre>
+<p><b>Galvenās priekšrocības atdalītā arhitektūrai:</b></p>
+<ul>
+<li>Vairāki klienti (web, mobilais, IoT) var izmantot vienu un to pašu serveri.</li>
+<li>Komandas var strādāt paralēli — frontend un backend izstrādātāji.</li>
+<li>Vienkāršāk testēt, atjaunināt un mērogot katru daļu atsevišķi.</li>
+</ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Esošo tehnoloģiju kartēšana</h2>
+    <p>Saproti, kuras tehnoloģijas izmantojam katrā pusē.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Sadali papīru divās kolonnās: Frontend / Backend.</li>
+            <li>Frontend kolonnā uzraksti: HTML, CSS, JavaScript, fetch API, localStorage.</li>
+            <li>Backend kolonnā uzraksti: Python, Flask, PostgreSQL, JSON, REST API.</li>
+            <li>Vidū uzzīmē bultu ar uzrakstu "HTTP/JSON".</li>
+            <li>Saglabā kā <code>arhitektura.png</code> savā GitHub.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Reālas vietnes analīze</h2>
+    <p>Izpēti, kā darbojas zināma vietne.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver pārlūku DevTools (F12) → Network cilne.</li>
+            <li>Atver kādu zināmu vietni (e-klase.lv, twitch.tv).</li>
+            <li>Pārlādē lapu — vēro pieprasījumus.</li>
+            <li>Atrod vienu API pieprasījumu (filtrē XHR/Fetch) un apskati: URL, metode, response (JSON).</li>
+            <li>Pieraksti 3 piemērus failā <code>petijums.md</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Sava plāna projektēšana</h2>
+    <p>Saprojektē sava nākamā projekta arhitektūru.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Failā <code>plans.md</code> apraksti spēli, ko izveidosi šajā tēmā: "Krustiņi un nullītes" daudzspēlētāju versija.</li>
+            <li>Frontend daļā: kādi UI elementi vajadzīgi? (3×3 režģis, statuss, restart poga).</li>
+            <li>Backend daļā: kādi datu glabāti? (spēles ID, pašreizējais gājiens, laukums).</li>
+            <li>API saskarne: <code>POST /api/spele/jauna</code>, <code>GET /api/spele/:id</code>, <code>POST /api/spele/:id/gajiens</code>.</li>
+            <li>Uzzīmē sekvences diagrammu: spēlētājs → klients → serveris → otrs spēlētājs.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: MVC arhitektūra</h2>
+    <p>Iepazīsti vēl vienu sadalījuma paradigmu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izpēti, kas ir MVC (Model-View-Controller).</li>
+            <li>Salīdzini ar klients-serveris arhitektūru.</li>
+            <li>Pieraksti, kuras Python ietvaros (Flask, Django) izmanto MVC variantus.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Sajaukts frontend ar UI:</b> UI ir lietotāja saskarne; frontend ir kods, kas to īsteno.</li>
+        <li><b>API ≠ datubāze:</b> API ir interfeiss, datubāze ir datu krātuve. API var izmantot dažādas datubāzes.</li>
+        <li><b>Aizmirsts CORS:</b> Frontend uz cita domēna nevar piekļūt API bez CORS galvenēm.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python"># Vienkāršs aprakts: kas notiek, kad lietotājs nospiež "Sūtīt"
+
+# 1. FRONTEND (browser)
+# fetch("/api/saglabat", { method: "POST", body: ... })
+
+# 2. BACKEND (Python serveris)
+@app.route("/api/saglabat", methods=["POST"])
+def saglabat():
+    dati = request.json
+    # 3. DATUBĀZE
+    cur.execute("INSERT INTO ... VALUES (%s)", (dati["x"],))
+    conn.commit()
+    # 4. ATPAKAĻ FRONTEND
+    return jsonify({"status": "ok"}), 201</code></pre>
+        <div class='result'>Pieprasījums: POST /api/saglabat<br>Atbilde: { status: 'ok' }<br>Kods: 201</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_12main.html" class="nav-btn">⬅ Tēmas apkopojums</a>
+    <a href="prog1_122.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

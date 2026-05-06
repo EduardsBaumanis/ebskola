@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>9.3 Python pārvēršana tīmekļa saskarnē</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_9main.html">9. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_91.html">9.1 Ārējās bibliotēkas un instalēšana</a>
+  <a href="prog1_92.html">9.2 Atvērtā koda licences un dokumentācija</a>
+  <a class="active" href="prog1_93.html">9.3 Python pārvēršana tīmekļa saskarnē</a>
+  <a href="prog1_94.html">9.4 HTML un Python sasaiste</a>
+  <a href="prog1_95.html">9.5 Interaktivitāte pārlūkprogrammā</a>
+  <a href="prog1_96.html">9.6 Noslēguma projekts: "Krustiņi un nullītes" pārlūkā</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>9.3 Python pārvēršana tīmekļa saskarnē</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Pārveidot terminālī darbojošos Python skriptu par tīmekļa lietotni ar Streamlit bibliotēku.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.7. Lietotāja saskarne (UI)</a>
+        <a href="../../sasnRez.html">SR 2.4.11. Standartizētas bibliotēkas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Streamlit — Python kā web saskarne</h2>
+    <div class='logic-box'>
+<p><b>Streamlit</b> ir Python ietvars, kas pārvērš parastu Python kodu par interaktīvu web lietotni — bez HTML/CSS/JS rakstīšanas.</p>
+<pre><code class="language-python">import streamlit as st
+
+# Virsraksti
+st.title("Mans projekts")
+st.header("Apakšsadaļa")
+st.write("Vienkāršs teksts")
+st.markdown("**Treknrakstā** un *kursīvā*")
+
+# Ievades elementi
+vards = st.text_input("Tavs vārds:")
+vecums = st.number_input("Vecums", min_value=1, max_value=120, value=18)
+ir_skoleens = st.checkbox("Es esmu skolēns")
+limenis = st.slider("Grūtība", 1, 10, 5)
+
+if st.button("Sākt"):
+    st.success(f"Sveiks, {vards}! ({vecums} g.)")
+
+# Datu attēlošana
+import pandas as pd
+df = pd.DataFrame({"Vārds": ["Anna", "Jānis"], "Punkti": [120, 95]})
+st.dataframe(df)
+st.bar_chart(df.set_index("Vārds"))</code></pre>
+<p>Palaiž ar <code>streamlit run app.py</code>. Lapa pati pārlādējas, kad maini kodu!</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pirmā Streamlit lapa</h2>
+    <p>Izveido vienkāršu sveiciena lietotni.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>pip install streamlit</code>.</li>
+            <li>Izveido <code>app.py</code> ar <code>st.title()</code>, <code>st.write()</code>, <code>st.text_input()</code>.</li>
+            <li>Palaiž: <code>streamlit run app.py</code>.</li>
+            <li>Atvēr pārlūkā <code>http://localhost:8501</code>.</li>
+            <li>Pievieno <code>st.button()</code> un parādi paziņojumu pēc klikšķa.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Skaitļu minētājs Streamlit</h2>
+    <p>Pārvērt iepriekšējo terminālī skriptu par web lietotni.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pārvieto Skaitļu minētāja loģiku no terminala uz Streamlit.</li>
+            <li>Lieto <code>st.session_state</code> spēles stāvokļa glabāšanai (<code>session_state.skaitlis</code>).</li>
+            <li><code>st.number_input()</code> minējumam, <code>st.button("Min")</code> apstiprināšanai.</li>
+            <li>Atgriezi <code>st.success()</code> vai <code>st.warning()</code> atkarībā no rezultāta.</li>
+            <li>Pievieno "Jauna spēle" pogu, kas resetē <code>session_state</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Diagrammas un dati</h2>
+    <p>Pievieno datu vizualizāciju.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido <code>highscore.csv</code> ar 10 spēlētāju rezultātiem.</li>
+            <li><code>import pandas as pd</code>; <code>df = pd.read_csv("highscore.csv")</code>.</li>
+            <li><code>st.dataframe(df)</code> — interaktīva tabula.</li>
+            <li><code>st.bar_chart(df.set_index("vards"))</code>.</li>
+            <li>Pievieno filtru: <code>limit = st.slider("Cik rādīt", 1, 10, 5)</code>; <code>df.head(limit)</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Multipage app</h2>
+    <p>Sadali lietotni vairākās lapās.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido mapi <code>pages/</code>.</li>
+            <li>Tajā <code>1_Spele.py</code> un <code>2_Statistika.py</code>.</li>
+            <li>Streamlit automātiski izveido sānjoslas navigāciju.</li>
+            <li>Padaliet datus starp lapām caur <code>session_state</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+                <li><b>Lietotne pārlādējas no nulles:</b> Streamlit pārpalaiž visu skriptu pie katras izmaiņas. Lieto <code>session_state</code>.</li>
+        <li><b>Streamlit komandas ārpus skripta:</b> <code>st.write</code> u.c. strādā tikai <code>streamlit run</code> kontekstā.</li>
+        <li><b>Aizmirsts <code>if st.button():</code> bloks:</b> Bez tā kods izpildās uzreiz.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">import streamlit as st
+import random
+
+st.title("🎲 Skaitļu minētājs")
+
+if "skaitlis" not in st.session_state:
+    st.session_state.skaitlis = random.randint(1, 100)
+    st.session_state.megi = 0
+
+minejums = st.number_input("Min skaitli (1-100):", 1, 100, 50)
+
+if st.button("Min!"):
+    st.session_state.megi += 1
+    if minejums == st.session_state.skaitlis:
+        st.success(f"🎉 Trāpīts {st.session_state.megi}. mēģinājumā!")
+    elif minejums &lt; st.session_state.skaitlis:
+        st.info("⬆️ Patiesais ir lielāks")
+    else:
+        st.info("⬇️ Patiesais ir mazāks")
+
+if st.button("Jauna spēle"):
+    del st.session_state.skaitlis
+    st.rerun()</code></pre>
+        <div class='result'>Web saskarne ar pogu un ievades lauku;<br>Pēc 'Min' tiek parādīts mājiens;<br>Pēc trāpījuma — uzvaras paziņojums.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_92.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_94.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

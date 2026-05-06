@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>9.5 Interaktivitāte pārlūkprogrammā</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_9main.html">9. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_91.html">9.1 Ārējās bibliotēkas un instalēšana</a>
+  <a href="prog1_92.html">9.2 Atvērtā koda licences un dokumentācija</a>
+  <a href="prog1_93.html">9.3 Python pārvēršana tīmekļa saskarnē</a>
+  <a href="prog1_94.html">9.4 HTML un Python sasaiste</a>
+  <a class="active" href="prog1_95.html">9.5 Interaktivitāte pārlūkprogrammā</a>
+  <a href="prog1_96.html">9.6 Noslēguma projekts: "Krustiņi un nullītes" pārlūkā</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>9.5 Interaktivitāte pārlūkprogrammā</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Pievienot interaktivitāti, izmantojot session_state, callback-us un dinamisku satura atjauninājumu.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.7. Lietotāja saskarne</a>
+        <a href="../../sasnRez.html">SR 2.4.14. Vadības struktūras</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: session_state un interaktivitāte</h2>
+    <div class='logic-box'>
+<p><code class="language-python">st.session_state</code> ir Streamlit galvenā funkcija interaktivitātei — datu glabāšana starp pārlādēm.</p>
+<pre><code class="language-python">import streamlit as st
+
+# Inicializācija (tikai pirmoreiz)
+if "klikski" not in st.session_state:
+    st.session_state.klikski = 0
+if "saraksts" not in st.session_state:
+    st.session_state.saraksts = []
+
+# Atjaunināšana
+if st.button("Klikšķini mani"):
+    st.session_state.klikski += 1
+
+st.write(f"Klikšķi: {st.session_state.klikski}")
+
+# Forma — apkopo visus inputus pirms iesniegšanas
+with st.form("speletajs"):
+    vards = st.text_input("Vārds")
+    punkti = st.number_input("Punkti")
+    iesniegt = st.form_submit_button("Pievienot")
+
+if iesniegt:
+    st.session_state.saraksts.append({"vards": vards, "punkti": punkti})
+
+st.dataframe(st.session_state.saraksts)</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Skaitītājs</h2>
+    <p>Vienkāršs interaktivitātes piemērs.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Inicializē <code>st.session_state.skaits = 0</code>.</li>
+            <li>Pievieno 3 pogas: <code>+1</code>, <code>-1</code>, <code>Reset</code>.</li>
+            <li>Katra poga maina <code>st.session_state.skaits</code> attiecīgi.</li>
+            <li>Izvada lielu skaitli ar pielāgotu HTML stilu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: To-do saraksts</h2>
+    <p>Pievieno, atzīmē, dzēš uzdevumus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>st.session_state.todo = []</code>.</li>
+            <li>Forma ar <code>st.text_input()</code> jaunam uzdevumam un <code>st.form_submit_button("Pievienot")</code>.</li>
+            <li>Iterē caur sarakstu, katram <code>st.checkbox(uzdevums)</code> + <code>st.button("X", key=...)</code>.</li>
+            <li>Pareizi atjaunini <code>session_state</code> pēc dzēšanas.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Mini Atmiņu spēle</h2>
+    <p>Apvieno session_state ar spēles loģiku.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>session_state</code>: <code>karte</code> (samaisīts saraksts), <code>atvertas</code>, <code>pari</code>, <code>megi</code>.</li>
+            <li>Izveido 4×4 režģi ar <code>st.columns(4)</code>.</li>
+            <li>Katra karte ir <code>st.button()</code>, kas atklāj simbolu.</li>
+            <li>Pārbaudi pārus pēc 2 atvēruma.</li>
+            <li>Beigās: <code>st.balloons()</code> uzvarētājam.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Callbacks</h2>
+    <p>Apgūsti on_change un on_click callback-us.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>def saglabat(): st.session_state.saved = True</code></li>
+            <li><code>st.button("Saglabāt", on_click=saglabat)</code></li>
+            <li>Salīdzini ar parasto <code>if st.button():</code> — kuru kad lietot.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+                <li><b>session_state inicializācija katru reizi:</b> Vienmēr <code>if "x" not in st.session_state:</code>.</li>
+        <li><b>Aizmirsts unique key:</b> Vairākām pogām vienā lapā <code>key="unik"</code>.</li>
+        <li><b>Mainās stāvokli ārpus formas:</b> Forma apvieno visus ievades — bez tās katrs ievads pārlādē lapu.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">import streamlit as st
+
+st.title("📋 Mans To-Do")
+
+if "todo" not in st.session_state:
+    st.session_state.todo = []
+
+with st.form("forma", clear_on_submit=True):
+    jauns = st.text_input("Jauns uzdevums")
+    ok = st.form_submit_button("➕ Pievienot")
+
+if ok and jauns:
+    st.session_state.todo.append({"teksts": jauns, "izpildīts": False})
+
+for i, t in enumerate(st.session_state.todo):
+    col1, col2 = st.columns([10, 1])
+    with col1:
+        st.session_state.todo[i]["izpildīts"] = st.checkbox(
+            t["teksts"], value=t["izpildīts"], key=f"cb{i}"
+        )
+    with col2:
+        if st.button("🗑️", key=f"d{i}"):
+            st.session_state.todo.pop(i)
+            st.rerun()</code></pre>
+        <div class='result'>Pievieno uzdevumus → atzīmē kā izpildītus → dzēš ar 🗑️.<br>Saraksts saglabājas starp lapas pārlādēm.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_94.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_96.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

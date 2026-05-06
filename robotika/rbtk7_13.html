@@ -35,13 +35,31 @@
 
 <section class='section'>
     <h2>Teorija: Kā robots pieņem lēmumus?</h2>
-    <p>Līdz šim mūsu robots darīja vienu darbību, kamēr kaut kas notika (Wait until). Bet ko darīt, ja robotam nepārtraukti jāizvēlas starp divām rīcībām? Tam mēs izmantojam "If-Else" (Ja-Tad-Citādi) blokus.</p>
+    <div class='logic-box'>
+<p>Līdz šim mūsu robots darīja vienu darbību, kamēr kaut kas notika (Wait until). Bet ko darīt, ja robotam nepārtraukti jāizvēlas starp divām rīcībām? Tam mēs izmantojam "If-Else" (Ja-Tad-Citādi) blokus.</p>
     <ul>
         <li><b>Krāsu sensors:</b> Šis sensors var strādāt divos režīmos. Tas var atpazīt konkrētas krāsas (Sarkans, Zils, Zaļš) VAI mērīt <b>atstarotās gaismas intensitāti (Reflected Light)</b> no 0% (pilnīgi melns) līdz 100% (pilnīgi balts). Līnijas sekošanai gaismas intensitātes režīms ir daudz precīzāks!</li>
         <li><b>"If - Else" (Ja - Citādi) bloks:</b> Atrodams dzeltenajā "Control" sadaļā. Tas uzdod jautājumu. <i>Piemērs: JA (If) es redzu melnu krāsu, TAD es griežos pa kreisi. CITĀDI (Else) [tas nozīmē - redzu baltu], es griežos pa labi.</i></li>
         <li><b>Cikla nozīme:</b> Lai robots sekotu līnijai, šis "If-Else" jautājums ir jāuzdod tūkstošiem reižu sekundē. Tāpēc "If-Else" bloks vienmēr jāliek iekšā "Forever" (Mūžīgi) vai "Repeat until" (Atkārtot līdz) ciklā.</li>
     </ul>
     <p><i>[Ievietot attēlu šeit: Ekrānuzņēmums no SPIKE lietotnes ar dzelteno If-Else bloku Forever cikla, kur If nosacījumā ir Color Sensor mērījums]</i></p>
+        <pre><code class="language-python"># LEGO SPIKE Python — krāsu sensora nolasīšana
+from spike import ColorSensor, Motor
+from spike.control import wait_for_seconds
+
+sensors = ColorSensor("E")
+kreisais = Motor("A")
+labais = Motor("B")
+
+while True:
+    krasa = sensors.get_color()
+    if krasa == "black":
+        kreisais.start_at_power(20)
+        labais.start_at_power(50)  # pagriežas pa kreisi
+    else:
+        kreisais.start_at_power(50)
+        labais.start_at_power(50)  # taisni</code></pre>
+    </div>
 </section>
 
 <section class='section'>
@@ -103,11 +121,13 @@
 
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <ul>
+    <div class='logic-box'>
+<ul>
         <li><b>Robots riņķo uz vietas, kad atrod līniju:</b> Jūsu stūrēšanas vērtības (steering) ir pārāk lielas (piemēram, 100%), vai arī motors A un B griežas pretējos virzienos. Līnijas sekošanai pietiek ar nelielu pagrieziena leņķi (10% līdz 30%).</li>
         <li><b>Robots pazaudē līniju līkumos:</b> Izvēlētais braukšanas ātrums ir pārāk liels, vai arī "If" nosacījuma slieksnis (50%) neatbilst jūsu klases apgaismojumam. Paskatieties portu skatā, kādu procentu sensors rāda uz melnā un baltā, un izrēķiniet vidējo aritmētisko.</li>
         <li><b>Sensors "redz" līniju tikai dažreiz:</b> Iespējams, izmantojat "Color" (Krāsas) atpazīšanas režīmu melnas līnijas meklēšanai. Krāsu atpazīšana prasa ideālu apgaismojumu. Vienmēr līniju sekošanai izmantojiet "Reflected Light" (Atstarotā gaisma) bloku!</li>
     </ul>
+    </div>
 </section>
 
 <div class='section'>

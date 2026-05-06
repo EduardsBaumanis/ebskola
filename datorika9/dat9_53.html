@@ -35,7 +35,8 @@
 
 <section class='section'>
     <h2>Teorija: Spēles stāvokļa vadība</h2>
-    <p>Laba spēle sastāv no skaidriem stāvokļiem (States). Tavai programmai ir jāzina:
+    <div class='logic-box'>
+<p>Laba spēle sastāv no skaidriem stāvokļiem (States). Tavai programmai ir jāzina:
         <ul>
             <li><b>Gaidīšanas režīms:</b> Redzama sākuma izvēlne, nekas nekustas.</li>
             <li><b>Aktīvā spēle:</b> Izvēlne paslēpta, taimeri darbojas, ienaidnieki kustas.</li>
@@ -43,6 +44,14 @@
         </ul>
     <b>Svarīgi:</b> Atceries vienmēr <i>resetot</i> (atjaunot uz sākuma vērtībām) mainīgos, kad spēle tiek sākta no jauna, citādi punkti turpinās skaitīties no iepriekšējās reizes!
     </p>
+        <pre><code class="language-javascript">// Spēles stāvokļa pārvaldība
+const spele = { dzivibas: 3, punkti: 0, limenis: 1 };
+
+function zaudet_dzivibu() {
+  spele.dzivibas--;
+  if (spele.dzivibas &lt;= 0) gameOver();
+}</code></pre>
+    </div>
 </section>
 
 <section class='section'>
@@ -87,11 +96,13 @@
 
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <ul>
+    <div class='logic-box'>
+<ul>
         <li><b>"Restart" kļūda:</b> Spēlētājs nospiež "Mēģināt vēlreiz", bet laiks iet divreiz ātrāk. Risinājums: Vienmēr izmanto <code>clearInterval()</code> pirms jauna taimera sākšanas.</li>
         <li><b>Mainīgie netiek atiestatīti:</b> Jaunā spēlē dzīvības joprojām ir 0. Risinājums: Funkcijas <code>saktSpeli()</code> sākumā manuāli iestati <code>dzivibas = 3; punkti = 0;</code>.</li>
         <li><b>Klaviatūras "bug":</b> Spēlētājs var kustināt varoni, kamēr vēl redzama sākuma izvēlne. Risinājums: Pievieno mainīgo <code>let spēleDarbojas = false;</code> un pārbaudi to pirms kustības veikšanas.</li>
     </ul>
+    </div>
 </section>
 
 <div class='section'>
