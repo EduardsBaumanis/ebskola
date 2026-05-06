@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>10.5 Python ↔ PostgreSQL (psycopg2)</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_10main.html">prog1_10. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_101.html">10.1 Ievads datubāzēs un PostgreSQL</a>
+  <a href="prog1_102.html">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+  <a href="prog1_103.html">10.3 Tabulu projektēšana un saites</a>
+  <a href="prog1_104.html">10.4 JOIN un sarežģīti vaicājumi</a>
+  <a class="active" href="prog1_105.html">10.5 Python ↔ PostgreSQL (psycopg2)</a>
+  <a href="prog1_106.html">10.6 Noslēguma projekts: Highscore datubāze</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>10.5 Python ↔ PostgreSQL (psycopg2)</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Savienot Python kodu ar PostgreSQL datubāzi un izpildīt drošus parametrizētus vaicājumus.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.11. Lieto standartizētas bibliotēkas un API</a>
+        <a href="../../sasnRez.html">SR 3.2.5. Drošības riski</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: psycopg2 — Python ↔ PostgreSQL tilts</h2>
+    <div class='logic-box'>
+<p><code class="language-python">psycopg2</code> ir Python bibliotēka, kas savieno tavu kodu ar PostgreSQL datubāzi. Instalācija: <code class="language-python">pip install psycopg2-binary</code>.</p>
+<pre><code class="language-python">import psycopg2
+
+conn = psycopg2.connect(
+    host="localhost",
+    database="spele",
+    user="postgres",
+    password="tavs_parole"
+)
+cur = conn.cursor()
+
+# DROŠA parametrizēta vaicājuma forma — %s ir TIKAI vietturis
+cur.execute("SELECT * FROM speletaji WHERE punkti &gt; %s", (100,))
+for rinda in cur.fetchall():
+    print(rinda)
+
+conn.commit()  # apstiprina izmaiņas
+cur.close()
+conn.close()</code></pre>
+<p><b>⚠ DROŠĪBA:</b> NEKAD nelieto string formatēšanu (<code>f"...{x}..."</code>) SQL vaicājumos — tas ir SQL injekcijas uzbrukums!</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pirmais savienojums</h2>
+    <p>Pārbaudi, ka Python var pieslēgties datubāzei.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Termināli: <code>pip install psycopg2-binary</code></li>
+            <li>Izveido failu <code>db_test.py</code>: importē psycopg2, savienojas, izpilda <code>SELECT NOW()</code>, izvada laiku.</li>
+            <li>Izveido <code>.env</code> failu paroles glabāšanai (NEPUSH GitHub-ā!).</li>
+            <li>Pievieno <code>.env</code> savam <code>.gitignore</code> failam.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: CRUD ar Python</h2>
+    <p>Ieprogrammē funkcijas datu pievienošanai un nolasīšanai.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Funkcija <code>pievienot_speletaju(vards)</code> — INSERT ar parametriem un RETURNING id.</li>
+            <li>Funkcija <code>iegut_visus()</code> — SELECT un atgriež sarakstu.</li>
+            <li>Funkcija <code>atjauninat_punktus(id, jaunie)</code> — UPDATE ar WHERE.</li>
+            <li>Funkcija <code>dzest_speletaju(id)</code> — DELETE ar WHERE.</li>
+            <li>Pārbaudi visas četras funkcijas — datubāzē jāparādās izmaiņām.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Drošība un commit/rollback</h2>
+    <p>Demonstrē transakcijas un drošību pret SQL injekciju.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Eksperiments: ievadi spēlētāja vārdu kā <code>'); DROP TABLE speletaji; --</code>. Vai ar parametriem tas nodara skādi? (Nē — drošs!)</li>
+            <li>Mēģini izpildīt 5 INSERT operācijas vienā transakcijā, bet pirms <code>commit()</code> piesauc <code>raise Exception()</code>.</li>
+            <li>Pieliec <code>conn.rollback()</code> — pārbaudi datubāzi, vai izmaiņas atcēlās.</li>
+            <li>Lieto <code>with conn:</code> kontekstu — automātiska commit/rollback.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: RealDictCursor</h2>
+    <p>Atgriež rezultātus kā vārdnīcas, nevis kā kortežus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>from psycopg2.extras import RealDictCursor</code></li>
+            <li><code>cur = conn.cursor(cursor_factory=RealDictCursor)</code></li>
+            <li>Tagad <code>cur.fetchall()</code> atgriež <code>[{'id': 1, 'vards': 'Anna', ...}, ...]</code></li>
+            <li>Pārveido savas funkcijas, lai lieto vārdnīcas (skaidrāks kods).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>SQL injekcija ar f-string:</b> NEKAD <code>f"WHERE id = {user_id}"</code> — vienmēr <code>%s</code> + parametru tuple.</li>
+        <li><b>Aizmirsts commit():</b> Bez tā INSERT/UPDATE neparādīsies.</li>
+        <li><b>Nav close():</b> Lieto <code>with</code> bloku vai <code>try/finally</code> — savienojumi jāatbrīvo.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">import psycopg2
+from psycopg2.extras import RealDictCursor
+
+with psycopg2.connect(
+    host="localhost", database="spele",
+    user="postgres", password="parole"
+) as conn:
+    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+        # DROŠA INSERT
+        cur.execute(
+            "INSERT INTO speletaji (vards) VALUES (%s) RETURNING id",
+            ("Anna",)
+        )
+        jauns_id = cur.fetchone()["id"]
+        print(f"Pievienots ar id = {jauns_id}")
+
+        cur.execute("SELECT * FROM speletaji ORDER BY id DESC LIMIT 3")
+        for r in cur.fetchall():
+            print(r["vards"], r["punkti"])</code></pre>
+        <div class='result'>Pievienots ar id = 12<br>Anna 0<br>Marta 200<br>Eva 145</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_104.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_106.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

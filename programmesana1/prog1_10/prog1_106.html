@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>10.6 Noslēguma projekts: Highscore datubāze</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_10main.html">prog1_10. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_101.html">10.1 Ievads datubāzēs un PostgreSQL</a>
+  <a href="prog1_102.html">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+  <a href="prog1_103.html">10.3 Tabulu projektēšana un saites</a>
+  <a href="prog1_104.html">10.4 JOIN un sarežģīti vaicājumi</a>
+  <a href="prog1_105.html">10.5 Python ↔ PostgreSQL (psycopg2)</a>
+  <a class="active" href="prog1_106.html">10.6 Noslēguma projekts: Highscore datubāze</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>10.6 Noslēguma projekts: Highscore datubāze</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot visas tēmas prasmes — projektēt, izveidot un Python kodā lietot pilnvērtīgu datubāzi spēļu rezultātu glabāšanai un statistikai.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.17. Darbs ar failiem un ārējām datu krātuvēm</a>
+        <a href="../../sasnRez.html">SR 2.4.4. Iegūst, atlasa un apstrādā datus</a>
+        <a href="../../sasnRez.html">SR 2.4.5. Datu analīze un vizualizācija</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas un funkcijas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Spēles apraksts un arhitektūra</h2>
+    <div class='logic-box'>
+<p>Tavs uzdevums ir izveidot pilnvērtīgu <b>"Highscore datubāzi"</b> — Python lietotnes, kas:</p>
+<ul>
+<li>Pieņem spēles rezultātus no jebkuras spēles (caur funkciju izsaukumu).</li>
+<li>Glabā tos PostgreSQL datubāzē ar pareizām attiecībām.</li>
+<li>Atgriež filtrētus TOP saraksti (pēc spēles, pēc datumu intervāla).</li>
+<li>Aprēķina statistiku (vidējais, rekords, spēļu skaits).</li>
+</ul>
+<p><b>Datu modelis (3 tabulas):</b></p>
+<pre><code class="language-sql">speletaji (id, vards, izveidots)
+speles_veidi (id, nosaukums)
+rezultati (id, speletajs_id, speles_veids_id, punkti, spelets)</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Datubāzes shēma (1. līmenis)</h2>
+    <p>Izveido visas tabulas ar attiecībām un ievāksim sākuma datus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido failu <code>schema.sql</code> ar visām trim tabulām, PK, FK un CASCADE.</li>
+            <li>Pievieno failu <code>seed.sql</code> ar 3 spēlēm ("Skaitļu minētājs", "Atmiņu spēle", "Quiz") un 5 spēlētājiem.</li>
+            <li>Izveido Python failu <code>db.py</code>, kas savienojas un izpilda abus skriptus.</li>
+            <li>Pārbaudi pgAdmin — visas tabulas un dati ir vietā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Saglabāšanas un nolasīšanas funkcijas (2. līmenis)</h2>
+    <p>Uzraksti moduli ar CRUD funkcijām.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Funkcija <code>saglabat_rezultatu(speletaja_vards, speles_nosaukums, punkti)</code>:<br>(a) atrod vai izveido spēlētāju (<code>INSERT ... ON CONFLICT DO NOTHING RETURNING id</code>);<br>(b) atrod spēles_veidu;<br>(c) ievada rezultātu.</li>
+            <li>Funkcija <code>top_speletaji(speles_nosaukums=None, dienas=30)</code> — atgriež TOP 10 ar filtru pēc spēles un datumu intervāla.</li>
+            <li>Funkcija <code>statistika(speletaja_vards)</code> — atgriež vārdnīcu ar speles_skaits, kopa, videjie, rekords.</li>
+            <li>Visas funkcijas testē galvenajā <code>main.py</code> failā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: CLI saskarne un eksports (3. līmenis)</h2>
+    <p>Izveido komandrindas rīku un CSV eksportu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>main.py</code> izveido izvēlni ar 4 opcijām: 1) Pievienot rezultātu; 2) TOP 10; 3) Spēlētāja statistika; 4) Eksportēt CSV; 5) Iziet.</li>
+            <li>Eksports: <code>SELECT s.vards, sv.nosaukums, r.punkti, r.spelets FROM rezultati r JOIN ...</code> rezultātus saglabā <code>highscore_eksports.csv</code>.</li>
+            <li>Pievieno kļūdu apstrādi (<code>try/except</code>) tīkla un DB kļūdām.</li>
+            <li>Sadali kodu moduļos: <code>db.py</code>, <code>cli.py</code>, <code>main.py</code>.</li>
+            <li>GitHub: vismaz 5 commit ar skaidriem ziņojumiem un README ar palaišanas instrukciju.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Web saskarne ar Streamlit</h2>
+    <p>Pievieno tīmekļa saskarni datu apskatei.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>pip install streamlit</code></li>
+            <li>Izveido <code>web.py</code> ar <code>st.title()</code>, <code>st.dataframe(top10)</code>, <code>st.bar_chart()</code> spēlētāju punktiem.</li>
+            <li>Palaiž ar <code>streamlit run web.py</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>ON CONFLICT vajadzīgs UNIQUE:</b> Lai <code>INSERT ... ON CONFLICT (vards) DO NOTHING</code> strādātu, laukam jābūt UNIQUE.</li>
+        <li><b>Datu izmaiņas neredz:</b> Aizmirsi <code>conn.commit()</code>.</li>
+        <li><b>JOIN neatgriež datus:</b> Pārbaudi, vai FK norāda uz pareizu PK un dati ir saglabāti pareizās tabulās.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">-- Pilna shēma + 1 testa rezultāts
+CREATE TABLE speletaji (
+    id SERIAL PRIMARY KEY,
+    vards TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE speles_veidi (
+    id SERIAL PRIMARY KEY,
+    nosaukums TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE rezultati (
+    id SERIAL PRIMARY KEY,
+    speletajs_id INTEGER REFERENCES speletaji(id) ON DELETE CASCADE,
+    speles_veids_id INTEGER REFERENCES speles_veidi(id),
+    punkti INTEGER NOT NULL CHECK (punkti &gt;= 0),
+    spelets TIMESTAMP DEFAULT NOW()
+);
+
+INSERT INTO speletaji (vards) VALUES ('Anna');
+INSERT INTO speles_veidi (nosaukums) VALUES ('Skaitļu minētājs');
+INSERT INTO rezultati (speletajs_id, speles_veids_id, punkti) VALUES (1, 1, 95);
+
+SELECT s.vards, sv.nosaukums, r.punkti
+FROM rezultati r
+JOIN speletaji s ON s.id = r.speletajs_id
+JOIN speles_veidi sv ON sv.id = r.speles_veids_id;</code></pre>
+        <div class='result'>vards | nosaukums         | punkti<br>------|-------------------|-------<br>Anna  | Skaitļu minētājs  | 95</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_105.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_10main.html" class="nav-btn">Tēmas apkopojums ➡</a>
+</div>
+</body>
+</html>

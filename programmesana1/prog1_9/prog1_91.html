@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>9.1 Ārējās bibliotēkas un instalēšana</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_9main.html">9. Tēmas apkopojums + Špikeris</a>
+  <a class="active" href="prog1_91.html">9.1 Ārējās bibliotēkas un instalēšana</a>
+  <a href="prog1_92.html">9.2 Atvērtā koda licences un dokumentācija</a>
+  <a href="prog1_93.html">9.3 Python pārvēršana tīmekļa saskarnē</a>
+  <a href="prog1_94.html">9.4 HTML un Python sasaiste</a>
+  <a href="prog1_95.html">9.5 Interaktivitāte pārlūkprogrammā</a>
+  <a href="prog1_96.html">9.6 Noslēguma projekts: "Krustiņi un nullītes" pārlūkā</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>9.1 Ārējās bibliotēkas un instalēšana</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Iepazīt Python bibliotēku ekosistēmu un iemācīties instalēt un izmantot ārējās bibliotēkas (pip).</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.11. Lieto standartizētas bibliotēkas un API</a>
+        <a href="../../sasnRez.html">SR 2.4.12. Sagatavo programmēšanas vidi</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: pip un virtual environment</h2>
+    <div class='logic-box'>
+<p><b>Bibliotēka</b> ir cita programmētāja jau uzrakstīts kods, ko vari iekļaut savā projektā ar vienu komandu. Python ir aptuveni <b>500,000 publisku bibliotēku</b> repozitorijā <a href="https://pypi.org">PyPI</a>.</p>
+<pre><code class="language-bash"># Instalācija
+pip install streamlit
+pip install requests
+pip install --upgrade pillow
+
+# Saraksts ar instalētajām
+pip list
+
+# Saglabā atkarības
+pip freeze &gt; requirements.txt
+pip install -r requirements.txt</code></pre>
+<p><b>Virtual environment</b> ir izolēta vide projektam, lai dažādi projekti varētu izmantot dažādas versijas:</p>
+<pre><code class="language-bash">python -m venv venv          # izveido
+venv\Scripts\activate         # Windows aktivizācija
+source venv/bin/activate     # Linux/Mac aktivizācija
+deactivate                   # iziet</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pirmā instalācija</h2>
+    <p>Sagatavo darba vidi ar virtual environment.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Termināli: <code>python -m venv venv</code>.</li>
+            <li>Aktivizē: <code>venv\Scripts\activate</code> (Windows) vai <code>source venv/bin/activate</code> (Linux).</li>
+            <li>Pārbaudi: <code>which python</code> — jārāda <code>venv</code> mapē.</li>
+            <li>Instalē: <code>pip install requests</code>.</li>
+            <li>Pārbaudi: <code>pip list</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Requests bibliotēka</h2>
+    <p>Izmanto pirmo bibliotēku praktiski.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido <code>laiks.py</code>.</li>
+            <li><code>import requests</code>; <code>r = requests.get("https://api.open-meteo.com/v1/forecast?latitude=56.95&longitude=24.10&current_weather=true")</code>.</li>
+            <li>Izvada <code>r.json()</code> — laika dati par Rīgu.</li>
+            <li>Pievieno kļūdu apstrādi: <code>try/except requests.RequestException</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: requirements.txt</h2>
+    <p>Saglabā un atjauno atkarības.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>pip freeze &gt; requirements.txt</code>.</li>
+            <li>Apskati saturu — kuras bibliotēkas un kādas versijas.</li>
+            <li>Eksperiments: dzēš <code>venv</code> mapi.</li>
+            <li>Atjauno: <code>python -m venv venv</code>; aktivizē; <code>pip install -r requirements.txt</code>.</li>
+            <li>Pārliecinies, ka kods strādā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Streamlit "Hello World"</h2>
+    <p>Pirmā tīmekļa lietotne 5 rindās.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>pip install streamlit</code>.</li>
+            <li><code>app.py</code>: <code>import streamlit as st; st.title("Mans pirmais web"); st.write("Sveiks!")</code>.</li>
+            <li>Palaiž: <code>streamlit run app.py</code>.</li>
+            <li>Pievieno <code>st.button("Klikšķini")</code> un <code>st.text_input()</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+                <li><b>Aizmirsts aktivizēt venv:</b> Bibliotēkas instalējas globāli, sajaucot dažādu projektu atkarības.</li>
+        <li><b>pip vs pip3:</b> Daudzās sistēmās jālieto <code>pip3</code> Python 3 versijai.</li>
+        <li><b>requirements.txt nav GitHub:</b> Bez tā citi nevar palaist tavu projektu.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">import requests
+
+def laiks_riga():
+    r = requests.get(
+        "https://api.open-meteo.com/v1/forecast",
+        params={"latitude": 56.95, "longitude": 24.10, "current_weather": True}
+    )
+    if r.status_code != 200: return None
+    return r.json()["current_weather"]
+
+dati = laiks_riga()
+if dati:
+    print(f"Rīgā: {dati['temperature']}°C, vējš {dati['windspeed']} km/h")</code></pre>
+        <div class='result'>Rīgā: 5.4°C, vējš 12 km/h</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_9main.html" class="nav-btn">⬅ Tēmas apkopojums</a>
+    <a href="prog1_92.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>11.5 Polimorfisms un dunder metodes</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_11main.html">11. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_111.html">11.1 Klases un objekti</a>
+  <a href="prog1_112.html">11.2 Konstruktori un atribūti</a>
+  <a href="prog1_113.html">11.3 Metodes un self</a>
+  <a href="prog1_114.html">11.4 Mantošana un super()</a>
+  <a class="active" href="prog1_115.html">11.5 Polimorfisms un dunder metodes</a>
+  <a href="prog1_116.html">11.6 Noslēguma projekts: RPG cīņas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>11.5 Polimorfisms un dunder metodes</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izprast polimorfismu un Python speciālās ("dunder") metodes objektu pielāgošanai.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.18. Lieto OOP pamatus</a>
+        <a href="../../sasnRez.html">SR 2.4.11. Standartizētas bibliotēkas un API</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Polimorfisms un dunder (__metode__)</h2>
+    <div class='logic-box'>
+<p><b>Polimorfisms</b> = daudzas formas. Dažādas klases ar to pašu metodes nosaukumu, bet atšķirīgu uzvedību.</p>
+<pre><code class="language-python">class Varonis:
+    def runa(self): print("Varonis runā vispārīgi.")
+
+class Burvis(Varonis):
+    def runa(self): print("Magicāli vārdi!")
+
+class Bruninieks(Varonis):
+    def runa(self): print("Par godu un karaļa zemi!")
+
+# Polimorfisms — vienots interfeiss, dažāda uzvedība
+for v in [Varonis(), Burvis(), Bruninieks()]:
+    v.runa()</code></pre>
+<p><b>Dunder metodes</b> (<i>double underscore</i>) ir iebūvētie āķi, kas ļauj klasei darboties ar Python operatoriem un funkcijām:</p>
+<table>
+<thead><tr><th>Metode</th><th>Aktivizē</th></tr></thead>
+<tbody>
+<tr><td><code>__str__</code></td><td><code>str(o)</code> un <code>print(o)</code></td></tr>
+<tr><td><code>__repr__</code></td><td><code>repr(o)</code>, REPL izvade</td></tr>
+<tr><td><code>__eq__</code></td><td><code>o1 == o2</code></td></tr>
+<tr><td><code>__lt__</code>, <code>__gt__</code></td><td><code>&lt;</code>, <code>&gt;</code> (sortēšana)</td></tr>
+<tr><td><code>__add__</code></td><td><code>o1 + o2</code></td></tr>
+<tr><td><code>__len__</code></td><td><code>len(o)</code></td></tr>
+<tr><td><code>__contains__</code></td><td><code>x in o</code></td></tr>
+</tbody>
+</table>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Polimorfisms praksē</h2>
+    <p>Vairāku klašu kopīga metode.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido bāzes klasi <code>Ienaidnieks</code> ar metodi <code>uzbrukt(self, merkis)</code>, kas izvada vispārīgu ziņojumu.</li>
+            <li>Izveido <code>Goblins</code>, <code>Pukis</code>, <code>Skelets</code> — katrs pārraksta <code>uzbrukt()</code> ar savu stilu.</li>
+            <li>Izveido sarakstu <code>ienaidnieki = [Goblins(), Pukis(), Skelets()]</code>.</li>
+            <li>Cikls: <code>for e in ienaidnieki: e.uzbrukt(varonis)</code> — viens kods, dažāda uzvedība.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: __str__ un __repr__</h2>
+    <p>Padari savus objektus skaisti izvadāmus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Klasei <code>Varonis</code> pievieno <code>def __str__(self): return f"{self.vards} ({self.hp} HP)"</code>.</li>
+            <li>Pievieno <code>def __repr__(self): return f"Varonis({self.vards!r}, hp={self.hp})"</code>.</li>
+            <li>Izvada: <code>print(varonis)</code> izsauc __str__, ievada Python REPL — __repr__.</li>
+            <li>Izvada sarakstu: <code>print([v1, v2])</code> — kura metode tiek izsaukta?</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: __eq__ un __lt__ — sortēšana</h2>
+    <p>Padari objektus salīdzināmus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno <code>def __eq__(self, other): return self.hp == other.hp</code>.</li>
+            <li>Pievieno <code>def __lt__(self, other): return self.hp &lt; other.hp</code>.</li>
+            <li>Izveido sarakstu ar 5 varoņiem — sakārto: <code>sorted(saraksts)</code>.</li>
+            <li>Atrod minimumu: <code>min(saraksts)</code>.</li>
+            <li>Pievieno <code>__hash__ = None</code>, ja klase ir maināma (lai netiktu lietota kā vārdnīcas atslēga).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: __add__ un operatoru pārslogošana</h2>
+    <p>Pielāgo + operatoru savai klasei.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido klasi <code>Vektors</code> ar <code>x</code>, <code>y</code> atribūtiem.</li>
+            <li>Pievieno <code>def __add__(self, other): return Vektors(self.x + other.x, self.y + other.y)</code>.</li>
+            <li>Izveido divus vektorus un saskaiti tos ar <code>+</code> operatoru.</li>
+            <li>Pievieno <code>__sub__</code> un <code>__mul__</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>__str__ atgriež ne-string:</b> Vienmēr atgriež <code>str</code>, citādi <code>TypeError</code>.</li>
+        <li><b>__eq__ bez __hash__:</b> Ja klase salīdzināma, bet maināma — definē <code>__hash__ = None</code>.</li>
+        <li><b>Aizmirsts atgriezt vērtību:</b> <code>__lt__</code>, <code>__eq__</code> — vienmēr <code>return True/False</code>.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">class Varonis:
+    def __init__(self, vards, hp): self.vards = vards; self.hp = hp
+    def __str__(self): return f"{self.vards} ({self.hp} HP)"
+    def __repr__(self): return f"Varonis({self.vards!r}, hp={self.hp})"
+    def __lt__(self, other): return self.hp &lt; other.hp
+    def __eq__(self, other): return self.hp == other.hp
+
+varoni = [Varonis("Anna", 100), Varonis("Jānis", 80), Varonis("Eva", 120)]
+for v in sorted(varoni):
+    print(v)</code></pre>
+        <div class='result'>Jānis (80 HP)<br>Anna (100 HP)<br>Eva (120 HP)</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_114.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_116.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

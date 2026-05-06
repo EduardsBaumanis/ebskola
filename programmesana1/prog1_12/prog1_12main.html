@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>Programmēšana I — 12. tēma</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a class="active" href="prog1_12main.html">12. Tēmas apkopojums + Špikeris</a>
+    <a href="prog1_121.html">12.1 Front-end un back-end arhitektūra</a>
+  <a href="prog1_122.html">12.2 Flask: Python kā web serveris</a>
+  <a href="prog1_123.html">12.3 REST API izstrāde</a>
+  <a href="prog1_124.html">12.4 Front-end + API integrācija</a>
+  <a href="prog1_125.html">12.5 Izvietošana mākonī un drošība</a>
+  <a href="prog1_126.html">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>12. Tēma — Pilnvērtīga izstrāde un izvietošana</h1>
+    <div class="logic-box">
+        <h3>Par šo tēmu</h3>
+        <p>Tas ir pamatkursa kulminācijas brīdis. Šajā tēmā Tu apvienosi visu apgūto — Python, datu bāzes, OOP, web tehnoloģijas — vienā lielā pilnvērtīgā lietotnē. Galvenais uzsvars: kā divas dažādas tehnoloģijas (priekšgals un aizmugure) sazinās savā starpā ar <b>REST API</b> palīdzību.</p>
+        <p>Tu iemācīsies <b>Flask</b> — minimālisma Python web ietvaru — un izveidosi savu pirmo HTTP serveri, kas atgriež JSON datus. Pēc tam savienosi to ar HTML/JavaScript priekšgalu, ko esi apguvis iepriekš. Galvenā tēmas vērtība: <b>klients-serveris arhitektūras izpratne</b>.</p>
+        <p>Tēmas noslēgumā Tu izvietosi savu projektu publiski internetā (Render vai Railway), apgūsi vides mainīgo un drošības labās prakses, un izveidosi <b>daudzspēlētāju "Krustiņi un nullītes"</b> spēli, kurā divi spēlētāji no atšķirīgiem datoriem var spēlēt vienu un to pašu spēli reālā laikā.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Tēmas saturs</h2>
+    <div class="logic-box">
+        <ul class="step-list">
+                        <li><a href="prog1_121.html"><b>1. stunda:</b> Front-end un back-end arhitektūra</a></li>
+            <li><a href="prog1_122.html"><b>2. stunda:</b> Flask: Python kā web serveris</a></li>
+            <li><a href="prog1_123.html"><b>3. stunda:</b> REST API izstrāde</a></li>
+            <li><a href="prog1_124.html"><b>4. stunda:</b> Front-end + API integrācija</a></li>
+            <li><a href="prog1_125.html"><b>5. stunda:</b> Izvietošana mākonī un drošība</a></li>
+            <li><a href="prog1_126.html"><b>6. stunda:</b> Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a></li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>12. tēmas špikeris</h2>
+    <div class="logic-box">
+        <h3>Flask minimālais serveris</h3>
+<pre><code class="language-python">from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+@app.route("/api/speletaji")
+def saraksts():
+    return jsonify([{"vards": "Anna", "punkti": 120}])
+
+@app.route("/api/saglabat", methods=["POST"])
+def saglabat():
+    dati = request.json
+    return jsonify({"status": "ok", "id": 42}), 201
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)</code></pre>
+    </div>
+    <div class="logic-box">
+        <h3>HTTP statusa kodi</h3>
+        <table>
+            <thead><tr><th>Kods</th><th>Nozīme</th></tr></thead>
+            <tbody>
+                <tr><td>200</td><td>OK — viss izdevās</td></tr>
+                <tr><td>201</td><td>Created — resurss izveidots</td></tr>
+                <tr><td>400</td><td>Bad Request — klienta kļūda</td></tr>
+                <tr><td>401</td><td>Unauthorized — vajadzīga pierakstīšanās</td></tr>
+                <tr><td>404</td><td>Not Found — nav atrasts</td></tr>
+                <tr><td>500</td><td>Server Error — koda kļūda servera pusē</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+</body>
+</html>

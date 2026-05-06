@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>10.1 Ievads datubāzēs un PostgreSQL</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_10main.html">prog1_10. Tēmas apkopojums + Špikeris</a>
+  <a class="active" href="prog1_101.html">10.1 Ievads datubāzēs un PostgreSQL</a>
+  <a href="prog1_102.html">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+  <a href="prog1_103.html">10.3 Tabulu projektēšana un saites</a>
+  <a href="prog1_104.html">10.4 JOIN un sarežģīti vaicājumi</a>
+  <a href="prog1_105.html">10.5 Python ↔ PostgreSQL (psycopg2)</a>
+  <a href="prog1_106.html">10.6 Noslēguma projekts: Highscore datubāze</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>10.1 Ievads datubāzēs un PostgreSQL</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Saprast, kāpēc relāciju datubāzes ir labākas par CSV/JSON failiem, instalēt PostgreSQL un izveidot pirmo tabulu.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.17. Darbs ar failiem un ārējām datu krātuvēm</a>
+        <a href="../../sasnRez.html">SR 2.4.4. Iegūst, atlasa un apstrādā datus</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Kas ir relāciju datubāze?</h2>
+    <div class='logic-box'>
+<p>Datubāze (DB) ir strukturēta datu kopa, kuru pārvalda <b>datubāzes pārvaldības sistēma (DBVS)</b>. PostgreSQL ir bezmaksas, atvērtā koda DBVS, ko izmanto Apple, Reddit, Spotify un tūkstošiem citu lielo uzņēmumu.</p>
+<p>Atšķirībā no JSON/CSV, datubāze:</p>
+<ul>
+<li><b>Veic vaicājumus efektīvi</b> — atrod 1 ierakstu no 1 miljona milisekundēs (indeksi).</li>
+<li><b>Nodrošina datu integritāti</b> — laukam ir tips, var aizliegt NULL, prasīt unikālas vērtības.</li>
+<li><b>Atbalsta vairākus lietotājus vienlaicīgi</b> — bez konfliktiem (transakcijas).</li>
+<li><b>Saglabā datu attiecības</b> — primārās un ārējās atslēgas.</li>
+</ul>
+<pre><code class="language-sql">-- Pirmā tabula
+CREATE TABLE speletaji (
+    id SERIAL PRIMARY KEY,    -- auto-increment unikāls ID
+    vards TEXT NOT NULL,
+    punkti INTEGER DEFAULT 0
+);</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: PostgreSQL instalēšana</h2>
+    <p>Sagatavo darba vidi: instalē PostgreSQL un grafisko klientu pgAdmin.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Lejupielādē PostgreSQL no <a href='https://www.postgresql.org/download/'>postgresql.org/download</a> un instalē (atceries paroli admin lietotājam <code>postgres</code>!).</li>
+            <li>Instalācijas laikā uzliek pgAdmin atzīmi (grafiskais klients).</li>
+            <li>Atver pgAdmin un savienojies ar lokālo serveri.</li>
+            <li>Izveido jaunu datubāzi ar nosaukumu <code>spele</code> (Right click → Create → Database).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Pirmā tabula ar SQL</h2>
+    <p>Izveido tabulu spēlētāju datu glabāšanai, izmantojot SQL DDL.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>pgAdmin atvēr Query Tool (lapas ikona ar elektrību).</li>
+            <li>Ieraksti un izpildi (F5):<br><code class="language-sql">CREATE TABLE speletaji (id SERIAL PRIMARY KEY, vards TEXT NOT NULL, punkti INTEGER DEFAULT 0);</code></li>
+            <li>Pārbaudi tabulu — kreisajā kokā: Schemas → public → Tables → speletaji.</li>
+            <li>Pievieno otru tabulu <code>speles</code>: id, nosaukums, izveidots.</li>
+            <li>Saglabā SQL skriptu kā <code>schema.sql</code> savā projektā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Datu tipu eksperiments</h2>
+    <p>Izpēti dažādus PostgreSQL datu tipus un to robežas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido tabulu <code>tipu_tests</code> ar laukiem: <code>mazs INT</code>, <code>liels BIGINT</code>, <code>cipars NUMERIC(10,2)</code>, <code>tagad TIMESTAMP DEFAULT NOW()</code>, <code>aktivs BOOLEAN DEFAULT true</code>.</li>
+            <li>Iemēģini <code>INSERT INTO tipu_tests (mazs, liels, cipars) VALUES (100, 9999999999, 3.14);</code></li>
+            <li>Izpildi <code>SELECT * FROM tipu_tests;</code> un apskati rezultātu.</li>
+            <li>Mēģini ievadīt nederīgu vērtību (piem., tekstu skaitlim) — pieraksti, kāda kļūda parādās.</li>
+            <li>Saglabā secinājumus failā <code>datu_tipi.md</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: DB diagramma ar dbdiagram.io</h2>
+    <p>Izmanto vizuālu rīku, lai uzzīmētu projekta datu modeli.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver <a href='https://dbdiagram.io' target='_blank'>dbdiagram.io</a>.</li>
+            <li>Apraksti tabulas <code>speletaji</code> un <code>speles</code> ar to attiecībām.</li>
+            <li>Eksportē kā PNG attēlu un saglabā GitHub mapē.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Aizmirsi paroli postgres lietotājam:</b> Instalācijas laikā saglabā paroli pārvaldnieka rīkā (piem., Bitwarden).</li>
+        <li><b>Tabulu nevar dzēst:</b> Vispirms ar <code>DROP TABLE IF EXISTS speletaji CASCADE;</code> — CASCADE noņem arī saistītos objektus.</li>
+        <li><b>SERIAL nepilda:</b> Saglabā skripta failu un pārbaudi pareizrakstību (S-E-R-I-A-L).</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">-- Pirmais SQL skripts (schema.sql)
+CREATE TABLE IF NOT EXISTS speletaji (
+    id SERIAL PRIMARY KEY,
+    vards TEXT NOT NULL UNIQUE,
+    punkti INTEGER DEFAULT 0,
+    izveidots TIMESTAMP DEFAULT NOW()
+);
+
+-- Pārbaude, ka tabula izveidota
+SELECT table_name FROM information_schema.tables
+WHERE table_schema = 'public';</code></pre>
+        <div class='result'>table_name<br>----------<br>speletaji</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_10main.html" class="nav-btn">⬅ Tēmas apkopojums</a>
+    <a href="prog1_102.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

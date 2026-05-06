@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>12.3 REST API izstrāde</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_12main.html">12. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_121.html">12.1 Front-end un back-end arhitektūra</a>
+  <a href="prog1_122.html">12.2 Flask: Python kā web serveris</a>
+  <a class="active" href="prog1_123.html">12.3 REST API izstrāde</a>
+  <a href="prog1_124.html">12.4 Front-end + API integrācija</a>
+  <a href="prog1_125.html">12.5 Izvietošana mākonī un drošība</a>
+  <a href="prog1_126.html">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>12.3 REST API izstrāde</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Saprast REST principus un izveidot pareizi strukturētu API spēļu rezultātu pārvaldībai.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.11. Lieto standartizētas bibliotēkas un API</a>
+        <a href="../../sasnRez.html">SR 2.4.7. Lietotāja saskarne</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: REST principi</h2>
+    <div class='logic-box'>
+<p><b>REST</b> (Representational State Transfer) ir API projektēšanas stils, kas nosaka:</p>
+<ul>
+<li><b>Resursu identificēšana</b> caur URL (piem., <code>/api/speletaji/42</code>).</li>
+<li><b>Standarta HTTP metodes</b> ar konkrētu nozīmi (GET = lasīt, POST = izveidot, PUT = atjaunināt, DELETE = dzēst).</li>
+<li><b>Stateless</b> — katrs pieprasījums saturs visu vajadzīgo info; serveris nesaglabā stāvokli starp pieprasījumiem.</li>
+<li><b>JSON</b> kā datu formāts.</li>
+</ul>
+<table>
+<thead><tr><th>Metode</th><th>URL</th><th>Darbība</th></tr></thead>
+<tbody>
+<tr><td>GET</td><td>/api/speletaji</td><td>Saraksts ar visiem</td></tr>
+<tr><td>GET</td><td>/api/speletaji/42</td><td>Viens pēc ID</td></tr>
+<tr><td>POST</td><td>/api/speletaji</td><td>Izveidot jaunu</td></tr>
+<tr><td>PUT</td><td>/api/speletaji/42</td><td>Aizstāt visu</td></tr>
+<tr><td>PATCH</td><td>/api/speletaji/42</td><td>Daļēji atjaunināt</td></tr>
+<tr><td>DELETE</td><td>/api/speletaji/42</td><td>Dzēst</td></tr>
+</tbody>
+</table>
+<p><b>Pareizie statusa kodi:</b> 200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 404 Not Found, 500 Server Error.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pilnvērtīga CRUD API</h2>
+    <p>Pievieno visas 5 standartmaršrutas spēļu rezultātiem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido <code>app.py</code> ar globālu sarakstu <code>REZULTATI</code>.</li>
+            <li><code>GET /api/rezultati</code> — visu sarakstu.</li>
+            <li><code>GET /api/rezultati/&lt;id&gt;</code> — viens vai 404.</li>
+            <li><code>POST /api/rezultati</code> — izveido jaunu (201).</li>
+            <li><code>PUT /api/rezultati/&lt;id&gt;</code> — aizstāj.</li>
+            <li><code>DELETE /api/rezultati/&lt;id&gt;</code> — dzēš (204 No Content).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Filtri un kārtošana</h2>
+    <p>Pievieno query parametrus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>GET /api/rezultati?limit=10</code> — TOP 10 pēc punktiem.</li>
+            <li><code>GET /api/rezultati?spele=quiz</code> — tikai "quiz" spēles rezultāti.</li>
+            <li><code>GET /api/rezultati?kartot=datums</code> — pēc datuma.</li>
+            <li>Implementē, lasot <code>request.args.get("limit", default=100, type=int)</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Validācija un kļūdu apstrāde</h2>
+    <p>Pārliecinies, ka API nevar "saplēst".</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>POST: validē <code>vards</code> nav tukšs un <code>punkti &gt;= 0</code>; atgriež 400 ar specifisku kļūdas tekstu.</li>
+            <li>Visiem maršrutiem pievieno <code>try/except</code>: ja kļūda, atgriež 500 ar paziņojumu.</li>
+            <li>Pievieno globālu kļūdu apstrādātāju <code>@app.errorhandler(404)</code>, kas atgriež JSON, ne HTML.</li>
+            <li>Testē ar <code>curl</code>, sūtot nederīgus datus.</li>
+            <li>Sadali kodu moduļos: <code>app.py</code>, <code>models.py</code>, <code>validators.py</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: OpenAPI dokumentācija</h2>
+    <p>Automātiskā API dokumentācija.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>pip install flask-smorest</code></li>
+            <li>Pievieno automātisku Swagger UI savai API.</li>
+            <li>Atver <code>http://localhost:5000/swagger-ui</code> un izpēti dokumentāciju.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>POST izmanto GET datus:</b> JSON sūta caur body, ne URL parametriem. Dažādi <code>request.json</code> vs <code>request.args</code>.</li>
+        <li><b>200 OK pat kļūdām:</b> Atgriez pareizu statusa kodu — 4xx klienta kļūdām, 5xx servera kļūdām.</li>
+        <li><b>API atgriež HTML kļūdas:</b> Noklusējuma Flask 404 ir HTML — pārraksti to, lai vienmēr būtu JSON.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">from flask import Flask, jsonify, request, abort
+
+app = Flask(__name__)
+REZULTATI = []
+
+@app.route("/api/rezultati", methods=["GET"])
+def saraksts():
+    limit = request.args.get("limit", 100, type=int)
+    sakartoti = sorted(REZULTATI, key=lambda r: r["punkti"], reverse=True)
+    return jsonify(sakartoti[:limit])
+
+@app.route("/api/rezultati", methods=["POST"])
+def jauns():
+    d = request.json or {}
+    if not d.get("vards"): return jsonify({"kluda": "Trūkst vārds"}), 400
+    if d.get("punkti", 0) &lt; 0: return jsonify({"kluda": "Negatīvi punkti"}), 400
+    d["id"] = len(REZULTATI) + 1
+    REZULTATI.append(d)
+    return jsonify(d), 201
+
+@app.errorhandler(404)
+def not_found(e):
+    return jsonify({"kluda": "Nav atrasts"}), 404</code></pre>
+        <div class='result'>POST → 201 Created<br>GET ?limit=5 → top 5<br>404 → {kluda: 'Nav atrasts'}</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_122.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_124.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

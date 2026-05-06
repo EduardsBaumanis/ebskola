@@ -35,13 +35,24 @@
 
 <section class='section'>
     <h2>Teorija: Kas ir Spēles Cikls (Game Loop)?</h2>
-    <p>Gandrīz visas datorspēles pamatā ir "Game Loop" – kods, kas atkārtojas desmitiem reižu sekundē (FPS - frames per second). Tas dara trīs lietas: nolasa spēlētāja ievadi, atjaunina pozīcijas un pārzīmē ekrānu.
+    <div class='logic-box'>
+<p>Gandrīz visas datorspēles pamatā ir "Game Loop" – kods, kas atkārtojas desmitiem reižu sekundē (FPS - frames per second). Tas dara trīs lietas: nolasa spēlētāja ievadi, atjaunina pozīcijas un pārzīmē ekrānu.
         <ul>
             <li><b>setInterval(funkcija, milisekundes):</b> Iebūvēts JS rīks, kas liek pārlūkam atkārtoti izsaukt norādīto funkciju ik pēc noteikta laika (1000 ms = 1 sekunde).</li>
             <li><b>clearInterval(id):</b> Rīks, kas aptur iepriekš sākto ciklu. Tas ir svarīgi, lai spēle apstātos, kad iestājas "Game Over" vai beidzas laiks.</li>
             <li><b>Automātiskā kustība:</b> Ja mēs `setInterval` ciklā katru reizi palielinām ienaidnieka `X` koordinātu par 5 pikseļiem (ik pēc 20ms), cilvēka acij izskatīsies, ka objekts plūdeni slīd pa ekrānu.</li>
         </ul>
     </p>
+        <pre><code class="language-javascript">// Spēles cikls ar setInterval (60 FPS)
+let punkti = 0;
+const cikls = setInterval(() =&gt; {
+  punkti += 1;
+  document.getElementById("score").textContent = punkti;
+}, 1000 / 60);
+
+// Pārtraukšana
+clearInterval(cikls);</code></pre>
+    </div>
 </section>
 
 <section class='section'>
@@ -87,11 +98,13 @@
 
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <ul>
+    <div class='logic-box'>
+<ul>
         <li><b>"Zūdošais" taimera ID:</b> Ja definēsi <code>let spelesTaimeris = setInterval(...)</code> funkcijas iekšpusē, tu nevarēsi to apturēt ar <code>clearInterval()</code> citā funkcijā (Scope kļūda). Taimera mainīgo vienmēr definē faila sākumā!</li>
         <li><b>Paātrināšanās kļūda (Multiple intervals):</b> Ja funkcija, kas iedarbina <code>setInterval</code>, tiek izsaukta vairākas reizes (piemēram, katru reizi nospiežot "Sākt spēli"), tiks palaisti vairāki paralēli taimeri, un laiks vai kustība kļūs neprātīgi ātra. Vienmēr pārbaudi, vai iepriekšējais intervāls ir apturēts pirms jauna sākšanas.</li>
         <li><b>Neaizmirsti "px":</b> Automātiskā kustība nestrādās, ja piemirsīsi pievienot mērvienību (<code>...style.top = Y + "px"</code>).</li>
     </ul>
+    </div>
 </section>
 
 <div class='section'>

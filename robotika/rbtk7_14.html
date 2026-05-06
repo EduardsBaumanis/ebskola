@@ -35,13 +35,22 @@
 
 <section class='section'>
     <h2>Teorija: Neatkarīgu motoru vadība un zobrati</h2>
-    <p>Līdz šim mēs izmantojām tikai rozā "Movement" blokus, kas darbina divus motorus vienlaicīgi kā automašīnas riteņus. Bet lai kustinātu robota roku, pacēlāju vai satvērēju, mums nepieciešams vadīt vienu konkrētu motoru neatkarīgi no pārējiem.</p>
+    <div class='logic-box'>
+<p>Līdz šim mēs izmantojām tikai rozā "Movement" blokus, kas darbina divus motorus vienlaicīgi kā automašīnas riteņus. Bet lai kustinātu robota roku, pacēlāju vai satvērēju, mums nepieciešams vadīt vienu konkrētu motoru neatkarīgi no pārējiem.</p>
     <ul>
         <li><b>"Motor" bloki (Zilā krāsā):</b> Zilie bloki kontrolē tikai vienu norādīto portu (piemēram, portu C). Tie neietekmē robota braukšanu. Jūs varat likt ziliem blokiem darboties paralēli rozā blokiem!</li>
         <li><b>Pozīcijas un Leņķi:</b> SPIKE motoriem iebūvēts precīzs rotācijas sensors. Kad jūs pievienojat roku motoram, ir svarīgi zināt, kura pozīcija (grādi) atbilst "Atvērts" stāvoklim, un kura – "Aizvērts".</li>
         <li><b>Mehāniskā priekšrocība (Zobrati):</b> Ja mazs zobrats griež lielu zobratu, spēks palielinās, bet ātrums samazinās. Ja lielais griež mazo – ātrums palielinās, bet spēks samazinās. Padomājiet, kas nepieciešams labam satvērējam – ātrums vai spēks noturēt klucīti?</li>
     </ul>
     <p><i>[Ievietot attēlu šeit: Ekrānuzņēmums no SPIKE lietotnes ar zilajiem "run motor [C] for [90] degrees" un "go to shortest path to position [0]" blokiem]</i></p>
+        <pre><code class="language-python"># Manipulatora vadība (3. ass)
+from spike import Motor
+
+satverejs = Motor("C")
+satverejs.run_for_degrees(90, speed=30)   # aizver
+# ... pacelšanas darbības ...
+satverejs.run_for_degrees(-90, speed=30)  # atver</code></pre>
+    </div>
 </section>
 
 <section class='section'>
@@ -102,11 +111,13 @@
 
 <section class='section'>
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <ul>
+    <div class='logic-box'>
+<ul>
         <li><b>Satvērējs kustas pārāk vāji vai nespēj pacelt objektu:</b> Jūsu mehānisms ir pārāk tiešs. Pamēģiniet izmantot zobratus, lai palielinātu griezes momentu (spēku), uzliekot mazu zobratu uz motora ass un lielu zobratu uz satvērēja ass.</li>
         <li><b>Programma "iestrēgst" pie zilā bloka un robots nebrauc tālāk:</b> Ja izmantojat <code>run motor for [degrees]</code> bloku un spīles fiziski nevar sasniegt šos grādus (jo priekšmets ir pa vidu), programma gaidīs mūžīgi un neies uz priekšu. Risinājums: pirms satveršanas izmantojiet zilo bloku <code>set motor [C] to run for [X] seconds</code> vai nomainiet stāvokli uz "stop motor" pēc sekundi ilgas piepūles.</li>
         <li><b>Satvērējs atveras vaļā pats no sevis pēc satveršanas:</b> LEGO motoriem ir pretestība, bet lieli smagumi tos var atgriezt atpakaļ. Iestatiet motora "Hold" (turēšanas) funkciju vai mehāniski pievienojiet tārpa zobratu (worm gear), kas bloķē kustību atpakaļ.</li>
     </ul>
+    </div>
 </section>
 
 <div class='section'>

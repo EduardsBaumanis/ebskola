@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>10.4 JOIN un sarežģīti vaicājumi</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_10main.html">prog1_10. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_101.html">10.1 Ievads datubāzēs un PostgreSQL</a>
+  <a href="prog1_102.html">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+  <a href="prog1_103.html">10.3 Tabulu projektēšana un saites</a>
+  <a class="active" href="prog1_104.html">10.4 JOIN un sarežģīti vaicājumi</a>
+  <a href="prog1_105.html">10.5 Python ↔ PostgreSQL (psycopg2)</a>
+  <a href="prog1_106.html">10.6 Noslēguma projekts: Highscore datubāze</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>10.4 JOIN un sarežģīti vaicājumi</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot datus no vairākām tabulām, izmantojot JOIN un agregētas funkcijas.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.4. Iegūst, atlasa un apstrādā datus</a>
+        <a href="../../sasnRez.html">SR 2.4.5. Datu analīze un vizualizācija</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: JOIN un agregēti vaicājumi</h2>
+    <div class='logic-box'>
+<p><b>JOIN</b> apvieno rindas no divām vai vairākām tabulām, balstoties uz attiecībām (parasti FK ↔ PK).</p>
+<pre><code class="language-sql">-- INNER JOIN — tikai tās rindas, kurām ir atbilstība abās tabulās
+SELECT s.vards, sp.punkti, sp.spelets
+FROM speletaji s
+INNER JOIN speles sp ON s.id = sp.speletajs_id
+ORDER BY sp.spelets DESC;
+
+-- LEFT JOIN — visi spēlētāji, ieskaitot tos bez spēlēm
+SELECT s.vards, COUNT(sp.id) AS speles_skaits
+FROM speletaji s
+LEFT JOIN speles sp ON s.id = sp.speletajs_id
+GROUP BY s.vards;
+
+-- Apvienots: TOP 5 spēlētāju kopējie punkti
+SELECT s.vards, SUM(sp.punkti) AS kopa
+FROM speletaji s
+INNER JOIN speles sp ON s.id = sp.speletajs_id
+GROUP BY s.vards
+ORDER BY kopa DESC
+LIMIT 5;</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: INNER JOIN praktiski</h2>
+    <p>Saraksts ar visām spēlēm un to spēlētāju vārdiem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izpildi: <code>SELECT s.vards, sp.punkti, sp.spelets FROM speletaji s INNER JOIN speles sp ON s.id = sp.speletajs_id;</code></li>
+            <li>Sakārto pēc datuma dilstoši (jaunākās augšā).</li>
+            <li>Pievieno filtru — tikai šī mēneša spēles: <code>WHERE sp.spelets &gt;= NOW() - INTERVAL '1 month'</code>.</li>
+            <li>Pieraksti rezultātus failā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: LEFT JOIN un GROUP BY</h2>
+    <p>Atrod, cik spēļu ir nospēlējis katrs spēlētājs (arī 0 spēles).</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido vēl 2 spēlētājus, kuri nav nospēlējuši nevienu spēli.</li>
+            <li>Izpildi: <code>SELECT s.vards, COUNT(sp.id) AS skaits FROM speletaji s LEFT JOIN speles sp ON s.id = sp.speletajs_id GROUP BY s.vards;</code></li>
+            <li>Salīdzini ar INNER JOIN — kā mainās rezultāts?</li>
+            <li>Sakārto pēc skaita dilstoši.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Sarežģītā statistika</h2>
+    <p>Izveido reālu "leaderboard" vaicājumu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>TOP 5 pēc kopējiem punktiem: <code>SELECT s.vards, SUM(sp.punkti) AS kopa FROM speletaji s INNER JOIN speles sp ON s.id = sp.speletajs_id GROUP BY s.vards ORDER BY kopa DESC LIMIT 5;</code></li>
+            <li>Vidējie punkti vienai spēlei: <code>AVG(sp.punkti) AS videjie</code>.</li>
+            <li>Spēlētāja personīgais rekords: pievieno <code>MAX(sp.punkti) AS rekords</code>.</li>
+            <li>Izveido VIEW (saglabātu vaicājumu): <code>CREATE VIEW leaderboard AS &lt;tavs vaicājums&gt;;</code></li>
+            <li>Tagad TOP 5 var atvērt ar: <code>SELECT * FROM leaderboard;</code></li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Subqueries</h2>
+    <p>Izmēģini ligzdotos vaicājumus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Spēlētāji, kuriem augstāks vidējais nekā kopējais vidējais: <code>SELECT vards FROM (SELECT s.vards, AVG(sp.punkti) AS v FROM speletaji s JOIN speles sp ON s.id=sp.speletajs_id GROUP BY s.vards) t WHERE t.v &gt; (SELECT AVG(punkti) FROM speles);</code></li>
+            <li>Salīdzini ar JOIN versiju — kura skaidrāka?</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Aizmirsta GROUP BY:</b> Lietojot agregātu (COUNT, SUM), visi neagregētie lauki jāpievieno GROUP BY.</li>
+        <li><b>Cartesian product:</b> Bez ON nosacījuma JOIN reizina rindu skaitus — vienmēr norādi <code>ON</code>.</li>
+        <li><b>NULL salīdzinājums:</b> <code>WHERE x = NULL</code> nav pareizi — lieto <code>WHERE x IS NULL</code>.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">-- TOP 5 spēlētāji ar pilnu statistiku
+SELECT
+    s.vards,
+    COUNT(sp.id) AS speles_skaits,
+    SUM(sp.punkti) AS kopa,
+    AVG(sp.punkti)::INT AS videjie,
+    MAX(sp.punkti) AS rekords
+FROM speletaji s
+INNER JOIN speles sp ON s.id = sp.speletajs_id
+GROUP BY s.vards
+ORDER BY kopa DESC
+LIMIT 5;</code></pre>
+        <div class='result'>vards | speles | kopa | videjie | rekords<br>Anna  | 5      | 600  | 120     | 200<br>Jānis | 3      | 450  | 150     | 200</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_103.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_105.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

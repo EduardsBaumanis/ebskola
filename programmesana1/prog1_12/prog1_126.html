@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_12main.html">12. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_121.html">12.1 Front-end un back-end arhitektūra</a>
+  <a href="prog1_122.html">12.2 Flask: Python kā web serveris</a>
+  <a href="prog1_123.html">12.3 REST API izstrāde</a>
+  <a href="prog1_124.html">12.4 Front-end + API integrācija</a>
+  <a href="prog1_125.html">12.5 Izvietošana mākonī un drošība</a>
+  <a class="active" href="prog1_126.html">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot visu kursā apgūto, lai izveidotu pilnvērtīgu daudzspēlētāju "Krustiņi un nullītes" spēli, kas pieejama publiski internetā.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.1. Problēmas dekompozīcija</a>
+        <a href="../../sasnRez.html">SR 2.4.7. Lietotāja saskarne</a>
+        <a href="../../sasnRez.html">SR 2.4.11. API</a>
+        <a href="../../sasnRez.html">SR 2.4.18. OOP</a>
+        <a href="../../sasnRez.html">SR 2.4.17. Datu krātuves</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Spēles apraksts un arhitektūra</h2>
+    <div class='logic-box'>
+<p>Tava noslēguma spēle ir <b>daudzspēlētāju "Krustiņi un nullītes"</b>, kurā divi spēlētāji no atšķirīgiem datoriem var spēlēt vienu un to pašu partiju reālā laikā.</p>
+<p><b>Tehnoloģijas (viss kurss vienā):</b></p>
+<ul>
+<li><b>Backend:</b> Python + Flask + psycopg2 + PostgreSQL.</li>
+<li><b>Frontend:</b> HTML + CSS + JavaScript (vanilla).</li>
+<li><b>OOP:</b> klases <code>Spele</code>, <code>Speletajs</code>, <code>Gajiens</code>.</li>
+<li><b>API:</b> REST ar JSON.</li>
+<li><b>Izvietošana:</b> Render + PostgreSQL mākonī.</li>
+</ul>
+<p><b>Galvenās funkcijas:</b></p>
+<ul>
+<li>Spēlētājs izveido jaunu spēli, saņem unikālu kodu (<code>ABC123</code>).</li>
+<li>Otrs spēlētājs ievada kodu un pievienojas spēlei.</li>
+<li>Spēles laukums un gājiens tiek glabāti datubāzē.</li>
+<li>Pārlūks polling-ē serveri ik 2 sek., lai redzētu pretinieka gājienus.</li>
+<li>Uzvarētāji tiek glabāti TOP 10 sarakstā.</li>
+</ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Backend ar OOP un DB (1. līmenis)</h2>
+    <p>Izveido pilnu Flask serveri.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Datubāzē izveido tabulas: <code>speles (id, kods, laukums TEXT, pasreizejais TEXT, status TEXT, izveidots TIMESTAMP)</code> un <code>uzvaras (id, vards, koda)</code>.</li>
+            <li>Klase <code>Spele</code>: <code>__init__(kods)</code> izveido tukšu 9-pozīciju virkni, <code>gajiens(poz, simbols)</code>, <code>uzvaretajs()</code> pārbauda 8 uzvaras kombinācijas.</li>
+            <li>Maršrutas: <code>POST /api/spele</code> izveido jaunu, atgriež kodu; <code>GET /api/spele/&lt;kods&gt;</code> stāvokli; <code>POST /api/spele/&lt;kods&gt;/gajiens</code> izpilda gājienu.</li>
+            <li>Saglabā kodu: <code>app.py</code>, <code>models.py</code>, <code>schema.sql</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Frontend ar HTML/CSS/JS (2. līmenis)</h2>
+    <p>Izveido pielāgojamu lietotāja saskarni.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>static/index.html</code>: 2 ekrāni — sākuma ("Izveidot" / "Pievienoties") un spēles (3×3 režģis + statuss).</li>
+            <li><code>static/style.css</code>: 3×3 grid CSS, hover efekti, atšķirīgas krāsas X un O.</li>
+            <li><code>static/spele.js</code>: <code>fetch()</code> izsaukumi, polling ik 2 sek. ar <code>setInterval()</code>, klikšķu apstrāde.</li>
+            <li>Pievieno paziņojumus: "Tavs gājiens", "Pretinieka gājiens", "Uzvarēja X!".</li>
+            <li>Pārliecinies, ka spēle darbojas no diviem dažādiem pārlūkiem.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Izvietošana un pulēšana (3. līmenis)</h2>
+    <p>Publicē projektu un veic gala uzlabojumus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Sagatavo <code>requirements.txt</code>, <code>Procfile</code>, <code>.env.example</code>.</li>
+            <li>Push uz GitHub un izvieto Render (Web Service + PostgreSQL).</li>
+            <li>Pievieno TOP 10 uzvarētāju lapu (<code>/uzvaras</code>).</li>
+            <li>Pievieno spēles izsmelšanos (<code>DELETE</code> spēles, kas vecākas par 1 stundu).</li>
+            <li>Uzraksti <code>README.md</code> ar: kā spēlēt, tehnoloģijas, palaišana lokāli, public URL.</li>
+            <li>GitHub: vismaz 8 commit ar skaidriem ziņojumiem.</li>
+            <li>Aizpildi <code>AUDIT.md</code> ar projekta retrospektīvu — kas izdevās, kas nē, ko mācīsi citiem.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: AI pretinieks</h2>
+    <p>Pievieno minimax algoritmu, lai cilvēks varētu spēlēt pret datoru.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Implementē <code>minimax(laukums, dziluma, ir_X)</code> klasi <code>AISpeletajs</code>.</li>
+            <li>Atgriež labāko gājienu visās 9 pozīcijās.</li>
+            <li>Pievieno frontend opciju: "Spēlēt pret AI".</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Race condition:</b> Divi spēlētāji vienlaikus izpilda gājienu — lieto datubāzes lock vai serializētu transakciju.</li>
+        <li><b>Polling pārslodze:</b> 2 sek. polling 100 spēlētāju = 50 pieprasījumi/sek. Apsver WebSocket nākotnē.</li>
+        <li><b>Drošības robs:</b> Klients var nosūtīt jebkuru pozīciju — vienmēr validē serverī, ka pozīcija ir tukša un ir attiecīgā spēlētāja gājiens.</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">class Spele:
+    """Krustiņi un nullītes spēles loģika."""
+    UZVARES = [(0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)]
+
+    def __init__(self, laukums="---------", pasreizejais="X"):
+        self.laukums = list(laukums)
+        self.pasreizejais = pasreizejais
+
+    def gajiens(self, poz, simbols):
+        if self.laukums[poz] != "-": raise ValueError("Aizņemta pozīcija")
+        if simbols != self.pasreizejais: raise ValueError("Nav tavs gājiens")
+        self.laukums[poz] = simbols
+        self.pasreizejais = "O" if simbols == "X" else "X"
+
+    def uzvaretajs(self):
+        for a, b, c in self.UZVARES:
+            if self.laukums[a] == self.laukums[b] == self.laukums[c] != "-":
+                return self.laukums[a]
+        if "-" not in self.laukums: return "neizšķirts"
+        return None
+
+# Lietošana
+s = Spele()
+s.gajiens(0, "X"); s.gajiens(4, "O"); s.gajiens(1, "X"); s.gajiens(5, "O"); s.gajiens(2, "X")
+print(f"Uzvarētājs: {s.uzvaretajs()}")</code></pre>
+        <div class='result'>Uzvarētājs: X</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_125.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_12main.html" class="nav-btn">Tēmas apkopojums ➡</a>
+</div>
+</body>
+</html>

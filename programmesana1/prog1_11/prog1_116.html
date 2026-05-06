@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<title>11.6 Noslēguma projekts: RPG cīņas spēle</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog1_11main.html">11. Tēmas apkopojums + Špikeris</a>
+  <a href="prog1_111.html">11.1 Klases un objekti</a>
+  <a href="prog1_112.html">11.2 Konstruktori un atribūti</a>
+  <a href="prog1_113.html">11.3 Metodes un self</a>
+  <a href="prog1_114.html">11.4 Mantošana un super()</a>
+  <a href="prog1_115.html">11.5 Polimorfisms un dunder metodes</a>
+  <a class="active" href="prog1_116.html">11.6 Noslēguma projekts: RPG cīņas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>11.6 Noslēguma projekts: RPG cīņas spēle</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot visas OOP prasmes — klases, mantošanu un polimorfismu — pilnvērtīgā RPG cīņas spēlē.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.18. Lieto OOP pamatus</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas un funkcijas</a>
+        <a href="../../sasnRez.html">SR 2.4.14. Vadības struktūras</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Spēles apraksts un arhitektūra</h2>
+    <div class='logic-box'>
+<p>Tava <b>RPG cīņas spēle</b> izmantos visas OOP iespējas:</p>
+<ul>
+<li><b>Bāzes klase</b> <code>Tels</code> — kopīga visiem (HP, vards, cizt, vai_dzivs).</li>
+<li><b>Bērnu klases</b>: <code>Bruninieks</code> (bruņas), <code>Burvis</code> (mana, burvojumi), <code>Strelnieks</code> (kritiskie sitieni).</li>
+<li><b>Ienaidnieki</b>: <code>Goblins</code>, <code>Pukis</code>, <code>Skelets</code> — katrs ar savu stilu.</li>
+<li><b>Polimorfisms</b>: visiem ir <code>uzbrukums()</code>, bet darbība atšķiras.</li>
+<li><b>Spēles cikls</b>: nejauši ienaidnieki, rundām balstītā cīņa.</li>
+</ul>
+<p><b>Failu struktūra:</b></p>
+<pre><code class="language-python">rpg/
+├── main.py          # spēles cikls
+├── varoni.py        # Bruninieks, Burvis, Strelnieks
+├── ienaidnieki.py   # Goblins, Pukis, Skelets
+├── bazes.py         # Tels (bāzes klase)
+└── ieroci.py        # Zobens, Loks, Burvjugrāmata</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Klašu hierarhija (1. līmenis)</h2>
+    <p>Izveido pilnu klašu sistēmu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Failā <code>bazes.py</code>: <code>class Tels</code> ar <code>__init__(self, vards, hp)</code>, <code>cizt</code>, <code>vai_dzivs</code>, <code>__str__</code>.</li>
+            <li>Failā <code>varoni.py</code>: <code>Bruninieks</code> (bruņas), <code>Burvis</code> (mana + burvojumi), <code>Strelnieks</code> (kritisks sitiens).</li>
+            <li>Failā <code>ienaidnieki.py</code>: 3 ienaidnieku tipi ar dažādiem HP/speks.</li>
+            <li>Galvenajā <code>main.py</code> importē un izveido katra tipa objektu, izvada to.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Cīņas mehānika (2. līmenis)</h2>
+    <p>Implementē rundām balstītu cīņu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Funkcija <code>cinas_runda(varonis, ienaidnieks)</code>: viens uzbrukums no katras puses.</li>
+            <li>Pievieno nejaušumu: 20% iespēja "netrāpīt" (<code>random.random() &lt; 0.2</code>).</li>
+            <li>Pievieno kritisko sitienu: 10% iespēja 2× bojājums.</li>
+            <li>Funkcija <code>cina(varonis, ienaidnieks)</code>: <code>while</code> cikls līdz viens nokrīt; izvada notikumus.</li>
+            <li>Galvenā funkcija <code>spelet()</code>: izveido varoni, ģenerē 5 nejaušus ienaidniekus, cīnās ar katru.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Saskarne un saglabāšana (3. līmenis)</h2>
+    <p>Pievieno lietotāja saskarni un saglabāšanu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>main.py</code>: izvēlne ar 1) Spēlēt; 2) Skatīt rezultātus; 3) Iziet.</li>
+            <li>Pirms spēles: lietotājs izvēlas klasi (Bruninieks/Burvis/Strelnieks) un ievada vārdu.</li>
+            <li>Pēc spēles: saglabā JSON failā <code>rezultati.json</code> — vārds, klase, uzvarētie ienaidnieki, datums.</li>
+            <li>Opcija "Skatīt rezultātus" parāda TOP 10 (sakārtotus pēc uzvarētajiem).</li>
+            <li>GitHub: vismaz 5 commit ar skaidriem ziņojumiem un README ar palaišanas instrukciju.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Inventārs ar ieročiem</h2>
+    <p>Pievieno ieroču klases ar bonusu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>ieroci.py</code>: <code>class Ierocis</code> ar <code>nosaukums</code>, <code>bojajums_bonus</code>.</li>
+            <li>Specifiski: <code>Zobens(Ierocis)</code>, <code>Loks(Ierocis)</code> — katrs ar savām īpašībām.</li>
+            <li>Varonim pievieno <code>self.ierocis</code> — viņa uzbrukums kļūst <code>self.speks + self.ierocis.bojajums_bonus</code>.</li>
+            <li>Pirms spēles ļauj izvēlēties ieroci.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Cirkulārs imports:</b> <code>varoni.py</code> imports <code>ienaidnieki.py</code>, kas imports <code>varoni.py</code> — sadali kopējās lietas <code>bazes.py</code>.</li>
+        <li><b>Bezgalīgs cikls cīņā:</b> Aizmirsts atjaunināt HP vai pārbaudīt <code>vai_dzivs()</code>.</li>
+        <li><b>Klases atribūts list:</b> <code>self.inventars = []</code> konstruktorā — NEKAD klases līmenī (visi dalītu vienu sarakstu).</li>
+        </ul>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">import random
+
+class Tels:
+    def __init__(self, vards, hp, speks):
+        self.vards = vards
+        self.hp = hp
+        self.speks = speks
+
+    def vai_dzivs(self): return self.hp &gt; 0
+    def cizt(self, b): self.hp = max(0, self.hp - b)
+    def __str__(self): return f"{self.vards} ({self.hp} HP)"
+
+class Bruninieks(Tels):
+    def __init__(self, vards):
+        super().__init__(vards, hp=150, speks=15)
+        self.brunas = 5
+    def cizt(self, b): super().cizt(max(0, b - self.brunas))
+
+class Goblins(Tels):
+    def __init__(self):
+        super().__init__("Goblins", hp=40, speks=8)
+
+bruno = Bruninieks("Lanselots")
+goblins = Goblins()
+
+while bruno.vai_dzivs() and goblins.vai_dzivs():
+    goblins.cizt(bruno.speks)
+    if goblins.vai_dzivs(): bruno.cizt(goblins.speks)
+
+uzvaretajs = bruno if bruno.vai_dzivs() else goblins
+print(f"Uzvarētājs: {uzvaretajs}")</code></pre>
+        <div class='result'>Uzvarētājs: Lanselots (130 HP)</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog1_115.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog1_11main.html" class="nav-btn">Tēmas apkopojums ➡</a>
+</div>
+</body>
+</html>
