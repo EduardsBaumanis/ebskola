@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.4 Pirmais C++ skripts: mainīgie un izvade — ebSkola</title>
+<meta name="description" content="Uzrakstīt pirmo strādājošu C++ klasi un attiecināt to uz Godot Node.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_14.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="1.4 Pirmais C++ skripts: mainīgie un izvade">
+<meta property="og:description" content="Uzrakstīt pirmo strādājošu C++ klasi un attiecināt to uz Godot Node.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_14.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1.4 Pirmais C++ skripts: mainīgie un izvade">
+<meta name="twitter:description" content="Uzrakstīt pirmo strādājošu C++ klasi un attiecināt to uz Godot Node.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "1.4 Pirmais C++ skripts: mainīgie un izvade", "description": "Uzrakstīt pirmo strādājošu C++ klasi un attiecināt to uz Godot Node.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_14.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_1main.html">1. Tēmas apkopojums</a>
+  <a href="prog2_11.html">1.1 Godot instalācija un projekta sagatavošana</a>
+  <a href="prog2_12.html">1.2 Scene Tree un Node sistēma</a>
+  <a href="prog2_13.html">1.3 C++ un GDExtension sagatavošana</a>
+  <a class="active" href="prog2_14.html">1.4 Pirmais C++ skripts: mainīgie un izvade</a>
+  <a href="prog2_15.html">1.5 Spēles laukuma izveide</a>
+  <a href="prog2_16.html">1.6 Noslēguma projekts: Pong</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>1.4 Pirmais C++ skripts: mainīgie un izvade</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Uzrakstīt pirmo strādājošu C++ klasi un attiecināt to uz Godot Node.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.13. Mainīgie un datu tipi</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: C++ klases struktūra GDExtension ietvaros</h2>
+    <div class='logic-box'>
+<p>Godot C++ klase tiek definēta divos failos: <code>.hpp</code> (header) un <code>.cpp</code> (implementation). Klasei jāmanto no Godot Node un jāizmanto <code>GDCLASS</code> makro.</p>
+<pre><code class="language-cpp">// hello.hpp
+#pragma once
+#include &lt;godot_cpp/classes/node.hpp&gt;
+
+namespace godot {
+
+class Hello : public Node {
+    GDCLASS(Hello, Node)
+
+private:
+    int counter = 0;
+
+protected:
+    static void _bind_methods();
+
+public:
+    Hello();
+    ~Hello();
+    void _ready() override;
+    void say_hello();
+};
+
+}  // namespace godot</code></pre>
+<p><b>Pamata C++ datu tipi:</b></p>
+<table>
+<thead><tr><th>Tips</th><th>Apraksts</th></tr></thead>
+<tbody>
+<tr><td><code>int</code></td><td>Vesels skaitlis</td></tr>
+<tr><td><code>float</code></td><td>Decimālskaitlis 32-bit</td></tr>
+<tr><td><code>bool</code></td><td>true/false</td></tr>
+<tr><td><code>String</code></td><td>Godot virkne</td></tr>
+<tr><td><code>Vector2</code></td><td>2D vektors (x, y)</td></tr>
+</tbody>
+</table>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Header fails</h2>
+    <p>Izveido pirmo C++ klases header failu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>gdext/src/hello.hpp</code> — iekopē klases definīciju no teorijas.</li>
+            <li>Saglabā un pārbaudi, ka VS Code neuzrāda kļūdas.</li>
+            <li>Pievieno komentārus pie katras rindas, lai paskaidrotu nozīmi.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Implementation fails</h2>
+    <p>Implementē klases metodes.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>hello.cpp</code> tajā pašā mapē.</li>
+            <li>Pievieno: <code>#include "hello.hpp"</code>, <code>#include &lt;godot_cpp/core/class_db.hpp&gt;</code>, <code>#include &lt;godot_cpp/variant/utility_functions.hpp&gt;</code></li>
+            <li>Implementē konstruktoru, destruktoru, _bind_methods un _ready (skat. apakšējo piemēru).</li>
+            <li>Kompilē: <code>scons platform=linuxbsd</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Reģistrācija un testēšana</h2>
+    <p>Reģistrē klasi un izmēģini.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>register_types.cpp</code>: pievieno <code>ClassDB::register_class&lt;Hello&gt;();</code></li>
+            <li>Failā <code>pong_ext.gdextension</code> projekta saknē — bibliotēkas ceļa konfigurācija.</li>
+            <li>Pārkompilē, atver Godot — Hello node parādīsies Add Child Node sarakstā.</li>
+            <li>Pievieno scēnai, palaiž (F5), pārbaudi Output panelī "Hello, Godot!".</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Mainīgo eksperiments</h2>
+    <p>Eksperimentē ar dažādiem datu tipiem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno locekļus: <code>String player_name = "Anna";</code>, <code>float score = 0.0f;</code>, <code>Vector2 position;</code>.</li>
+            <li><code>_ready()</code>: <code>UtilityFunctions::print("Spēlētājs: ", player_name);</code></li>
+            <li>Pārkompilē un pārbaudi izvadi.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>error: 'GDCLASS' was not declared:</b> Trūkst include statement.</li>
+        <li><b>Klase neparādās Godot:</b> Aizmirsts register_class.</li>
+        <li><b>Crash, palaižot:</b> .gdextension fails nepareizi konfigurēts.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic1_cpp_output.png" alt="Godot Output panelis pēc spēles palaišanas, kurā redzams 'Hello, Godot! No C++.' un 'Sveicieni Nr. 1' izvads." loading="lazy">
+            <figcaption>Godot Output panelis pēc spēles palaišanas, kurā redzams 'Hello, Godot! No C++.' un 'Sveicieni Nr. 1' izvads.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic1_create_node.png" alt="Godot Add Child Node dialogs ar pielāgoto 'Hello' klasi sarakstā zem 'Node' kategorijas." loading="lazy">
+            <figcaption>Godot Add Child Node dialogs ar pielāgoto 'Hello' klasi sarakstā zem 'Node' kategorijas.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">// hello.cpp
+#include "hello.hpp"
+#include &lt;godot_cpp/core/class_db.hpp&gt;
+#include &lt;godot_cpp/variant/utility_functions.hpp&gt;
+
+using namespace godot;
+
+void Hello::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("say_hello"), &amp;Hello::say_hello);
+}
+
+Hello::Hello() { counter = 0; }
+Hello::~Hello() {}
+
+void Hello::_ready() {
+    UtilityFunctions::print("Hello, Godot! No C++.");
+    say_hello();
+}
+
+void Hello::say_hello() {
+    counter++;
+    UtilityFunctions::print("Sveicieni Nr. ", counter);
+}</code></pre>
+        <div class='result'>Godot Output panelis ar 'Hello, Godot!' un 'Sveicieni Nr. 1' tekstu.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_13.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_15.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

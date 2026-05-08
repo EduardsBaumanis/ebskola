@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.4 Pathfinding ar A* — ebSkola</title>
+<meta name="description" content="Saprast un implementēt pathfinding (ceļa meklēšana) algoritmu spēles AI.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_44.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="4.4 Pathfinding ar A*">
+<meta property="og:description" content="Saprast un implementēt pathfinding (ceļa meklēšana) algoritmu spēles AI.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_44.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4.4 Pathfinding ar A*">
+<meta name="twitter:description" content="Saprast un implementēt pathfinding (ceļa meklēšana) algoritmu spēles AI.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.4 Pathfinding ar A*", "description": "Saprast un implementēt pathfinding (ceļa meklēšana) algoritmu spēles AI.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_44.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_4main.html">4. Tēmas apkopojums</a>
+  <a href="prog2_41.html">4.1 Vector un Array</a>
+  <a href="prog2_42.html">4.2 Map un Dictionary</a>
+  <a href="prog2_43.html">4.3 State machines AI uzvedībai</a>
+  <a class="active" href="prog2_44.html">4.4 Pathfinding ar A*</a>
+  <a href="prog2_45.html">4.5 Šaušanas mehānika un object pooling</a>
+  <a href="prog2_46.html">4.6 Noslēguma projekts: Top-down šautene</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>4.4 Pathfinding ar A*</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Saprast un implementēt pathfinding (ceļa meklēšana) algoritmu spēles AI.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.19. Algoritmu efektivitāte</a>
+        <a href="../../sasnRez.html">SR 2.4.16. Datu struktūras</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: A* algoritms un NavigationAgent2D</h2>
+    <div class='logic-box'>
+<p>Reālistiska AI prasa pathfinding — meklēt īsāko ceļu starp diviem punktiem, izvairoties no šķēršļiem.</p>
+<p><b>A* algoritms</b> izmanto:</p>
+<ul>
+<li><b>g(n)</b> — faktiskais ceļa garums no sākuma līdz n.</li>
+<li><b>h(n)</b> — heuristika (taisns attālums līdz mērķim).</li>
+<li><b>f(n) = g(n) + h(n)</b> — kopējais novērtējums.</li>
+</ul>
+<p>Godot 4 piedāvā <b>NavigationAgent2D</b> kas to dara automātiski.</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/classes/navigation_agent2d.hpp&gt;
+
+class Enemy : public CharacterBody2D {
+    NavigationAgent2D *nav_agent;
+public:
+    void _ready() override {
+        nav_agent = get_node&lt;NavigationAgent2D&gt;("NavigationAgent2D");
+        nav_agent-&gt;set_target_position(player_pos);
+    }
+
+    void _physics_process(double delta) override {
+        if (nav_agent-&gt;is_navigation_finished()) return;
+
+        Vector2 next_pos = nav_agent-&gt;get_next_path_position();
+        Vector2 dir = (next_pos - get_position()).normalized();
+        velocity = dir * speed;
+        move_and_slide();
+    }
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: NavigationRegion2D iestatīšana</h2>
+    <p>Sagatavo nav mesh.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno <code>NavigationRegion2D</code> līmeņa scēnai.</li>
+            <li>Pievieno <code>NavigationPolygon</code> resursu.</li>
+            <li>Tilbeing <code>Bake NavigationPolygon</code> — Godot ģenerē navigējamo zonu.</li>
+            <li>Pārliecinies, ka šķēršļi (StaticBody2D) tiek izslēgti no nav mesh.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: NavigationAgent2D Enemy</h2>
+    <p>Pievieno pathfinding ienaidniekam.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno <code>NavigationAgent2D</code> kā Enemy bērnu.</li>
+            <li>Inspector: max_speed, path_desired_distance, target_desired_distance.</li>
+            <li>Enemy klases _ready: <code>nav_agent = get_node&lt;...&gt;(...);</code></li>
+            <li>_physics_process: <code>nav_agent-&gt;set_target_position(player_pos)</code>; izmanto next_path_position.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Vairāki ienaidnieki nemudžojas</h2>
+    <p>Avoidance konfigurācija.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>NavigationAgent2D: avoidance_enabled = true.</li>
+            <li>Pievieno <code>NavigationObstacle2D</code> ap katru ienaidnieku.</li>
+            <li>Tagad ienaidnieki automātiski izvairās viens no otra.</li>
+            <li>Eksperimentē ar dažādiem max_speed un radius.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Custom A* implementation</h2>
+    <p>Manuāli ieprogrammē A*.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Godot AStar2D klase pieejama C++.</li>
+            <li>Izveido grid no scenes, marķē šķēršļus.</li>
+            <li>Implementē find_path metodi.</li>
+            <li>Salīdzini ātrumu ar NavigationAgent2D.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>NavigationAgent neatrod ceļu:</b> NavigationPolygon nav baked vai nepareiza forma.</li>
+        <li><b>Ienaidnieki iestrēgst stūros:</b> Path radius pārāk mazs vai šķēršļi pārāk tuvu.</li>
+        <li><b>Slow performance:</b> Pārāk daudz NavigationAgent — pārbaudi update freq.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic4_navmesh.png" alt="Godot editor ar baked navigation mesh: zilā krāsā navigējamās zonas, sarkanā — šķēršļi (sienas)." loading="lazy">
+            <figcaption>Godot editor ar baked navigation mesh: zilā krāsā navigējamās zonas, sarkanā — šķēršļi (sienas).</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic4_pathfinding_demo.png" alt="Spēles aina: ienaidnieks atrod ceļu ap U-formas sienu, lai sasniegtu spēlētāju centrā." loading="lazy">
+            <figcaption>Spēles aina: ienaidnieks atrod ceļu ap U-formas sienu, lai sasniegtu spēlētāju centrā.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/navigation_agent2d.hpp&gt;
+#include &lt;godot_cpp/classes/character_body2d.hpp&gt;
+
+void Enemy::_ready() {
+    nav_agent = get_node&lt;NavigationAgent2D&gt;("NavigationAgent2D");
+    nav_agent-&gt;set_avoidance_enabled(true);
+    update_target();
+}
+
+void Enemy::_physics_process(double delta) {
+    if (nav_agent-&gt;is_navigation_finished()) return;
+
+    Vector2 current = get_position();
+    Vector2 next = nav_agent-&gt;get_next_path_position();
+    Vector2 direction = (next - current).normalized();
+
+    velocity = direction * speed;
+    move_and_slide();
+}
+
+void Enemy::update_target() {
+    if (player) nav_agent-&gt;set_target_position(player-&gt;get_position());
+}</code></pre>
+        <div class='result'>Ienaidnieks atrod ceļu ap šķēršļiem un dzenas spēlētājam pa optimālo trasi, vairāki ienaidnieki nesaduras.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_43.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_45.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

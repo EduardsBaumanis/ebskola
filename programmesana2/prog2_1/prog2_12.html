@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.2 Scene Tree un Node sistēma — ebSkola</title>
+<meta name="description" content="Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_12.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="1.2 Scene Tree un Node sistēma">
+<meta property="og:description" content="Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_12.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1.2 Scene Tree un Node sistēma">
+<meta name="twitter:description" content="Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "1.2 Scene Tree un Node sistēma", "description": "Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_12.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_1main.html">1. Tēmas apkopojums</a>
+  <a href="prog2_11.html">1.1 Godot instalācija un projekta sagatavošana</a>
+  <a class="active" href="prog2_12.html">1.2 Scene Tree un Node sistēma</a>
+  <a href="prog2_13.html">1.3 C++ un GDExtension sagatavošana</a>
+  <a href="prog2_14.html">1.4 Pirmais C++ skripts: mainīgie un izvade</a>
+  <a href="prog2_15.html">1.5 Spēles laukuma izveide</a>
+  <a href="prog2_16.html">1.6 Noslēguma projekts: Pong</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>1.2 Scene Tree un Node sistēma</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.13. Datu tipi</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Node un Scene konceptu</h2>
+    <div class='logic-box'>
+<p>Godot fundamentālais princips: <b>viss ir Node</b> (Mezgls). Spēles laukums, varonis, poga, skaņa — viss ir Node, savienots hierarhiskā kokā jeb <b>Scene</b> (Skatu).</p>
+<p><b>Galvenie Node tipi 2D spēlēs:</b></p>
+<ul>
+<li><b>Node2D</b> — bāzes klase 2D objektiem ar pozīciju, rotāciju, mērogu.</li>
+<li><b>Sprite2D</b> — rāda 2D attēlu (texture).</li>
+<li><b>CollisionShape2D</b> — sadursmes forma.</li>
+<li><b>CharacterBody2D</b> — kustīgs objekts ar fiziku (varonis).</li>
+<li><b>Area2D</b> — detektē objektus, kas šķērso zonu.</li>
+<li><b>Camera2D</b> — kameras skats.</li>
+</ul>
+<pre><code class="language-cpp">// Pong scēnas struktūra:
+// Main (Node2D)
+// ├── Background (ColorRect)
+// ├── PaddleLeft (CharacterBody2D)
+// │   ├── Sprite2D
+// │   └── CollisionShape2D
+// ├── PaddleRight (CharacterBody2D)
+// └── Ball (CharacterBody2D)
+//     ├── Sprite2D
+//     └── CollisionShape2D</code></pre>
+<p>Bērnu nodes pārmanto vecāku transformāciju.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pong scēnas izveide</h2>
+    <p>Izveido Pong spēles laukuma struktūru.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver <code>main.tscn</code>. Spied + (Add Child Node) → <code>Node2D</code>, pārsauc par <code>Main</code>.</li>
+            <li>Pievieno <code>ColorRect</code> kā bērnu (fons). Inspector → Color: melna, Size: 1280×720.</li>
+            <li>Pievieno <code>CharacterBody2D</code>, pārsauc par <code>PaddleLeft</code>.</li>
+            <li>PaddleLeft bērniem pievieno <code>Sprite2D</code> un <code>CollisionShape2D</code>.</li>
+            <li>Sprite2D Texture → New PlaceholderTexture2D → Size: 20×100. CollisionShape2D Shape → New RectangleShape2D → Size: 20×100.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Bumba un pretinieks</h2>
+    <p>Pievieno bumbu un labo paddle.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Right-click PaddleLeft → Duplicate. Pārsauc par <code>PaddleRight</code>. Position X: 1240.</li>
+            <li>Pievieno jaunu <code>CharacterBody2D</code> kā Main bērnu, pārsauc par <code>Ball</code>.</li>
+            <li>Ball bērniem pievieno Sprite2D (PlaceholderTexture 20×20) un CollisionShape2D (RectangleShape 20×20).</li>
+            <li>Pārvieto Ball uz centru: Position 640, 360.</li>
+            <li>Spied F5, lai palaistu — laukums būs redzams.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Atkārtoti lietojamas scēnas</h2>
+    <p>Saglabā Ball un Paddle kā atsevišķas scēnas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Right-click <code>Ball</code> → Save Branch as Scene → <code>Ball.tscn</code>.</li>
+            <li>Atkārto ar PaddleLeft → <code>Paddle.tscn</code>.</li>
+            <li>Izdzēš PaddleRight, izveido jaunu instanci no Paddle.tscn (Instantiate Child Scene poga).</li>
+            <li>Pārliecinies, ka spēle joprojām palaižas korekti.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Groups un Tags</h2>
+    <p>Iepazīsties ar grupu sistēmu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atlasi Ball Node Tree.</li>
+            <li>Inspector blakus → Node tab → Groups → Add Group → <code>balls</code>.</li>
+            <li>Atkārto Paddle nodes ar grupu <code>paddles</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Bērns nepārvietojas ar vecāku:</b> Pārliecinies, ka Sprite2D un CollisionShape2D ir tieši zem CharacterBody2D.</li>
+        <li><b>CollisionShape2D rāda dzeltenu trīsstūri:</b> Trūkst Shape resursa.</li>
+        <li><b>Sprite nav redzams:</b> Texture lauks tukšs.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic1_scene_tree.png" alt="Scene Tree panelis ar Pong scēnas hierarhiju: Main → Background, PaddleLeft, PaddleRight, Ball, katrs ar Sprite2D un CollisionShape2D bērniem." loading="lazy">
+            <figcaption>Scene Tree panelis ar Pong scēnas hierarhiju: Main → Background, PaddleLeft, PaddleRight, Ball, katrs ar Sprite2D un CollisionShape2D bērniem.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic1_inspector.png" alt="Inspector panelis ar atlasītu CharacterBody2D un Position, Rotation, Scale īpašībām." loading="lazy">
+            <figcaption>Inspector panelis ar atlasītu CharacterBody2D un Position, Rotation, Scale īpašībām.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">[gd_scene format=3]
+[node name="Main" type="Node2D"]
+
+[node name="Background" type="ColorRect" parent="."]
+size = Vector2(1280, 720)
+color = Color(0, 0, 0, 1)
+
+[node name="PaddleLeft" parent="." instance=ExtResource("Paddle.tscn")]
+position = Vector2(40, 360)
+
+[node name="PaddleRight" parent="." instance=ExtResource("Paddle.tscn")]
+position = Vector2(1240, 360)
+
+[node name="Ball" parent="." instance=ExtResource("Ball.tscn")]
+position = Vector2(640, 360)</code></pre>
+        <div class='result'>Pong scēnas struktūra Scene Tree panelī ar Main, Paddle un Ball Node.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_11.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_13.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

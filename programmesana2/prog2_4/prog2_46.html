@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.6 Noslēguma projekts: Top-down šautene — ebSkola</title>
+<meta name="description" content="Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down šautenē.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_46.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="4.6 Noslēguma projekts: Top-down šautene">
+<meta property="og:description" content="Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down šautenē.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_46.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4.6 Noslēguma projekts: Top-down šautene">
+<meta name="twitter:description" content="Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down šautenē.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.6 Noslēguma projekts: Top-down šautene", "description": "Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down šautenē.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_46.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_4main.html">4. Tēmas apkopojums</a>
+  <a href="prog2_41.html">4.1 Vector un Array</a>
+  <a href="prog2_42.html">4.2 Map un Dictionary</a>
+  <a href="prog2_43.html">4.3 State machines AI uzvedībai</a>
+  <a href="prog2_44.html">4.4 Pathfinding ar A*</a>
+  <a href="prog2_45.html">4.5 Šaušanas mehānika un object pooling</a>
+  <a class="active" href="prog2_46.html">4.6 Noslēguma projekts: Top-down šautene</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>4.6 Noslēguma projekts: Top-down šautene</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down šautenē.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.1. Problēmu dekompozīcija</a>
+        <a href="../../sasnRez.html">SR 2.4.16. Datu struktūras</a>
+        <a href="../../sasnRez.html">SR 2.4.18. OOP</a>
+        <a href="../../sasnRez.html">SR 2.4.19. Algoritmu efektivitāte</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Spēles apraksts un arhitektūra</h2>
+    <div class='logic-box'>
+<p><b>Top-down šautene</b> ar šādām funkcijām:</p>
+<ul>
+<li>Spēlētājs ar 8 virzienu kustību un mouse-aimed šaušanu.</li>
+<li>3 ienaidnieku tipi ar dažādu AI uzvedību.</li>
+<li>Pathfinding ap šķēršļiem.</li>
+<li>Wave system: ienaidnieku viļņi ar augošu sarežģītību.</li>
+<li>Pickup sistēma: HP, ammo, power-ups.</li>
+<li>Score un wave skaitītājs.</li>
+</ul>
+<pre><code class="language-cpp">// Klašu hierarhija
+class Player : public CharacterBody2D { /* WASD + shoot */ };
+class Enemy : public CharacterBody2D { /* state machine + pathfinding */ };
+class Goblins : public Enemy { /* fast, weak */ };
+class Brute : public Enemy { /* slow, strong */ };
+class Shooter : public Enemy { /* keeps distance, shoots */ };
+class Bullet : public Area2D { /* pooled */ };
+class WaveManager : public Node { /* spawns waves */ };</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pamata struktūra (1.)</h2>
+    <p>Player + Enemy + Bullet pool.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pārkopē Player no 2.2 stundas, pievieno mouse-aim.</li>
+            <li>Enemy no 4.3 ar state machine.</li>
+            <li>Bullet pool no 4.5.</li>
+            <li>1 līmeņa scēna ar 5 ienaidniekiem un sienām.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Vairāki ienaidnieku tipi (2.)</h2>
+    <p>Polimorfisms ar Enemy hierarhiju.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Goblins: speed 200, hp 20, melee.</li>
+            <li>Brute: speed 80, hp 100, melee, 2x bojājums.</li>
+            <li>Shooter: speed 100, hp 40, ranged — saglabā distanci 200, šauj.</li>
+            <li>Pievieno katra tipa Sprite ar dažādām krāsām.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Wave sistēma un balanss (3.)</h2>
+    <p>Pielāgojama sarežģītība.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>WaveManager klase ar <code>std::vector&lt;Wave&gt; waves</code>.</li>
+            <li>Wave struct: <code>{int goblins; int brutes; int shooters;}</code></li>
+            <li>Ik pa 30 sec uzsāk nākamo wave.</li>
+            <li>UI: "Wave 3 — 12 enemies remaining".</li>
+            <li>Boss after wave 5: 500 HP, multiple attack patterns.</li>
+            <li>GitHub: 8+ commit, README ar gameplay GIF.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Bonus: Power-ups un upgrades</h2>
+    <p>Spēles dziļums.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pickups: HP+50, Ammo+20, ShieldStrong (15 sec invulnerable).</li>
+            <li>Upgrade tree: izvēlies starp +damage, +speed, +max HP starp wave.</li>
+            <li>Saglabā augstāko score JSON failā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Lag ar daudziem enemies:</b> Pārliecinies, ka NavigationAgent2D update_freq ir saprātīgs.</li>
+        <li><b>Bullets sit savus:</b> Pārbaudi collision layers — Player bullets jāignore Player.</li>
+        <li><b>Wave neuzsākas:</b> Timer vai counter sajaucies — debug ar print statements.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic4_topdown_gameplay.png" alt="Top-down šautenes spēles aina: spēlētājs centrā, 8 ienaidnieki dažādos virzienos, lādiņu trajektorijas, HP bāris." loading="lazy">
+            <figcaption>Top-down šautenes spēles aina: spēlētājs centrā, 8 ienaidnieki dažādos virzienos, lādiņu trajektorijas, HP bāris.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic4_wave_ui.png" alt="Spēles UI: 'Wave 3' augšā, 'Enemies: 8/12' centrā, 'Score: 1240' apakšā, HP bāris, ammo skaitītājs." loading="lazy">
+            <figcaption>Spēles UI: 'Wave 3' augšā, 'Enemies: 8/12' centrā, 'Score: 1240' apakšā, HP bāris, ammo skaitītājs.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">class WaveManager : public Node {
+    GDCLASS(WaveManager, Node)
+
+private:
+    int current_wave = 0;
+    float wave_timer = 0;
+    std::vector&lt;Enemy*&gt; active_enemies;
+
+    struct Wave { int goblins, brutes, shooters; };
+    std::vector&lt;Wave&gt; waves = {
+        {3, 0, 0},      // wave 1
+        {5, 1, 0},      // wave 2
+        {6, 2, 1},      // wave 3
+        {8, 3, 2},      // wave 4
+        {10, 5, 3}      // wave 5 + boss
+    };
+
+public:
+    void _process(double delta) override {
+        wave_timer -= delta;
+        if (active_enemies.empty() && wave_timer &lt;= 0) {
+            start_next_wave();
+        }
+    }
+
+    void start_next_wave() {
+        if (current_wave &gt;= waves.size()) {
+            UtilityFunctions::print("All waves complete!");
+            return;
+        }
+        Wave w = waves[current_wave];
+        for (int i = 0; i &lt; w.goblins; i++) spawn(EnemyType::GOBLIN);
+        for (int i = 0; i &lt; w.brutes; i++) spawn(EnemyType::BRUTE);
+        for (int i = 0; i &lt; w.shooters; i++) spawn(EnemyType::SHOOTER);
+        current_wave++;
+        wave_timer = 30.0f;
+    }
+};</code></pre>
+        <div class='result'>Pilnvērtīga top-down šautene ar 5 viļņiem, 3 ienaidnieku tipiem, pathfinding un boss.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_45.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_4main.html" class="nav-btn">Tēmas apkopojums ➡</a>
+</div>
+</body>
+</html>

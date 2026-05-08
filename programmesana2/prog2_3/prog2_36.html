@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.6 Noslēguma projekts: RPG cīņas spēle — ebSkola</title>
+<meta name="description" content="Apvienot OOP, signālus, struct un GDExtension klases pilnvērtīgā rundām balstītā RPG cīņā.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_3/prog2_36.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="3.6 Noslēguma projekts: RPG cīņas spēle">
+<meta property="og:description" content="Apvienot OOP, signālus, struct un GDExtension klases pilnvērtīgā rundām balstītā RPG cīņā.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_3/prog2_36.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="3.6 Noslēguma projekts: RPG cīņas spēle">
+<meta name="twitter:description" content="Apvienot OOP, signālus, struct un GDExtension klases pilnvērtīgā rundām balstītā RPG cīņā.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "3.6 Noslēguma projekts: RPG cīņas spēle", "description": "Apvienot OOP, signālus, struct un GDExtension klases pilnvērtīgā rundām balstītā RPG cīņā.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_3/prog2_36.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_3main.html">3. Tēmas apkopojums</a>
+  <a href="prog2_31.html">3.1 C++ klases pamati</a>
+  <a href="prog2_32.html">3.2 Mantošana C++ un Godot</a>
+  <a href="prog2_33.html">3.3 Signāli un objektu komunikācija</a>
+  <a href="prog2_34.html">3.4 Custom GDExtension klases editor redzamas</a>
+  <a href="prog2_35.html">3.5 Statistikas sistēma un struct</a>
+  <a class="active" href="prog2_36.html">3.6 Noslēguma projekts: RPG cīņas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>3.6 Noslēguma projekts: RPG cīņas spēle</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot OOP, signālus, struct un GDExtension klases pilnvērtīgā rundām balstītā RPG cīņā.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.1. Problēmu dekompozīcija</a>
+        <a href="../../sasnRez.html">SR 2.4.7. UI</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas</a>
+        <a href="../../sasnRez.html">SR 2.4.18. OOP</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Spēles apraksts</h2>
+    <div class='logic-box'>
+<p><b>Rundām balstīta RPG cīņa</b> ar trim spēlētāja varoņiem (Knight, Mage, Archer) pret nejauši ģenerētiem ienaidniekiem (Goblins, Pūķis, Skelets).</p>
+<p><b>Spēles plūsma:</b></p>
+<ol>
+<li>Spēles sākumā izvēlies 3 varoņus partu.</li>
+<li>Ienaidnieki tiek ģenerēti.</li>
+<li>Katras kārtas: spēlētājs izvēlas darbību (uzbrukt, burvojums, dziedināt).</li>
+<li>Pēc tam ienaidnieki uzbrūk.</li>
+<li>Cīņa turpinās, līdz viena puse ir mirusi.</li>
+</ol>
+<p><b>Klašu hierarhija:</b> Hero (base) → Knight, Mage, Archer; Enemy (base) → Goblins, Pūķis, Skelets.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Klašu hierarhija un Stats (1.)</h2>
+    <p>Pamata struktūra.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pārkopē Hero, Knight, Mage, Archer klases no iepriekšējām stundām.</li>
+            <li>Tāpat Enemy bāzes klase un 3 apakšklases.</li>
+            <li>Visiem Stats struct caur kompozīciju.</li>
+            <li>BattleManager klase: pārvalda kārtas un secību.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Cīņas mehānika (2.)</h2>
+    <p>Kārtu sistēma.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>BattleManager glabā <code>std::vector&lt;Hero*&gt; party</code> un <code>std::vector&lt;Enemy*&gt; enemies</code>.</li>
+            <li><code>start_turn()</code>: parāda darbību izvēles UI.</li>
+            <li>Spēlētājs izvēlas darbību → <code>execute_player_action()</code>.</li>
+            <li>Pēc tam <code>execute_enemy_actions()</code>: katrs ienaidnieks uzbrūk nejaušam Hero.</li>
+            <li>Pārbauda uzvaru/zaudēšanu pēc katras kārtas.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: UI un signāli (3.)</h2>
+    <p>Polish un finalizācija.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>BattleUI scēna ar HP bāriem visiem dalībniekiem.</li>
+            <li>Hero/Enemy emit damaged/died signālus, BattleUI tos konnekt.</li>
+            <li>Action menu: 4 pogas (Attack, Cast, Heal, Run).</li>
+            <li>Damage numbers — populāri attēlojumi, kas izpeld no rakstura.</li>
+            <li>GitHub: 6+ commit, README, varbūt arī screenshots/GIF.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Bonus: Boss cīņa</h2>
+    <p>Specializēts ienaidnieks.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>BossEnemy : public Enemy ar 500 HP un 3 spējām.</li>
+            <li>Speciālas mehānikas: katras 3 kārtas izmanto super atāku.</li>
+            <li>Pievienots pēc 3 normālām cīņām.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Memory leak:</b> 'new' bez 'delete'. Lieto <code>std::unique_ptr</code> vai Godot's add_child (kas pārvalda lifetime).</li>
+        <li><b>UI nesinhronizējas:</b> Pievienojot signal connect tikai vienā vietā, izveido visu HP bar update sistēmu konsistentu.</li>
+        <li><b>Cīņa nebeidzas:</b> Pārbaudi nāves apstrādes loģiku — vai tiešām visi mirdzi tiek noņemti no vector.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic3_rpg_battle.png" alt="RPG cīņas ekrāns: kreisajā 3 varoņu HP bari, vidū damage number animation, labajā 3 ienaidnieki, apakšā action menu (Attack, Cast, Heal, Run)." loading="lazy">
+            <figcaption>RPG cīņas ekrāns: kreisajā 3 varoņu HP bari, vidū damage number animation, labajā 3 ienaidnieki, apakšā action menu (Attack, Cast, Heal, Run).</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic3_class_hierarchy.png" alt="Klašu UML diagramma: Hero → Knight, Mage, Archer; Enemy → Goblins, Pūķis, Skelets; abas hierarhijas savienotas ar BattleManager." loading="lazy">
+            <figcaption>Klašu UML diagramma: Hero → Knight, Mage, Archer; Enemy → Goblins, Pūķis, Skelets; abas hierarhijas savienotas ar BattleManager.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">class BattleManager : public Node {
+    GDCLASS(BattleManager, Node)
+private:
+    std::vector&lt;Hero*&gt; party;
+    std::vector&lt;Enemy*&gt; enemies;
+    int current_turn = 0;
+
+public:
+    void start_battle() {
+        for (Enemy* e : enemies) {
+            e-&gt;connect("died", Callable(this, "on_enemy_died"));
+        }
+        next_turn();
+    }
+
+    void execute_attack(Hero* attacker, Enemy* target) {
+        int damage = attacker-&gt;get_stats().get_total_attack();
+        target-&gt;take_damage(damage);
+        if (enemies.empty()) emit_signal("battle_won");
+        else next_turn();
+    }
+
+    void on_enemy_died() {
+        // Atrod un noņem mirušo
+        enemies.erase(...);
+    }
+};</code></pre>
+        <div class='result'>Pilnvērtīga RPG cīņa: 3 varoņi pret 3 ienaidniekiem, kārtu sistēma, animētas damage numbers, uzvara/zaudēšana.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_35.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_3main.html" class="nav-btn">Tēmas apkopojums ➡</a>
+</div>
+</body>
+</html>

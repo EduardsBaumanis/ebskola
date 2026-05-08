@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.5 Šaušanas mehānika un object pooling — ebSkola</title>
+<meta name="description" content="Implementēt efektīvu lādiņu (bullet) sistēmu ar object pooling tehniku.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_45.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="4.5 Šaušanas mehānika un object pooling">
+<meta property="og:description" content="Implementēt efektīvu lādiņu (bullet) sistēmu ar object pooling tehniku.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_45.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4.5 Šaušanas mehānika un object pooling">
+<meta name="twitter:description" content="Implementēt efektīvu lādiņu (bullet) sistēmu ar object pooling tehniku.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.5 Šaušanas mehānika un object pooling", "description": "Implementēt efektīvu lādiņu (bullet) sistēmu ar object pooling tehniku.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_45.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_4main.html">4. Tēmas apkopojums</a>
+  <a href="prog2_41.html">4.1 Vector un Array</a>
+  <a href="prog2_42.html">4.2 Map un Dictionary</a>
+  <a href="prog2_43.html">4.3 State machines AI uzvedībai</a>
+  <a href="prog2_44.html">4.4 Pathfinding ar A*</a>
+  <a class="active" href="prog2_45.html">4.5 Šaušanas mehānika un object pooling</a>
+  <a href="prog2_46.html">4.6 Noslēguma projekts: Top-down šautene</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>4.5 Šaušanas mehānika un object pooling</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Implementēt efektīvu lādiņu (bullet) sistēmu ar object pooling tehniku.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.19. Algoritmu efektivitāte</a>
+        <a href="../../sasnRez.html">SR 2.4.16. Datu struktūras</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Object pooling</h2>
+    <div class='logic-box'>
+<p><b>Object pooling</b> ir tehnika, kas atkārtoti izmanto objektus, nevis tos nepārtraukti veido un dzēš. Kritisks veiktspējai šautenēs, kur var būt 100+ lādiņu vienlaikus.</p>
+<pre><code class="language-cpp">class BulletPool {
+private:
+    std::vector&lt;Bullet*&gt; pool;
+    static const int POOL_SIZE = 50;
+
+public:
+    void initialize(Node* parent) {
+        for (int i = 0; i &lt; POOL_SIZE; i++) {
+            Bullet* b = memnew(Bullet);
+            parent-&gt;add_child(b);
+            b-&gt;set_visible(false);
+            b-&gt;set_active(false);
+            pool.push_back(b);
+        }
+    }
+
+    Bullet* get_bullet() {
+        for (auto b : pool) {
+            if (!b-&gt;is_active()) {
+                b-&gt;set_active(true);
+                b-&gt;set_visible(true);
+                return b;
+            }
+        }
+        return nullptr;  // pool tukšs
+    }
+
+    void return_bullet(Bullet* b) {
+        b-&gt;set_active(false);
+        b-&gt;set_visible(false);
+    }
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pamata Bullet klase</h2>
+    <p>Lādiņš ar fiziku.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>Bullet : public Area2D</code>.</li>
+            <li>Bērni: Sprite2D (mazs balts apļojums), CollisionShape2D.</li>
+            <li>Locekļi: Vector2 velocity, float lifetime, int damage.</li>
+            <li><code>_physics_process</code>: pārvietojas, pēc lifetime izbeigšanās paslēpjas.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: BulletPool</h2>
+    <p>Implementē pool sistēmu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>BulletPool klase ar 50 pre-instantiated Bullet.</li>
+            <li><code>get_bullet()</code> atrod first inactive Bullet un atgriež.</li>
+            <li>Iedarbojas ar player shoot — neveido jaunu, paņem no pool.</li>
+            <li>Veiktspējas testēšana: bez pool spawn 100 → laggy; ar pool — gluds.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Šaušanas mehānika</h2>
+    <p>Player shoot un sadursmes.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Player <code>_input</code>: ja attack action just_pressed → shoot().</li>
+            <li>shoot(): pool.get_bullet(), uzstāda position un velocity uz mouse cursor.</li>
+            <li>Bullet on_body_entered: ja Enemy → enemy.take_damage; pool.return_bullet.</li>
+            <li>Add muzzle flash particle effect (optional).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Spread shot un multi-shot</h2>
+    <p>Power-ups ar dažādu shoot pattern.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>spread_shot: 3 lādiņi izšauj 30° leņķī.</li>
+            <li>rapid_fire: cooldown 0.05 sec vietā 0.2 sec.</li>
+            <li>homing_missile: lādiņš seko tuvākajam ienaidniekam (uses pathfinding).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Pool tukšs:</b> POOL_SIZE pārāk mazs vai bullets nepareizi atgriežas.</li>
+        <li><b>Lag at start:</b> Pool initialization pārāk lēns — sadali laikā vai async.</li>
+        <li><b>Bullets pazūd:</b> Lifetime un visibility nepareizi sinhronizēti.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic4_bullets_pool.png" alt="Spēles aina: spēlētājs centrā, 15+ lādiņu trajektorijas dažādos virzienos, vairāki ienaidnieki ekrāna malās." loading="lazy">
+            <figcaption>Spēles aina: spēlētājs centrā, 15+ lādiņu trajektorijas dažādos virzienos, vairāki ienaidnieki ekrāna malās.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">class Bullet : public Area2D {
+    GDCLASS(Bullet, Area2D)
+private:
+    Vector2 velocity;
+    float lifetime = 0;
+    int damage = 10;
+    bool active = false;
+
+public:
+    void _physics_process(double delta) override {
+        if (!active) return;
+        set_position(get_position() + velocity * delta);
+        lifetime -= delta;
+        if (lifetime &lt;= 0) deactivate();
+    }
+
+    void fire(Vector2 pos, Vector2 vel, float life = 2.0f) {
+        set_position(pos);
+        velocity = vel;
+        lifetime = life;
+        active = true;
+        set_visible(true);
+    }
+
+    void deactivate() {
+        active = false;
+        set_visible(false);
+    }
+};
+
+void Player::shoot() {
+    Bullet* b = pool-&gt;get_bullet();
+    if (b) {
+        Vector2 dir = (mouse_pos - get_position()).normalized();
+        b-&gt;fire(get_position(), dir * 800.0f);
+    }
+}</code></pre>
+        <div class='result'>Spēlētājs šauj 5 lādiņus/sek, ekrānā līdz 30 lādiņiem vienlaikus, FPS stabils 60.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_44.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_46.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

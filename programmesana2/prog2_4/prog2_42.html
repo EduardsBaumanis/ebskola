@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.2 Map un Dictionary — ebSkola</title>
+<meta name="description" content="Apgūt asociatīvās datu struktūras inventāram un konfigurācijai.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_42.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="4.2 Map un Dictionary">
+<meta property="og:description" content="Apgūt asociatīvās datu struktūras inventāram un konfigurācijai.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_42.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4.2 Map un Dictionary">
+<meta name="twitter:description" content="Apgūt asociatīvās datu struktūras inventāram un konfigurācijai.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.2 Map un Dictionary", "description": "Apgūt asociatīvās datu struktūras inventāram un konfigurācijai.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_42.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_4main.html">4. Tēmas apkopojums</a>
+  <a href="prog2_41.html">4.1 Vector un Array</a>
+  <a class="active" href="prog2_42.html">4.2 Map un Dictionary</a>
+  <a href="prog2_43.html">4.3 State machines AI uzvedībai</a>
+  <a href="prog2_44.html">4.4 Pathfinding ar A*</a>
+  <a href="prog2_45.html">4.5 Šaušanas mehānika un object pooling</a>
+  <a href="prog2_46.html">4.6 Noslēguma projekts: Top-down šautene</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>4.2 Map un Dictionary</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apgūt asociatīvās datu struktūras inventāram un konfigurācijai.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.16. Saliktas datu struktūras</a>
+        <a href="../../sasnRez.html">SR 2.4.4. Iegūst un apstrādā datus</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: std::map un Godot Dictionary</h2>
+    <div class='logic-box'>
+<p>Asociatīvā datu struktūra glabā <b>atslēga → vērtība</b> pārus.</p>
+<pre><code class="language-cpp">// std::map (sakārtots, log n)
+#include &lt;map&gt;
+std::map&lt;String, int&gt; inventory;
+inventory["Health Potion"] = 5;
+inventory["Mana Potion"] = 3;
+
+if (inventory.count("Health Potion") &gt; 0) {
+    int amount = inventory["Health Potion"];
+}
+
+// std::unordered_map (hash, O(1))
+#include &lt;unordered_map&gt;
+std::unordered_map&lt;int, Enemy*&gt; enemy_by_id;
+
+// Godot Dictionary
+Dictionary inv;
+inv["coins"] = 100;
+inv["arrows"] = 25;
+if (inv.has("coins")) print(inv["coins"]);</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Inventāra sistēma</h2>
+    <p>Ekipējuma un iesāka pārvaldība.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Player klasē: <code>std::map&lt;String, int&gt; inventory</code>.</li>
+            <li>Funkcijas: <code>add_item(String, int amount=1)</code>, <code>use_item(String)</code>, <code>has_item(String)</code>.</li>
+            <li>Pievieno UI Label, kas rāda pirmus 5 inventāra elementus.</li>
+            <li>Iemēģini pievienot/lietot dažādus priekšmetus.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Enemy ID sistēma</h2>
+    <p>Ātri atrod ienaidnieku pēc ID.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Game klasē: <code>std::unordered_map&lt;int, Enemy*&gt; enemy_by_id</code>.</li>
+            <li>Spawn laikā piešķir unikālu ID un saglabā mapā.</li>
+            <li>Lookup ar <code>enemy_by_id[42]</code> ir konstants laiks.</li>
+            <li>Salīdzini ar linear search vector.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Konfigurācijas Dictionary</h2>
+    <p>Spēles iestatījumi.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Godot Dictionary glabā: difficulty, sound_volume, fullscreen.</li>
+            <li>Piesaisti UI elementiem (slider, checkbox).</li>
+            <li>Saglabā uz disku ar JSON (5. tēmā).</li>
+            <li>Pielāgo pirmsspēles izvēlni.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Set datu struktūra</h2>
+    <p>Unikālu vērtību kolekcija.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>std::set&lt;int&gt; visited_levels</code> — apmeklētie līmeņi.</li>
+            <li>Insert, find, count operācijas.</li>
+            <li>Lieto, lai pārliecinātos, ka kaut kas notiek tikai vienreiz.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Map operator[] uz neeksistējošu key:</b> Izveido jaunu ar default. Lieto <code>find()</code> pārbaudei.</li>
+        <li><b>String key sajaucies:</b> C++ String ir Godot Variant — atšķiras no std::string.</li>
+        <li><b>unordered_map ar custom key:</b> Vajag operator== un std::hash specializāciju.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic4_inventory_ui.png" alt="Spēles inventāra UI: 4×4 grid ar ikonām, blakus skaitļi (5x Health Potion, 3x Mana Potion, 1x Sword)." loading="lazy">
+            <figcaption>Spēles inventāra UI: 4×4 grid ar ikonām, blakus skaitļi (5x Health Potion, 3x Mana Potion, 1x Sword).</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">#include &lt;map&gt;
+
+class Player {
+private:
+    std::map&lt;String, int&gt; inventory;
+public:
+    void add_item(String name, int amount = 1) {
+        inventory[name] += amount;
+        UtilityFunctions::print("+", amount, " ", name);
+    }
+
+    bool use_item(String name) {
+        auto it = inventory.find(name);
+        if (it == inventory.end() || it-&gt;second &lt;= 0) {
+            UtilityFunctions::print("Nav ", name);
+            return false;
+        }
+        it-&gt;second--;
+        return true;
+    }
+
+    void print_inventory() {
+        for (const auto&amp; [name, count] : inventory) {
+            UtilityFunctions::print(name, ": ", count);
+        }
+    }
+};</code></pre>
+        <div class='result'>Inventārs rāda: Health Potion: 5, Mana Potion: 3, Sword: 1; pēc lietošanas Health Potion: 4.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_41.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_43.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

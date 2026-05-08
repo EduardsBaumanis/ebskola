@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.5 Spēles laukuma izveide — ebSkola</title>
+<meta name="description" content="Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_15.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="1.5 Spēles laukuma izveide">
+<meta property="og:description" content="Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_15.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1.5 Spēles laukuma izveide">
+<meta name="twitter:description" content="Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "1.5 Spēles laukuma izveide", "description": "Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_15.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_1main.html">1. Tēmas apkopojums</a>
+  <a href="prog2_11.html">1.1 Godot instalācija un projekta sagatavošana</a>
+  <a href="prog2_12.html">1.2 Scene Tree un Node sistēma</a>
+  <a href="prog2_13.html">1.3 C++ un GDExtension sagatavošana</a>
+  <a href="prog2_14.html">1.4 Pirmais C++ skripts: mainīgie un izvade</a>
+  <a class="active" href="prog2_15.html">1.5 Spēles laukuma izveide</a>
+  <a href="prog2_16.html">1.6 Noslēguma projekts: Pong</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>1.5 Spēles laukuma izveide</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.7. Lietotāja saskarne (UI)</a>
+        <a href="../../sasnRez.html">SR 2.4.13. Datu tipi</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Coordinates (Koordinātes) un transformācijas</h2>
+    <div class='logic-box'>
+<p>Godot 2D koordinātes sākas <b>kreisajā augšējā stūrī</b>: (0, 0). X pieaug pa labi, Y uz leju.</p>
+<pre><code class="language-cpp">// Pozīciju manipulācija C++
+Vector2 pos = get_position();
+pos.x += 10;             // pa labi par 10 pikseļiem
+pos.y -= 5;              // uz augšu par 5 pikseļiem
+set_position(pos);
+
+set_position(Vector2(640, 360));  // ekrāna centrs 1280x720</code></pre>
+<p><b>Transform = Position + Rotation + Scale.</b> Bērnu nodes pārmanto vecāku transform.</p>
+<p><b>Viewport (Skatlogs)</b> = loga apgabals, kurā renderē scēnu. Standarta Pong: 1280×720.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Project Settings</h2>
+    <p>Iestati spēles izmēru.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Project → Project Settings.</li>
+            <li>Display → Window: Viewport Width <code>1280</code>, Height <code>720</code>.</li>
+            <li>Stretch Mode: <code>viewport</code>, Aspect: <code>keep</code>.</li>
+            <li>Application → Config → Name: <code>Pong</code>.</li>
+            <li>Run → Main Scene: <code>main.tscn</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Sienas un dalītājs</h2>
+    <p>Pievieno laukuma elementus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno <code>Line2D</code> kā Main bērnu, pārsauc <code>CenterLine</code>.</li>
+            <li>Inspector → Points: divi punkti (640, 0), (640, 720).</li>
+            <li>Width: 4, Default Color: balta.</li>
+            <li>Pievieno divus <code>StaticBody2D</code> ar CollisionShape2D — TopWall un BottomWall.</li>
+            <li>Pozīcijas (640, 10) un (640, 710), formas izmērs 1280×20.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Punktu skaitītāji</h2>
+    <p>Label nodes punktiem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno <code>Label</code> kā <code>ScoreLeft</code>. Text: <code>0</code>, Font Size: 64, Position: (300, 50).</li>
+            <li>Klonē uz <code>ScoreRight</code>, Position: (920, 50).</li>
+            <li>Pievieno <code>Title</code> Label: Text: <code>PONG</code>, Position: (560, 30), Font Size: 32.</li>
+            <li>Pārbaudi izvietojumu, palaižot.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Stila uzlabojumi</h2>
+    <p>Pievieno krāsas un kameru.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno <code>Camera2D</code> kā Main bērnu.</li>
+            <li>Position: (640, 360), Make Current: true.</li>
+            <li>Visiem Sprite2D Modulate: balts.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Spēle palaižas baltā logā:</b> Main Scene Project Settings nav iestatīta.</li>
+        <li><b>Objekti aizsedz Background:</b> Pārbaudi Z-index Inspector.</li>
+        <li><b>Camera2D nedarbojas:</b> Make Current Inspector vai <code>current = true</code> kodā.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic1_pong_layout.png" alt="Pong spēles vizuālais izkārtojums Game Window: melns fons, balta vertikāla centrālā līnija, 0 0 punkti augšā, divas baltas paddles malās, balta bumba centrā." loading="lazy">
+            <figcaption>Pong spēles vizuālais izkārtojums Game Window: melns fons, balta vertikāla centrālā līnija, 0 0 punkti augšā, divas baltas paddles malās, balta bumba centrā.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic1_project_settings.png" alt="Godot Project Settings logs ar Display → Window sadaļu un Viewport 1280×720 vērtībām." loading="lazy">
+            <figcaption>Godot Project Settings logs ar Display → Window sadaļu un Viewport 1280×720 vērtībām.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">[node name="ScoreLeft" type="Label" parent="."]
+position = Vector2(300, 50)
+text = "0"
+theme_override_font_sizes/font_size = 64
+
+[node name="CenterLine" type="Line2D" parent="."]
+points = PackedVector2Array(640, 0, 640, 720)
+width = 4.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)</code></pre>
+        <div class='result'>Pong spēles laukums ar centrālu līniju, paddles, bumbu un punktu skaitītājiem.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_14.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_16.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

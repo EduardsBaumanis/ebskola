@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.3 Vadības struktūras spēles loģikā — ebSkola</title>
+<meta name="description" content="Izmantot if/else, switch un cikli spēles uzvedības loģikā.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_23.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="2.3 Vadības struktūras spēles loģikā">
+<meta property="og:description" content="Izmantot if/else, switch un cikli spēles uzvedības loģikā.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_23.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2.3 Vadības struktūras spēles loģikā">
+<meta name="twitter:description" content="Izmantot if/else, switch un cikli spēles uzvedības loģikā.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "2.3 Vadības struktūras spēles loģikā", "description": "Izmantot if/else, switch un cikli spēles uzvedības loģikā.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_23.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_2main.html">2. Tēmas apkopojums</a>
+  <a href="prog2_21.html">2.1 Process un fizikas cikli</a>
+  <a href="prog2_22.html">2.2 Input apstrāde un Input Map</a>
+  <a class="active" href="prog2_23.html">2.3 Vadības struktūras spēles loģikā</a>
+  <a href="prog2_24.html">2.4 Sadursmju noteikšana</a>
+  <a href="prog2_25.html">2.5 Gravitācija un platformas mehānika</a>
+  <a href="prog2_26.html">2.6 Noslēguma projekts: Platformas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>2.3 Vadības struktūras spēles loģikā</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izmantot if/else, switch un cikli spēles uzvedības loģikā.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.14. Vadības struktūras</a>
+        <a href="../../sasnRez.html">SR 2.4.13. Mainīgie</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: C++ vadības struktūras</h2>
+    <div class='logic-box'>
+<p>C++ vadības struktūras ir gandrīz identiskas Python ekvivalentiem, bet ar atšķirīgu sintaksi:</p>
+<pre><code class="language-cpp">// If / else if / else
+if (player-&gt;health &lt;= 0) {
+    player-&gt;die();
+} else if (player-&gt;health &lt; 30) {
+    play_warning_sound();
+} else {
+    show_normal_status();
+}
+
+// Switch (kā Python match-case)
+switch (state) {
+    case PlayerState::IDLE:    play_idle();    break;
+    case PlayerState::RUNNING: play_run();     break;
+    case PlayerState::JUMPING: play_jump();    break;
+    default:                   break;
+}
+
+// For cikls
+for (int i = 0; i &lt; enemies.size(); i++) {
+    enemies[i]-&gt;update();
+}
+
+// Range-based for (C++11+)
+for (Enemy* e : enemies) {
+    e-&gt;update();
+}
+
+// While
+while (health &gt; 0 && level_active) {
+    process_combat();
+}</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Veselības sistēma</h2>
+    <p>Implementē varoņa veselības stāvokļus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Player klasei pievieno <code>int health = 100</code>, <code>int max_health = 100</code>.</li>
+            <li>Metode <code>take_damage(int amount)</code>: <code>health = std::max(0, health - amount);</code></li>
+            <li>Ja health == 0: <code>queue_free()</code> (pārtrauc spēli vai restart).</li>
+            <li>Ja health &lt; 30%: izvadi brīdinājumu Output panelī.</li>
+            <li>Pievieno HUD Label, kas rāda HP.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Punktu sistēma ar switch</h2>
+    <p>Dažādu objektu vērtība.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno enum: <code>enum class PickupType { COIN, GEM, KEY };</code></li>
+            <li>Funkcija <code>void on_pickup(PickupType type)</code> ar switch.</li>
+            <li>COIN += 1 punkts; GEM += 5; KEY = atver durvis.</li>
+            <li>Izveido 3 dažādus Area2D ar Pickup klasi katrā tipā.</li>
+            <li>Spēlētājs paaugstina punktus, savācot.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Cikli ienaidnieku pārbaudei</h2>
+    <p>Pārbaudi visus ienaidniekus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno <code>std::vector&lt;Enemy*&gt; enemies</code> Game klasē.</li>
+            <li><code>_physics_process</code>: ar for cikls iet caur visiem un pārbauda, vai kāds ir mirdzs (health==0).</li>
+            <li>Mirdzos noņem no saraksta: <code>enemies.erase(...)</code>.</li>
+            <li>Ja saraksts tukšs — uzvara!</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Bonus: Range-based for</h2>
+    <p>Modernā C++ sintakse.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pārveido visus for ciklus uz range-based: <code>for (auto&amp; e : enemies)</code></li>
+            <li>Salīdzini koda salasāmību.</li>
+            <li>Iemēģini <code>auto</code> automātisku tipu noteikšanu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>'enemies' was not declared:</b> Trūkst <code>#include &lt;vector&gt;</code> un namespace.</li>
+        <li><b>Crash, mēģinot dzēst no vektora cikla laikā:</b> Lieto pareizu iterator pieeju vai dzēš pēc cikla.</li>
+        <li><b>switch case nestrādā:</b> Aizmirsts <code>break;</code> — kods iet uz nākamo case.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic2_pickups.png" alt="Spēles logs ar zelta monētām, zaļiem dārgakmeņiem un dzeltenu atslēgu uz platformām." loading="lazy">
+            <figcaption>Spēles logs ar zelta monētām, zaļiem dārgakmeņiem un dzeltenu atslēgu uz platformām.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic2_score_hud.png" alt="Spēles HUD ar Score: 25 augšējā labajā stūrī un sirdiņu HP indikators kreisajā." loading="lazy">
+            <figcaption>Spēles HUD ar Score: 25 augšējā labajā stūrī un sirdiņu HP indikators kreisajā.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">enum class PickupType { COIN, GEM, KEY };
+
+void Player::on_pickup(PickupType type) {
+    switch (type) {
+        case PickupType::COIN:
+            score += 1;
+            UtilityFunctions::print("Coin! Score: ", score);
+            break;
+        case PickupType::GEM:
+            score += 5;
+            UtilityFunctions::print("Gem! Score: ", score);
+            break;
+        case PickupType::KEY:
+            has_key = true;
+            UtilityFunctions::print("Got the key!");
+            break;
+    }
+
+    if (score &gt;= 100) {
+        UtilityFunctions::print("Level complete!");
+    }
+}</code></pre>
+        <div class='result'>Spēlētājs savāc 3 dažādus tipus pickup objektus, score atjauninās terminālī.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_22.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_24.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

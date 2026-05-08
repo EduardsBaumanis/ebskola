@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.1 Failu I/O Godot vidē — ebSkola</title>
+<meta name="description" content="Apgūt FileAccess klasi un Godot failu sistēmu.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_51.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="5.1 Failu I/O Godot vidē">
+<meta property="og:description" content="Apgūt FileAccess klasi un Godot failu sistēmu.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_51.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5.1 Failu I/O Godot vidē">
+<meta name="twitter:description" content="Apgūt FileAccess klasi un Godot failu sistēmu.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "5.1 Failu I/O Godot vidē", "description": "Apgūt FileAccess klasi un Godot failu sistēmu.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_51.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_5main.html">5. Tēmas apkopojums</a>
+  <a class="active" href="prog2_51.html">5.1 Failu I/O Godot vidē</a>
+  <a href="prog2_52.html">5.2 JSON serializācija un Resource sistēma</a>
+  <a href="prog2_53.html">5.3 Save/Load arhitektūra</a>
+  <a href="prog2_54.html">5.4 Procedural generation</a>
+  <a href="prog2_55.html">5.5 Algoritmu efektivitāte</a>
+  <a href="prog2_56.html">5.6 Noslēguma projekts: Roguelike</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>5.1 Failu I/O Godot vidē</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apgūt FileAccess klasi un Godot failu sistēmu.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.17. Failu un ārējās krātuves</a>
+        <a href="../../sasnRez.html">SR 2.4.4. Iegūst un apstrādā datus</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: FileAccess klase</h2>
+    <div class='logic-box'>
+<p>Godot piedāvā <code>FileAccess</code> klasi failu lasīšanai un rakstīšanai. Tā strādā ar res:// (read-only resources) un user:// (lokālā lietotāja krātuve).</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/classes/file_access.hpp&gt;
+
+// Rakstīšana
+Ref&lt;FileAccess&gt; file = FileAccess::open("user://save.txt", FileAccess::WRITE);
+if (file.is_valid()) {
+    file-&gt;store_string("Hello, file!");
+    file-&gt;store_line("Otrā rinda");
+    file-&gt;store_32(42);  // binary
+    file-&gt;close();
+}
+
+// Lasīšana
+Ref&lt;FileAccess&gt; rfile = FileAccess::open("user://save.txt", FileAccess::READ);
+if (rfile.is_valid()) {
+    String content = rfile-&gt;get_as_text();
+    // vai pa rindām:
+    while (!rfile-&gt;eof_reached()) {
+        String line = rfile-&gt;get_line();
+    }
+    rfile-&gt;close();
+}</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pirmais saglabāšanas fails</h2>
+    <p>Saglabā tekstu user:// mapē.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido funkciju <code>save_text(String content)</code>.</li>
+            <li>Atver fails ar <code>FileAccess::open("user://test.txt", FileAccess::WRITE)</code>.</li>
+            <li>Pārbaudi <code>file.is_valid()</code>.</li>
+            <li>Saglabā un aizver.</li>
+            <li>Pārliecinies, ka fails parādās lietotāja datos: Linux <code>~/.local/share/godot/app_userdata/...</code></li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Lasīšana un parse</h2>
+    <p>Atjauno datus no faila.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Funkcija <code>load_text() -&gt; String</code>: atver READ, get_as_text(), close.</li>
+            <li>Pievieno failu pārbaudi: <code>FileAccess::file_exists(...)</code>.</li>
+            <li>Ja nav: atgriež default vērtību.</li>
+            <li>Testē ar dažādiem failiem.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Bināro datu rakstīšana</h2>
+    <p>Saglabā ne-tekstuālu datus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>store_32(int)</code>, <code>store_float(float)</code>, <code>store_var(Variant)</code>.</li>
+            <li>Lasīšana: <code>get_32()</code>, <code>get_float()</code>, <code>get_var()</code>.</li>
+            <li>Lieto bināro saglabāšanu spēles state vai score.</li>
+            <li>Salīdzini failu izmēru ar tekstuālo formātu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Encryption</h2>
+    <p>Šifrē saglabājumus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>FileAccess::open_encrypted_with_pass(...) ar paroli.</li>
+            <li>Aizsargā pret manipulāciju ar save failu.</li>
+            <li>Tikai spēlēs, kur tas svarīgi.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>file is null:</b> Permission denied vai path nepareizs.</li>
+        <li><b>Encoding errors:</b> UTF-8 ir noklusējuma, bet pārbaudi ar speciāliem simboliem.</li>
+        <li><b>res:// ir read-only:</b> Production buildos to nevar rakstīt — lieto user://.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic5_user_data_folder.png" alt="Failu pārvaldnieks ar user:// mapes saturu — redzams test.txt, savegame.json un highscore.dat." loading="lazy">
+            <figcaption>Failu pārvaldnieks ar user:// mapes saturu — redzams test.txt, savegame.json un highscore.dat.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/file_access.hpp&gt;
+
+void SaveSystem::save_text(String filename, String content) {
+    String path = "user://" + filename;
+    Ref&lt;FileAccess&gt; file = FileAccess::open(path, FileAccess::WRITE);
+    if (file.is_valid()) {
+        file-&gt;store_string(content);
+        file-&gt;close();
+        UtilityFunctions::print("Saglabāts: ", path);
+    } else {
+        UtilityFunctions::printerr("Neizdevās atvērt: ", path);
+    }
+}
+
+String SaveSystem::load_text(String filename) {
+    String path = "user://" + filename;
+    if (!FileAccess::file_exists(path)) return "";
+    Ref&lt;FileAccess&gt; file = FileAccess::open(path, FileAccess::READ);
+    if (file.is_valid()) {
+        String content = file-&gt;get_as_text();
+        file-&gt;close();
+        return content;
+    }
+    return "";
+}</code></pre>
+        <div class='result'>Saglabā 'Mans pirmais save!' failā un to atjauno; user:// mapē redzams test.txt.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_5main.html" class="nav-btn">⬅ Tēmas apkopojums</a>
+    <a href="prog2_52.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.3 State machines AI uzvedībai — ebSkola</title>
+<meta name="description" content="Implementēt AI ar stāvokļu mašīnu (state machine) reālistiskai uzvedībai.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_43.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="4.3 State machines AI uzvedībai">
+<meta property="og:description" content="Implementēt AI ar stāvokļu mašīnu (state machine) reālistiskai uzvedībai.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_43.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4.3 State machines AI uzvedībai">
+<meta name="twitter:description" content="Implementēt AI ar stāvokļu mašīnu (state machine) reālistiskai uzvedībai.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.3 State machines AI uzvedībai", "description": "Implementēt AI ar stāvokļu mašīnu (state machine) reālistiskai uzvedībai.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_43.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_4main.html">4. Tēmas apkopojums</a>
+  <a href="prog2_41.html">4.1 Vector un Array</a>
+  <a href="prog2_42.html">4.2 Map un Dictionary</a>
+  <a class="active" href="prog2_43.html">4.3 State machines AI uzvedībai</a>
+  <a href="prog2_44.html">4.4 Pathfinding ar A*</a>
+  <a href="prog2_45.html">4.5 Šaušanas mehānika un object pooling</a>
+  <a href="prog2_46.html">4.6 Noslēguma projekts: Top-down šautene</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>4.3 State machines AI uzvedībai</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Implementēt AI ar stāvokļu mašīnu (state machine) reālistiskai uzvedībai.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.18. OOP</a>
+        <a href="../../sasnRez.html">SR 2.4.19. Algoritmu efektivitāte</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: State machine konceptu</h2>
+    <div class='logic-box'>
+<p><b>State machine</b> (stāvokļu mašīna) ir AI dizaina paraugs, kur objekts vienlaikus ir vienā no diskrētiem stāvokļiem un pāriet starp tiem pēc noteikumiem.</p>
+<pre><code class="language-cpp">enum class EnemyState {
+    IDLE,       // gaida
+    PATROL,     // staigā
+    CHASE,      // dzenas
+    ATTACK,     // uzbrūk
+    DEAD
+};
+
+class Enemy : public CharacterBody2D {
+private:
+    EnemyState state = EnemyState::IDLE;
+    Vector2 patrol_target;
+    Player* player = nullptr;
+
+public:
+    void _physics_process(double delta) override {
+        switch (state) {
+            case EnemyState::IDLE:
+                if (player_visible()) state = EnemyState::CHASE;
+                else if (idle_too_long()) state = EnemyState::PATROL;
+                break;
+            case EnemyState::PATROL:
+                move_to_patrol_target();
+                if (player_visible()) state = EnemyState::CHASE;
+                break;
+            case EnemyState::CHASE:
+                move_toward(player-&gt;get_position());
+                if (in_attack_range()) state = EnemyState::ATTACK;
+                else if (!player_visible()) state = EnemyState::IDLE;
+                break;
+            case EnemyState::ATTACK:
+                attack_player();
+                if (!in_attack_range()) state = EnemyState::CHASE;
+                break;
+        }
+    }
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Idle un Patrol stāvokļi</h2>
+    <p>Pamata uzvedība bez spēlētāja.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Enemy klasē: enum class EnemyState, mainīgais state.</li>
+            <li>Pievieno divus Marker2D nodes scēnai — patrol punkti A un B.</li>
+            <li>PATROL stāvoklī: kustās uz mērķi; nokļuvis — pāriet uz otru.</li>
+            <li>IDLE stāvoklī: stāv uz vietas, pēc 3 sec sāk patrol.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Detekcija un CHASE</h2>
+    <p>Reaģē uz spēlētāju.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno Area2D ar lielu Circle Shape — "vision" zona.</li>
+            <li>Connect uz body_entered → ja player → state = CHASE; uz body_exited → state = IDLE.</li>
+            <li>CHASE stāvoklī: pārvietojas uz player.position ar speed 150.</li>
+            <li>Ja distance &lt; 50 → state = ATTACK.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: ATTACK un DEAD</h2>
+    <p>Komplets cikls.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>ATTACK: ik pa 1 sec dod 10 bojājumu spēlētājam.</li>
+            <li>Animation: pievieno AnimationPlayer un attack animāciju.</li>
+            <li>Ja Enemy HP &lt;= 0 → state = DEAD, queue_free() pēc 0.5 sec animācijas.</li>
+            <li>Pievieno UI debug label, kas rāda pašreizējo stāvokli.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Behavior Tree</h2>
+    <p>Sarežģītāka AI struktūra.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Behavior tree = state machine evolūcija ar prioritātēm.</li>
+            <li>Iemēģini implementēt vienkāršu BT ar Sequence un Selector nodes.</li>
+            <li>Aprakstīts dziļāk Game AI Pro grāmatā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Stāvoklis paliek IDLE:</b> Pārbaudi, vai pārejas nosacījumi tiek izpildīti.</li>
+        <li><b>Crash, kad player == nullptr:</b> Lieto null check pirms piekļūšanas.</li>
+        <li><b>Animation neattēlojas:</b> AnimationPlayer ne pareizi pievienots vai animation name nepareizs.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic4_state_diagram.png" alt="State machine diagramma: IDLE → PATROL (timer), IDLE/PATROL → CHASE (player vision), CHASE → ATTACK (range), ATTACK → CHASE (out of range), * → DEAD (hp 0)." loading="lazy">
+            <figcaption>State machine diagramma: IDLE → PATROL (timer), IDLE/PATROL → CHASE (player vision), CHASE → ATTACK (range), ATTACK → CHASE (out of range), * → DEAD (hp 0).</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic4_ai_chase.png" alt="Spēles aina: spēlētājs centrā, ienaidnieks ar 'CHASE' debug label tuvojas no kreisās puses." loading="lazy">
+            <figcaption>Spēles aina: spēlētājs centrā, ienaidnieks ar 'CHASE' debug label tuvojas no kreisās puses.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">enum class EnemyState { IDLE, PATROL, CHASE, ATTACK, DEAD };
+
+void Enemy::_physics_process(double delta) {
+    state_timer += delta;
+
+    switch (state) {
+        case EnemyState::IDLE:
+            if (player_in_vision) change_state(EnemyState::CHASE);
+            else if (state_timer &gt; 3.0) change_state(EnemyState::PATROL);
+            break;
+
+        case EnemyState::PATROL: {
+            Vector2 dir = (patrol_target - get_position()).normalized();
+            velocity = dir * 100.0f;
+            move_and_slide();
+            if (get_position().distance_to(patrol_target) &lt; 10) {
+                swap_patrol_target();
+            }
+            if (player_in_vision) change_state(EnemyState::CHASE);
+        } break;
+
+        case EnemyState::CHASE: {
+            Vector2 dir = (player_pos - get_position()).normalized();
+            velocity = dir * 200.0f;
+            move_and_slide();
+            if (get_position().distance_to(player_pos) &lt; 50) {
+                change_state(EnemyState::ATTACK);
+            }
+        } break;
+
+        case EnemyState::ATTACK:
+            if (state_timer &gt;= 1.0) {
+                player-&gt;take_damage(10);
+                state_timer = 0;
+            }
+            break;
+    }
+}
+
+void Enemy::change_state(EnemyState new_state) {
+    state = new_state;
+    state_timer = 0;
+}</code></pre>
+        <div class='result'>Ienaidnieks staigā patrol līdz pamana spēlētāju, dzenas un uzbrūk; izvairoties — atgriežas patrol režīmā.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_42.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_44.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

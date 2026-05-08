@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.1 Vector un Array — ebSkola</title>
+<meta name="description" content="Saprast atšķirību starp std::vector un Godot Array, izvēlēties piemēroto datu struktūru.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_41.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="4.1 Vector un Array">
+<meta property="og:description" content="Saprast atšķirību starp std::vector un Godot Array, izvēlēties piemēroto datu struktūru.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_41.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4.1 Vector un Array">
+<meta name="twitter:description" content="Saprast atšķirību starp std::vector un Godot Array, izvēlēties piemēroto datu struktūru.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.1 Vector un Array", "description": "Saprast atšķirību starp std::vector un Godot Array, izvēlēties piemēroto datu struktūru.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_41.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_4main.html">4. Tēmas apkopojums</a>
+  <a class="active" href="prog2_41.html">4.1 Vector un Array</a>
+  <a href="prog2_42.html">4.2 Map un Dictionary</a>
+  <a href="prog2_43.html">4.3 State machines AI uzvedībai</a>
+  <a href="prog2_44.html">4.4 Pathfinding ar A*</a>
+  <a href="prog2_45.html">4.5 Šaušanas mehānika un object pooling</a>
+  <a href="prog2_46.html">4.6 Noslēguma projekts: Top-down šautene</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>4.1 Vector un Array</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Saprast atšķirību starp std::vector un Godot Array, izvēlēties piemēroto datu struktūru.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.16. Saliktas datu struktūras</a>
+        <a href="../../sasnRez.html">SR 2.4.13. Datu tipi</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Sarakstu datu struktūras</h2>
+    <div class='logic-box'>
+<p>Godot C++ kontekstā ir divas saraksta opcijas:</p>
+<table>
+<thead><tr><th>Tips</th><th>Lietojums</th><th>Piemērs</th></tr></thead>
+<tbody>
+<tr><td><code>std::vector&lt;T&gt;</code></td><td>Iekšējais C++ kods, ātrs</td><td>std::vector&lt;Enemy*&gt; enemies;</td></tr>
+<tr><td><code>Array</code></td><td>Komunikācijai ar Godot</td><td>Array bullets;</td></tr>
+<tr><td><code>TypedArray&lt;T&gt;</code></td><td>Tipa-droša Godot Array</td><td>TypedArray&lt;Bullet&gt; bullets;</td></tr>
+</tbody>
+</table>
+<pre><code class="language-cpp">#include &lt;vector&gt;
+std::vector&lt;Enemy*&gt; enemies;
+
+enemies.push_back(new Enemy());
+for (auto e : enemies) e-&gt;update();
+enemies.erase(enemies.begin() + 2);  // dzēš 3.
+
+// Godot Array
+Array bullets;
+bullets.append(new_bullet);
+bullets.size();
+bullets.pop_back();</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Enemy spawning ar vector</h2>
+    <p>Pārvaldi vairākus ienaidniekus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Game klasē: <code>std::vector&lt;Enemy*&gt; enemies</code>.</li>
+            <li>Funkcija <code>spawn_enemy()</code>: izveido Enemy, pievieno scēnai (<code>add_child</code>), pievieno vektoram.</li>
+            <li><code>_process</code>: ar timeru ik pa 2 sec spawno jaunu ienaidnieku.</li>
+            <li>Pārbaudi, vai visi tiek pareizi pievienoti.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Iteration un dzēšana</h2>
+    <p>Apstaigā un noņem mirušos.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>For cikls iziet caur enemies, izsauc <code>e-&gt;update()</code>.</li>
+            <li>Atsevišķā ciklā vai erase-remove idiom: noņem mirušos.</li>
+            <li>Ievēro: nedrīkst modificēt vektoru cikla laikā ar parastu for.</li>
+            <li>Lieto: <code>enemies.erase(std::remove_if(...), enemies.end());</code></li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Array vs vector eksperiments</h2>
+    <p>Salīdzini abas pieejas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Vienu no projektiem realizē ar std::vector, otru ar Godot Array.</li>
+            <li>Mēri laiku 1000 elementu pievienošanai un nolasīšanai.</li>
+            <li>Pieraksti rezultātus README.</li>
+            <li>Secinājums: vector ātrāks, Array elastīgāks ar Variant.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Reserve un capacity</h2>
+    <p>Vector veiktspējas optimizācija.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>enemies.reserve(100);</code> pirms cikla — alocē atmiņu, izvairās no relok.</li>
+            <li>Pārbaudi: <code>enemies.capacity()</code> vs <code>enemies.size()</code>.</li>
+            <li>Ar daudziem objektiem reserve ir kritisks veiktspējai.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Crash with begin():</b> Vector tukšs, bet mēģini iegūt elements.</li>
+        <li><b>Memory leak:</b> 'new Enemy' bez delete. Lieto unique_ptr vai add_child.</li>
+        <li><b>Iterator invalidation:</b> Pievienojot/dzēšot vektoru cikla laikā, iterator var kļūt nederīgs.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic4_enemy_spawn.png" alt="Spēles aina: 5 ienaidnieki dažādās vietās ekrānā, viens ar 0 HP, kas tūlīt pazudīs." loading="lazy">
+            <figcaption>Spēles aina: 5 ienaidnieki dažādās vietās ekrānā, viens ar 0 HP, kas tūlīt pazudīs.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">std::vector&lt;Enemy*&gt; enemies;
+
+void spawn_enemy() {
+    Enemy* e = memnew(Enemy);
+    add_child(e);
+    e-&gt;set_position(Vector2(randf_range(0, 1280), 0));
+    enemies.push_back(e);
+}
+
+void Game::_physics_process(double delta) {
+    spawn_timer += delta;
+    if (spawn_timer &gt;= 2.0) {
+        spawn_enemy();
+        spawn_timer = 0;
+    }
+    // Noņem mirušos
+    enemies.erase(
+        std::remove_if(enemies.begin(), enemies.end(),
+            [](Enemy* e) { return !e-&gt;is_alive(); }),
+        enemies.end());
+}</code></pre>
+        <div class='result'>Spēle spawno 1 ienaidnieku ik pa 2 sec, mirstīgi tiek noņemti no vektora un scēnas.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_4main.html" class="nav-btn">⬅ Tēmas apkopojums</a>
+    <a href="prog2_42.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

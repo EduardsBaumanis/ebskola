@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.3 Save/Load arhitektūra — ebSkola</title>
+<meta name="description" content="Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem slotiem un autosave.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_53.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="5.3 Save/Load arhitektūra">
+<meta property="og:description" content="Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem slotiem un autosave.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_53.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5.3 Save/Load arhitektūra">
+<meta name="twitter:description" content="Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem slotiem un autosave.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "5.3 Save/Load arhitektūra", "description": "Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem slotiem un autosave.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_53.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_5main.html">5. Tēmas apkopojums</a>
+  <a href="prog2_51.html">5.1 Failu I/O Godot vidē</a>
+  <a href="prog2_52.html">5.2 JSON serializācija un Resource sistēma</a>
+  <a class="active" href="prog2_53.html">5.3 Save/Load arhitektūra</a>
+  <a href="prog2_54.html">5.4 Procedural generation</a>
+  <a href="prog2_55.html">5.5 Algoritmu efektivitāte</a>
+  <a href="prog2_56.html">5.6 Noslēguma projekts: Roguelike</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>5.3 Save/Load arhitektūra</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem slotiem un autosave.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.17. Failu I/O</a>
+        <a href="../../sasnRez.html">SR 2.4.6. Plāno izstrādes procesu</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Save sistēmas arhitektūra</h2>
+    <div class='logic-box'>
+<p>Profesionāla save sistēma sastāv no vairākiem komponentiem:</p>
+<ul>
+<li><b>SaveManager</b> — galvenais koordinators.</li>
+<li><b>Saveable interfeiss</b> — visi saglabājami objekti to implementē.</li>
+<li><b>Save slots</b> — vairāki saglabāšanas faili (slot1.json, slot2.json, ...).</li>
+<li><b>Autosave</b> — automātiska saglabāšana ik pa N minūtēm vai pie checkpoint.</li>
+</ul>
+<pre><code class="language-cpp">// Saveable interface
+class Saveable {
+public:
+    virtual Dictionary save_state() const = 0;
+    virtual void load_state(const Dictionary&amp; state) = 0;
+};
+
+class SaveManager : public Node {
+    std::vector&lt;Saveable*&gt; saveables;
+public:
+    void register_saveable(Saveable* s) {
+        saveables.push_back(s);
+    }
+    void save_to_slot(int slot);
+    void load_from_slot(int slot);
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Saveable interfeiss</h2>
+    <p>Padari objektus saglabājamus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Definē <code>class Saveable</code> ar pure virtual save_state un load_state.</li>
+            <li>Player, Enemy, Inventory, Quest klases manto no Saveable.</li>
+            <li>Katra implementē save_state -&gt; Dictionary un load_state -&gt; void.</li>
+            <li>SaveManager iziet caur visiem un apkopo Dictionaries.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Vairāki save slots</h2>
+    <p>3 atsevišķi save faili.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>UI: 3 slot pogas ar metadatu (datumu, level).</li>
+            <li>save_to_slot(int n): fails <code>user://save_</code>+n+<code>.json</code>.</li>
+            <li>Mainīga thumbnail/screenshot pievienoti.</li>
+            <li>Iespēja dzēst atsevišķus slots.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Autosave</h2>
+    <p>Automātiska saglabāšana.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Timer ik pa 5 min — saglabā uz autosave slot.</li>
+            <li>Pie checkpoint — manuāla autosave.</li>
+            <li>Pirms dzēšanas — backup vecākam.</li>
+            <li>Statusa rāda spēles stūrī "Saving..."</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Cloud save</h2>
+    <p>Steam Cloud vai citu sync.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Eksperimentāli — Godot piedāvā Steam integrāciju.</li>
+            <li>Konfigurē saglabāšanas mapes sinhronizāciju.</li>
+            <li>Konflikta risināšana, ja vairākas ierīces.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Save fails fragmented:</b> Save daļas atsevišķos failos vs viens — izvēlies vienu pieeju.</li>
+        <li><b>Race condition:</b> Save un load notiek vienlaikus — lieto mutex vai sekvenciāli.</li>
+        <li><b>Slot UI nesinhronizējas:</b> Pārbaudi metadata refresh pēc save.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic5_save_slots.png" alt="Save/Load UI: 3 slot kartiņas, katra ar 'Slot 1: Roguelike Lv 5, 1h 23m, 2026-05-15', un poga 'Save'/'Load'/'Delete'." loading="lazy">
+            <figcaption>Save/Load UI: 3 slot kartiņas, katra ar 'Slot 1: Roguelike Lv 5, 1h 23m, 2026-05-15', un poga 'Save'/'Load'/'Delete'.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">class SaveManager : public Node {
+    GDCLASS(SaveManager, Node)
+private:
+    std::vector&lt;Node*&gt; saveables;
+    float autosave_timer = 0;
+
+public:
+    void _process(double delta) override {
+        autosave_timer += delta;
+        if (autosave_timer &gt;= 300.0f) {  // 5 min
+            save_to_slot(0);  // 0 = autosave
+            autosave_timer = 0;
+        }
+    }
+
+    void save_to_slot(int slot) {
+        Dictionary all_data;
+        for (Node* n : saveables) {
+            if (n-&gt;has_method("save_state")) {
+                all_data[n-&gt;get_path()] = n-&gt;call("save_state");
+            }
+        }
+        all_data["timestamp"] = Time::get_singleton()-&gt;get_unix_time_from_system();
+        all_data["version"] = 1;
+
+        String path = "user://save_" + String::num_int64(slot) + ".json";
+        Ref&lt;FileAccess&gt; f = FileAccess::open(path, FileAccess::WRITE);
+        f-&gt;store_string(JSON::stringify(all_data, "  "));
+        f-&gt;close();
+    }
+};</code></pre>
+        <div class='result'>3 save slot ar metadatu (level, time played, last save), autosave ik 5 min, korekta load.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_52.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_54.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

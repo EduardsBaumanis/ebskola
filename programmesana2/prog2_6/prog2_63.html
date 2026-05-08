@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6.3 Audio sistēma — ebSkola</title>
+<meta name="description" content="Pievienot mūziku, skaņas efektus un audio buses spēlei.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_63.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="6.3 Audio sistēma">
+<meta property="og:description" content="Pievienot mūziku, skaņas efektus un audio buses spēlei.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_63.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="6.3 Audio sistēma">
+<meta name="twitter:description" content="Pievienot mūziku, skaņas efektus un audio buses spēlei.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "6.3 Audio sistēma", "description": "Pievienot mūziku, skaņas efektus un audio buses spēlei.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_63.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_6main.html">6. Tēmas apkopojums</a>
+  <a href="prog2_61.html">6.1 UI elementi un Control nodes</a>
+  <a href="prog2_62.html">6.2 Animācijas un Tween</a>
+  <a class="active" href="prog2_63.html">6.3 Audio sistēma</a>
+  <a href="prog2_64.html">6.4 Atkļūdošana un profilēšana</a>
+  <a href="prog2_65.html">6.5 Eksports un publicēšana</a>
+  <a href="prog2_66.html">6.6 Noslēguma projekts: Puzzle spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>6.3 Audio sistēma</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Pievienot mūziku, skaņas efektus un audio buses spēlei.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.7. UI</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Godot audio</h2>
+    <div class='logic-box'>
+<p>Godot audio sistēma izmanto <code>AudioStreamPlayer</code> nodes ar audio bus arhitektūru.</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/classes/audio_stream_player.hpp&gt;
+#include &lt;godot_cpp/classes/resource_loader.hpp&gt;
+
+// Atskaņot SFX
+AudioStreamPlayer* sfx = get_node&lt;AudioStreamPlayer&gt;("SFX");
+sfx-&gt;set_stream(load_audio("res://sounds/jump.ogg"));
+sfx-&gt;play();
+
+// Mūzika ar fade-in
+void play_music_fade_in(String path) {
+    music_player-&gt;set_stream(load_audio(path));
+    music_player-&gt;set_volume_db(-30);
+    music_player-&gt;play();
+    Tween* t = create_tween();
+    t-&gt;tween_method("set_volume_db", -30, -10, 2.0);  // fade up
+}</code></pre>
+<p><b>Audio buses:</b> Master → Music, SFX, Voice. Lietotājs var pielāgot katru atsevišķi.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Audio bus iestatīšana</h2>
+    <p>Arhitektūra.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Project → Audio Bus.</li>
+            <li>Pievieno 3 sub-buses: Music, SFX, Voice (visi route uz Master).</li>
+            <li>AudioStreamPlayer Inspector → Bus: izvēlies attiecīgo.</li>
+            <li>Slider settings UI — saistīts ar AudioServer::set_bus_volume_db().</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: SFX sound effects</h2>
+    <p>Spēles skaņas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>AudioStreamPlayer pool — līdzīgi bullet pool no 4. tēmas.</li>
+            <li>Funkcija play_sfx(String path): paņem free player, set_stream, play.</li>
+            <li>Skaņas: jump, hit, coin pickup, button click, level complete.</li>
+            <li>Bezmaksas skaņas: <a href='https://opengameart.org' target='_blank'>opengameart.org</a> vai <a href='https://freesound.org' target='_blank'>freesound.org</a>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Music sistēma</h2>
+    <p>Background mūzika.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Music AudioStreamPlayer ar attribute autoplay.</li>
+            <li>Crossfade starp tracks: ielādē jauno trak, vienlaikus fade-in jauno + fade-out veco.</li>
+            <li>Different music katram līmenim.</li>
+            <li>Pause menu: lower music volume.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: 3D positional audio</h2>
+    <p>Skaņa pielāgojas pozīcijai.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>AudioStreamPlayer2D node — automātiski pielāgo volume un panning.</li>
+            <li>Eksplozija tālumā skan klusāk un no attiecīgās puses.</li>
+            <li>Setup max_distance, attenuation.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Skaņa nestrādā:</b> stream nav ielādēts vai bus mute.</li>
+        <li><b>Lag music start:</b> OGG fails liels — preload ResourceLoader.</li>
+        <li><b>SFX cuts off:</b> Lieto pool, lai daudzi vienlaikus.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic6_audio_bus.png" alt="Project → Audio Bus editor: Master, Music, SFX, Voice ar volume sliders un mute pogām." loading="lazy">
+            <figcaption>Project → Audio Bus editor: Master, Music, SFX, Voice ar volume sliders un mute pogām.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic6_sound_effects.png" alt="FileSystem panelis ar sounds/ mapē: jump.ogg, hit.ogg, coin.ogg, click.ogg, music_main.ogg." loading="lazy">
+            <figcaption>FileSystem panelis ar sounds/ mapē: jump.ogg, hit.ogg, coin.ogg, click.ogg, music_main.ogg.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">class AudioManager : public Node {
+    GDCLASS(AudioManager, Node)
+private:
+    std::vector&lt;AudioStreamPlayer*&gt; sfx_pool;
+    AudioStreamPlayer* music_player;
+    static const int POOL_SIZE = 8;
+
+public:
+    void _ready() override {
+        for (int i = 0; i &lt; POOL_SIZE; i++) {
+            AudioStreamPlayer* p = memnew(AudioStreamPlayer);
+            p-&gt;set_bus("SFX");
+            add_child(p);
+            sfx_pool.push_back(p);
+        }
+        music_player = memnew(AudioStreamPlayer);
+        music_player-&gt;set_bus("Music");
+        add_child(music_player);
+    }
+
+    void play_sfx(String path) {
+        for (auto p : sfx_pool) {
+            if (!p-&gt;is_playing()) {
+                Ref&lt;AudioStream&gt; stream = ResourceLoader::get_singleton()-&gt;load(path);
+                p-&gt;set_stream(stream);
+                p-&gt;play();
+                return;
+            }
+        }
+    }
+
+    void play_music(String path) {
+        Ref&lt;AudioStream&gt; stream = ResourceLoader::get_singleton()-&gt;load(path);
+        music_player-&gt;set_stream(stream);
+        music_player-&gt;play();
+    }
+};</code></pre>
+        <div class='result'>Spēlē fonā mūzika, klikšķis pogai dod 'click.ogg', lec dod 'jump.ogg', skaņas pārklājas bez problēmām.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_62.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_64.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

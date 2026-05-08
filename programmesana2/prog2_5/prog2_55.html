@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.5 Algoritmu efektivitāte — ebSkola</title>
+<meta name="description" content="Apgūt Big O notāciju un optimizēt spēles algoritmus.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_55.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="5.5 Algoritmu efektivitāte">
+<meta property="og:description" content="Apgūt Big O notāciju un optimizēt spēles algoritmus.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_55.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5.5 Algoritmu efektivitāte">
+<meta name="twitter:description" content="Apgūt Big O notāciju un optimizēt spēles algoritmus.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "5.5 Algoritmu efektivitāte", "description": "Apgūt Big O notāciju un optimizēt spēles algoritmus.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_55.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_5main.html">5. Tēmas apkopojums</a>
+  <a href="prog2_51.html">5.1 Failu I/O Godot vidē</a>
+  <a href="prog2_52.html">5.2 JSON serializācija un Resource sistēma</a>
+  <a href="prog2_53.html">5.3 Save/Load arhitektūra</a>
+  <a href="prog2_54.html">5.4 Procedural generation</a>
+  <a class="active" href="prog2_55.html">5.5 Algoritmu efektivitāte</a>
+  <a href="prog2_56.html">5.6 Noslēguma projekts: Roguelike</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>5.5 Algoritmu efektivitāte</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apgūt Big O notāciju un optimizēt spēles algoritmus.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.19. Algoritmu efektivitāte</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Big O un optimizācija</h2>
+    <div class='logic-box'>
+<p><b>Big O notācija</b> apraksta, kā algoritma laiks pieaug ar datu apjomu.</p>
+<table>
+<thead><tr><th>O</th><th>Apraksts</th><th>Piemērs</th></tr></thead>
+<tbody>
+<tr><td>O(1)</td><td>Konstants</td><td>Direct array access</td></tr>
+<tr><td>O(log n)</td><td>Logaritmisks</td><td>Binary search</td></tr>
+<tr><td>O(n)</td><td>Lineārs</td><td>Iteration</td></tr>
+<tr><td>O(n log n)</td><td>Linearitmisks</td><td>Quicksort, Mergesort</td></tr>
+<tr><td>O(n²)</td><td>Kvadrātisks</td><td>Nested loops</td></tr>
+<tr><td>O(2^n)</td><td>Eksponenciāls</td><td>Brute force search</td></tr>
+</tbody>
+</table>
+<pre><code class="language-cpp">// O(n) - lineārs
+for (int i = 0; i &lt; n; i++) {
+    cout &lt;&lt; arr[i];
+}
+
+// O(n²) - kvadrātisks (slikti lielam n)
+for (int i = 0; i &lt; n; i++) {
+    for (int j = 0; j &lt; n; j++) {
+        if (arr[i] == arr[j]) ...
+    }
+}
+
+// O(log n) - bināra meklēšana
+int binary_search(vector&lt;int&gt;&amp; arr, int target) {
+    int lo = 0, hi = arr.size() - 1;
+    while (lo &lt;= hi) {
+        int mid = (lo + hi) / 2;
+        if (arr[mid] == target) return mid;
+        if (arr[mid] &lt; target) lo = mid + 1;
+        else hi = mid - 1;
+    }
+    return -1;
+}</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Profilēšana</h2>
+    <p>Mēri, kur ir bottleneck.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Godot debugger → Profiler — palaiž spēli un skatās CPU laiku.</li>
+            <li>Atrodi top 5 lēnāko funkciju.</li>
+            <li>Ievādi <code>Time::get_singleton()-&gt;get_ticks_usec()</code> laika mērīšanai.</li>
+            <li>Pieraksti rezultātus README failā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Kolīziju optimizācija</h2>
+    <p>Spatial hashing.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Naive: pārbaudi visus pāru pret visiem — O(n²).</li>
+            <li>Spatial hash: dali ekrānu šūnās, pārbaudi tikai vienas šūnas objektus — O(n).</li>
+            <li>Implementē 100×100 grid sistēmu.</li>
+            <li>Salīdzini FPS ar 1000 objektiem ar/bez optimizācijas.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Kešošana</h2>
+    <p>Aprēķini reizi, lieto vairākas reizes.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atrod gadījumu, kur tiek aprēķināts dārgs values katrā kadrā.</li>
+            <li>Pievieno cache: aprēķini vienreiz, store, izmanto.</li>
+            <li>Invalidate cache, kad ievades dati mainās.</li>
+            <li>Mēri uzlabojumu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Paralēla apstrāde</h2>
+    <p>Multithreading Godot.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>WorkerThreadPool: paralēli paveic neatkarīgus uzdevumus.</li>
+            <li>Procedural generation perfect kandidāts.</li>
+            <li>Iemēģini ģenerēt 4 dungeons paralēli.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Mēģini optimizēt bez profilēšanas:</b> 'Premature optimization is root of all evil' — vienmēr profilē vispirms.</li>
+        <li><b>O(n²) paslēpts API:</b> Some Godot funkcijas iekšēji ir O(n) — find_child cikls = O(n²).</li>
+        <li><b>Cache invalidation:</b> Aizmirsis update cache pēc datu izmaiņas — bugs.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic5_profiler.png" alt="Godot Profiler logs ar funkciju laika sadalīžumu — top 5 funkcijas un to CPU usage." loading="lazy">
+            <figcaption>Godot Profiler logs ar funkciju laika sadalīžumu — top 5 funkcijas un to CPU usage.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic5_big_o_chart.png" alt="Diagramma ar Big O kompleksitāšu līknēm: O(1), O(log n), O(n), O(n²) krāsainas līnijas pa x ass elementu skaits." loading="lazy">
+            <figcaption>Diagramma ar Big O kompleksitāšu līknēm: O(1), O(log n), O(n), O(n²) krāsainas līnijas pa x ass elementu skaits.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">// Spatial hash priekš ātras kolīzijas
+class SpatialHash {
+private:
+    static const int CELL_SIZE = 64;
+    std::unordered_map&lt;int64_t, std::vector&lt;Node2D*&gt;&gt; grid;
+
+    int64_t cell_key(int cx, int cy) {
+        return ((int64_t)cx &lt;&lt; 32) | (uint32_t)cy;
+    }
+
+public:
+    void rebuild(const std::vector&lt;Node2D*&gt;&amp; objects) {
+        grid.clear();
+        for (Node2D* obj : objects) {
+            Vector2 pos = obj-&gt;get_position();
+            int cx = pos.x / CELL_SIZE;
+            int cy = pos.y / CELL_SIZE;
+            grid[cell_key(cx, cy)].push_back(obj);
+        }
+    }
+
+    std::vector&lt;Node2D*&gt; get_nearby(Vector2 pos) {
+        int cx = pos.x / CELL_SIZE;
+        int cy = pos.y / CELL_SIZE;
+        std::vector&lt;Node2D*&gt; result;
+        for (int dx = -1; dx &lt;= 1; dx++) {
+            for (int dy = -1; dy &lt;= 1; dy++) {
+                auto it = grid.find(cell_key(cx + dx, cy + dy));
+                if (it != grid.end()) {
+                    result.insert(result.end(),
+                        it-&gt;second.begin(), it-&gt;second.end());
+                }
+            }
+        }
+        return result;
+    }
+};</code></pre>
+        <div class='result'>1000 objektu kolīzijas pārbaude: bez optimizācijas — 5 ms, ar spatial hash — 0.3 ms.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_54.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_56.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

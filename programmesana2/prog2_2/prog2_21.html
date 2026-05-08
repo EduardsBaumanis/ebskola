@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.1 Process un fizikas cikli — ebSkola</title>
+<meta name="description" content="Saprast atšķirību starp _process un _physics_process metodēm un izveidot pirmo kustīgu objektu.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_21.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="2.1 Process un fizikas cikli">
+<meta property="og:description" content="Saprast atšķirību starp _process un _physics_process metodēm un izveidot pirmo kustīgu objektu.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_21.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2.1 Process un fizikas cikli">
+<meta name="twitter:description" content="Saprast atšķirību starp _process un _physics_process metodēm un izveidot pirmo kustīgu objektu.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "2.1 Process un fizikas cikli", "description": "Saprast atšķirību starp _process un _physics_process metodēm un izveidot pirmo kustīgu objektu.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_21.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_2main.html">2. Tēmas apkopojums</a>
+  <a class="active" href="prog2_21.html">2.1 Process un fizikas cikli</a>
+  <a href="prog2_22.html">2.2 Input apstrāde un Input Map</a>
+  <a href="prog2_23.html">2.3 Vadības struktūras spēles loģikā</a>
+  <a href="prog2_24.html">2.4 Sadursmju noteikšana</a>
+  <a href="prog2_25.html">2.5 Gravitācija un platformas mehānika</a>
+  <a href="prog2_26.html">2.6 Noslēguma projekts: Platformas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>2.1 Process un fizikas cikli</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Saprast atšķirību starp _process un _physics_process metodēm un izveidot pirmo kustīgu objektu.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.14. Vadības struktūras</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: _process un _physics_process</h2>
+    <div class='logic-box'>
+<p>Godot piedāvā divas galvenās per-frame metodes:</p>
+<ul>
+<li><code>_process(double delta)</code> — izsaukts katrā renderēšanas kadrā (~60 FPS). Lieto vizuāliem efektiem.</li>
+<li><code>_physics_process(double delta)</code> — fiksēts laiks (60 Hz noklusējumā). Lieto fizikai un kustībām.</li>
+</ul>
+<p><b>Delta</b> ir laiks (sekundēs), kas pagājis kopš pēdējā kadra. Reizinot ātrumu ar delta, kustība būs vienmērīga neatkarīgi no FPS.</p>
+<pre><code class="language-cpp">void Player::_physics_process(double delta) {
+    // Slikti — bez delta:
+    // position.x += 5;       // ātrums atkarīgs no FPS
+
+    // Labi — ar delta:
+    Vector2 pos = get_position();
+    pos.x += 200.0f * delta;  // 200 pikseļi/sekundē
+    set_position(pos);
+}</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pirmais kustīgais objekts</h2>
+    <p>Pārvieto Sprite2D ar kodu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido jaunu projektu <code>Platformer</code>.</li>
+            <li>Sagatavo C++ vidi (kā 1.3 stundā).</li>
+            <li>Klase <code>Mover : public Node2D</code>. <code>_process(double delta)</code>: pārvieto sevi pa labi par <code>100 * delta</code>.</li>
+            <li>Pievieno scēnai, pievieno Sprite2D bērnu, palaiž.</li>
+            <li>Sprite peldēs pa labi vienmērīgi.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Bumbiņa ar atlēkšanu</h2>
+    <p>Padari objektam atlēkšanu no malām.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno klasei <code>Vector2 velocity</code> locekli.</li>
+            <li>Konstruktorā: <code>velocity = Vector2(150, 100);</code></li>
+            <li><code>_physics_process</code>: <code>set_position(get_position() + velocity * delta);</code></li>
+            <li>Ja x&lt;0 vai x&gt;1280: <code>velocity.x = -velocity.x;</code></li>
+            <li>Tāpat ar y koordināti un y&gt;720.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Process vs Physics demo</h2>
+    <p>Salīdzini abas metodes.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido divus identiskus objektus: viens lieto _process, otrs _physics_process.</li>
+            <li>Pievieno <code>Engine::get_singleton()-&gt;set_max_fps(30)</code> testēšanai.</li>
+            <li>Vēro, kā _process kustība kļūst neviendabīga, bet _physics_process saglabā ātrumu.</li>
+            <li>Pieraksti secinājumus README failā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Delta time profilēšana</h2>
+    <p>Pievieno FPS skaitītāju.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Inspector → Project → Debug → Settings → Show FPS.</li>
+            <li>Vai pievieno <code>UtilityFunctions::print("FPS: ", Engine::get_singleton()-&gt;get_frames_per_second())</code></li>
+            <li>Eksperimentē ar dažādām fiksētām FPS vērtībām.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Objekts kustās ļoti ātri:</b> Aizmirsts reizināt ar delta.</li>
+        <li><b>Kustība rāva:</b> Lieto _physics_process, ne _process.</li>
+        <li><b>Crash startējoties:</b> Pārliecinies, ka set_position tiek izsaukts pēc node ir scēnā (_ready vai vēlāk).</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic2_movement.png" alt="Spēles loga skats ar krāsainu Sprite2D bumbu, kas peld pa diagonāli; pēdas iezīme rāda iepriekšējo trajektoriju." loading="lazy">
+            <figcaption>Spēles loga skats ar krāsainu Sprite2D bumbu, kas peld pa diagonāli; pēdas iezīme rāda iepriekšējo trajektoriju.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic2_fps_debug.png" alt="Godot Game Window ar FPS counter augšējā stūrī rādot 60 FPS." loading="lazy">
+            <figcaption>Godot Game Window ar FPS counter augšējā stūrī rādot 60 FPS.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">#include "mover.hpp"
+#include &lt;godot_cpp/core/class_db.hpp&gt;
+#include &lt;godot_cpp/variant/utility_functions.hpp&gt;
+
+using namespace godot;
+
+void Mover::_bind_methods() {}
+
+void Mover::_physics_process(double delta) {
+    Vector2 pos = get_position();
+    pos += velocity * delta;
+
+    if (pos.x &lt; 0 || pos.x &gt; 1280) velocity.x = -velocity.x;
+    if (pos.y &lt; 0 || pos.y &gt; 720)  velocity.y = -velocity.y;
+
+    set_position(pos);
+}</code></pre>
+        <div class='result'>Sprite2D peld pa ekrānu un atlec no malām, vienmēr ar vienādu ātrumu.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_2main.html" class="nav-btn">⬅ Tēmas apkopojums</a>
+    <a href="prog2_22.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>
