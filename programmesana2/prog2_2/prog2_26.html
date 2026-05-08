@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.6 Noslēguma projekts: Platformas spēle — ebSkola</title>
+<meta name="description" content="Izveidot pilnvērtīgu 2D platformas spēli ar 3 līmeņiem, savācamiem un finiša bandieri.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_26.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="2.6 Noslēguma projekts: Platformas spēle">
+<meta property="og:description" content="Izveidot pilnvērtīgu 2D platformas spēli ar 3 līmeņiem, savācamiem un finiša bandieri.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_26.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2.6 Noslēguma projekts: Platformas spēle">
+<meta name="twitter:description" content="Izveidot pilnvērtīgu 2D platformas spēli ar 3 līmeņiem, savācamiem un finiša bandieri.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "2.6 Noslēguma projekts: Platformas spēle", "description": "Izveidot pilnvērtīgu 2D platformas spēli ar 3 līmeņiem, savācamiem un finiša bandieri.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_26.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_2main.html">2. Tēmas apkopojums</a>
+  <a href="prog2_21.html">2.1 Process un fizikas cikli</a>
+  <a href="prog2_22.html">2.2 Input apstrāde un Input Map</a>
+  <a href="prog2_23.html">2.3 Vadības struktūras spēles loģikā</a>
+  <a href="prog2_24.html">2.4 Sadursmju noteikšana</a>
+  <a href="prog2_25.html">2.5 Gravitācija un platformas mehānika</a>
+  <a class="active" href="prog2_26.html">2.6 Noslēguma projekts: Platformas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>2.6 Noslēguma projekts: Platformas spēle</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izveidot pilnvērtīgu 2D platformas spēli ar 3 līmeņiem, savācamiem un finiša bandieri.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.1. Problēmas dekompozīcija</a>
+        <a href="../../sasnRez.html">SR 2.4.7. UI</a>
+        <a href="../../sasnRez.html">SR 2.4.14. Vadības struktūras</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Spēles apraksts un arhitektūra</h2>
+    <div class='logic-box'>
+<p><b>Platformas spēle</b> ar šādām funkcijām:</p>
+<ul>
+<li>3 līmeņi ar augošu sarežģītību.</li>
+<li>Spēlētājs ar gravitāciju, jump, variable height un coyote time.</li>
+<li>Savācamas monētas, dārgakmeņi un atslēgas.</li>
+<li>Ienaidnieki, kas pārvietojas patrol ceļā.</li>
+<li>Finiša bandieris katrā līmenī — pārejas uz nākamo.</li>
+<li>HUD ar HP, score, atlikušo laiku.</li>
+</ul>
+<pre><code class="language-cpp">// Klašu hierarhija
+class Player : public CharacterBody2D { ... };
+class Enemy : public CharacterBody2D { /* patrol AI */ };
+class Pickup : public Area2D { /* coin/gem/key */ };
+class Level : public Node2D { /* satur visas iepriekšminētās */ };
+class Game : public Node { /* level pārvaldība */ };</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Player un Level (1. līmenis)</h2>
+    <p>Pamata struktūra.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pārkopē Player klasi no 2.5 stundas.</li>
+            <li>Izveido 3 Level scēnas: Level1.tscn, Level2.tscn, Level3.tscn.</li>
+            <li>Katrā: TileMap (vai StaticBody2D platformas), spēlētāja sākuma punkts (Marker2D), finiša bandieris (Area2D).</li>
+            <li>Ielādē Level1 un pārliecinies, ka spēlētājs var izstaigāt.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Pickups un punkti (2. līmenis)</h2>
+    <p>Savācamie objekti.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Izveido Coin, Gem, Key scēnas (no 2.4 stundas pieredzes).</li>
+            <li>Game klase glabā <code>int score</code> un <code>bool has_key</code>.</li>
+            <li>HUD: pievieno Label nodes, atjaunini caur <code>get_tree()-&gt;call_group("hud", "refresh", score)</code>.</li>
+            <li>Finiša bandieris atveras tikai, ja has_key==true.</li>
+            <li>Pārliecinies, ka score saglabājas, pārejot uz nākamo līmeni.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Ienaidnieki un līmeņu pāreja (3. līmenis)</h2>
+    <p>Sarežģītība un struktūra.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Enemy klase: patrol starp diviem punktiem (Marker2D references).</li>
+            <li>Sadursme ar Player: spēlētājs zaudē HP. Ja HP==0 — restart.</li>
+            <li>Game klase: <code>load_next_level()</code> pārslēdz scēnu ar <code>get_tree()-&gt;change_scene_to_file()</code>.</li>
+            <li>Pēc 3. līmeņa: parādi "Game complete!" un kopējos punktus.</li>
+            <li>GitHub: 6+ commit, README ar control schema un scene struktūru.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Bonus: Power-ups un saglabāšana</h2>
+    <p>Pievieno spēles pastāvību.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Mushroom power-up: spēlētājs kļūst lielāks (Scale 1.5x), HP+50.</li>
+            <li>Saglabā augstāko score JSON failā (5. tēmā apgūsim).</li>
+            <li>Pievieno checkpoint sistēmu līmeņos.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Scēnas pāreja crash:</b> Pārliecinies, ka mērķa scēnas ceļš ir pareizs.</li>
+        <li><b>Score reset starp līmeņiem:</b> Game klase jābūt Autoload (Project → Autoload).</li>
+        <li><b>Patrol AI iet ārpus zonām:</b> Pārbaudi Marker2D pozīcijas līmenī.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic2_level1.png" alt="Platformer Level 1: spēlētājs uz platformas, monētas un ienaidnieks redzami, atslēga un finiša bandieris fonā." loading="lazy">
+            <figcaption>Platformer Level 1: spēlētājs uz platformas, monētas un ienaidnieks redzami, atslēga un finiša bandieris fonā.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic2_game_complete.png" alt="Game complete ekrāns ar kopējo score, restart un quit pogām." loading="lazy">
+            <figcaption>Game complete ekrāns ar kopējo score, restart un quit pogām.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic2_hud.png" alt="Spēles HUD: HP indikators, Score: 245, atlikušais laiks 0:42, has_key indikators." loading="lazy">
+            <figcaption>Spēles HUD: HP indikators, Score: 245, atlikušais laiks 0:42, has_key indikators.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">class Game : public Node {
+    GDCLASS(Game, Node)
+private:
+    int score = 0;
+    int current_level = 1;
+public:
+    void load_next_level() {
+        current_level++;
+        if (current_level &gt; 3) {
+            UtilityFunctions::print("Game complete! Score: ", score);
+            get_tree()-&gt;quit();
+            return;
+        }
+        String scene_path = "res://levels/Level" + String::num(current_level) + ".tscn";
+        get_tree()-&gt;change_scene_to_file(scene_path);
+    }
+    void add_score(int amount) { score += amount; }
+};</code></pre>
+        <div class='result'>Pilnvērtīgi spēlējama platformer ar 3 līmeņiem, savācamiem, ienaidniekiem un finiša mehāniku.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_25.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_2main.html" class="nav-btn">Tēmas apkopojums ➡</a>
+</div>
+</body>
+</html>

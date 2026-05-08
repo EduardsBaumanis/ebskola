@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.5 Gravitācija un platformas mehānika — ebSkola</title>
+<meta name="description" content="Implementēt platformas spēles tipisko jump+gravitāciju mehāniku.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_25.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="2.5 Gravitācija un platformas mehānika">
+<meta property="og:description" content="Implementēt platformas spēles tipisko jump+gravitāciju mehāniku.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_25.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2.5 Gravitācija un platformas mehānika">
+<meta name="twitter:description" content="Implementēt platformas spēles tipisko jump+gravitāciju mehāniku.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "2.5 Gravitācija un platformas mehānika", "description": "Implementēt platformas spēles tipisko jump+gravitāciju mehāniku.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_25.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_2main.html">2. Tēmas apkopojums</a>
+  <a href="prog2_21.html">2.1 Process un fizikas cikli</a>
+  <a href="prog2_22.html">2.2 Input apstrāde un Input Map</a>
+  <a href="prog2_23.html">2.3 Vadības struktūras spēles loģikā</a>
+  <a href="prog2_24.html">2.4 Sadursmju noteikšana</a>
+  <a class="active" href="prog2_25.html">2.5 Gravitācija un platformas mehānika</a>
+  <a href="prog2_26.html">2.6 Noslēguma projekts: Platformas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>2.5 Gravitācija un platformas mehānika</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Implementēt platformas spēles tipisko jump+gravitāciju mehāniku.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.14. Vadības struktūras</a>
+        <a href="../../sasnRez.html">SR 2.4.13. Datu tipi</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Gravitācija un jump mehānika</h2>
+    <div class='logic-box'>
+<p>Klasiska 2D platformas mehānika ietver:</p>
+<ul>
+<li><b>Gravitāciju</b> — y velocity pieaug katrā kadrā.</li>
+<li><b>Jump</b> — viena reize y velocity tiek piešķirta negatīva vērtība.</li>
+<li><b>Ground check</b> — pārbaude, vai spēlētājs ir uz zemes.</li>
+<li><b>Coyote time</b> — neliela tolerance, ja spēlētājs nupat nokrita no malas.</li>
+</ul>
+<pre><code class="language-cpp">class Player : public CharacterBody2D {
+private:
+    const float SPEED = 300.0f;
+    const float JUMP_FORCE = -550.0f;  // negatīvs = uz augšu
+    const float GRAVITY = 1500.0f;
+    Vector2 velocity_internal;
+
+public:
+    void _physics_process(double delta) override {
+        // Gravitācija
+        if (!is_on_floor()) {
+            velocity_internal.y += GRAVITY * delta;
+        }
+
+        // Jump
+        Input *input = Input::get_singleton();
+        if (input-&gt;is_action_just_pressed("jump") && is_on_floor()) {
+            velocity_internal.y = JUMP_FORCE;
+        }
+
+        // Horizontālā kustība
+        float dir = input-&gt;get_axis("move_left", "move_right");
+        velocity_internal.x = dir * SPEED;
+
+        set_velocity(velocity_internal);
+        move_and_slide();
+        velocity_internal = get_velocity();
+    }
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pamata jump+gravitācija</h2>
+    <p>Implementē klasisko mehānika.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Player klasē pievieno gravitāciju, jump force konstantes.</li>
+            <li><code>_physics_process</code>: pievieno y velocity gravitāciju, ja ne uz grīdas.</li>
+            <li><code>is_action_just_pressed("jump")</code> + <code>is_on_floor()</code> = lec.</li>
+            <li>Saglabā velocity starp kadriem (<code>velocity_internal</code> instances mainīgajā).</li>
+            <li>Testē uz vienkārša līmeņa ar 3 platformām.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Variable jump height</h2>
+    <p>Lec augstāk, ja taustiņš tur garāk.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno <code>is_action_just_released("jump")</code> pārbaudi.</li>
+            <li>Ja atlaiž jump taustiņu un velocity.y &lt; 0: <code>velocity.y *= 0.5f;</code></li>
+            <li>Tas dod kontroli pār lec augstumu — īsa nospiešana = mazs lec, ilga = liels.</li>
+            <li>Iegūsts atsaucīgāks spēles juties.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Coyote time un jump buffer</h2>
+    <p>Lietotāja draudzīgi uzlabojumi.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno <code>float coyote_timer = 0</code>, <code>float COYOTE_TIME = 0.1f</code>.</li>
+            <li>Ja was on floor pagājušajā kadrā un nav tagad — sāc skaitīt coyote_timer.</li>
+            <li>Ja jump tiek nospiests un (is_on_floor || coyote_timer &gt; 0): atļauj lec.</li>
+            <li>Tāpat <code>jump_buffer</code>: ja jump nospiests īsi pirms grīdas — atceries un lec, kad nokļūst.</li>
+            <li>Šie uzlabojumi padara platformeri profesionāli labu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Wall jump</h2>
+    <p>Lec no vertikālas sienas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno <code>is_on_wall()</code> pārbaudi.</li>
+            <li>Ja lec, atrodoties pie sienas: velocity.y = JUMP_FORCE; velocity.x = -wall_normal * 200.</li>
+            <li>Iegūsi <i>Celeste</i>-style mehāniku.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Spēlētājs lec dubultjump:</b> Aizmirsts <code>is_on_floor()</code> pārbaude.</li>
+        <li><b>Gravitācija pārāk ātra/lēna:</b> Pielāgo GRAVITY konstanti (1000–2500 ir parastais).</li>
+        <li><b>Spēlētājs uzkaras ar sienu:</b> Pievieno horizontālu velocity slāpēšanu, kad pie sienas.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic2_jump_arc.png" alt="Spēlētāja lec trajektorija — paraboliska ceļa līnija no platformas vienas malas uz otru." loading="lazy">
+            <figcaption>Spēlētāja lec trajektorija — paraboliska ceļa līnija no platformas vienas malas uz otru.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">void Player::_physics_process(double delta) {
+    Input *input = Input::get_singleton();
+
+    // Gravitācija
+    if (!is_on_floor()) {
+        velocity_internal.y += GRAVITY * delta;
+    }
+
+    // Jump ar variable height
+    if (input-&gt;is_action_just_pressed("jump") && is_on_floor()) {
+        velocity_internal.y = JUMP_FORCE;
+    }
+    if (input-&gt;is_action_just_released("jump") && velocity_internal.y &lt; 0) {
+        velocity_internal.y *= 0.5f;
+    }
+
+    // Horizontāla
+    float dir = input-&gt;get_axis("move_left", "move_right");
+    velocity_internal.x = dir * SPEED;
+
+    set_velocity(velocity_internal);
+    move_and_slide();
+    velocity_internal = get_velocity();
+}</code></pre>
+        <div class='result'>Spēlētājs lec dabīgi, ar variable height, gravitāciju 1500, jump force 550.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_24.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_26.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.1 Godot instalācija un projekta sagatavošana — ebSkola</title>
+<meta name="description" content="Instalēt Godot 4, izveidot pirmo projektu un saprast Godot editor (redaktora) galvenās daļas.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_11.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="1.1 Godot instalācija un projekta sagatavošana">
+<meta property="og:description" content="Instalēt Godot 4, izveidot pirmo projektu un saprast Godot editor (redaktora) galvenās daļas.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_11.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1.1 Godot instalācija un projekta sagatavošana">
+<meta name="twitter:description" content="Instalēt Godot 4, izveidot pirmo projektu un saprast Godot editor (redaktora) galvenās daļas.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "1.1 Godot instalācija un projekta sagatavošana", "description": "Instalēt Godot 4, izveidot pirmo projektu un saprast Godot editor (redaktora) galvenās daļas.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_11.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_1main.html">1. Tēmas apkopojums</a>
+  <a class="active" href="prog2_11.html">1.1 Godot instalācija un projekta sagatavošana</a>
+  <a href="prog2_12.html">1.2 Scene Tree un Node sistēma</a>
+  <a href="prog2_13.html">1.3 C++ un GDExtension sagatavošana</a>
+  <a href="prog2_14.html">1.4 Pirmais C++ skripts: mainīgie un izvade</a>
+  <a href="prog2_15.html">1.5 Spēles laukuma izveide</a>
+  <a href="prog2_16.html">1.6 Noslēguma projekts: Pong</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>1.1 Godot instalācija un projekta sagatavošana</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Instalēt Godot 4, izveidot pirmo projektu un saprast Godot editor (redaktora) galvenās daļas.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.12. Programmēšanas vide</a>
+        <a href="../../sasnRez.html">SR 3.1.2. Darba vides riski</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Godot Engine un editor (redaktors)</h2>
+    <div class='logic-box'>
+<p><b>Godot 4 Engine</b> (Godot dzinējs) ir bezmaksas, atvērtā koda spēļu dzinējs ar visu nepieciešamo 2D un 3D spēļu izstrādei.</p>
+<p><b>Editor (redaktora) galvenās daļas:</b></p>
+<ul>
+<li><b>Scene Tree</b> (Skatu koks) — kreisajā augšā; spēles objektu hierarhija.</li>
+<li><b>FileSystem</b> (Failu sistēma) — kreisajā apakšā; projekta faili.</li>
+<li><b>Viewport</b> (Skatlogs) — centrā; vizuālais redaktors.</li>
+<li><b>Inspector</b> (Inspektors) — labajā; aktīvā Node īpašības.</li>
+<li><b>Output / Debugger</b> (Atkļūdotājs) — apakšā; izvades konsole.</li>
+</ul>
+<pre><code class="language-bash"># Godot 4 instalācija
+# 1. Lejupielādē no godotengine.org/download
+# 2. Izpako ZIP
+# 3. Palaiž godot.exe (Windows) vai ./godot (Linux/Mac)
+# 4. Project Manager → New Project</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Godot instalācija</h2>
+    <p>Lejupielādē un instalē Godot 4 stable versiju.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver <a href='https://godotengine.org/download' target='_blank'>godotengine.org/download</a> un lejupielādē Godot 4 Standard versiju.</li>
+            <li>Izpako ZIP arhīvu mapē <code>C:\Tools\Godot</code> (Windows) vai <code>~/Tools/Godot</code> (Linux/Mac).</li>
+            <li>Palaiž <code>godot.exe</code> — atvēras Project Manager (Projektu pārvaldnieks).</li>
+            <li>Spied <b>New Project</b> → nosaukums <code>Pong</code>, mape <code>~/Projects/Pong</code>, Renderer: <b>Forward+</b>.</li>
+            <li>Spied <b>Create &amp; Edit</b>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Editor iepazīšana</h2>
+    <p>Izpēti galvenās editor daļas un saglabā tukšo scēnu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Apskati Scene Tree (Skatu koks) un FileSystem (Failu sistēma) panes kreisajā pusē.</li>
+            <li>Centrā ir Viewport (Skatlogs) — pamēģini ar peles ritentiņu pietuvot/attālināt.</li>
+            <li>Augšā: 2D, 3D un Script (Skripts) workspace pogas.</li>
+            <li>Editor → Editor Settings → Interface → Editor → Editor Language: <code>en</code>.</li>
+            <li>Saglabā tukšu scēnu: Scene → Save Scene As → <code>main.tscn</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Versiju kontrole ar Git</h2>
+    <p>Sagatavo projektu Git pārvaldībai.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Terminālī projekta mapē: <code>git init</code>.</li>
+            <li>Izveido <code>.gitignore</code>:<br><code class='language-bash'>.godot/<br>.import/<br>*.tmp<br>builds/</code></li>
+            <li>Pievieno failus: <code>git add .</code> un commit: <code>git commit -m "Pirmais Godot projekts"</code></li>
+            <li>Izveido GitHub repo un pievieno remote: <code>git remote add origin URL</code>; <code>git push -u origin main</code></li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Editor paplašinājumi</h2>
+    <p>Instalē noderīgus uzlabojumus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>AssetLib cilnē meklē noderīgus papildinājumus.</li>
+            <li>Layout (Izkārtojums) → Save → pielāgots tavām vajadzībām.</li>
+            <li>Help → Search Help (Ctrl+F1) — Godot dokumentācija pieejama tieši editorā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Editor neatveras:</b> Pārbaudi, vai sistēma atbalsta Godot 4 (Windows 10+, macOS 10.15+, Linux).</li>
+        <li><b>Lēna darbība:</b> Forward+ prasa atjauninātus grafikas draiverus. Vecākiem datoriem mēģini <i>Compatibility</i>.</li>
+        <li><b>Saglabājot crashojas:</b> Mapes ceļš nedrīkst saturēt latīņu burtus.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic1_godot_pm.png" alt="Godot 4 Project Manager logs ar tukšo projektu sarakstu un 'New Project' pogu pa labi." loading="lazy">
+            <figcaption>Godot 4 Project Manager logs ar tukšo projektu sarakstu un 'New Project' pogu pa labi.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic1_editor_layout.png" alt="Godot editor pirmā atvēršana — kreisajā Scene Tree un FileSystem, centrā Viewport, labajā Inspector." loading="lazy">
+            <figcaption>Godot editor pirmā atvēršana — kreisajā Scene Tree un FileSystem, centrā Viewport, labajā Inspector.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp"># Pirmā Godot projekta sagatavošana
+# Pārliecinies, ka:
+#   1. Godot 4 ir uzstādīts
+#   2. Esi izveidojis "Pong" projektu
+#   3. Esi saglabājis main.tscn
+#   4. Git repo savienots ar GitHub
+
+# C++ kods nāks 1.3 stundā — pagaidām strādājam tikai editorā</code></pre>
+        <div class='result'>Godot Project Manager ar 'Pong' projektu sarakstā un atvērtu editor.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_1main.html" class="nav-btn">⬅ Tēmas apkopojums</a>
+    <a href="prog2_12.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

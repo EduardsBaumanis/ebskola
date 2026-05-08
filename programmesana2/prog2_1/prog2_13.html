@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.3 C++ un GDExtension sagatavošana — ebSkola</title>
+<meta name="description" content="Sagatavot C++ izstrādes vidi un kompilatorus, lai varētu rakstīt C++ kodu Godot.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_13.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="1.3 C++ un GDExtension sagatavošana">
+<meta property="og:description" content="Sagatavot C++ izstrādes vidi un kompilatorus, lai varētu rakstīt C++ kodu Godot.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_13.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1.3 C++ un GDExtension sagatavošana">
+<meta name="twitter:description" content="Sagatavot C++ izstrādes vidi un kompilatorus, lai varētu rakstīt C++ kodu Godot.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "1.3 C++ un GDExtension sagatavošana", "description": "Sagatavot C++ izstrādes vidi un kompilatorus, lai varētu rakstīt C++ kodu Godot.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_13.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_1main.html">1. Tēmas apkopojums</a>
+  <a href="prog2_11.html">1.1 Godot instalācija un projekta sagatavošana</a>
+  <a href="prog2_12.html">1.2 Scene Tree un Node sistēma</a>
+  <a class="active" href="prog2_13.html">1.3 C++ un GDExtension sagatavošana</a>
+  <a href="prog2_14.html">1.4 Pirmais C++ skripts: mainīgie un izvade</a>
+  <a href="prog2_15.html">1.5 Spēles laukuma izveide</a>
+  <a href="prog2_16.html">1.6 Noslēguma projekts: Pong</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>1.3 C++ un GDExtension sagatavošana</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Sagatavot C++ izstrādes vidi un kompilatorus, lai varētu rakstīt C++ kodu Godot.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.12. Programmēšanas vide</a>
+        <a href="../../sasnRez.html">SR 2.4.2. Argumentēti izvēlas rīkus</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: GDExtension un C++ build sistēma</h2>
+    <div class='logic-box'>
+<p><b>GDExtension</b> ir Godot 4 mehānisms, kas ļauj rakstīt C++ kodu, kas darbojas spēlē. C++ kods tiek kompilēts par koplietojamu bibliotēku (<code>.so</code> Linux, <code>.dll</code> Windows), ko Godot ielādē izpildes laikā.</p>
+<p><b>Kāpēc C++?</b></p>
+<ul>
+<li><b>Veiktspēja:</b> 5–50× ātrāks par GDScript intensīvos algoritmos.</li>
+<li><b>Industrijas standarts:</b> Lielākās spēles tiek rakstītas C/C++.</li>
+<li><b>Kontrole:</b> Tieša piekļuve atmiņai un datu tipiem.</li>
+</ul>
+<p><b>Nepieciešamie rīki:</b> Compiler (kompilators), SCons, godot-cpp.</p>
+<pre><code class="language-bash"># Atkarību instalēšana
+# Linux (Debian/Ubuntu):
+sudo apt install build-essential scons git python3
+
+# Windows: Visual Studio Community ar "Desktop development with C++"
+pip install scons
+
+# macOS:
+brew install scons</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Build rīku instalācija</h2>
+    <p>Sagatavo sistēmu C++ kompilācijai.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pārbaudi C++ kompilatoru: Linux/Mac <code>g++ --version</code>; Windows <code>cl /?</code> Developer CMD.</li>
+            <li>Instalē Python 3 (ja nav).</li>
+            <li><code>pip install scons</code> — SCons build sistēma.</li>
+            <li>Pārbaudi: <code>scons --version</code> — vajadzētu rādīt 4.0+.</li>
+            <li>Linux: <code>sudo apt install build-essential</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: godot-cpp klonēšana</h2>
+    <p>Lejupielādē oficiālo C++ binding.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Projekta saknē izveido apakšmapi: <code>mkdir gdext &amp;&amp; cd gdext</code>.</li>
+            <li>Klonē kā submodule: <code>git submodule add -b 4.2 https://github.com/godotengine/godot-cpp.git</code></li>
+            <li><code>git submodule update --init</code></li>
+            <li>Pārliecinies, ka mapē <code>gdext/godot-cpp</code> ir saturs.</li>
+            <li>Commit: <code>git commit -am "Pievienots godot-cpp"</code></li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: SConstruct un kompilācija</h2>
+    <p>Konfigurē build skriptu un kompilē.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Failā <code>gdext/SConstruct</code> ievieto SCons konfigurāciju (skat. koda piemēru).</li>
+            <li>Failā <code>gdext/src/register_types.cpp</code> izveido empty boilerplate (paplašināsim 1.4 stundā).</li>
+            <li>Mapē <code>gdext/</code>: <code>scons platform=linuxbsd</code> (vai <code>windows</code>/<code>macos</code>).</li>
+            <li>Tipiskā kompilācijas laiks pirmajā reizē: 2–10 minūtes.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: VS Code konfigurācija</h2>
+    <p>Iestati VS Code C++ izstrādei.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>code .</code> projektā.</li>
+            <li>Instalē extensions: <i>C/C++</i> (Microsoft) un <i>Godot Tools</i>.</li>
+            <li><code>.vscode/c_cpp_properties.json</code> — pievieno include path: <code>gdext/godot-cpp/include</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>scons: command not found:</b> SCons nav uzstādīts. <code>pip install --user scons</code>.</li>
+        <li><b>Linker errors par godot-cpp:</b> Vispirms jākompilē godot-cpp pati. <code>cd godot-cpp &amp;&amp; scons</code>.</li>
+        <li><b>Visual Studio nav atrasts (Windows):</b> Palaiž SCons no <i>Developer Command Prompt</i>.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic1_scons_build.png" alt="Termināļa logs ar SCons kompilācijas izvadi: rindas 'Compiling src/register_types.cpp' un beigās 'scons: done building targets.'" loading="lazy">
+            <figcaption>Termināļa logs ar SCons kompilācijas izvadi: rindas 'Compiling src/register_types.cpp' un beigās 'scons: done building targets.'</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp"># gdext/SConstruct
+import os
+
+env = SConscript("godot-cpp/SConstruct")
+
+env.Append(CPPPATH=["src/"])
+sources = Glob("src/*.cpp")
+
+if env["platform"] == "macos":
+    library = env.SharedLibrary(
+        "../bin/libpong_ext.{}.{}.framework/libpong_ext.{}.{}".format(
+            env["platform"], env["target"], env["platform"], env["target"]),
+        source=sources,
+    )
+else:
+    library = env.SharedLibrary(
+        "../bin/libpong_ext{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        source=sources,
+    )
+
+Default(library)</code></pre>
+        <div class='result'>Pirmā veiksmīga SCons kompilācija ar 'scons: done building targets.' ziņojumu.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_12.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_14.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

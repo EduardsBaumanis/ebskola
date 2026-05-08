@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.2 JSON serializācija un Resource sistēma — ebSkola</title>
+<meta name="description" content="Saglabāt sarežģītus datu struktūras, izmantojot JSON un Godot Resource klases.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_52.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="5.2 JSON serializācija un Resource sistēma">
+<meta property="og:description" content="Saglabāt sarežģītus datu struktūras, izmantojot JSON un Godot Resource klases.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_52.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5.2 JSON serializācija un Resource sistēma">
+<meta name="twitter:description" content="Saglabāt sarežģītus datu struktūras, izmantojot JSON un Godot Resource klases.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "5.2 JSON serializācija un Resource sistēma", "description": "Saglabāt sarežģītus datu struktūras, izmantojot JSON un Godot Resource klases.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_52.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_5main.html">5. Tēmas apkopojums</a>
+  <a href="prog2_51.html">5.1 Failu I/O Godot vidē</a>
+  <a class="active" href="prog2_52.html">5.2 JSON serializācija un Resource sistēma</a>
+  <a href="prog2_53.html">5.3 Save/Load arhitektūra</a>
+  <a href="prog2_54.html">5.4 Procedural generation</a>
+  <a href="prog2_55.html">5.5 Algoritmu efektivitāte</a>
+  <a href="prog2_56.html">5.6 Noslēguma projekts: Roguelike</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>5.2 JSON serializācija un Resource sistēma</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Saglabāt sarežģītus datu struktūras, izmantojot JSON un Godot Resource klases.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.17. Failu</a>
+        <a href="../../sasnRez.html">SR 2.4.16. Datu struktūras</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: JSON un Resources</h2>
+    <div class='logic-box'>
+<p><b>JSON</b> (JavaScript Object Notation) ir cilvēkam un mašīnai lasāms datu formāts. Godot piedāvā <code>JSON</code> klasi tā parsēšanai.</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/classes/json.hpp&gt;
+
+// Dictionary -&gt; JSON string
+Dictionary save_data;
+save_data["player_name"] = "Anna";
+save_data["level"] = 5;
+save_data["inventory"] = Array(); // var saturēt vēl Dictionary
+
+String json_str = JSON::stringify(save_data, "  ");  // 2-space indent
+
+// JSON string -&gt; Dictionary
+Ref&lt;JSON&gt; json = memnew(JSON);
+Error err = json-&gt;parse(json_str);
+if (err == OK) {
+    Variant data = json-&gt;get_data();
+    Dictionary loaded = data;
+    String name = loaded["player_name"];
+}</code></pre>
+<p><b>Resource</b> ir Godot iebūvēta klase resursu (audio, attēli, custom data) saglabāšanai .tres failos.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Save JSON sistēma</h2>
+    <p>Spēles state JSON formātā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Player klases metode <code>Dictionary to_dict() const</code>: hp, position, level, inventory.</li>
+            <li>Funkcija <code>save_to_file()</code>: izveido Dict, JSON::stringify, FileAccess WRITE.</li>
+            <li>Funkcija <code>load_from_file()</code>: FileAccess READ, JSON::parse, atjauno Player state.</li>
+            <li>Pārbaudi: nospied F5 ar saglabātu state, restart, load — visi dati atjaunoti.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Settings sistēma</h2>
+    <p>Lietotāja iestatījumi.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Ekrāna izšķirtspēja, audio volumes, key bindings.</li>
+            <li>Saglabā JSON kā <code>user://settings.json</code>.</li>
+            <li>Ielādē pie spēles starta.</li>
+            <li>UI panel ar saglabā/atjauno pogām.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Custom Resource klase</h2>
+    <p>ItemResource priekš inventāra.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>class ItemResource : public Resource</code>.</li>
+            <li>Lauki: name, icon (Texture2D), max_stack, value.</li>
+            <li>Saglabā kā .tres failu: <code>res://items/sword.tres</code>.</li>
+            <li>Inventārs glabā <code>std::vector&lt;Ref&lt;ItemResource&gt;&gt;</code>.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Versioning</h2>
+    <p>Save fails atpakaļ-saderīgs.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Katrā save iekļauj <code>version: 2</code>.</li>
+            <li>Load: ja vecāka versija — migrē uz jauno.</li>
+            <li>Saglabā veco save kā backup.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Crash, parse JSON:</b> Tukšs vai bojāts fails. Pārbaudi err == OK vienmēr.</li>
+        <li><b>Dictionary keys nav konsistenti:</b> Lieto strukturas vai konstantes (kods centra).</li>
+        <li><b>Resource fails neielādējas:</b> Path nepareizs vai resurss bojāts.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic5_save_json.png" alt="Teksta redaktors atvērts ar savegame.json saturu: pretty-printed JSON ar player_name, hp, level, inventory array." loading="lazy">
+            <figcaption>Teksta redaktors atvērts ar savegame.json saturu: pretty-printed JSON ar player_name, hp, level, inventory array.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic5_resource_inspector.png" alt="Godot Inspector ar custom ItemResource: Name, Icon (texture preview), Max Stack, Value." loading="lazy">
+            <figcaption>Godot Inspector ar custom ItemResource: Name, Icon (texture preview), Max Stack, Value.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">Dictionary Player::to_dict() const {
+    Dictionary d;
+    d["name"] = name;
+    d["hp"] = hp;
+    d["max_hp"] = max_hp;
+    d["level"] = level;
+    d["xp"] = xp;
+    d["position_x"] = get_position().x;
+    d["position_y"] = get_position().y;
+
+    Array inv;
+    for (const auto&amp; [item, count] : inventory) {
+        Dictionary entry;
+        entry["item"] = item;
+        entry["count"] = count;
+        inv.append(entry);
+    }
+    d["inventory"] = inv;
+    return d;
+}
+
+void Player::from_dict(const Dictionary&amp; d) {
+    name = d["name"];
+    hp = d["hp"];
+    max_hp = d["max_hp"];
+    level = d["level"];
+    xp = d["xp"];
+    set_position(Vector2(d["position_x"], d["position_y"]));
+
+    inventory.clear();
+    Array inv = d["inventory"];
+    for (int i = 0; i &lt; inv.size(); i++) {
+        Dictionary e = inv[i];
+        inventory[e["item"]] = e["count"];
+    }
+}</code></pre>
+        <div class='result'>Save fails saturēs JSON ar player datiem; pēc load — viss state atjaunots korekti.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_51.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_53.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

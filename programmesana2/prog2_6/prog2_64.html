@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6.4 Atkļūdošana un profilēšana — ebSkola</title>
+<meta name="description" content="Apgūt Godot debugger, breakpoints, un izmantot to, lai atrastu bugs.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_64.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="6.4 Atkļūdošana un profilēšana">
+<meta property="og:description" content="Apgūt Godot debugger, breakpoints, un izmantot to, lai atrastu bugs.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_64.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="6.4 Atkļūdošana un profilēšana">
+<meta name="twitter:description" content="Apgūt Godot debugger, breakpoints, un izmantot to, lai atrastu bugs.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "6.4 Atkļūdošana un profilēšana", "description": "Apgūt Godot debugger, breakpoints, un izmantot to, lai atrastu bugs.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_64.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_6main.html">6. Tēmas apkopojums</a>
+  <a href="prog2_61.html">6.1 UI elementi un Control nodes</a>
+  <a href="prog2_62.html">6.2 Animācijas un Tween</a>
+  <a href="prog2_63.html">6.3 Audio sistēma</a>
+  <a class="active" href="prog2_64.html">6.4 Atkļūdošana un profilēšana</a>
+  <a href="prog2_65.html">6.5 Eksports un publicēšana</a>
+  <a href="prog2_66.html">6.6 Noslēguma projekts: Puzzle spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>6.4 Atkļūdošana un profilēšana</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apgūt Godot debugger, breakpoints, un izmantot to, lai atrastu bugs.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.10. Atkļūdošana</a>
+        <a href="../../sasnRez.html">SR 2.4.19. Algoritmi</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Debugger un profileris</h2>
+    <div class='logic-box'>
+<p>Godot piedāvā vairākus rīkus problēmu atrašanai:</p>
+<ul>
+<li><b>Output panel</b> — print() un printerr() ziņojumi.</li>
+<li><b>Debugger</b> — breakpoints, step through, watch variables.</li>
+<li><b>Profiler</b> — funkciju laika analīze.</li>
+<li><b>Network Profiler</b> — RPC un networking.</li>
+<li><b>Visual Profiler</b> — vizuāls diagrammu uzziņa.</li>
+</ul>
+<pre><code class="language-cpp">// Debugging C++ kodā
+UtilityFunctions::print("Player position: ", get_position());
+UtilityFunctions::printerr("Error: enemy is null!");
+UtilityFunctions::push_warning("Suspicious value: ", value);
+
+// Asserts
+ERR_FAIL_NULL_MSG(player, "Player not found!");
+ERR_FAIL_COND_MSG(hp &lt; 0, "Negative HP!");
+
+// Stack trace dump (debug builds)
+#ifdef DEBUG_ENABLED
+WARN_PRINT("Function called: " + String(__FUNCTION__));
+#endif</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Print debugging</h2>
+    <p>Strategic print statements.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Spēlē izvieto print() svarīgākajās vietās: spawn, damage, level change.</li>
+            <li>Lieto printerr() warnings un kļūdām.</li>
+            <li>Pievieno conditional debugging: <code>#ifdef DEBUG_ENABLED</code>.</li>
+            <li>Pārbaudi Output paneli pēc spēles palaišanas.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Breakpoints</h2>
+    <p>Izpildes apstāšana.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>VS Code: noklikšķini line number — sarkans punkts = breakpoint.</li>
+            <li>Lai breakpoints strādā, kompilē ar debug symbols.</li>
+            <li>F5 (debug run), kad sasniegts breakpoint — programma apstājas.</li>
+            <li>Step over (F10), step into (F11), continue (F5).</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Profiler analīze</h2>
+    <p>Atrod lēnos kodus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Debugger → Profiler → Start.</li>
+            <li>Spēlē 30 sec, tad Stop.</li>
+            <li>Skatās top 5 funkcijas pēc CPU laika.</li>
+            <li>Optimizē tās — re-profile, salīdzini.</li>
+            <li>Pieraksti uzlabojumus README failā.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Memory profiler</h2>
+    <p>Atrod memory leaks.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Godot debugger → Monitor → Memory.</li>
+            <li>Vēro, vai memory pieaug spēles laikā (leak indicator).</li>
+            <li>Lieto Valgrind (Linux) sistēmas līmenī.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Breakpoint nestrādā:</b> Debug build trūkst — kompilē ar <code>scons target=template_debug</code>.</li>
+        <li><b>Print panel pārplūst:</b> Pārāk daudz print — lieto conditional vai noņem.</li>
+        <li><b>Profiler crashes:</b> Pārliecinies par jaunāko Godot versiju.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic6_debugger.png" alt="Godot Debugger ar breakpoint kodā, Stack panelī call stack, Locals panelī active variables ar to vērtībām." loading="lazy">
+            <figcaption>Godot Debugger ar breakpoint kodā, Stack panelī call stack, Locals panelī active variables ar to vērtībām.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic6_profiler.png" alt="Profiler logs ar function timing tabulu — top funkcijas pēc 'Total Time' sortētas, ar grafu vēsturei." loading="lazy">
+            <figcaption>Profiler logs ar function timing tabulu — top funkcijas pēc 'Total Time' sortētas, ar grafu vēsturei.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">// Defensīva programmēšana
+void Player::take_damage(int amount) {
+    // Validate input
+    ERR_FAIL_COND_MSG(amount &lt; 0,
+        "Damage amount must be non-negative, got: " + String::num_int64(amount));
+
+    // Log for debugging
+    UtilityFunctions::print("Player ", name, " taking ", amount,
+                            " damage. Current HP: ", hp);
+
+    // Apply damage
+    hp = std::max(0, hp - amount);
+
+    // Sanity check
+    if (hp &lt; 0) {
+        UtilityFunctions::printerr("CRITICAL: HP went negative! Resetting to 0");
+        hp = 0;
+    }
+
+    // Conditional debug
+    #ifdef DEBUG_ENABLED
+    if (hp == 0) {
+        UtilityFunctions::print("Player died at position ", get_position());
+    }
+    #endif
+
+    emit_signal("damaged", amount);
+}</code></pre>
+        <div class='result'>Output panelī redzami detalizēti debug ziņojumi; pie nederīgas ievades — error ar context.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_63.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_65.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

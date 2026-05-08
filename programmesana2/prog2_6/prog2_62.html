@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6.2 Animācijas un Tween — ebSkola</title>
+<meta name="description" content="Pievienot animācijas UI un spēles objektiem ar AnimationPlayer un Tween.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_62.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="6.2 Animācijas un Tween">
+<meta property="og:description" content="Pievienot animācijas UI un spēles objektiem ar AnimationPlayer un Tween.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_62.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="6.2 Animācijas un Tween">
+<meta name="twitter:description" content="Pievienot animācijas UI un spēles objektiem ar AnimationPlayer un Tween.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "6.2 Animācijas un Tween", "description": "Pievienot animācijas UI un spēles objektiem ar AnimationPlayer un Tween.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_62.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_6main.html">6. Tēmas apkopojums</a>
+  <a href="prog2_61.html">6.1 UI elementi un Control nodes</a>
+  <a class="active" href="prog2_62.html">6.2 Animācijas un Tween</a>
+  <a href="prog2_63.html">6.3 Audio sistēma</a>
+  <a href="prog2_64.html">6.4 Atkļūdošana un profilēšana</a>
+  <a href="prog2_65.html">6.5 Eksports un publicēšana</a>
+  <a href="prog2_66.html">6.6 Noslēguma projekts: Puzzle spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>6.2 Animācijas un Tween</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Pievienot animācijas UI un spēles objektiem ar AnimationPlayer un Tween.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.7. UI</a>
+        <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Animācijas Godot</h2>
+    <div class='logic-box'>
+<p>Godot piedāvā divas pieejas animācijām:</p>
+<ul>
+<li><b>AnimationPlayer</b> — vizuāli (timeline editor) izveidotas animācijas.</li>
+<li><b>Tween</b> — programmatiski izveidotas vienkāršas animācijas.</li>
+</ul>
+<pre><code class="language-cpp">#include &lt;godot_cpp/classes/tween.hpp&gt;
+
+// Tween — fade in
+void show_button() {
+    Tween* tween = create_tween();
+    button-&gt;set_modulate(Color(1, 1, 1, 0));  // sākotnēji caurspīdīgs
+    tween-&gt;tween_property(button, "modulate", Color(1, 1, 1, 1), 0.5);
+}
+
+// Tween — kustība ar bounce
+void shake_button() {
+    Tween* tween = create_tween();
+    Vector2 orig = button-&gt;get_position();
+    tween-&gt;tween_property(button, "position", orig + Vector2(10, 0), 0.05);
+    tween-&gt;tween_property(button, "position", orig - Vector2(10, 0), 0.05);
+    tween-&gt;tween_property(button, "position", orig, 0.05);
+}</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Tween animācijas</h2>
+    <p>Programmatiskas animācijas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Menu pogas: hover effect ar Tween — palielinās par 1.1x un atgriežas pie release.</li>
+            <li>Score popup: kad spēlētājs gūst punktus, popup tekst peld augšup un izgaist.</li>
+            <li>Damage numbers: red text peld no enemy ar Tween.</li>
+            <li>Visi izmantojot create_tween() un chain() metodes.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: AnimationPlayer</h2>
+    <p>Timeline editor animācijas.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno AnimationPlayer node Sprite2D vecākam.</li>
+            <li>Izveido animāciju 'walk' ar 4 frame timeline (0.0, 0.25, 0.5, 0.75 sec).</li>
+            <li>Pievieno frame property keyframes Sprite2D Frame indeksam.</li>
+            <li>C++ kodā: <code>animation_player-&gt;play("walk")</code> when moving.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Particle effects</h2>
+    <p>Vizuāli efekti.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno GPUParticles2D — explode efekts pie enemy death.</li>
+            <li>Trail efekts player kustībai.</li>
+            <li>Coin pickup sparkles.</li>
+            <li>Konfigurē Inspector: emit count, lifetime, colors.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Cutscenes</h2>
+    <p>Sarežģītākas animācijas sekvences.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>AnimationPlayer ar multiple tracks: pozīcija, dialogi, kameras zoom.</li>
+            <li>Spēles starts: 5 sec intro animation.</li>
+            <li>Boss intro: kameras pan, music swell, name banner.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Tween nedarbojas:</b> create_tween() kāzas Tween objektu, kas tiek dzēsts; turi referenci.</li>
+        <li><b>AnimationPlayer skip frames:</b> Animation length pārāk īss vai play() izsaukts vairākkārt.</li>
+        <li><b>Particles invisible:</b> CollisionShape2D vai Sprite2D parent var ietekmēt visibility.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic6_damage_popup.png" alt="Spēles aina ar 3 damage popups: '-15', '-25 CRIT!', '-10' dažādās krāsās un izmēros, peld augšup." loading="lazy">
+            <figcaption>Spēles aina ar 3 damage popups: '-15', '-25 CRIT!', '-10' dažādās krāsās un izmēros, peld augšup.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic6_animation_editor.png" alt="Godot AnimationPlayer editor: timeline ar walk animāciju, 4 keyframes priekš Sprite2D Frame property." loading="lazy">
+            <figcaption>Godot AnimationPlayer editor: timeline ar walk animāciju, 4 keyframes priekš Sprite2D Frame property.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/tween.hpp&gt;
+
+void Player::on_take_damage(int amount) {
+    // Damage number popup
+    Label* dmg = memnew(Label);
+    dmg-&gt;set_text("-" + String::num_int64(amount));
+    dmg-&gt;set_position(get_position() + Vector2(0, -30));
+    dmg-&gt;add_theme_color_override("font_color", Color(1, 0, 0));
+    get_parent()-&gt;add_child(dmg);
+
+    // Tween: peld augšup un izgaist
+    Tween* tween = dmg-&gt;create_tween();
+    tween-&gt;set_parallel();  // abas animācijas paralēli
+    tween-&gt;tween_property(dmg, "position",
+                          dmg-&gt;get_position() + Vector2(0, -50), 0.8);
+    tween-&gt;tween_property(dmg, "modulate:a", 0.0, 0.8);
+    tween-&gt;chain()-&gt;tween_callback(Callable(dmg, "queue_free"));
+
+    // Player flash red
+    Tween* flash = create_tween();
+    set_modulate(Color(1, 0, 0));
+    flash-&gt;tween_property(this, "modulate", Color(1, 1, 1), 0.3);
+}</code></pre>
+        <div class='result'>Bojājot ienaidnieku, parādās '-25' sarkanā tekstā, peld augšup un izgaist; player sarkans flash 0.3 sec.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_61.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_63.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.4 Custom GDExtension klases editor redzamas — ebSkola</title>
+<meta name="description" content="Padarīt savu C++ klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_3/prog2_34.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="3.4 Custom GDExtension klases editor redzamas">
+<meta property="og:description" content="Padarīt savu C++ klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_3/prog2_34.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="3.4 Custom GDExtension klases editor redzamas">
+<meta name="twitter:description" content="Padarīt savu C++ klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "3.4 Custom GDExtension klases editor redzamas", "description": "Padarīt savu C++ klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_3/prog2_34.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_3main.html">3. Tēmas apkopojums</a>
+  <a href="prog2_31.html">3.1 C++ klases pamati</a>
+  <a href="prog2_32.html">3.2 Mantošana C++ un Godot</a>
+  <a href="prog2_33.html">3.3 Signāli un objektu komunikācija</a>
+  <a class="active" href="prog2_34.html">3.4 Custom GDExtension klases editor redzamas</a>
+  <a href="prog2_35.html">3.5 Statistikas sistēma un struct</a>
+  <a href="prog2_36.html">3.6 Noslēguma projekts: RPG cīņas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>3.4 Custom GDExtension klases editor redzamas</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Padarīt savu C++ klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.7. UI</a>
+        <a href="../../sasnRez.html">SR 2.4.18. OOP</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: GDCLASS un property exposing</h2>
+    <div class='logic-box'>
+<p>Lai C++ klase parādītos Godot editor un tās laukus varētu rediģēt Inspector, jāizmanto GDCLASS makro un jāreģistrē properties.</p>
+<pre><code class="language-cpp">class Enemy : public CharacterBody2D {
+    GDCLASS(Enemy, CharacterBody2D)
+
+private:
+    int hp = 50;
+    float speed = 100.0f;
+    String enemy_name = "Goblins";
+
+protected:
+    static void _bind_methods() {
+        ClassDB::bind_method(D_METHOD("get_hp"), &amp;Enemy::get_hp);
+        ClassDB::bind_method(D_METHOD("set_hp", "v"), &amp;Enemy::set_hp);
+        // Padari property redzamu Inspector
+        ADD_PROPERTY(PropertyInfo(Variant::INT, "hp"), "set_hp", "get_hp");
+
+        ClassDB::bind_method(D_METHOD("get_speed"), &amp;Enemy::get_speed);
+        ClassDB::bind_method(D_METHOD("set_speed", "v"), &amp;Enemy::set_speed);
+        ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed"), "set_speed", "get_speed");
+    }
+
+public:
+    int get_hp() const { return hp; }
+    void set_hp(int v) { hp = v; }
+    float get_speed() const { return speed; }
+    void set_speed(float v) { speed = v; }
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Inspector redzami lauki</h2>
+    <p>Padari Hero atribūtus rediģējamus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Hero klasei pievieno getter/setter visiem laukiem (name, hp, attack, defense).</li>
+            <li><code>_bind_methods</code>: ADD_PROPERTY katram.</li>
+            <li>Pārkompilē, atver Godot, atlasi Hero node.</li>
+            <li>Inspector tagad rāda visus laukus — vari mainīt vērtības bez koda.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Property hints</h2>
+    <p>Padari saskarni jaukāku.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>PROPERTY_HINT_RANGE</code> ar "0,200" priekš HP.</li>
+            <li><code>PROPERTY_HINT_ENUM</code> priekš varoņa class: "Knight,Mage,Archer".</li>
+            <li>Tagad lietotājs nevar ievadīt nederīgas vērtības.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Export grupās</h2>
+    <p>Organizē Inspector laukus.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno: <code>ADD_GROUP("Stats", "");</code> pirms HP property.</li>
+            <li>Pievieno: <code>ADD_GROUP("Combat", "");</code> pirms attack property.</li>
+            <li>Lauki tagad ir loģiski sakārtoti grupās Inspector.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Custom resource types</h2>
+    <p>Izveido pielāgotu Resource klasi.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>HeroData : public Resource</code> ar export properties.</li>
+            <li>Saglabā kā .tres fails: 'knight_data.tres'.</li>
+            <li>Vairāki Hero nodes var atsaukties uz vienu HeroData.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Inspector lauks neparādās:</b> Aizmirsts ADD_PROPERTY pēc bind_method.</li>
+        <li><b>Set funkcija nestrādā:</b> Property name jāatbilst getter/setter pattern.</li>
+        <li><b>Export hint kļūda:</b> Pārbaudi sintaksi ar Godot dokumentāciju.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic3_inspector_custom.png" alt="Godot Inspector ar Hero node, redzamas grupas 'Stats' (HP slider 0-200), 'Combat' (Attack, Defense) un 'Identity' (Name)." loading="lazy">
+            <figcaption>Godot Inspector ar Hero node, redzamas grupas 'Stats' (HP slider 0-200), 'Combat' (Attack, Defense) un 'Identity' (Name).</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">class Enemy : public CharacterBody2D {
+    GDCLASS(Enemy, CharacterBody2D)
+private:
+    int hp = 50;
+    float speed = 100.0f;
+public:
+    int get_hp() const { return hp; }
+    void set_hp(int v) { hp = std::max(0, v); }
+    float get_speed() const { return speed; }
+    void set_speed(float v) { speed = std::max(0.0f, v); }
+
+protected:
+    static void _bind_methods() {
+        ClassDB::bind_method(D_METHOD("get_hp"), &amp;Enemy::get_hp);
+        ClassDB::bind_method(D_METHOD("set_hp", "v"), &amp;Enemy::set_hp);
+        ADD_PROPERTY(PropertyInfo(Variant::INT, "hp",
+            PROPERTY_HINT_RANGE, "0,500"), "set_hp", "get_hp");
+
+        ClassDB::bind_method(D_METHOD("get_speed"), &amp;Enemy::get_speed);
+        ClassDB::bind_method(D_METHOD("set_speed", "v"), &amp;Enemy::set_speed);
+        ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed",
+            PROPERTY_HINT_RANGE, "0,500,0.1"), "set_speed", "get_speed");
+    }
+};</code></pre>
+        <div class='result'>Inspector rāda Hero ar Stats grupu, kurā ir HP slider 0-200, ATK skaitlis, DEF skaitlis.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_33.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_35.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

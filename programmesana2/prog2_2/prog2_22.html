@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.2 Input apstrāde un Input Map — ebSkola</title>
+<meta name="description" content="Konfigurēt Input Map un izveidot WASD/bultiņu vadāmu spēlētāju.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_22.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="2.2 Input apstrāde un Input Map">
+<meta property="og:description" content="Konfigurēt Input Map un izveidot WASD/bultiņu vadāmu spēlētāju.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_22.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2.2 Input apstrāde un Input Map">
+<meta name="twitter:description" content="Konfigurēt Input Map un izveidot WASD/bultiņu vadāmu spēlētāju.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "2.2 Input apstrāde un Input Map", "description": "Konfigurēt Input Map un izveidot WASD/bultiņu vadāmu spēlētāju.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_22.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_2main.html">2. Tēmas apkopojums</a>
+  <a href="prog2_21.html">2.1 Process un fizikas cikli</a>
+  <a class="active" href="prog2_22.html">2.2 Input apstrāde un Input Map</a>
+  <a href="prog2_23.html">2.3 Vadības struktūras spēles loģikā</a>
+  <a href="prog2_24.html">2.4 Sadursmju noteikšana</a>
+  <a href="prog2_25.html">2.5 Gravitācija un platformas mehānika</a>
+  <a href="prog2_26.html">2.6 Noslēguma projekts: Platformas spēle</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>2.2 Input apstrāde un Input Map</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Konfigurēt Input Map un izveidot WASD/bultiņu vadāmu spēlētāju.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.14. Vadības struktūras</a>
+        <a href="../../sasnRez.html">SR 2.4.7. UI</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Input pārvaldība Godot</h2>
+    <div class='logic-box'>
+<p>Godot piedāvā divus veidus apstrādāt input:</p>
+<ul>
+<li><b>Polling</b> (aptauja) — <code>Input::is_action_pressed("move_right")</code> katrā kadrā pārbauda stāvokli.</li>
+<li><b>Events</b> (notikumi) — <code>_input(Ref&lt;InputEvent&gt; event)</code> reaģē uz konkrētu notikumu.</li>
+</ul>
+<p>Spēļu kustībai parasti lieto <b>polling</b> (jo notiek katrā kadrā).</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/classes/input.hpp&gt;
+
+void Player::_physics_process(double delta) {
+    Input *input = Input::get_singleton();
+    Vector2 movement = Vector2(0, 0);
+
+    if (input-&gt;is_action_pressed("move_right")) movement.x += 1;
+    if (input-&gt;is_action_pressed("move_left"))  movement.x -= 1;
+    if (input-&gt;is_action_pressed("move_up"))    movement.y -= 1;
+    if (input-&gt;is_action_pressed("move_down"))  movement.y += 1;
+
+    movement = movement.normalized();  // diagonāles ātrums = taisns ātrums
+    velocity = movement * speed;
+    move_and_slide();
+}</code></pre>
+<p><b>Input Map</b> definē abstraktas darbības (move_right) un saista tās ar konkrētiem taustiņiem. Project Settings → Input Map.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Input Map konfigurēšana</h2>
+    <p>Iestati spēlētāja darbības.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Project → Project Settings → Input Map.</li>
+            <li>Pievieno darbības: <code>move_right</code>, <code>move_left</code>, <code>jump</code>, <code>attack</code>.</li>
+            <li>Pievieno taustiņus: move_right=D un Right Arrow, move_left=A un Left Arrow, jump=Space, attack=X.</li>
+            <li>Saglabā un ekspretē uz failu, lai būtu Git-friendly.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Player klase ar kustību</h2>
+    <p>Izveido pamata spēlētāju.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li><code>Player : public CharacterBody2D</code>. Locekļi: <code>float speed = 300.0f</code>.</li>
+            <li><code>_physics_process</code>: lasa input, aprēķina movement vector, normalizē.</li>
+            <li>Lieto <code>move_and_slide()</code> automātiskai sadursmju apstrādei.</li>
+            <li>Pievieno scēnai, izveido testa platformas (StaticBody2D ar CollisionShape).</li>
+            <li>Palaiž, pārvietojies ar WASD/bultiņām.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Input events</h2>
+    <p>Reaģē uz vienreizējiem notikumiem.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Pievieno <code>_input(const Ref&lt;InputEvent&gt; &amp;event) override;</code></li>
+            <li>Izsauc tikai pie taustiņa nospiešanas: <code>if (event-&gt;is_action_pressed("jump"))</code></li>
+            <li>Izvada "Jumped!" Output panelī.</li>
+            <li>Salīdzini polling vs event pieejas.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Joystick atbalsts</h2>
+    <p>Pievieno spēļu kontroliera atbalstu.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Input Map sadaļā pievieno Joypad Axis sasaistes saviem darbībām.</li>
+            <li>Lieto <code>get_action_strength</code>, lai iegūtu analogo vērtību (0–1).</li>
+            <li>Testē ar pievienotu kontrolieri.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Spēlētājs nekustas:</b> Input Map nav saglabāta vai darbība nepareizi nosaukta.</li>
+        <li><b>Diagonālais ātrums dubults:</b> Aizmirsts <code>.normalized()</code>.</li>
+        <li><b>Spēlētājs iet cauri sienām:</b> Lieto <code>move_and_slide()</code>, ne <code>set_position</code>.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic2_input_map.png" alt="Project Settings → Input Map sadaļa ar konfigurētiem darbībām move_right, move_left, jump, attack un to taustiņu piesaistēm." loading="lazy">
+            <figcaption>Project Settings → Input Map sadaļa ar konfigurētiem darbībām move_right, move_left, jump, attack un to taustiņu piesaistēm.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic2_player_moving.png" alt="Spēles logs ar varoni (zaļš sprite), kas pārvietojas pa platformu, redzams blakus sienai." loading="lazy">
+            <figcaption>Spēles logs ar varoni (zaļš sprite), kas pārvietojas pa platformu, redzams blakus sienai.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/input.hpp&gt;
+
+void Player::_physics_process(double delta) {
+    Input *input = Input::get_singleton();
+    Vector2 dir(0, 0);
+
+    if (input-&gt;is_action_pressed("move_right")) dir.x += 1;
+    if (input-&gt;is_action_pressed("move_left"))  dir.x -= 1;
+    if (input-&gt;is_action_pressed("move_up"))    dir.y -= 1;
+    if (input-&gt;is_action_pressed("move_down"))  dir.y += 1;
+
+    velocity = dir.normalized() * speed;
+    move_and_slide();
+}</code></pre>
+        <div class='result'>Player kustās pa ekrānu ar WASD vai bultiņām, sadursmes apstrādātas automātiski.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_21.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_23.html" class="nav-btn">Nākamā stunda ➡</a>
+</div>
+</body>
+</html>

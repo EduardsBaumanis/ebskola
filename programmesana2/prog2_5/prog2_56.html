@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.6 Noslēguma projekts: Roguelike — ebSkola</title>
+<meta name="description" content="Pilnvērtīga roguelike spēle ar procedural generation, save sistēmu un meta-progress.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_56.html">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="5.6 Noslēguma projekts: Roguelike">
+<meta property="og:description" content="Pilnvērtīga roguelike spēle ar procedural generation, save sistēmu un meta-progress.">
+<meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_56.html">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="5.6 Noslēguma projekts: Roguelike">
+<meta name="twitter:description" content="Pilnvērtīga roguelike spēle ar procedural generation, save sistēmu un meta-progress.">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "5.6 Noslēguma projekts: Roguelike", "description": "Pilnvērtīga roguelike spēle ar procedural generation, save sistēmu un meta-progress.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_56.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+</script>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<style>
+.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
+.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
+.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
+</style>
+</head>
+<body class="has-sidebar">
+
+<aside class="sidebar-nav">
+  <h3>ebskola</h3>
+  <a href="prog2_5main.html">5. Tēmas apkopojums</a>
+  <a href="prog2_51.html">5.1 Failu I/O Godot vidē</a>
+  <a href="prog2_52.html">5.2 JSON serializācija un Resource sistēma</a>
+  <a href="prog2_53.html">5.3 Save/Load arhitektūra</a>
+  <a href="prog2_54.html">5.4 Procedural generation</a>
+  <a href="prog2_55.html">5.5 Algoritmu efektivitāte</a>
+  <a class="active" href="prog2_56.html">5.6 Noslēguma projekts: Roguelike</a>
+</aside>
+
+<nav class='galvenaisdiv'>
+    <a href="../../index.html">Tēmas</a>
+    <a href="../../sasnRez.html">Sasniedzamie rezultāti</a>
+    <a href="../../paligm.html">Palīgmateriāli</a>
+</nav>
+
+<section class='section'>
+    <h1>5.6 Noslēguma projekts: Roguelike</h1>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Pilnvērtīga roguelike spēle ar procedural generation, save sistēmu un meta-progress.</p>
+    <div class="lesson-meta">
+        <a href="../../sasnRez.html">SR 2.4.1. Problēmu dekompozīcija</a>
+        <a href="../../sasnRez.html">SR 2.4.16. Datu struktūras</a>
+        <a href="../../sasnRez.html">SR 2.4.17. Failu I/O</a>
+        <a href="../../sasnRez.html">SR 2.4.19. Algoritmi</a>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: Spēles apraksts</h2>
+    <div class='logic-box'>
+<p><b>Roguelike pazemes spēle</b>: spēlētājs iziet cauri nejauši ģenerētiem dungeons, savāc loot, kaujas ar ienaidniekiem, mirstot zaudē viss progress (run), bet meta-progress (kopējie XP, atklātās klases) saglabājas.</p>
+<p><b>Galvenās funkcijas:</b></p>
+<ul>
+<li>Procedurāli ģenerēti 10 līmeņu dungeons.</li>
+<li>3 spēlētāja klases ar dažādām spējām.</li>
+<li>50+ unique items un ienaidnieku tipi.</li>
+<li>Boss katram 5. līmenim.</li>
+<li>Save/load starp sesijām (meta-progress).</li>
+<li>Procedurāla loot ģenerēšana.</li>
+</ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Dungeon un Player (1.)</h2>
+    <p>Pamata struktūra.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>DungeonGenerator no 5.4 stundas.</li>
+            <li>Player ar HP, attack, inventory.</li>
+            <li>Combat sistēma turn-based vai real-time (izvēlies).</li>
+            <li>1 līmenis funkcionējoshi.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>2. uzdevums: Loot un progresija (2.)</h2>
+    <p>Spēles dziļums.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>ItemResource klases priekš weapons, armor, potions.</li>
+            <li>Procedurāla loot generation (pēc level + retums).</li>
+            <li>XP un level up sistēma.</li>
+            <li>10 līmeņi ar augošu sarežģītību.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>3. uzdevums: Save un meta-progress (3.)</h2>
+    <p>Persistence.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>SaveManager no 5.3 stundas.</li>
+            <li>Single save slot ar autosave starp līmeņiem.</li>
+            <li>Pēc death — save tiek dzēsts (roguelike princips), bet meta-progress paliek.</li>
+            <li>Meta: kopējais kills, deepest level reached, unlocked classes.</li>
+            <li>GitHub: 10+ commit, README ar gameplay video link.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: Boss un beigas</h2>
+    <p>Spēles kulminācija.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>10. līmenis — final boss ar 1000 HP.</li>
+            <li>Multi-phase cīņa.</li>
+            <li>Pēc uzvaras — credit screen un statistika.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas</h2>
+    <div class='logic-box'>
+        <ul>
+        <li><b>Save un mirst:</b> Pārbaudi, ka delete save fails notiek tikai pēc death, ne pirms.</li>
+        <li><b>Performance ar 50+ enemies:</b> Lieto spatial hash un pool no 4. tēmas.</li>
+        <li><b>Procedural balance:</b> Pārāk daudz/maz loot — pielāgo varbūtības.</li>
+        </ul>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Godot ekrānuzņēmumi</h2>
+    <div class='logic-box'>
+        <figure class="screenshot">
+            <img src="../img/topic5_roguelike_gameplay.png" alt="Roguelike spēles aina: top-down dungeon ar pelēkām sienām, varonis centrā, 3 ienaidnieki, lādīte un eja uz nākamo līmeni." loading="lazy">
+            <figcaption>Roguelike spēles aina: top-down dungeon ar pelēkām sienām, varonis centrā, 3 ienaidnieki, lādīte un eja uz nākamo līmeni.</figcaption>
+        </figure>
+        <figure class="screenshot">
+            <img src="../img/topic5_meta_progress.png" alt="Meta-progress menu: 'Total kills: 1247', 'Deepest level: 7', 'Classes unlocked: 2/3', 'Best run: Level 8 (Knight)'." loading="lazy">
+            <figcaption>Meta-progress menu: 'Total kills: 1247', 'Deepest level: 7', 'Classes unlocked: 2/3', 'Best run: Level 8 (Knight)'.</figcaption>
+        </figure>
+    </div>
+</section>
+
+<div class='section'>
+    <h2>Koda piemērs (paplašināts)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">class GameSession : public Node {
+    GDCLASS(GameSession, Node)
+private:
+    int current_level = 1;
+    Player* player;
+    DungeonGenerator gen;
+
+public:
+    void start_run() {
+        gen.generate(Time::get_singleton()-&gt;get_unix_time_from_system());
+        spawn_player();
+        spawn_enemies();
+        spawn_loot();
+    }
+
+    void on_player_died() {
+        // Save meta-progress
+        MetaProgress::instance()-&gt;add_run({current_level, player-&gt;kills});
+        MetaProgress::save();
+        // Remove run save
+        FileAccess::remove("user://current_run.json");
+        get_tree()-&gt;change_scene_to_file("res://menu.tscn");
+    }
+
+    void on_level_complete() {
+        save_run();  // autosave
+        current_level++;
+        if (current_level &gt; 10) on_game_won();
+        else start_next_level();
+    }
+};</code></pre>
+        <div class='result'>Pilnvērtīga roguelike: 10 līmeņi, save/load, procedural generation, meta-progress, final boss.</div>
+    </div>
+</div>
+
+<div class="stundas-navigacija">
+    <a href="prog2_55.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="prog2_5main.html" class="nav-btn">Tēmas apkopojums ➡</a>
+</div>
+</body>
+</html>
