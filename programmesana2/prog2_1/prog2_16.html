@@ -68,11 +68,13 @@
     <h2>Teorija: Spēles apraksts un arhitektūra</h2>
     <div class='logic-box'>
 <p><b>Pong</b> ir klasiska 1972. gada arkādes spēle. Divi spēlētāji vada vertikālas paddles un atsit bumbu pretiniekam. Pirmais ar 5 punktiem uzvar.</p>
+<p>Šis projekts ir labs 1. tēmas noslēgumam, jo tajā ir maz objektu, bet tie pārbauda gandrīz visu pamatu: Scene Tree, atkārtoti lietojamas scēnas, Input Map, C++ klases, sadursmes, UI atjaunināšanu un spēles stāvokli. Pong nav izvēlēts tāpēc, ka tas ir vizuāli sarežģīts; tas ir izvēlēts tāpēc, ka kļūdas tajā ir viegli pamanāmas.</p>
+<p>Spēles loģika tiek rakstīta <b>C++</b>. Godot editorā drīkst salikt scēnas un iestatīt resursus, bet paddle kustība, bumbas atlēkšana, punktu pieskaitīšana un uzvaras pārbaude jārealizē GDExtension klasēs.</p>
 <p><b>C++ klases:</b></p>
 <ul>
-<li><code>Paddle.cpp</code> — spēlētāja vadītā raķete (W/S vai Augšup/Lejup).</li>
-<li><code>Ball.cpp</code> — bumba ar konstantu ātrumu, atlec.</li>
-<li><code>Game.cpp</code> — punktu uzskaite, restart.</li>
+<li><code>Paddle</code> — spēlētāja vadītā raķete ar ievades darbībām <code>input_up</code> un <code>input_down</code>.</li>
+<li><code>Ball</code> — bumba ar ātrumu, sadursmju apstrādi un reset mehāniku.</li>
+<li><code>Game</code> — punktu uzskaite, UI atjaunināšana, uzvaras noteikšana un raunda restartēšana.</li>
 </ul>
 <pre><code class="language-cpp">class Game : public Node {
     GDCLASS(Game, Node)
@@ -90,61 +92,54 @@ public:
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Paddle klase</h2>
-    <p>Spēlētāja vadāmā raķete.</p>
+    <h2>Noslēguma projekta uzdevums: Pong ar C++</h2>
+    <p>Apvieno tēmas prasmes vienā spēlē, kur uzvedību vada C++ klases.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li><code>paddle.hpp</code>/<code>paddle.cpp</code>: <code>Paddle : public CharacterBody2D</code>.</li>
-            <li>Locekļi: <code>float speed = 400.0f</code>, <code>String input_up</code>, <code>String input_down</code>.</li>
-            <li><code>_physics_process(double delta)</code>: lasa Input, atjaunina velocity.y, izsauc move_and_slide().</li>
-            <li>Reģistrē klasi, pievieno paddle nodes. PaddleLeft input_up="p1_up" utt.</li>
-            <li>Project Settings → Input Map: p1_up=W, p1_down=S, p2_up=Up, p2_down=Down.</li>
+            <li>Pārbaudi, ka projekts kompilējas pēc 1.3 un 1.4 stundas sagataves.</li>
+            <li>Project Settings → Input Map pievieno <code>p1_up</code>, <code>p1_down</code>, <code>p2_up</code> un <code>p2_down</code>.</li>
+            <li>Piesaisti <code>p1_up</code> taustiņam W un <code>p1_down</code> taustiņam S.</li>
+            <li>Piesaisti <code>p2_up</code> taustiņam Up Arrow un <code>p2_down</code> taustiņam Down Arrow.</li>
+            <li>Izveido <code>paddle.hpp</code> un <code>paddle.cpp</code> ar klasi <code>Paddle : public CharacterBody2D</code>.</li>
+            <li><code>Paddle</code> klasē pievieno <code>float speed = 400.0f</code>, <code>String input_up</code> un <code>String input_down</code>.</li>
+            <li><code>_bind_methods()</code> piesaisti setter/getter metodes, lai input darbības varētu mainīt Godot Inspector panelī.</li>
+            <li><code>_physics_process(double delta)</code> nolasi <code>Input::get_singleton()</code> un aprēķini vertikālo virzienu.</li>
+            <li>Iestati paddle velocity ar <code>set_velocity(Vector2(0, direction * speed))</code> un izsauc <code>move_and_slide()</code>.</li>
+            <li>Reģistrē <code>Paddle</code> klasi <code>register_types.cpp</code> failā un pārkompilē.</li>
+            <li>Godot editorā nomaini <code>PaddleLeft</code> un <code>PaddleRight</code> tipu vai pievieno tiem C++ klasi.</li>
+            <li><code>PaddleLeft</code> iestati <code>input_up = "p1_up"</code> un <code>input_down = "p1_down"</code>.</li>
+            <li><code>PaddleRight</code> iestati <code>input_up = "p2_up"</code> un <code>input_down = "p2_down"</code>.</li>
+            <li>Izveido <code>ball.hpp</code> un <code>ball.cpp</code> ar klasi <code>Ball : public CharacterBody2D</code>.</li>
+            <li><code>Ball</code> klasē pievieno <code>Vector2 velocity</code>, <code>float base_speed = 500.0f</code> un <code>reset_ball()</code> metodi.</li>
+            <li><code>_ready()</code> metodē izsauc <code>reset_ball()</code>, lai bumba sākas centrā.</li>
+            <li><code>_physics_process</code> izmanto <code>move_and_collide(velocity * delta)</code>.</li>
+            <li>Sadursmes gadījumā aprēķini <code>velocity = velocity.bounce(collision-&gt;get_normal())</code>.</li>
+            <li>Pēc katras paddle sadursmes nedaudz palielini ātrumu, piemēram, <code>velocity *= 1.05f</code>.</li>
+            <li>Izveido <code>game.hpp</code> un <code>game.cpp</code> ar klasi <code>Game : public Node</code>.</li>
+            <li><code>Game</code> klasē glabā <code>score_left</code>, <code>score_right</code>, <code>winning_score</code> un norādes uz <code>Label</code> objektiem.</li>
+            <li><code>Game::_ready()</code> atrodi <code>ScoreLeft</code>, <code>ScoreRight</code> un <code>Ball</code> mezglus ar <code>get_node</code>.</li>
+            <li>Ja bumbas <code>x</code> pozīcija ir mazāka par 0, pieskaiti punktu labajam spēlētājam.</li>
+            <li>Ja bumbas <code>x</code> pozīcija ir lielāka par 1280, pieskaiti punktu kreisajam spēlētājam.</li>
+            <li>Pēc punkta atjaunini abus <code>Label</code> tekstus un izsauc bumbas <code>reset_ball()</code>.</li>
+            <li>Pie <code>winning_score</code> punktiem apturi bumbu un izdrukā uzvarētāju Output panelī vai parādi <code>Label</code>.</li>
+            <li>Pievieno restart darbību, piemēram, taustiņu R, kas atiestata punktus un bumbu.</li>
+            <li>Veic vismaz 4 jēgpilnus commit: setup, paddle, ball, scoring/restart.</li>
+            <li>README failā apraksti vadību, build komandu, klases un zināmās problēmas.</li>
+            <li>Pēdējā pārbaudē palaid spēli no tīra Godot starta un pārliecinies, ka tā nav atkarīga no editorā atvērtas pagaidu scēnas.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Ball klase</h2>
-    <p>Bumba ar fiziku.</p>
+    <h2>Papildu izaicinājumi</h2>
+    <p>Pievieno vienu uzlabojumu, kas neizjauc pamata spēli.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li><code>Ball : public CharacterBody2D</code> ar <code>float speed = 500.0f</code>.</li>
-            <li><code>_ready()</code>: <code>velocity = Vector2(speed, randf_range(-200, 200))</code>.</li>
-            <li><code>_physics_process</code>: <code>auto collision = move_and_collide(velocity * delta);</code></li>
-            <li>Sadursmes gadījumā: <code>velocity = velocity.bounce(collision-&gt;get_normal());</code></li>
-            <li>Paātrināšanās pēc atsiteņa: <code>velocity *= 1.05f;</code></li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>3. uzdevums: Game un punkti</h2>
-    <p>Punktu sistēma.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Game klase glabā score_left, score_right.</li>
-            <li>Bumba <code>_physics_process</code>: ja x &lt; 0 — labā punkts; ja x &gt; 1280 — kreisā.</li>
-            <li>Game::on_score(bool left): palielina punktus, atjaunina Label.</li>
-            <li>Pie 5 punktiem: "Player X wins!" + restart poga.</li>
-            <li>GitHub: 4+ commit, README.md ar instrukcijām.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Papildus uzdevums: AI pretinieks</h2>
-    <p>Pievieno datora pretinieku.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li><code>AIPaddle : public Paddle</code> apakšklase.</li>
-            <li><code>_physics_process</code>: paddle.y → tuvināt ball.y ar maksimālo speed.</li>
-            <li>Reaģē tikai, kad bumba kustās uz to: <code>velocity.x</code> norāda virzienu.</li>
-            <li>Game opcija: <code>bool single_player</code>.</li>
-        </ol>
+        <ul>
+            <li>Izveido <code>AIPaddle : public Paddle</code>, kas seko bumbai tikai tad, kad bumba kustas tā virzienā.</li>
+            <li>Pievieno skaņas efektu paddle sadursmei un punktam, bet skaņas palaišanu izsauc no C++.</li>
+            <li>Pievieno pauzes režīmu ar <code>bool paused</code>, kas aptur bumbas un paddle kustību.</li>
+        </ul>
     </div>
 </section>
 
@@ -176,22 +171,30 @@ public:
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">void Ball::_physics_process(double delta) {
+        <pre><code class="language-cpp">void Ball::reset_ball() {
+    set_position(Vector2(640, 360));
+    double y_speed = UtilityFunctions::randf_range(-180.0, 180.0);
+    velocity = Vector2(base_speed, y_speed);
+}
+
+void Ball::_physics_process(double delta) {
     auto collision = move_and_collide(velocity * delta);
     if (collision.is_valid()) {
         velocity = velocity.bounce(collision-&gt;get_normal());
         velocity *= 1.05f;
     }
-    Vector2 pos = get_position();
-    if (pos.x &lt; 0) get_parent()-&gt;call("on_score", false);
-    else if (pos.x &gt; 1280) get_parent()-&gt;call("on_score", true);
 }
 
 void Game::on_score(bool left_player) {
     if (left_player) score_left++;
     else score_right++;
     update_score_labels();
-    reset_ball();
+    ball-&gt;reset_ball();
+}
+
+void Game::update_score_labels() {
+    score_left_label-&gt;set_text(String::num_int64(score_left));
+    score_right_label-&gt;set_text(String::num_int64(score_right));
 }</code></pre>
         <div class='result'>Pilnvērtīgi spēlējams Pong ar punktu uzskaiti, paātrinošu bumbu un uzvarētāja paziņojumu.</div>
     </div>

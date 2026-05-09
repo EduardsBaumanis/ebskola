@@ -90,8 +90,55 @@ bullets.pop_back();</code></pre>
     </div>
 </section>
 
+
 <section class='section'>
-    <h2>1. uzdevums: Enemy spawning ar vector</h2>
+    <h2>Teorijas paplašinājums: C++ fokuss</h2>
+    <div class='logic-box'>
+        <p><b>Kritiskais fokuss:</b> šajā stundā nepietiek tikai panākt redzamu efektu editorā. Jāspēj paskaidrot, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra šo kodu izmanto.</p>
+        <p><b>Pārbaudes pierādījums:</b> C++ kodā pamatoti izvēlēti vector/map/set, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+
+using namespace godot;
+
+struct AiDataCheckpoint {
+    String lesson = "4.1 Vector un Array";
+    bool uses_cpp = true;
+    bool chooses_container = true;
+    bool separates_ai_state = true;
+    bool handles_removal_safely = true;
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Konsolidētais praktiskais uzdevums (15+ soļi)</h2>
+    <p>Izpildi šo darba plānu, lai <b>4.1 Vector un Array</b> rezultāts būtu pārbaudāms C++ GDExtension projektā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver projektu un izveido Git branch datu struktūru vai AI darbam.</li>
+            <li>Pieraksti, kāds datu apjoms vai AI uzvedība šajā stundā jāapstrādā.</li>
+            <li>Izvēlies piemērotu C++ struktūru: <code>std::vector</code>, <code>std::map</code>, <code>std::unordered_map</code> vai <code>std::set</code>.</li>
+            <li>Pamato izvēli komentārā vai README, minot meklēšanu, kārtošanu, dzēšanu vai iterāciju.</li>
+            <li>Izveido C++ klasi vai sistēmas komponenti, kas glabā šo struktūru privātā laukā.</li>
+            <li>Pievieno publiskas metodes datu pievienošanai, nolasīšanai un drošai dzēšanai.</li>
+            <li>Ja ir AI, definē skaidrus stāvokļus ar <code>enum class</code>.</li>
+            <li>Nodali stāvokļa maiņas loģiku no kustības vai renderēšanas koda.</li>
+            <li>Pievieno robežgadījumu pārbaudi tukšam sarakstam, nezināmam ID vai nederīgam mērķim.</li>
+            <li>Izvairies no dzēšanas no <code>vector</code> vienkārša range-for cikla laikā.</li>
+            <li>Pievieno debug izvadi, kas rāda aktīvo stāvokli, objektu skaitu vai izvēlēto ceļu.</li>
+            <li>Pārkompilē C++ kodu un pārbaudi, ka Godot ielādē jauno bibliotēku.</li>
+            <li>Testē ar mazu datu apjomu, kur rezultātu var pārbaudīt manuāli.</li>
+            <li>Testē ar lielāku datu apjomu, lai pamanītu veiktspējas vai loģikas problēmas.</li>
+            <li>Ja iespējams, salīdzini divas struktūras vai divas AI pieejas un pieraksti secinājumu.</li>
+            <li>Atjaunini README ar datu struktūras izvēli un sarežģītības piezīmēm.</li>
+            <li>Sakārto kodu tā, lai citiem objektiem nav tiešas piekļuves iekšējam konteineram.</li>
+            <li>Veic commit ar ziņu, kas nosauc izmantoto datu struktūru vai AI mehāniku.</li>
+        </ol>
+    </div>
+</section>
+<section class='section'>
+    <h2>Aktivitāte 1: Enemy spawning ar vector</h2>
     <p>Pārvaldi vairākus ienaidniekus.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -105,7 +152,7 @@ bullets.pop_back();</code></pre>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Iteration un dzēšana</h2>
+    <h2>Aktivitāte 2: Iteration un dzēšana</h2>
     <p>Apstaigā un noņem mirušos.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -119,7 +166,7 @@ bullets.pop_back();</code></pre>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Array vs vector eksperiments</h2>
+    <h2>Aktivitāte 3: Array vs vector eksperiments</h2>
     <p>Salīdzini abas pieejas.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -133,7 +180,7 @@ bullets.pop_back();</code></pre>
 </section>
 
 <section class='section'>
-    <h2>Papildus uzdevums: Reserve un capacity</h2>
+    <h2>Papildu izaicinājums: Reserve un capacity</h2>
     <p>Vector veiktspējas optimizācija.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -169,12 +216,14 @@ bullets.pop_back();</code></pre>
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">std::vector&lt;Enemy*&gt; enemies;
+        <pre><code class="language-cpp">#include &lt;godot_cpp/variant/utility_functions.hpp&gt;
+
+std::vector&lt;Enemy*&gt; enemies;
 
 void spawn_enemy() {
     Enemy* e = memnew(Enemy);
     add_child(e);
-    e-&gt;set_position(Vector2(randf_range(0, 1280), 0));
+    e-&gt;set_position(Vector2(UtilityFunctions::randf_range(0.0, 1280.0), 0));
     enemies.push_back(e);
 }
 

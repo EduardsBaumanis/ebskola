@@ -66,14 +66,15 @@
 <section class='section'>
     <h2>Teorija: GDExtension un C++ build sistēma</h2>
     <div class='logic-box'>
-<p><b>GDExtension</b> ir Godot 4 mehānisms, kas ļauj rakstīt C++ kodu, kas darbojas spēlē. C++ kods tiek kompilēts par koplietojamu bibliotēku (<code>.so</code> Linux, <code>.dll</code> Windows), ko Godot ielādē izpildes laikā.</p>
+<p><b>GDExtension</b> ir Godot 4 mehānisms, kas ļauj rakstīt C++ kodu, kas darbojas spēlē. C++ kods tiek kompilēts par koplietojamu bibliotēku (<code>.so</code> Linux, <code>.dll</code> Windows, <code>.dylib</code> macOS), ko Godot ielādē izpildes laikā.</p>
+<p>Šajā kursā <b>spēles skripti ir C++ klases</b>. <code>SConstruct</code> ir build konfigurācija, termināļa komandas ir tikai rīku palaišana, bet spēles uzvedību rakstām <code>.hpp</code> un <code>.cpp</code> failos.</p>
 <p><b>Kāpēc C++?</b></p>
 <ul>
-<li><b>Veiktspēja:</b> 5–50× ātrāks par GDScript intensīvos algoritmos.</li>
-<li><b>Industrijas standarts:</b> Lielākās spēles tiek rakstītas C/C++.</li>
-<li><b>Kontrole:</b> Tieša piekļuve atmiņai un datu tipiem.</li>
+<li><b>Veiktspēja:</b> piemērots intensīvai fizikai, datu apstrādei un AI algoritmiem.</li>
+<li><b>Industrijas standarts:</b> C++ sintakse, kompilācija un moduļu dalījums ir bieži sastopami spēļu izstrādē.</li>
+<li><b>Kontrole:</b> skaidri tipi, galvenes, implementācijas faili un precīza bibliotēku sasaiste.</li>
 </ul>
-<p><b>Nepieciešamie rīki:</b> Compiler (kompilators), SCons, godot-cpp.</p>
+<p><b>Nepieciešamie rīki:</b> C++ kompilators, Python, SCons, Git un <code>godot-cpp</code> bindings. <code>godot-cpp</code> versijai jāatbilst Godot 4 versijai, ko lieto projektā.</p>
 <pre><code class="language-bash"># Atkarību instalēšana
 # Linux (Debian/Ubuntu):
 sudo apt install build-essential scons git python3
@@ -83,63 +84,59 @@ pip install scons
 
 # macOS:
 brew install scons</code></pre>
+<pre><code class="language-cpp">#include &lt;godot_cpp/core/class_db.hpp&gt;
+#include "hello.hpp"
+
+using namespace godot;
+
+void initialize_pong_module(ModuleInitializationLevel level) {
+    if (level != MODULE_INITIALIZATION_LEVEL_SCENE) {
+        return;
+    }
+
+    ClassDB::register_class&lt;Hello&gt;();
+}</code></pre>
     </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Build rīku instalācija</h2>
-    <p>Sagatavo sistēmu C++ kompilācijai.</p>
+    <h2>Praktiskais uzdevums: C++ GDExtension sagatavošana</h2>
+    <p>Sagatavo projektu tā, lai Godot varētu ielādēt kompilētu C++ bibliotēku.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Pārbaudi C++ kompilatoru: Linux/Mac <code>g++ --version</code>; Windows <code>cl /?</code> Developer CMD.</li>
-            <li>Instalē Python 3 (ja nav).</li>
-            <li><code>pip install scons</code> — SCons build sistēma.</li>
-            <li>Pārbaudi: <code>scons --version</code> — vajadzētu rādīt 4.0+.</li>
-            <li>Linux: <code>sudo apt install build-essential</code>.</li>
+            <li>Pārbaudi C++ kompilatoru: Linux/macOS terminālī <code>g++ --version</code>, Windows Developer Command Prompt vidē <code>cl /?</code>.</li>
+            <li>Ja kompilators nav pieejams, instalē atbilstošu rīku: <code>build-essential</code>, Xcode Command Line Tools vai Visual Studio C++ workload.</li>
+            <li>Pārbaudi Python 3 ar <code>python3 --version</code> vai <code>python --version</code>.</li>
+            <li>Instalē SCons ar <code>pip install --user scons</code> vai sistēmas pakotņu pārvaldnieku.</li>
+            <li>Pārbaudi SCons ar <code>scons --version</code>.</li>
+            <li>Projekta saknē izveido mapi <code>gdext</code>, ja tā vēl nepastāv.</li>
+            <li>Mapē <code>gdext</code> izveido apakšmapes <code>src</code> un <code>bin</code>.</li>
+            <li>Pievieno <code>godot-cpp</code> kā Git submodule, izvēloties branch, kas sakrīt ar tavas Godot 4 versijas līniju.</li>
+            <li>Palaid <code>git submodule update --init --recursive</code>, lai lejupielādētu bindings saturu.</li>
+            <li>Izveido <code>gdext/SConstruct</code> build konfigurāciju, kas kompilē visus <code>src/*.cpp</code> failus.</li>
+            <li>Izveido <code>gdext/src/register_types.hpp</code> ar inicializācijas funkciju deklarācijām.</li>
+            <li>Izveido <code>gdext/src/register_types.cpp</code> ar <code>initialize_pong_module</code> un <code>uninitialize_pong_module</code>.</li>
+            <li>Pagaidām reģistrēšanas funkcijās neatstāj spēles loģiku; tajās tikai pieslēdz klases Godot sistēmai.</li>
+            <li>Projekta saknē izveido <code>pong_ext.gdextension</code> failu ar ceļu uz kompilēto bibliotēku.</li>
+            <li>No <code>gdext</code> mapes palaid <code>scons platform=linuxbsd</code>, <code>scons platform=windows</code> vai <code>scons platform=macos</code>.</li>
+            <li>Pārbaudi, ka mapē <code>bin</code> parādās koplietojamā bibliotēka.</li>
+            <li>Atver Godot projektu un pārliecinies, ka Output panelī nav GDExtension ielādes kļūdu.</li>
+            <li>Veic commit ar ziņu <code>Sagatavota C++ GDExtension vide</code>.</li>
+            <li>README failā pieraksti precīzu komandu, ar kuru tev izdevās kompilēt projektu.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: godot-cpp klonēšana</h2>
-    <p>Lejupielādē oficiālo C++ binding.</p>
+    <h2>Papildu izaicinājumi</h2>
+    <p>Iestati ērtāku C++ rediģēšanu.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Projekta saknē izveido apakšmapi: <code>mkdir gdext &amp;&amp; cd gdext</code>.</li>
-            <li>Klonē kā submodule: <code>git submodule add -b 4.2 https://github.com/godotengine/godot-cpp.git</code></li>
-            <li><code>git submodule update --init</code></li>
-            <li>Pārliecinies, ka mapē <code>gdext/godot-cpp</code> ir saturs.</li>
-            <li>Commit: <code>git commit -am "Pievienots godot-cpp"</code></li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>3. uzdevums: SConstruct un kompilācija</h2>
-    <p>Konfigurē build skriptu un kompilē.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Failā <code>gdext/SConstruct</code> ievieto SCons konfigurāciju (skat. koda piemēru).</li>
-            <li>Failā <code>gdext/src/register_types.cpp</code> izveido empty boilerplate (paplašināsim 1.4 stundā).</li>
-            <li>Mapē <code>gdext/</code>: <code>scons platform=linuxbsd</code> (vai <code>windows</code>/<code>macos</code>).</li>
-            <li>Tipiskā kompilācijas laiks pirmajā reizē: 2–10 minūtes.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Papildus uzdevums: VS Code konfigurācija</h2>
-    <p>Iestati VS Code C++ izstrādei.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li><code>code .</code> projektā.</li>
-            <li>Instalē extensions: <i>C/C++</i> (Microsoft) un <i>Godot Tools</i>.</li>
-            <li><code>.vscode/c_cpp_properties.json</code> — pievieno include path: <code>gdext/godot-cpp/include</code>.</li>
-        </ol>
+        <ul>
+            <li>Atver projektu VS Code ar <code>code .</code>.</li>
+            <li>Instalē C++ paplašinājumu un pievieno include ceļus uz <code>gdext/godot-cpp/include</code> un ģenerētajiem bindings failiem.</li>
+            <li>Pievieno VS Code task, kas palaiž to pašu <code>scons</code> komandu, ko ierakstīji README.</li>
+        </ul>
     </div>
 </section>
 
@@ -167,28 +164,44 @@ brew install scons</code></pre>
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp"># gdext/SConstruct
-import os
+        <pre><code class="language-cpp">// gdext/src/register_types.cpp
+#include "register_types.hpp"
+#include "hello.hpp"
 
-env = SConscript("godot-cpp/SConstruct")
+#include &lt;gdextension_interface.h&gt;
+#include &lt;godot_cpp/core/class_db.hpp&gt;
+#include &lt;godot_cpp/core/defs.hpp&gt;
+#include &lt;godot_cpp/godot.hpp&gt;
 
-env.Append(CPPPATH=["src/"])
-sources = Glob("src/*.cpp")
+using namespace godot;
 
-if env["platform"] == "macos":
-    library = env.SharedLibrary(
-        "../bin/libpong_ext.{}.{}.framework/libpong_ext.{}.{}".format(
-            env["platform"], env["target"], env["platform"], env["target"]),
-        source=sources,
-    )
-else:
-    library = env.SharedLibrary(
-        "../bin/libpong_ext{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
-        source=sources,
-    )
+void initialize_pong_module(ModuleInitializationLevel level) {
+    if (level != MODULE_INITIALIZATION_LEVEL_SCENE) {
+        return;
+    }
 
-Default(library)</code></pre>
-        <div class='result'>Pirmā veiksmīga SCons kompilācija ar 'scons: done building targets.' ziņojumu.</div>
+    ClassDB::register_class&lt;Hello&gt;();
+}
+
+void uninitialize_pong_module(ModuleInitializationLevel level) {
+    if (level != MODULE_INITIALIZATION_LEVEL_SCENE) {
+        return;
+    }
+}
+
+extern "C" {
+GDExtensionBool GDE_EXPORT pong_library_init(
+    GDExtensionInterfaceGetProcAddress get_proc_address,
+    GDExtensionClassLibraryPtr library,
+    GDExtensionInitialization *initialization) {
+    GDExtensionBinding::InitObject init_obj(get_proc_address, library, initialization);
+    init_obj.register_initializer(initialize_pong_module);
+    init_obj.register_terminator(uninitialize_pong_module);
+    init_obj.set_minimum_library_initialization_level(MODULE_INITIALIZATION_LEVEL_SCENE);
+    return init_obj.init();
+}
+}</code></pre>
+        <div class='result'>Godot var ielādēt C++ bibliotēku un nākamajā stundā reģistrēt pirmo pielāgoto klasi.</div>
     </div>
 </div>
 

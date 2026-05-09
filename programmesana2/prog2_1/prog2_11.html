@@ -66,7 +66,8 @@
 <section class='section'>
     <h2>Teorija: Godot Engine un editor (redaktors)</h2>
     <div class='logic-box'>
-<p><b>Godot 4 Engine</b> (Godot dzinējs) ir bezmaksas, atvērtā koda spēļu dzinējs ar visu nepieciešamo 2D un 3D spēļu izstrādei.</p>
+<p><b>Godot 4 Engine</b> (Godot dzinējs) ir bezmaksas, atvērtā koda spēļu dzinējs ar visu nepieciešamo 2D un 3D spēļu izstrādei. Šajā kursā Godot tiek lietots kā vizuālais redaktors, scēnu pārvaldnieks un spēles izpildes vide, bet spēles loģika tiek rakstīta <b>C++</b> ar GDExtension.</p>
+<p>Godot projektā ir svarīgi atšķirt trīs slāņus: <b>projekta iestatījumi</b> nosaka logu un palaišanu, <b>scēnas</b> glabā objektu struktūru, bet <b>C++ klases</b> piešķir objektiem uzvedību. Ja šie slāņi tiek jaukti, vēlāk ir grūti saprast, vai kļūda ir editorā, resursā vai kodā.</p>
 <p><b>Editor (redaktora) galvenās daļas:</b></p>
 <ul>
 <li><b>Scene Tree</b> (Skatu koks) — kreisajā augšā; spēles objektu hierarhija.</li>
@@ -75,68 +76,66 @@
 <li><b>Inspector</b> (Inspektors) — labajā; aktīvā Node īpašības.</li>
 <li><b>Output / Debugger</b> (Atkļūdotājs) — apakšā; izvades konsole.</li>
 </ul>
+<p><b>Renderera izvēle:</b> ja dators ir jauns un grafikas draiveri ir atjaunināti, izvēlies <i>Forward+</i>. Ja skolā ir vecāki datori vai virtuālās mašīnas, <i>Compatibility</i> bieži ir drošāka izvēle. Pong ir 2D projekts, tāpēc mācību rezultātu tas būtiski nemaina.</p>
 <pre><code class="language-bash"># Godot 4 instalācija
 # 1. Lejupielādē no godotengine.org/download
 # 2. Izpako ZIP
 # 3. Palaiž godot.exe (Windows) vai ./godot (Linux/Mac)
 # 4. Project Manager → New Project</code></pre>
+<pre><code class="language-cpp">// Kursa programmēšanas slānis būs C++ GDExtension klase.
+// Šis ir virziens, nevis vēl pilns 1. stundas kods.
+class PongProjectReadiness {
+private:
+    bool godot_installed = false;
+    bool project_created = false;
+    bool git_initialized = false;
+
+public:
+    bool is_ready_for_cpp() const {
+        return godot_installed && project_created && git_initialized;
+    }
+};</code></pre>
     </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Godot instalācija</h2>
-    <p>Lejupielādē un instalē Godot 4 stable versiju.</p>
+    <h2>Praktiskais uzdevums: projekts un darba vide</h2>
+    <p>Izveido tīru Pong projektu, kuru varēs turpināt ar C++ GDExtension.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Atver <a href='https://godotengine.org/download' target='_blank'>godotengine.org/download</a> un lejupielādē Godot 4 Standard versiju.</li>
-            <li>Izpako ZIP arhīvu mapē <code>C:\Tools\Godot</code> (Windows) vai <code>~/Tools/Godot</code> (Linux/Mac).</li>
-            <li>Palaiž <code>godot.exe</code> — atvēras Project Manager (Projektu pārvaldnieks).</li>
-            <li>Spied <b>New Project</b> → nosaukums <code>Pong</code>, mape <code>~/Projects/Pong</code>, Renderer: <b>Forward+</b>.</li>
-            <li>Spied <b>Create &amp; Edit</b>.</li>
+            <li>Atver <a href='https://godotengine.org/download' target='_blank'>godotengine.org/download</a> un lejupielādē Godot 4 <b>Standard</b> versiju, nevis .NET versiju.</li>
+            <li>Izpako lejupielādēto arhīvu stabilā mapē, piemēram, <code>C:\Tools\Godot</code> vai <code>~/Tools/Godot</code>.</li>
+            <li>Pārliecinies, ka projekta ceļā nav diakritisko zīmju, atstarpju vai ļoti garu mapju nosaukumu.</li>
+            <li>Palaiž Godot izpildfailu un pārbaudi, ka atveras <b>Project Manager</b>.</li>
+            <li>Spied <b>New Project</b> un projekta nosaukumā ieraksti <code>Pong</code>.</li>
+            <li>Norādi projekta mapi, piemēram, <code>~/Projects/Pong</code> vai <code>D:\Projects\Pong</code>.</li>
+            <li>Ja dators ir jaudīgs, izvēlies <b>Forward+</b>; ja ir vecāks dators, izvēlies <b>Compatibility</b>.</li>
+            <li>Spied <b>Create &amp; Edit</b> un sagaidi, līdz atveras editor logs.</li>
+            <li>Atrodi <b>Scene Tree</b>, <b>FileSystem</b>, <b>Viewport</b>, <b>Inspector</b> un <b>Output</b> paneļus.</li>
+            <li>Editorā pārslēdzies uz <b>2D</b> skatu, jo Pong būs 2D projekts.</li>
+            <li>Izveido saknes node <code>Node2D</code> un pārsauc to par <code>Main</code>.</li>
+            <li>Saglabā scēnu kā <code>main.tscn</code> projekta saknē.</li>
+            <li>Project Settings sadaļā iestati <code>Run/Main Scene</code> uz <code>main.tscn</code>.</li>
+            <li>Izveido mapes <code>gdext</code>, <code>scenes</code>, <code>assets</code> un <code>docs</code>, lai projekts uzreiz būtu sakārtots.</li>
+            <li>Terminālī projekta mapē palaid <code>git init</code>.</li>
+            <li>Izveido <code>.gitignore</code> ar ierakstiem <code>.godot/</code>, <code>.import/</code>, <code>*.tmp</code> un <code>builds/</code>.</li>
+            <li>Pievieno īsu <code>README.md</code> ar projekta nosaukumu, Godot versiju, renderera izvēli un mērķi: Pong ar C++.</li>
+            <li>Veic pirmo commit ar ziņu <code>Pirmais Godot Pong projekts</code>.</li>
+            <li>Palaiž projektu ar F5 un pārliecinies, ka tukšā <code>Main</code> scēna atveras bez kļūdām.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Editor iepazīšana</h2>
-    <p>Izpēti galvenās editor daļas un saglabā tukšo scēnu.</p>
+    <h2>Papildu izaicinājumi</h2>
+    <p>Uzlabojumi, kas padara darba vidi ērtāku.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Apskati Scene Tree (Skatu koks) un FileSystem (Failu sistēma) panes kreisajā pusē.</li>
-            <li>Centrā ir Viewport (Skatlogs) — pamēģini ar peles ritentiņu pietuvot/attālināt.</li>
-            <li>Augšā: 2D, 3D un Script (Skripts) workspace pogas.</li>
-            <li>Editor → Editor Settings → Interface → Editor → Editor Language: <code>en</code>.</li>
-            <li>Saglabā tukšu scēnu: Scene → Save Scene As → <code>main.tscn</code>.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>3. uzdevums: Versiju kontrole ar Git</h2>
-    <p>Sagatavo projektu Git pārvaldībai.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Terminālī projekta mapē: <code>git init</code>.</li>
-            <li>Izveido <code>.gitignore</code>:<br><code class='language-bash'>.godot/<br>.import/<br>*.tmp<br>builds/</code></li>
-            <li>Pievieno failus: <code>git add .</code> un commit: <code>git commit -m "Pirmais Godot projekts"</code></li>
-            <li>Izveido GitHub repo un pievieno remote: <code>git remote add origin URL</code>; <code>git push -u origin main</code></li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Papildus uzdevums: Editor paplašinājumi</h2>
-    <p>Instalē noderīgus uzlabojumus.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>AssetLib cilnē meklē noderīgus papildinājumus.</li>
-            <li>Layout (Izkārtojums) → Save → pielāgots tavām vajadzībām.</li>
-            <li>Help → Search Help (Ctrl+F1) — Godot dokumentācija pieejama tieši editorā.</li>
-        </ol>
+        <ul>
+            <li>Saglabā savu editor paneļu izkārtojumu ar <b>Editor → Editor Layout → Save Layout</b>.</li>
+            <li>Atver <b>Help → Search Help</b> un atrodi <code>Node2D</code>, lai pierastu pie iebūvētās dokumentācijas.</li>
+            <li>README failā pievieno īsu sadaļu "Known setup issues", kur pieraksti, kādu renderer izvēlējies un kāpēc.</li>
+        </ul>
     </div>
 </section>
 
@@ -146,7 +145,7 @@
         <ul>
         <li><b>Editor neatveras:</b> Pārbaudi, vai sistēma atbalsta Godot 4 (Windows 10+, macOS 10.15+, Linux).</li>
         <li><b>Lēna darbība:</b> Forward+ prasa atjauninātus grafikas draiverus. Vecākiem datoriem mēģini <i>Compatibility</i>.</li>
-        <li><b>Saglabājot crashojas:</b> Mapes ceļš nedrīkst saturēt latīņu burtus.</li>
+        <li><b>Saglabājot crashojas:</b> Mapes ceļā nevajadzētu lietot diakritiskās zīmes, speciālos simbolus vai ļoti garus nosaukumus.</li>
         </ul>
     </div>
 </section>
@@ -168,15 +167,24 @@
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp"># Pirmā Godot projekta sagatavošana
-# Pārliecinies, ka:
-#   1. Godot 4 ir uzstādīts
-#   2. Esi izveidojis "Pong" projektu
-#   3. Esi saglabājis main.tscn
-#   4. Git repo savienots ar GitHub
+        <pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
 
-# C++ kods nāks 1.3 stundā — pagaidām strādājam tikai editorā</code></pre>
-        <div class='result'>Godot Project Manager ar 'Pong' projektu sarakstā un atvērtu editor.</div>
+using namespace godot;
+
+struct ProjectSetupReport {
+    String project_name = "Pong";
+    String main_scene = "res://main.tscn";
+    bool uses_cpp_gdextension = true;
+    bool has_git_repository = true;
+
+    bool can_continue_to_lesson_1_2() const {
+        return project_name == "Pong"
+            && main_scene == "res://main.tscn"
+            && uses_cpp_gdextension
+            && has_git_repository;
+    }
+};</code></pre>
+        <div class='result'>Projekts ir gatavs nākamajai stundai: ir main.tscn, sakārtotas mapes, Git sākumstāvoklis un skaidrs mērķis lietot C++.</div>
     </div>
 </div>
 
