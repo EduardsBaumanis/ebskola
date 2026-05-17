@@ -50,7 +50,7 @@
 
 <section class='section'>
     <h1>5.6 Noslēguma projekts: Atmiņu kāršu spēle</h1>
-    <p><b>Tavs mērķis:</b> Apvienot tēmā apgūtās prasmes — sarakstus, vārdnīcas un <code>for</code> ciklus — terminālī spēlējamā kāršu pāru atrašanas spēlē. Šis darbs parāda Tavu spēju pārvaldīt datu struktūras un nodrošināt to plūsmu starp moduļiem.</p>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot 5. tēmā apgūtās sarakstu, vārdnīcu un <code>for</code> ciklu prasmes terminālī spēlējamā kāršu pāru atrašanas spēlē.</p>
     <div class="lesson-meta">
         <a href="../../sasnRez.html">SR 2.4.16. Saliktas datu struktūras</a>
         <a href="../../sasnRez.html">SR 2.4.14. Vadības struktūras (cikli, sazarojumi)</a>
@@ -59,9 +59,28 @@
 </section>
 
 <section class='section'>
-    <h2>Spēles apraksts</h2>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: spēles stāvoklis dzīvo datu struktūrās</h2>
     <div class='logic-box'>
         <p>Programma izveido 4×4 (16 kāršu) galdiņu ar 8 simbolu pāriem (piem., AABB...). Visas kārtis sākumā ir aizvērtas. Spēlētājs ievada divu kāršu pozīcijas (piem., <code>1A</code> un <code>3D</code>) — programma tās uz brīdi atklāj. Ja simboli sakrīt, kārtis paliek atvērtas; ja nē, tiek aizvērtas. Spēle beidzas, kad atrasti visi pāri. Beigās tiek izvadīts mēģinājumu skaits.</p>
+    </div>
+    <div class="code-example">
+<pre><code class="language-python">spele = {
+    "meginajumi": 0,
+    "atrasti_pari": 0,
+    "atvertas": []
+}
+
+klajs = ["A", "A", "B", "B"]</code></pre>
+        <div class="result">Saraksts glabā kārtis, vārdnīca glabā spēles statusu.</div>
+    </div>
+    <div class="info-box">
+        <p><b>70 min plāns:</b> datu struktūras ~20 min, spēles cikls ~30 min, modularitāte un GitHub ~20 min.</p>
     </div>
 </section>
 
@@ -98,6 +117,21 @@
             <li>Pievieno <code class="language-python">README.md</code> ar palaišanas instrukciju.</li>
         </ol>
     </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: ievades validācija</h2>
+    <p>Pievieno pārbaudi, kas neļauj izvēlēties jau atvērtu kārti vai vienu un to pašu kārti divreiz. Šis uzdevums paredzēts pēc pamatspēles pabeigšanas.</p>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot)</h2>
+    <ul>
+        <li><b>Atvērtās kārtis pazūd:</b> glabā atvērto indeksu sarakstu un izmanto to, drukājot galdiņu.</li>
+        <li><b>Kārtis nav sajauktas:</b> izmanto <code>random.shuffle()</code> tikai pēc pāru saraksta izveides.</li>
+        <li><b>Indekss neatbilst pozīcijai:</b> pieraksti formulu, kas no rindas/kolonnas iegūst saraksta indeksu.</li>
+        <li><b>Spēle nebeidzas:</b> pārbaudi, vai <code>atrasti_pari</code> palielinās tikai tad, kad pāris tiešām sakrīt.</li>
+    </ul>
 </section>
 
 <section class='section'>

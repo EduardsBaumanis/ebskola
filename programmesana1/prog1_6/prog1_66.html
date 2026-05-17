@@ -50,7 +50,7 @@
 
 <section class='section'>
     <h1>6.6 Noslēguma projekts: Quiz spēle ar Highscore</h1>
-    <p><b>Tavs mērķis:</b> Apvienot tēmas prasmes — failu lasīšanu, rakstīšanu, JSON un CSV apstrādi — vienkāršā Quiz spēlē, kuras jautājumi tiek ielādēti no faila, bet labākie rezultāti tiek saglabāti, lai nepazustu pēc programmas aizvēršanas.</p>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot 6. tēmā apgūto failu lasīšanu, rakstīšanu, JSON un CSV apstrādi vienkāršā Quiz spēlē ar saglabātiem labākajiem rezultātiem.</p>
     <div class="lesson-meta">
         <a href="../../sasnRez.html">SR 2.4.17. Darbs ar failiem un ārējām datu krātuvēm</a>
         <a href="../../sasnRez.html">SR 2.4.4. Iegūst, atlasa un apstrādā datus</a>
@@ -59,9 +59,26 @@
 </section>
 
 <section class='section'>
-    <h2>Spēles apraksts</h2>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: dati atrodas ārpus koda</h2>
     <div class='logic-box'>
         <p>Programma sākumā nolasa jautājumus no <code>jautajumi.json</code> faila — katrā ierakstā ir jautājuma teksts, atbilžu varianti un pareizās atbildes indekss. Spēlētājs ievada savu vārdu un atbild uz 5 nejauši izvēlētiem jautājumiem. Pēc spēles rezultāts (vārds, punkti) tiek pievienots <code>highscore.csv</code> failam. Visbeidzot tiek izvadīts TOP 5 spēlētāju saraksts.</p>
+    </div>
+    <div class="code-example">
+<pre><code class="language-python">with open("highscore.csv", "a", encoding="utf-8") as fails:
+    fails.write(f"{vards},{punkti}\n")
+
+with open("jautajumi.json", "r", encoding="utf-8") as fails:
+    jautajumi = json.load(fails)</code></pre>
+        <div class="result">Iepriekš apgūts: failu režīmi, with open, JSON un CSV rindas.</div>
+    </div>
+    <div class="info-box">
+        <p><b>70 min plāns:</b> JSON ielāde ~20 min, spēles cikls ~25 min, CSV highscore un README ~25 min.</p>
     </div>
 </section>
 
@@ -101,6 +118,21 @@
             <li>GitHub vēsturē ir vismaz 4 saturīgi <i>commit</i>.</li>
         </ol>
     </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: bojāta faila apstrāde</h2>
+    <p>Pievieno <code>try/except</code>, kas parāda saprotamu kļūdas paziņojumu, ja <code>jautajumi.json</code> nav atrodams vai nav derīgs JSON. Šo dari tikai pēc pamatfunkciju pabeigšanas.</p>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot)</h2>
+    <ul>
+        <li><b>CSV katru reizi pārrakstās:</b> rezultātu saglabāšanai izmanto režīmu <code>"a"</code>, nevis <code>"w"</code>.</li>
+        <li><b>JSON nelasās:</b> pārbaudi komatus starp ierakstiem un pēdiņas ap tekstiem.</li>
+        <li><b>TOP 5 kārto nepareizi:</b> pārvērt punktus par <code>int</code>, pirms salīdzini.</li>
+        <li><b>Jautājumi ir cietkodēti:</b> pārvieto tos uz <code>jautajumi.json</code>, lai kods un dati būtu atdalīti.</li>
+    </ul>
 </section>
 
 <section class='section'>

@@ -49,7 +49,7 @@
 
 <section class='section'>
     <h1>2.5 Noslēguma projekts: Reakcijas spēle</h1>
-    <p><b>Tavs mērķis:</b> Apvienot tēmā apgūtās prasmes — digitālo izvadi (LED), digitālo ievadi (poga), <code>if-else</code> nosacījumus, mainīgos un nejaušumu — vienkāršā Arduino reakcijas spēlē.</p>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izveidot Arduino reakcijas spēli, apvienojot iepriekš apgūto LED izvadi, pogas ievadi, <code>if/else</code>, mainīgos un Serial Monitor rezultātu izvadi.</p>
     <div class="lesson-meta">
         <a href="../sasnRez.html">D.7.1.1. Sintakse un mainīgie</a>
         <a href="../sasnRez.html">D.7.2.1. Elektriskā ķēde</a>
@@ -59,9 +59,27 @@
 </section>
 
 <section class='section'>
-    <h2>Spēles apraksts</h2>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: reakcijas spēle no LED, pogas un laika mērījuma</h2>
     <div class='logic-box'>
         <p>Spēle sākas, kad spēlētājs ar pirmo pogas piespiedienu signalizē "esmu gatavs". LED diode pēc nejauša laika (1–4 sekundes) iedegas zaļa. Spēlētājam jānospiež otra poga pēc iespējas ātrāk. Mikrokontrolieris izmēra reakcijas laiku milisekundēs un pārraida to caur sērijas portu (Serial Monitor). Pēc 3 raundiem tiek aprēķināts vidējais reakcijas laiks. Ja spēlētājs nospiež pogu pirms LED iedegas — fiksēts <i>false start</i>.</p>
+    </div>
+    <div class="code-example">
+<pre><code class="language-cpp">unsigned long sakums = millis();
+
+if (digitalRead(POGA_REAGE) == LOW) {
+  unsigned long reakcija = millis() - sakums;
+  Serial.println(reakcija);
+}</code></pre>
+        <div class="result">Jaunais fragments ir skaidrots pirms uzdevuma: <code>millis()</code> atgriež laiku kopš programmas palaišanas.</div>
+    </div>
+    <div class="info-box">
+        <p><b>70 min plāns:</b> shēma un mainīgie ~20 min, spēles loģika ~30 min, rezultātu aprēķins un tests ~20 min.</p>
     </div>
 </section>
 
@@ -99,6 +117,21 @@
             <li>Pārbaudi visus iespējamos scenārijus.</li>
         </ol>
     </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: skaņas signāls</h2>
+    <p>Pievieno buzzer elementu, kas īsi nopīkst pie starta vai false start. Šis uzdevums nav nepieciešams pamata vērtējumam.</p>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot)</h2>
+    <ul>
+        <li><b>Poga darbojas otrādi:</b> ar <code>INPUT_PULLUP</code> nospiesta poga nozīmē <code>LOW</code>.</li>
+        <li><b>LED nedeg:</b> pārbaudi rezistoru, polaritāti un pareizo pin numuru.</li>
+        <li><b>Reakcijas laiks ir milzīgs:</b> saglabā <code>sakums</code> tieši LED iedegšanās brīdī.</li>
+        <li><b>False start nav pamanīts:</b> pārbaudi pogu pirms LED iedegšanas un raundu sāc no jauna.</li>
+    </ul>
 </section>
 
 <section class='section'>
@@ -158,5 +191,9 @@
     </ul>
 </section>
 
+<div class="stundas-navigacija">
+    <a href="rbtk7_24.html" class="nav-btn">⬅ Iepriekšējā stunda</a>
+    <a href="rbtk7_2main.html" class="nav-btn">Tēmas apkopojums ➡</a>
+</div>
 </body>
 </html>
