@@ -88,6 +88,7 @@
             <li><a href="#security">Drošība</a></li>
             <li><a href="#deploy">Izvietošana</a></li>
             <li><a href="#debug">Atkļūdošana</a></li>
+            <li><a href="#planning">Projekta plānošana un dizains</a></li>
         </ul>
     </div>
 </section>
@@ -166,6 +167,34 @@
             </ul>
         </div>
     </details>
+
+    <details class="cheat-section">
+        <summary>Audio un video media</summary>
+        <div class="body">
+<pre><code class="language-html">&lt;!-- Audio --&gt;
+&lt;audio controls preload="auto" loop&gt;
+  &lt;source src="muzika.mp3" type="audio/mpeg"&gt;
+  &lt;source src="muzika.ogg" type="audio/ogg"&gt;
+  Tavs pārlūks neatbalsta audio.
+&lt;/audio&gt;
+
+&lt;!-- Video --&gt;
+&lt;video width="640" height="360" controls poster="preview.jpg"&gt;
+  &lt;source src="video.mp4" type="video/mp4"&gt;
+  &lt;track kind="subtitles" src="subs-lv.vtt" srclang="lv" label="Latviski"&gt;
+&lt;/video&gt;
+
+&lt;!-- Canvas (zīmēšana JS palīdzību) --&gt;
+&lt;canvas id="game" width="800" height="600"&gt;&lt;/canvas&gt;
+
+&lt;!-- SVG inline --&gt;
+&lt;svg width="100" height="100"&gt;
+  &lt;circle cx="50" cy="50" r="40" fill="#FFB142"/&gt;
+&lt;/svg&gt;</code></pre>
+            <p><b>Formāti:</b> audio — MP3 (universāls), OGG (atvērts kods); video — MP4 H.264 (universāls), WebM (mūsdienīgs).</p>
+        </div>
+    </details>
+
 </section>
 
 <section class='section' id="css">
@@ -277,6 +306,42 @@ body { background: var(--fons); color: var(--teksts); }
 .zime { animation: pulse 2s infinite; }</code></pre>
         </div>
     </details>
+
+    <details class="cheat-section">
+        <summary>Transforms, filters un blend modes</summary>
+        <div class="body">
+<pre><code class="language-css">/* Transforms — pārveidojumi */
+.karte {
+  transform: translate(20px, 10px) rotate(15deg) scale(1.2);
+  transition: transform 0.3s ease;
+}
+.karte:hover { transform: scale(1.1) rotate(-3deg); }
+
+/* 3D perspektīva */
+.kub {
+  transform: perspective(800px) rotateY(45deg) rotateX(20deg);
+  transform-style: preserve-3d;
+}
+
+/* Filters — vizuālie efekti */
+.attels {
+  filter: blur(2px) brightness(1.2) contrast(1.1) grayscale(50%);
+}
+.attels:hover { filter: none; }
+
+/* Blend modes */
+.banner {
+  background-blend-mode: multiply;
+  mix-blend-mode: overlay;
+}
+
+/* Clip-path — formas */
+.trijsturis {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}</code></pre>
+        </div>
+    </details>
+
 </section>
 
 <section class='section' id="js">
@@ -403,6 +468,54 @@ localStorage.removeItem("highscore");
 localStorage.clear();</code></pre>
         </div>
     </details>
+
+    <details class="cheat-section">
+        <summary>Klases un ES6 moduļi</summary>
+        <div class="body">
+<pre><code class="language-javascript">// ES6 klase
+class Varonis {
+  #hp;  // privāts lauks (# prefix)
+
+  constructor(vards, hp = 100) {
+    this.vards = vards;
+    this.#hp = hp;
+  }
+
+  get hp() { return this.#hp; }
+
+  cizt(b) {
+    this.#hp = Math.max(0, this.#hp - b);
+    if (this.#hp === 0) console.log(`${this.vards} miris!`);
+  }
+
+  static fabrika(tips) {
+    if (tips === "bruninieks") return new Varonis("Bruņinieks", 150);
+    return new Varonis("Cilvēks", 100);
+  }
+}
+
+// Mantošana
+class Burvis extends Varonis {
+  constructor(vards) {
+    super(vards, 80);
+    this.mana = 100;
+  }
+  burvojums(merkis) {
+    if (this.mana &gt;= 10) { this.mana -= 10; merkis.cizt(25); }
+  }
+}
+
+// ES6 moduļi
+// fails: varonis.js
+export class Varonis { /* ... */ }
+export const MAX_HP = 999;
+export default class Game { /* ... */ }
+
+// fails: main.js
+import Game, { Varonis, MAX_HP } from './varonis.js';</code></pre>
+        </div>
+    </details>
+
 </section>
 
 <section class='section' id="python">
@@ -540,6 +653,61 @@ class Burvis(Varonis):
             merkis.cizt(20)</code></pre>
         </div>
     </details>
+
+    <details class="cheat-section">
+        <summary>Dekoratori un context managers</summary>
+        <div class="body">
+<pre><code class="language-python">import functools
+import time
+
+# Vienkāršs dekorators
+def izmeri_laiku(func):
+    @functools.wraps(func)
+    def ietinums(*args, **kwargs):
+        sakums = time.time()
+        rezultats = func(*args, **kwargs)
+        print(f"{func.__name__} aizņēma {time.time()-sakums:.2f}s")
+        return rezultats
+    return ietinums
+
+@izmeri_laiku
+def lens_aprekins():
+    time.sleep(1)
+    return 42
+
+# Iebūvētie dekoratori
+class Konts:
+    def __init__(self): self._bilance = 0
+
+    @property                  # getter
+    def bilance(self):
+        return self._bilance
+
+    @bilance.setter            # setter
+    def bilance(self, v):
+        if v &lt; 0: raise ValueError("Negatīvs!")
+        self._bilance = v
+
+    @staticmethod              # nelieto self
+    def aprekini_procentus(suma, p): return suma * p / 100
+
+    @classmethod               # cls
+    def tukss(cls): return cls()
+
+# Context manager
+class Faila_logger:
+    def __enter__(self):
+        self.f = open("log.txt", "a")
+        return self.f
+    def __exit__(self, *args):
+        self.f.close()
+
+with Faila_logger() as f:
+    f.write("Notikums
+")</code></pre>
+        </div>
+    </details>
+
 </section>
 
 <section class='section' id="sql">
@@ -670,6 +838,53 @@ with conn, conn.cursor(cursor_factory=RealDictCursor) as cur:
 # ⚠ NEKAD nelieto string formatēšanu SQL — SQL injekcijas risks!</code></pre>
         </div>
     </details>
+
+    <details class="cheat-section">
+        <summary>Transakcijas un datu integritāte</summary>
+        <div class="body">
+<pre><code class="language-sql">-- Transakcija — visi vai neviens
+BEGIN;
+    UPDATE konti SET bilance = bilance - 100 WHERE id = 1;
+    UPDATE konti SET bilance = bilance + 100 WHERE id = 2;
+    -- Ja kāds UPDATE neizdodas:
+    -- ROLLBACK;
+COMMIT;
+
+-- SAVEPOINT — daļēja atcelšana
+BEGIN;
+    INSERT INTO logs VALUES (...);
+    SAVEPOINT pirms_riska;
+    UPDATE ... -- ja crashas
+    ROLLBACK TO pirms_riska;  -- tikai šo daļu atceļ
+COMMIT;
+
+-- Constraints — datu integritāte
+ALTER TABLE speletaji
+  ADD CONSTRAINT pozitivi_punkti CHECK (punkti &gt;= 0);
+
+ALTER TABLE speles
+  ADD CONSTRAINT fk_speletajs
+  FOREIGN KEY (speletajs_id)
+  REFERENCES speletaji(id)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION;
+
+-- Triggers — automatiskas darbības
+CREATE OR REPLACE FUNCTION pierakstit_izmainu()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO audit_log(tabula, darbiba, laiks)
+    VALUES (TG_TABLE_NAME, TG_OP, NOW());
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER speletaja_izmaina
+  AFTER UPDATE OR DELETE ON speletaji
+  FOR EACH ROW EXECUTE FUNCTION pierakstit_izmainu();</code></pre>
+        </div>
+    </details>
+
 </section>
 
 <section class='section' id="git">
@@ -745,6 +960,40 @@ dist/
 *.sqlite</code></pre>
         </div>
     </details>
+
+    <details class="cheat-section">
+        <summary>Stash, cherry-pick un rebase</summary>
+        <div class="body">
+<pre><code class="language-bash"># Stash — pagaidām paslēpj nesaglabātos darbus
+git stash                          # paslēpj
+git stash list                     # parāda visus
+git stash pop                      # atjauno + dzēš no list
+git stash apply stash@{1}          # atjauno bez dzēšanas
+git stash drop                     # tikai dzēš
+
+# Cherry-pick — atsevišķu commit kopē uz citu branch
+git checkout main
+git cherry-pick abc123             # ievieto šo commit šeit
+git cherry-pick abc123^..def456    # diapazons
+
+# Interactive rebase — pārkārto/apvieno commits
+git rebase -i HEAD~5
+# Editorā: pick, reword (mainīt ziņu), squash (apvienot),
+#          fixup, edit, drop
+
+# Reflog — atrod "pazudušus" commits
+git reflog                         # visas darbības (pat dzēstas)
+git reset --hard HEAD@{2}          # atjauno 2 darbības atpakaļ
+
+# Bisect — bināra meklēšana, kurš commit ievieš bug
+git bisect start
+git bisect bad                     # tagad ir slikti
+git bisect good v1.0               # v1.0 bija labi
+# Git dod commits to test → git bisect good/bad
+git bisect reset                   # beigt</code></pre>
+        </div>
+    </details>
+
 </section>
 
 <section class='section' id="vscode">
@@ -770,6 +1019,42 @@ dist/
             </table>
         </div>
     </details>
+
+    <details class="cheat-section">
+        <summary>Multi-cursor un snippets</summary>
+        <div class="body">
+            <table>
+                <thead><tr><th>Īsceļš</th><th>Darbība</th></tr></thead>
+                <tbody>
+                    <tr><td><code>Alt+Click</code></td><td>Pievieno kursoru tur, kur noklikšķini</td></tr>
+                    <tr><td><code>Ctrl+Alt+↑/↓</code></td><td>Pievieno kursoru augstāk/zemāk</td></tr>
+                    <tr><td><code>Ctrl+D</code></td><td>Atlasi nākamo tādu pašu vārdu</td></tr>
+                    <tr><td><code>Ctrl+Shift+L</code></td><td>Atlasi VISUS tādus pašus vārdus</td></tr>
+                    <tr><td><code>Ctrl+Shift+Alt+↓</code></td><td>Dublē rindu</td></tr>
+                    <tr><td><code>Shift+Alt+↑/↓</code></td><td>Kopē rindu augšup/lejup</td></tr>
+                </tbody>
+            </table>
+<pre><code class="language-json">// Pielāgots snippet (File → Preferences → Configure User Snippets → python.json)
+{
+  "Print debug": {
+    "prefix": "pdb",
+    "body": [
+      "print(f"$1 = {$1}")"
+    ],
+    "description": "Print mainīgo ar nosaukumu"
+  },
+  "For range": {
+    "prefix": "fr",
+    "body": [
+      "for ${1:i} in range(${2:10}):",
+      "    $0"
+    ]
+  }
+}</code></pre>
+            <p>Pēc <code>pdb</code> + Tab → izvēršas par <code>print(f"x = {x}")</code>.</p>
+        </div>
+    </details>
+
 </section>
 
 <section class='section' id="regex">
@@ -799,6 +1084,40 @@ re.findall(r"\+?\d{8,12}", "Zvani: +37120123456")
 re.sub(r"\d+", "###", "Skola Nr. 42")</code></pre>
         </div>
     </details>
+
+    <details class="cheat-section">
+        <summary>Lookahead, lookbehind un grupas</summary>
+        <div class="body">
+            <table>
+                <thead><tr><th>Sintakse</th><th>Nozīme</th></tr></thead>
+                <tbody>
+                    <tr><td><code>(?=...)</code></td><td>Lookahead — sekos ...</td></tr>
+                    <tr><td><code>(?!...)</code></td><td>Negative lookahead — nesekos ...</td></tr>
+                    <tr><td><code>(?&lt;=...)</code></td><td>Lookbehind — pirms ir ...</td></tr>
+                    <tr><td><code>(?&lt;!...)</code></td><td>Negative lookbehind</td></tr>
+                    <tr><td><code>(?P&lt;vards&gt;...)</code></td><td>Nosaukta grupa</td></tr>
+                    <tr><td><code>(?:...)</code></td><td>Non-capturing group (tikai grupēt, ne saglabāt)</td></tr>
+                    <tr><td><code></code>, <code></code></td><td>Atsauce uz iepriekšējo grupu</td></tr>
+                </tbody>
+            </table>
+<pre><code class="language-python">import re
+
+# Stipra parole: 8+ simboli, vismaz 1 cipars + 1 lielais burts
+parole = r"^(?=.*\d)(?=.*[A-Z]).{8,}$"
+re.match(parole, "Anna1234")   # match
+re.match(parole, "annaanna")   # None
+
+# Atrod cenas, kuras seko EUR/$ — bez tām
+re.findall(r"(?&lt;=EUR )\d+\.\d{2}", "Cena EUR 12.50 vai USD 15.00")
+# → ['12.50']
+
+# Nosauktas grupas
+m = re.match(r"(?P&lt;diena&gt;\d{2})\.(?P&lt;menesis&gt;\d{2})\.(?P&lt;gads&gt;\d{4})",
+             "31.12.2026")
+print(m.group("gads"))  # '2026'</code></pre>
+        </div>
+    </details>
+
 </section>
 
 <section class='section' id="http">
@@ -835,6 +1154,47 @@ if r.status_code == 200: dati = r.json()
 requests.post("/lietotaji", json={"vards": "Anna"})</code></pre>
         </div>
     </details>
+
+    <details class="cheat-section">
+        <summary>Autentifikācija un JWT</summary>
+        <div class="body">
+<pre><code class="language-bash"># Pamata autentifikācijas tipi:
+# 1. Basic Auth (vienkāršs, NEIZMANTOT bez HTTPS)
+curl -u lietotajs:parole https://api.example.com/dati
+
+# 2. Bearer Token (visbiežāk)
+curl -H "Authorization: Bearer eyJhbGc..." https://api.example.com/lieto
+
+# 3. API Key (cookie vai header)
+curl -H "X-API-Key: ak_live_abc123" https://api.example.com
+
+# 4. OAuth2 plūsma:
+# Lietotājs → autorizē → kods → maina pret access_token</code></pre>
+<pre><code class="language-python"># JWT (JSON Web Token) sastāv no 3 daļām, atdalītas ar punktu:
+# header.payload.signature
+# Bāze64-kodēts, var lasīt klients, bet servera puse pārbauda signature
+
+import jwt   # pip install PyJWT
+SECRET = "augsts_drosibas_atslega"
+
+# Izveidot token
+token = jwt.encode(
+    {"user_id": 42, "exp": 1735689600},
+    SECRET, algorithm="HS256"
+)
+
+# Pārbaudīt
+try:
+    data = jwt.decode(token, SECRET, algorithms=["HS256"])
+    user_id = data["user_id"]
+except jwt.ExpiredSignatureError:
+    print("Token derīgums beidzies")
+except jwt.InvalidTokenError:
+    print("Nederīgs token")</code></pre>
+            <p><b>Drošības principi:</b> īss derīguma laiks (15 min), refresh tokens ilgākai sesijai, HTTPS vienmēr.</p>
+        </div>
+    </details>
+
 </section>
 
 <section class='section' id="security">
@@ -866,6 +1226,45 @@ hash_val = bcrypt.hashpw(parole.encode(), salts)
 bcrypt.checkpw(ievadita.encode(), hash_val)</code></pre>
         </div>
     </details>
+
+    <details class="cheat-section">
+        <summary>Paroles, hashing un autentifikācija</summary>
+        <div class="body">
+<pre><code class="language-python">import bcrypt
+from secrets import token_urlsafe
+
+# REGISTRĀCIJA — saglabā paroles hash, NEKAD plain text
+def registret(parole_plain: str) -&gt; bytes:
+    salts = bcrypt.gensalt(rounds=12)  # 12 = balanss starp drošību un ātrumu
+    return bcrypt.hashpw(parole_plain.encode(), salts)
+
+stored_hash = registret("Lielparole123!")
+# Datubāzē glabājas: $2b$12$XwGUDDP3M2JcvqGY...
+
+# PIETEIKŠANĀS — salīdzini ar saglabāto hash
+def pieteikties(parole_plain: str, stored_hash: bytes) -&gt; bool:
+    return bcrypt.checkpw(parole_plain.encode(), stored_hash)
+
+# Drošu paroļu kritēriji
+def stipra_parole(p: str) -&gt; bool:
+    if len(p) &lt; 12: return False
+    if not any(c.isupper() for c in p): return False
+    if not any(c.isdigit() for c in p): return False
+    if not any(c in "!@#$%^&amp;*" for c in p): return False
+    return True
+
+# Drošs sesijas token
+session_id = token_urlsafe(32)  # ~256 bit nejaušums
+
+# Two-Factor Authentication (2FA) ar TOTP
+import pyotp
+totp = pyotp.TOTP("base32secret3232")
+totp.now()         # pašreizējais 6-ciparu kods
+totp.verify("123456")  # validē lietotāja ievadi</code></pre>
+            <p><b>Kritiskie noteikumi:</b> nekad nelieto MD5/SHA1 paroles; vienmēr salt; lieto rate limiting pret brute-force; loģē neveiksmīgus pieteikumus.</p>
+        </div>
+    </details>
+
 </section>
 
 <section class='section' id="deploy">
@@ -893,6 +1292,60 @@ DATABASE_URL=postgresql://user:pass@host/db
 SECRET_KEY=randomstring</code></pre>
         </div>
     </details>
+
+    <details class="cheat-section">
+        <summary>Docker pamati</summary>
+        <div class="body">
+<pre><code class="language-bash"># Dockerfile — image receptne
+# FROM bāzes_image
+# RUN komandas image būvēšanai
+# COPY ielādē failus
+# CMD palaišanas komanda
+
+# Piemērs Python Flask app
+cat &gt; Dockerfile &lt;&lt; 'EOF'
+FROM python:3.12-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+EXPOSE 5000
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+EOF
+
+# Build un palaišana
+docker build -t mans-app:1.0 .
+docker run -d -p 5000:5000 --name mans-app mans-app:1.0
+
+# Pārvaldība
+docker ps                     # darbojošies containers
+docker logs mans-app          # logu skats
+docker stop mans-app          # apstādina
+docker rm mans-app            # noņem
+docker images                 # uzskaita images
+
+# docker-compose.yml — vairāku containers konfigurācija
+cat &gt; docker-compose.yml &lt;&lt; 'EOF'
+services:
+  web:
+    build: .
+    ports: ["5000:5000"]
+    depends_on: [db]
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: parole
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+volumes:
+  dbdata:
+EOF
+
+docker compose up -d   # palaiž visu
+docker compose down    # apstādina</code></pre>
+        </div>
+    </details>
+
 </section>
 
 <section class='section' id="debug">
@@ -921,6 +1374,362 @@ console.table(speletaji);
 console.error("Kļūda!");
 console.time("aprekins"); /* kods */ console.timeEnd("aprekins");
 debugger;</code></pre>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>Strukturēta logging un metrikas</summary>
+        <div class="body">
+<pre><code class="language-python">import logging
+import json
+from datetime import datetime
+
+# Pamata konfigurācija
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+    handlers=[
+        logging.FileHandler('app.log'),
+        logging.StreamHandler()  # arī uz konsoli
+    ]
+)
+logger = logging.getLogger(__name__)
+
+logger.debug("Sīkdetaļas")        # parasti slēpts produkcijā
+logger.info("Spēle sākas")        # noklusējuma līmenis
+logger.warning("Datne neeksistē")
+logger.error("DB nepieslēdzas", exc_info=True)
+logger.critical("Sistēma sabrūk")
+
+# Strukturēts logging (JSON) — viegli analizēt
+class JsonFormatter(logging.Formatter):
+    def format(self, record):
+        return json.dumps({
+            "laiks": datetime.now().isoformat(),
+            "limenis": record.levelname,
+            "modulis": record.name,
+            "zinjojums": record.getMessage(),
+            "fails": record.filename,
+            "rinda": record.lineno
+        })
+
+# Konteksta info
+logger.info("Spēlētājs pievienojās", extra={
+    "user_id": 42, "ip": "10.0.0.1", "wave": 3
+})
+
+# Metrikas - vienkāršs skaitītājs
+from collections import Counter
+metrikas = Counter()
+metrikas["pieprasijumi"] += 1
+metrikas["errori_500"] += 1
+
+# Periodiski izvada uz /metrics endpoint
+def metrikas_json():
+    return json.dumps(dict(metrikas))</code></pre>
+            <p><b>5 logging līmeņi:</b> DEBUG (sīkumi) → INFO (notikumi) → WARNING (potenciālas problēmas) → ERROR (kļūdas) → CRITICAL (sistēmas bojājumi).</p>
+        </div>
+    </details>
+
+</section>
+
+
+<section class='section' id="planning">
+    <h2>Projekta plānošana un dizains</h2>
+
+    <details class="cheat-section" open>
+        <summary>Dizaina domāšana kā piecu soļu process</summary>
+        <div class="body">
+            <p><b>Design Thinking</b> (Dizaina domāšana) ir cilvēkcentrēta problēmu risināšanas pieeja, ko Stanford d.school formalizēja par piecu iteratīvu soļu procesu. Tā piemērojama jebkurā projektā — no spēlēm līdz mobilajām lietotnēm.</p>
+            <table>
+                <thead><tr><th>Solis</th><th>Mērķis</th><th>Spēles izstrādes piemērs</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><b>1. Empathize</b> (Iejusties)</td>
+                        <td>Saproti lietotāja vajadzības, motivāciju, sāpju punktus.</td>
+                        <td>Intervē 5 skolēnus par to, kādas matemātikas spēles viņiem patīk un kāpēc.</td>
+                    </tr>
+                    <tr>
+                        <td><b>2. Define</b> (Definēt)</td>
+                        <td>Formulē konkrētu problēmas paziņojumu.</td>
+                        <td>"7. klases skolēni vēlas trenēt reizināšanu, bet esošās lietotnes ir garlaicīgas un bez progresa saglabāšanas."</td>
+                    </tr>
+                    <tr>
+                        <td><b>3. Ideate</b> (Ģenerēt idejas)</td>
+                        <td>Brainstorming bez kritikas — daudz ideju, dažādas pieejas.</td>
+                        <td>Saraksts ar 20 spēles mehānikām: laika trial, kosmosa kuģi, kāršu duelis, …</td>
+                    </tr>
+                    <tr>
+                        <td><b>4. Prototype</b> (Prototips)</td>
+                        <td>Vienkāršākais variants, ar ko var testēt galveno ideju.</td>
+                        <td>Paper prototype: zīmē uz papīra spēles ekrānus, izspēlē "ar pirkstu".</td>
+                    </tr>
+                    <tr>
+                        <td><b>5. Test</b> (Testēt)</td>
+                        <td>Lūdz reāliem lietotājiem mēģināt, vēro, klausies. Iterē.</td>
+                        <td>Dod prototipu 3 skolēniem, vēro, kur viņi apjūk → atgriežas pie Define vai Ideate.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><b>Galvenais princips:</b> process nav lineārs — bieži jāatgriežas pie iepriekšējiem soļiem. Pirmajā prototipā 80% ideju izgāzīsies. Tas ir labi — labāk noskaidrot agri nekā pēc 6 mēnešu izstrādes.</p>
+<pre><code class="language-markdown"># Projekta plāns ar Design Thinking
+## 1. Empathize (1 nedēļa)
+- Intervēt 5 mērķauditorijas pārstāvjus
+- Apskatīt 3 konkurentu lietotnes
+- Identificēt 3 lielākos sāpju punktus
+
+## 2. Define
+- Problem statement: "..."
+- Mērķauditorija: ...
+- Veiksmes kritēriji: ...
+
+## 3. Ideate (brainstorming sesija 30 min)
+- Min 15 ideju, bez kritikas
+- Sagrupēt pēc tēmām
+- Izvēlēties 3 labākās testēšanai
+
+## 4. Prototype (2 nedēļas)
+- Paper prototype → Figma mockup → MVP kods
+
+## 5. Test
+- 5 lietotāji × 30 min sesijas
+- Iziet uz #1 ar jauniem datiem</code></pre>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>Spēles dizaina dokuments (GDD)</summary>
+        <div class="body">
+            <p>Game Design Document (GDD) ir spēles "ceļvedis", ko izstrādātāji un komandas locekļi seko. Garums: maziem projektiem 2–5 lapas, lielām spēlēm — 100+ lapas.</p>
+<pre><code class="language-markdown"># Spēles dizaina dokuments — "Krāsu lēciens"
+
+## 1. Pārskats (1 paragrāfs)
+**Žanrs:** Hyper-casual puzzle
+**Mērķauditorija:** 12+ gadu, mobilais
+**Platformas:** Web (HTML5), iOS, Android
+**Vidējā sesija:** 3–5 minūtes
+**Unique selling point:** Pirmā puzzle spēle, kurā jākoordinē trīs kustīgas figūras.
+
+## 2. Spēles cilpa (Core Loop)
+1. Spēlētājs redz krāsu mērķi.
+2. Pārvieto 3 figūras, savieno krāsas.
+3. Saņem punktus → līmenis aug → grūtāks mērķis.
+(atkārtojas 30 sec — 5 min)
+
+## 3. Mehānikas
+- **Galvenā:** Drag-drop ar trīs vienlaicīgiem pirkstiem.
+- **Sekundārā:** Combo, ja izpilda 3 mērķus pēc kārtas.
+- **Power-ups:** Laika apturēšana (3 sec), Krāsu maiņa, Hint.
+
+## 4. Vizuālais stils
+- Krāsu palete: 6 piesātinātas krāsas + tumšs fons.
+- Animācijas: smooth (12 FPS papīra-stila tween).
+- Fonts: Sans-serif, bold (Inter).
+
+## 5. Audio
+- Mūzika: 1 fona melodija (loop, 2 min), tempa maiņa pie combo.
+- SFX: drag, drop, success, fail, level-up.
+
+## 6. Monetizācija (ja attiecas)
+- Bezmaksas ar reklāmām pēc katra 5. līmeņa.
+- Premium: €2.99 noņem reklāmas.
+
+## 7. Roadmap
+- v0.1 (Sept): Core mehānika prototype
+- v0.5 (Okt): 10 līmeņi, audio
+- v1.0 (Nov): Publicēta web versija
+- v1.1 (Dec): Mobilais build</code></pre>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>User Stories un Acceptance Criteria</summary>
+        <div class="body">
+            <p><b>User Story</b> ir īss prasību apraksts no lietotāja viedokļa. Formāts:</p>
+            <p><i>Kā [loma], es vēlos [darbība], lai [vērtība].</i></p>
+<pre><code class="language-markdown">## Story #12: Saglabāt progresu
+
+**Kā** spēlētājs,
+**es vēlos** automātiski saglabāt savu progresu,
+**lai** varētu turpināt spēli citu reizi.
+
+### Acceptance criteria
+- [ ] Pēc katra pabeigta līmeņa progress tiek saglabāts.
+- [ ] Atverot spēli, parādās "Turpināt" poga.
+- [ ] Ja nav saglabāta spēle, "Turpināt" ir paslēpta.
+- [ ] Saglabāšana izdodas pat, ja interneta nav (lokāla).
+- [ ] Pēc Cleanup data (browser settings) — spēle sākas no nulles.
+
+### Prioritāte: Must Have
+### Lielums: 5 punkti
+### Atkarības: #8 (Level system)</code></pre>
+            <p><b>MoSCoW prioritātes:</b></p>
+            <table>
+                <thead><tr><th>Tips</th><th>Nozīme</th></tr></thead>
+                <tbody>
+                    <tr><td><b>Must Have</b></td><td>Bez tā produkts neder. ~60% laika.</td></tr>
+                    <tr><td><b>Should Have</b></td><td>Svarīgs, bet ne kritisks. ~20%.</td></tr>
+                    <tr><td><b>Could Have</b></td><td>Jauki, ja paspēj. ~20%.</td></tr>
+                    <tr><td><b>Won't Have</b></td><td>Šajā versijā nē. (Skaidri pierakstīts!)</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>Wireframes un mockup līmeņi</summary>
+        <div class="body">
+            <table>
+                <thead><tr><th>Līmenis</th><th>Detalitāte</th><th>Rīks</th><th>Kad lietot</th></tr></thead>
+                <tbody>
+                    <tr><td><b>Sketch</b></td><td>Pildspalva uz papīra, kvadrāti+līnijas</td><td>Papīrs, balta tāfele</td><td>5 min — agrīna ideja</td></tr>
+                    <tr><td><b>Low-fi wireframe</b></td><td>Pelēktoņi, pamata layout</td><td>Excalidraw, draw.io</td><td>Diskusijas komandā</td></tr>
+                    <tr><td><b>Hi-fi mockup</b></td><td>Pilna krāsa, fonts, ikonas</td><td>Figma, Penpot</td><td>Klientu prezentācija</td></tr>
+                    <tr><td><b>Interactive prototype</b></td><td>Klikšķi vada uz citiem ekrāniem</td><td>Figma prototype mode</td><td>Lietotāju testēšana</td></tr>
+                </tbody>
+            </table>
+<pre><code class="language-markdown"># Wireframe priekš spēles galvenā menu (ASCII)
+
++----------------------------------------+
+|                                        |
+|         [LOGO ar spēles nosaukumu]     |
+|                                        |
+|         +------------------+           |
+|         |  ▶  SĀKT SPĒLI  |           |
+|         +------------------+           |
+|                                        |
+|         +------------------+           |
+|         |   ⚙  Iestatījumi |           |
+|         +------------------+           |
+|                                        |
+|         +------------------+           |
+|         |   ★  Rezultāti   |           |
+|         +------------------+           |
+|                                        |
+|                          v1.0  |  MIT  |
++----------------------------------------+</code></pre>
+            <p><b>Padoms:</b> sāc ar zemākajiem līmeņiem. Pavadot 2 stundas uz Figma mock-up, kuru pēc tam dizaina diskusijā izmet, ir lielāks zaudējums nekā 10 min skiči.</p>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>Spēļu projektu piemēri</summary>
+        <div class="body">
+            <p>Konkrēti, viena lapas projekta plāni, kas der kā paraugi savu projektu izveidei:</p>
+
+            <h3>Piemērs 1 — "Skaitļu minētājs" (Pong līmenis: vienkāršs)</h3>
+<pre><code class="language-markdown">**Apraksts:** Dators izvēlas skaitli 1–100; spēlētājs min, dators dod mājienus.
+**Tehnoloģijas:** Python (CLI), random modulis
+**Laiks:** 1–2 stundas
+**Mehānikas:** Input, salīdzināšana, while cikls, mēģinājumu skaitīšana
+**MVP:** Vienkāršs cikls ar mājieniem "lielāks"/"mazāks"
+**Iespējami uzlabojumi:** Difficulty (1-100, 1-1000), HighScore, GUI ar Streamlit</code></pre>
+
+            <h3>Piemērs 2 — "Atmiņu kāršu spēle" (līmenis: vidējs)</h3>
+<pre><code class="language-markdown">**Apraksts:** 4×4 režģis ar 8 simbolu pāriem. Atrodi visus pārus.
+**Tehnoloģijas:** Python + Tkinter VAI JavaScript + HTML
+**Laiks:** 4–6 stundas
+**Datu struktūras:** list (klājs), dict (spēles statuss)
+**Mehānikas:** Random shuffle, klikšķu handler, atrašanas pārbaude
+**MVP:** Statisks 4×4 ar burtiem, klikšķi atklāj, sakrišana paliek atvērta
+**Uzlabojumi:** Skaņa, attēli kāršu vietā, taimeris, multi-līmeņi 6×6</code></pre>
+
+            <h3>Piemērs 3 — "Krustiņi un nullītes pārlūkā" (līmenis: vidējs)</h3>
+<pre><code class="language-markdown">**Apraksts:** Klasiska 3×3 spēle ar AI pretinieku (minimax).
+**Tehnoloģijas:** HTML+CSS+JavaScript (vanilla, bez framework)
+**Laiks:** 6–10 stundas
+**Komponenti:** Klāja stāvoklis, gājienu validators, uzvaras pārbaude, AI
+**MVP:** 2-spēlētāju režīms, uzvarētāja noteikšana
+**AI:** Minimax algoritms ar alpha-beta pruning
+**Uzlabojumi:** Highscore localStorage, animācijas, mobilais touch</code></pre>
+
+            <h3>Piemērs 4 — "Roguelike pazemes spēle" (līmenis: sarežģīts)</h3>
+<pre><code class="language-markdown">**Apraksts:** Procedurāli ģenerēta pazeme ar permadeath.
+**Tehnoloģijas:** Godot 4 + C++ (GDExtension)
+**Laiks:** 40–80 stundas
+**Mehānikas:** Procedural generation, turn-based combat, inventory, perma-death
+**Klases (OOP):** Player, Enemy → Goblins/Brute/Skeleton, Item, Dungeon
+**MVP:** Viens līmenis, kustība, viens ienaidnieka tips, viena spēja
+**Iterācijas:** +items → +spējas → +bosses → +meta-progress</code></pre>
+
+            <h3>Piemērs 5 — "Multiplayer šautene" (līmenis: ļoti sarežģīts)</h3>
+<pre><code class="language-markdown">**Apraksts:** 2-4 spēlētāju top-down šautene tiešsaistē.
+**Tehnoloģijas:** Godot 4 + C++ + WebSocket servers (Node.js)
+**Laiks:** 100+ stundas (komandas projekts)
+**Komandas lomas:** Programmētājs ×2, dizainers, audio
+**Risks:** Tīkla latency, sinhronizācijas problēmas, hackeri
+**MVP:** 2 spēlētāji lokāli (split-screen)
+**Iterācijas:** → LAN spēle → Tiešsaistes lobby → Matchmaking</code></pre>
+
+            <p><b>Padoms:</b> Vienmēr sāc ar mazāko MVP (Minimum Viable Product) — vienkāršāko versiju, ko vari spēlēt. Tikai pēc tam paplašini.</p>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>Roadmap, milestones un Gantt</summary>
+        <div class="body">
+            <p><b>Roadmap</b> ir augstākā līmeņa projektēšanas plāns, kas parāda, kas un kad notiks. Sastāv no <b>milestones</b> (starpmērķiem).</p>
+<pre><code class="language-markdown"># Spēles projekta Roadmap — 12 nedēļas
+
+## Fāze 1: Plānošana (Nedēļas 1–2)
+- [x] Design thinking sesijas (5 soļi)
+- [x] GDD v0.1 uzrakstīts
+- [x] User stories saraksts (15 stories)
+- [ ] Tehnoloģiju izvēle (Godot/Unity/Web?)
+
+## Fāze 2: Prototype (Nedēļas 3–5) 🎯 MILESTONE: Spēlējams prototips
+- [ ] Core mehānika strādā
+- [ ] 1 līmenis ar visiem elementiem
+- [ ] Iekšējais playtest
+
+## Fāze 3: Content (Nedēļas 6–9) 🎯 MILESTONE: Alpha versija
+- [ ] 10 līmeņi
+- [ ] Audio (mūzika + 5 SFX)
+- [ ] Polišs (animācijas, particles)
+- [ ] 5 ārējie testētāji
+
+## Fāze 4: Polish + Launch (Nedēļas 10–12) 🎯 MILESTONE: v1.0 publicēts
+- [ ] Bug fixes no testētājiem
+- [ ] Web export
+- [ ] Marketing (screenshot, video, README)
+- [ ] Publicēšana GitHub Pages</code></pre>
+            <p><b>Gantt chart</b> vizualizē uzdevumu ilgumu un atkarības. Bezmaksas rīki: GitHub Projects, Trello, GanttProject.</p>
+<pre><code class="language-markdown"># ASCII Gantt — vienkāršs piemērs
+
+Nedēļa:           1  2  3  4  5  6  7  8  9  10 11 12
+Plānošana:        ██ ██
+Prototype:              ██ ██ ██
+Saturs:                       ██ ██ ██ ██
+Polish:                                ██ ██
+Launch:                                         ██ ██
+
+Milestones:          M1       M2          M3       LAUNCH</code></pre>
+            <p><b>Daudzi izstrādātāji pārvērtē:</b> reālistisks plāns paredz 50% buferi neparedzētiem šķēršļiem (bugs, slimības, ārējie traucēkļi).</p>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>Risku analīze un mitigācijas plāns</summary>
+        <div class="body">
+            <p>Pirms sākt projektu, identificē iespējamos riskus un sagatavo plānu, kā tos mazināt.</p>
+<pre><code class="language-markdown"># Risku analīzes matrica
+
+| Risks                          | Varbūtība | Ietekme | Prioritāte | Mitigācija |
+|--------------------------------|-----------|---------|------------|------------|
+| Komandas dalībnieks aiziet     | Vidēja    | Augsta  | KRITISKS   | Cross-training, dokumentācija |
+| Tehnoloģija nestrādā kā cerēts | Augsta    | Vidēja  | AUGSTS     | Spike (prototype) 1. nedēļā |
+| Saturs nav gatavs laikā        | Augsta    | Augsta  | KRITISKS   | MVP fokuss, izgriezt ne-must-have |
+| Bugs pēdējā minūtē             | Augsta    | Vidēja  | AUGSTS     | Buferis 2 nedēļas pirms launch |
+| Hardware/server downtime       | Zema      | Augsta  | VIDĒJS     | Backup hostings, monitoring |
+| Lietotāji negaida spēli        | Vidēja    | Augsta  | AUGSTS     | Marketing sākt 2 mēnešus iepriekš |</code></pre>
+            <p><b>Formula:</b> Prioritāte = Varbūtība × Ietekme</p>
+            <ul>
+                <li><b>Varbūtība:</b> Zema (1), Vidēja (2), Augsta (3)</li>
+                <li><b>Ietekme:</b> Zema (1), Vidēja (2), Augsta (3)</li>
+                <li>Punkti 6+ = KRITISKS — pielieto resursus tūlīt</li>
+                <li>Punkti 3–5 = AUGSTS — sagatavo mitigācijas plānu</li>
+                <li>Punkti 1–2 = VIDĒJS — monitorē</li>
+            </ul>
         </div>
     </details>
 </section>
