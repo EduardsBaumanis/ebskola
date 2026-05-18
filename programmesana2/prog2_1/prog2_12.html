@@ -14,7 +14,7 @@
 <meta property="og:title" content="1.2 Scene Tree un Node sistēma">
 <meta property="og:description" content="Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_12.html">
-<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1.2 Scene Tree un Node sistēma">
 <meta name="twitter:description" content="Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.">
@@ -64,9 +64,16 @@
 </section>
 
 <section class='section'>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
     <h2>Teorija: Node un Scene konceptu</h2>
     <div class='logic-box'>
-<p>Godot fundamentālais princips: <b>viss ir Node</b> (Mezgls). Spēles laukums, varonis, poga, skaņa — viss ir Node, savienots hierarhiskā kokā jeb <b>Scene</b> (Skatu).</p>
+<p>Godot fundamentālais princips: <b>viss ir Node</b> (Mezgls). Spēles laukums, varonis, poga, skaņa un kamera ir mezgli, kas savienoti hierarhiskā kokā jeb <b>Scene</b> (Skatā). Scēna nav tikai vizuāls izkārtojums; tā ir arī objektu īpašumtiesību un komunikācijas struktūra.</p>
+<p>Labs Scene Tree ir kā skaidrs programmas modelis: katram node ir viena atbildība, bērni papildina vecāku, un atkārtoti lietojami objekti tiek saglabāti kā atsevišķas scēnas. Slikts Scene Tree parasti ir milzīgs <code>Main</code> ar nejaušiem bērniem, kur C++ kodā grūti atrast vajadzīgos objektus.</p>
 <p><b>Galvenie Node tipi 2D spēlēs:</b></p>
 <ul>
 <li><b>Node2D</b> — bāzes klase 2D objektiem ar pozīciju, rotāciju, mērogu.</li>
@@ -86,64 +93,67 @@
 // └── Ball (CharacterBody2D)
 //     ├── Sprite2D
 //     └── CollisionShape2D</code></pre>
-<p>Bērnu nodes pārmanto vecāku transformāciju.</p>
+<p>Bērnu nodes pārmanto vecāku transformāciju. Ja <code>Sprite2D</code> ir bērns zem <code>PaddleLeft</code>, tad paddle pārvietošana pārvieto arī sprite. Tas ļauj C++ kodā vadīt vienu galveno mezglu, nevis katru vizuālo detaļu atsevišķi.</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/classes/character_body2d.hpp&gt;
+#include &lt;godot_cpp/classes/node2d.hpp&gt;
+#include &lt;godot_cpp/variant/utility_functions.hpp&gt;
+
+using namespace godot;
+
+void Main::_ready() {
+    CharacterBody2D *left = get_node&lt;CharacterBody2D&gt;("PaddleLeft");
+    CharacterBody2D *right = get_node&lt;CharacterBody2D&gt;("PaddleRight");
+    Node2D *ball = get_node&lt;Node2D&gt;("Ball");
+
+    UtilityFunctions::print("Scene ready: ", left-&gt;get_name(), ", ",
+                            right-&gt;get_name(), ", ", ball-&gt;get_name());
+}</code></pre>
     </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Pong scēnas izveide</h2>
-    <p>Izveido Pong spēles laukuma struktūru.</p>
+    <h2>Praktiskais uzdevums: Pong scēnas modelis</h2>
+
+    <div class="info-box">
+        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
+    </div>
+    <p>Izveido Pong scēnas hierarhiju tā, lai to vēlāk varētu vadīt no C++ koda.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Atver <code>main.tscn</code>. Spied + (Add Child Node) → <code>Node2D</code>, pārsauc par <code>Main</code>.</li>
-            <li>Pievieno <code>ColorRect</code> kā bērnu (fons). Inspector → Color: melna, Size: 1280×720.</li>
-            <li>Pievieno <code>CharacterBody2D</code>, pārsauc par <code>PaddleLeft</code>.</li>
-            <li>PaddleLeft bērniem pievieno <code>Sprite2D</code> un <code>CollisionShape2D</code>.</li>
-            <li>Sprite2D Texture → New PlaceholderTexture2D → Size: 20×100. CollisionShape2D Shape → New RectangleShape2D → Size: 20×100.</li>
+            <li>Atver <code>main.tscn</code> un pārliecinies, ka saknes node ir <code>Main</code> ar tipu <code>Node2D</code>.</li>
+            <li>Pievieno <code>ColorRect</code> bērnu un pārsauc to par <code>Background</code>.</li>
+            <li>Inspector panelī iestati <code>Background</code> izmēru uz <code>1280×720</code> un krāsu uz tumšu.</li>
+            <li>Pievieno <code>CharacterBody2D</code> bērnu un pārsauc to par <code>PaddleLeft</code>.</li>
+            <li>Iestati <code>PaddleLeft</code> pozīciju uz <code>(40, 360)</code>.</li>
+            <li><code>PaddleLeft</code> pievieno <code>Sprite2D</code> bērnu.</li>
+            <li><code>Sprite2D</code> piešķir <code>PlaceholderTexture2D</code> ar izmēru <code>20×100</code>.</li>
+            <li><code>PaddleLeft</code> pievieno <code>CollisionShape2D</code> bērnu.</li>
+            <li><code>CollisionShape2D</code> piešķir <code>RectangleShape2D</code> ar izmēru <code>20×100</code>.</li>
+            <li>Dublē <code>PaddleLeft</code>, pārsauc kopiju par <code>PaddleRight</code> un novieto to pie <code>(1240, 360)</code>.</li>
+            <li>Pievieno <code>CharacterBody2D</code> bērnu ar nosaukumu <code>Ball</code>.</li>
+            <li><code>Ball</code> pozīciju iestati uz <code>(640, 360)</code>.</li>
+            <li><code>Ball</code> pievieno <code>Sprite2D</code> ar <code>PlaceholderTexture2D</code> izmēru <code>20×20</code>.</li>
+            <li><code>Ball</code> pievieno <code>CollisionShape2D</code> ar <code>RectangleShape2D</code> izmēru <code>20×20</code>.</li>
+            <li>Pārbaudi Scene Tree secību: <code>Background</code>, <code>PaddleLeft</code>, <code>PaddleRight</code>, <code>Ball</code>.</li>
+            <li>Saglabā scēnu un palaid projektu ar F5.</li>
+            <li>Ja redzi objektus nepareizā vietā, izlabo pozīcijas Inspector panelī, nevis izveido jaunus dublikātus.</li>
+            <li>Right-click uz <code>Ball</code> un izvēlies <b>Save Branch as Scene</b>, saglabājot kā <code>scenes/Ball.tscn</code>.</li>
+            <li>Right-click uz <code>PaddleLeft</code> un saglabā to kā <code>scenes/Paddle.tscn</code>.</li>
+            <li>Pievieno <code>Ball</code> grupai <code>balls</code> un abas paddle grupai <code>paddles</code>, lai vēlāk C++ kodā varētu tās atrast pēc grupas.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Bumba un pretinieks</h2>
-    <p>Pievieno bumbu un labo paddle.</p>
+    <h2>Papildu izaicinājumi</h2>
+    <p>Pārbaudi, vai scēnas struktūra ir atkārtoti lietojama.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Right-click PaddleLeft → Duplicate. Pārsauc par <code>PaddleRight</code>. Position X: 1240.</li>
-            <li>Pievieno jaunu <code>CharacterBody2D</code> kā Main bērnu, pārsauc par <code>Ball</code>.</li>
-            <li>Ball bērniem pievieno Sprite2D (PlaceholderTexture 20×20) un CollisionShape2D (RectangleShape 20×20).</li>
-            <li>Pārvieto Ball uz centru: Position 640, 360.</li>
-            <li>Spied F5, lai palaistu — laukums būs redzams.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>3. uzdevums: Atkārtoti lietojamas scēnas</h2>
-    <p>Saglabā Ball un Paddle kā atsevišķas scēnas.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Right-click <code>Ball</code> → Save Branch as Scene → <code>Ball.tscn</code>.</li>
-            <li>Atkārto ar PaddleLeft → <code>Paddle.tscn</code>.</li>
-            <li>Izdzēš PaddleRight, izveido jaunu instanci no Paddle.tscn (Instantiate Child Scene poga).</li>
-            <li>Pārliecinies, ka spēle joprojām palaižas korekti.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Papildus uzdevums: Groups un Tags</h2>
-    <p>Iepazīsties ar grupu sistēmu.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Atlasi Ball Node Tree.</li>
-            <li>Inspector blakus → Node tab → Groups → Add Group → <code>balls</code>.</li>
-            <li>Atkārto Paddle nodes ar grupu <code>paddles</code>.</li>
-        </ol>
+        <ul>
+            <li>Izdzēs <code>PaddleRight</code> un izveido to no <code>scenes/Paddle.tscn</code> kā jaunu instanci.</li>
+            <li>Pārsauc instanci atpakaļ par <code>PaddleRight</code> un pārbaudi, vai nav pazuduši bērnu nodes.</li>
+            <li>Pieraksti README failā, kāpēc atkārtoti lietojamas scēnas ir drošākas par manuālu kopēšanu.</li>
+        </ul>
     </div>
 </section>
 
@@ -175,22 +185,22 @@
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">[gd_scene format=3]
-[node name="Main" type="Node2D"]
+        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/character_body2d.hpp&gt;
+#include &lt;godot_cpp/classes/node2d.hpp&gt;
+#include &lt;godot_cpp/variant/vector2.hpp&gt;
 
-[node name="Background" type="ColorRect" parent="."]
-size = Vector2(1280, 720)
-color = Color(0, 0, 0, 1)
+using namespace godot;
 
-[node name="PaddleLeft" parent="." instance=ExtResource("Paddle.tscn")]
-position = Vector2(40, 360)
+void Main::_ready() {
+    CharacterBody2D *left = get_node&lt;CharacterBody2D&gt;("PaddleLeft");
+    CharacterBody2D *right = get_node&lt;CharacterBody2D&gt;("PaddleRight");
+    Node2D *ball = get_node&lt;Node2D&gt;("Ball");
 
-[node name="PaddleRight" parent="." instance=ExtResource("Paddle.tscn")]
-position = Vector2(1240, 360)
-
-[node name="Ball" parent="." instance=ExtResource("Ball.tscn")]
-position = Vector2(640, 360)</code></pre>
-        <div class='result'>Pong scēnas struktūra Scene Tree panelī ar Main, Paddle un Ball Node.</div>
+    left-&gt;set_position(Vector2(40, 360));
+    right-&gt;set_position(Vector2(1240, 360));
+    ball-&gt;set_position(Vector2(640, 360));
+}</code></pre>
+        <div class='result'>C++ kods atrod Pong scēnas galvenos mezglus un novieto tos sākuma pozīcijās.</div>
     </div>
 </div>
 

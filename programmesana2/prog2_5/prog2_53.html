@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>5.3 Save/Load arhitektūra — ebSkola</title>
-<meta name="description" content="Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem slotiem un autosave.">
+<meta name="description" content="Izveidot spēles saglabāšanas sistēmu ar vairākiem slotiem, autosave loģiku un datu ielādi pēc spēles restartēšanas.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_53.html">
@@ -12,17 +12,17 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="5.3 Save/Load arhitektūra">
-<meta property="og:description" content="Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem slotiem un autosave.">
+<meta property="og:description" content="Izveidot spēles saglabāšanas sistēmu ar vairākiem slotiem, autosave loģiku un datu ielādi pēc spēles restartēšanas.">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_53.html">
-<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="5.3 Save/Load arhitektūra">
-<meta name="twitter:description" content="Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem slotiem un autosave.">
+<meta name="twitter:description" content="Izveidot spēles saglabāšanas sistēmu ar vairākiem slotiem, autosave loģiku un datu ielādi pēc spēles restartēšanas.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "5.3 Save/Load arhitektūra", "description": "Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem slotiem un autosave.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_53.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "5.3 Save/Load arhitektūra","description": "Izveidot spēles saglabāšanas sistēmu ar vairākiem slotiem, autosave loģiku un datu ielādi pēc spēles restartēšanas.","inLanguage": "lv","url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_5/prog2_53.html","isPartOf": {"@type": "Course","name": "ebSkola — Programmēšana II","url": "https://eduardsbaumanis.github.io/ebskola/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -64,6 +64,12 @@
 </section>
 
 <section class='section'>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
     <h2>Teorija: Save sistēmas arhitektūra</h2>
     <div class='logic-box'>
 <p>Profesionāla save sistēma sastāv no vairākiem komponentiem:</p>
@@ -92,8 +98,59 @@ public:
     </div>
 </section>
 
+
 <section class='section'>
-    <h2>1. uzdevums: Saveable interfeiss</h2>
+    <h2>Teorijas paplašinājums: C++ fokuss</h2>
+    <div class='logic-box'>
+        <p><b>Kritiskais fokuss:</b> šajā stundā nepietiek tikai panākt redzamu efektu editorā. Jāspēj paskaidrot, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra šo kodu izmanto.</p>
+        <p><b>Pārbaudes pierādījums:</b> C++ kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+
+using namespace godot;
+
+struct PersistenceCheckpoint {
+    String lesson = "5.3 Save/Load arhitektūra";
+    bool uses_cpp = true;
+    bool handles_missing_file = true;
+    bool validates_data = true;
+    bool documents_complexity = true;
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Konsolidētais praktiskais uzdevums (15+ soļi)</h2>
+
+    <div class="info-box">
+        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
+    </div>
+    <p>Izpildi šo darba plānu, lai <b>5.3 Save/Load arhitektūra</b> rezultāts būtu pārbaudāms C++ GDExtension projektā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver projektu un izveido Git branch datu pastāvības vai algoritmu darbam.</li>
+            <li>Pieraksti, kādi dati jāsaglabā, jāielādē vai jāģenerē šajā stundā.</li>
+            <li>Izveido C++ klasi, kas atbild par šo datu plūsmu, piemēram, SaveManager vai Generator.</li>
+            <li>Definē datu modeli ar skaidriem tipiem: <code>int</code>, <code>float</code>, <code>String</code>, <code>Dictionary</code> vai pielāgotu struct.</li>
+            <li>Pievieno versijas lauku, ja dati tiks saglabāti failā.</li>
+            <li>Rakstīšanas metodē pārbaudi, vai fails tiešām ir atvērts rakstīšanai.</li>
+            <li>Lasīšanas metodē pārbaudi, vai fails eksistē un nav tukšs.</li>
+            <li>Validē ielādētos laukus pirms to izmantošanas spēles stāvoklī.</li>
+            <li>Kļūdas gadījumā atgriez drošu noklusējuma vērtību, nevis ļauj spēlei sabrukt.</li>
+            <li>Ja tēma ir algoritms, pieraksti aptuveno sarežģītību, piemēram, O(n) vai O(n log n).</li>
+            <li>Pievieno mazu testdatu piemēru, kura rezultātu vari pārbaudīt ar roku.</li>
+            <li>Pievieno lielāku testu, lai pamanītu veiktspējas vai atmiņas problēmas.</li>
+            <li>Pievieno <code>UtilityFunctions::print</code> izvadi tikai svarīgiem debug punktiem.</li>
+            <li>Pārkompilē C++ kodu ar SCons un izlabo kompilācijas kļūdas.</li>
+            <li>Palaid Godot un testē saglabāšanu, ielādi vai ģenerāciju vismaz divas reizes pēc kārtas.</li>
+            <li>README pieraksti failu ceļus, datu formātu un zināmos ierobežojumus.</li>
+            <li>Pārbaudi, ka ģenerētie vai saglabātie faili nav nejauši pievienoti Git, ja tie ir lokāli dati.</li>
+            <li>Veic commit ar ziņu, kas nosauc saglabāšanas, ielādes vai algoritma uzlabojumu.</li>
+        </ol>
+    </div>
+</section>
+<section class='section'>
+    <h2>Aktivitāte 1: Saveable interfeiss</h2>
     <p>Padari objektus saglabājamus.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -107,7 +164,7 @@ public:
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Vairāki save slots</h2>
+    <h2>Aktivitāte 2: Vairāki save slots</h2>
     <p>3 atsevišķi save faili.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -121,7 +178,7 @@ public:
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Autosave</h2>
+    <h2>Aktivitāte 3: Autosave</h2>
     <p>Automātiska saglabāšana.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -135,7 +192,7 @@ public:
 </section>
 
 <section class='section'>
-    <h2>Papildus uzdevums: Cloud save</h2>
+    <h2>Papildu izaicinājums: Cloud save</h2>
     <p>Steam Cloud vai citu sync.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>

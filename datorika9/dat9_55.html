@@ -14,7 +14,7 @@
 <meta property="og:title" content="5.5 Spēles testēšana, atkļūdošana un publicēšana">
 <meta property="og:description" content="Veikt pilnu spēles tehnisko testēšanu, novērst identificētās kļūdas (bugs) un optimizēt lietotāja pieredzi, sagatavojot projektu publicēšanai.">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/datorika9/dat9_55.html">
-<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="5.5 Spēles testēšana, atkļūdošana un publicēšana">
 <meta name="twitter:description" content="Veikt pilnu spēles tehnisko testēšanu, novērst identificētās kļūdas (bugs) un optimizēt lietotāja pieredzi, sagatavojot projektu publicēšanai.">
@@ -25,7 +25,7 @@
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "5.5 Spēles testēšana, atkļūdošana un publicēšana", "description": "Veikt pilnu spēles tehnisko testēšanu, novērst identificētās kļūdas (bugs) un optimizēt lietotāja pieredzi, sagatavojot projektu publicēšanai.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/datorika9/dat9_55.html", "isPartOf": {"@type": "Course", "name": "ebSkola — datorika9", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
 </head>
@@ -50,39 +50,105 @@
 
 <section class='section'>
     <h1>5.5 Spēles testēšana, atkļūdošana un publicēšana</h1>
-    <p><b>Tavs mērķis:</b> Veikt pilnu spēles tehnisko testēšanu, novērst identificētās kļūdas (bugs) un optimizēt lietotāja pieredzi, sagatavojot projektu publicēšanai.</p>
-    <a href="../sasnRez.html">1.3.3. Īsteno risinājumu; 5.2.4. Sniedz un saņem atgriezenisko saiti digitālajā vidē.</a>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Veikt pilnu spēles testēšanas ciklu, dokumentēt kļūdas, ieviest labojumus un sagatavot projektu publicēšanai bez acīmredzamiem tehniskiem šķēršļiem.</p>
+    <div class="lesson-meta">
+        <a href="../sasnRez.html">SR 1.3.3. Dizaina risinājuma īstenošana</a>
+        <a href="../sasnRez.html">SR 1.4.2. Testēšana un pilnveide</a>
+        <a href="../sasnRez.html">SR 2.6.1. Programmas strukturēšana</a>
+        <a href="../sasnRez.html">SR 5.2.4. Sadarbība un atgriezeniskā saite</a>
+    </div>
 </section>
 
 <section class='section'>
-    <h2>Darba uzdevuma gaita</h2>
-    
+    <div class="info-box">
+        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) — pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) — pārbaudi rezultātu, izlabo kļūdas un pieraksti, kas strādā. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: testēšana ir pierādījums, nevis minējums</h2>
+    <p>Spēle nav gatava tikai tāpēc, ka tā vienreiz nostrādāja autora datorā. Testēšana nozīmē pārbaudīt paredzamās darbības, robežgadījumus un citu lietotāju pieredzi. Jo precīzāk pieraksti kļūdu, jo ātrāk vari atrast tās cēloni.</p>
+    <div class="code-example">
+<pre><code class="language-javascript">function parbauditSadursmi(speletajs, skerslis) {
+  return speletajs.x < skerslis.x + skerslis.w &&
+         speletajs.x + speletajs.w > skerslis.x &&
+         speletajs.y < skerslis.y + skerslis.h &&
+         speletajs.y + speletajs.h > skerslis.y;
+}</code></pre>
+        <div class="result">
+            Testē šo funkciju ar parastu sadursmi, malu pieskārienu un situāciju bez sadursmes.
+        </div>
+    </div>
+    <p>Labs kļūdas pieraksts satur četras daļas: kas notika, kā to atkārtot, ko gaidīji un kādā failā vai funkcijā problēma, visticamāk, atrodas.</p>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Paštestēšana un robežgadījumi</h2>
     <div class='logic-box'>
-        <h3>1. solis: Paštestēšana un "Edge Case" pārbaude</h3>
         <ol>
             <li>Pārbaudi spēli dažādos ekrāna izmēros (izmantojot pārlūka Inspect -> Responsive mode).</li>
             <li>Veic "stresa testu": spied pogas pēc iespējas ātrāk, mēģini iziet ārpus spēles laukuma robežām vai sasniegt neiespējami lielu punktu skaitu.</li>
             <li>Pārliecinies, ka visas skaņas ielādējas un strādā, un pēc "Game Over" spēli var veiksmīgi restartēt bez lapas pārlādēšanas.</li>
+            <li>Izveido testu tabulu ar vismaz 8 rindām: darbība, gaidītais rezultāts, faktiskais rezultāts, statuss.</li>
         </ol>
     </div>
+</section>
 
+<section class='section'>
+    <h2>2. uzdevums: Biedru beta tests</h2>
     <div class='logic-box'>
-        <h3>2. solis: Biedru testēšana (Beta tests)</h3>
         <ol>
-            <li>Nodod sava datora peli un tastatūru klasesbiedram. **Svarīgi:** Nedrīkst palīdzēt vai teikt, kas jādara!</li>
+            <li>Nodod sava datora peli un tastatūru klasesbiedram. Svarīgi: nedrīkst palīdzēt vai teikt, kas jādara.</li>
             <li>Vēro biedra reakciju: vai viņš saprot, kā sākt spēli? Vai viņš redz punktus? Kurā brīdī viņš apjūk?</li>
             <li>Pieraksti katru pamanīto kļūdu vai neskaidrību un pēc tam veic nepieciešamos labojumus savā kodā.</li>
+            <li>Sašķiro atsauksmes trīs grupās: kritiska kļūda, lietojamības problēma, nākotnes uzlabojums.</li>
         </ol>
     </div>
+</section>
 
+<section class='section'>
+    <h2>3. uzdevums: Koda tīrīšana un sagatavošana publicēšanai</h2>
     <div class='logic-box'>
-        <h3>3. solis: Koda tīrīšana un dokumentēšana</h3>
         <ol>
             <li>Izdzēs visus liekos <code>console.log()</code> un zakomentētos koda fragmentus, kas vairs netiek izmantoti.</li>
             <li>Pārbaudi, vai mainīgo un funkciju nosaukumi ir loģiski un saprotami (piem., <code>funkcija1()</code> vietā izmanto <code>atjaunotRezultatu()</code>).</li>
             <li>Atjaunini <code>README.md</code> failu ar informāciju par to, kā spēlēt tavu spēli un kādas tehnoloģijas tajā izmantotas.</li>
+            <li>Pārbaudi, vai visi failu ceļi ir relatīvi un derēs arī GitHub Pages vidē.</li>
+            <li>Veic gala <code>commit</code> ar ziņu, kas apraksta konkrēto labojumu, piemēram, <i>Fix restart after game over</i>.</li>
         </ol>
     </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: automātiska atkļūdošanas pārslēgšana</h2>
+    <div class="logic-box">
+        <ol>
+            <li>Izveido mainīgo <code>const DEBUG = false;</code>, ar kuru vari ieslēgt vai izslēgt papildu diagnostikas tekstu.</li>
+            <li>Ap visiem diagnostikas <code>console.log()</code> izveido pārbaudi <code>if (DEBUG)</code>.</li>
+            <li>README failā pieraksti, kā testēšanas laikā ieslēgt atkļūdošanas režīmu.</li>
+        </ol>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot)</h2>
+    <ul>
+        <li><b>Spēle restartējas ar veciem datiem:</b> restartēšanas funkcijā atiestati punktus, spēlētāja pozīciju, taimerus un pretinieku masīvus.</li>
+        <li><b>Sadursmes šķiet netaisnīgas:</b> pārbaudi objektu izmērus un vizualizē sadursmes robežas ar pagaidu rāmi.</li>
+        <li><b>Skaņa nedarbojas:</b> pārlūki bieži bloķē automātisku skaņu pirms lietotāja klikšķa, tāpēc palaid audio pēc spēles sākšanas pogas.</li>
+        <li><b>Mobilajā skatā pazūd UI:</b> pārbaudi elementu platumus un izvairies no fiksētiem pikseļiem tur, kur vajadzīgs elastīgs izkārtojums.</li>
+    </ul>
+</section>
+
+<section class='section'>
+    <h2>Nodošanas pierādījumi</h2>
+    <ul>
+        <li>Testu tabula ar vismaz 8 pārbaudēm un skaidri atzīmētu statusu: izdevās, jālabo vai nav aktuāli.</li>
+        <li>Vismaz divas pierakstītas beta testētāja atsauksmes un norāde, kas pēc tām mainīts.</li>
+        <li>Tīrāks <code>script.js</code> bez liekiem diagnostikas izdrukām un ar saprotamiem funkciju nosaukumiem.</li>
+        <li>README fails, kas ir gatavs nākamajai stundai, kur projekts tiks publicēts internetā.</li>
+    </ul>
 </section>
 
 <section class='section'>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>6.1 UI elementi un Control nodes — ebSkola</title>
-<meta name="description" content="Izveidot lietotāja saskarni ar Godot Control nodes — Button, Label, Container.">
+<meta name="description" content="Izveidot Godot lietotāja saskarni ar Control nodes, pogām, tekstiem un konteineriem galvenajai izvēlnei un HUD.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_61.html">
@@ -12,17 +12,17 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="6.1 UI elementi un Control nodes">
-<meta property="og:description" content="Izveidot lietotāja saskarni ar Godot Control nodes — Button, Label, Container.">
+<meta property="og:description" content="Izveidot Godot lietotāja saskarni ar Control nodes, pogām, tekstiem un konteineriem galvenajai izvēlnei un HUD.">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_61.html">
-<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="6.1 UI elementi un Control nodes">
-<meta name="twitter:description" content="Izveidot lietotāja saskarni ar Godot Control nodes — Button, Label, Container.">
+<meta name="twitter:description" content="Izveidot Godot lietotāja saskarni ar Control nodes, pogām, tekstiem un konteineriem galvenajai izvēlnei un HUD.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "6.1 UI elementi un Control nodes", "description": "Izveidot lietotāja saskarni ar Godot Control nodes — Button, Label, Container.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_61.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "6.1 UI elementi un Control nodes","description": "Izveidot Godot lietotāja saskarni ar Control nodes, pogām, tekstiem un konteineriem galvenajai izvēlnei un HUD.","inLanguage": "lv","url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_6/prog2_61.html","isPartOf": {"@type": "Course","name": "ebSkola — Programmēšana II","url": "https://eduardsbaumanis.github.io/ebskola/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -64,6 +64,12 @@
 </section>
 
 <section class='section'>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
     <h2>Teorija: Control nodes hierarhija</h2>
     <div class='logic-box'>
 <p>Godot UI sistēma izmanto <code>Control</code> nodes, kas atšķiras no Node2D — tām ir layout, anchors, theme.</p>
@@ -90,8 +96,59 @@ void Menu::on_start_pressed() {
     </div>
 </section>
 
+
 <section class='section'>
-    <h2>1. uzdevums: Sākuma menu</h2>
+    <h2>Teorijas paplašinājums: C++ fokuss</h2>
+    <div class='logic-box'>
+        <p><b>Kritiskais fokuss:</b> šajā stundā nepietiek tikai panākt redzamu efektu editorā. Jāspēj paskaidrot, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra šo kodu izmanto.</p>
+        <p><b>Pārbaudes pierādījums:</b> UI signāli, audio darbības, debug izvade un publicēšanas sagatave ir sasaistīta ar C++ spēles stāvokli.</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+
+using namespace godot;
+
+struct PolishCheckpoint {
+    String lesson = "6.1 UI elementi un Control nodes";
+    bool uses_cpp = true;
+    bool connects_ui_signals = true;
+    bool routes_audio_events = true;
+    bool verifies_export_build = true;
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Konsolidētais praktiskais uzdevums (15+ soļi)</h2>
+
+    <div class="info-box">
+        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
+    </div>
+    <p>Izpildi šo darba plānu, lai <b>6.1 UI elementi un Control nodes</b> rezultāts būtu pārbaudāms C++ GDExtension projektā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver projektu un izveido Git branch UI, audio, debug vai publicēšanas darbam.</li>
+            <li>Pieraksti lietotāja ceļu: ko spēlētājs redz, nospiež, dzird vai lejupielādē.</li>
+            <li>Pārbaudi, ka galvenā spēles stāvokļa loģika joprojām ir C++ klasēs.</li>
+            <li>Izveido vai atjaunini C++ klasi, kas savieno UI/audio/publicēšanas stāvokli ar spēli.</li>
+            <li>Ja lieto UI pogas, pieslēdz signālus ar <code>Callable</code> vai reģistrētu C++ metodi.</li>
+            <li>Ja lieto audio, nosauc busus un skaņu tipus tā, lai tos var saprast pēc nosaukuma.</li>
+            <li>Ja lieto animācijas, nodali vizuālo efektu no spēles noteikumu aprēķina.</li>
+            <li>Pievieno debug izvadi tikai vietās, kur tā palīdz atrast stāvokļa kļūdu.</li>
+            <li>Pārbaudi kļūdu scenāriju: trūkst audio, nav save faila, poga nav pieslēgta vai export fails nav izveidots.</li>
+            <li>Pārkompilē C++ kodu ar SCons pirms testēšanas Godot vidē.</li>
+            <li>Palaid spēli no sākuma ekrāna līdz galvenajai darbībai, neizlaižot UI ceļu.</li>
+            <li>Pārbaudi skaļumu, pauzi vai iestatījumus vismaz divas reizes vienā sesijā.</li>
+            <li>Ja šī ir eksporta stunda, izveido tīru build mapi un eksportē projektu no jauna.</li>
+            <li>Pārbaudi, ka eksportā iekļauta GDExtension bibliotēka vajadzīgajai platformai.</li>
+            <li>Pārbaudi gala rezultātu ārpus Godot editora, piemēram, palaižot eksportēto failu.</li>
+            <li>README pieraksti lietotāja vadību, zināmos ierobežojumus un build/publish soļus.</li>
+            <li>Noņem lieku debug izvadi, kas spēlētājam nav vajadzīga.</li>
+            <li>Veic commit ar ziņu, kas nosauc UI, audio, debug vai publicēšanas izmaiņu.</li>
+        </ol>
+    </div>
+</section>
+<section class='section'>
+    <h2>Aktivitāte 1: Sākuma menu</h2>
     <p>Pirmais UI ekrāns.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -105,7 +162,7 @@ void Menu::on_start_pressed() {
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Iestatījumu ekrāns</h2>
+    <h2>Aktivitāte 2: Iestatījumu ekrāns</h2>
     <p>Konfigurējami parametri.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -119,7 +176,7 @@ void Menu::on_start_pressed() {
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: HUD spēles laikā</h2>
+    <h2>Aktivitāte 3: HUD spēles laikā</h2>
     <p>Spēles UI overlay.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -133,7 +190,7 @@ void Menu::on_start_pressed() {
 </section>
 
 <section class='section'>
-    <h2>Papildus uzdevums: Theme un stilizācija</h2>
+    <h2>Papildu izaicinājums: Theme un stilizācija</h2>
     <p>Konsistents izskats.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>

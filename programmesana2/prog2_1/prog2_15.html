@@ -14,7 +14,7 @@
 <meta property="og:title" content="1.5 Spēles laukuma izveide">
 <meta property="og:description" content="Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_1/prog2_15.html">
-<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1.5 Spēles laukuma izveide">
 <meta name="twitter:description" content="Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.">
@@ -64,9 +64,16 @@
 </section>
 
 <section class='section'>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
     <h2>Teorija: Coordinates (Koordinātes) un transformācijas</h2>
     <div class='logic-box'>
-<p>Godot 2D koordinātes sākas <b>kreisajā augšējā stūrī</b>: (0, 0). X pieaug pa labi, Y uz leju.</p>
+<p>Godot 2D koordinātes sākas <b>kreisajā augšējā stūrī</b>: (0, 0). X pieaug pa labi, Y uz leju. Tas nozīmē, ka Pong laukuma centrs 1280×720 logā ir <code>(640, 360)</code>, augšējā siena ir pie mazas Y vērtības, bet apakšējā siena ir pie lielas Y vērtības.</p>
+<p>Spēles laukuma izveidē svarīgi nodalīt <b>vizuālo slāni</b>, <b>sadursmju slāni</b> un <b>UI slāni</b>. Vizuālie objekti parāda spēli, sadursmju objekti nosaka fizikas robežas, bet UI elementi, piemēram, <code>Label</code>, rāda punktus. Vēlāk C++ kods atsauksies uz šiem elementiem pēc nosaukuma.</p>
 <pre><code class="language-cpp">// Pozīciju manipulācija C++
 Vector2 pos = get_position();
 pos.x += 10;             // pa labi par 10 pikseļiem
@@ -75,64 +82,64 @@ set_position(pos);
 
 set_position(Vector2(640, 360));  // ekrāna centrs 1280x720</code></pre>
 <p><b>Transform = Position + Rotation + Scale.</b> Bērnu nodes pārmanto vecāku transform.</p>
-<p><b>Viewport (Skatlogs)</b> = loga apgabals, kurā renderē scēnu. Standarta Pong: 1280×720.</p>
+<p><b>Viewport (Skatlogs)</b> ir loga apgabals, kurā renderē scēnu. Standarta Pong izmērs šajā tēmā ir 1280×720. Lai spēle uz dažādiem ekrāniem uzvestos paredzami, Project Settings sadaļā jāiestata gan loga izmērs, gan stretch režīms.</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/classes/label.hpp&gt;
+#include &lt;godot_cpp/variant/string.hpp&gt;
+
+using namespace godot;
+
+void GameHud::set_score(int left, int right) {
+    get_node&lt;Label&gt;("ScoreLeft")-&gt;set_text(String::num_int64(left));
+    get_node&lt;Label&gt;("ScoreRight")-&gt;set_text(String::num_int64(right));
+}</code></pre>
     </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Project Settings</h2>
-    <p>Iestati spēles izmēru.</p>
+    <h2>Praktiskais uzdevums: Pong laukuma sagatavošana</h2>
+
+    <div class="info-box">
+        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
+    </div>
+    <p>Izveido spēles laukumu, kuru vēlāk varēs vadīt C++ kods.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
         <ol>
-            <li>Project → Project Settings.</li>
-            <li>Display → Window: Viewport Width <code>1280</code>, Height <code>720</code>.</li>
-            <li>Stretch Mode: <code>viewport</code>, Aspect: <code>keep</code>.</li>
-            <li>Application → Config → Name: <code>Pong</code>.</li>
-            <li>Run → Main Scene: <code>main.tscn</code>.</li>
+            <li>Atver <b>Project → Project Settings</b>.</li>
+            <li>Sadaļā <b>Display → Window</b> iestati <code>Viewport Width = 1280</code>.</li>
+            <li>Tajā pašā sadaļā iestati <code>Viewport Height = 720</code>.</li>
+            <li>Sadaļā <b>Stretch</b> iestati <code>Mode = viewport</code>.</li>
+            <li>Sadaļā <b>Stretch</b> iestati <code>Aspect = keep</code>.</li>
+            <li>Sadaļā <b>Application → Config</b> iestati nosaukumu <code>Pong</code>.</li>
+            <li>Sadaļā <b>Run</b> pārliecinies, ka Main Scene ir <code>main.tscn</code>.</li>
+            <li>Atver <code>main.tscn</code> un pārbaudi, ka <code>Background</code> nosedz visu 1280×720 laukumu.</li>
+            <li>Pievieno <code>Line2D</code> kā <code>Main</code> bērnu un pārsauc to par <code>CenterLine</code>.</li>
+            <li><code>CenterLine</code> pievieno divus punktus: <code>(640, 0)</code> un <code>(640, 720)</code>.</li>
+            <li>Iestati <code>CenterLine</code> platumu uz <code>4</code> un krāsu uz baltu vai gaiši pelēku.</li>
+            <li>Pievieno <code>StaticBody2D</code> ar nosaukumu <code>TopWall</code>.</li>
+            <li><code>TopWall</code> pievieno <code>CollisionShape2D</code> ar <code>RectangleShape2D</code> izmēru <code>1280×20</code>.</li>
+            <li>Novieto <code>TopWall</code> pozīcijā <code>(640, 10)</code>.</li>
+            <li>Dublē <code>TopWall</code>, pārsauc par <code>BottomWall</code> un novieto <code>(640, 710)</code>.</li>
+            <li>Pievieno <code>Label</code> ar nosaukumu <code>ScoreLeft</code>, tekstu <code>0</code> un fonta izmēru <code>64</code>.</li>
+            <li>Novieto <code>ScoreLeft</code> aptuveni pie <code>(300, 50)</code>.</li>
+            <li>Dublē <code>ScoreLeft</code>, pārsauc par <code>ScoreRight</code> un novieto pie <code>(920, 50)</code>.</li>
+            <li>Pievieno <code>Label</code> ar nosaukumu <code>Title</code>, tekstu <code>PONG</code> un fonta izmēru <code>32</code>.</li>
+            <li>Pievieno <code>Camera2D</code>, novieto to <code>(640, 360)</code> un iestati kā aktīvo kameru.</li>
+            <li>Palaid spēli un pārbaudi, ka nav balta tukša loga, nobīdītas kameras vai pazudušu UI elementu.</li>
+            <li>README failā pievieno sadaļu "Scene nodes used by C++" ar nosaukumiem <code>ScoreLeft</code>, <code>ScoreRight</code>, <code>TopWall</code>, <code>BottomWall</code>.</li>
         </ol>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Sienas un dalītājs</h2>
-    <p>Pievieno laukuma elementus.</p>
+    <h2>Papildu izaicinājumi</h2>
+    <p>Noslīpē laukuma lasāmību.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pievieno <code>Line2D</code> kā Main bērnu, pārsauc <code>CenterLine</code>.</li>
-            <li>Inspector → Points: divi punkti (640, 0), (640, 720).</li>
-            <li>Width: 4, Default Color: balta.</li>
-            <li>Pievieno divus <code>StaticBody2D</code> ar CollisionShape2D — TopWall un BottomWall.</li>
-            <li>Pozīcijas (640, 10) un (640, 710), formas izmērs 1280×20.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>3. uzdevums: Punktu skaitītāji</h2>
-    <p>Label nodes punktiem.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pievieno <code>Label</code> kā <code>ScoreLeft</code>. Text: <code>0</code>, Font Size: 64, Position: (300, 50).</li>
-            <li>Klonē uz <code>ScoreRight</code>, Position: (920, 50).</li>
-            <li>Pievieno <code>Title</code> Label: Text: <code>PONG</code>, Position: (560, 30), Font Size: 32.</li>
-            <li>Pārbaudi izvietojumu, palaižot.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Papildus uzdevums: Stila uzlabojumi</h2>
-    <p>Pievieno krāsas un kameru.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pievieno <code>Camera2D</code> kā Main bērnu.</li>
-            <li>Position: (640, 360), Make Current: true.</li>
-            <li>Visiem Sprite2D Modulate: balts.</li>
-        </ol>
+        <ul>
+            <li>Pievieno smalku fonu vai krāsu kontrastu, bet saglabā Pong minimālo lasāmību.</li>
+            <li>Pārliecinies, ka <code>ScoreLeft</code> un <code>ScoreRight</code> nav bērni zem kustīgiem objektiem.</li>
+            <li>Izveido īsu skici README failā, kur parādi 1280×720 koordinātu sistēmu.</li>
+        </ul>
     </div>
 </section>
 
@@ -164,18 +171,31 @@ set_position(Vector2(640, 360));  // ekrāna centrs 1280x720</code></pre>
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">[node name="ScoreLeft" type="Label" parent="."]
-position = Vector2(300, 50)
-text = "0"
-theme_override_font_sizes/font_size = 64
+        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/camera2d.hpp&gt;
+#include &lt;godot_cpp/classes/label.hpp&gt;
+#include &lt;godot_cpp/classes/line2d.hpp&gt;
+#include &lt;godot_cpp/variant/packed_vector2_array.hpp&gt;
+#include &lt;godot_cpp/variant/string.hpp&gt;
+#include &lt;godot_cpp/variant/vector2.hpp&gt;
 
-[node name="CenterLine" type="Line2D" parent="."]
-points = PackedVector2Array(640, 0, 640, 720)
-width = 4.0
+using namespace godot;
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(640, 360)</code></pre>
-        <div class='result'>Pong spēles laukums ar centrālu līniju, paddles, bumbu un punktu skaitītājiem.</div>
+void CourtSetup::_ready() {
+    get_node&lt;Label&gt;("ScoreLeft")-&gt;set_text(String::num_int64(0));
+    get_node&lt;Label&gt;("ScoreRight")-&gt;set_text(String::num_int64(0));
+
+    Line2D *center_line = get_node&lt;Line2D&gt;("CenterLine");
+    PackedVector2Array points;
+    points.push_back(Vector2(640, 0));
+    points.push_back(Vector2(640, 720));
+    center_line-&gt;set_points(points);
+    center_line-&gt;set_width(4.0);
+
+    Camera2D *camera = get_node&lt;Camera2D&gt;("Camera2D");
+    camera-&gt;set_position(Vector2(640, 360));
+    camera-&gt;make_current();
+}</code></pre>
+        <div class='result'>C++ kods sagatavo redzamos laukuma elementus un UI sākumstāvokli.</div>
     </div>
 </div>
 

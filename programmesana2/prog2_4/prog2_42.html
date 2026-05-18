@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>4.2 Map un Dictionary — ebSkola</title>
-<meta name="description" content="Apgūt asociatīvās datu struktūras inventāram un konfigurācijai.">
+<meta name="description" content="Apgūt Map un Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_42.html">
@@ -12,17 +12,17 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="4.2 Map un Dictionary">
-<meta property="og:description" content="Apgūt asociatīvās datu struktūras inventāram un konfigurācijai.">
+<meta property="og:description" content="Apgūt Map un Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_42.html">
-<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4.2 Map un Dictionary">
-<meta name="twitter:description" content="Apgūt asociatīvās datu struktūras inventāram un konfigurācijai.">
+<meta name="twitter:description" content="Apgūt Map un Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.2 Map un Dictionary", "description": "Apgūt asociatīvās datu struktūras inventāram un konfigurācijai.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_42.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "4.2 Map un Dictionary","description": "Apgūt Map un Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.","inLanguage": "lv","url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_4/prog2_42.html","isPartOf": {"@type": "Course","name": "ebSkola — Programmēšana II","url": "https://eduardsbaumanis.github.io/ebskola/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -64,6 +64,12 @@
 </section>
 
 <section class='section'>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
     <h2>Teorija: std::map un Godot Dictionary</h2>
     <div class='logic-box'>
 <p>Asociatīvā datu struktūra glabā <b>atslēga → vērtība</b> pārus.</p>
@@ -89,8 +95,59 @@ if (inv.has("coins")) print(inv["coins"]);</code></pre>
     </div>
 </section>
 
+
 <section class='section'>
-    <h2>1. uzdevums: Inventāra sistēma</h2>
+    <h2>Teorijas paplašinājums: C++ fokuss</h2>
+    <div class='logic-box'>
+        <p><b>Kritiskais fokuss:</b> šajā stundā nepietiek tikai panākt redzamu efektu editorā. Jāspēj paskaidrot, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra šo kodu izmanto.</p>
+        <p><b>Pārbaudes pierādījums:</b> C++ kodā pamatoti izvēlēti vector/map/set, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+
+using namespace godot;
+
+struct AiDataCheckpoint {
+    String lesson = "4.2 Map un Dictionary";
+    bool uses_cpp = true;
+    bool chooses_container = true;
+    bool separates_ai_state = true;
+    bool handles_removal_safely = true;
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Konsolidētais praktiskais uzdevums (15+ soļi)</h2>
+
+    <div class="info-box">
+        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
+    </div>
+    <p>Izpildi šo darba plānu, lai <b>4.2 Map un Dictionary</b> rezultāts būtu pārbaudāms C++ GDExtension projektā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver projektu un izveido Git branch datu struktūru vai AI darbam.</li>
+            <li>Pieraksti, kāds datu apjoms vai AI uzvedība šajā stundā jāapstrādā.</li>
+            <li>Izvēlies piemērotu C++ struktūru: <code>std::vector</code>, <code>std::map</code>, <code>std::unordered_map</code> vai <code>std::set</code>.</li>
+            <li>Pamato izvēli komentārā vai README, minot meklēšanu, kārtošanu, dzēšanu vai iterāciju.</li>
+            <li>Izveido C++ klasi vai sistēmas komponenti, kas glabā šo struktūru privātā laukā.</li>
+            <li>Pievieno publiskas metodes datu pievienošanai, nolasīšanai un drošai dzēšanai.</li>
+            <li>Ja ir AI, definē skaidrus stāvokļus ar <code>enum class</code>.</li>
+            <li>Nodali stāvokļa maiņas loģiku no kustības vai renderēšanas koda.</li>
+            <li>Pievieno robežgadījumu pārbaudi tukšam sarakstam, nezināmam ID vai nederīgam mērķim.</li>
+            <li>Izvairies no dzēšanas no <code>vector</code> vienkārša range-for cikla laikā.</li>
+            <li>Pievieno debug izvadi, kas rāda aktīvo stāvokli, objektu skaitu vai izvēlēto ceļu.</li>
+            <li>Pārkompilē C++ kodu un pārbaudi, ka Godot ielādē jauno bibliotēku.</li>
+            <li>Testē ar mazu datu apjomu, kur rezultātu var pārbaudīt manuāli.</li>
+            <li>Testē ar lielāku datu apjomu, lai pamanītu veiktspējas vai loģikas problēmas.</li>
+            <li>Ja iespējams, salīdzini divas struktūras vai divas AI pieejas un pieraksti secinājumu.</li>
+            <li>Atjaunini README ar datu struktūras izvēli un sarežģītības piezīmēm.</li>
+            <li>Sakārto kodu tā, lai citiem objektiem nav tiešas piekļuves iekšējam konteineram.</li>
+            <li>Veic commit ar ziņu, kas nosauc izmantoto datu struktūru vai AI mehāniku.</li>
+        </ol>
+    </div>
+</section>
+<section class='section'>
+    <h2>Aktivitāte 1: Inventāra sistēma</h2>
     <p>Ekipējuma un iesāka pārvaldība.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -104,7 +161,7 @@ if (inv.has("coins")) print(inv["coins"]);</code></pre>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Enemy ID sistēma</h2>
+    <h2>Aktivitāte 2: Enemy ID sistēma</h2>
     <p>Ātri atrod ienaidnieku pēc ID.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -118,7 +175,7 @@ if (inv.has("coins")) print(inv["coins"]);</code></pre>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Konfigurācijas Dictionary</h2>
+    <h2>Aktivitāte 3: Konfigurācijas Dictionary</h2>
     <p>Spēles iestatījumi.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -132,7 +189,7 @@ if (inv.has("coins")) print(inv["coins"]);</code></pre>
 </section>
 
 <section class='section'>
-    <h2>Papildus uzdevums: Set datu struktūra</h2>
+    <h2>Papildu izaicinājums: Set datu struktūra</h2>
     <p>Unikālu vērtību kolekcija.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>

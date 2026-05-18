@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>4. tēma — Noslēguma projekts: &quot;Skaitļu minētājs&quot; — ebSkola</title>
-<meta name="description" content="Apvienot visas tēmā apgūtās prasmes — funkcijas, parametrus,">
+<meta name="description" content="Izveidot termināļa skaitļu minēšanas spēli, izmantojot funkcijas, parametrus, return vērtības, mainīgo tvērumu un moduļus.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_4/prog1_46.html">
@@ -12,17 +12,17 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="4. tēma — Noslēguma projekts: &quot;Skaitļu minētājs&quot;">
-<meta property="og:description" content="Apvienot visas tēmā apgūtās prasmes — funkcijas, parametrus,">
+<meta property="og:description" content="Izveidot termināļa skaitļu minēšanas spēli, izmantojot funkcijas, parametrus, return vērtības, mainīgo tvērumu un moduļus.">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_4/prog1_46.html">
-<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4. tēma — Noslēguma projekts: &quot;Skaitļu minētājs&quot;">
-<meta name="twitter:description" content="Apvienot visas tēmā apgūtās prasmes — funkcijas, parametrus,">
+<meta name="twitter:description" content="Izveidot termināļa skaitļu minēšanas spēli, izmantojot funkcijas, parametrus, return vērtības, mainīgo tvērumu un moduļus.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "4. tēma — Noslēguma projekts: \"Skaitļu minētājs\"", "description": "Apvienot visas tēmā apgūtās prasmes — funkcijas, parametrus,", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_4/prog1_46.html", "isPartOf": {"@type": "Course", "name": "ebSkola — programmesana1", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "4. tēma — Noslēguma projekts: \"Skaitļu minētājs\"","description": "Izveidot termināļa skaitļu minēšanas spēli, izmantojot funkcijas, parametrus, return vērtības, mainīgo tvērumu un moduļus.","inLanguage": "lv","url": "https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_4/prog1_46.html","isPartOf": {"@type": "Course","name": "ebSkola — programmesana1","url": "https://eduardsbaumanis.github.io/ebskola/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -50,7 +50,7 @@
 
 <section class='section'>
     <h1>4.6 Noslēguma projekts: Skaitļu minētājs</h1>
-    <p><b>Tavs mērķis:</b> Apvienot visas tēmā apgūtās prasmes — funkcijas, parametrus, <code>return</code>, mainīgo tvērumu un moduļus — lai izveidotu pilnvērtīgu, terminālī spēlējamu skaitļu minēšanas spēli.</p>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot visas 4. tēmā apgūtās prasmes — funkcijas, parametrus, <code>return</code>, mainīgo tvērumu un moduļus — pilnvērtīgā termināļa skaitļu minēšanas spēlē.</p>
     <div class="lesson-meta">
         <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas un funkcijas</a>
         <a href="../../sasnRez.html">SR 2.4.14. Vadības struktūras (cikli, sazarojumi)</a>
@@ -60,9 +60,27 @@
 </section>
 
 <section class='section'>
-    <h2>Spēles apraksts</h2>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: funkcijas sadala spēli pārbaudāmās daļās</h2>
     <div class='logic-box'>
         <p>Dators izvēlas nejaušu skaitli no 1 līdz 100. Spēlētājs mēģina to uzminēt, ievadot skaitli terminālī. Pēc katra mēģinājuma spēle dod mājienu — vai patiesais skaitlis ir lielāks vai mazāks. Spēle beidzas, kad spēlētājs uzmin skaitli vai kad mēģinājumi izbeigušies (10 mēģinājumi). Beigās tiek parādīts mēģinājumu skaits.</p>
+    </div>
+    <div class="code-example">
+<pre><code class="language-python">def salidzina(minetais, patiesais):
+    if minetais < patiesais:
+        return "par mazu"
+    if minetais > patiesais:
+        return "par lielu"
+    return "trāpīts"</code></pre>
+        <div class="result">Funkcija saņem datus, atgriež rezultātu un nelasa ievadi pati.</div>
+    </div>
+    <div class="info-box">
+        <p><b>70 min plāns:</b> funkciju projektēšana ~25 min, cikls un mēģinājumi ~25 min, modularitāte un GitHub ~20 min.</p>
     </div>
 </section>
 
@@ -99,6 +117,21 @@
             <li>Saglabā darbu GitHub ar vismaz 3 jēgpilniem <i>commit</i> ziņojumiem.</li>
         </ol>
     </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: droša ievade</h2>
+    <p>Pievieno funkciju <code>ievade_skaitlis()</code>, kas atkārtoti prasa ievadi, līdz spēlētājs ievada derīgu veselu skaitli. Izmanto šo tikai tad, ja pamatspēle jau darbojas.</p>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot)</h2>
+    <ul>
+        <li><b>Funkcija drukā, bet neatgriež vērtību:</b> salīdzināšanas funkcijai jālieto <code>return</code>.</li>
+        <li><b>Mainīgais pazūd ārpus funkcijas:</b> atceries, ka lokālie mainīgie dzīvo tikai funkcijā.</li>
+        <li><b>Imports nestrādā:</b> pārbaudi failu nosaukumus un to, vai tie atrodas vienā mapē.</li>
+        <li><b>Cikls nekad nebeidzas:</b> pārbaudi uzvaras un mēģinājumu limita nosacījumus.</li>
+    </ul>
 </section>
 
 <section class='section'>

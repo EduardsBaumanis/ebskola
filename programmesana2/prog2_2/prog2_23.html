@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2.3 Vadības struktūras spēles loģikā — ebSkola</title>
-<meta name="description" content="Izmantot if/else, switch un cikli spēles uzvedības loģikā.">
+<meta name="description" content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_23.html">
@@ -12,17 +12,17 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="2.3 Vadības struktūras spēles loģikā">
-<meta property="og:description" content="Izmantot if/else, switch un cikli spēles uzvedības loģikā.">
+<meta property="og:description" content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā.">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_23.html">
-<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2.3 Vadības struktūras spēles loģikā">
-<meta name="twitter:description" content="Izmantot if/else, switch un cikli spēles uzvedības loģikā.">
+<meta name="twitter:description" content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "2.3 Vadības struktūras spēles loģikā", "description": "Izmantot if/else, switch un cikli spēles uzvedības loģikā.", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_23.html", "isPartOf": {"@type": "Course", "name": "ebSkola — Programmēšana II", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "2.3 Vadības struktūras spēles loģikā","description": "Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā.","inLanguage": "lv","url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_2/prog2_23.html","isPartOf": {"@type": "Course","name": "ebSkola — Programmēšana II","url": "https://eduardsbaumanis.github.io/ebskola/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -64,6 +64,12 @@
 </section>
 
 <section class='section'>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
     <h2>Teorija: C++ vadības struktūras</h2>
     <div class='logic-box'>
 <p>C++ vadības struktūras ir gandrīz identiskas Python ekvivalentiem, bet ar atšķirīgu sintaksi:</p>
@@ -101,8 +107,59 @@ while (health &gt; 0 && level_active) {
     </div>
 </section>
 
+
 <section class='section'>
-    <h2>1. uzdevums: Veselības sistēma</h2>
+    <h2>Teorijas paplašinājums: C++ fokuss</h2>
+    <div class='logic-box'>
+        <p><b>Kritiskais fokuss:</b> šajā stundā nepietiek tikai panākt redzamu efektu editorā. Jāspēj paskaidrot, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra šo kodu izmanto.</p>
+        <p><b>Pārbaudes pierādījums:</b> spēlētājs, objekti un sadursmes darbojas ar C++ klasēm, kas lieto _physics_process, Input, CharacterBody2D, Area2D vai move_and_slide.</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+
+using namespace godot;
+
+struct PhysicsCheckpoint {
+    String lesson = "2.3 Vadības struktūras spēles loģikā";
+    bool uses_cpp = true;
+    bool uses_physics_process = true;
+    bool uses_delta_time = true;
+    bool checks_collisions = true;
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Konsolidētais praktiskais uzdevums (15+ soļi)</h2>
+
+    <div class="info-box">
+        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
+    </div>
+    <p>Izpildi šo darba plānu, lai <b>2.3 Vadības struktūras spēles loģikā</b> rezultāts būtu pārbaudāms C++ GDExtension projektā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver esošo Godot projektu un izveido jaunu Git branch šīs stundas darbam.</li>
+            <li>Pārbaudi, ka spēles loģika tiek rakstīta C++ GDExtension klasē.</li>
+            <li>Pieraksti, kurš node tips šajā stundā ir galvenais: <code>Node2D</code>, <code>CharacterBody2D</code>, <code>Area2D</code> vai <code>RigidBody2D</code>.</li>
+            <li>Izveido vai atjaunini atbilstošu <code>.hpp</code> failu ar klases deklarāciju.</li>
+            <li>Izveido vai atjaunini atbilstošu <code>.cpp</code> failu ar metožu implementāciju.</li>
+            <li>Pievieno nepieciešamos <code>#include</code> failus no <code>godot_cpp</code>.</li>
+            <li>Pievieno <code>GDCLASS</code> un tukšu vai vajadzīgu <code>_bind_methods()</code> metodi.</li>
+            <li>Reģistrē klasi <code>register_types.cpp</code> ar <code>ClassDB::register_class</code>.</li>
+            <li>Kustībai lieto <code>_physics_process(double delta)</code>, nevis tikai manuālu pozīcijas maiņu editorā.</li>
+            <li>Ja maini pozīciju, reizinājumā iekļauj <code>delta</code>, lai ātrums nebūtu atkarīgs no FPS.</li>
+            <li>Ja objekts saduras ar vidi, izvēlies <code>move_and_slide()</code> vai <code>move_and_collide()</code> un pamato izvēli.</li>
+            <li>Iestati CollisionShape2D izmēru tā, lai tas sakristu ar redzamo objektu.</li>
+            <li>Pārbaudi collision layer/mask, lai objekts reaģē tikai uz vajadzīgajiem slāņiem.</li>
+            <li>Pievieno īsu <code>UtilityFunctions::print</code> pārbaudi, kas parāda svarīgu stāvokli spēles laikā.</li>
+            <li>Pārkompilē ar SCons un pārliecinies, ka Godot ielādē jauno bibliotēku bez kļūdām.</li>
+            <li>Testē vienu normālu gadījumu un vienu robežgadījumu, piemēram, ekrāna malu vai platformas malu.</li>
+            <li>README pieraksti, kāda fizikas vai sadursmju problēma tika atrisināta.</li>
+            <li>Veic commit ar skaidru ziņu par šīs stundas mehāniku.</li>
+        </ol>
+    </div>
+</section>
+<section class='section'>
+    <h2>Aktivitāte 1: Veselības sistēma</h2>
     <p>Implementē varoņa veselības stāvokļus.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -117,7 +174,7 @@ while (health &gt; 0 && level_active) {
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Punktu sistēma ar switch</h2>
+    <h2>Aktivitāte 2: Punktu sistēma ar switch</h2>
     <p>Dažādu objektu vērtība.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -132,7 +189,7 @@ while (health &gt; 0 && level_active) {
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Cikli ienaidnieku pārbaudei</h2>
+    <h2>Aktivitāte 3: Cikli ienaidnieku pārbaudei</h2>
     <p>Pārbaudi visus ienaidniekus.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -146,7 +203,7 @@ while (health &gt; 0 && level_active) {
 </section>
 
 <section class='section'>
-    <h2>Papildus uzdevums: Bonus: Range-based for</h2>
+    <h2>Papildu izaicinājums: Bonus: Range-based for</h2>
     <p>Modernā C++ sintakse.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>

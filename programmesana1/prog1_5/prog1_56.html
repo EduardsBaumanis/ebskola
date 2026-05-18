@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>5. tēma — Noslēguma projekts: &quot;Atmiņu kāršu spēle&quot; — ebSkola</title>
-<meta name="description" content="Apvienot tēmā apgūtās prasmes — sarakstus, vārdnīcas un">
+<meta name="description" content="Apvienot sarakstus, vārdnīcas un for ciklus terminālī spēlējamā atmiņu kāršu spēles projektā ar pārbaudāmu loģiku.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_5/prog1_56.html">
@@ -12,17 +12,17 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="5. tēma — Noslēguma projekts: &quot;Atmiņu kāršu spēle&quot;">
-<meta property="og:description" content="Apvienot tēmā apgūtās prasmes — sarakstus, vārdnīcas un">
+<meta property="og:description" content="Apvienot sarakstus, vārdnīcas un for ciklus terminālī spēlējamā atmiņu kāršu spēles projektā ar pārbaudāmu loģiku.">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_5/prog1_56.html">
-<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="5. tēma — Noslēguma projekts: &quot;Atmiņu kāršu spēle&quot;">
-<meta name="twitter:description" content="Apvienot tēmā apgūtās prasmes — sarakstus, vārdnīcas un">
+<meta name="twitter:description" content="Apvienot sarakstus, vārdnīcas un for ciklus terminālī spēlējamā atmiņu kāršu spēles projektā ar pārbaudāmu loģiku.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "5. tēma — Noslēguma projekts: \"Atmiņu kāršu spēle\"", "description": "Apvienot tēmā apgūtās prasmes — sarakstus, vārdnīcas un", "inLanguage": "lv", "url": "https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_5/prog1_56.html", "isPartOf": {"@type": "Course", "name": "ebSkola — programmesana1", "url": "https://eduardsbaumanis.github.io/ebskola/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "5. tēma — Noslēguma projekts: \"Atmiņu kāršu spēle\"","description": "Apvienot sarakstus, vārdnīcas un for ciklus terminālī spēlējamā atmiņu kāršu spēles projektā ar pārbaudāmu loģiku.","inLanguage": "lv","url": "https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_5/prog1_56.html","isPartOf": {"@type": "Course","name": "ebSkola — programmesana1","url": "https://eduardsbaumanis.github.io/ebskola/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -50,7 +50,7 @@
 
 <section class='section'>
     <h1>5.6 Noslēguma projekts: Atmiņu kāršu spēle</h1>
-    <p><b>Tavs mērķis:</b> Apvienot tēmā apgūtās prasmes — sarakstus, vārdnīcas un <code>for</code> ciklus — terminālī spēlējamā kāršu pāru atrašanas spēlē. Šis darbs parāda Tavu spēju pārvaldīt datu struktūras un nodrošināt to plūsmu starp moduļiem.</p>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot 5. tēmā apgūtās sarakstu, vārdnīcu un <code>for</code> ciklu prasmes terminālī spēlējamā kāršu pāru atrašanas spēlē.</p>
     <div class="lesson-meta">
         <a href="../../sasnRez.html">SR 2.4.16. Saliktas datu struktūras</a>
         <a href="../../sasnRez.html">SR 2.4.14. Vadības struktūras (cikli, sazarojumi)</a>
@@ -59,9 +59,28 @@
 </section>
 
 <section class='section'>
-    <h2>Spēles apraksts</h2>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: spēles stāvoklis dzīvo datu struktūrās</h2>
     <div class='logic-box'>
         <p>Programma izveido 4×4 (16 kāršu) galdiņu ar 8 simbolu pāriem (piem., AABB...). Visas kārtis sākumā ir aizvērtas. Spēlētājs ievada divu kāršu pozīcijas (piem., <code>1A</code> un <code>3D</code>) — programma tās uz brīdi atklāj. Ja simboli sakrīt, kārtis paliek atvērtas; ja nē, tiek aizvērtas. Spēle beidzas, kad atrasti visi pāri. Beigās tiek izvadīts mēģinājumu skaits.</p>
+    </div>
+    <div class="code-example">
+<pre><code class="language-python">spele = {
+    "meginajumi": 0,
+    "atrasti_pari": 0,
+    "atvertas": []
+}
+
+klajs = ["A", "A", "B", "B"]</code></pre>
+        <div class="result">Saraksts glabā kārtis, vārdnīca glabā spēles statusu.</div>
+    </div>
+    <div class="info-box">
+        <p><b>70 min plāns:</b> datu struktūras ~20 min, spēles cikls ~30 min, modularitāte un GitHub ~20 min.</p>
     </div>
 </section>
 
@@ -98,6 +117,21 @@
             <li>Pievieno <code class="language-python">README.md</code> ar palaišanas instrukciju.</li>
         </ol>
     </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: ievades validācija</h2>
+    <p>Pievieno pārbaudi, kas neļauj izvēlēties jau atvērtu kārti vai vienu un to pašu kārti divreiz. Šis uzdevums paredzēts pēc pamatspēles pabeigšanas.</p>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot)</h2>
+    <ul>
+        <li><b>Atvērtās kārtis pazūd:</b> glabā atvērto indeksu sarakstu un izmanto to, drukājot galdiņu.</li>
+        <li><b>Kārtis nav sajauktas:</b> izmanto <code>random.shuffle()</code> tikai pēc pāru saraksta izveides.</li>
+        <li><b>Indekss neatbilst pozīcijai:</b> pieraksti formulu, kas no rindas/kolonnas iegūst saraksta indeksu.</li>
+        <li><b>Spēle nebeidzas:</b> pārbaudi, vai <code>atrasti_pari</code> palielinās tikai tad, kad pāris tiešām sakrīt.</li>
+    </ul>
 </section>
 
 <section class='section'>

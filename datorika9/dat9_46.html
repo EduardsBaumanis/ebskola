@@ -14,7 +14,7 @@
 <meta property="og:title" content="4.6 Noslēguma projekts: Spēles dzinēja prototips">
 <meta property="og:description" content="Patstāvīgi apvienot iepriekšējās stundās izstrādātās komponentes vienotā, funkcionējošā prototipā, veikt koda atkļūdošanu (debugging) un optimizāciju sadarbībā ">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/datorika9/dat9_46.html">
-<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4.6 Noslēguma projekts: Spēles dzinēja prototips">
 <meta name="twitter:description" content="Patstāvīgi apvienot iepriekšējās stundās izstrādātās komponentes vienotā, funkcionējošā prototipā, veikt koda atkļūdošanu (debugging) un optimizāciju sadarbībā ">
@@ -50,39 +50,88 @@
 
 <section class='section'>
     <h1>4.6 Noslēguma projekts: Spēles dzinēja prototips</h1>
-    <p><b>Tavs mērķis:</b> Patstāvīgi apvienot iepriekšējās stundās izstrādātās komponentes vienotā, funkcionējošā prototipā, veikt koda atkļūdošanu (debugging) un optimizāciju sadarbībā ar klasesbiedriem.</p>
-    <a href="../sasnRez.html">2.6.1. Veic programmas atkļūdošanu (debugging); 1.3.4. Novērtē programmas darbības rezultātu un atbilstību mērķim; 5.2.4. Sadarbojas, sniedzot un saņemot atgriezenisko saiti.</a>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Apvienot 4. tēmā apgūtās funkcijas, notikumus, DOM manipulāciju, taimerus un sadursmes vienā pārbaudāmā spēles dzinēja prototipā.</p>
+    <div class="lesson-meta">
+        <a href="../sasnRez.html">SR 2.6.1. Programmas strukturēšana un algoritmi</a>
+        <a href="../sasnRez.html">SR 1.3.4. Risinājuma izvērtēšana</a>
+        <a href="../sasnRez.html">SR 1.4.2. Testēšana un pilnveide</a>
+        <a href="../sasnRez.html">SR 5.2.4. Sadarbība</a>
+    </div>
 </section>
 
 <section class='section'>
-    <h2>Darba uzdevuma gaita</h2>
-    
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Teorija: spēles dzinējs ir sakārtots cikls</h2>
+    <p>Šajā prototipā nav jāievieš jauna spēles mehānika. Mērķis ir savienot jau apgūto: starta funkciju, notikumu klausītājus, elementu pārvietošanu, laika kontroli un sadursmju pārbaudi. Ja katra daļa ir atsevišķā funkcijā, kļūdas var atrast ātrāk.</p>
+    <div class="code-example">
+<pre><code class="language-javascript">function saktSpeli() {
+  punkti = 0;
+  speleAktiva = true;
+  taimeris = setInterval(atjaunotSpeli, 100);
+}
+
+function beigtSpeli() {
+  speleAktiva = false;
+  clearInterval(taimeris);
+}</code></pre>
+        <div class="result">Šeit izmantots tikai iepriekš apgūtais: funkcijas, mainīgie, taimeris un spēles stāvoklis.</div>
+    </div>
+    <div class="info-box">
+        <p><b>70 min plāns:</b> integrācija ~25 min, koda sakārtošana ~20 min, pāru testēšana un kļūdu labošana ~25 min.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>1. uzdevums: Pilna cikla integrācija</h2>
     <div class='logic-box'>
-        <h3>1. solis: Pilna cikla integrācija</h3>
         <ol>
             <li>Izveido vienotu funkciju <code>saktSpeli()</code>, kas iestata spēles sākuma vērtības (piemēram, punkti = 0, laiks = 30).</li>
             <li>Piesaisti šo funkciju HTML pogai "Sākt spēli", izmantojot <code>onclick</code> notikumu.</li>
             <li>Nodrošini, ka spēles beigās (kad laiks beidzas vai notiek sadursme) visi procesi tiek apstādināti, izmantojot <code>clearInterval()</code> vai apturot animācijas ciklu.</li>
         </ol>
     </div>
+</section>
 
+<section class='section'>
+    <h2>2. uzdevums: Koda sakārtošana un tīrība</h2>
     <div class='logic-box'>
-        <h3>2. solis: Koda sakārtošana un tīrība ("Clean Code")</h3>
         <ol>
             <li>Pārskati savu kodu un pievieno skaidrojošus komentārus (<code>//</code>) pie visām galvenajām funkcijām un cikliem, īsi aprakstot to uzdevumu.</li>
             <li>Pārliecinies, ka visi mainīgo nosaukumi ir jēgpilni un saprotami (piemēram, mainīgo <code>p</code> pārsauc par <code>punkti</code>).</li>
             <li>Izdzēs vai aizkomentē visus <code>console.log()</code> izsaukumus, kas tika izmantoti izstrādes gaitā un vairs nav nepieciešami gatavajā spēlē.</li>
         </ol>
     </div>
+</section>
 
+<section class='section'>
+    <h2>3. uzdevums: Kļūdu medības un pāru testēšana</h2>
     <div class='logic-box'>
-        <h3>3. solis: Kļūdu medības un "Pīļu testēšana"</h3>
         <ol>
             <li>Apmainies ar blakussēdētāju ar izstrādāto spēles prototipu (izmantojot GitHub saiti vai apmainoties vietām pie datoriem).</li>
             <li>Mēģini mērķtiecīgi "salauzt" klasesbiedra spēli, veicot neparedzētas darbības (ātri klikšķinot pogas, spiežot vairākus taustiņus reizē).</li>
             <li>Ja atrodi kļūdu (bug), izmanto pārlūka <b>Console</b>, lai atrastu kļūdaino koda rindu, izskaidro to autoram un kopīgi novērsiet atrastās loģikas kļūdas savos projektos.</li>
         </ol>
     </div>
+</section>
+
+<section class='section'>
+    <h2>Papildus uzdevums: pauzes režīms</h2>
+    <p>Pievieno taustiņu vai pogu, kas pārslēdz spēles stāvokli starp <code>speleAktiva = true</code> un <code>false</code>. Šo uzdevumu veic tikai pēc stabila start/stop cikla.</p>
+</section>
+
+<section class='section'>
+    <h2>Biežākās kļūdas (un kā tās labot)</h2>
+    <ul>
+        <li><b>Spēle paātrinās pēc vairākiem startiem:</b> pirms jauna <code>setInterval()</code> izsaukuma apturi veco taimeri.</li>
+        <li><b>Game Over neaptur kustību:</b> pārbaudi, vai visas kustības funkcijas respektē mainīgo <code>speleAktiva</code>.</li>
+        <li><b>Sadursme nostrādā par agru:</b> pārbaudi objektu platumu, augstumu un pozīcijas vērtības.</li>
+        <li><b>Klasesbiedrs nevar palaist spēli:</b> pārbaudi failu ceļus un to, vai visi faili ir nosūtīti uz GitHub.</li>
+    </ul>
 </section>
 
 <section class='section'>

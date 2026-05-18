@@ -14,7 +14,7 @@
 <meta property="og:title" content="3.4 Custom GDExtension klases editor redzamas">
 <meta property="og:description" content="Padarīt savu C++ klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_3/prog2_34.html">
-<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/favicon.svg">
+<meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3.4 Custom GDExtension klases editor redzamas">
 <meta name="twitter:description" content="Padarīt savu C++ klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).">
@@ -64,6 +64,12 @@
 </section>
 
 <section class='section'>
+    <div class="info-box">
+        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+    </div>
+</section>
+
+<section class='section'>
     <h2>Teorija: GDCLASS un property exposing</h2>
     <div class='logic-box'>
 <p>Lai C++ klase parādītos Godot editor un tās laukus varētu rediģēt Inspector, jāizmanto GDCLASS makro un jāreģistrē properties.</p>
@@ -96,8 +102,59 @@ public:
     </div>
 </section>
 
+
 <section class='section'>
-    <h2>1. uzdevums: Inspector redzami lauki</h2>
+    <h2>Teorijas paplašinājums: C++ fokuss</h2>
+    <div class='logic-box'>
+        <p><b>Kritiskais fokuss:</b> šajā stundā nepietiek tikai panākt redzamu efektu editorā. Jāspēj paskaidrot, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra šo kodu izmanto.</p>
+        <p><b>Pārbaudes pierādījums:</b> katrai būtiskai spēles lomai ir C++ klase ar header/implementation dalījumu, konstruktoriem, metodēm, signāliem vai mantošanu.</p>
+<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+
+using namespace godot;
+
+struct OopCheckpoint {
+    String lesson = "3.4 Custom GDExtension klases editor redzamas";
+    bool uses_cpp = true;
+    bool has_header_file = true;
+    bool has_single_responsibility = true;
+    bool uses_godot_registration = true;
+};</code></pre>
+    </div>
+</section>
+
+<section class='section'>
+    <h2>Konsolidētais praktiskais uzdevums (15+ soļi)</h2>
+
+    <div class="info-box">
+        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
+    </div>
+    <p>Izpildi šo darba plānu, lai <b>3.4 Custom GDExtension klases editor redzamas</b> rezultāts būtu pārbaudāms C++ GDExtension projektā.</p>
+    <div class='logic-box'>
+        <h3>Izpildes soļi:</h3>
+        <ol>
+            <li>Atver projektu un izveido Git branch šīs stundas OOP darbam.</li>
+            <li>Apraksti vienā teikumā, kādu spēles lomu modelē jaunā C++ klase.</li>
+            <li>Izveido <code>.hpp</code> failu ar klases deklarāciju un privātajiem datiem.</li>
+            <li>Izveido <code>.cpp</code> failu ar konstruktoru un metožu implementāciju.</li>
+            <li>Pārliecinies, ka katrai klasei ir viena skaidra atbildība.</li>
+            <li>Ja klase ir Godot node, pievieno <code>GDCLASS</code> makro un <code>_bind_methods()</code>.</li>
+            <li>Ja klase ir parasta C++ palīgklase, atstāj to neatkarīgu no Scene Tree.</li>
+            <li>Pievieno konstruktoru, kas objektu atstāj derīgā sākumstāvoklī.</li>
+            <li>Pievieno vismaz vienu metodi, kas maina objekta stāvokli kontrolētā veidā.</li>
+            <li>Pievieno vismaz vienu <code>const</code> metodi, kas tikai nolasa stāvokli.</li>
+            <li>Ja lieto mantošanu, pārbaudi, ka bāzes klase satur kopīgo uzvedību, nevis konkrētas detaļas.</li>
+            <li>Ja lieto signālus, deklarē tos <code>_bind_methods()</code> un pieslēdz ar <code>Callable</code>.</li>
+            <li>Reģistrē Godot redzamās klases <code>register_types.cpp</code> failā.</li>
+            <li>Pievieno īsu C++ izvadi vai UI pārbaudi, kas pierāda, ka metode tiek izsaukta.</li>
+            <li>Pārkompilē projektu un izlabo visas kompilatora kļūdas pirms Godot testēšanas.</li>
+            <li>Godot editorā pārbaudi, vai pielāgotā klase vai tās īpašības parādās pareizajā vietā.</li>
+            <li>README pieraksti, kāpēc izvēlējies kompozīciju, mantošanu vai signālus.</li>
+            <li>Veic commit ar ziņu, kas nosauc izveidoto klasi vai OOP principu.</li>
+        </ol>
+    </div>
+</section>
+<section class='section'>
+    <h2>Aktivitāte 1: Inspector redzami lauki</h2>
     <p>Padari Hero atribūtus rediģējamus.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -111,7 +168,7 @@ public:
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Property hints</h2>
+    <h2>Aktivitāte 2: Property hints</h2>
     <p>Padari saskarni jaukāku.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -124,7 +181,7 @@ public:
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Export grupās</h2>
+    <h2>Aktivitāte 3: Export grupās</h2>
     <p>Organizē Inspector laukus.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
@@ -137,7 +194,7 @@ public:
 </section>
 
 <section class='section'>
-    <h2>Papildus uzdevums: Custom resource types</h2>
+    <h2>Papildu izaicinājums: Custom resource types</h2>
     <p>Izveido pielāgotu Resource klasi.</p>
     <div class='logic-box'>
         <h3>Izpildes soļi:</h3>
