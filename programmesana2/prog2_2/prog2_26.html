@@ -78,7 +78,7 @@
 <ul>
 <li>3 līmeņi ar augošu sarežģītību.</li>
 <li>Spēlētājs ar gravitāciju, jump, variable height un coyote time.</li>
-<li>Savācamas monētas, dārgakmeņi un atslēgas.</li>
+<li>Savācami punktu žetoni, uzlīmes un finiša kartītes.</li>
 <li>Ienaidnieki, kas pārvietojas patrol ceļā.</li>
 <li>Finiša bandieris katrā līmenī — pārejas uz nākamo.</li>
 <li>HUD ar HP, score, atlikušo laiku.</li>
@@ -113,92 +113,75 @@ struct PhysicsCheckpoint {
 </section>
 
 <section class='section'>
-    <h2>Konsolidētais praktiskais uzdevums (15+ soļi)</h2>
-
-    <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
-    </div>
-    <p>Izpildi šo darba plānu, lai <b>2.6 Noslēguma projekts: Platformas spēle</b> rezultāts būtu pārbaudāms C++ GDExtension projektā.</p>
+    <h2>Praktiskie uzdevumi pēc Blūma taksonomijas</h2>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Atver esošo Godot projektu un izveido jaunu Git branch šīs stundas darbam.</li>
-            <li>Pārbaudi, ka spēles loģika tiek rakstīta C++ GDExtension klasē.</li>
-            <li>Pieraksti, kurš node tips šajā stundā ir galvenais: <code>Node2D</code>, <code>CharacterBody2D</code>, <code>Area2D</code> vai <code>RigidBody2D</code>.</li>
-            <li>Izveido vai atjaunini atbilstošu <code>.hpp</code> failu ar klases deklarāciju.</li>
-            <li>Izveido vai atjaunini atbilstošu <code>.cpp</code> failu ar metožu implementāciju.</li>
-            <li>Pievieno nepieciešamos <code>#include</code> failus no <code>godot_cpp</code>.</li>
-            <li>Pievieno <code>GDCLASS</code> un tukšu vai vajadzīgu <code>_bind_methods()</code> metodi.</li>
-            <li>Reģistrē klasi <code>register_types.cpp</code> ar <code>ClassDB::register_class</code>.</li>
-            <li>Kustībai lieto <code>_physics_process(double delta)</code>, nevis tikai manuālu pozīcijas maiņu editorā.</li>
-            <li>Ja maini pozīciju, reizinājumā iekļauj <code>delta</code>, lai ātrums nebūtu atkarīgs no FPS.</li>
-            <li>Ja objekts saduras ar vidi, izvēlies <code>move_and_slide()</code> vai <code>move_and_collide()</code> un pamato izvēli.</li>
-            <li>Iestati CollisionShape2D izmēru tā, lai tas sakristu ar redzamo objektu.</li>
-            <li>Pārbaudi collision layer/mask, lai objekts reaģē tikai uz vajadzīgajiem slāņiem.</li>
-            <li>Pievieno īsu <code>UtilityFunctions::print</code> pārbaudi, kas parāda svarīgu stāvokli spēles laikā.</li>
-            <li>Pārkompilē ar SCons un pārliecinies, ka Godot ielādē jauno bibliotēku bez kļūdām.</li>
-            <li>Testē vienu normālu gadījumu un vienu robežgadījumu, piemēram, ekrāna malu vai platformas malu.</li>
-            <li>README pieraksti, kāda fizikas vai sadursmju problēma tika atrisināta.</li>
-            <li>Veic commit ar skaidru ziņu par šīs stundas mehāniku.</li>
+        <h3>1. uzdevums — Saprast</h3>
+        <p>Atpazīsti šīs stundas galveno ideju un sasaisti to ar gala projektu <b>Platformas spēle</b>.</p>
+        <ol class="step-list">
+            <li>Izlasi stundas izaicinājumu un ar vienu teikumu pieraksti, ko šodien mācīsies par tēmas projektu <b>Platformas spēle</b>.</li>
+            <li>Atrodi teorijas sadaļā vienu piemēru, kas izmanto Godot 4 un C++ GDExtension, un pieraksti trīs svarīgākās darbības.</li>
+            <li>Pieraksti, kurā gala projekta daļā šī prasme būs vajadzīga: sākuma ekrānā, spēles laukumā, datos, vadībā, rezultātā vai publicēšanā.</li>
+            <li>Izveido nelielu izmēģinājuma fragmentu <code>.hpp</code>, <code>.cpp</code> vai Godot scēnas failā, nevis uzreiz lielu funkciju.</li>
+            <li>Izmanto tikai šajā stundā un iepriekšējās Programmēšana II stundās apgūto; ja ideja prasa jaunu rīku, pagaidām pieraksti to kā komentāru.</li>
+            <li>Nomaini piemēra mainīgos uz klases situācijām, piemēram, <code>klases_punkti</code>, <code>zvana_taimeris</code>, <code>pazudusais_markieris</code> vai <code>kafijas_pauze</code>; mazliet humora drīkst, bet kodam jāpaliek skaidram.</li>
+            <li>Pievieno vienu komentāru, kas paskaidro, kāpēc šī darbība nepieciešama gala spēles projektam.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā, lai redzētu, vai minimālais piemērs darbojas.</li>
+            <li>Nomaini vienu ievades vērtību vai tekstu un pārbaudi, vai rezultāts mainās paredzami.</li>
+            <li>Pieraksti vienu secinājumu: kas šajā stundā ir jaunais jēdziens un kā tas palīdzēs gala spēlei.</li>
         </ol>
     </div>
-</section>
-<section class='section'>
-    <h2>Aktivitāte 1: Player un Level (1. līmenis)</h2>
-    <p>Pamata struktūra.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pārkopē Player klasi no 2.5 stundas.</li>
-            <li>Izveido 3 Level scēnas: Level1.tscn, Level2.tscn, Level3.tscn.</li>
-            <li>Katrā: TileMap (vai StaticBody2D platformas), spēlētāja sākuma punkts (Marker2D), finiša bandieris (Area2D).</li>
-            <li>Ielādē Level1 un pārliecinies, ka spēlētājs var izstaigāt.</li>
+        <h3>2. uzdevums — Pielietot</h3>
+        <p>Izmanto šīs stundas prasmi nelielā, strādājošā projekta daļā.</p>
+        <ol class="step-list">
+            <li>Atver tēmas projekta mapi un atrodi failu vai scēnu, kurā šīs stundas prasme loģiski iederas projektā <b>Platformas spēle</b>.</li>
+            <li>Izveido rezerves kopiju ar Git commit vai pārliecinies, ka darba koks ir saprotamā stāvoklī.</li>
+            <li>Pievieno nelielu funkciju, sadaļu vai elementu <code>.hpp</code>, <code>.cpp</code> vai Godot scēnas failā, izmantojot teorijas piemēru kā sākumpunktu.</li>
+            <li>Nosauc jaunos mainīgos skaidri un ikdienišķi, piemēram, par punktiem, laiku, klases grupu, pogu vai rezultātu.</li>
+            <li>Ievieto risinājumu tur, kur tas būs lietotājam redzams vai spēles loģikai izmantojams, nevis atsevišķā nesavienotā failā.</li>
+            <li>Pārbaudi, ka risinājums netraucē iepriekšējām stundām izveidoto funkcionalitāti.</li>
+            <li>Pievieno vienu lietotājam saprotamu tekstu vai izvadi, kas parāda, ka jaunā daļa strādā.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā.</li>
+            <li>Salabo pirmo kļūdu, kuru pamani, pirms pievieno nākamo uzlabojumu.</li>
+            <li>Veic Git commit ar īsu tehnisku ziņu, kurā minēts, kā šī prasme tika pielietota gala projektā.</li>
         </ol>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Aktivitāte 2: Pickups un punkti (2. līmenis)</h2>
-    <p>Savācamie objekti.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Izveido Coin, Gem, Key scēnas (no 2.4 stundas pieredzes).</li>
-            <li>Game klase glabā <code>int score</code> un <code>bool has_key</code>.</li>
-            <li>HUD: pievieno Label nodes, atjaunini caur <code>get_tree()-&gt;call_group("hud", "refresh", score)</code>.</li>
-            <li>Finiša bandieris atveras tikai, ja has_key==true.</li>
-            <li>Pārliecinies, ka score saglabājas, pārejot uz nākamo līmeni.</li>
+        <h3>3. uzdevums — Analizēt</h3>
+        <p>Pārbaudi risinājumu, salīdzini rezultātus un atrodi, ko uzlabot.</p>
+        <ol class="step-list">
+            <li>Izveido trīs pārbaudes gadījumus projektam <b>Platformas spēle</b>: parasts gadījums, robežgadījums un kļūdaina vai tukša ievade.</li>
+            <li>Pirms palaišanas pieraksti, kādu rezultātu sagaidi katrā gadījumā.</li>
+            <li>Palaid pirmo testu un salīdzini faktisko rezultātu ar sagaidāmo.</li>
+            <li>Palaid otro testu ar mazāko, lielāko vai tukšāko vērtību, ko šī stunda loģiski atļauj.</li>
+            <li>Palaid trešo testu ar kļūdainu ievadi vai neērtu lietotāja darbību.</li>
+            <li>Atzīmē, vai problēma ir kodā, datos, izkārtojumā vai lietotāja instrukcijā.</li>
+            <li>Izlabo vienu atrastu problēmu, nepaplašinot darba apjomu ar jaunu, vēl neapgūtu funkciju.</li>
+            <li>Pievieno īsu komentāru vai README ierakstu par to, kā testēšana palīdzēja uzlabot gala spēli.</li>
+            <li>Pārbaudi vēlreiz pēc labojuma, lai pārliecinātos, ka labojums tiešām strādā.</li>
+            <li>Pieraksti vienu jautājumu, ko nākamajā stundā vēl vajadzētu pārbaudīt vai uzlabot.</li>
         </ol>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Aktivitāte 3: Ienaidnieki un līmeņu pāreja (3. līmenis)</h2>
-    <p>Sarežģītība un struktūra.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Enemy klase: patrol starp diviem punktiem (Marker2D references).</li>
-            <li>Sadursme ar Player: spēlētājs zaudē HP. Ja HP==0 — restart.</li>
-            <li>Game klase: <code>load_next_level()</code> pārslēdz scēnu ar <code>get_tree()-&gt;change_scene_to_file()</code>.</li>
-            <li>Pēc 3. līmeņa: parādi "Game complete!" un kopējos punktus.</li>
-            <li>GitHub: 6+ commit, README ar control schema un scene struktūru.</li>
+        <h3>Papildu uzdevums — Radīt</h3>
+        <p>Pievieno nelielu radošu uzlabojumu ar klases dzīves piemēru, nepārsniedzot apgūto vielu.</p>
+        <ol class="step-list">
+            <li>Izvēlies vienu nelielu radošu papildinājumu, kas iederas projektā <b>Platformas spēle</b> un balstās tikai uz jau apgūto.</li>
+            <li>Izvēlies klases dzīves motīvu, piemēram, zvana taimeri, pazudušu marķieri, grupu punktus vai pārāk entuziastisku prezentācijas pogu.</li>
+            <li>Uzraksti papildinājuma mērķi vienā teikumā, lai tas nekļūtu par pārāk lielu projektu.</li>
+            <li>Pievieno vienu jaunu mainīgo, tekstu, vizuālo elementu vai pārbaudes nosacījumu.</li>
+            <li>Pārliecinies, ka papildinājums neizmanto jaunu bibliotēku vai komandu, kas šajā kursā vēl nav mācīta.</li>
+            <li>Savieno papildinājumu ar jau esošo projekta daļu, nevis atstāj to kā atsevišķu demonstrāciju.</li>
+            <li>Pārbaudi, vai lietotājs saprot, kas jādara, bez garas instrukcijas ekrānā.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā un pārliecinies, vai pamata funkcija joprojām darbojas.</li>
+            <li>Palūdz klasesbiedram 30 sekundēs izmēģināt papildinājumu un pateikt, kas nav skaidrs.</li>
+            <li>Pieraksti, ko atstāsi kā nākamo uzlabojumu, bet šodien nepievieno, lai projekts paliek stabils.</li>
         </ol>
     </div>
 </section>
 
-<section class='section'>
-    <h2>Papildu izaicinājums: Bonus: Power-ups un saglabāšana</h2>
-    <p>Pievieno spēles pastāvību.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Mushroom power-up: spēlētājs kļūst lielāks (Scale 1.5x), HP+50.</li>
-            <li>Saglabā augstāko score JSON failā (5. tēmā apgūsim).</li>
-            <li>Pievieno checkpoint sistēmu līmeņos.</li>
-        </ol>
-    </div>
-</section>
+
+
 
 <section class='section'>
     <h2>Biežākās kļūdas</h2>
@@ -215,8 +198,8 @@ struct PhysicsCheckpoint {
     <h2>Godot ekrānuzņēmumi</h2>
     <div class='logic-box'>
         <figure class="screenshot">
-            <img src="../img/topic2_level1.png" alt="Platformer Level 1: spēlētājs uz platformas, monētas un ienaidnieks redzami, atslēga un finiša bandieris fonā." loading="lazy">
-            <figcaption>Platformer Level 1: spēlētājs uz platformas, monētas un ienaidnieks redzami, atslēga un finiša bandieris fonā.</figcaption>
+            <img src="../img/topic2_level1.png" alt="Platformer Level 1: spēlētājs uz platformas, punktu žetoni un šķērslis redzami, finiša kartīte un finiša karodziņš fonā." loading="lazy">
+            <figcaption>Platformer Level 1: spēlētājs uz platformas, punktu žetoni un šķērslis redzami, finiša kartīte un finiša karodziņš fonā.</figcaption>
         </figure>
         <figure class="screenshot">
             <img src="../img/topic2_game_complete.png" alt="Game complete ekrāns ar kopējo score, restart un quit pogām." loading="lazy">

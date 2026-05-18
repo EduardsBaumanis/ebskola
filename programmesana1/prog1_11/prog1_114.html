@@ -41,7 +41,7 @@
   <a href="prog1_113.html">11.3 Metodes un self</a>
   <a class="active" href="prog1_114.html">11.4 Mantošana un super()</a>
   <a href="prog1_115.html">11.5 Polimorfisms un dunder metodes</a>
-  <a href="prog1_116.html">11.6 Noslēguma projekts: RPG cīņas spēle</a>
+  <a href="prog1_116.html">11.6 Noslēguma projekts: Klases turnīra simulators</a>
 </aside>
 
 <nav class='galvenaisdiv'>
@@ -70,102 +70,113 @@
     <h2>Teorija: Mantošana — kods atkārtoti lietojams</h2>
     <div class='logic-box'>
 <p>Mantošana ļauj izveidot specializētas klases no vispārējām. Vecāku klase satur kopīgo loģiku, bērna klase pievieno specifisko.</p>
-<pre><code class="language-python">class Varonis:
-    def __init__(self, vards, hp=100, speks=10):
+<pre><code class="language-python">class Dalibnieks:
+    def __init__(self, vards, energija=100, temps=10):
         self.vards = vards
-        self.hp = hp
-        self.speks = speks
+        self.energija = energija
+        self.temps = temps
 
-    def uzbrukums(self, merkis):
-        merkis.hp -= self.speks
+    def gajiens(self, merkis):
+        merkis.energija -= self.temps
 
-class Burvis(Varonis):
-    def __init__(self, vards, mana=50):
+class Prezentetajs(Dalibnieks):
+    def __init__(self, vards, idejas=50):
         # Izsauc vecāku konstruktoru
-        super().__init__(vards, hp=80, speks=5)
-        self.mana = mana  # papildu atribūts
+        super().__init__(vards, energija=80, temps=5)
+        self.idejas = idejas  # papildu atribūts
 
-    def burvojums(self, merkis):
-        if self.mana &gt;= 10:
-            self.mana -= 10
-            merkis.hp -= 25
-            print(f"{self.vards} izšauj uguni! ({merkis.vards} -25)")
+    def prezentacija(self, merkis):
+        if self.idejas &gt;= 10:
+            self.idejas -= 10
+            merkis.energija -= 25
+            print(f"{self.vards} parāda slaidu! ({merkis.vards} -25)")
         else:
-            print("Nepietiek manas!")
+            print("Pietrūkst ideju!")
 
-class Bruninieks(Varonis):
+class Kapteinis(Dalibnieks):
     def __init__(self, vards):
-        super().__init__(vards, hp=150, speks=18)
-        self.brunas = 5
+        super().__init__(vards, energija=150, temps=18)
+        self.stabilitate = 5
 
     # Pārraksta vecāku metodi (override)
-    def cizt(self, b):
-        b = max(0, b - self.brunas)  # bruņas absorbē
-        super().cizt(b)
+    def sanem_punktus(self, b):
+        b = max(0, b - self.stabilitate)  # stabilitāte mazina punktu zudumu
+        super().sanem_punktus(b)
 
-m = Burvis("Merlins")
-b = Bruninieks("Lanselots")
-m.burvojums(b)</code></pre>
-<p><code class="language-python">isinstance(m, Varonis)</code> atgriež <code>True</code>, jo <code>Burvis</code> ir <code>Varonis</code>.</p>
+m = Prezentetajs("Jānis")
+b = Kapteinis("Anna")
+m.prezentacija(b)</code></pre>
+<p><code class="language-python">isinstance(m, Dalibnieks)</code> atgriež <code>True</code>, jo <code>Prezentetajs</code> ir <code>Dalibnieks</code>.</p>
     </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Bērna klase</h2>
-    <p>Izveido vienkāršu klases hierarhiju.</p>
+    <h2>Praktiskie uzdevumi pēc Blūma taksonomijas</h2>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Saglabā vecāku klasi <code>Varonis</code> no iepriekšējām stundām.</li>
-            <li>Izveido <code>class Bruninieks(Varonis)</code>, kas izsauc <code>super().__init__(vards, hp=150, speks=18)</code>.</li>
-            <li>Pievieno <code>self.brunas = 5</code> atribūtu.</li>
-            <li>Izveido objektu un pārbaudi, vai mantotā <code>uzbrukums()</code> metode strādā.</li>
+        <h3>1. uzdevums — Saprast</h3>
+        <p>Atpazīsti šīs stundas galveno ideju un sasaisti to ar gala projektu <b>Klases turnīra simulators</b>.</p>
+        <ol class="step-list">
+            <li>Izlasi stundas izaicinājumu un ar vienu teikumu pieraksti, ko šodien mācīsies par tēmas projektu <b>Klases turnīra simulators</b>.</li>
+            <li>Atrodi teorijas sadaļā vienu piemēru, kas izmanto Python, un pieraksti trīs svarīgākās darbības.</li>
+            <li>Pieraksti, kurā gala projekta daļā šī prasme būs vajadzīga: sākuma ekrānā, turnīra laukumā, datos, vadībā, rezultātā vai publicēšanā.</li>
+            <li>Izveido nelielu izmēģinājuma fragmentu <code>.py</code>, <code>.md</code>, <code>.html</code> vai projekta dokumentācijas failā, nevis uzreiz lielu funkciju.</li>
+            <li>Izmanto tikai šajā stundā un iepriekšējās Programmēšana I stundās apgūto; ja ideja prasa jaunu rīku, pagaidām pieraksti to kā komentāru.</li>
+            <li>Nomaini piemēra mainīgos uz klases situācijām, piemēram, <code>klases_punkti</code>, <code>zvana_taimeris</code>, <code>pazudusais_markieris</code> vai <code>kafijas_pauze</code>; mazliet humora drīkst, bet kodam jāpaliek skaidram.</li>
+            <li>Pievieno vienu komentāru, kas paskaidro, kāpēc šī darbība nepieciešama gala turnīra projektam.</li>
+            <li>Palaid programmu vai atver sagatavoto failu un pārbaudi rezultātu, lai redzētu, vai minimālais piemērs darbojas.</li>
+            <li>Nomaini vienu ievades vērtību vai tekstu un pārbaudi, vai rezultāts mainās paredzami.</li>
+            <li>Pieraksti vienu secinājumu: kas šajā stundā ir jaunais jēdziens un kā tas palīdzēs gala turnīram.</li>
+        </ol>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums — Pielietot</h3>
+        <p>Izmanto šīs stundas prasmi nelielā, strādājošā projekta daļā.</p>
+        <ol class="step-list">
+            <li>Atver tēmas projekta mapi un atrodi failu vai scēnu, kurā šīs stundas prasme loģiski iederas projektā <b>Klases turnīra simulators</b>.</li>
+            <li>Izveido rezerves kopiju ar Git commit vai pārliecinies, ka darba koks ir saprotamā stāvoklī.</li>
+            <li>Pievieno nelielu funkciju, sadaļu vai elementu <code>.py</code>, <code>.md</code>, <code>.html</code> vai projekta dokumentācijas failā, izmantojot teorijas piemēru kā sākumpunktu.</li>
+            <li>Nosauc jaunos mainīgos skaidri un ikdienišķi, piemēram, par punktiem, laiku, klases grupu, pogu vai rezultātu.</li>
+            <li>Ievieto risinājumu tur, kur tas būs lietotājam redzams vai turnīra loģikai izmantojams, nevis atsevišķā nesavienotā failā.</li>
+            <li>Pārbaudi, ka risinājums netraucē iepriekšējām stundām izveidoto funkcionalitāti.</li>
+            <li>Pievieno vienu lietotājam saprotamu tekstu vai izvadi, kas parāda, ka jaunā daļa strādā.</li>
+            <li>Palaid programmu vai atver sagatavoto failu un pārbaudi rezultātu.</li>
+            <li>Salabo pirmo kļūdu, kuru pamani, pirms pievieno nākamo uzlabojumu.</li>
+            <li>Veic Git commit ar īsu ziņu, kurā minēts, kā šī prasme tika pielietota gala projektā.</li>
+        </ol>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums — Analizēt</h3>
+        <p>Pārbaudi risinājumu, salīdzini rezultātus un atrodi, ko uzlabot.</p>
+        <ol class="step-list">
+            <li>Izveido trīs pārbaudes gadījumus projektam <b>Klases turnīra simulators</b>: parasts gadījums, robežgadījums un kļūdaina vai tukša ievade.</li>
+            <li>Pirms palaišanas pieraksti, kādu rezultātu sagaidi katrā gadījumā.</li>
+            <li>Palaid pirmo testu un salīdzini faktisko rezultātu ar sagaidāmo.</li>
+            <li>Palaid otro testu ar mazāko, lielāko vai tukšāko vērtību, ko šī stunda loģiski atļauj.</li>
+            <li>Palaid trešo testu ar kļūdainu ievadi vai neērtu lietotāja darbību.</li>
+            <li>Atzīmē, vai problēma ir kodā, datos, failu struktūrā vai lietotāja instrukcijā.</li>
+            <li>Izlabo vienu atrastu problēmu, nepaplašinot darba apjomu ar jaunu, vēl neapgūtu funkciju.</li>
+            <li>Pievieno īsu komentāru vai README ierakstu par to, kā testēšana palīdzēja uzlabot gala turnīru.</li>
+            <li>Pārbaudi vēlreiz pēc labojuma, lai pārliecinātos, ka labojums tiešām strādā.</li>
+            <li>Pieraksti vienu jautājumu, ko nākamajā stundā vēl vajadzētu pārbaudīt vai uzlabot.</li>
+        </ol>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums — Radīt</h3>
+        <p>Pievieno nelielu radošu uzlabojumu ar klases dzīves piemēru, nepārsniedzot apgūto vielu.</p>
+        <ol class="step-list">
+            <li>Izvēlies vienu nelielu radošu papildinājumu, kas iederas projektā <b>Klases turnīra simulators</b> un balstās tikai uz jau apgūto.</li>
+            <li>Izvēlies klases dzīves motīvu, piemēram, zvana taimeri, pazudušu marķieri, grupu punktus vai pārāk entuziastisku prezentācijas pogu.</li>
+            <li>Uzraksti papildinājuma mērķi vienā teikumā, lai tas nekļūtu par pārāk lielu projektu.</li>
+            <li>Pievieno vienu jaunu mainīgo, tekstu, vizuālo elementu vai pārbaudes nosacījumu.</li>
+            <li>Pārliecinies, ka papildinājums neizmanto jaunu bibliotēku vai komandu, kas šajā kursā vēl nav mācīta.</li>
+            <li>Savieno papildinājumu ar jau esošo projekta daļu, nevis atstāj to kā atsevišķu demonstrāciju.</li>
+            <li>Pārbaudi, vai lietotājs saprot, kas jādara, bez garas instrukcijas ekrānā.</li>
+            <li>Palaid programmu vai atver sagatavoto failu un pārbaudi rezultātu un pārliecinies, vai pamata funkcija joprojām darbojas.</li>
+            <li>Palūdz klasesbiedram 30 sekundēs izmēģināt papildinājumu un pateikt, kas nav skaidrs.</li>
+            <li>Pieraksti, ko atstāsi kā nākamo uzlabojumu, bet šodien nepievieno, lai projekts paliek stabils.</li>
         </ol>
     </div>
 </section>
-
-<section class='section'>
-    <h2>2. uzdevums: Metodes pārrakstīšana (override)</h2>
-    <p>Izmaina vecāku uzvedību bērnu klasē.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Klasei <code>Bruninieks</code> pievieno <code>def cizt(self, b)</code>, kas atņem <code>self.brunas</code> no bojājuma.</li>
-            <li>Izsauc vecāku metodi: <code>super().cizt(jaunais_bojajums)</code>.</li>
-            <li>Pārbaudi: ar 10 bojājumu, bruņinieks zaudē tikai 5 HP (jo bruņas 5).</li>
-            <li>Pievieno otru bērna klasi <code>Strelnieks(Varonis)</code> ar augstāku <code>speks</code>, bet zemu <code>hp</code>.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>3. uzdevums: Daudzpakāpju hierarhija</h2>
-    <p>Veido klašu koku ar 3 līmeņiem.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Izveido <code>class Burvis(Varonis)</code> ar <code>self.mana</code>.</li>
-            <li>Izveido <code>class UgunsBurvis(Burvis)</code>, kas pievieno spēju <code>uguns_lietus</code>, kas izšauj 50 bojājumu, bet patērē 25 manas.</li>
-            <li>Pārbaudi <code>isinstance(ub, Varonis)</code> un <code>isinstance(ub, Burvis)</code> — abi <code>True</code>.</li>
-            <li>Demonstrē, ka <code>UgunsBurvis</code> manto gan <code>Burvis</code>, gan <code>Varonis</code> metodes.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Papildus uzdevums: Vairākkārtēja mantošana</h2>
-    <p>Klase manto no vairākām vecāku klasēm.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Definē <code>class Lidotajs</code> ar metodi <code>lidot()</code>.</li>
-            <li>Definē <code>class Pukis(Varonis, Lidotajs)</code>.</li>
-            <li>Pārbaudi, ka pūķis var gan <code>uzbrukums()</code>, gan <code>lidot()</code>.</li>
-            <li>Izpēti MRO: <code>print(Pukis.__mro__)</code> — kā Python meklē metodes.</li>
-        </ol>
-    </div>
-</section>
-
 <section class='section'>
     <h2>Biežākās kļūdas</h2>
     <div class='logic-box'>
@@ -180,26 +191,26 @@ m.burvojums(b)</code></pre>
 <div class='section'>
     <h2>Koda piemērs</h2>
     <div class='code-example'>
-        <pre><code class="language-python">class Varonis:
-    def __init__(self, vards, hp=100, speks=10):
+        <pre><code class="language-python">class Dalibnieks:
+    def __init__(self, vards, energija=100, temps=10):
         self.vards = vards
-        self.hp = hp
-        self.speks = speks
+        self.energija = energija
+        self.temps = temps
 
-class Bruninieks(Varonis):
+class Kapteinis(Dalibnieks):
     def __init__(self, vards):
-        super().__init__(vards, hp=150, speks=18)
-        self.brunas = 5
+        super().__init__(vards, energija=150, temps=18)
+        self.stabilitate = 5
 
-    def cizt(self, b):
-        b = max(0, b - self.brunas)
-        self.hp = max(0, self.hp - b)
-        print(f"{self.vards} bruņas absorbēja, atlikušais {self.hp} HP")
+    def sanem_punktus(self, b):
+        b = max(0, b - self.stabilitate)
+        self.energija = max(0, self.energija - b)
+        print(f"{self.vards} stabilitāte mazināja punktu zudumu; atlikusī enerģija {self.energija}")
 
-bruno = Bruninieks("Lanselots")
-bruno.cizt(20)  # bruņas absorbē 5 → faktiski 15 bojājuma
-print(f"isinstance(bruno, Varonis) = {isinstance(bruno, Varonis)}")</code></pre>
-        <div class='result'>Lanselots bruņas absorbēja, atlikušais 135 HP<br>isinstance(bruno, Varonis) = True</div>
+anna = Kapteinis("Anna")
+anna.sanem_punktus(20)  # stabilitāte samazina zudumu par 5 punktiem
+print(f"isinstance(anna, Dalibnieks) = {isinstance(anna, Dalibnieks)}")</code></pre>
+        <div class='result'>Anna stabilitāte mazināja punktu zudumu; atlikusī enerģija 135<br>isinstance(anna, Dalibnieks) = True</div>
     </div>
 </div>
 

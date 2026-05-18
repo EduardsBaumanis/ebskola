@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>11.1 Klases un objekti — ebSkola</title>
-<meta name="description" content="Saprast klases un objektus Python valodā, salīdzināt tos ar vārdnīcām un izveidot pirmo spēles objektu modeli.">
+<meta name="description" content="Saprast klases un objektus Python valodā, salīdzināt tos ar vārdnīcām un izveidot pirmo turnīra objektu modeli.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_11/prog1_111.html">
@@ -12,17 +12,17 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="11.1 Klases un objekti">
-<meta property="og:description" content="Saprast klases un objektus Python valodā, salīdzināt tos ar vārdnīcām un izveidot pirmo spēles objektu modeli.">
+<meta property="og:description" content="Saprast klases un objektus Python valodā, salīdzināt tos ar vārdnīcām un izveidot pirmo turnīra objektu modeli.">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_11/prog1_111.html">
 <meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="11.1 Klases un objekti">
-<meta name="twitter:description" content="Saprast klases un objektus Python valodā, salīdzināt tos ar vārdnīcām un izveidot pirmo spēles objektu modeli.">
+<meta name="twitter:description" content="Saprast klases un objektus Python valodā, salīdzināt tos ar vārdnīcām un izveidot pirmo turnīra objektu modeli.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org","@type": "LearningResource","name": "11.1 Klases un objekti","description": "Saprast klases un objektus Python valodā, salīdzināt tos ar vārdnīcām un izveidot pirmo spēles objektu modeli.","inLanguage": "lv","url": "https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_11/prog1_111.html","isPartOf": {"@type": "Course","name": "ebSkola — programmesana1","url": "https://eduardsbaumanis.github.io/ebskola/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "11.1 Klases un objekti","description": "Saprast klases un objektus Python valodā, salīdzināt tos ar vārdnīcām un izveidot pirmo turnīra objektu modeli.","inLanguage": "lv","url": "https://eduardsbaumanis.github.io/ebskola/programmesana1/prog1_11/prog1_111.html","isPartOf": {"@type": "Course","name": "ebSkola — programmesana1","url": "https://eduardsbaumanis.github.io/ebskola/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -41,7 +41,7 @@
   <a href="prog1_113.html">11.3 Metodes un self</a>
   <a href="prog1_114.html">11.4 Mantošana un super()</a>
   <a href="prog1_115.html">11.5 Polimorfisms un dunder metodes</a>
-  <a href="prog1_116.html">11.6 Noslēguma projekts: RPG cīņas spēle</a>
+  <a href="prog1_116.html">11.6 Noslēguma projekts: Klases turnīra simulators</a>
 </aside>
 
 <nav class='galvenaisdiv'>
@@ -70,88 +70,98 @@
     <h2>Teorija: Klase = veidne, objekts = eksemplārs</h2>
     <div class='logic-box'>
 <p><b>Klase</b> ir veidne (kā cepuma forma), no kuras var izveidot daudzus objektus (cepumus). Katrs objekts ir patstāvīgs un var saturēt dažādas vērtības, bet visiem ir vienāda struktūra un metodes.</p>
-<pre><code class="language-python">class Suns:
-    """Suņa klase."""
+<pre><code class="language-python">class KlasesKomanda:
+    """Klases komandas veidne."""
     pass  # tukša klase — tikai pamatstruktūra
 
 # Objektu izveide
-rex = Suns()
-mufa = Suns()
+komanda_a = KlasesKomanda()
+komanda_b = KlasesKomanda()
 
-print(type(rex))  # &lt;class '__main__.Suns'&gt;
-print(rex is mufa)  # False — divi atšķirīgi objekti</code></pre>
+print(type(komanda_a))  # &lt;class '__main__.Suns'&gt;
+print(komanda_a is komanda_b)  # False — divi atšķirīgi objekti</code></pre>
 <p>Kāpēc izvēlēties klasi pār vārdnīcu? Klases nodrošina:</p>
 <ul>
 <li><b>Tipa drošību</b> — IDE saprot, kādi atribūti un metodes ir pieejami.</li>
 <li><b>Uzvedību</b> — metodes, kas darbojas ar objekta datiem.</li>
-<li><b>Mantošanu</b> — viegli izveidot specializētas klases (Suns → Bulteriers).</li>
+<li><b>Mantošanu</b> — viegli izveidot specializētas klases (KlasesKomanda → PrezentacijasKomanda).</li>
 </ul>
     </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Pirmā klase</h2>
-    <p>Definē tukšu klasi un izveido tās objektus.</p>
+    <h2>Praktiskie uzdevumi pēc Blūma taksonomijas</h2>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Izveido failu <code>klases.py</code>.</li>
-            <li>Definē klasi <code>Speletajs</code> ar <code>pass</code> ķermenī.</li>
-            <li>Izveido divus objektus: <code>p1 = Speletajs()</code> un <code>p2 = Speletajs()</code>.</li>
-            <li>Pievieno atribūtus: <code>p1.vards = "Anna"</code>, <code>p1.hp = 100</code>.</li>
-            <li>Izvada datus un saproti, ka objekti ir patstāvīgi.</li>
+        <h3>1. uzdevums — Saprast</h3>
+        <p>Atpazīsti šīs stundas galveno ideju un sasaisti to ar gala projektu <b>Klases turnīra simulators</b>.</p>
+        <ol class="step-list">
+            <li>Izlasi stundas izaicinājumu un ar vienu teikumu pieraksti, ko šodien mācīsies par tēmas projektu <b>Klases turnīra simulators</b>.</li>
+            <li>Atrodi teorijas sadaļā vienu piemēru, kas izmanto Python, un pieraksti trīs svarīgākās darbības.</li>
+            <li>Pieraksti, kurā gala projekta daļā šī prasme būs vajadzīga: sākuma ekrānā, turnīra laukumā, datos, vadībā, rezultātā vai publicēšanā.</li>
+            <li>Izveido nelielu izmēģinājuma fragmentu <code>.py</code>, <code>.md</code>, <code>.html</code> vai projekta dokumentācijas failā, nevis uzreiz lielu funkciju.</li>
+            <li>Izmanto tikai šajā stundā un iepriekšējās Programmēšana I stundās apgūto; ja ideja prasa jaunu rīku, pagaidām pieraksti to kā komentāru.</li>
+            <li>Nomaini piemēra mainīgos uz klases situācijām, piemēram, <code>klases_punkti</code>, <code>zvana_taimeris</code>, <code>pazudusais_markieris</code> vai <code>kafijas_pauze</code>; mazliet humora drīkst, bet kodam jāpaliek skaidram.</li>
+            <li>Pievieno vienu komentāru, kas paskaidro, kāpēc šī darbība nepieciešama gala turnīra projektam.</li>
+            <li>Palaid programmu vai atver sagatavoto failu un pārbaudi rezultātu, lai redzētu, vai minimālais piemērs darbojas.</li>
+            <li>Nomaini vienu ievades vērtību vai tekstu un pārbaudi, vai rezultāts mainās paredzami.</li>
+            <li>Pieraksti vienu secinājumu: kas šajā stundā ir jaunais jēdziens un kā tas palīdzēs gala turnīram.</li>
+        </ol>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums — Pielietot</h3>
+        <p>Izmanto šīs stundas prasmi nelielā, strādājošā projekta daļā.</p>
+        <ol class="step-list">
+            <li>Atver tēmas projekta mapi un atrodi failu vai scēnu, kurā šīs stundas prasme loģiski iederas projektā <b>Klases turnīra simulators</b>.</li>
+            <li>Izveido rezerves kopiju ar Git commit vai pārliecinies, ka darba koks ir saprotamā stāvoklī.</li>
+            <li>Pievieno nelielu funkciju, sadaļu vai elementu <code>.py</code>, <code>.md</code>, <code>.html</code> vai projekta dokumentācijas failā, izmantojot teorijas piemēru kā sākumpunktu.</li>
+            <li>Nosauc jaunos mainīgos skaidri un ikdienišķi, piemēram, par punktiem, laiku, klases grupu, pogu vai rezultātu.</li>
+            <li>Ievieto risinājumu tur, kur tas būs lietotājam redzams vai turnīra loģikai izmantojams, nevis atsevišķā nesavienotā failā.</li>
+            <li>Pārbaudi, ka risinājums netraucē iepriekšējām stundām izveidoto funkcionalitāti.</li>
+            <li>Pievieno vienu lietotājam saprotamu tekstu vai izvadi, kas parāda, ka jaunā daļa strādā.</li>
+            <li>Palaid programmu vai atver sagatavoto failu un pārbaudi rezultātu.</li>
+            <li>Salabo pirmo kļūdu, kuru pamani, pirms pievieno nākamo uzlabojumu.</li>
+            <li>Veic Git commit ar īsu ziņu, kurā minēts, kā šī prasme tika pielietota gala projektā.</li>
+        </ol>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums — Analizēt</h3>
+        <p>Pārbaudi risinājumu, salīdzini rezultātus un atrodi, ko uzlabot.</p>
+        <ol class="step-list">
+            <li>Izveido trīs pārbaudes gadījumus projektam <b>Klases turnīra simulators</b>: parasts gadījums, robežgadījums un kļūdaina vai tukša ievade.</li>
+            <li>Pirms palaišanas pieraksti, kādu rezultātu sagaidi katrā gadījumā.</li>
+            <li>Palaid pirmo testu un salīdzini faktisko rezultātu ar sagaidāmo.</li>
+            <li>Palaid otro testu ar mazāko, lielāko vai tukšāko vērtību, ko šī stunda loģiski atļauj.</li>
+            <li>Palaid trešo testu ar kļūdainu ievadi vai neērtu lietotāja darbību.</li>
+            <li>Atzīmē, vai problēma ir kodā, datos, failu struktūrā vai lietotāja instrukcijā.</li>
+            <li>Izlabo vienu atrastu problēmu, nepaplašinot darba apjomu ar jaunu, vēl neapgūtu funkciju.</li>
+            <li>Pievieno īsu komentāru vai README ierakstu par to, kā testēšana palīdzēja uzlabot gala turnīru.</li>
+            <li>Pārbaudi vēlreiz pēc labojuma, lai pārliecinātos, ka labojums tiešām strādā.</li>
+            <li>Pieraksti vienu jautājumu, ko nākamajā stundā vēl vajadzētu pārbaudīt vai uzlabot.</li>
+        </ol>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums — Radīt</h3>
+        <p>Pievieno nelielu radošu uzlabojumu ar klases dzīves piemēru, nepārsniedzot apgūto vielu.</p>
+        <ol class="step-list">
+            <li>Izvēlies vienu nelielu radošu papildinājumu, kas iederas projektā <b>Klases turnīra simulators</b> un balstās tikai uz jau apgūto.</li>
+            <li>Izvēlies klases dzīves motīvu, piemēram, zvana taimeri, pazudušu marķieri, grupu punktus vai pārāk entuziastisku prezentācijas pogu.</li>
+            <li>Uzraksti papildinājuma mērķi vienā teikumā, lai tas nekļūtu par pārāk lielu projektu.</li>
+            <li>Pievieno vienu jaunu mainīgo, tekstu, vizuālo elementu vai pārbaudes nosacījumu.</li>
+            <li>Pārliecinies, ka papildinājums neizmanto jaunu bibliotēku vai komandu, kas šajā kursā vēl nav mācīta.</li>
+            <li>Savieno papildinājumu ar jau esošo projekta daļu, nevis atstāj to kā atsevišķu demonstrāciju.</li>
+            <li>Pārbaudi, vai lietotājs saprot, kas jādara, bez garas instrukcijas ekrānā.</li>
+            <li>Palaid programmu vai atver sagatavoto failu un pārbaudi rezultātu un pārliecinies, vai pamata funkcija joprojām darbojas.</li>
+            <li>Palūdz klasesbiedram 30 sekundēs izmēģināt papildinājumu un pateikt, kas nav skaidrs.</li>
+            <li>Pieraksti, ko atstāsi kā nākamo uzlabojumu, bet šodien nepievieno, lai projekts paliek stabils.</li>
         </ol>
     </div>
 </section>
-
-<section class='section'>
-    <h2>2. uzdevums: Klase ar atribūtiem</h2>
-    <p>Pievieno klases atribūtus, kas kopīgi visiem objektiem.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Klasē <code>Speletajs</code> pievieno klases līmenī: <code>maks_hp = 100</code> un <code>komanda = "sarkanā"</code>.</li>
-            <li>Izveido 3 objektus, izvada katra <code>komanda</code> — visiem vienāds.</li>
-            <li>Mainīt klases atribūtu: <code>Speletajs.maks_hp = 200</code>.</li>
-            <li>Pārbaudi, vai izmaiņa ietekmē visus objektus (jā, ja viņiem nav sava <code>maks_hp</code>).</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>3. uzdevums: Klase pret vārdnīcu</h2>
-    <p>Salīdzini klašu un vārdnīcu pieeju.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Izveido funkciju <code>izveidot_speletaju_dict(vards, hp)</code>, kas atgriež vārdnīcu.</li>
-            <li>Izveido klasi ar tādiem pašiem atribūtiem (manuāli iestatot tos pēc objekta izveides).</li>
-            <li>Salīdzini koda salasāmību — kura forma skaidrāka?</li>
-            <li>Pievieno funkciju <code>cizt(speletajs, bojajums)</code> — vai tā strādā ar abām formām?</li>
-            <li>Pieraksti secinājumus: kad lietot vārdnīcu, kad klasi.</li>
-        </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Papildus uzdevums: Pielāgojama __repr__ izvade</h2>
-    <p>Pievieno klasei nestandarta tekstuālo reprezentāciju.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Klasē <code>Speletajs</code> pievieno: <code>def __repr__(self): return f"&lt;Speletajs {self.vards}&gt;"</code></li>
-            <li>Izveido objektu un izvada to ar <code>print(p1)</code> un <code>print([p1, p2])</code>.</li>
-            <li>Salīdzini ar noklusējuma izvadi (bez __repr__).</li>
-        </ol>
-    </div>
-</section>
-
 <section class='section'>
     <h2>Biežākās kļūdas</h2>
     <div class='logic-box'>
         <ul>
         <li><b>Aizmirsts <code>self</code>:</b> Klašu metodes vienmēr saņem <code>self</code> kā pirmo parametru.</li>
-        <li><b>Klases atribūta maiņa caur objektu:</b> <code>p1.maks_hp = 200</code> izveido OBJEKTA atribūtu, nevis maina klases atribūtu.</li>
+        <li><b>Klases atribūta maiņa caur objektu:</b> <code>p1.maks_energija = 200</code> izveido OBJEKTA atribūtu, nevis maina klases atribūtu.</li>
         <li><b>Klases nosaukums ar mazo burtu:</b> Pēc PEP 8 klases sākas ar lielo burtu (<code>Speletajs</code>, nevis <code>speletajs</code>).</li>
         </ul>
     </div>
@@ -161,19 +171,19 @@ print(rex is mufa)  # False — divi atšķirīgi objekti</code></pre>
     <h2>Koda piemērs</h2>
     <div class='code-example'>
         <pre><code class="language-python">class Speletajs:
-    """Vienkāršs spēlētāja modelis."""
-    maks_hp = 100  # klases atribūts
+    """Vienkāršs turnīrātāja modelis."""
+    maks_energija = 100  # klases atribūts
 
 speletajs1 = Speletajs()
 speletajs1.vards = "Anna"
-speletajs1.hp = 100
+speletajs1.energija = 100
 
 speletajs2 = Speletajs()
 speletajs2.vards = "Jānis"
-speletajs2.hp = 80
+speletajs2.energija = 80
 
-print(f"{speletajs1.vards}: {speletajs1.hp}/{Speletajs.maks_hp}")
-print(f"{speletajs2.vards}: {speletajs2.hp}/{Speletajs.maks_hp}")</code></pre>
+print(f"{speletajs1.vards}: {speletajs1.energija}/{Speletajs.maks_energija}")
+print(f"{speletajs2.vards}: {speletajs2.energija}/{Speletajs.maks_energija}")</code></pre>
         <div class='result'>Anna: 100/100<br>Jānis: 80/100</div>
     </div>
 </div>

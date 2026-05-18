@@ -45,7 +45,7 @@
   <a href="prog2_33.html">3.3 Signāli un objektu komunikācija</a>
   <a href="prog2_34.html">3.4 Custom GDExtension klases editor redzamas</a>
   <a class="active" href="prog2_35.html">3.5 Statistikas sistēma un struct</a>
-  <a href="prog2_36.html">3.6 Noslēguma projekts: RPG cīņas spēle</a>
+  <a href="prog2_36.html">3.6 Noslēguma projekts: Klases turnīra simulators</a>
 </aside>
 
 <nav class='galvenaisdiv'>
@@ -74,23 +74,23 @@
     <div class='logic-box'>
 <p><b>struct</b> ir vienkāršāka klase — visi lauki ir <code>public</code> pēc noklusējuma. Lietojama datu grupēšanai.</p>
 <pre><code class="language-cpp">struct Stats {
-    int hp = 100;
-    int max_hp = 100;
-    int attack = 10;
-    int defense = 5;
+    int energy = 100;
+    int max_energy = 100;
+    int focus = 10;
+    int calm = 5;
     int speed = 5;
 
     void heal(int amount) {
-        hp = std::min(max_hp, hp + amount);
+        energy = std::min(max_energy, energy + amount);
     }
 };
 
-class Hero {
+class Participant {
 private:
     Stats stats;        // kompozīcija!
     String name;
 public:
-    Hero(String n) : name(n) {}
+    Participant(String n) : name(n) {}
 
     Stats&amp; get_stats() { return stats; }  // atgriež references
 };</code></pre>
@@ -103,7 +103,7 @@ public:
     <h2>Teorijas paplašinājums: C++ fokuss</h2>
     <div class='logic-box'>
         <p><b>Kritiskais fokuss:</b> šajā stundā nepietiek tikai panākt redzamu efektu editorā. Jāspēj paskaidrot, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra šo kodu izmanto.</p>
-        <p><b>Pārbaudes pierādījums:</b> katrai būtiskai spēles lomai ir C++ klase ar header/implementation dalījumu, konstruktoriem, metodēm, signāliem vai mantošanu.</p>
+        <p><b>Pārbaudes pierādījums:</b> katrai būtiskai turnīra lomai ir C++ klase ar header/implementation dalījumu, konstruktoriem, metodēm, signāliem vai mantošanu.</p>
 <pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
 
 using namespace godot;
@@ -119,90 +119,75 @@ struct OopCheckpoint {
 </section>
 
 <section class='section'>
-    <h2>Konsolidētais praktiskais uzdevums (15+ soļi)</h2>
-
-    <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
-    </div>
-    <p>Izpildi šo darba plānu, lai <b>3.5 Statistikas sistēma un struct</b> rezultāts būtu pārbaudāms C++ GDExtension projektā.</p>
+    <h2>Praktiskie uzdevumi pēc Blūma taksonomijas</h2>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Atver projektu un izveido Git branch šīs stundas OOP darbam.</li>
-            <li>Apraksti vienā teikumā, kādu spēles lomu modelē jaunā C++ klase.</li>
-            <li>Izveido <code>.hpp</code> failu ar klases deklarāciju un privātajiem datiem.</li>
-            <li>Izveido <code>.cpp</code> failu ar konstruktoru un metožu implementāciju.</li>
-            <li>Pārliecinies, ka katrai klasei ir viena skaidra atbildība.</li>
-            <li>Ja klase ir Godot node, pievieno <code>GDCLASS</code> makro un <code>_bind_methods()</code>.</li>
-            <li>Ja klase ir parasta C++ palīgklase, atstāj to neatkarīgu no Scene Tree.</li>
-            <li>Pievieno konstruktoru, kas objektu atstāj derīgā sākumstāvoklī.</li>
-            <li>Pievieno vismaz vienu metodi, kas maina objekta stāvokli kontrolētā veidā.</li>
-            <li>Pievieno vismaz vienu <code>const</code> metodi, kas tikai nolasa stāvokli.</li>
-            <li>Ja lieto mantošanu, pārbaudi, ka bāzes klase satur kopīgo uzvedību, nevis konkrētas detaļas.</li>
-            <li>Ja lieto signālus, deklarē tos <code>_bind_methods()</code> un pieslēdz ar <code>Callable</code>.</li>
-            <li>Reģistrē Godot redzamās klases <code>register_types.cpp</code> failā.</li>
-            <li>Pievieno īsu C++ izvadi vai UI pārbaudi, kas pierāda, ka metode tiek izsaukta.</li>
-            <li>Pārkompilē projektu un izlabo visas kompilatora kļūdas pirms Godot testēšanas.</li>
-            <li>Godot editorā pārbaudi, vai pielāgotā klase vai tās īpašības parādās pareizajā vietā.</li>
-            <li>README pieraksti, kāpēc izvēlējies kompozīciju, mantošanu vai signālus.</li>
-            <li>Veic commit ar ziņu, kas nosauc izveidoto klasi vai OOP principu.</li>
+        <h3>1. uzdevums — Saprast</h3>
+        <p>Atpazīsti šīs stundas galveno ideju un sasaisti to ar gala projektu <b>Klases turnīra simulators</b>.</p>
+        <ol class="step-list">
+            <li>Izlasi stundas izaicinājumu un ar vienu teikumu pieraksti, ko šodien mācīsies par tēmas projektu <b>Klases turnīra simulators</b>.</li>
+            <li>Atrodi teorijas sadaļā vienu piemēru, kas izmanto Godot 4 un C++ GDExtension, un pieraksti trīs svarīgākās darbības.</li>
+            <li>Pieraksti, kurā gala projekta daļā šī prasme būs vajadzīga: sākuma ekrānā, turnīra laukumā, datos, vadībā, rezultātā vai publicēšanā.</li>
+            <li>Izveido nelielu izmēģinājuma fragmentu <code>.hpp</code>, <code>.cpp</code> vai Godot scēnas failā, nevis uzreiz lielu funkciju.</li>
+            <li>Izmanto tikai šajā stundā un iepriekšējās Programmēšana II stundās apgūto; ja ideja prasa jaunu rīku, pagaidām pieraksti to kā komentāru.</li>
+            <li>Nomaini piemēra mainīgos uz klases situācijām, piemēram, <code>klases_punkti</code>, <code>zvana_taimeris</code>, <code>pazudusais_markieris</code> vai <code>kafijas_pauze</code>; mazliet humora drīkst, bet kodam jāpaliek skaidram.</li>
+            <li>Pievieno vienu komentāru, kas paskaidro, kāpēc šī darbība nepieciešama gala turnīra projektam.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā, lai redzētu, vai minimālais piemērs darbojas.</li>
+            <li>Nomaini vienu ievades vērtību vai tekstu un pārbaudi, vai rezultāts mainās paredzami.</li>
+            <li>Pieraksti vienu secinājumu: kas šajā stundā ir jaunais jēdziens un kā tas palīdzēs gala turnīram.</li>
         </ol>
     </div>
-</section>
-<section class='section'>
-    <h2>Aktivitāte 1: Stats struct</h2>
-    <p>Izveido statistikas datu tipu.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li><code>stats.hpp</code>: definē Stats struct ar laukiem hp, max_hp, attack, defense, speed.</li>
-            <li>Pievieno metodes: <code>heal(int)</code>, <code>damage(int)</code>, <code>buff(int amount, int duration)</code>.</li>
-            <li>Lieto initializer list konstruktorā.</li>
-            <li>Hero klase tagad satur <code>Stats stats</code>.</li>
+        <h3>2. uzdevums — Pielietot</h3>
+        <p>Izmanto šīs stundas prasmi nelielā, strādājošā projekta daļā.</p>
+        <ol class="step-list">
+            <li>Atver tēmas projekta mapi un atrodi failu vai scēnu, kurā šīs stundas prasme loģiski iederas projektā <b>Klases turnīra simulators</b>.</li>
+            <li>Izveido rezerves kopiju ar Git commit vai pārliecinies, ka darba koks ir saprotamā stāvoklī.</li>
+            <li>Pievieno nelielu funkciju, sadaļu vai elementu <code>.hpp</code>, <code>.cpp</code> vai Godot scēnas failā, izmantojot teorijas piemēru kā sākumpunktu.</li>
+            <li>Nosauc jaunos mainīgos skaidri un ikdienišķi, piemēram, par punktiem, laiku, klases grupu, pogu vai rezultātu.</li>
+            <li>Ievieto risinājumu tur, kur tas būs lietotājam redzams vai turnīra loģikai izmantojams, nevis atsevišķā nesavienotā failā.</li>
+            <li>Pārbaudi, ka risinājums netraucē iepriekšējām stundām izveidoto funkcionalitāti.</li>
+            <li>Pievieno vienu lietotājam saprotamu tekstu vai izvadi, kas parāda, ka jaunā daļa strādā.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā.</li>
+            <li>Salabo pirmo kļūdu, kuru pamani, pirms pievieno nākamo uzlabojumu.</li>
+            <li>Veic Git commit ar īsu tehnisku ziņu, kurā minēts, kā šī prasme tika pielietota gala projektā.</li>
         </ol>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Aktivitāte 2: Buff/Debuff sistēma</h2>
-    <p>Pagaidu modifikatori.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Izveido <code>struct Buff { String name; int amount; float duration; };</code></li>
-            <li>Stats glabā <code>std::vector&lt;Buff&gt; active_buffs</code>.</li>
-            <li>Apply un tick funkcijas: katrā kadrā mazina duration, noņem expired.</li>
-            <li>Piemērs: 'strength_potion' +5 attack uz 30 sec.</li>
+        <h3>3. uzdevums — Analizēt</h3>
+        <p>Pārbaudi risinājumu, salīdzini rezultātus un atrodi, ko uzlabot.</p>
+        <ol class="step-list">
+            <li>Izveido trīs pārbaudes gadījumus projektam <b>Klases turnīra simulators</b>: parasts gadījums, robežgadījums un kļūdaina vai tukša ievade.</li>
+            <li>Pirms palaišanas pieraksti, kādu rezultātu sagaidi katrā gadījumā.</li>
+            <li>Palaid pirmo testu un salīdzini faktisko rezultātu ar sagaidāmo.</li>
+            <li>Palaid otro testu ar mazāko, lielāko vai tukšāko vērtību, ko šī stunda loģiski atļauj.</li>
+            <li>Palaid trešo testu ar kļūdainu ievadi vai neērtu lietotāja darbību.</li>
+            <li>Atzīmē, vai problēma ir kodā, datos, izkārtojumā vai lietotāja instrukcijā.</li>
+            <li>Izlabo vienu atrastu problēmu, nepaplašinot darba apjomu ar jaunu, vēl neapgūtu funkciju.</li>
+            <li>Pievieno īsu komentāru vai README ierakstu par to, kā testēšana palīdzēja uzlabot gala turnīru.</li>
+            <li>Pārbaudi vēlreiz pēc labojuma, lai pārliecinātos, ka labojums tiešām strādā.</li>
+            <li>Pieraksti vienu jautājumu, ko nākamajā stundā vēl vajadzētu pārbaudīt vai uzlabot.</li>
         </ol>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Aktivitāte 3: Equipment sistēma</h2>
-    <p>Ekipējums modificē Stats.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li><code>struct Equipment { String name; int hp_bonus; int atk_bonus; ... };</code></li>
-            <li>Hero glabā <code>Equipment weapon</code> un <code>Equipment armor</code>.</li>
-            <li>Total stats = base stats + equipment bonuses.</li>
-            <li>Pievieno equip/unequip metodes.</li>
+        <h3>Papildu uzdevums — Radīt</h3>
+        <p>Pievieno nelielu radošu uzlabojumu ar klases dzīves piemēru, nepārsniedzot apgūto vielu.</p>
+        <ol class="step-list">
+            <li>Izvēlies vienu nelielu radošu papildinājumu, kas iederas projektā <b>Klases turnīra simulators</b> un balstās tikai uz jau apgūto.</li>
+            <li>Izvēlies klases dzīves motīvu, piemēram, zvana taimeri, pazudušu marķieri, grupu punktus vai pārāk entuziastisku prezentācijas pogu.</li>
+            <li>Uzraksti papildinājuma mērķi vienā teikumā, lai tas nekļūtu par pārāk lielu projektu.</li>
+            <li>Pievieno vienu jaunu mainīgo, tekstu, vizuālo elementu vai pārbaudes nosacījumu.</li>
+            <li>Pārliecinies, ka papildinājums neizmanto jaunu bibliotēku vai komandu, kas šajā kursā vēl nav mācīta.</li>
+            <li>Savieno papildinājumu ar jau esošo projekta daļu, nevis atstāj to kā atsevišķu demonstrāciju.</li>
+            <li>Pārbaudi, vai lietotājs saprot, kas jādara, bez garas instrukcijas ekrānā.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā un pārliecinies, vai pamata funkcija joprojām darbojas.</li>
+            <li>Palūdz klasesbiedram 30 sekundēs izmēģināt papildinājumu un pateikt, kas nav skaidrs.</li>
+            <li>Pieraksti, ko atstāsi kā nākamo uzlabojumu, bet šodien nepievieno, lai projekts paliek stabils.</li>
         </ol>
     </div>
 </section>
 
-<section class='section'>
-    <h2>Papildu izaicinājums: Save/Load Stats</h2>
-    <p>Serializē uz JSON.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Stats metode <code>Dictionary to_dict() const</code>.</li>
-            <li>Stats metode <code>void from_dict(const Dictionary&amp; d)</code>.</li>
-            <li>Tas ļaus 5. tēmā vienkārši saglabāt visu varoni.</li>
-        </ol>
-    </div>
-</section>
+
+
 
 <section class='section'>
     <h2>Biežākās kļūdas</h2>
@@ -219,8 +204,8 @@ struct OopCheckpoint {
     <h2>Godot ekrānuzņēmumi</h2>
     <div class='logic-box'>
         <figure class="screenshot">
-            <img src="../img/topic3_stats_panel.png" alt="Spēles HUD ar varoņa Stats panelu: HP 80/100, ATK 15 (+5 buff), DEF 5, SPD 5, aktīvi buffs sarakstā." loading="lazy">
-            <figcaption>Spēles HUD ar varoņa Stats panelu: HP 80/100, ATK 15 (+5 buff), DEF 5, SPD 5, aktīvi buffs sarakstā.</figcaption>
+            <img src="../img/topic3_stats_panel.png" alt="Spēles HUD ar varoņa Stats panelu: ENERGY 80/100, FOCUS 15 (+5 buff), CALM 5, SPD 5, aktīvi buffs sarakstā." loading="lazy">
+            <figcaption>Spēles HUD ar varoņa Stats panelu: ENERGY 80/100, FOCUS 15 (+5 buff), CALM 5, SPD 5, aktīvi buffs sarakstā.</figcaption>
         </figure>
     </div>
 </section>
@@ -229,21 +214,21 @@ struct OopCheckpoint {
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
         <pre><code class="language-cpp">struct Stats {
-    int hp = 100, max_hp = 100;
-    int attack = 10, defense = 5, speed = 5;
+    int energy = 100, max_energy = 100;
+    int focus = 10, calm = 5, speed = 5;
     std::vector&lt;Buff&gt; buffs;
 
-    int get_total_attack() const {
-        int total = attack;
+    int get_total_focus() const {
+        int total = focus;
         for (const auto&amp; b : buffs) {
-            if (b.target == "attack") total += b.amount;
+            if (b.target == "focus") total += b.amount;
         }
         return total;
     }
 
-    void take_damage(int amount) {
-        int actual = std::max(1, amount - defense);
-        hp = std::max(0, hp - actual);
+    void apply_penalty(int amount) {
+        int actual = std::max(1, amount - calm);
+        energy = std::max(0, energy - actual);
     }
 
     void update(float delta) {
@@ -253,7 +238,7 @@ struct OopCheckpoint {
             buffs.end());
     }
 };</code></pre>
-        <div class='result'>Hero get_total_attack atgriež 15 (10 base + 5 buff), pēc 30 sec — atkal 10.</div>
+        <div class='result'>Participant get_total_focus atgriež 15 (10 base + 5 buff), pēc 30 sec — atkal 10.</div>
     </div>
 </div>
 

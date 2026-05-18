@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>3.2 Mantošana C++ un Godot — ebSkola</title>
-<meta name="description" content="Izveidot specializētas varoņu klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.">
+<meta name="description" content="Izveidot specializētas dalībnieku klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_3/prog2_32.html">
@@ -12,17 +12,17 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="3.2 Mantošana C++ un Godot">
-<meta property="og:description" content="Izveidot specializētas varoņu klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.">
+<meta property="og:description" content="Izveidot specializētas dalībnieku klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.">
 <meta property="og:url" content="https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_3/prog2_32.html">
 <meta property="og:image" content="https://eduardsbaumanis.github.io/ebskola/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3.2 Mantošana C++ un Godot">
-<meta name="twitter:description" content="Izveidot specializētas varoņu klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.">
+<meta name="twitter:description" content="Izveidot specializētas dalībnieku klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org","@type": "LearningResource","name": "3.2 Mantošana C++ un Godot","description": "Izveidot specializētas varoņu klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.","inLanguage": "lv","url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_3/prog2_32.html","isPartOf": {"@type": "Course","name": "ebSkola — Programmēšana II","url": "https://eduardsbaumanis.github.io/ebskola/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "3.2 Mantošana C++ un Godot","description": "Izveidot specializētas dalībnieku klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.","inLanguage": "lv","url": "https://eduardsbaumanis.github.io/ebskola/programmesana2/prog2_3/prog2_32.html","isPartOf": {"@type": "Course","name": "ebSkola — Programmēšana II","url": "https://eduardsbaumanis.github.io/ebskola/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -45,7 +45,7 @@
   <a href="prog2_33.html">3.3 Signāli un objektu komunikācija</a>
   <a href="prog2_34.html">3.4 Custom GDExtension klases editor redzamas</a>
   <a href="prog2_35.html">3.5 Statistikas sistēma un struct</a>
-  <a href="prog2_36.html">3.6 Noslēguma projekts: RPG cīņas spēle</a>
+  <a href="prog2_36.html">3.6 Noslēguma projekts: Klases turnīra simulators</a>
 </aside>
 
 <nav class='galvenaisdiv'>
@@ -56,7 +56,7 @@
 
 <section class='section'>
     <h1>3.2 Mantošana C++ un Godot</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Izveidot specializētas varoņu klases, izmantojot inheritance (mantošanu).</p>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Izveidot specializētas dalībnieku klases, izmantojot inheritance (mantošanu).</p>
     <div class="lesson-meta">
         <a href="../../sasnRez.html">SR 2.4.18. OOP</a>
         <a href="../../sasnRez.html">SR 2.4.15. Modulāras programmas</a>
@@ -73,30 +73,30 @@
     <h2>Teorija: Inheritance un virtuālas funkcijas</h2>
     <div class='logic-box'>
 <p><b>Mantošana</b> ļauj bērna klasei pārmantot vecāka atribūtus un metodes, pievienojot vai pārrakstot.</p>
-<pre><code class="language-cpp">class Hero { /* base klase */ };
+<pre><code class="language-cpp">class Participant { /* base klase */ };
 
-class Knight : public Hero {
+class Captain : public Participant {
 public:
-    int armor;
-    Knight(String n) : Hero(n, 150, 18, 12) {  // izsauc vecāku konstruktoru
-        armor = 10;
+    int stability;
+    Captain(String n) : Participant(n, 150, 18, 12) {  // izsauc vecāku konstruktoru
+        stability = 10;
     }
     // Pārraksta (override) vecāka metodi
-    void take_damage(int amount) override {
-        amount -= armor;  // bruņas papildus aizsargā
-        Hero::take_damage(amount);
+    void apply_penalty(int amount) override {
+        amount -= stability;  // stabilitāte samazina soda punktus
+        Participant::apply_penalty(amount);
     }
 };
 
-class Mage : public Hero {
+class Presenter : public Participant {
 public:
-    int mana;
-    Mage(String n) : Hero(n, 80, 25, 3), mana(100) {}
+    int ideas;
+    Presenter(String n) : Participant(n, 80, 25, 3), ideas(100) {}
 
-    void cast_spell(Hero& target) {
-        if (mana &gt;= 20) {
-            mana -= 20;
-            target.take_damage(40);
+    void present_bonus(Participant& target) {
+        if (ideas &gt;= 20) {
+            ideas -= 20;
+            target.apply_penalty(40);
         }
     }
 };</code></pre>
@@ -109,7 +109,7 @@ public:
     <h2>Teorijas paplašinājums: C++ fokuss</h2>
     <div class='logic-box'>
         <p><b>Kritiskais fokuss:</b> šajā stundā nepietiek tikai panākt redzamu efektu editorā. Jāspēj paskaidrot, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra šo kodu izmanto.</p>
-        <p><b>Pārbaudes pierādījums:</b> katrai būtiskai spēles lomai ir C++ klase ar header/implementation dalījumu, konstruktoriem, metodēm, signāliem vai mantošanu.</p>
+        <p><b>Pārbaudes pierādījums:</b> katrai būtiskai turnīra lomai ir C++ klase ar header/implementation dalījumu, konstruktoriem, metodēm, signāliem vai mantošanu.</p>
 <pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
 
 using namespace godot;
@@ -125,98 +125,83 @@ struct OopCheckpoint {
 </section>
 
 <section class='section'>
-    <h2>Konsolidētais praktiskais uzdevums (15+ soļi)</h2>
-
-    <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
-    </div>
-    <p>Izpildi šo darba plānu, lai <b>3.2 Mantošana C++ un Godot</b> rezultāts būtu pārbaudāms C++ GDExtension projektā.</p>
+    <h2>Praktiskie uzdevumi pēc Blūma taksonomijas</h2>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Atver projektu un izveido Git branch šīs stundas OOP darbam.</li>
-            <li>Apraksti vienā teikumā, kādu spēles lomu modelē jaunā C++ klase.</li>
-            <li>Izveido <code>.hpp</code> failu ar klases deklarāciju un privātajiem datiem.</li>
-            <li>Izveido <code>.cpp</code> failu ar konstruktoru un metožu implementāciju.</li>
-            <li>Pārliecinies, ka katrai klasei ir viena skaidra atbildība.</li>
-            <li>Ja klase ir Godot node, pievieno <code>GDCLASS</code> makro un <code>_bind_methods()</code>.</li>
-            <li>Ja klase ir parasta C++ palīgklase, atstāj to neatkarīgu no Scene Tree.</li>
-            <li>Pievieno konstruktoru, kas objektu atstāj derīgā sākumstāvoklī.</li>
-            <li>Pievieno vismaz vienu metodi, kas maina objekta stāvokli kontrolētā veidā.</li>
-            <li>Pievieno vismaz vienu <code>const</code> metodi, kas tikai nolasa stāvokli.</li>
-            <li>Ja lieto mantošanu, pārbaudi, ka bāzes klase satur kopīgo uzvedību, nevis konkrētas detaļas.</li>
-            <li>Ja lieto signālus, deklarē tos <code>_bind_methods()</code> un pieslēdz ar <code>Callable</code>.</li>
-            <li>Reģistrē Godot redzamās klases <code>register_types.cpp</code> failā.</li>
-            <li>Pievieno īsu C++ izvadi vai UI pārbaudi, kas pierāda, ka metode tiek izsaukta.</li>
-            <li>Pārkompilē projektu un izlabo visas kompilatora kļūdas pirms Godot testēšanas.</li>
-            <li>Godot editorā pārbaudi, vai pielāgotā klase vai tās īpašības parādās pareizajā vietā.</li>
-            <li>README pieraksti, kāpēc izvēlējies kompozīciju, mantošanu vai signālus.</li>
-            <li>Veic commit ar ziņu, kas nosauc izveidoto klasi vai OOP principu.</li>
+        <h3>1. uzdevums — Saprast</h3>
+        <p>Atpazīsti šīs stundas galveno ideju un sasaisti to ar gala projektu <b>Klases turnīra simulators</b>.</p>
+        <ol class="step-list">
+            <li>Izlasi stundas izaicinājumu un ar vienu teikumu pieraksti, ko šodien mācīsies par tēmas projektu <b>Klases turnīra simulators</b>.</li>
+            <li>Atrodi teorijas sadaļā vienu piemēru, kas izmanto Godot 4 un C++ GDExtension, un pieraksti trīs svarīgākās darbības.</li>
+            <li>Pieraksti, kurā gala projekta daļā šī prasme būs vajadzīga: sākuma ekrānā, turnīra laukumā, datos, vadībā, rezultātā vai publicēšanā.</li>
+            <li>Izveido nelielu izmēģinājuma fragmentu <code>.hpp</code>, <code>.cpp</code> vai Godot scēnas failā, nevis uzreiz lielu funkciju.</li>
+            <li>Izmanto tikai šajā stundā un iepriekšējās Programmēšana II stundās apgūto; ja ideja prasa jaunu rīku, pagaidām pieraksti to kā komentāru.</li>
+            <li>Nomaini piemēra mainīgos uz klases situācijām, piemēram, <code>klases_punkti</code>, <code>zvana_taimeris</code>, <code>pazudusais_markieris</code> vai <code>kafijas_pauze</code>; mazliet humora drīkst, bet kodam jāpaliek skaidram.</li>
+            <li>Pievieno vienu komentāru, kas paskaidro, kāpēc šī darbība nepieciešama gala turnīra projektam.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā, lai redzētu, vai minimālais piemērs darbojas.</li>
+            <li>Nomaini vienu ievades vērtību vai tekstu un pārbaudi, vai rezultāts mainās paredzami.</li>
+            <li>Pieraksti vienu secinājumu: kas šajā stundā ir jaunais jēdziens un kā tas palīdzēs gala turnīram.</li>
         </ol>
     </div>
-</section>
-<section class='section'>
-    <h2>Aktivitāte 1: Knight un Mage klases</h2>
-    <p>Izveido divas specializētas Hero apakšklases.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li><code>knight.hpp</code>: <code>class Knight : public Hero</code> ar <code>int armor</code>.</li>
-            <li>Konstruktors: <code>Knight(String n) : Hero(n, 150, 18, 12), armor(10) {}</code></li>
-            <li>Pārraksta <code>take_damage</code>: amortē 5 punkti pirms vecāka metodes izsaukuma.</li>
-            <li>Atkārto ar Mage: HP=80, ATK=25, mana=100, metode <code>cast_spell</code>.</li>
+        <h3>2. uzdevums — Pielietot</h3>
+        <p>Izmanto šīs stundas prasmi nelielā, strādājošā projekta daļā.</p>
+        <ol class="step-list">
+            <li>Atver tēmas projekta mapi un atrodi failu vai scēnu, kurā šīs stundas prasme loģiski iederas projektā <b>Klases turnīra simulators</b>.</li>
+            <li>Izveido rezerves kopiju ar Git commit vai pārliecinies, ka darba koks ir saprotamā stāvoklī.</li>
+            <li>Pievieno nelielu funkciju, sadaļu vai elementu <code>.hpp</code>, <code>.cpp</code> vai Godot scēnas failā, izmantojot teorijas piemēru kā sākumpunktu.</li>
+            <li>Nosauc jaunos mainīgos skaidri un ikdienišķi, piemēram, par punktiem, laiku, klases grupu, pogu vai rezultātu.</li>
+            <li>Ievieto risinājumu tur, kur tas būs lietotājam redzams vai turnīra loģikai izmantojams, nevis atsevišķā nesavienotā failā.</li>
+            <li>Pārbaudi, ka risinājums netraucē iepriekšējām stundām izveidoto funkcionalitāti.</li>
+            <li>Pievieno vienu lietotājam saprotamu tekstu vai izvadi, kas parāda, ka jaunā daļa strādā.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā.</li>
+            <li>Salabo pirmo kļūdu, kuru pamani, pirms pievieno nākamo uzlabojumu.</li>
+            <li>Veic Git commit ar īsu tehnisku ziņu, kurā minēts, kā šī prasme tika pielietota gala projektā.</li>
         </ol>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Aktivitāte 2: Virtuālas funkcijas</h2>
-    <p>Polimorfisma demonstrācija.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Hero klasē padari <code>take_damage</code> un <code>attack_target</code> par <code>virtual</code>.</li>
-            <li>Izveido masīvu: <code>std::vector&lt;Hero*&gt; party</code>, pievieno Knight un Mage.</li>
-            <li>For ciklā izsauc <code>h-&gt;take_damage(20)</code> — izsaucas pareizās klases versijas.</li>
-            <li>Tas ir polimorfisms darbībā.</li>
+        <h3>3. uzdevums — Analizēt</h3>
+        <p>Pārbaudi risinājumu, salīdzini rezultātus un atrodi, ko uzlabot.</p>
+        <ol class="step-list">
+            <li>Izveido trīs pārbaudes gadījumus projektam <b>Klases turnīra simulators</b>: parasts gadījums, robežgadījums un kļūdaina vai tukša ievade.</li>
+            <li>Pirms palaišanas pieraksti, kādu rezultātu sagaidi katrā gadījumā.</li>
+            <li>Palaid pirmo testu un salīdzini faktisko rezultātu ar sagaidāmo.</li>
+            <li>Palaid otro testu ar mazāko, lielāko vai tukšāko vērtību, ko šī stunda loģiski atļauj.</li>
+            <li>Palaid trešo testu ar kļūdainu ievadi vai neērtu lietotāja darbību.</li>
+            <li>Atzīmē, vai problēma ir kodā, datos, izkārtojumā vai lietotāja instrukcijā.</li>
+            <li>Izlabo vienu atrastu problēmu, nepaplašinot darba apjomu ar jaunu, vēl neapgūtu funkciju.</li>
+            <li>Pievieno īsu komentāru vai README ierakstu par to, kā testēšana palīdzēja uzlabot gala turnīru.</li>
+            <li>Pārbaudi vēlreiz pēc labojuma, lai pārliecinātos, ka labojums tiešām strādā.</li>
+            <li>Pieraksti vienu jautājumu, ko nākamajā stundā vēl vajadzētu pārbaudīt vai uzlabot.</li>
         </ol>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Aktivitāte 3: Trešais varonis: Archer</h2>
-    <p>Izveido vēl vienu specializāciju.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li><code>Archer : public Hero</code> ar <code>int agility</code> un <code>int arrows</code>.</li>
-            <li><code>shoot()</code> metode: prasa arrows &gt; 0, dara 2x bojājumu.</li>
-            <li><code>dodge_chance</code>: pārraksta take_damage — 30% iespēja izvairīties pavisam.</li>
-            <li>Pievieno party masīvam un testē.</li>
+        <h3>Papildu uzdevums — Radīt</h3>
+        <p>Pievieno nelielu radošu uzlabojumu ar klases dzīves piemēru, nepārsniedzot apgūto vielu.</p>
+        <ol class="step-list">
+            <li>Izvēlies vienu nelielu radošu papildinājumu, kas iederas projektā <b>Klases turnīra simulators</b> un balstās tikai uz jau apgūto.</li>
+            <li>Izvēlies klases dzīves motīvu, piemēram, zvana taimeri, pazudušu marķieri, grupu punktus vai pārāk entuziastisku prezentācijas pogu.</li>
+            <li>Uzraksti papildinājuma mērķi vienā teikumā, lai tas nekļūtu par pārāk lielu projektu.</li>
+            <li>Pievieno vienu jaunu mainīgo, tekstu, vizuālo elementu vai pārbaudes nosacījumu.</li>
+            <li>Pārliecinies, ka papildinājums neizmanto jaunu bibliotēku vai komandu, kas šajā kursā vēl nav mācīta.</li>
+            <li>Savieno papildinājumu ar jau esošo projekta daļu, nevis atstāj to kā atsevišķu demonstrāciju.</li>
+            <li>Pārbaudi, vai lietotājs saprot, kas jādara, bez garas instrukcijas ekrānā.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā un pārliecinies, vai pamata funkcija joprojām darbojas.</li>
+            <li>Palūdz klasesbiedram 30 sekundēs izmēģināt papildinājumu un pateikt, kas nav skaidrs.</li>
+            <li>Pieraksti, ko atstāsi kā nākamo uzlabojumu, bet šodien nepievieno, lai projekts paliek stabils.</li>
         </ol>
     </div>
 </section>
 
-<section class='section'>
-    <h2>Papildu izaicinājums: Diamond inheritance</h2>
-    <p>Vairāku vecāku problēma.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Iemēģini izveidot klasi <code>Paladin : public Knight, public Mage</code>.</li>
-            <li>Tas izraisa diamond problēmu — Hero atribūti dublētos.</li>
-            <li>Risinājums: <code>virtual</code> mantošana vai izvairies.</li>
-        </ol>
-    </div>
-</section>
+
+
 
 <section class='section'>
     <h2>Biežākās kļūdas</h2>
     <div class='logic-box'>
         <ul>
-        <li><b>Cannot call base constructor:</b> Trūkst initializer list ar <code>: Hero(...)</code>.</li>
+        <li><b>Cannot call base constructor:</b> Trūkst initializer list ar <code>: Participant(...)</code>.</li>
         <li><b>'override' was not declared:</b> C++11+ vajadzīgs (Godot prasa C++17).</li>
-        <li><b>Slicing problem:</b> Pieliecot Hero objektu, ne Hero*, polimorfisms nedarbojas.</li>
+        <li><b>Slicing problem:</b> Pieliecot Participant objektu, ne Participant*, polimorfisms nedarbojas.</li>
         </ul>
     </div>
 </section>
@@ -225,8 +210,8 @@ struct OopCheckpoint {
     <h2>Godot ekrānuzņēmumi</h2>
     <div class='logic-box'>
         <figure class="screenshot">
-            <img src="../img/topic3_inheritance_tree.png" alt="Klašu hierarhijas koks: Hero (base) → Knight, Mage, Archer (visi public mantojuma)." loading="lazy">
-            <figcaption>Klašu hierarhijas koks: Hero (base) → Knight, Mage, Archer (visi public mantojuma).</figcaption>
+            <img src="../img/topic3_inheritance_tree.png" alt="Klašu hierarhijas koks: Participant (base) → Captain, Presenter, TimeKeeper (visi public mantojuma)." loading="lazy">
+            <figcaption>Klašu hierarhijas koks: Participant (base) → Captain, Presenter, TimeKeeper (visi public mantojuma).</figcaption>
         </figure>
     </div>
 </section>
@@ -234,33 +219,33 @@ struct OopCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">class Knight : public Hero {
+        <pre><code class="language-cpp">class Captain : public Participant {
 private:
-    int armor;
+    int stability;
 public:
-    Knight(String n) : Hero(n, 150, 18, 12), armor(10) {}
+    Captain(String n) : Participant(n, 150, 18, 12), stability(10) {}
 
-    void take_damage(int amount) override {
-        amount = std::max(1, amount - armor);
-        Hero::take_damage(amount);
+    void apply_penalty(int amount) override {
+        amount = std::max(1, amount - stability);
+        Participant::apply_penalty(amount);
     }
 };
 
-class Mage : public Hero {
+class Presenter : public Participant {
 private:
-    int mana;
+    int ideas;
 public:
-    Mage(String n) : Hero(n, 80, 25, 3), mana(100) {}
+    Presenter(String n) : Participant(n, 80, 25, 3), ideas(100) {}
 
-    void cast_spell(Hero* target) {
-        if (mana &gt;= 20) {
-            mana -= 20;
-            UtilityFunctions::print(name, " met burvojumu pret ", target-&gt;get_name());
-            target-&gt;take_damage(40);
+    void present_bonus(Participant* target) {
+        if (ideas &gt;= 20) {
+            ideas -= 20;
+            UtilityFunctions::print(name, " izmanto prezentācijas bonusu pret ", target-&gt;get_name());
+            target-&gt;apply_penalty(40);
         }
     }
 };</code></pre>
-        <div class='result'>Knight saņem 10 punktu mazāk bojājuma, Mage met burvojumu, kas dara 40 punktu bojājumu.</div>
+        <div class='result'>Captain zaudē par 10 punktiem mazāk enerģijas, Presenter izmanto prezentācijas bonusu, kas samazina šķēršļa enerģiju par 40 punktiem.</div>
     </div>
 </div>
 

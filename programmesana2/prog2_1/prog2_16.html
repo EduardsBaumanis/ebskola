@@ -98,49 +98,72 @@ public:
 </section>
 
 <section class='section'>
-    <h2>Noslēguma projekta uzdevums: Pong ar C++</h2>
-
-    <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
-    </div>
-    <p>Apvieno tēmas prasmes vienā spēlē, kur uzvedību vada C++ klases.</p>
+    <h2>Praktiskie uzdevumi pēc Blūma taksonomijas</h2>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pārbaudi, ka projekts kompilējas pēc 1.3 un 1.4 stundas sagataves.</li>
-            <li>Project Settings → Input Map pievieno <code>p1_up</code>, <code>p1_down</code>, <code>p2_up</code> un <code>p2_down</code>.</li>
-            <li>Piesaisti <code>p1_up</code> taustiņam W un <code>p1_down</code> taustiņam S.</li>
-            <li>Piesaisti <code>p2_up</code> taustiņam Up Arrow un <code>p2_down</code> taustiņam Down Arrow.</li>
-            <li>Izveido <code>paddle.hpp</code> un <code>paddle.cpp</code> ar klasi <code>Paddle : public CharacterBody2D</code>.</li>
-            <li><code>Paddle</code> klasē pievieno <code>float speed = 400.0f</code>, <code>String input_up</code> un <code>String input_down</code>.</li>
-            <li><code>_bind_methods()</code> piesaisti setter/getter metodes, lai input darbības varētu mainīt Godot Inspector panelī.</li>
-            <li><code>_physics_process(double delta)</code> nolasi <code>Input::get_singleton()</code> un aprēķini vertikālo virzienu.</li>
-            <li>Iestati paddle velocity ar <code>set_velocity(Vector2(0, direction * speed))</code> un izsauc <code>move_and_slide()</code>.</li>
-            <li>Reģistrē <code>Paddle</code> klasi <code>register_types.cpp</code> failā un pārkompilē.</li>
-            <li>Godot editorā nomaini <code>PaddleLeft</code> un <code>PaddleRight</code> tipu vai pievieno tiem C++ klasi.</li>
-            <li><code>PaddleLeft</code> iestati <code>input_up = "p1_up"</code> un <code>input_down = "p1_down"</code>.</li>
-            <li><code>PaddleRight</code> iestati <code>input_up = "p2_up"</code> un <code>input_down = "p2_down"</code>.</li>
-            <li>Izveido <code>ball.hpp</code> un <code>ball.cpp</code> ar klasi <code>Ball : public CharacterBody2D</code>.</li>
-            <li><code>Ball</code> klasē pievieno <code>Vector2 velocity</code>, <code>float base_speed = 500.0f</code> un <code>reset_ball()</code> metodi.</li>
-            <li><code>_ready()</code> metodē izsauc <code>reset_ball()</code>, lai bumba sākas centrā.</li>
-            <li><code>_physics_process</code> izmanto <code>move_and_collide(velocity * delta)</code>.</li>
-            <li>Sadursmes gadījumā aprēķini <code>velocity = velocity.bounce(collision-&gt;get_normal())</code>.</li>
-            <li>Pēc katras paddle sadursmes nedaudz palielini ātrumu, piemēram, <code>velocity *= 1.05f</code>.</li>
-            <li>Izveido <code>game.hpp</code> un <code>game.cpp</code> ar klasi <code>Game : public Node</code>.</li>
-            <li><code>Game</code> klasē glabā <code>score_left</code>, <code>score_right</code>, <code>winning_score</code> un norādes uz <code>Label</code> objektiem.</li>
-            <li><code>Game::_ready()</code> atrodi <code>ScoreLeft</code>, <code>ScoreRight</code> un <code>Ball</code> mezglus ar <code>get_node</code>.</li>
-            <li>Ja bumbas <code>x</code> pozīcija ir mazāka par 0, pieskaiti punktu labajam spēlētājam.</li>
-            <li>Ja bumbas <code>x</code> pozīcija ir lielāka par 1280, pieskaiti punktu kreisajam spēlētājam.</li>
-            <li>Pēc punkta atjaunini abus <code>Label</code> tekstus un izsauc bumbas <code>reset_ball()</code>.</li>
-            <li>Pie <code>winning_score</code> punktiem apturi bumbu un izdrukā uzvarētāju Output panelī vai parādi <code>Label</code>.</li>
-            <li>Pievieno restart darbību, piemēram, taustiņu R, kas atiestata punktus un bumbu.</li>
-            <li>Veic vismaz 4 jēgpilnus commit: setup, paddle, ball, scoring/restart.</li>
-            <li>README failā apraksti vadību, build komandu, klases un zināmās problēmas.</li>
-            <li>Pēdējā pārbaudē palaid spēli no tīra Godot starta un pārliecinies, ka tā nav atkarīga no editorā atvērtas pagaidu scēnas.</li>
+        <h3>1. uzdevums — Saprast</h3>
+        <p>Atpazīsti šīs stundas galveno ideju un sasaisti to ar gala projektu <b>Pong</b>.</p>
+        <ol class="step-list">
+            <li>Izlasi stundas izaicinājumu un ar vienu teikumu pieraksti, ko šodien mācīsies par tēmas projektu <b>Pong</b>.</li>
+            <li>Atrodi teorijas sadaļā vienu piemēru, kas izmanto Godot 4 un C++ GDExtension, un pieraksti trīs svarīgākās darbības.</li>
+            <li>Pieraksti, kurā gala projekta daļā šī prasme būs vajadzīga: sākuma ekrānā, spēles laukumā, datos, vadībā, rezultātā vai publicēšanā.</li>
+            <li>Izveido nelielu izmēģinājuma fragmentu <code>.hpp</code>, <code>.cpp</code> vai Godot scēnas failā, nevis uzreiz lielu funkciju.</li>
+            <li>Izmanto tikai šajā stundā un iepriekšējās Programmēšana II stundās apgūto; ja ideja prasa jaunu rīku, pagaidām pieraksti to kā komentāru.</li>
+            <li>Nomaini piemēra mainīgos uz klases situācijām, piemēram, <code>klases_punkti</code>, <code>zvana_taimeris</code>, <code>pazudusais_markieris</code> vai <code>kafijas_pauze</code>; mazliet humora drīkst, bet kodam jāpaliek skaidram.</li>
+            <li>Pievieno vienu komentāru, kas paskaidro, kāpēc šī darbība nepieciešama gala spēles projektam.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā, lai redzētu, vai minimālais piemērs darbojas.</li>
+            <li>Nomaini vienu ievades vērtību vai tekstu un pārbaudi, vai rezultāts mainās paredzami.</li>
+            <li>Pieraksti vienu secinājumu: kas šajā stundā ir jaunais jēdziens un kā tas palīdzēs gala spēlei.</li>
+        </ol>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums — Pielietot</h3>
+        <p>Izmanto šīs stundas prasmi nelielā, strādājošā projekta daļā.</p>
+        <ol class="step-list">
+            <li>Atver tēmas projekta mapi un atrodi failu vai scēnu, kurā šīs stundas prasme loģiski iederas projektā <b>Pong</b>.</li>
+            <li>Izveido rezerves kopiju ar Git commit vai pārliecinies, ka darba koks ir saprotamā stāvoklī.</li>
+            <li>Pievieno nelielu funkciju, sadaļu vai elementu <code>.hpp</code>, <code>.cpp</code> vai Godot scēnas failā, izmantojot teorijas piemēru kā sākumpunktu.</li>
+            <li>Nosauc jaunos mainīgos skaidri un ikdienišķi, piemēram, par punktiem, laiku, klases grupu, pogu vai rezultātu.</li>
+            <li>Ievieto risinājumu tur, kur tas būs lietotājam redzams vai spēles loģikai izmantojams, nevis atsevišķā nesavienotā failā.</li>
+            <li>Pārbaudi, ka risinājums netraucē iepriekšējām stundām izveidoto funkcionalitāti.</li>
+            <li>Pievieno vienu lietotājam saprotamu tekstu vai izvadi, kas parāda, ka jaunā daļa strādā.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā.</li>
+            <li>Salabo pirmo kļūdu, kuru pamani, pirms pievieno nākamo uzlabojumu.</li>
+            <li>Veic Git commit ar īsu tehnisku ziņu, kurā minēts, kā šī prasme tika pielietota gala projektā.</li>
+        </ol>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums — Analizēt</h3>
+        <p>Pārbaudi risinājumu, salīdzini rezultātus un atrodi, ko uzlabot.</p>
+        <ol class="step-list">
+            <li>Izveido trīs pārbaudes gadījumus projektam <b>Pong</b>: parasts gadījums, robežgadījums un kļūdaina vai tukša ievade.</li>
+            <li>Pirms palaišanas pieraksti, kādu rezultātu sagaidi katrā gadījumā.</li>
+            <li>Palaid pirmo testu un salīdzini faktisko rezultātu ar sagaidāmo.</li>
+            <li>Palaid otro testu ar mazāko, lielāko vai tukšāko vērtību, ko šī stunda loģiski atļauj.</li>
+            <li>Palaid trešo testu ar kļūdainu ievadi vai neērtu lietotāja darbību.</li>
+            <li>Atzīmē, vai problēma ir kodā, datos, izkārtojumā vai lietotāja instrukcijā.</li>
+            <li>Izlabo vienu atrastu problēmu, nepaplašinot darba apjomu ar jaunu, vēl neapgūtu funkciju.</li>
+            <li>Pievieno īsu komentāru vai README ierakstu par to, kā testēšana palīdzēja uzlabot gala spēli.</li>
+            <li>Pārbaudi vēlreiz pēc labojuma, lai pārliecinātos, ka labojums tiešām strādā.</li>
+            <li>Pieraksti vienu jautājumu, ko nākamajā stundā vēl vajadzētu pārbaudīt vai uzlabot.</li>
+        </ol>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums — Radīt</h3>
+        <p>Pievieno nelielu radošu uzlabojumu ar klases dzīves piemēru, nepārsniedzot apgūto vielu.</p>
+        <ol class="step-list">
+            <li>Izvēlies vienu nelielu radošu papildinājumu, kas iederas projektā <b>Pong</b> un balstās tikai uz jau apgūto.</li>
+            <li>Izvēlies klases dzīves motīvu, piemēram, zvana taimeri, pazudušu marķieri, grupu punktus vai pārāk entuziastisku prezentācijas pogu.</li>
+            <li>Uzraksti papildinājuma mērķi vienā teikumā, lai tas nekļūtu par pārāk lielu projektu.</li>
+            <li>Pievieno vienu jaunu mainīgo, tekstu, vizuālo elementu vai pārbaudes nosacījumu.</li>
+            <li>Pārliecinies, ka papildinājums neizmanto jaunu bibliotēku vai komandu, kas šajā kursā vēl nav mācīta.</li>
+            <li>Savieno papildinājumu ar jau esošo projekta daļu, nevis atstāj to kā atsevišķu demonstrāciju.</li>
+            <li>Pārbaudi, vai lietotājs saprot, kas jādara, bez garas instrukcijas ekrānā.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā un pārliecinies, vai pamata funkcija joprojām darbojas.</li>
+            <li>Palūdz klasesbiedram 30 sekundēs izmēģināt papildinājumu un pateikt, kas nav skaidrs.</li>
+            <li>Pieraksti, ko atstāsi kā nākamo uzlabojumu, bet šodien nepievieno, lai projekts paliek stabils.</li>
         </ol>
     </div>
 </section>
-
 <section class='section'>
     <h2>Papildu izaicinājumi</h2>
     <p>Pievieno vienu uzlabojumu, kas neizjauc pamata spēli.</p>

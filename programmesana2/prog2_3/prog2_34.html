@@ -45,7 +45,7 @@
   <a href="prog2_33.html">3.3 Signāli un objektu komunikācija</a>
   <a class="active" href="prog2_34.html">3.4 Custom GDExtension klases editor redzamas</a>
   <a href="prog2_35.html">3.5 Statistikas sistēma un struct</a>
-  <a href="prog2_36.html">3.6 Noslēguma projekts: RPG cīņas spēle</a>
+  <a href="prog2_36.html">3.6 Noslēguma projekts: Klases turnīra simulators</a>
 </aside>
 
 <nav class='galvenaisdiv'>
@@ -73,29 +73,29 @@
     <h2>Teorija: GDCLASS un property exposing</h2>
     <div class='logic-box'>
 <p>Lai C++ klase parādītos Godot editor un tās laukus varētu rediģēt Inspector, jāizmanto GDCLASS makro un jāreģistrē properties.</p>
-<pre><code class="language-cpp">class Enemy : public CharacterBody2D {
-    GDCLASS(Enemy, CharacterBody2D)
+<pre><code class="language-cpp">class Obstacle : public CharacterBody2D {
+    GDCLASS(Obstacle, CharacterBody2D)
 
 private:
-    int hp = 50;
+    int energy = 50;
     float speed = 100.0f;
-    String enemy_name = "Goblins";
+    String obstacle_name = "PrinterQueue";
 
 protected:
     static void _bind_methods() {
-        ClassDB::bind_method(D_METHOD("get_hp"), &amp;Enemy::get_hp);
-        ClassDB::bind_method(D_METHOD("set_hp", "v"), &amp;Enemy::set_hp);
+        ClassDB::bind_method(D_METHOD("get_energy"), &amp;Obstacle::get_energy);
+        ClassDB::bind_method(D_METHOD("set_energy", "v"), &amp;Obstacle::set_energy);
         // Padari property redzamu Inspector
-        ADD_PROPERTY(PropertyInfo(Variant::INT, "hp"), "set_hp", "get_hp");
+        ADD_PROPERTY(PropertyInfo(Variant::INT, "energy"), "set_energy", "get_energy");
 
-        ClassDB::bind_method(D_METHOD("get_speed"), &amp;Enemy::get_speed);
-        ClassDB::bind_method(D_METHOD("set_speed", "v"), &amp;Enemy::set_speed);
+        ClassDB::bind_method(D_METHOD("get_speed"), &amp;Obstacle::get_speed);
+        ClassDB::bind_method(D_METHOD("set_speed", "v"), &amp;Obstacle::set_speed);
         ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed"), "set_speed", "get_speed");
     }
 
 public:
-    int get_hp() const { return hp; }
-    void set_hp(int v) { hp = v; }
+    int get_energy() const { return energy; }
+    void set_energy(int v) { energy = v; }
     float get_speed() const { return speed; }
     void set_speed(float v) { speed = v; }
 };</code></pre>
@@ -107,7 +107,7 @@ public:
     <h2>Teorijas paplašinājums: C++ fokuss</h2>
     <div class='logic-box'>
         <p><b>Kritiskais fokuss:</b> šajā stundā nepietiek tikai panākt redzamu efektu editorā. Jāspēj paskaidrot, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra šo kodu izmanto.</p>
-        <p><b>Pārbaudes pierādījums:</b> katrai būtiskai spēles lomai ir C++ klase ar header/implementation dalījumu, konstruktoriem, metodēm, signāliem vai mantošanu.</p>
+        <p><b>Pārbaudes pierādījums:</b> katrai būtiskai turnīra lomai ir C++ klase ar header/implementation dalījumu, konstruktoriem, metodēm, signāliem vai mantošanu.</p>
 <pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
 
 using namespace godot;
@@ -123,88 +123,75 @@ struct OopCheckpoint {
 </section>
 
 <section class='section'>
-    <h2>Konsolidētais praktiskais uzdevums (15+ soļi)</h2>
-
-    <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — izveido minimālo piemēru, kas pārbauda šīs stundas galveno ideju; 2. uzdevums (~25 min) — integrē risinājumu tēmas spēles projektā; 3. uzdevums (~25 min) — notestē robežgadījumus, salabo kļūdas un pieraksti secinājumu README vai komentārā. Tālāk redzamie soļi ir detalizēta karte šiem trim uzdevumiem; ja laiks beidzas, papildu pulēšanu atstāj nākamajai reizei.</p>
-    </div>
-    <p>Izpildi šo darba plānu, lai <b>3.4 Custom GDExtension klases editor redzamas</b> rezultāts būtu pārbaudāms C++ GDExtension projektā.</p>
+    <h2>Praktiskie uzdevumi pēc Blūma taksonomijas</h2>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Atver projektu un izveido Git branch šīs stundas OOP darbam.</li>
-            <li>Apraksti vienā teikumā, kādu spēles lomu modelē jaunā C++ klase.</li>
-            <li>Izveido <code>.hpp</code> failu ar klases deklarāciju un privātajiem datiem.</li>
-            <li>Izveido <code>.cpp</code> failu ar konstruktoru un metožu implementāciju.</li>
-            <li>Pārliecinies, ka katrai klasei ir viena skaidra atbildība.</li>
-            <li>Ja klase ir Godot node, pievieno <code>GDCLASS</code> makro un <code>_bind_methods()</code>.</li>
-            <li>Ja klase ir parasta C++ palīgklase, atstāj to neatkarīgu no Scene Tree.</li>
-            <li>Pievieno konstruktoru, kas objektu atstāj derīgā sākumstāvoklī.</li>
-            <li>Pievieno vismaz vienu metodi, kas maina objekta stāvokli kontrolētā veidā.</li>
-            <li>Pievieno vismaz vienu <code>const</code> metodi, kas tikai nolasa stāvokli.</li>
-            <li>Ja lieto mantošanu, pārbaudi, ka bāzes klase satur kopīgo uzvedību, nevis konkrētas detaļas.</li>
-            <li>Ja lieto signālus, deklarē tos <code>_bind_methods()</code> un pieslēdz ar <code>Callable</code>.</li>
-            <li>Reģistrē Godot redzamās klases <code>register_types.cpp</code> failā.</li>
-            <li>Pievieno īsu C++ izvadi vai UI pārbaudi, kas pierāda, ka metode tiek izsaukta.</li>
-            <li>Pārkompilē projektu un izlabo visas kompilatora kļūdas pirms Godot testēšanas.</li>
-            <li>Godot editorā pārbaudi, vai pielāgotā klase vai tās īpašības parādās pareizajā vietā.</li>
-            <li>README pieraksti, kāpēc izvēlējies kompozīciju, mantošanu vai signālus.</li>
-            <li>Veic commit ar ziņu, kas nosauc izveidoto klasi vai OOP principu.</li>
+        <h3>1. uzdevums — Saprast</h3>
+        <p>Atpazīsti šīs stundas galveno ideju un sasaisti to ar gala projektu <b>Klases turnīra simulators</b>.</p>
+        <ol class="step-list">
+            <li>Izlasi stundas izaicinājumu un ar vienu teikumu pieraksti, ko šodien mācīsies par tēmas projektu <b>Klases turnīra simulators</b>.</li>
+            <li>Atrodi teorijas sadaļā vienu piemēru, kas izmanto Godot 4 un C++ GDExtension, un pieraksti trīs svarīgākās darbības.</li>
+            <li>Pieraksti, kurā gala projekta daļā šī prasme būs vajadzīga: sākuma ekrānā, turnīra laukumā, datos, vadībā, rezultātā vai publicēšanā.</li>
+            <li>Izveido nelielu izmēģinājuma fragmentu <code>.hpp</code>, <code>.cpp</code> vai Godot scēnas failā, nevis uzreiz lielu funkciju.</li>
+            <li>Izmanto tikai šajā stundā un iepriekšējās Programmēšana II stundās apgūto; ja ideja prasa jaunu rīku, pagaidām pieraksti to kā komentāru.</li>
+            <li>Nomaini piemēra mainīgos uz klases situācijām, piemēram, <code>klases_punkti</code>, <code>zvana_taimeris</code>, <code>pazudusais_markieris</code> vai <code>kafijas_pauze</code>; mazliet humora drīkst, bet kodam jāpaliek skaidram.</li>
+            <li>Pievieno vienu komentāru, kas paskaidro, kāpēc šī darbība nepieciešama gala turnīra projektam.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā, lai redzētu, vai minimālais piemērs darbojas.</li>
+            <li>Nomaini vienu ievades vērtību vai tekstu un pārbaudi, vai rezultāts mainās paredzami.</li>
+            <li>Pieraksti vienu secinājumu: kas šajā stundā ir jaunais jēdziens un kā tas palīdzēs gala turnīram.</li>
         </ol>
     </div>
-</section>
-<section class='section'>
-    <h2>Aktivitāte 1: Inspector redzami lauki</h2>
-    <p>Padari Hero atribūtus rediģējamus.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Hero klasei pievieno getter/setter visiem laukiem (name, hp, attack, defense).</li>
-            <li><code>_bind_methods</code>: ADD_PROPERTY katram.</li>
-            <li>Pārkompilē, atver Godot, atlasi Hero node.</li>
-            <li>Inspector tagad rāda visus laukus — vari mainīt vērtības bez koda.</li>
+        <h3>2. uzdevums — Pielietot</h3>
+        <p>Izmanto šīs stundas prasmi nelielā, strādājošā projekta daļā.</p>
+        <ol class="step-list">
+            <li>Atver tēmas projekta mapi un atrodi failu vai scēnu, kurā šīs stundas prasme loģiski iederas projektā <b>Klases turnīra simulators</b>.</li>
+            <li>Izveido rezerves kopiju ar Git commit vai pārliecinies, ka darba koks ir saprotamā stāvoklī.</li>
+            <li>Pievieno nelielu funkciju, sadaļu vai elementu <code>.hpp</code>, <code>.cpp</code> vai Godot scēnas failā, izmantojot teorijas piemēru kā sākumpunktu.</li>
+            <li>Nosauc jaunos mainīgos skaidri un ikdienišķi, piemēram, par punktiem, laiku, klases grupu, pogu vai rezultātu.</li>
+            <li>Ievieto risinājumu tur, kur tas būs lietotājam redzams vai turnīra loģikai izmantojams, nevis atsevišķā nesavienotā failā.</li>
+            <li>Pārbaudi, ka risinājums netraucē iepriekšējām stundām izveidoto funkcionalitāti.</li>
+            <li>Pievieno vienu lietotājam saprotamu tekstu vai izvadi, kas parāda, ka jaunā daļa strādā.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā.</li>
+            <li>Salabo pirmo kļūdu, kuru pamani, pirms pievieno nākamo uzlabojumu.</li>
+            <li>Veic Git commit ar īsu tehnisku ziņu, kurā minēts, kā šī prasme tika pielietota gala projektā.</li>
         </ol>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Aktivitāte 2: Property hints</h2>
-    <p>Padari saskarni jaukāku.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li><code>PROPERTY_HINT_RANGE</code> ar "0,200" priekš HP.</li>
-            <li><code>PROPERTY_HINT_ENUM</code> priekš varoņa class: "Knight,Mage,Archer".</li>
-            <li>Tagad lietotājs nevar ievadīt nederīgas vērtības.</li>
+        <h3>3. uzdevums — Analizēt</h3>
+        <p>Pārbaudi risinājumu, salīdzini rezultātus un atrodi, ko uzlabot.</p>
+        <ol class="step-list">
+            <li>Izveido trīs pārbaudes gadījumus projektam <b>Klases turnīra simulators</b>: parasts gadījums, robežgadījums un kļūdaina vai tukša ievade.</li>
+            <li>Pirms palaišanas pieraksti, kādu rezultātu sagaidi katrā gadījumā.</li>
+            <li>Palaid pirmo testu un salīdzini faktisko rezultātu ar sagaidāmo.</li>
+            <li>Palaid otro testu ar mazāko, lielāko vai tukšāko vērtību, ko šī stunda loģiski atļauj.</li>
+            <li>Palaid trešo testu ar kļūdainu ievadi vai neērtu lietotāja darbību.</li>
+            <li>Atzīmē, vai problēma ir kodā, datos, izkārtojumā vai lietotāja instrukcijā.</li>
+            <li>Izlabo vienu atrastu problēmu, nepaplašinot darba apjomu ar jaunu, vēl neapgūtu funkciju.</li>
+            <li>Pievieno īsu komentāru vai README ierakstu par to, kā testēšana palīdzēja uzlabot gala turnīru.</li>
+            <li>Pārbaudi vēlreiz pēc labojuma, lai pārliecinātos, ka labojums tiešām strādā.</li>
+            <li>Pieraksti vienu jautājumu, ko nākamajā stundā vēl vajadzētu pārbaudīt vai uzlabot.</li>
         </ol>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Aktivitāte 3: Export grupās</h2>
-    <p>Organizē Inspector laukus.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pievieno: <code>ADD_GROUP("Stats", "");</code> pirms HP property.</li>
-            <li>Pievieno: <code>ADD_GROUP("Combat", "");</code> pirms attack property.</li>
-            <li>Lauki tagad ir loģiski sakārtoti grupās Inspector.</li>
+        <h3>Papildu uzdevums — Radīt</h3>
+        <p>Pievieno nelielu radošu uzlabojumu ar klases dzīves piemēru, nepārsniedzot apgūto vielu.</p>
+        <ol class="step-list">
+            <li>Izvēlies vienu nelielu radošu papildinājumu, kas iederas projektā <b>Klases turnīra simulators</b> un balstās tikai uz jau apgūto.</li>
+            <li>Izvēlies klases dzīves motīvu, piemēram, zvana taimeri, pazudušu marķieri, grupu punktus vai pārāk entuziastisku prezentācijas pogu.</li>
+            <li>Uzraksti papildinājuma mērķi vienā teikumā, lai tas nekļūtu par pārāk lielu projektu.</li>
+            <li>Pievieno vienu jaunu mainīgo, tekstu, vizuālo elementu vai pārbaudes nosacījumu.</li>
+            <li>Pārliecinies, ka papildinājums neizmanto jaunu bibliotēku vai komandu, kas šajā kursā vēl nav mācīta.</li>
+            <li>Savieno papildinājumu ar jau esošo projekta daļu, nevis atstāj to kā atsevišķu demonstrāciju.</li>
+            <li>Pārbaudi, vai lietotājs saprot, kas jādara, bez garas instrukcijas ekrānā.</li>
+            <li>Pārkompilē C++ un palaid projektu Godot editorā un pārliecinies, vai pamata funkcija joprojām darbojas.</li>
+            <li>Palūdz klasesbiedram 30 sekundēs izmēģināt papildinājumu un pateikt, kas nav skaidrs.</li>
+            <li>Pieraksti, ko atstāsi kā nākamo uzlabojumu, bet šodien nepievieno, lai projekts paliek stabils.</li>
         </ol>
     </div>
 </section>
 
-<section class='section'>
-    <h2>Papildu izaicinājums: Custom resource types</h2>
-    <p>Izveido pielāgotu Resource klasi.</p>
-    <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li><code>HeroData : public Resource</code> ar export properties.</li>
-            <li>Saglabā kā .tres fails: 'knight_data.tres'.</li>
-            <li>Vairāki Hero nodes var atsaukties uz vienu HeroData.</li>
-        </ol>
-    </div>
-</section>
+
+
 
 <section class='section'>
     <h2>Biežākās kļūdas</h2>
@@ -221,8 +208,8 @@ struct OopCheckpoint {
     <h2>Godot ekrānuzņēmumi</h2>
     <div class='logic-box'>
         <figure class="screenshot">
-            <img src="../img/topic3_inspector_custom.png" alt="Godot Inspector ar Hero node, redzamas grupas 'Stats' (HP slider 0-200), 'Combat' (Attack, Defense) un 'Identity' (Name)." loading="lazy">
-            <figcaption>Godot Inspector ar Hero node, redzamas grupas 'Stats' (HP slider 0-200), 'Combat' (Attack, Defense) un 'Identity' (Name).</figcaption>
+            <img src="../img/topic3_inspector_custom.png" alt="Godot Inspector ar Participant node, redzamas grupas 'Stats' (ENERGY slider 0-200), 'Turnīrs' (Focus, Calm) un 'Identity' (Name)." loading="lazy">
+            <figcaption>Godot Inspector ar Participant node, redzamas grupas 'Stats' (ENERGY slider 0-200), 'Turnīrs' (Focus, Calm) un 'Identity' (Name).</figcaption>
         </figure>
     </div>
 </section>
@@ -230,31 +217,31 @@ struct OopCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">class Enemy : public CharacterBody2D {
-    GDCLASS(Enemy, CharacterBody2D)
+        <pre><code class="language-cpp">class Obstacle : public CharacterBody2D {
+    GDCLASS(Obstacle, CharacterBody2D)
 private:
-    int hp = 50;
+    int energy = 50;
     float speed = 100.0f;
 public:
-    int get_hp() const { return hp; }
-    void set_hp(int v) { hp = std::max(0, v); }
+    int get_energy() const { return energy; }
+    void set_energy(int v) { energy = std::max(0, v); }
     float get_speed() const { return speed; }
     void set_speed(float v) { speed = std::max(0.0f, v); }
 
 protected:
     static void _bind_methods() {
-        ClassDB::bind_method(D_METHOD("get_hp"), &amp;Enemy::get_hp);
-        ClassDB::bind_method(D_METHOD("set_hp", "v"), &amp;Enemy::set_hp);
-        ADD_PROPERTY(PropertyInfo(Variant::INT, "hp",
-            PROPERTY_HINT_RANGE, "0,500"), "set_hp", "get_hp");
+        ClassDB::bind_method(D_METHOD("get_energy"), &amp;Obstacle::get_energy);
+        ClassDB::bind_method(D_METHOD("set_energy", "v"), &amp;Obstacle::set_energy);
+        ADD_PROPERTY(PropertyInfo(Variant::INT, "energy",
+            PROPERTY_HINT_RANGE, "0,500"), "set_energy", "get_energy");
 
-        ClassDB::bind_method(D_METHOD("get_speed"), &amp;Enemy::get_speed);
-        ClassDB::bind_method(D_METHOD("set_speed", "v"), &amp;Enemy::set_speed);
+        ClassDB::bind_method(D_METHOD("get_speed"), &amp;Obstacle::get_speed);
+        ClassDB::bind_method(D_METHOD("set_speed", "v"), &amp;Obstacle::set_speed);
         ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed",
             PROPERTY_HINT_RANGE, "0,500,0.1"), "set_speed", "get_speed");
     }
 };</code></pre>
-        <div class='result'>Inspector rāda Hero ar Stats grupu, kurā ir HP slider 0-200, ATK skaitlis, DEF skaitlis.</div>
+        <div class='result'>Inspector rāda Participant ar Stats grupu, kurā ir ENERGY slider 0-200, FOCUS skaitlis, CALM skaitlis.</div>
     </div>
 </div>
 
