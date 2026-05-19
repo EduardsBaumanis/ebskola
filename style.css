@@ -15,18 +15,35 @@ html {
   background-color: #222831;
   scroll-behavior: smooth;
   box-sizing: border-box;
+  color-scheme: dark;
 }
 *, *::before, *::after { box-sizing: inherit; }
 
+:root {
+  --color-bg: #222831;
+  --color-panel: #393E46;
+  --color-panel-soft: #2f3032;
+  --color-panel-deep: #2A2F34;
+  --color-border: #4a515c;
+  --color-accent: #948979;
+  --color-text: #E7DEC9;
+  --color-heading: #FFFFFF;
+  --color-sunny: #FFB142;
+  --color-sunny-soft: #FFD580;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+}
+
 body {
   background-color: #222831;
-  color: #DFD0B8;
+  color: var(--color-text);
   font-family: 'Inter', 'JetBrains Mono', system-ui, sans-serif;
   padding: 20px 50px 80px 50px;
-  max-width: 1100px;
+  max-width: 1020px;
   margin: 0 auto;
   line-height: 1.65;
   font-size: 17px;
+  letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -42,21 +59,35 @@ a {
   transition: opacity 0.2s, color 0.2s;
 }
 a:hover { opacity: 0.85; }
+a:active { transform: translateY(1px); }
 a:focus-visible {
-  outline: 2px solid #FFB142;
+  outline: 2px solid var(--color-sunny);
   outline-offset: 3px;
   border-radius: 3px;
+}
+p a,
+li a,
+td a {
+  color: var(--color-sunny-soft);
+  text-decoration: none;
+}
+p a:hover,
+li a:hover,
+td a:hover {
+  color: var(--color-heading);
+  opacity: 1;
 }
 
 h1, h2, h3 {
   line-height: 1.25;
-  color: #ffffff;
+  color: var(--color-heading);
   letter-spacing: 0.2px;
+  text-wrap: balance;
 }
 h1 { font-size: 1.9em; margin-bottom: 0.5em; }
 .site-title {
   display: inline-block;
-  color: #ffffff;
+  color: var(--color-heading);
   font-size: 1.9em;
   font-weight: 700;
   line-height: 1.25;
@@ -66,14 +97,41 @@ h2 {
   font-size: 1.4em;
   margin: 0.4em 0 0.6em 0;
   padding-bottom: 0.3em;
-  border-bottom: 1px solid #4a515c;
+  border-bottom: 1px solid var(--color-border);
 }
 h3 { font-size: 1.1em; }
 
-p { margin: 0.6em 0; }
+p {
+  margin: 0.6em 0;
+  max-width: 78ch;
+}
+
+b,
+strong {
+  color: var(--color-sunny);
+  font-weight: 700;
+}
 
 ol, ul { padding-left: 1.5em; }
-li { margin-bottom: 0.4em; }
+li {
+  margin-bottom: 0.45em;
+  max-width: 78ch;
+}
+li::marker {
+  color: var(--color-sunny);
+  font-weight: 700;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: rgba(255, 177, 66, 0.32);
+  color: #FFFFFF;
+}
 
 /* ====================================================
    2. STRUKTŪRA UN IZKĀRTOJUMS
@@ -86,14 +144,29 @@ li { margin-bottom: 0.4em; }
   align-items: center;
   flex-wrap: wrap;
 }
+.galvenaisdiv a {
+  color: #DFD0B8;
+  font-weight: 600;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  line-height: 1.2;
+}
+.galvenaisdiv a:hover {
+  background-color: var(--color-panel);
+  border-color: var(--color-border);
+  color: var(--color-sunny-soft);
+  opacity: 1;
+}
 
 .section {
   margin-top: 36px;
   padding-top: 18px;
-  border-top: 2px solid #948979;
+  border-top: 2px solid var(--color-accent);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+  scroll-margin-top: 24px;
 }
 
 /* ====================================================
@@ -104,9 +177,11 @@ table {
   border-collapse: collapse;
   margin-top: 16px;
   background-color: #2d2d2d;
-  color: #DFD0B8;
-  border-radius: 6px;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   overflow: hidden;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
 }
 thead { background-color: #383838; }
 th, td {
@@ -115,27 +190,31 @@ th, td {
   text-align: left;
   font-size: 0.95em;
   vertical-align: top;
+  line-height: 1.45;
 }
-th { color: #ffffff; font-weight: 700; }
+th { color: var(--color-heading); font-weight: 700; }
 tbody tr:nth-child(even) { background-color: #2a2c31; }
 tbody tr:hover { background-color: #393E46; }
 
 code {
-  background-color: #393E46;
-  color: #FFD580;
+  background-color: var(--color-panel);
+  color: var(--color-sunny-soft);
   padding: 2px 6px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-size: 0.92em;
+  overflow-wrap: anywhere;
 }
 
 pre {
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   margin: 0.6em 0;
-  background-color: #2f3032;
+  background-color: var(--color-panel-soft);
+  border: 1px solid var(--color-border);
   padding: 14px 16px;
   overflow-x: auto;
   font-size: 0.92em;
   line-height: 1.5;
+  tab-size: 2;
 }
 pre code { background: transparent; padding: 0; color: inherit; }
 
@@ -144,7 +223,7 @@ pre code { background: transparent; padding: 0; color: inherit; }
   grid-template-columns: 1fr 1fr;
   gap: 18px;
   margin-top: 18px;
-  align-items: stretch;
+  align-items: start;
 }
 .code-example pre {
   margin: 0;
@@ -153,18 +232,19 @@ pre code { background: transparent; padding: 0; color: inherit; }
   overflow: auto;
   white-space: pre-wrap;
   word-break: break-word;
-  background-color: #2f3032;
-  border-radius: 6px;
+  background-color: var(--color-panel-soft);
+  border-radius: var(--radius-md);
 }
 .code-example .result {
   display: block;
   background-color: #DFD0B8;
   color: #222831;
   padding: 14px 16px;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   overflow: auto;
   font-family: 'JetBrains Mono', monospace;
   line-height: 1.5;
+  min-height: 100%;
 }
 .code-example .result::before {
   content: "▶ Izvade";
@@ -179,13 +259,30 @@ pre code { background: transparent; padding: 0; color: inherit; }
 /* Loģikas kastes – vizuāli atdala teorijas / uzdevumu informāciju */
 .logic-box,
 .info-box {
-  background-color: #393E46;
+  background-color: var(--color-panel);
   padding: 16px 20px;
-  border-left: 5px solid #948979;
+  border: 1px solid var(--color-border);
+  border-left: 5px solid var(--color-accent);
   margin: 10px 0;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
 }
-.info-box { border-left-color: #FFB142; }
+.info-box { border-left-color: var(--color-sunny); }
+
+.logic-box h3,
+.info-box h3 {
+  margin-top: 0;
+}
+
+.logic-box > :first-child,
+.info-box > :first-child {
+  margin-top: 0;
+}
+
+.logic-box > :last-child,
+.info-box > :last-child {
+  margin-bottom: 0;
+}
 
 article.logic-box { flex: 1; min-height: 250px; }
 
@@ -208,11 +305,19 @@ article.logic-box { flex: 1; min-height: 250px; }
   font-size: 0.92em;
 }
 .lesson-meta a {
-  background: #393E46;
-  border-left: 3px solid #948979;
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+  color: #DFD0B8;
   padding: 4px 10px;
   border-radius: 3px;
   display: inline-block;
+  line-height: 1.35;
+}
+.lesson-meta a:hover {
+  border-left-color: var(--color-sunny);
+  color: var(--color-sunny-soft);
+  opacity: 1;
 }
 
 /* ====================================================
@@ -226,19 +331,25 @@ article.logic-box { flex: 1; min-height: 250px; }
   gap: 12px;
 }
 .nav-btn {
-  background-color: #393E46;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-panel);
   color: #DFD0B8;
   padding: 10px 16px;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-weight: bold;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  border: 1px solid transparent;
+  border: 1px solid var(--color-border);
+  min-height: 44px;
+  text-align: center;
 }
 .nav-btn:hover {
-  background-color: #948979;
+  background-color: var(--color-accent);
   color: #222831;
   border-color: #DFD0B8;
+  opacity: 1;
 }
 
 /* ====================================================
@@ -252,10 +363,11 @@ article.logic-box { flex: 1; min-height: 250px; }
   height: 100vh;
   background-color: #393E46;
   padding: 18px 0;
-  border-right: 3px solid #948979;
+  border-right: 3px solid var(--color-accent);
   overflow-y: auto;
   z-index: 1000;
   transition: width 0.3s ease;
+  scrollbar-color: var(--color-accent) var(--color-panel-deep);
 }
 .sidebar-nav a {
   display: block;
@@ -266,28 +378,30 @@ article.logic-box { flex: 1; min-height: 250px; }
   transition: all 0.2s ease;
   font-size: 15px;
   line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 .sidebar-nav a:hover,
 .sidebar-nav a.active {
-  background-color: #2A2F34;
-  color: #FFFFFF;
-  border-left-color: #FFB142;
+  background-color: var(--color-panel-deep);
+  color: var(--color-heading);
+  border-left-color: var(--color-sunny);
+  opacity: 1;
 }
 .sidebar-nav h3 {
-  color: #948979;
+  color: var(--color-accent);
   font-size: 18px;
   font-weight: bold;
   text-align: center;
   margin: 8px 0 16px 0;
   padding: 8px 0;
-  border-bottom: 2px solid #948979;
+  border-bottom: 2px solid var(--color-accent);
 }
 
 /* Satura nobīde, lai sānjosla nepārklātu */
 body.has-sidebar {
   margin: 0 auto 0 250px;
   padding: 20px 50px 80px 50px;
-  max-width: calc(100% - 250px);
+  max-width: min(1020px, calc(100% - 250px));
 }
 
 /* ====================================================
@@ -324,10 +438,62 @@ body.has-sidebar {
   .galvenaisdiv {
     flex-direction: column;
     align-items: stretch;
+    gap: 8px;
+    padding: 10px 0;
+  }
+  .galvenaisdiv a {
+    text-align: center;
   }
   h1 { font-size: 1.6em; }
   h2 { font-size: 1.25em; }
   th, td { padding: 8px 10px; font-size: 0.88em; }
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .logic-box,
+  .info-box {
+    padding: 14px 14px 14px 16px;
+  }
+  .stundas-navigacija {
+    flex-direction: column;
+    padding: 0;
+  }
+  .nav-btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Shared figure style used by programming screenshots. */
+.screenshot {
+  margin: 12px 0;
+  padding: 8px;
+  background: #2a2c31;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+.screenshot img {
+  display: block;
+  border: 1px solid #444;
+  border-radius: 3px;
+}
+.screenshot figcaption {
+  color: var(--color-accent);
+  font-size: 0.9em;
+  font-style: italic;
+  padding: 6px 4px 0;
 }
 
 /* Uzdevumu sarakstā – izceļ atslēgvārdus, lai soļus ir vieglāk lasīt */
@@ -346,6 +512,6 @@ body.has-sidebar {
   color: #FFD580;          /* gaiša saulaina nokrāsa */
 }
 /* Pielāgotas klases ērtai izceltai pielietošanai skriptā */
-.kw      { color: #FFB142; font-weight: 700; }
-.kw-verb { color: #FFD580; font-weight: 700; }
-.kw-ui   { background: #393E46; color: #FFD580; padding: 1px 6px; border-radius: 3px; font-weight: 600; }
+.kw      { color: var(--color-sunny); font-weight: 700; }
+.kw-verb { color: var(--color-sunny-soft); font-weight: 700; }
+.kw-ui   { background: var(--color-panel); color: var(--color-sunny-soft); padding: 1px 6px; border-radius: 3px; font-weight: 600; }

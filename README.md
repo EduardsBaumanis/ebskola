@@ -2,7 +2,7 @@
 
 Bezmaksas atvērtā koda mācību materiāli datorikai, programmēšanai un robotikai latviešu valodā. Projekts ir veidots kā statiska tīmekļvietne skolēniem un pedagogiem, ar uzsvaru uz praktisku darbu, atvērtā pirmkoda rīkiem un sasniedzamo rezultātu sasaisti ar Latvijas izglītības standartiem.
 
-Publiskā vietne: <https://eduardsbaumanis.github.io/ebskola/>
+Publiskā vietne: <https://ebskola.lv/>
 
 ## Kas atrodas šajā repo
 
