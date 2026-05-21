@@ -79,6 +79,7 @@
             <li><a href="#deploy">Izvietošana</a></li>
             <li><a href="#debug">Atkļūdošana</a></li>
             <li><a href="#planning">Projekta plānošana un dizains</a></li>
+            <li><a href="#glosarijs">Terminu vārdnīca (EN → LV)</a></li>
         </ul>
     </div>
 </section>
@@ -1850,6 +1851,61 @@ def metrikas_json():
         </div>
     </details>
 
+    <details class="cheat-section">
+        <summary>Kļūdu tipi (diagnostikas kategorijas)</summary>
+        <div class="body">
+            <p>Pirms labošanas nosaki, <b>kāda tipa</b> kļūda tā ir — tas norāda, kur meklēt. Stundu "Biežākās kļūdas" sadaļas parasti pieder kādai no šīm kategorijām:</p>
+            <table>
+                <thead><tr><th>Kļūdas tips</th><th>Kad rodas</th><th>Tipisks piemērs</th><th>Kur meklēt</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><b>Sintakses kļūda</b><br>(syntax error)</td>
+                        <td>Programma vispār nepalaižas / nekompilējas.</td>
+                        <td>Trūkst <code>:</code>, <code>;</code>, iekavas; nepareiza atkāpe.</td>
+                        <td>Rindā, ko norāda kļūda (vai vienu rindu augstāk).</td>
+                    </tr>
+                    <tr>
+                        <td><b>Izpildlaika kļūda</b><br>(runtime error)</td>
+                        <td>Programma sākas, bet avarē izpildes laikā.</td>
+                        <td><code>ZeroDivisionError</code>, <code>NullReferenceException</code>, <code>IndexError</code>.</td>
+                        <td>Traceback apakšējā rinda; vērtība, kas bija negaidīta.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Loģikas kļūda</b><br>(logic error)</td>
+                        <td>Programma strādā, bet rezultāts ir nepareizs.</td>
+                        <td><code>&lt;</code> vietā <code>&lt;=</code>; <code>+</code> vietā <code>-</code>; cikls iet par vienu reizi par maz.</td>
+                        <td>Salīdzini gaidīto vs faktisko izvadi; print starprezultātus.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Stāvokļa kļūda</b><br>(state error)</td>
+                        <td>Mainīgais/objekts ir negaidītā stāvoklī.</td>
+                        <td>Score netiek atiestatīts; sarakstu pirms cikla neiztukšo; karogs paliek <code>true</code>.</td>
+                        <td>Kur mainīgais tiek mainīts; iniciaizācija pirms cikla.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Datu-formas kļūda</b><br>(data-shape error)</td>
+                        <td>Dati nav tādā formā, kā kods sagaida.</td>
+                        <td><code>"5"</code> (str) vietā <code>5</code> (int); JSON atslēga citā nosaukumā; tukšs saraksts.</td>
+                        <td>Tipa pārveide (<code>int()</code>); <code>print(type(x))</code>; pārbaudi datu avotu.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Vides kļūda</b><br>(environment error)</td>
+                        <td>Kods ir pareizs, bet vide nav sagatavota.</td>
+                        <td>Bibliotēka nav instalēta; nepareizs faila ceļš; trūkst <code>.env</code>; SCons/compiler trūkst.</td>
+                        <td>Instalācija, ceļi, versijas, atļaujas — NEVIS pats kods.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Dizaina kļūda</b><br>(design error)</td>
+                        <td>Kods strādā, bet risinājums ir slikti uzbūvēts.</td>
+                        <td>Viena funkcija dara 5 lietas; dati dublēti; nav iespējams paplašināt.</td>
+                        <td>Arhitektūra: kā sadalītas atbildības; vai datu modelis der.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><b>Diagnostikas secība:</b> 1) vai palaižas? (sintakse/vide) → 2) vai avarē? (izpildlaiks) → 3) vai pareizs rezultāts? (loģika/stāvoklis/dati) → 4) vai labi uzbūvēts? (dizains).</p>
+        </div>
+    </details>
+
 </section>
 
 
@@ -2149,6 +2205,155 @@ Milestones:          M1       M2          M3       LAUNCH</code></pre>
                 <li>Punkti 3–5 = AUGSTS — sagatavo mitigācijas plānu</li>
                 <li>Punkti 1–2 = VIDĒJS — monitorē</li>
             </ul>
+        </div>
+    </details>
+</section>
+
+<section class='section' id="glosarijs">
+    <h2>Terminu vārdnīca (EN → LV)</h2>
+    <p>Programmēšanas pasaule lielākoties runā angliski. Šeit ir biežāk lietotie angļu termini, to latviskais skaidrojums un konteksts, kurā tos sastapsi ebSkola kursos. Termini ir grupēti pa jomām.</p>
+
+    <details class="cheat-section" open>
+        <summary>Versiju kontrole (Git / GitHub)</summary>
+        <div class="body">
+            <table>
+                <thead><tr><th>Termins (EN)</th><th>Skaidrojums (LV)</th><th>Konteksts</th></tr></thead>
+                <tbody>
+                    <tr><td><b>repository</b> (repo)</td><td>Projekta krātuve — visi faili + izmaiņu vēsture</td><td>"Izveido jaunu GitHub <i>repo</i>"</td></tr>
+                    <tr><td><b>commit</b></td><td>Izmaiņu "fotogrāfija" ar aprakstu</td><td>Nofiksē pabeigtu darba posmu</td></tr>
+                    <tr><td><b>push</b></td><td>Augšupielādēt lokālos commit uz mākoni</td><td>Nodod darbu vērtēšanai</td></tr>
+                    <tr><td><b>pull</b></td><td>Lejupielādēt jaunākās izmaiņas no mākoņa</td><td>Pirms darba sākuma komandā</td></tr>
+                    <tr><td><b>clone</b></td><td>Lejupielādēt repo kopiju savā datorā</td><td>Tikai 1× projektam</td></tr>
+                    <tr><td><b>branch</b></td><td>Zars — paralēla izstrādes līnija</td><td>Jauna funkcija bez galvenā koda bojāšanas</td></tr>
+                    <tr><td><b>merge</b></td><td>Sapludināt — apvienot divus zarus</td><td>Pievienot funkciju <code>main</code> zaram</td></tr>
+                    <tr><td><b>stage</b></td><td>Sagatavot failus commit'am (<code>git add</code>)</td><td>Izvēlies, ko iekļaut nākamajā commit</td></tr>
+                    <tr><td><b>remote</b></td><td>Attālā repo adrese (parasti GitHub)</td><td><code>origin</code> = noklusējuma remote</td></tr>
+                    <tr><td><b>conflict</b></td><td>Konflikts — divas izmaiņas vienā rindā</td><td>Jārisina manuāli pēc merge</td></tr>
+                    <tr><td><b>README</b></td><td>Projekta apraksta fails (Markdown)</td><td>Pirmais, ko lasa cits izstrādātājs</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>Tīmeklis (HTML / CSS / JavaScript)</summary>
+        <div class="body">
+            <table>
+                <thead><tr><th>Termins (EN)</th><th>Skaidrojums (LV)</th><th>Konteksts</th></tr></thead>
+                <tbody>
+                    <tr><td><b>tag</b></td><td>Birka — HTML elements, piem. <code>&lt;p&gt;</code></td><td>Lapas struktūras pamatvienība</td></tr>
+                    <tr><td><b>element</b></td><td>Elements — birka ar saturu</td><td>HTML dokumenta sastāvdaļa</td></tr>
+                    <tr><td><b>attribute</b></td><td>Atribūts — birkas papildinājums, piem. <code>href</code></td><td><code>&lt;a href="..."&gt;</code></td></tr>
+                    <tr><td><b>selector</b></td><td>Selektors — CSS norāde, ko stilizēt</td><td><code>.karte</code>, <code>#logo</code></td></tr>
+                    <tr><td><b>DOM</b></td><td>Dokumenta objektu modelis — lapa kā koks</td><td>JS maina lapu caur DOM</td></tr>
+                    <tr><td><b>event</b></td><td>Notikums — klikšķis, taustiņš, ielāde</td><td><code>addEventListener("click", ...)</code></td></tr>
+                    <tr><td><b>event listener</b></td><td>Notikuma klausītājs — reaģē uz notikumu</td><td>Poga reaģē uz klikšķi</td></tr>
+                    <tr><td><b>render</b></td><td>Renderēt — attēlot saturu ekrānā</td><td>Pārlūks renderē HTML</td></tr>
+                    <tr><td><b>viewport</b></td><td>Skatlogs — redzamais loga apgabals</td><td>Responsīvais dizains</td></tr>
+                    <tr><td><b>responsive</b></td><td>Responsīvs — pielāgojas ekrāna izmēram</td><td>Mobilais vs dators</td></tr>
+                    <tr><td><b>callback</b></td><td>Atzvana funkcija — izsaukta vēlāk</td><td>Tiek izsaukta pēc notikuma</td></tr>
+                    <tr><td><b>localStorage</b></td><td>Lokālā krātuve pārlūkā</td><td>Saglabā highscore bez servera</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>Programmēšana (Python / C++)</summary>
+        <div class="body">
+            <table>
+                <thead><tr><th>Termins (EN)</th><th>Skaidrojums (LV)</th><th>Konteksts</th></tr></thead>
+                <tbody>
+                    <tr><td><b>variable</b></td><td>Mainīgais — nosaukta vērtības glabātuve</td><td><code>score = 0</code></td></tr>
+                    <tr><td><b>function</b></td><td>Funkcija — atkārtoti lietojams koda bloks</td><td><code>def aprekini():</code></td></tr>
+                    <tr><td><b>parameter / argument</b></td><td>Parametrs (definīcijā) / arguments (izsaukumā)</td><td><code>def f(x)</code> → <code>f(5)</code></td></tr>
+                    <tr><td><b>return</b></td><td>Atgriež — funkcijas rezultāts</td><td><code>return summa</code></td></tr>
+                    <tr><td><b>loop</b></td><td>Cikls — atkārto darbības</td><td><code>for</code>, <code>while</code></td></tr>
+                    <tr><td><b>scope</b></td><td>Tvērums — kur mainīgais ir pieejams</td><td>Lokālais vs globālais</td></tr>
+                    <tr><td><b>module / import</b></td><td>Modulis — atsevišķs koda fails / tā ielāde</td><td><code>import random</code></td></tr>
+                    <tr><td><b>library</b></td><td>Bibliotēka — gatavs cita autora kods</td><td><code>matplotlib</code>, <code>requests</code></td></tr>
+                    <tr><td><b>list / array</b></td><td>Saraksts / masīvs — sakārtotu vērtību kopa</td><td><code>[1, 2, 3]</code></td></tr>
+                    <tr><td><b>dictionary / map</b></td><td>Vārdnīca — atslēga→vērtība pāri</td><td><code>{"hp": 100}</code></td></tr>
+                    <tr><td><b>class</b></td><td>Klase — objektu veidne</td><td><code>class Varonis:</code></td></tr>
+                    <tr><td><b>object / instance</b></td><td>Objekts / eksemplārs — no klases izveidots</td><td><code>v = Varonis()</code></td></tr>
+                    <tr><td><b>method</b></td><td>Metode — funkcija klases iekšienē</td><td><code>v.cizt(10)</code></td></tr>
+                    <tr><td><b>inheritance</b></td><td>Mantošana — bērna klase pārmanto vecāku</td><td><code>class Burvis(Varonis)</code></td></tr>
+                    <tr><td><b>exception</b></td><td>Izņēmums — kļūda izpildes laikā</td><td><code>try / except</code></td></tr>
+                    <tr><td><b>compile</b></td><td>Kompilēt — pārvērst kodu mašīnvalodā</td><td>C++ ar SCons</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>Datubāzes un API (PostgreSQL / REST)</summary>
+        <div class="body">
+            <table>
+                <thead><tr><th>Termins (EN)</th><th>Skaidrojums (LV)</th><th>Konteksts</th></tr></thead>
+                <tbody>
+                    <tr><td><b>database</b></td><td>Datubāze — strukturēta datu krātuve</td><td>PostgreSQL serveris</td></tr>
+                    <tr><td><b>table</b></td><td>Tabula — rindas un kolonnas</td><td><code>speletaji</code> tabula</td></tr>
+                    <tr><td><b>query</b></td><td>Vaicājums — SQL pieprasījums</td><td><code>SELECT * FROM ...</code></td></tr>
+                    <tr><td><b>schema</b></td><td>Shēma — datubāzes struktūras apraksts</td><td>Tabulu un kolonnu definīcijas</td></tr>
+                    <tr><td><b>primary key</b></td><td>Primārā atslēga — unikāls rindas ID</td><td><code>id SERIAL PRIMARY KEY</code></td></tr>
+                    <tr><td><b>foreign key</b></td><td>Ārējā atslēga — norāde uz citu tabulu</td><td>Saista spēli ar spēlētāju</td></tr>
+                    <tr><td><b>JOIN</b></td><td>Apvienot datus no vairākām tabulām</td><td><code>INNER JOIN</code>, <code>LEFT JOIN</code></td></tr>
+                    <tr><td><b>CRUD</b></td><td>Create, Read, Update, Delete operācijas</td><td>Datu pamatdarbības</td></tr>
+                    <tr><td><b>transaction</b></td><td>Transakcija — visi vai neviens</td><td><code>BEGIN ... COMMIT</code></td></tr>
+                    <tr><td><b>API</b></td><td>Lietotnes saskarne — programmu sazināšanās</td><td>Frontend↔backend</td></tr>
+                    <tr><td><b>REST</b></td><td>API stils ar HTTP metodēm + JSON</td><td>GET/POST/PUT/DELETE</td></tr>
+                    <tr><td><b>endpoint</b></td><td>Galapunkts — konkrēts API URL</td><td><code>/api/speletaji</code></td></tr>
+                    <tr><td><b>JSON</b></td><td>Cilvēkam lasāms datu formāts</td><td><code>{"vards": "Anna"}</code></td></tr>
+                    <tr><td><b>request / response</b></td><td>Pieprasījums / atbilde</td><td>Klients prasa, serveris atbild</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>Spēļu izstrāde (Godot / C++)</summary>
+        <div class="body">
+            <table>
+                <thead><tr><th>Termins (EN)</th><th>Skaidrojums (LV)</th><th>Konteksts</th></tr></thead>
+                <tbody>
+                    <tr><td><b>Engine</b></td><td>Dzinējs — spēļu izstrādes vide</td><td>Godot 4</td></tr>
+                    <tr><td><b>Scene Tree</b></td><td>Skatu koks — objektu hierarhija</td><td>Godot kreisais panelis</td></tr>
+                    <tr><td><b>Node</b></td><td>Mezgls — Godot pamatobjekts</td><td>Sprite2D, CharacterBody2D</td></tr>
+                    <tr><td><b>Inspector</b></td><td>Inspektors — objekta īpašību panelis</td><td>Godot labais panelis</td></tr>
+                    <tr><td><b>signal</b></td><td>Signāls — objektu paziņojums</td><td><code>emit_signal("died")</code></td></tr>
+                    <tr><td><b>GDExtension</b></td><td>Mehānisms C++ koda lietošanai Godot</td><td>Kompilēta bibliotēka</td></tr>
+                    <tr><td><b>collision</b></td><td>Sadursme — objektu saskare</td><td>CollisionShape2D</td></tr>
+                    <tr><td><b>state machine</b></td><td>Stāvokļu mašīna — AI uzvedības modelis</td><td>IDLE → CHASE → ATTACK</td></tr>
+                    <tr><td><b>pathfinding</b></td><td>Ceļa meklēšana — ap šķēršļiem</td><td>NavigationAgent2D, A*</td></tr>
+                    <tr><td><b>object pooling</b></td><td>Objektu atkārtota izmantošana</td><td>Lādiņu veiktspējai</td></tr>
+                    <tr><td><b>profiling</b></td><td>Profilēšana — veiktspējas mērīšana</td><td>Atrast lēno kodu</td></tr>
+                    <tr><td><b>delta</b></td><td>Laiks kopš pēdējā kadra</td><td>Vienmērīga kustība</td></tr>
+                    <tr><td><b>export / build</b></td><td>Eksportēt — sagatavot palaižamu versiju</td><td>Web, Windows builds</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="cheat-section">
+        <summary>Vispārīgi izstrādes termini</summary>
+        <div class="body">
+            <table>
+                <thead><tr><th>Termins (EN)</th><th>Skaidrojums (LV)</th><th>Konteksts</th></tr></thead>
+                <tbody>
+                    <tr><td><b>IDE</b></td><td>Integrēta izstrādes vide — koda redaktors</td><td>VS Code</td></tr>
+                    <tr><td><b>debug / debugging</b></td><td>Atkļūdošana — kļūdu meklēšana un labošana</td><td>Breakpoint, print</td></tr>
+                    <tr><td><b>deploy / deployment</b></td><td>Izvietošana — publicēt internetā</td><td>GitHub Pages, Render</td></tr>
+                    <tr><td><b>input / output</b></td><td>Ievade / izvade</td><td><code>input()</code> / <code>print()</code></td></tr>
+                    <tr><td><b>prototype</b></td><td>Prototips — vienkāršākā strādājošā versija</td><td>MVP — minimālais produkts</td></tr>
+                    <tr><td><b>refactor</b></td><td>Pārstrukturēt kodu, nemainot uzvedību</td><td>Padarīt skaidrāku</td></tr>
+                    <tr><td><b>dependency</b></td><td>Atkarība — cita nepieciešama bibliotēka</td><td><code>requirements.txt</code></td></tr>
+                    <tr><td><b>environment variable</b></td><td>Vides mainīgais — slepens iestatījums</td><td><code>.env</code> fails (paroles)</td></tr>
+                    <tr><td><b>UI / UX</b></td><td>Lietotāja saskarne / pieredze</td><td>Pogas, izkārtojums, lietojamība</td></tr>
+                    <tr><td><b>frontend / backend</b></td><td>Priekšgals (redzamais) / aizmugure (serveris)</td><td>HTML+JS vs Python+DB</td></tr>
+                    <tr><td><b>open source</b></td><td>Atvērtais pirmkods — brīvi pieejams</td><td>MIT licence</td></tr>
+                    <tr><td><b>syntax</b></td><td>Sintakse — valodas gramatikas noteikumi</td><td>Iekavas, atkāpes</td></tr>
+                </tbody>
+            </table>
         </div>
     </details>
 </section>
