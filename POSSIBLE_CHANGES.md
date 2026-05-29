@@ -171,15 +171,17 @@ Filozofiskās esejas pamatā ir uzslavējošas. Pārbaude apstiprina, ka šie sp
 
 ## 6. Prioritārā izpildes secība
 
+> **Statuss 2026-05-17:** Izpildīti L3.1, L2.1 un L3.3 (skat. atzīmes zemāk).
+
 **A. Ātrie uzvarējumi (1 sesija, augsta vērtība, zems risks):**
-1. **L3.1** — pārdēvēt "līmenis" → "uzdevums" prog1_7/8 (skripts) — novērš AUDIT.md atzīmēto nekonsekvenci.
-2. **L2.1** — glosārijs `paligm.html` (viena vieta, atrisina valodas barjeru visam kursam).
+1. **L3.1** ✅ IZPILDĪTS — pārdēvēt "līmenis" → "uzdevums" prog1_7/8 (skripts) — novērš AUDIT.md atzīmēto nekonsekvenci.
+2. **L2.1** ✅ IZPILDĪTS — glosārijs `paligm.html` (viena vieta, atrisina valodas barjeru visam kursam).
 3. **L4.1** — "Ko šodien NEMĀCĀMIES" atrunas profesionālo rīku tēmu main lapās.
 4. **L2.4** + **L2.3** — vērtēšanas atruna + privātuma opcija (īsi teikumi).
 
 **B. Vidēja apjoma (1-2 sesijas):**
 5. **L2.2** — zema-infrastruktūras alternatīvas setup lapās.
-6. **L3.3** + **L4.3** — kļūdu kategoriju leģenda + README šablons `paligm.html`.
+6. **L3.3** ✅ IZPILDĪTS (kļūdu tipi) + **L4.3** — kļūdu kategoriju leģenda + README šablons `paligm.html`.
 7. **L1.1** + **L1.2** — konceptuālais kodols + MVP main/projektu lapās.
 8. **L3.2** — "Mācīšanās pierādījuma" mikrobloks.
 

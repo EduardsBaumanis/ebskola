@@ -103,14 +103,27 @@ run motor [C] for [-90] [degrees] # atlaiž kravu</code></pre>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Sensoru lēmumi</h2>
+    <h2>2. uzdevums: Sensoru lēmumi un if/else loģika</h2>
+    <p>Pievieno sensorus pie robota un uzraksti programmu, kas pieņem lēmumus pēc sensoru rādījumiem.</p>
     <div class='logic-box'>
         <ol>
-            <li>Pievienojiet krāsu sensoru un distances sensoru tā, lai tie netraucē satvērējam.</li>
-            <li>Izveidojiet līnijas sekošanas vai šķēršļa noteikšanas algoritmu ar skaidru <i>if/else</i> loģiku.</li>
-            <li>Ievietojiet apstāšanās nosacījumu: robots pārtrauc braukšanu, kad distances sensors pamana kravu tuvāk par 10 cm.</li>
-            <li>Kalibrējiet sensorus reālajā klasē: pierakstiet melnās, baltās un objekta attāluma vērtības pirms gala brauciena.</li>
+            <li><b>Pievieno</b> krāsu sensoru pie porta <code>A</code> un distances sensoru pie porta <code>B</code> tā, lai tie netraucē satvērējam.</li>
+            <li><b>Kalibrē</b> sensorus klasē un pieraksti vērtības: melnā līnija (piem., <code>15</code>), baltā (<code>85</code>), objekta tuvums (<code>10 cm</code>).</li>
+            <li><b>Atver</b> SPIKE/EV3 vidē Python programmu un izveido galveno ciklu ar <code>while True:</code>.</li>
+            <li><b>Ievieto</b> cikla iekšā <code>if/elif/else</code> lēmumus pēc sensoru rādījumiem:
+                <pre><code class="language-python">while True:
+    if distance_sensor.get_distance_cm() &lt; 10:
+        motor_pair.stop()
+        break
+    elif color_sensor.get_reflected_light() &lt; 30:
+        motor_pair.move_tank(-20, 20)
+    else:
+        motor_pair.move_tank(30, 30)</code></pre>
+            </li>
+            <li><b>Pārlej</b> programmu robotā un veic vienu testa braucienu.</li>
+            <li><b>Pieraksti</b> dienasgrāmatā: vai robots apstājās tuvāk par <code>10 cm</code>? Ja nē — maini slieksni un pārlej vēlreiz.</li>
         </ol>
+        <p><b>Pārbaudi:</b> trīs testa braucieni pēc kārtas — robotam jāapstājas ±2 cm robežās no šķēršļa.</p>
     </div>
 </section>
 
