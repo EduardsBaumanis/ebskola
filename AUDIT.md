@@ -1,110 +1,212 @@
-# ebSkola — mācību materiālu audits
+# ebSkola repo audits
 
-Atjaunots: **2026-05-17**
+Atjaunots: **2026-05-19**
+Pārbaudītā versija: `main` pie `44a401e Fix canonical urls and redirects`
 
-Šis fails aizstāj iepriekšējo auditu. Vecie automātiski ģenerētie vērtējumi netiek ņemti vērā, jo tie neatbilda pašreizējam materiālu stāvoklim un vērtēja lapas pēc pārāk rupjām pazīmēm.
+Šis audits aizstāj iepriekšējo 2026-05-17 mācību satura auditu. Jaunais audits skatās visu repozitoriju kā publicētu statisku mācību vietni: SEO, sitemap/robots, Cloudflare pāradresācijas, iekšējās saites, HTML metadatus, pieejamību, satura struktūru un uzturēšanas riskus.
 
-Šajā revīzijā pārbaudīts tieši tas, kas nepieciešams stundai:
+## 1. Kopsavilkums
 
-1. katrai nodarbībai ir uztverama teorijas daļa;
-2. teorijā ir koda, komandu, bloku vai procesa piemērs;
-3. trīs pamata darba posmi vidējam skolēnam ir plānoti uz aptuveni 70 minūtēm;
-4. uzdevumos nav jālieto saturs ārpus iepriekš apgūtā vai šajā pašā lapā izskaidrotā;
-5. ja ir papildus vai 4. līmeņa uzdevums, tas nav obligāta 70 min pamatslodzes daļa.
+Kopējais stāvoklis: **labs, bet ar vienu svarīgu SEO risku**.
 
-## 1. Jaunais vērtēšanas standarts
+Pēc pēdējām izmaiņām vietnes kanoniskā adrese ir konsekventi pārcelta uz `https://ebskola.lv`, `.html` URL vairs netiek lietoti kā kanoniskie URL, sitemap ir derīgs, un vecie `.html` URL tiek pāradresēti uz extensionless adresēm.
 
-| Vērtējums | Nozīme |
+Svarīgākais atlikušais risks: **neeksistējoši URL vēl arvien dzīvajā vietnē atgriež `200 OK` un rāda sākumlapu**. Tas var radīt Google Search Console kļūdas par dublikātiem, soft 404 vai lapām ar citu kanonisko adresi.
+
+## 2. Repo apjoms
+
+| Daļa | Skaits |
+|---|---:|
+| Kopā izsekoti faili | 258 |
+| HTML faili | 181 |
+| Publicētās HTML lapas | 176 |
+| `sagataves/` HTML faili | 5 |
+| CSS faili | 1 |
+| XML faili | 1 |
+| Sitemap URL | 176 |
+| `_redirects` noteikumi | 231 |
+
+HTML sadalījums:
+
+| Mape/fails | HTML lapas |
+|---|---:|
+| `datorika9/` | 35 |
+| `programmesana1/` | 84 |
+| `programmesana2/` | 42 |
+| `robotika/` | 12 |
+| Saknes lapas (`index`, `paligm`, `sasnRez`) | 3 |
+| `sagataves/` | 5 |
+
+## 3. SEO un indeksācija
+
+| Pārbaude | Rezultāts | Statuss |
+|---|---:|---|
+| `sitemap.xml` parsējas kā XML | jā | OK |
+| Sitemap URL skaits | 176 | OK |
+| Sitemap URL ar `.html` beigās | 0 | OK |
+| Sitemap URL ārpus `https://ebskola.lv` | 0 | OK |
+| Dublikāti sitemap `<loc>` laukos | 0 | OK |
+| `robots.txt` norāda uz `https://ebskola.lv/sitemap.xml` | jā | OK |
+| Publicētās lapas ar vienu `canonical` | 176/176 | OK |
+| Publicētās lapas ar vienu `og:url` | 176/176 | OK |
+| `canonical` sakrīt ar extensionless faila ceļu | 176/176 | OK |
+| `og:url` sakrīt ar extensionless faila ceļu | 176/176 | OK |
+| JSON-LD bloki parsējas | 176/176 | OK |
+| Vecais GitHub Pages domēns repo saturā | 0 atradumi | OK |
+| Nevēlami `https://ebskola.lv/...html` metadatos | 0 atradumi | OK |
+
+Secinājums: **lokālais SEO stāvoklis ir sakārtots**. Sitemap, canonical, Open Graph un JSON-LD tagi tagad rāda vienu un to pašu extensionless URL sistēmu.
+
+## 4. Cloudflare un redirects
+
+`_redirects` sintakse pārbaudīta:
+
+- 231 aktīvi noteikumi;
+- 0 dublēti redirect avoti;
+- 0 nepareizas formas noteikumi.
+
+Dzīvajā vietnē pārbaudītie piemēri:
+
+| URL | Rezultāts |
 |---|---|
-| A | Nodarbība ir gatava lietošanai: teorija ir skaidra, piemērs ir redzams, 70 min ritms ir skaidrs un priekšzināšanu robeža ir droša. |
-| B | Nodarbība ir lietojama: trīs galvenie kritēriji ir izpildīti, bet vēl var uzlabot SR blokus, papildus uzdevumus, formulējumus vai lapas vienoto stilu. |
-| C | Nodarbība prasa skolotāja papildināšanu pirms stundas. |
-| D | Nodarbība nav gatava patstāvīgai lietošanai. |
+| `https://ebskola.lv/robots.txt` | `200 OK` |
+| `https://ebskola.lv/sitemap.xml` | `200 OK` |
+| `https://ebskola.lv/index.html` | `301 -> / -> 200` |
+| `https://ebskola.lv/datorika9/dat9_14.html` | `301 -> /datorika9/dat9_14 -> 200` |
+| `https://ebskola.lv/programmesana1/prog1_3main.html` | `301 -> /programmesana1/prog1_3/prog1_3main -> 200` |
+| `https://ebskola.lv/par.html` | `301 -> / -> 200` |
+| GSC redzētais garais dublikāta URL ar `datorika9/dat9_3main.html` | `301 -> /datorika9/dat9_3main -> 200` |
+| GSC redzētais garais dublikāta URL ar `prog1_6main.html` | `301 -> /programmesana1/prog1_6/prog1_6main -> 200` |
 
-Pēc 2026-05-17 pārstrādes C un D statusu pēc šiem trim pamata kritērijiem vairs nav.
+Atlikušais risks:
 
-## 2. Kopējais rezultāts
-
-| Kurss | Nodarbības | Teorija | Piemēri | 70 min ritms | Priekšzināšanu robeža | Vērtējums |
-|---|---:|---:|---:|---:|---:|---|
-| Datorika 9 | 30 | 30/30 | 30/30 | 30/30 | 30/30 | A- |
-| Robotika | 10 | 10/10 | 10/10 | 10/10 | 10/10 | A |
-| Programmēšana I | 72 | 72/72 | 72/72 | 72/72 | 72/72 | B+ |
-| Programmēšana II | 36 | 36/36 | 36/36 | 36/36 | 36/36 | A |
-| **Kopā** | **148** | **148/148** | **148/148** | **148/148** | **148/148** | **A-** |
-
-Programmēšana I saņem B+, nevis A, jo 7. un 8. tēmas vecākajās lapās vēl ir nevienmērīgs noformējums: dažviet uzdevumi saukti par "līmeņiem", nevis konsekventi par "1./2./3. uzdevumu". Slodze un priekšzināšanas ir sakārtotas, bet stilu vēl var izlīdzināt.
-
-## 3. Kas tika pārstrādāts
-
-### Sistēmiskie labojumi visām nodarbībām
-
-Visām 148 nodarbību lapām pievienota vai pārbaudīta:
-
-- `70 min darba sadalījums`, kur pamatdarbs sadalīts trīs posmos: minimālais piemērs/prototips, galvenais pielietojums, pārbaude un labošana;
-- `Priekšzināšanu robeža`, kas skaidri nosaka, ka skolēns izmanto tikai iepriekš apgūto un šīs lapas teorijā/koda piemēros parādīto;
-- teorijas klātbūtne un piemēra klātbūtne.
-
-### Būtiski pārstrādātās nodarbības
-
-Šīs lapas iepriekš bija vājākās vai nepietiekami pilnas noslēguma/projekta stundas. Tās tika izvērstas ar teoriju, piemēriem, uzdevumu sadalījumu, kļūdu sadaļām un drošāku priekšzināšanu robežu.
-
-| Fails | Jaunais statuss | Galvenais labojums |
+| URL | Rezultāts | Problēma |
 |---|---|---|
-| `datorika9/dat9_16.html` | A | Spēles pieteikuma projekts papildināts ar pilnu struktūru, HTML piemēru un nodošanas pierādījumiem. |
-| `datorika9/dat9_26.html` | A | CSS, resursu un mapju teorija, koda piemērs, 70 min projekta ritms. |
-| `datorika9/dat9_36.html` | A | Teksta spēles projekts izvērsts ar JS piemēru, trim darba posmiem un kļūdu sadaļu. |
-| `datorika9/dat9_46.html` | A | Spēles dzinēja prototips papildināts ar cikla/start-stop piemēru un testēšanu. |
-| `datorika9/dat9_55.html` | A | Testēšanas stunda papildināta ar testu tabulu, beta testu un atkļūdošanu. |
-| `datorika9/dat9_56.html` | A | Publicēšanas stunda papildināta ar GitHub Pages procesu, README un aizstāvēšanu. |
-| `robotika/rbtk7_15.html` | A | Pārbaudes misija papildināta ar SR bloku, 70 min ritmu, kļūdām un SPIKE programmas piemēru. |
-| `robotika/rbtk7_25.html` | A | Arduino reakcijas spēle papildināta ar `millis()` piemēru, testiem un kļūdu sadaļu. |
-| `programmesana1/prog1_1/prog1_16.html` | A | Pārbaudes darbs pārveidots par procesa un GitHub iesniegšanas projektu. |
-| `programmesana1/prog1_2/prog1_26.html` | A | Skaitļu duelīša spēle ar ievadi, tipiem, f-string un 70 min slodzi. |
-| `programmesana1/prog1_3/prog1_36.html` | A | Akmens-šķēres-papīrīts spēle ar validāciju, ciklu un robežgadījumiem. |
-| `programmesana1/prog1_4/prog1_46.html` | A | Funkciju noslēguma projekts ar `return`, moduļiem un testējamu sadalījumu. |
-| `programmesana1/prog1_5/prog1_56.html` | A | Sarakstu/vārdnīcu spēles projekts ar datu struktūru piemēru. |
-| `programmesana1/prog1_6/prog1_66.html` | A | JSON/CSV projekta stunda ar failu piemēru un datu drošību. |
-| `programmesana1/prog1_7/prog1_76.html` | A | Binārās meklēšanas projekts ar O(log n), robežām, testiem un SLA. |
-| `programmesana1/prog1_8/prog1_86.html` | A | Aizstāvēšanas stunda ar lietotājstāstu piemēru, 70 min prezentāciju ritmu un refleksiju. |
+| `https://ebskola.lv/this-definitely-does-not-exist` | `200 OK` | Neeksistējoša lapa tiek rādīta kā derīga lapa |
 
-### Programmēšana II
+Šis ir svarīgākais nākamais labojums. Kamēr neeksistējošas adreses atgriež `200 OK`, Google var turpināt atrast nejaušas vai kļūdainas adreses un klasificēt tās kā dublikātus vai soft 404.
 
-Visām 36 `programmesana2` nodarbībām pievienots 70 min trīs posmu sadalījums. Tas saglabā esošo Godot/C++ materiālu dziļumu, bet skolēnam skaidrāk parāda, kas ir minimālais piemērs, kas ir integrācija projektā un kas ir pārbaude.
+Ieteikums: izveidot pārbaudītu 404 risinājumu Cloudflare Pages vidē. To vajag testēt uzmanīgi, lai netiktu salauztas īstās extensionless lapas.
 
-## 4. Priekšzināšanu pārbaudes secinājums
+## 5. Iekšējās saites
 
-Pārskatot uzdevumus, netika atstāti pamata uzdevumi, kuri prasa neizskaidrotu jaunu saturu. Ja lapā parādās jauns rīks vai komanda, tā ir:
+| Pārbaude | Rezultāts |
+|---|---:|
+| Pārbaudīti `<a>` tagi | 2547 |
+| Root-relative lokālās saites | 2526 |
+| Lokālās saites uz neeksistējošiem mērķiem | 0 |
+| Faktiskas iekšējās `<a href="...html">` saites | 0 |
+| Relatīvās publicēto lapu navigācijas saites | 0 |
 
-- vai nu iepriekšējās stundās apgūta;
-- vai parādīta šīs stundas teorijā/koda piemērā;
-- vai pārcelta uz papildus/4. līmeņa izaicinājumu, kas nav obligāts 70 min pamatslodzei.
+Secinājums: iekšējā navigācija tagad ir daudz drošāka nekā iepriekš. Saites ir root-relative (`/datorika9/dat9_14`), tāpēc nejauši dziļi URL vairs neveidos kļūdainus ceļus kā `programmesana1/programmesana1/...`.
 
-Īpaši pārbaudītās riska zonas:
+## 6. Pieejamība un HTML higiēna
 
-- noslēguma projekti, kuros iepriekš bija pārāk plašas prasības;
-- Programmēšana I 5.-8. tēmas, kur vecākās lapās daļa darba bija formulēta kā līmeņi;
-- Robotikas projekti, kuros sensori, motori un manipulators varēja sajaukties vienā pārāk lielā uzdevumā;
-- Programmēšana II lapas, kur praktiskais darbs bija labs, bet nebija skaidri sadalīts trīs 70 min posmos.
+| Pārbaude | Rezultāts |
+|---|---:|
+| HTML faili ar `<h1>` | 181/181 |
+| Attēlu tagi | 65 |
+| Attēli bez `alt` | 0 |
+| Publicētās lapas ar canonical | 176/176 |
+| Publicētās lapas ar `lang="lv"` | 176/176 |
+| Publicētās lapas ar viewport meta | 176/176 |
 
-## 5. Atlikušās kvalitātes rindas
+Nelielas problēmas:
 
-Šie nav bloķējoši trūkumi, bet nākamajā sakārtošanas kārtā būtu vēlams:
+1. `sagataves/par.html`, `sagataves/paligm.html`, `sagataves/devitaKlase1.html` trūkst `lang="lv"`.
+2. Visiem 5 `sagataves/` HTML failiem trūkst `viewport` meta vai tas nav konsekvents.
+3. `programmesana1/prog1_8/prog1_83.html` ir viena ārējā saite ar `target="_blank"`, bet bez `rel="noopener noreferrer"`.
 
-1. Programmēšana I 7. un 8. tēmā pārdēvēt "līmeņus" uz konsekventiem `1. uzdevums`, `2. uzdevums`, `3. uzdevums`.
-2. Vecākajām Datorika 9 lapām izlīdzināt `.lesson-meta` SR bloku noformējumu.
-3. Dažām vecākām lapām pievienot skaidrāku "Papildus uzdevums" virsrakstu, lai 70 min pamatslodze vēl labāk atdalās no izaicinājumiem.
-4. Pēc satura stabilizācijas atjaunot `SR-MAPPING.md`, lai tas precīzi atspoguļo jaunās SR atsauces.
+Tā kā `sagataves/` ir bloķēta `robots.txt`, tas nav kritisks indeksācijas risks, bet repozitorija kvalitātei būtu labi arī sagataves uzturēt pēc tā paša HTML standarta.
 
-## 6. Pārbaudes pieraksts
+## 7. Mācību satura struktūra
 
-Pēc labojumiem pārbaudīts:
+Mācību lapas:
 
-- 148 nodarbību HTML faili;
-- teorijas sadaļas: 148/148;
-- piemēri teorijā vai lapas kodā/procesā: 148/148;
-- 70 min darba sadalījums: 148/148;
-- trīs pamata darba posmi: 148/148;
-- priekšzināšanu robeža: 148/148.
+| Kurss | Nodarbību lapas |
+|---|---:|
+| Datorika 9 | 30 |
+| Robotika | 10 |
+| Programmēšana I | 72 |
+| Programmēšana II | 36 |
+| **Kopā** | **148** |
 
-Šis audits tagad raksturo pašreizējo materiālu stāvokli, nevis veco automātisko vērtējumu.
+Automātiski pārbaudāmie satura signāli:
+
+| Signāls | Atradumi |
+|---|---:|
+| `Sasniedzamie rezultāti` | 159 |
+| Teorijas virsrakstu signāli | 427 |
+| Precīzs `70 min` marķieris | 112/148 nodarbībās |
+| `darba sadalījums` marķieris | 101 atradums |
+| Precīzs `Priekšzināšanu` marķieris | 10/148 nodarbībās |
+
+Secinājums: satura struktūra kopumā ir plaša un lietojama, bet vecais audits apgalvoja pilnīgu `70 min` un `Priekšzināšanu robeža` konsekvenci. Pašreizējā repo stāvoklī šie marķieri nav vienādi nosaukti visās nodarbībās.
+
+Svarīgākais satura uzlabojums: ja šie kritēriji joprojām ir standarts, katrai nodarbībai vajag vienotu sadaļu nosaukumu, piemēram:
+
+- `70 min darba sadalījums`;
+- `Priekšzināšanu robeža`;
+- `1. uzdevums`, `2. uzdevums`, `3. uzdevums`;
+- `Papildus uzdevums`.
+
+## 8. Uzturēšana un automatizācija
+
+Pašlaik repo nav atrasts:
+
+- `package.json`;
+- testu vai lint skripti;
+- GitHub Actions / CI konfigurācija;
+- automātisks sitemap/canonical ģenerators.
+
+Tas nav bloķējoši statiskai vietnei, bet tas nozīmē, ka liela daļa kvalitātes tagad balstās manuālās pārbaudēs. Tā kā repo satur 176 publicētas lapas un 231 redirect noteikumu, ieteicams pievienot vismaz vienkāršu statisko pārbaudes skriptu.
+
+Minimālais automatizācijas komplekts:
+
+1. pārbaudīt, ka katrai publicētai HTML lapai ir tieši viens canonical un og:url;
+2. pārbaudīt, ka canonical sakrīt ar extensionless ceļu;
+3. pārbaudīt, ka sitemap satur visas publicētās lapas un nesatur `sagataves/`;
+4. pārbaudīt, ka iekšējie `<a href>` mērķi eksistē;
+5. pārbaudīt, ka `_redirects` nav dublētu avotu;
+6. pārbaudīt, ka nav vecā `eduardsbaumanis.github.io/ebskola` domēna.
+
+## 9. Prioritātes
+
+### P0 — jāizdara nākamais
+
+1. Sakārtot neeksistējošu URL apstrādi, lai tie neatgriež `200 OK`.
+   - Piemērs, kas pašlaik ir risks: `https://ebskola.lv/this-definitely-does-not-exist`.
+   - Mērķis: `404` vai pārdomāta `301` pāradresācija, nevis sākumlapa ar `200`.
+
+### P1 — ieteicams drīz
+
+1. Standartizēt `70 min darba sadalījums` un `Priekšzināšanu robeža` sadaļas visās 148 nodarbībās.
+2. Sakārtot `sagataves/` HTML higiēnu: `lang`, `viewport`, iespējams arī `noindex`.
+3. Salabot vienīgo `target="_blank"` bez `rel="noopener noreferrer"`.
+4. Pievienot statisku auditēšanas skriptu, lai šo failu var pārģenerēt vai vismaz pārbaudīt automātiski.
+
+### P2 — vēlāk
+
+1. Ģenerēt `sitemap.xml` un `_redirects` no failu koka, lai tie neatšķiras no reālās struktūras.
+2. Turpināt vienādot vecāko Programmēšana I tēmu uzdevumu nosaukumus un 70 min ritmu.
+3. Pārskatīt `SR-MAPPING.md`, lai tas pilnībā atbilst pašreizējām nodarbībām.
+
+## 10. Pārbaudes pieraksts
+
+Veiktās pārbaudes:
+
+- `git status --short --branch`;
+- HTML failu un mapju skaita pārbaude;
+- `sitemap.xml` XML parse un `<loc>` analīze;
+- `robots.txt` sitemap rindas pārbaude;
+- canonical un `og:url` pārbaude visām 176 publicētajām lapām;
+- JSON-LD parse pārbaude visām 176 publicētajām lapām;
+- iekšējo `<a href>` mērķu pārbaude;
+- `.html` metadatu un iekšējo saišu meklēšana;
+- vecā GitHub Pages domēna meklēšana;
+- `_redirects` sintakses un dublēto avotu pārbaude;
+- attēlu `alt` pārbaude;
+- `git diff --check`;
+- dzīvie `curl -I -L` testi pret `https://ebskola.lv`.
+
+Šī audita galvenais secinājums: **repo iekšējā SEO struktūra ir sakārtota; nākamais lielais solis ir pareiza 404/unknown URL apstrāde Cloudflare pusē un satura marķieru konsekvence visās nodarbībās.**
