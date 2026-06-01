@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>4. Tēma — Spēles dzinēja izstrāde un funkcijas — ebSkola</title>
-<meta name="description" content="4. Tēma — Spēles dzinēja izstrāde un funkcijas — Datorika 9. klasei — tīmekļa tehnoloģijas, HTML, CSS, JavaScript un spēļu izstrāde.">
+<meta name="description" content="4. Tēma — Spēles dzinēja izstrāde un funkcijas — Datorika 9. klasei — funkcijas, notikumu klausītāji, DOM, spēles cikls un sadursmju noteikšana.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/datorika9/dat9_4main">
@@ -12,76 +12,560 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="4. Tēma — Spēles dzinēja izstrāde un funkcijas">
-<meta property="og:description" content="4. Tēma — Spēles dzinēja izstrāde un funkcijas — Datorika 9. klasei — tīmekļa tehnoloģijas, HTML, CSS, JavaScript un spēļu izstrāde.">
+<meta property="og:description" content="4. Tēma — Spēles dzinēja izstrāde un funkcijas — Datorika 9. klasei — funkcijas, notikumu klausītāji, DOM, spēles cikls un sadursmju noteikšana.">
 <meta property="og:url" content="https://ebskola.lv/datorika9/dat9_4main">
 <meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4. Tēma — Spēles dzinēja izstrāde un funkcijas">
-<meta name="twitter:description" content="4. Tēma — Spēles dzinēja izstrāde un funkcijas — Datorika 9. klasei — tīmekļa tehnoloģijas, HTML, CSS, JavaScript un spēļu izstrāde.">
+<meta name="twitter:description" content="4. Tēma — Spēles dzinēja izstrāde un funkcijas — Datorika 9. klasei — funkcijas, notikumu klausītāji, DOM, spēles cikls un sadursmju noteikšana.">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "4. Tēma — Spēles dzinēja izstrāde un funkcijas", "description": "4. Tēma — Spēles dzinēja izstrāde un funkcijas — Datorika 9. klasei — tīmekļa tehnoloģijas, HTML, CSS, JavaScript un spēļu izstrāde.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_4main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
+{"@context":"https://schema.org","@type":"Course","name":"4. Tēma — Spēles dzinēja izstrāde un funkcijas","description":"4. Tēma — Spēles dzinēja izstrāde un funkcijas — Datorika 9. klasei — funkcijas, notikumu klausītāji, DOM, spēles cikls un sadursmju noteikšana.","inLanguage":"lv","url":"https://ebskola.lv/datorika9/dat9_4main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}
 </script>
 <link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 </head>
-<body class="has-sidebar">
+<body class="page-home">
 
-<aside class="sidebar-nav">
-  <h3>ebskola</h3>
-  <a class="active" href="/datorika9/dat9_4main">4. Tēmas apkopojums</a>
-  <a href="/datorika9/dat9_41">4.1 Funkcijas un koda atkārtota izmantošana</a>
-  <a href="/datorika9/dat9_42">4.2 Notikumu klausītāji (Event Listeners) un interakcija</a>
-  <a href="/datorika9/dat9_43">4.3 DOM manipulācija – dinamiska elementu pārvaldība</a>
-  <a href="/datorika9/dat9_44">4.4 Laika kontrole (Timers) un spēles cikls</a>
-  <a href="/datorika9/dat9_45">4.5 Sadursmju noteikšanas (Collision detection) pamati</a>
-  <a href="/datorika9/dat9_46">4.6 Noslēguma projekts: Spēles dzinēja prototips</a>
-</aside>
+<!-- Top bar -->
+<header class="topbar">
+  <div class="wrap row">
+    <a class="brand" href="/">
+      <span class="glyph">›_</span>
+      <span class="name">ebskola<span>.lv</span></span>
+    </a>
+    <nav class="nav" aria-label="Galvenā navigācija">
+      <a href="/datorika9/datorika9">Datorika 9</a>
+      <a href="/datorika9/dat9_3main">3. Tēma</a>
+      <a href="/datorika9/dat9_4main" aria-current="page">4. Tēma</a>
+      <a href="/datorika9/dat9_5main">5. Tēma</a>
+      <a href="/sasnRez">rezultāti</a>
+      <a href="/paligm">palīgmateriāli</a>
+    </nav>
+    <div class="spacer"></div>
+    <a class="btn primary" href="/datorika9/dat9_41">sākt stundu <span class="caret">→</span></a>
+  </div>
+</header>
 
-<nav class='galvenaisdiv'>
-    <a href="/">Tēmas</a>
-    <a href="/sasnRez">Sasniedzamie rezultāti</a>
-    <a href="/paligm">Palīgmateriāli</a>
-</nav>
-
-<section class='section'>
-    <h1>4. Tēma — Spēles dzinēja izstrāde un funkcijas</h1>
-    
-    <div class="info-box">
-        <h3>Par šo tēmu</h3>
-        <p>Līdz šim Tava programma darbojās secīgi – no augšas uz leju. Šajā tēmā mēs izveidosim īstu <b>spēles dzinēju</b>, kas spēj gaidīt lietotāja rīcību un darboties reāllaikā. Galvenais rīks šī mērķa sasniegšanai būs <b>funkcijas (Functions)</b> — koda bloki, kurus var izsaukt tieši tad, kad tie ir nepieciešami.</p>
-        
-        <p>Tu apgūsi <b>notikumu klausītājus (Event Listeners)</b>, kas ļaus Tavai spēlei reaģēt uz peles klikšķiem vai tastatūras pogu nospiešanu. Tāpat mēs mācīsimies vēl vairāk <b>manipulēt ar DOM (Document Object Model)</b> – radīt, pārvietot un dzēst elementus (piemēram, šķēršļus vai monētas) no ekrāna tieši spēles laikā.</p>
-        
-        <p>Tēmas noslēgumā mēs ieviesīsim laika kontroli (Timers un Game Loop) un sadursmju noteikšanu (Collision Detection), kas ir pamats jebkurai dinamiskai spēlei. Tu arī attīstīsi prasmi lasīt un analizēt cita programmētāja kodu (Peer-review).</p>
+<!-- Hero -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">
+      <span class="dot"></span>
+      <span>Datorika 9 · 4. tēma · 6 dubultstundas</span>
+      <span class="ver">— funkcijas · notikumi · spēles cikls</span>
     </div>
+
+    <div class="hero-grid">
+      <div>
+        <h1 class="headline">
+          Spēles <span class="accent">dzinēja</span> <span class="slash">//</span>
+          izstrāde un <span class="accent-2">funkcijas</span>
+        </h1>
+        <p class="lede">
+          Uzbūvē savu spēles dzinēju no nulles — notikumu klausītāji, <code>requestAnimationFrame</code>,
+          DOM manipulācija un sadursmju noteikšana reālā laikā.
+        </p>
+
+        <div class="cta-row">
+          <a class="btn primary" href="/datorika9/dat9_41"><span>›</span> Sākt 4.1 stundu</a>
+          <a class="btn" href="/datorika9/dat9_46">Noslēguma projekts <span class="caret">→</span></a>
+        </div>
+
+        <div class="hero-meta">
+          <span class="m"><span class="sw str"></span> <b>6</b> dubultstundas</span>
+          <span class="m"><span class="sw fn"></span> <b>funkcijas</b> · DOM</span>
+          <span class="m"><span class="sw kw"></span> <b>60fps</b> spēles cikls</span>
+          <span class="m"><span class="sw typ"></span> <b>projekts</b> 4.6</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="editor" aria-hidden="true">
+          <div class="titlebar">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="crumb"><em>spele/</em>game.js</span>
+          </div>
+          <div class="tabs">
+            <span class="tab active"><span class="ic">●</span> game.js</span>
+            <span class="tab">index.html</span>
+            <span class="spacer"></span>
+          </div>
+          <div class="body">
+            <div class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</div>
+<div class="code"><span class="tok-com">// Notikumu apstrāde</span>
+<span class="tok-typ">document</span>.<span class="tok-fn">addEventListener</span><span class="tok-op">(</span><span class="tok-str">"keydown"</span><span class="tok-op">,</span> e <span class="tok-op">=&gt; {</span>
+  <span class="tok-kw">if</span> <span class="tok-op">(</span>e.key <span class="tok-op">===</span> <span class="tok-str">"ArrowLeft"</span><span class="tok-op">)</span>  x <span class="tok-op">-=</span> <span class="tok-num">5</span><span class="tok-op">;</span>
+  <span class="tok-kw">if</span> <span class="tok-op">(</span>e.key <span class="tok-op">===</span> <span class="tok-str">"ArrowRight"</span><span class="tok-op">)</span> x <span class="tok-op">+=</span> <span class="tok-num">5</span><span class="tok-op">;</span>
+<span class="tok-op">});</span>
+
+<span class="tok-kw">let</span> x <span class="tok-op">=</span> <span class="tok-num">160</span><span class="tok-op">,</span> y <span class="tok-op">=</span> <span class="tok-num">120</span><span class="tok-op">;</span>
+<span class="tok-kw">function</span> <span class="tok-fn">spelesCikls</span><span class="tok-op">() {</span>
+  <span class="tok-fn">zzimēt</span><span class="tok-op">();</span>
+  <span class="tok-fn">paarbaudisadursmes</span><span class="tok-op">();</span>
+  <span class="tok-fn">requestAnimationFrame</span><span class="tok-op">(</span>spelesCikls<span class="tok-op">);</span>
+<span class="tok-op">}</span><span class="cursor"></span></div>
+          </div>
+          <div class="statusbar">
+            <span class="ok">● JavaScript ES6</span>
+            <span>UTF-8</span>
+            <span class="spacer"></span>
+            <span>Ln 12, Col 1</span>
+          </div>
+        </div>
+
+        <div class="hero-badges">
+          <span class="badge"><span class="d fn"></span> funkcijas · atkārtošana</span>
+          <span class="badge"><span class="d str"></span> addEventListener</span>
+          <span class="badge"><span class="d kw"></span> 60fps · rAF</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class='section'>
-    <h2>Tēmas saturs (6 dubultstundas)</h2>
-    
+<!-- Lessons -->
+<section id="lessons">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundas</div>
+        <h2 class="sec-title">6 dubultstundas — tēmas saturs</h2>
+        <p class="sec-sub">No funkcijām un notikumiem līdz pilnam spēles dzinēja prototipam.</p>
+      </div>
+      <a class="sec-link" href="/datorika9/datorika9">kursa pārskats <span>→</span></a>
+    </div>
+
+    <div class="projects">
+
+      <a class="project" href="/datorika9/dat9_41">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Funkciju bloku shēma ar ievades bultām un atkārtotas izmantošanas norādēm">
+            <rect width="320" height="200" fill="var(--bg)"/>
+            <!-- caller 1 -->
+            <rect x="14" y="30" width="64" height="24" rx="3" fill="var(--bg-2)" stroke="var(--text-4)"/>
+            <text x="46" y="46" font-size="9" fill="var(--text-3)" font-family="monospace" text-anchor="middle">izsauc A</text>
+            <!-- caller 2 -->
+            <rect x="14" y="86" width="64" height="24" rx="3" fill="var(--bg-2)" stroke="var(--text-4)"/>
+            <text x="46" y="102" font-size="9" fill="var(--text-3)" font-family="monospace" text-anchor="middle">izsauc B</text>
+            <!-- caller 3 -->
+            <rect x="14" y="142" width="64" height="24" rx="3" fill="var(--bg-2)" stroke="var(--text-4)"/>
+            <text x="46" y="158" font-size="9" fill="var(--text-3)" font-family="monospace" text-anchor="middle">izsauc C</text>
+            <!-- arrows in -->
+            <line x1="78" y1="42" x2="108" y2="80" stroke="var(--text-4)" stroke-width="1"/>
+            <line x1="78" y1="98" x2="108" y2="90" stroke="var(--text-4)" stroke-width="1"/>
+            <line x1="78" y1="154" x2="108" y2="108" stroke="var(--text-4)" stroke-width="1"/>
+            <!-- function box -->
+            <rect x="108" y="60" width="104" height="68" rx="4" fill="var(--surface)" stroke="var(--fn)" stroke-width="2"/>
+            <rect x="108" y="60" width="104" height="20" rx="4" fill="var(--fn)" opacity="0.25"/>
+            <text x="160" y="75" font-size="10" fill="var(--fn)" font-family="monospace" text-anchor="middle">function</text>
+            <rect x="120" y="88" width="80" height="6" rx="2" fill="var(--text-4)"/>
+            <rect x="120" y="100" width="60" height="6" rx="2" fill="var(--text-4)"/>
+            <rect x="120" y="112" width="70" height="6" rx="2" fill="var(--text-4)"/>
+            <!-- output arrow -->
+            <line x1="212" y1="94" x2="248" y2="94" stroke="var(--kw)" stroke-width="2"/>
+            <polygon points="248,89 258,94 248,99" fill="var(--kw)"/>
+            <!-- output box -->
+            <rect x="258" y="78" width="48" height="32" rx="3" fill="var(--surface)" stroke="var(--kw)" stroke-width="1"/>
+            <text x="282" y="98" font-size="9" fill="var(--kw)" font-family="monospace" text-anchor="middle">return</text>
+          </svg>
+          <span class="label">// function</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d fn"></span> function</span><span>funkcijas</span></div>
+          <h3>Funkcijas un koda atkārtota izmantošana</h3>
+          <p>Definē un izsauc funkcijas — pamats labi organizētam spēles kodam.</p>
+          <div class="foot"><span>4.1 dubultstunda</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+      <a class="project" href="/datorika9/dat9_42">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Tastatūra ar iezīmētām bulttaustiņiem un peles klikšķa notikumu">
+            <rect width="320" height="200" fill="var(--bg)"/>
+            <!-- keyboard outline -->
+            <rect x="14" y="80" width="180" height="96" rx="6" fill="var(--surface)" stroke="var(--line)"/>
+            <!-- key rows -->
+            <rect x="24" y="92" width="20" height="18" rx="2" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+            <rect x="50" y="92" width="20" height="18" rx="2" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+            <rect x="76" y="92" width="20" height="18" rx="2" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+            <rect x="102" y="92" width="20" height="18" rx="2" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+            <rect x="128" y="92" width="20" height="18" rx="2" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+            <rect x="154" y="92" width="32" height="18" rx="2" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+            <!-- arrow keys -->
+            <rect x="76" y="138" width="20" height="18" rx="2" fill="var(--str)" stroke="var(--str)"/>
+            <text x="86" y="151" font-size="10" fill="var(--bg)" font-family="monospace" text-anchor="middle">▲</text>
+            <rect x="50" y="160" width="20" height="18" rx="2" fill="var(--str)" stroke="var(--str)"/>
+            <text x="60" y="173" font-size="10" fill="var(--bg)" font-family="monospace" text-anchor="middle">◀</text>
+            <rect x="76" y="160" width="20" height="18" rx="2" fill="var(--str)" stroke="var(--str)"/>
+            <text x="86" y="173" font-size="10" fill="var(--bg)" font-family="monospace" text-anchor="middle">▼</text>
+            <rect x="102" y="160" width="20" height="18" rx="2" fill="var(--str)" stroke="var(--str)"/>
+            <text x="112" y="173" font-size="10" fill="var(--bg)" font-family="monospace" text-anchor="middle">▶</text>
+            <!-- spacebar -->
+            <rect x="50" y="118" width="120" height="14" rx="2" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+            <!-- mouse -->
+            <rect x="226" y="80" width="70" height="100" rx="12" fill="var(--surface)" stroke="var(--line)"/>
+            <line x1="261" y1="80" x2="261" y2="130" stroke="var(--line-soft)" stroke-width="1"/>
+            <circle cx="245" cy="100" r="8" fill="var(--kw)" opacity="0.5"/>
+            <rect x="256" y="95" width="16" height="10" rx="3" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+            <!-- event label -->
+            <text x="166" y="60" font-size="9" fill="var(--fn)" font-family="monospace">addEventListener</text>
+            <text x="166" y="74" font-size="9" fill="var(--text-4)" font-family="monospace">"keydown" / "click"</text>
+          </svg>
+          <span class="label">// addEventListener</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d str"></span> addEventListener</span><span>notikumi</span></div>
+          <h3>Notikumu klausītāji un interakcija</h3>
+          <p>Reaģē uz tastatūru un peli ar addEventListener — padari spēli interaktīvu.</p>
+          <div class="foot"><span>4.2 dubultstunda</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+      <a class="project" href="/datorika9/dat9_43">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="DOM koka diagramma ar document, html, body, div, p mezgliem">
+            <rect width="320" height="200" fill="var(--bg)"/>
+            <!-- document node -->
+            <rect x="120" y="14" width="80" height="22" rx="3" fill="var(--surface)" stroke="var(--str)" stroke-width="2"/>
+            <text x="160" y="29" font-size="9" fill="var(--str)" font-family="monospace" text-anchor="middle">document</text>
+            <!-- html node -->
+            <rect x="120" y="54" width="80" height="22" rx="3" fill="var(--surface)" stroke="var(--kw)" stroke-width="2"/>
+            <text x="160" y="69" font-size="9" fill="var(--kw)" font-family="monospace" text-anchor="middle">&lt;html&gt;</text>
+            <line x1="160" y1="36" x2="160" y2="54" stroke="var(--text-4)" stroke-width="1"/>
+            <!-- body node -->
+            <rect x="120" y="96" width="80" height="22" rx="3" fill="var(--surface)" stroke="var(--typ)" stroke-width="2"/>
+            <text x="160" y="111" font-size="9" fill="var(--typ)" font-family="monospace" text-anchor="middle">&lt;body&gt;</text>
+            <line x1="160" y1="76" x2="160" y2="96" stroke="var(--text-4)" stroke-width="1"/>
+            <!-- div node -->
+            <rect x="58" y="140" width="80" height="22" rx="3" fill="var(--surface)" stroke="var(--fn)" stroke-width="1"/>
+            <text x="98" y="155" font-size="9" fill="var(--fn)" font-family="monospace" text-anchor="middle">&lt;div&gt;</text>
+            <line x1="120" y1="107" x2="98" y2="140" stroke="var(--text-4)" stroke-width="1"/>
+            <!-- p node -->
+            <rect x="182" y="140" width="80" height="22" rx="3" fill="var(--surface)" stroke="var(--fn)" stroke-width="1"/>
+            <text x="222" y="155" font-size="9" fill="var(--fn)" font-family="monospace" text-anchor="middle">&lt;p&gt;</text>
+            <line x1="200" y1="107" x2="222" y2="140" stroke="var(--text-4)" stroke-width="1"/>
+            <!-- innerHTML label -->
+            <text x="14" y="182" font-size="8" fill="var(--text-4)" font-family="monospace">getElementById() · innerHTML · classList</text>
+          </svg>
+          <span class="label">// DOM · innerHTML</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d typ"></span> DOM · innerHTML</span><span>DOM</span></div>
+          <h3>DOM manipulācija</h3>
+          <p>Atrod un modificē HTML elementus ar getElementById, innerHTML un classList.</p>
+          <div class="foot"><span>4.3 dubultstunda</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+      <a class="project" href="/datorika9/dat9_44">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Apļveida spēles cikla shēma ar 60fps un pulkstenis">
+            <rect width="320" height="200" fill="var(--bg)"/>
+            <!-- big circle loop -->
+            <circle cx="160" cy="100" r="70" fill="none" stroke="var(--line)" stroke-width="1"/>
+            <circle cx="160" cy="100" r="70" fill="none" stroke="var(--kw)" stroke-width="3" stroke-dasharray="280 160" stroke-dashoffset="0"/>
+            <!-- arrow at top-right -->
+            <polygon points="218,48 228,42 226,54" fill="var(--kw)"/>
+            <!-- clock icon center -->
+            <circle cx="160" cy="100" r="28" fill="var(--surface)" stroke="var(--line)"/>
+            <text x="160" y="96" font-size="10" fill="var(--str)" font-family="monospace" text-anchor="middle">60fps</text>
+            <text x="160" y="112" font-size="9" fill="var(--text-4)" font-family="monospace" text-anchor="middle">cikls</text>
+            <!-- clock hands -->
+            <line x1="160" y1="100" x2="160" y2="80" stroke="var(--kw)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="160" y1="100" x2="175" y2="108" stroke="var(--str)" stroke-width="2" stroke-linecap="round"/>
+            <!-- labels around -->
+            <text x="160" y="22" font-size="9" fill="var(--fn)" font-family="monospace" text-anchor="middle">zzimēt()</text>
+            <text x="252" y="104" font-size="9" fill="var(--str)" font-family="monospace" text-anchor="start">pārvietot()</text>
+            <text x="160" y="185" font-size="9" fill="var(--kw)" font-family="monospace" text-anchor="middle">rAF(cikls)</text>
+            <text x="48" y="104" font-size="9" fill="var(--typ)" font-family="monospace" text-anchor="end">notikumi</text>
+          </svg>
+          <span class="label">// setInterval · rAF</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d kw"></span> setInterval · rAF</span><span>laiks</span></div>
+          <h3>Laika kontrole un spēles cikls</h3>
+          <p>Izveido 60fps spēles ciklu ar requestAnimationFrame un laika mērīšanu.</p>
+          <div class="foot"><span>4.4 dubultstunda</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+      <a class="project" href="/datorika9/dat9_45">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Divi taisnstūri tuvojas un saduras ar sarkanu zibspuldzi">
+            <rect width="320" height="200" fill="var(--bg)"/>
+            <!-- object A moving right -->
+            <rect x="30" y="72" width="80" height="56" rx="4" fill="var(--surface)" stroke="var(--kw)" stroke-width="2"/>
+            <text x="70" y="104" font-size="9" fill="var(--kw)" font-family="monospace" text-anchor="middle">spēlētājs</text>
+            <!-- arrow right -->
+            <line x1="110" y1="100" x2="138" y2="100" stroke="var(--kw)" stroke-width="2"/>
+            <polygon points="138,95 148,100 138,105" fill="var(--kw)"/>
+            <!-- collision flash -->
+            <circle cx="160" cy="100" r="20" fill="var(--str)" opacity="0.3"/>
+            <text x="160" y="104" font-size="14" fill="var(--str)" font-family="monospace" text-anchor="middle">💥</text>
+            <!-- object B moving left -->
+            <rect x="210" y="72" width="80" height="56" rx="4" fill="var(--surface)" stroke="var(--str)" stroke-width="2"/>
+            <text x="250" y="104" font-size="9" fill="var(--str)" font-family="monospace" text-anchor="middle">šķērslis</text>
+            <!-- arrow left -->
+            <line x1="210" y1="100" x2="182" y2="100" stroke="var(--str)" stroke-width="2"/>
+            <polygon points="182,95 172,100 182,105" fill="var(--str)"/>
+            <!-- AABB formula -->
+            <rect x="30" y="150" width="260" height="30" rx="3" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+            <text x="40" y="169" font-size="8" fill="var(--text-3)" font-family="monospace">aX &lt; bX+bW &amp;&amp; aX+aW &gt; bX &amp;&amp; aY &lt; bY+bH</text>
+          </svg>
+          <span class="label">// collision · AABB</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d str"></span> collision · AABB</span><span>sadursmes</span></div>
+          <h3>Sadursmju noteikšana</h3>
+          <p>Īsteno AABB sadursmju noteikšanu starp spēlētāju un šķēršļiem.</p>
+          <div class="foot"><span>4.5 dubultstunda</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+      <a class="project" href="/datorika9/dat9_46">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Spēles ekrāns ar spēlētāju taisnstūri, krītošiem šķēršļiem un punktu skaitītāju">
+            <rect width="320" height="200" fill="#0d1117"/>
+            <!-- score bar -->
+            <rect x="0" y="0" width="320" height="24" fill="#1c2128"/>
+            <text x="14" y="16" font-size="9" fill="var(--fn)" font-family="monospace">PUNKTI: 420</text>
+            <text x="200" y="16" font-size="9" fill="var(--str)" font-family="monospace">DZĪVĪBAS: ♥♥♥</text>
+            <!-- ground -->
+            <rect x="0" y="176" width="320" height="24" fill="#1c2128"/>
+            <!-- player rectangle -->
+            <rect x="130" y="144" width="36" height="32" rx="2" fill="var(--str)"/>
+            <rect x="138" y="148" width="10" height="6" rx="1" fill="var(--fn)"/>
+            <rect x="152" y="148" width="6" height="6" rx="1" fill="var(--fn)"/>
+            <!-- falling obstacles -->
+            <rect x="50" y="50" width="28" height="28" rx="3" fill="var(--surface)" stroke="var(--typ)" stroke-width="1"/>
+            <line x1="50" y1="50" x2="78" y2="78" stroke="var(--typ)" stroke-width="1"/>
+            <line x1="78" y1="50" x2="50" y2="78" stroke="var(--typ)" stroke-width="1"/>
+            <rect x="180" y="30" width="24" height="24" rx="3" fill="var(--surface)" stroke="var(--str)" stroke-width="1"/>
+            <line x1="180" y1="30" x2="204" y2="54" stroke="var(--str)" stroke-width="1"/>
+            <line x1="204" y1="30" x2="180" y2="54" stroke="var(--str)" stroke-width="1"/>
+            <rect x="240" y="70" width="20" height="20" rx="3" fill="var(--surface)" stroke="var(--kw)" stroke-width="1"/>
+            <!-- speed arrows on obstacles -->
+            <line x1="64" y1="80" x2="64" y2="96" stroke="var(--typ)" stroke-width="1"/>
+            <polygon points="60,96 68,96 64,104" fill="var(--typ)"/>
+            <line x1="192" y1="56" x2="192" y2="70" stroke="var(--str)" stroke-width="1"/>
+            <polygon points="188,70 196,70 192,78" fill="var(--str)"/>
+          </svg>
+          <span class="label">// HTML · CSS · JS</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d num"></span> HTML · CSS · JS</span><span>projekts</span></div>
+          <h3>Noslēguma projekts: Spēles dzinēja prototips</h3>
+          <p>Izveido darbojošos spēles prototipu ar kustību, šķēršļiem un punktu sistēmu.</p>
+          <div class="foot"><span>4.6 projekts</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- Cheatsheet -->
+<section id="cheatsheet">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+        <h2 class="sec-title">Spēles dzinēja špikeris</h2>
+        <p class="sec-sub">Funkcijas, notikumi, DOM, laika vadība un sadursmju formula.</p>
+      </div>
+    </div>
+
     <div class="logic-box">
-        <ul class="step-list">
-            <li><a href="/datorika9/dat9_41"><b>1. dubultstunda:</b> Funkcijas un koda atkārtota izmantošana</a></li>
-            <li><a href="/datorika9/dat9_42"><b>2. dubultstunda:</b> Notikumu klausītāji (Event Listeners) un interakcija</a></li>
-            <li><a href="/datorika9/dat9_43"><b>3. dubultstunda:</b> DOM manipulācija – dinamiska elementu pārvaldība</a></li>
-            <li><a href="/datorika9/dat9_44"><b>4. dubultstunda:</b> Laika kontrole (Timers) un spēles cikls</a></li>
-            <li><a href="/datorika9/dat9_45"><b>5. dubultstunda:</b> Sadursmju noteikšanas (Collision detection) pamati</a></li>
-            <li><a href="/datorika9/dat9_46"><b>6. dubultstunda:</b> Dzinēja prototipa testēšana un koda analīze</a></li>
+      <h3>1. Funkciju definēšana un izsaukšana</h3>
+      <div class="code-example">
+        <pre><code class="language-javascript">// Funkcija ar parametru un atgriešanas vērtību
+function aprēķināt(a, b) {
+  return a + b;
+}
+let rezultāts = aprēķināt(10, 5); // = 15
+
+// Arrow funkcija (īsāks pieraksts)
+const kustēt = (obj, dx) => obj.x += dx;</code></pre>
+        <div class="result">
+          <b>function</b> – definē atkārtoti izmantojamu koda bloku.<br><br>
+          <b>parametri</b> – mainīgie, ko padod funkcijai izsaucot.<br><br>
+          <b>return</b> – atgriež vērtību no funkcijas.<br><br>
+          <b>Arrow =&gt;</b> – īsāks funkcijas pieraksts ES6 stilā.
+        </div>
+      </div>
+    </div>
+
+    <div class="logic-box">
+      <h3>2. addEventListener — tastatūra un pele</h3>
+      <div class="code-example">
+        <pre><code class="language-javascript">// Tastatūras notikums
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft")  x -= 5;
+  if (e.key === "ArrowRight") x += 5;
+  if (e.key === " ") lekt();
+});
+
+// Peles klikšķis
+canvas.addEventListener("click", e => {
+  console.log(e.clientX, e.clientY);
+});</code></pre>
+        <div class="result">
+          <b>addEventListener</b> – piereģistrē funkciju notikumam.<br><br>
+          <b>e.key</b> – nospiestā taustiņa nosaukums ("ArrowLeft", " " utt.).<br><br>
+          <b>e.clientX/Y</b> – peles koordinātes ekrānā.<br><br>
+          <b>"keydown"</b> – notikums kad taustiņš nospiests.
+        </div>
+      </div>
+    </div>
+
+    <div class="logic-box">
+      <h3>3. DOM manipulācija</h3>
+      <div class="code-example">
+        <pre><code class="language-javascript">// Elementu atrašana un mainīšana
+let punktiElem = document.getElementById("punkti");
+punktiElem.innerHTML = "Punkti: " + p;
+punktiElem.classList.add("aktīvs");
+punktiElem.style.color = "orange";
+
+// Jauna elementa izveide
+let div = document.createElement("div");
+document.body.appendChild(div);</code></pre>
+        <div class="result">
+          <b>getElementById()</b> – atrod elementu pēc ID.<br><br>
+          <b>innerHTML</b> – iestata HTML saturu.<br><br>
+          <b>classList.add/remove</b> – pievieno/noņem CSS klasi.<br><br>
+          <b>createElement</b> – izveido jaunu HTML elementu.
+        </div>
+      </div>
+    </div>
+
+    <div class="logic-box">
+      <h3>4. Spēles cikls ar requestAnimationFrame</h3>
+      <div class="code-example">
+        <pre><code class="language-javascript">// 60fps spēles cikls
+function spelesCikls() {
+  // 1. Nodzēst iepriekšējo kadru
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // 2. Atjaunot stāvokli
+  speletajs.x += atrums;
+  // 3. Uzzīmēt visu
+  zzimēt();
+  // 4. Pieprasīt nākamo kadru
+  requestAnimationFrame(spelesCikls);
+}
+spelesCikls(); // Palaiž ciklu</code></pre>
+        <div class="result">
+          <b>requestAnimationFrame</b> – izsauc funkciju pirms nākamā ekrāna kadra (~60x/s).<br><br>
+          <b>ctx.clearRect</b> – notīra canvas pirms uzzīmēšanas.<br><br>
+          <b>setInterval(fn, 16)</b> – alternatīva, bet rAF ir labāka.
+        </div>
+      </div>
+    </div>
+
+    <div class="logic-box">
+      <h3>5. AABB sadursmju noteikšana</h3>
+      <div class="code-example">
+        <pre><code class="language-javascript">// Vienkārša taisnstūru sadursme
+function saduras(a, b) {
+  return (
+    a.x &lt; b.x + b.w &&
+    a.x + a.w &gt; b.x &&
+    a.y &lt; b.y + b.h &&
+    a.y + a.h &gt; b.y
+  );
+}
+if (saduras(speletajs, skerslis)) {
+  dzivibas--;
+}</code></pre>
+        <div class="result">
+          <b>AABB</b> – Axis-Aligned Bounding Box — visvienkāršākā sadursmju metode.<br><br>
+          <b>4 nosacījumi</b> – pārbauda visas 4 puses overlap.<br><br>
+          <b>Lietošana</b> – salīdzina spēlētāja un šķēršļa koordinātes katru kadru.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA strip -->
+<section class="cta-strip">
+  <div class="wrap">
+    <div class="cta-panel">
+      <div class="cta-code">
+        <span><span class="tok-fn">requestAnimationFrame</span><span class="tok-op">(</span>spelesCikls<span class="tok-op">);</span></span>
+        <span class="muted">// 60 kadri sekundē</span>
+      </div>
+      <div class="cta-actions">
+        <a class="btn large" href="/datorika9/dat9_3main"><span>←</span> 3. Tēma</a>
+        <a class="btn primary large" href="/datorika9/dat9_41"><span>›</span> Sākt 4.1 stundu</a>
+        <a class="btn large" href="/datorika9/dat9_5main">5. Tēma <span class="caret">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="foot-brand"><span class="glyph">›_</span> ebskola.lv</div>
+        <p>Atvērti, bezmaksas mācību materiāli datorikā, programmēšanā un robotikā latviešu valodā.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Datorika 9</h4>
+        <ul>
+          <li><a href="/datorika9/datorika9">Kursa pārskats</a></li>
+          <li><a href="/datorika9/dat9_3main">3. Tēma</a></li>
+          <li><a href="/datorika9/dat9_4main">4. Tēma</a></li>
+          <li><a href="/datorika9/dat9_5main">5. Tēma</a></li>
         </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resursi</h4>
+        <ul>
+          <li><a href="/sasnRez">Sasniedzamie rezultāti</a></li>
+          <li><a href="/paligm">Palīgmateriāli</a></li>
+          <li><a href="/">Visi kursi</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Projekts</h4>
+        <ul>
+          <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a></li>
+          <li><a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">Sazināties</a></li>
+        </ul>
+      </div>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Papildus resursi</h2>
-    <div class="logic-box">
-        <p>Vajadzīga palīdzība, lai atcerētos klaviatūras taustiņu kodus (KeyCodes) vai DOM metodes?</p>
-        <a href="/paligm" style="font-weight: bold; font-size: 1.1em; color: #4CAF50; text-decoration: none;">&rarr; Atvērt 4. tēmas JavaScript špikeri</a>
+    <div class="foot-bot">
+      <div class="left">
+        <span class="ok">● bezmaksas</span>
+        <span>atvērtā koda materiāli</span>
+        <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a>
+      </div>
+      <div class="left">
+        <span>© 2026 ebSkola</span>
+        <span>Izstrādājis Eduards Baumanis</span>
+      </div>
     </div>
-</section>
+  </div>
+</footer>
 
 </body>
 </html>

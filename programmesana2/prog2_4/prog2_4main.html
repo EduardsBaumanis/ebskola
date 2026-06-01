@@ -1,89 +1,313 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>4. Tēma — Datu struktūras un AI — ebSkola</title>
-<meta name="description" content="Programmēšana II 4. tēma: Datu struktūras un AI — Godot 4 + C++. Top-down Shooter žanra projekts: Top-down šautene ar AI.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Prog II 4. tēma: Datu struktūras un AI — vector, map, A* pathfinding, state machines. Top-down shooter.">
+<meta name="author" content="Eduards Baumanis"><meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_4/prog2_4main">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4. Tēma — Datu struktūras un AI">
-<meta property="og:description" content="Programmēšana II 4. tēma: Datu struktūras un AI — Godot 4 + C++. Top-down Shooter žanra projekts: Top-down šautene ar AI.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_4/prog2_4main">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "4. Tēma — Datu struktūras un AI", "description": "Ceturtā tēma māca strādāt ar <b>datu struktūrām</b> (std::vector, std::map, Godot Array/Dictionary) un <b>mākslīgā intelekta (AI)</b> uzvedības mehānikām. Apgūsi state machines (stāvokļu mašīnas), pathfinding ar NavigationAgent2D un objektu pooling tehniku.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_4/prog2_4main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
-</script>
+<meta property="og:type" content="website"><meta property="og:locale" content="lv_LV"><meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="4. Tēma — Datu struktūras un AI"><meta property="og:description" content="Prog II 4. tēma: vector, map, A* pathfinding. Top-down shooter.">
+<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_4/prog2_4main"><meta property="og:image" content="https://ebskola.lv/og-image.svg">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="4. Tēma — Datu struktūras un AI">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="manifest" href="../../manifest.json"><meta name="theme-color" content="#222831">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"4. Tēma — Datu struktūras un AI","description":"STL vector un map, AI state machines, A* pathfinding ar NavigationAgent2D. Top-down shooter.","inLanguage":"lv","url":"https://ebskola.lv/programmesana2/prog2_4/prog2_4main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
 </head>
-<body class="has-sidebar">
+<body class="page-home">
+<header class="topbar"><div class="wrap row">
+  <a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
+  <nav class="nav">
+    <a href="/programmesana2/programmesana2">Prog II</a>
+    <a href="/programmesana2/prog2_3/prog2_3main">3. Tēma</a>
+    <a href="/programmesana2/prog2_4/prog2_4main" aria-current="page">4. Tēma</a>
+    <a href="/programmesana2/prog2_5/prog2_5main">5. Tēma</a>
+    <a href="/sasnRez">rezultāti</a><a href="/paligm">palīgmateriāli</a>
+  </nav>
+  <div class="spacer"></div>
+  <a class="btn primary" href="/programmesana2/prog2_4/prog2_41">sākt stundu <span class="caret">→</span></a>
+</div></header>
 
-<aside class="sidebar-nav">
-  <h3>ebskola</h3>
-  <a class="active" href="/programmesana2/prog2_4/prog2_4main">4. Tēmas apkopojums</a>
-  <a href="/programmesana2/prog2_4/prog2_41">4.1 Vector un Array</a>
-  <a href="/programmesana2/prog2_4/prog2_42">4.2 Map un Dictionary</a>
-  <a href="/programmesana2/prog2_4/prog2_43">4.3 State machines AI uzvedībai</a>
-  <a href="/programmesana2/prog2_4/prog2_44">4.4 Pathfinding ar A*</a>
-  <a href="/programmesana2/prog2_4/prog2_45">4.5 Šaušanas mehānika un object pooling</a>
-  <a href="/programmesana2/prog2_4/prog2_46">4.6 Noslēguma projekts: Top-down šautene</a>
-</aside>
-
-<nav class='galvenaisdiv'>
-    <a href="/">Tēmas</a>
-    <a href="/sasnRez">Sasniedzamie rezultāti</a>
-    <a href="/paligm">Palīgmateriāli</a>
-</nav>
-
-<section class='section'>
-    <h1>4. Tēma — Datu struktūras un AI</h1>
-    <div class="info-box">
-        <h3>Par šo tēmu</h3>
-        <p>Ceturtā tēma māca strādāt ar <b>datu struktūrām</b> (std::vector, std::map, Godot Array/Dictionary) un <b>mākslīgā intelekta (AI)</b> uzvedības mehānikām. Apgūsi state machines (stāvokļu mašīnas), pathfinding ar NavigationAgent2D un objektu pooling tehniku.</p>
+<section class="hero"><div class="wrap">
+  <div class="eyebrow"><span class="dot"></span><span>Prog II · 4. tēma · 6 stundas</span><span class="ver">— C++ · AI · Shooter</span></div>
+  <div class="hero-grid">
+    <div>
+      <h1 class="headline">Datu struktūras <span class="slash">//</span><br>un <span class="accent">AI</span></h1>
+      <p class="lede">STL <code>vector</code> un <code>map</code>, ienaidnieku AI ar <code>NavigationAgent2D</code> un <code>A*</code> algoritmu. Rezultāts — Top-down šautene ar gudru AI.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="/programmesana2/prog2_4/prog2_41"><span>›</span> Sākt 4.1 stundu</a>
+        <a class="btn" href="/programmesana2/prog2_4/prog2_46">Noslēguma projekts <span class="caret">→</span></a>
+      </div>
+      <div class="hero-meta">
+        <span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
+        <span class="m"><span class="sw kw"></span> <b>STL</b> · vector · map</span>
+        <span class="m"><span class="sw fn"></span> <b>A*</b> pathfinding</span>
+      </div>
     </div>
-</section>
+    <div>
+      <div class="editor" aria-hidden="true">
+        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog2_4/</em>enemy_ai.cpp</span></div>
+        <div class="tabs"><span class="tab active"><span class="ic">●</span> enemy_ai.cpp</span><span class="spacer"></span></div>
+        <div class="body">
+          <div class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11</div>
+          <div class="code"><span class="tok-kw">#include</span> <span class="tok-str">&lt;vector&gt;</span>
+<span class="tok-kw">#include</span> <span class="tok-str">&lt;map&gt;</span>
 
-
-<section class='section'>
-    <h2>Kam pievērst uzmanību</h2>
-    <div class="logic-box">
-        <p>Šajā tēmā Tu izveidosi datu struktūru un AI uzvedības sistēmu un iemācīsies pamatot gan gala rezultātu, gan izvēlēto C++ risinājumu. AI tēma kļūst nestabila, ja datu struktūra tiek izvēlēta nejauši un uzvedības stāvokļi nav nodalīti no renderēšanas.</p>
-        <ul>
-            <li><b>Ko tu iemācīsies:</b> tēma ļauj redzēt, kā Godot editorā salikti objekti kļūst par programmējamu sistēmu.</li>
-            <li><b>Uzmanies:</b> nepaļaujies tikai uz klikšķiem editorā; katrā praktiskajā darbā pārkompilē, pārbaudi un īsi pieraksti rezultātu README.</li>
-            <li><b>C++ noteikums:</b> spēles noteikumi un sistēmas loģika jārealizē C++ GDExtension klasēs; citi faili drīkst kalpot kā resursi, konfigurācija vai build rīki.</li>
-            <li><b>Darba beigās pārbaudi:</b> C++ kodā pamatoti izvēlēti vector/map/set, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</li>
-        </ul>
+<span class="tok-kw">void</span> <span class="tok-typ">EnemyAI</span>::<span class="tok-fn">_physics_process</span>(<span class="tok-kw">double</span> d) {
+  <span class="tok-typ">Vector2</span> target <span class="tok-op">=</span> <span class="tok-fn">get_player_pos</span>();
+  <span class="tok-typ">NavigationAgent2D</span><span class="tok-op">*</span> nav <span class="tok-op">=</span>
+    <span class="tok-fn">get_node</span>&lt;<span class="tok-typ">NavigationAgent2D</span>&gt;(<span class="tok-str">"Nav"</span>);
+  nav-&gt;<span class="tok-fn">set_target_position</span>(target);
+  <span class="tok-typ">Vector2</span> next <span class="tok-op">=</span> nav-&gt;<span class="tok-fn">get_next_path_position</span>();
+  <span class="tok-fn">set_velocity</span>((next <span class="tok-op">-</span> <span class="tok-fn">get_position</span>()).<span class="tok-fn">normalized</span>() <span class="tok-op">*</span> SPEED);
+  <span class="tok-fn">move_and_slide</span>();<span class="cursor"></span></div>
+        </div>
+        <div class="statusbar"><span class="ok">● kompilēts</span><span>C++ · STL</span><span class="spacer"></span><span>Godot 4</span></div>
+      </div>
     </div>
-</section>
-<section class='section'>
-    <h2>Tēmas saturs (Stundu plāns)</h2>
-    <div class="logic-box">
-        <ul class="step-list">
-            <li><a href="/programmesana2/prog2_4/prog2_41"><b>1. stunda:</b> Vector un Array</a></li>
-            <li><a href="/programmesana2/prog2_4/prog2_42"><b>2. stunda:</b> Map un Dictionary</a></li>
-            <li><a href="/programmesana2/prog2_4/prog2_43"><b>3. stunda:</b> State machines AI uzvedībai</a></li>
-            <li><a href="/programmesana2/prog2_4/prog2_44"><b>4. stunda:</b> Pathfinding ar A*</a></li>
-            <li><a href="/programmesana2/prog2_4/prog2_45"><b>5. stunda:</b> Šaušanas mehānika un object pooling</a></li>
-            <li><a href="/programmesana2/prog2_4/prog2_46"><b>6. stunda:</b> Noslēguma projekts: Top-down šautene</a></li>
-        </ul>
-    </div>
-</section>
+  </div>
+</div></section>
 
-<section class='section'>
-    <h2>Tēmas projekts: Top-down šautene ar AI</h2>
-    <div class="info-box">
-        <p>Tēmas noslēgumā Tu izveidosi <b>Top-down Shooter žanra spēli — Top-down šautene ar AI</b>, izmantojot visu, ko šajā tēmā iemācījies. Spēli izstrādāsi Godot 4 dzinējā ar C++ koda loģiku caur GDExtension.</p>
+<section id="stundas"><div class="wrap">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
+      <h2 class="sec-title">6 stundas — STL, AI un Top-down Shooter</h2>
     </div>
-</section>
+    <a class="sec-link" href="/programmesana2/prog2_4/prog2_46">noslēguma projekts <span>→</span></a>
+  </div>
+  <div class="projects">
 
+    <a class="project" href="/programmesana2/prog2_4/prog2_41">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <text x="30" y="50" font-family="monospace" font-size="9" fill="var(--text-3)">std::vector&lt;Bullet*&gt;</text>
+          <rect x="30" y="58" width="30" height="28" rx="2" fill="var(--surface)" stroke="var(--kw)"/><text x="45" y="77" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">0</text>
+          <rect x="63" y="58" width="30" height="28" rx="2" fill="var(--surface)" stroke="var(--kw)"/><text x="78" y="77" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">1</text>
+          <rect x="96" y="58" width="30" height="28" rx="2" fill="var(--surface)" stroke="var(--kw)"/><text x="111" y="77" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">2</text>
+          <rect x="129" y="58" width="30" height="28" rx="2" fill="var(--surface-2)" stroke="var(--line)" stroke-dasharray="3,2"/><text x="144" y="77" font-family="monospace" font-size="8" fill="var(--text-4)" text-anchor="middle">+</text>
+          <text x="165" y="77" font-family="monospace" font-size="9" fill="var(--str)">push_back()</text>
+          <text x="30" y="120" font-family="monospace" font-size="9" fill="var(--text-3)">std::map&lt;string,int&gt;</text>
+          <rect x="30" y="128" width="230" height="40" rx="3" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+          <text x="60" y="148" font-family="monospace" font-size="8" fill="var(--str)">"bullets"</text>
+          <text x="120" y="148" font-family="monospace" font-size="8" fill="var(--text-4)">→</text>
+          <text x="140" y="148" font-family="monospace" font-size="8" fill="var(--num)">12</text>
+          <text x="180" y="148" font-family="monospace" font-size="8" fill="var(--str)">"score"</text>
+          <text x="225" y="148" font-family="monospace" font-size="8" fill="var(--text-4)">→</text>
+          <text x="242" y="148" font-family="monospace" font-size="8" fill="var(--num)">550</text>
+        </svg>
+        <span class="label">// STL containers</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d kw"></span> C++ · STL</span><span>datu struktūras</span></div>
+        <h3>Vector un Array</h3>
+        <p><code>std::vector</code> dinamiskam bultām sarakstam, <code>push_back</code>/<code>erase</code>, iterācija ar range-for.</p>
+        <div class="foot"><span>4.1 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+    <a class="project" href="/programmesana2/prog2_4/prog2_42">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="30" y="30" width="260" height="130" rx="4" fill="var(--surface)" stroke="var(--line)"/>
+          <rect x="30" y="30" width="120" height="130" rx="4" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+          <text x="90" y="50" font-family="monospace" font-size="8" fill="var(--text-3)" text-anchor="middle">KEY</text>
+          <rect x="40" y="58" width="100" height="14" rx="2" fill="var(--surface-2)"/><text x="90" y="69" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">"bullets"</text>
+          <rect x="40" y="76" width="100" height="14" rx="2" fill="var(--surface-2)"/><text x="90" y="87" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">"score"</text>
+          <rect x="40" y="94" width="100" height="14" rx="2" fill="var(--surface-2)"/><text x="90" y="105" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">"level"</text>
+          <text x="215" y="50" font-family="monospace" font-size="8" fill="var(--text-3)" text-anchor="middle">VALUE</text>
+          <rect x="160" y="58" width="120" height="14" rx="2" fill="var(--bg-2)"/><text x="215" y="69" font-family="monospace" font-size="8" fill="var(--num)" text-anchor="middle">12</text>
+          <rect x="160" y="76" width="120" height="14" rx="2" fill="var(--bg-2)"/><text x="215" y="87" font-family="monospace" font-size="8" fill="var(--num)" text-anchor="middle">550</text>
+          <rect x="160" y="94" width="120" height="14" rx="2" fill="var(--bg-2)"/><text x="215" y="105" font-family="monospace" font-size="8" fill="var(--num)" text-anchor="middle">3</text>
+          <text x="160" y="180" font-family="monospace" font-size="8" fill="var(--text-4)">scores["score"]++;</text>
+        </svg>
+        <span class="label">// std::map</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d typ"></span> C++ · map</span><span>datu struktūras</span></div>
+        <h3>Map un Dictionary</h3>
+        <p><code>std::map</code> un <code>std::unordered_map</code> — atslēga→vērtība, spēles stāvokļa glabāšana.</p>
+        <div class="foot"><span>4.2 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+    <a class="project" href="/programmesana2/prog2_4/prog2_43">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <circle cx="80" cy="100" r="28" fill="var(--surface)" stroke="var(--text-4)"/>
+          <text x="80" y="104" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">PATROL</text>
+          <circle cx="200" cy="60" r="28" fill="var(--surface)" stroke="var(--str)"/>
+          <text x="200" y="64" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">CHASE</text>
+          <circle cx="260" cy="130" r="28" fill="var(--surface)" stroke="var(--fn)"/>
+          <text x="260" y="134" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">ATTACK</text>
+          <path d="M105 85 L175 68" stroke="var(--str)" stroke-width="1.5" fill="none" marker-end="url(#c)"/>
+          <text x="135" y="71" font-family="monospace" font-size="7" fill="var(--text-4)">sees player</text>
+          <path d="M225 70 L240 108" stroke="var(--fn)" stroke-width="1.5" fill="none"/>
+          <text x="242" y="93" font-family="monospace" font-size="7" fill="var(--text-4)">in range</text>
+          <path d="M235 145 L105 115" stroke="var(--text-4)" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>
+          <text x="155" y="148" font-family="monospace" font-size="7" fill="var(--text-4)">lost player</text>
+        </svg>
+        <span class="label">// AI state machine</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d fn"></span> AI · FSM</span><span>uzvedība</span></div>
+        <h3>State machines AI uzvedībai</h3>
+        <p>PATROL → CHASE → ATTACK stāvokļu mašīna, enum stāvokļi, pārejas nosacījumi.</p>
+        <div class="foot"><span>4.3 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+    <a class="project" href="/programmesana2/prog2_4/prog2_44">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="20" y="20" width="280" height="160" rx="3" fill="var(--bg-2)"/>
+          <rect x="20" y="20" width="280" height="160" fill="none" stroke="var(--line-soft)"/>
+          <!-- Grid cells -->
+          <rect x="60" y="60" width="30" height="30" fill="var(--kw)" opacity="0.6"/>
+          <rect x="90" y="60" width="30" height="30" fill="var(--kw)" opacity="0.4"/>
+          <rect x="120" y="60" width="30" height="30" fill="var(--kw)" opacity="0.2"/>
+          <rect x="150" y="90" width="30" height="30" fill="var(--kw)" opacity="0.4"/>
+          <rect x="180" y="120" width="30" height="30" fill="var(--kw)" opacity="0.6"/>
+          <rect x="210" y="120" width="30" height="30" fill="var(--str)" opacity="0.7"/>
+          <text x="40" y="80" font-family="monospace" font-size="8" fill="var(--kw)">S</text>
+          <text x="225" y="140" font-family="monospace" font-size="8" fill="var(--str)">E</text>
+          <text x="160" y="185" font-family="monospace" font-size="8" fill="var(--text-4)" text-anchor="middle">A* — atrод īsāko ceļu pa tīklu</text>
+        </svg>
+        <span class="label">// A* pathfinding</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d typ"></span> A* · Navigation2D</span><span>pathfinding</span></div>
+        <h3>Pathfinding ar A*</h3>
+        <p>Godot <code>NavigationAgent2D</code>, A* algoritms, <code>get_next_path_position()</code>, navigācijas karte.</p>
+        <div class="foot"><span>4.4 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+    <a class="project" href="/programmesana2/prog2_4/prog2_45">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="20" y="70" width="80" height="30" rx="3" fill="var(--surface)" stroke="var(--text-3)"/>
+          <text x="60" y="89" font-family="monospace" font-size="8" fill="var(--text-3)" text-anchor="middle">Object Pool</text>
+          <circle cx="30" cy="50" r="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <circle cx="50" cy="50" r="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <circle cx="70" cy="50" r="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <circle cx="90" cy="50" r="8" fill="var(--surface-2)" stroke="var(--line)"/>
+          <circle cx="150" cy="60" r="8" fill="var(--str)"/>
+          <circle cx="190" cy="80" r="8" fill="var(--str)"/>
+          <circle cx="230" cy="50" r="8" fill="var(--str)"/>
+          <circle cx="260" cy="90" r="8" fill="var(--str)"/>
+          <path d="M100 85 Q130 60 142 60" stroke="var(--kw)" stroke-width="1.5" fill="none"/>
+          <text x="110" y="55" font-family="monospace" font-size="7" fill="var(--kw)">get()</text>
+          <path d="M158 68 Q120 110 100 100" stroke="var(--typ)" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/>
+          <text x="125" y="118" font-family="monospace" font-size="7" fill="var(--typ)">recycle()</text>
+        </svg>
+        <span class="label">// object pooling</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d str"></span> C++ · optimizācija</span><span>veiktspēja</span></div>
+        <h3>Šaušanas mehānika un object pooling</h3>
+        <p>Bullet object pool — pārlieto objektus nevis veido jaunus, ieroču sistēma ar <code>std::vector</code>.</p>
+        <div class="foot"><span>4.5 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+    <a class="project" href="/programmesana2/prog2_4/prog2_46">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="#1a1f2e"/>
+          <rect x="140" y="85" width="40" height="30" rx="3" fill="var(--kw)"/>
+          <text x="160" y="105" font-family="monospace" font-size="8" fill="var(--bg)" text-anchor="middle">Player</text>
+          <circle cx="60" cy="60" r="14" fill="var(--str)" opacity="0.8"/>
+          <circle cx="260" cy="80" r="14" fill="var(--str)" opacity="0.8"/>
+          <circle cx="80" cy="150" r="14" fill="var(--str)" opacity="0.8"/>
+          <circle cx="240" cy="150" r="14" fill="var(--fn)" opacity="0.8"/>
+          <line x1="74" y1="68" x2="140" y2="90" stroke="var(--str)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="248" y1="86" x2="180" y2="97" stroke="var(--str)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <circle cx="110" cy="76" r="4" fill="var(--fn)"/>
+          <circle cx="200" cy="76" r="4" fill="var(--fn)"/>
+          <rect x="10" y="10" width="70" height="16" rx="2" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+          <text x="45" y="22" font-family="monospace" font-size="7" fill="var(--str)" text-anchor="middle">WAVE 3</text>
+          <rect x="240" y="10" width="70" height="16" rx="2" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+          <text x="275" y="22" font-family="monospace" font-size="7" fill="var(--fn)" text-anchor="middle">1250 pts</text>
+        </svg>
+        <span class="label">// prog2_46 projekts</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d str"></span> C++ · AI</span><span>projekts</span></div>
+        <h3>Noslēguma projekts: Top-down Shooter ar AI</h3>
+        <p>Ienaidnieki ar A* pathfinding, ieroču sistēma, viļņu pārvaldnieks, highscore ar <code>std::map</code>.</p>
+        <div class="foot"><span>4.6 projekts</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+  </div>
+</div></section>
+
+<section id="spekeris"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">STL un NavigationAgent2D špikeris</h2>
+  </div></div>
+  <div class="logic-box">
+    <h3>STL datu struktūras — galvenās operācijas</h3>
+    <pre><code class="language-cpp">// std::vector — dinamisks masīvs
+#include &lt;vector&gt;
+std::vector&lt;Bullet*&gt; bullets;
+bullets.push_back(new Bullet());     // pievieno
+bullets.erase(bullets.begin() + i); // izdzēš
+for (auto* b : bullets) b->update(); // iterē
+
+// std::map — atslēga → vērtība
+#include &lt;map&gt;
+std::map&lt;String, int&gt; scores;
+scores["Anna"] = 500;
+scores["Janis"]++;
+if (scores.count("Anna")) { ... }  // pārbauda vai eksistē</code></pre>
+  </div>
+  <div class="logic-box">
+    <h3>NavigationAgent2D A* pathfinding</h3>
+    <pre><code class="language-cpp">// enemy_ai.cpp
+void EnemyAI::_physics_process(double delta) {
+    auto* nav = get_node&lt;NavigationAgent2D&gt;("NavigationAgent2D");
+    nav->set_target_position(player->get_global_position());
+
+    if (nav->is_navigation_finished()) return;
+
+    Vector2 next = nav->get_next_path_position();
+    Vector2 dir  = (next - get_global_position()).normalized();
+    set_velocity(dir * SPEED);
+    move_and_slide();
+}</code></pre>
+  </div>
+</div></section>
+
+<section class="cta-strip"><div class="wrap"><div class="cta-panel">
+  <div class="cta-code">
+    <span><span class="prompt">C++</span> nav-&gt;get_next_path_position(); <span class="muted">// A* aprēķina ceļu automātiski</span></span>
+    <span class="muted"># NavigationAgent2D + std::vector&lt;Enemy*&gt; = gudra, efektīva AI sistēma</span>
+  </div>
+  <div class="cta-actions">
+    <a class="btn primary large" href="/programmesana2/prog2_3/prog2_3main"><span>←</span> 3. Tēma</a>
+    <a class="btn large" href="/programmesana2/prog2_5/prog2_5main">5. Tēma <span class="caret">→</span></a>
+  </div>
+</div></div></section>
 </body>
 </html>

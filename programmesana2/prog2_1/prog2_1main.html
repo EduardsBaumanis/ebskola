@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>1. Tēma — Ievads Godot un C++ — ebSkola</title>
 <meta name="description" content="Programmēšana II 1. tēma: Ievads Godot un C++ — Godot 4 + C++. Arcade žanra projekts: Pong.">
 <meta name="author" content="Eduards Baumanis">
@@ -16,76 +16,538 @@
 <meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_1/prog2_1main">
 <meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1. Tēma — Ievads Godot un C++">
+<meta name="twitter:description" content="Programmēšana II 1. tēma: Ievads Godot un C++ — Godot 4 + C++. Arcade žanra projekts: Pong.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "1. Tēma — Ievads Godot un C++", "description": "Pirmā tēma iepazīstina ar <b>Godot 4 Engine</b> (Godot dzinēju) un <b>C++ programmēšanu</b> caur GDExtension. Apgūsi spēļu dzinēja darba vidi (<i>editor</i>), Scene Tree (Skatu koks) konceptu un sagatavosi C++ izstrādes vidi. Tēma noslēdzas ar klasiskās arkādes spēles <b>Pong</b> izveidi.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_1/prog2_1main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
+{"@context": "https://schema.org", "@type": "Course", "name": "1. Tēma — Ievads Godot un C++", "description": "Pirmā tēma iepazīstina ar Godot 4 Engine un C++ programmēšanu caur GDExtension. Apgūsi spēļu dzinēja darba vidi, Scene Tree konceptu un sagatavosi C++ izstrādes vidi. Tēma noslēdzas ar klasiskās arkādes spēles Pong izveidi.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_1/prog2_1main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
 </head>
-<body class="has-sidebar">
+<body class="page-home">
 
-<aside class="sidebar-nav">
-  <h3>ebskola</h3>
-  <a class="active" href="/programmesana2/prog2_1/prog2_1main">1. Tēmas apkopojums</a>
-  <a href="/programmesana2/prog2_1/prog2_11">1.1 Godot instalācija un projekta sagatavošana</a>
-  <a href="/programmesana2/prog2_1/prog2_12">1.2 Scene Tree un Node sistēma</a>
-  <a href="/programmesana2/prog2_1/prog2_13">1.3 C++ un GDExtension sagatavošana</a>
-  <a href="/programmesana2/prog2_1/prog2_14">1.4 Pirmais C++ skripts: mainīgie un izvade</a>
-  <a href="/programmesana2/prog2_1/prog2_15">1.5 Spēles laukuma izveide</a>
-  <a href="/programmesana2/prog2_1/prog2_16">1.6 Noslēguma projekts: Pong</a>
-</aside>
+<!-- Top bar -->
+<header class="topbar">
+  <div class="wrap row">
+    <a class="brand" href="/">
+      <span class="glyph">›_</span>
+      <span class="name">ebskola<span>.lv</span></span>
+    </a>
+    <nav class="nav" aria-label="Galvenā navigācija">
+      <a href="/programmesana2/programmesana2">Prog II</a>
+      <a href="/programmesana2/prog2_1/prog2_1main" aria-current="page">1. Tēma</a>
+      <a href="/programmesana2/prog2_2/prog2_2main">2. Tēma</a>
+      <a href="/sasnRez">rezultāti</a>
+      <a href="/paligm">palīgmateriāli</a>
+    </nav>
+    <div class="spacer"></div>
+    <a class="btn primary" href="/programmesana2/prog2_1/prog2_11">sākt stundu <span class="caret">→</span></a>
+  </div>
+</header>
 
-<nav class='galvenaisdiv'>
-    <a href="/">Tēmas</a>
-    <a href="/sasnRez">Sasniedzamie rezultāti</a>
-    <a href="/paligm">Palīgmateriāli</a>
-</nav>
-
-<section class='section'>
-    <h1>1. Tēma — Ievads Godot un C++</h1>
-    <div class="info-box">
-        <h3>Par šo tēmu</h3>
-        <p>Pirmā tēma iepazīstina ar <b>Godot 4 Engine</b> (Godot dzinēju) un <b>C++ programmēšanu</b> caur GDExtension. Apgūsi spēļu dzinēja darba vidi (<i>editor</i>), Scene Tree (Skatu koks) konceptu, C++ build procesu un klases reģistrāciju Godot vidē. Tēma noslēdzas ar klasiskās arkādes spēles <b>Pong</b> izveidi.</p>
-        <p>Šajā tēmā spēles loģika tiek rakstīta <b>C++</b>. Godot editorā var redzēt vārdu <i>Script</i>, taču šajā kursā tas nozīmē GDExtension C++ klasi.</p>
+<!-- Hero -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">
+      <span class="dot"></span>
+      <span>Prog II · 1. tēma · 6 stundas</span>
+      <span class="ver">— Godot 4 · C++ · GDExtension</span>
     </div>
+
+    <div class="hero-grid">
+      <div>
+        <h1 class="headline">
+          Ievads <span class="accent">Godot</span> <span class="slash">//</span>
+          un <span class="accent-2">C++</span>
+        </h1>
+        <p class="lede">
+          Iepazīsti <code>Godot 4</code> spēļu dzinēju un raksti spēles loģiku <code>C++</code> valodā
+          caur <code>GDExtension</code>. Tēma noslēdzas ar klasiskās arkādes spēles <code>Pong</code> izveidi.
+        </p>
+
+        <div class="cta-row">
+          <a class="btn primary" href="/programmesana2/prog2_1/prog2_11"><span>›</span> Sākt 1.1 stundu</a>
+          <a class="btn" href="/programmesana2/prog2_1/prog2_16">Noslēguma projekts <span class="caret">→</span></a>
+        </div>
+
+        <div class="hero-meta">
+          <span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
+          <span class="m"><span class="sw kw"></span> <b>C++</b> · GDExtension</span>
+          <span class="m"><span class="sw fn"></span> <b>Godot 4</b> dzinis</span>
+          <span class="m"><span class="sw typ"></span> <b>projekts</b> Pong</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="editor" aria-hidden="true">
+          <div class="titlebar">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="crumb"><em>prog2_1/</em>pong_ball.cpp</span>
+          </div>
+          <div class="tabs">
+            <span class="tab active"><span class="ic">●</span> pong_ball.cpp</span>
+            <span class="tab">pong_ball.h</span>
+            <span class="tab">SConstruct</span>
+            <span class="spacer"></span>
+          </div>
+          <div class="body">
+            <div class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15</div>
+<div class="code"><span class="tok-com">// pong_ball.cpp — GDExtension</span>
+<span class="tok-kw">#include</span> <span class="tok-str">"pong_ball.h"</span>
+<span class="tok-kw">using namespace</span> <span class="tok-typ">godot</span>;
+
+<span class="tok-typ">void</span> <span class="tok-fn">PongBall::_bind_methods</span>() {
+    <span class="tok-typ">ClassDB</span>::<span class="tok-fn">bind_method</span>(
+        <span class="tok-fn">D_METHOD</span>(<span class="tok-str">"atgriezties"</span>),
+        &amp;<span class="tok-typ">PongBall</span>::<span class="tok-fn">atgriezties</span>);
+}
+<span class="tok-typ">void</span> <span class="tok-fn">PongBall::_process</span>(<span class="tok-typ">double</span> d) {
+    <span class="tok-fn">set_position</span>(<span class="tok-fn">get_position</span>()
+        + speed * d);
+}<span class="cursor"></span></div>
+          </div>
+          <div class="statusbar">
+            <span class="ok">● C++ · Godot 4</span>
+            <span>UTF-8</span>
+            <span class="spacer"></span>
+            <span>Ln 13, Col 1</span>
+          </div>
+        </div>
+
+        <div class="hero-badges">
+          <span class="badge"><span class="d str"></span> GDExtension</span>
+          <span class="badge"><span class="d kw"></span> C++ · SCons</span>
+          <span class="badge"><span class="d typ"></span> Godot 4 dzinis</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class='section'>
-    <h2>Kam pievērst uzmanību</h2>
-    <div class="logic-box">
-        <p>1. tēmas galvenais uzdevums ir pārvērst Godot no "klikšķināma redaktora" par programmējamu sistēmu. Ja Tu tikai saliec objektus ekrānā, tēma paliek virspusēja; ja Tu saproti, kā Scene Tree, C++ klase, kompilācija un Godot resursi sadarbojas, turpmākās tēmas kļūst daudz drošākas.</p>
+<!-- Lessons -->
+<section id="lessons">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundas</div>
+        <h2 class="sec-title">6 stundas — tēmas saturs</h2>
+        <p class="sec-sub">No Godot instalācijas un Scene Tree līdz Pong spēles C++ implementācijai.</p>
+      </div>
+      <a class="sec-link" href="/programmesana2/programmesana2">kursa pārskats <span>→</span></a>
+    </div>
+
+    <div class="projects">
+
+      <a class="project" href="/programmesana2/prog2_1/prog2_11">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Godot redaktora logs ar scēnu koku kreisajā pusē, viewport centrā un inspektoru labajā pusē">
+            <rect width="320" height="200" fill="var(--bg)"/>
+            <!-- main window -->
+            <rect x="14" y="14" width="292" height="172" rx="4" fill="var(--surface)" stroke="var(--line)"/>
+            <!-- titlebar -->
+            <rect x="14" y="14" width="292" height="20" rx="4" fill="var(--bg-2)"/>
+            <circle cx="28" cy="24" r="3" fill="var(--str)"/>
+            <circle cx="40" cy="24" r="3" fill="var(--fn)"/>
+            <circle cx="52" cy="24" r="3" fill="var(--kw)"/>
+            <rect x="68" y="20" width="80" height="8" rx="2" fill="var(--line)"/>
+            <!-- left scene panel -->
+            <rect x="14" y="34" width="72" height="152" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+            <rect x="20" y="42" width="48" height="5" rx="2" fill="var(--text-4)"/>
+            <rect x="20" y="54" width="12" height="5" rx="1" fill="var(--typ)"/>
+            <rect x="36" y="54" width="32" height="5" rx="2" fill="var(--text-2)"/>
+            <rect x="28" y="66" width="10" height="5" rx="1" fill="var(--str)"/>
+            <rect x="42" y="66" width="28" height="5" rx="2" fill="var(--text-3)"/>
+            <rect x="28" y="78" width="10" height="5" rx="1" fill="var(--kw)"/>
+            <rect x="42" y="78" width="36" height="5" rx="2" fill="var(--text-3)"/>
+            <rect x="28" y="90" width="10" height="5" rx="1" fill="var(--fn)"/>
+            <rect x="42" y="90" width="22" height="5" rx="2" fill="var(--text-3)"/>
+            <!-- viewport center -->
+            <rect x="86" y="34" width="148" height="152" fill="#1a1f26"/>
+            <!-- grid lines -->
+            <line x1="86" y1="110" x2="234" y2="110" stroke="var(--line-soft)" stroke-dasharray="6 4"/>
+            <line x1="160" y1="34" x2="160" y2="186" stroke="var(--line-soft)" stroke-dasharray="6 4"/>
+            <!-- scene content placeholder -->
+            <rect x="130" y="90" width="60" height="40" rx="2" fill="var(--surface-2)" stroke="var(--typ)" stroke-width="1"/>
+            <!-- right inspector -->
+            <rect x="234" y="34" width="72" height="152" fill="var(--bg-2)" stroke="var(--line-soft)"/>
+            <rect x="240" y="44" width="50" height="5" rx="2" fill="var(--text-4)"/>
+            <rect x="240" y="56" width="30" height="5" rx="2" fill="var(--kw)"/>
+            <rect x="240" y="68" width="44" height="5" rx="2" fill="var(--text-3)"/>
+            <rect x="240" y="80" width="38" height="5" rx="2" fill="var(--text-3)"/>
+            <rect x="240" y="92" width="20" height="8" rx="2" fill="var(--surface-2)" stroke="var(--str)" stroke-width="1"/>
+          </svg>
+          <span class="label">// Godot 4 editor</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d kw"></span> Godot 4</span><span>vide</span></div>
+          <h3>Godot instalācija un projekta sagatavošana</h3>
+          <p>Uzstādi Godot 4 un SCons, izveido jaunu projektu un iepazīsti editor izkārtojumu.</p>
+          <div class="foot"><span>1.1 stunda</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+      <a class="project" href="/programmesana2/prog2_1/prog2_12">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Scene Tree koka diagramma ar Node2D sakni un bērnmezgliem">
+            <rect width="320" height="200" fill="var(--bg)"/>
+            <!-- root node -->
+            <rect x="116" y="24" width="88" height="28" rx="4" fill="var(--surface)" stroke="var(--typ)" stroke-width="2"/>
+            <rect x="124" y="32" width="12" height="12" rx="2" fill="var(--typ)"/>
+            <rect x="142" y="36" width="48" height="6" rx="2" fill="var(--text-2)"/>
+            <!-- connection lines -->
+            <line x1="160" y1="52" x2="160" y2="72" stroke="var(--line)" stroke-width="1.5"/>
+            <line x1="80" y1="72" x2="240" y2="72" stroke="var(--line)" stroke-width="1.5"/>
+            <line x1="80" y1="72" x2="80" y2="90" stroke="var(--line)" stroke-width="1.5"/>
+            <line x1="160" y1="72" x2="160" y2="90" stroke="var(--line)" stroke-width="1.5"/>
+            <line x1="240" y1="72" x2="240" y2="90" stroke="var(--line)" stroke-width="1.5"/>
+            <!-- child node 1 -->
+            <rect x="36" y="90" width="88" height="28" rx="4" fill="var(--surface)" stroke="var(--str)" stroke-width="1.5"/>
+            <rect x="44" y="98" width="12" height="12" rx="2" fill="var(--str)"/>
+            <rect x="62" y="102" width="50" height="6" rx="2" fill="var(--text-2)"/>
+            <!-- child node 2 -->
+            <rect x="116" y="90" width="88" height="28" rx="4" fill="var(--surface)" stroke="var(--kw)" stroke-width="1.5"/>
+            <rect x="124" y="98" width="12" height="12" rx="2" fill="var(--kw)"/>
+            <rect x="142" y="102" width="50" height="6" rx="2" fill="var(--text-2)"/>
+            <!-- child node 3 -->
+            <rect x="196" y="90" width="88" height="28" rx="4" fill="var(--surface)" stroke="var(--fn)" stroke-width="1.5"/>
+            <rect x="204" y="98" width="12" height="12" rx="2" fill="var(--fn)"/>
+            <rect x="222" y="102" width="40" height="6" rx="2" fill="var(--text-2)"/>
+            <!-- labels -->
+            <rect x="44" y="128" width="66" height="5" rx="2" fill="var(--text-4)"/>
+            <rect x="124" y="128" width="72" height="5" rx="2" fill="var(--text-4)"/>
+            <rect x="204" y="128" width="56" height="5" rx="2" fill="var(--text-4)"/>
+            <!-- node2D label -->
+            <rect x="126" y="16" width="44" height="5" rx="2" fill="var(--text-4)"/>
+          </svg>
+          <span class="label">// Scene · Node</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d typ"></span> Scene · Node</span><span>struktūra</span></div>
+          <h3>Scene Tree un Node sistēma</h3>
+          <p>Iepazīsti Godot mezglu hierarhiju, kā Scene Tree organizē spēles objektus.</p>
+          <div class="foot"><span>1.2 stunda</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+      <a class="project" href="/programmesana2/prog2_1/prog2_13">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Build pipeline diagramma: .cpp/.h faili, SCons kompilators, .dll bibliotēka, Godot">
+            <rect width="320" height="200" fill="var(--bg)"/>
+            <!-- step 1: source files -->
+            <rect x="16" y="76" width="64" height="48" rx="4" fill="var(--surface)" stroke="var(--kw)" stroke-width="1.5"/>
+            <rect x="24" y="84" width="32" height="6" rx="2" fill="var(--kw)"/>
+            <rect x="24" y="96" width="40" height="5" rx="2" fill="var(--text-3)"/>
+            <rect x="24" y="107" width="36" height="5" rx="2" fill="var(--text-3)"/>
+            <!-- arrow 1 -->
+            <line x1="80" y1="100" x2="104" y2="100" stroke="var(--line)" stroke-width="2"/>
+            <polygon points="104,96 112,100 104,104" fill="var(--line)"/>
+            <!-- step 2: scons -->
+            <rect x="112" y="76" width="64" height="48" rx="4" fill="var(--surface)" stroke="var(--str)" stroke-width="1.5"/>
+            <rect x="120" y="84" width="42" height="6" rx="2" fill="var(--str)"/>
+            <rect x="120" y="96" width="30" height="5" rx="2" fill="var(--text-3)"/>
+            <rect x="120" y="107" width="36" height="5" rx="2" fill="var(--text-3)"/>
+            <!-- arrow 2 -->
+            <line x1="176" y1="100" x2="200" y2="100" stroke="var(--line)" stroke-width="2"/>
+            <polygon points="200,96 208,100 200,104" fill="var(--line)"/>
+            <!-- step 3: .dll -->
+            <rect x="208" y="76" width="64" height="48" rx="4" fill="var(--surface)" stroke="var(--fn)" stroke-width="1.5"/>
+            <rect x="216" y="84" width="36" height="6" rx="2" fill="var(--fn)"/>
+            <rect x="216" y="96" width="28" height="5" rx="2" fill="var(--text-3)"/>
+            <rect x="216" y="107" width="40" height="5" rx="2" fill="var(--text-3)"/>
+            <!-- arrow down to godot -->
+            <line x1="240" y1="124" x2="240" y2="144" stroke="var(--line)" stroke-width="2"/>
+            <polygon points="236,144 240,152 244,144" fill="var(--line)"/>
+            <!-- godot loads -->
+            <rect x="192" y="152" width="96" height="28" rx="4" fill="var(--surface)" stroke="var(--typ)" stroke-width="2"/>
+            <rect x="200" y="160" width="52" height="6" rx="2" fill="var(--typ)"/>
+            <rect x="200" y="170" width="40" height="5" rx="2" fill="var(--text-3)"/>
+            <!-- labels -->
+            <rect x="16" y="132" width="48" height="5" rx="2" fill="var(--text-4)"/>
+            <rect x="112" y="132" width="52" height="5" rx="2" fill="var(--text-4)"/>
+            <rect x="208" y="132" width="56" height="5" rx="2" fill="var(--text-4)"/>
+          </svg>
+          <span class="label">// C++ · SCons</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d str"></span> C++ · SCons</span><span>build</span></div>
+          <h3>C++ un GDExtension sagatavošana</h3>
+          <p>Uzstādi C++ build vidi ar SCons, kompilē pirmo GDExtension bibliotēku.</p>
+          <div class="foot"><span>1.3 stunda</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+      <a class="project" href="/programmesana2/prog2_1/prog2_14">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="C++ header fails ar #ifndef sargu, class deklarāciju un public metodēm">
+            <rect width="320" height="200" fill="var(--bg)"/>
+            <!-- editor window -->
+            <rect x="18" y="14" width="284" height="172" rx="4" fill="var(--surface)" stroke="var(--line)"/>
+            <rect x="18" y="14" width="284" height="20" rx="4" fill="var(--bg-2)"/>
+            <circle cx="32" cy="24" r="3" fill="var(--str)"/>
+            <rect x="50" y="20" width="80" height="8" rx="2" fill="var(--line)"/>
+            <!-- code lines -->
+            <rect x="32" y="44" width="70" height="6" rx="2" fill="var(--kw)"/>
+            <rect x="32" y="56" width="100" height="6" rx="2" fill="var(--kw)"/>
+            <rect x="32" y="72" width="50" height="6" rx="2" fill="var(--typ)"/>
+            <rect x="86" y="72" width="30" height="6" rx="2" fill="var(--str)"/>
+            <rect x="120" y="72" width="10" height="6" rx="2" fill="var(--text-2)"/>
+            <!-- class body -->
+            <rect x="32" y="88" width="20" height="6" rx="2" fill="var(--kw)"/>
+            <rect x="56" y="88" width="60" height="6" rx="2" fill="var(--text-2)"/>
+            <rect x="44" y="102" width="30" height="6" rx="2" fill="var(--kw)"/>
+            <rect x="78" y="102" width="50" height="5" rx="2" fill="var(--text-3)"/>
+            <rect x="44" y="114" width="24" height="6" rx="2" fill="var(--typ)"/>
+            <rect x="72" y="114" width="80" height="5" rx="2" fill="var(--fn)"/>
+            <rect x="44" y="126" width="24" height="6" rx="2" fill="var(--typ)"/>
+            <rect x="72" y="126" width="70" height="5" rx="2" fill="var(--fn)"/>
+            <!-- public label -->
+            <rect x="32" y="144" width="30" height="6" rx="2" fill="var(--str)"/>
+            <rect x="44" y="156" width="80" height="5" rx="2" fill="var(--text-3)"/>
+          </svg>
+          <span class="label">// C++ · header</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d fn"></span> C++ · header</span><span>pamati</span></div>
+          <h3>Pirmais C++ skripts: mainīgie un izvade</h3>
+          <p>Raksti pirmo GDExtension klasi ar header failu, mainīgajiem un _process metodi.</p>
+          <div class="foot"><span>1.4 stunda</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+      <a class="project" href="/programmesana2/prog2_1/prog2_15">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Pong spēles wireframe ar diviem paletēm, bumbu centrā un punktu displeju">
+            <rect width="320" height="200" fill="var(--bg)"/>
+            <!-- game field border -->
+            <rect x="24" y="20" width="272" height="160" rx="4" fill="#141820" stroke="var(--line)" stroke-width="1.5"/>
+            <!-- score display top -->
+            <rect x="120" y="30" width="36" height="14" rx="2" fill="var(--surface-2)"/>
+            <rect x="164" y="30" width="36" height="14" rx="2" fill="var(--surface-2)"/>
+            <rect x="128" y="34" width="8" height="6" rx="1" fill="var(--fn)"/>
+            <rect x="172" y="34" width="8" height="6" rx="1" fill="var(--fn)"/>
+            <!-- center line -->
+            <line x1="160" y1="52" x2="160" y2="172" stroke="var(--line-soft)" stroke-dasharray="6 6"/>
+            <!-- left paddle -->
+            <rect x="36" y="80" width="12" height="48" rx="2" fill="var(--kw)"/>
+            <!-- right paddle -->
+            <rect x="272" y="72" width="12" height="48" rx="2" fill="var(--typ)"/>
+            <!-- ball -->
+            <circle cx="160" cy="100" r="8" fill="var(--str)"/>
+            <!-- boundary lines -->
+            <line x1="24" y1="52" x2="296" y2="52" stroke="var(--text-4)" stroke-width="1"/>
+            <line x1="24" y1="168" x2="296" y2="168" stroke="var(--text-4)" stroke-width="1"/>
+          </svg>
+          <span class="label">// Godot · 2D</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d num"></span> Godot · 2D</span><span>dizains</span></div>
+          <h3>Spēles laukuma izveide</h3>
+          <p>Izveido Pong laukumu ar CollisionShape2D, robežām un spēlētāja paleti.</p>
+          <div class="foot"><span>1.5 stunda</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+      <a class="project" href="/programmesana2/prog2_1/prog2_16">
+        <div class="preview">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Pabeigtā Pong spēle ar paletēm, bumbu, rādītāju 3:2 un spīdumu uz bumbas">
+            <rect width="320" height="200" fill="var(--bg)"/>
+            <rect x="24" y="20" width="272" height="160" rx="4" fill="#0d1117" stroke="var(--line)" stroke-width="1.5"/>
+            <!-- score 3:2 -->
+            <rect x="110" y="28" width="20" height="18" rx="2" fill="var(--surface)"/>
+            <rect x="190" y="28" width="20" height="18" rx="2" fill="var(--surface)"/>
+            <rect x="115" y="32" width="10" height="10" rx="1" fill="var(--str)"/>
+            <rect x="195" y="32" width="10" height="10" rx="1" fill="var(--typ)"/>
+            <rect x="152" y="34" width="16" height="8" rx="2" fill="var(--text-4)"/>
+            <!-- center dashed line -->
+            <line x1="160" y1="52" x2="160" y2="168" stroke="var(--line-soft)" stroke-dasharray="5 5"/>
+            <!-- left paddle -->
+            <rect x="36" y="76" width="12" height="48" rx="2" fill="var(--kw)"/>
+            <!-- right paddle -->
+            <rect x="272" y="68" width="12" height="48" rx="2" fill="var(--typ)"/>
+            <!-- ball with glow -->
+            <circle cx="200" cy="95" r="12" fill="var(--str)" opacity="0.2"/>
+            <circle cx="200" cy="95" r="8" fill="var(--str)"/>
+            <!-- wall boundaries -->
+            <rect x="24" y="20" width="272" height="6" fill="var(--surface-2)"/>
+            <rect x="24" y="174" width="272" height="6" fill="var(--surface-2)"/>
+          </svg>
+          <span class="label">// C++ · Godot</span>
+        </div>
+        <div class="body">
+          <div class="meta-top"><span class="lang"><span class="d fn"></span> C++ · Godot</span><span>projekts</span></div>
+          <h3>Noslēguma projekts: Pong</h3>
+          <p>Izveido pilnu Pong spēli ar C++ klašu loģiku, paddles kustību un punktu sistēmu.</p>
+          <div class="foot"><span>1.6 projekts</span><span class="open">atvērt ↗</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- Cheatsheet -->
+<section id="cheatsheet">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+        <h2 class="sec-title">C++ GDExtension špikeris</h2>
+        <p class="sec-sub">Klases deklarācija, _bind_methods, _process un īpašību reģistrācija.</p>
+      </div>
+    </div>
+
+    <div class="editor" style="max-width:680px;margin-bottom:32px;" aria-label="C++ GDExtension pamati">
+      <div class="titlebar">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="crumb"><em>prog2_1/</em>pong_ball.h</span>
+      </div>
+      <div class="tabs">
+        <span class="tab active"><span class="ic">●</span> pong_ball.h</span>
+        <span class="tab">pong_ball.cpp</span>
+        <span class="spacer"></span>
+      </div>
+      <div class="body">
+        <div class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18</div>
+<div class="code"><span class="tok-com">// pong_ball.h — minimālais GDExtension header</span>
+<span class="tok-kw">#ifndef</span> PONG_BALL_H
+<span class="tok-kw">#define</span> PONG_BALL_H
+<span class="tok-kw">#include</span> <span class="tok-str">&lt;godot_cpp/classes/node2d.hpp&gt;</span>
+<span class="tok-kw">using namespace</span> <span class="tok-typ">godot</span>;
+
+<span class="tok-kw">class</span> <span class="tok-typ">PongBall</span> : <span class="tok-kw">public</span> <span class="tok-typ">Node2D</span> {
+    <span class="tok-fn">GDCLASS</span>(<span class="tok-typ">PongBall</span>, <span class="tok-typ">Node2D</span>)
+<span class="tok-kw">private</span>:
+    <span class="tok-typ">Vector2</span> speed = {<span class="tok-num">200</span>, <span class="tok-num">150</span>};
+<span class="tok-kw">protected</span>:
+    <span class="tok-kw">static void</span> <span class="tok-fn">_bind_methods</span>();
+<span class="tok-kw">public</span>:
+    <span class="tok-kw">void</span> <span class="tok-fn">_process</span>(<span class="tok-typ">double</span> delta) <span class="tok-kw">override</span>;
+    <span class="tok-kw">void</span> <span class="tok-fn">atgriezties</span>();
+};
+<span class="tok-kw">#endif</span><span class="cursor"></span></div>
+      </div>
+      <div class="statusbar">
+        <span class="ok">● C++ · GDExtension</span>
+        <span class="spacer"></span>
+        <span>UTF-8</span>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Elements</th><th>Nozīme</th><th>Piemērs</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>GDCLASS(T, B)</code></td><td>Reģistrē klasi Godot sistēmā</td><td><code>GDCLASS(PongBall, Node2D)</code></td></tr>
+        <tr><td><code>_bind_methods()</code></td><td>Saista C++ metodes ar Godot</td><td><code>ClassDB::bind_method(...)</code></td></tr>
+        <tr><td><code>_process(double d)</code></td><td>Katrā kadrā izsaukts</td><td><code>set_position(get_position() + v * d)</code></td></tr>
+        <tr><td><code>_physics_process(double d)</code></td><td>Fizikas kadrā (fiksēts)</td><td><code>move_and_slide()</code></td></tr>
+        <tr><td><code>D_METHOD("nosaukums")</code></td><td>Metodes nosaukums Godot pusē</td><td><code>D_METHOD("atgriezties")</code></td></tr>
+        <tr><td><code>ADD_PROPERTY</code></td><td>Eksponē mainīgo inspektoram</td><td><code>ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed"), ...)</code></td></tr>
+        <tr><td><code>ClassDB::bind_method</code></td><td>Saista metodi ar D_METHOD</td><td><code>ClassDB::bind_method(D_METHOD("f"), &amp;T::f)</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CTA strip -->
+<section class="cta-strip">
+  <div class="wrap">
+    <div class="cta-panel">
+      <div class="cta-code">
+        <span><span class="tok-typ">void</span> <span class="tok-fn">PongBall::_process</span>(<span class="tok-typ">double</span> delta) { <span class="tok-com">/* spēles cikls */</span> }</span>
+        <span class="muted">// C++ GDExtension — spēles loģika kompilētā bibliotēkā</span>
+      </div>
+      <div class="cta-actions">
+        <a class="btn primary large" href="/programmesana2/prog2_1/prog2_11"><span>›</span> Sākt 1.1 stundu</a>
+        <a class="btn large" href="/programmesana2/prog2_2/prog2_2main">2. Tēma <span class="caret">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="foot-brand"><span class="glyph">›_</span> ebskola.lv</div>
+        <p>Atvērti, bezmaksas mācību materiāli datorikā, programmēšanā un robotikā latviešu valodā.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Programmēšana II</h4>
         <ul>
-            <li><b>Ko tu iemācīsies:</b> Pong ir mazs projekts ar skaidru rezultātu, tāpēc tajā var fokusēties uz C++ klases struktūru, mezglu hierarhiju, ievadi, kustību un punktu uzskaiti.</li>
-            <li><b>Uzmanies:</b> GDExtension prasa precīzu versiju un build rīku saderību. Pēc koda rakstīšanas vienmēr pārbaudi kompilāciju un palaišanu editorā.</li>
-            <li><b>Kāpēc tas svarīgi:</b> sasaisti editorā redzamo ar C++ API. Tev jāredz, ka <code>Node2D</code>, <code>CharacterBody2D</code>, <code>Label</code> un <code>Input</code> nav abstrakti vārdi, bet tipi, ar kuriem strādā C++ kodā.</li>
-            <li><b>Darba beigās pārbaudi:</b> projekta beigās jābūt palaižamai Pong spēlei, kur spēles uzvedību nosaka C++ klases, nevis tikai manuāli salikti editor iestatījumi.</li>
+          <li><a href="/programmesana2/programmesana2">Kursa pārskats</a></li>
+          <li><a href="/programmesana2/prog2_1/prog2_1main">1. Tēma — Pong</a></li>
+          <li><a href="/programmesana2/prog2_2/prog2_2main">2. Tēma — Platformer</a></li>
+          <li><a href="/programmesana2/prog2_3/prog2_3main">3. Tēma — RPG</a></li>
         </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Tēmas saturs (Stundu plāns)</h2>
-    <div class="logic-box">
-        <ul class="step-list">
-            <li><a href="/programmesana2/prog2_1/prog2_11"><b>1. stunda:</b> Godot instalācija un projekta sagatavošana</a></li>
-            <li><a href="/programmesana2/prog2_1/prog2_12"><b>2. stunda:</b> Scene Tree un Node sistēma</a></li>
-            <li><a href="/programmesana2/prog2_1/prog2_13"><b>3. stunda:</b> C++ un GDExtension sagatavošana</a></li>
-            <li><a href="/programmesana2/prog2_1/prog2_14"><b>4. stunda:</b> Pirmais C++ skripts: mainīgie un izvade</a></li>
-            <li><a href="/programmesana2/prog2_1/prog2_15"><b>5. stunda:</b> Spēles laukuma izveide</a></li>
-            <li><a href="/programmesana2/prog2_1/prog2_16"><b>6. stunda:</b> Noslēguma projekts: Pong</a></li>
+      </div>
+      <div class="foot-col">
+        <h4>Resursi</h4>
+        <ul>
+          <li><a href="/sasnRez">Sasniedzamie rezultāti</a></li>
+          <li><a href="/paligm">Palīgmateriāli</a></li>
+          <li><a href="/">Visi kursi</a></li>
         </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Projekts</h4>
+        <ul>
+          <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a></li>
+          <li><a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">Sazināties</a></li>
+        </ul>
+      </div>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Tēmas projekts: Pong</h2>
-    <div class="info-box">
-        <p>Tēmas noslēgumā Tu izveidosi <b>Arcade žanra spēli — Pong</b>, izmantojot visu, ko šajā tēmā iemācījies. Spēli izstrādāsi Godot 4 dzinējā ar C++ koda loģiku caur GDExtension.</p>
-        <p>Minimālais pierādījums: pielāgotas C++ klases parādās Godot node sarakstā, projekts kompilējas ar SCons, bumba un paddle kustas ar C++ kodu, punkti atjaunojas UI elementos, un README apraksta build/palaišanas soļus.</p>
+    <div class="foot-bot">
+      <div class="left">
+        <span class="ok">● bezmaksas</span>
+        <span>atvērtā koda materiāli</span>
+        <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a>
+      </div>
+      <div class="left">
+        <span>© 2026 ebSkola</span>
+        <span>Izstrādājis Eduards Baumanis</span>
+      </div>
     </div>
-</section>
+  </div>
+</footer>
 
 </body>
 </html>
