@@ -1,109 +1,155 @@
-<!DOCTYPE html>
-<html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html><html lang="lv"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>12. Tēma — Pilnvērtīga izstrāde un izvietošana — ebSkola</title>
-<meta name="description" content="12. Tēma — Pilnvērtīga izstrāde un izvietošana — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Prog I 12. tēma: Flask + PostgreSQL + deploy. Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes.">
+<meta name="author" content="Eduards Baumanis"><meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_12/prog1_12main">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
+<meta property="og:type" content="website"><meta property="og:locale" content="lv_LV"><meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="12. Tēma — Pilnvērtīga izstrāde un izvietošana">
-<meta property="og:description" content="12. Tēma — Pilnvērtīga izstrāde un izvietošana — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_12/prog1_12main">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_12/prog1_12main"><meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="12. Tēma — Pilnvērtīga izstrāde un izvietošana">
-<meta name="twitter:description" content="12. Tēma — Pilnvērtīga izstrāde un izvietošana — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "12. Tēma — Pilnvērtīga izstrāde un izvietošana", "description": "12. Tēma — Pilnvērtīga izstrāde un izvietošana — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_12/prog1_12main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
-</script>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="manifest" href="../../manifest.json"><meta name="theme-color" content="#222831">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"12. Tēma — Pilnvērtīga izstrāde","description":"Flask + PostgreSQL + deploy mākonī. Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes.","inLanguage":"lv","url":"https://ebskola.lv/programmesana1/prog1_12/prog1_12main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
-</head>
-<body class="has-sidebar">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+</head><body class="page-home">
+<header class="topbar"><div class="wrap row">
+  <a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
+  <nav class="nav">
+    <a href="/programmesana1/programmesana1">Prog I</a>
+    <a href="/programmesana1/prog1_11/prog1_11main">11. Tēma</a>
+    <a href="/programmesana1/prog1_12/prog1_12main" aria-current="page">12. Tēma</a>
+    <a href="/sasnRez">rezultāti</a><a href="/paligm">palīgmateriāli</a>
+  </nav>
+  <div class="spacer"></div>
+  <a class="btn primary" href="/programmesana1/prog1_12/prog1_121">sākt stundu <span class="caret">→</span></a>
+</div></header>
 
-<aside class="sidebar-nav">
-  <h3>ebskola</h3>
-  <a class="active" href="/programmesana1/prog1_12/prog1_12main">12. Tēmas apkopojums + Špikeris</a>
-  <a href="/programmesana1/prog1_12/prog1_121">12.1 Front-end un back-end arhitektūra</a>
-  <a href="/programmesana1/prog1_12/prog1_122">12.2 Flask: Python kā web serveris</a>
-  <a href="/programmesana1/prog1_12/prog1_123">12.3 REST API izstrāde</a>
-  <a href="/programmesana1/prog1_12/prog1_124">12.4 Front-end + API integrācija</a>
-  <a href="/programmesana1/prog1_12/prog1_125">12.5 Izvietošana mākonī un drošība</a>
-  <a href="/programmesana1/prog1_12/prog1_126">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
-</aside>
-
-<nav class='galvenaisdiv'>
-    <a href="/">Tēmas</a>
-    <a href="/sasnRez">Sasniedzamie rezultāti</a>
-    <a href="/paligm">Palīgmateriāli</a>
-</nav>
-
-<section class='section'>
-    <h1>12. Tēma — Pilnvērtīga izstrāde un izvietošana</h1>
-    <div class="logic-box">
-        <h3>Par šo tēmu</h3>
-        <p>Tas ir pamatkursa kulminācijas brīdis. Šajā tēmā Tu apvienosi visu apgūto — Python, datu bāzes, OOP, web tehnoloģijas — vienā lielā pilnvērtīgā lietotnē. Galvenais uzsvars: kā divas dažādas tehnoloģijas (priekšgals un aizmugure) sazinās savā starpā ar <b>REST API</b> palīdzību.</p>
-        <p>Tu iemācīsies <b>Flask</b> — minimālisma Python web ietvaru — un izveidosi savu pirmo HTTP serveri, kas atgriež JSON datus. Pēc tam savienosi to ar HTML/JavaScript priekšgalu, ko esi apguvis iepriekš. Galvenā tēmas vērtība: <b>klients-serveris arhitektūras izpratne</b>.</p>
-        <p>Tēmas noslēgumā Tu izvietosi savu projektu publiski internetā (Render vai Railway), apgūsi vides mainīgo un drošības labās prakses, un izveidosi <b>daudzspēlētāju "Krustiņi un nullītes"</b> spēli, kurā divi spēlētāji no atšķirīgiem datoriem var spēlēt vienu un to pašu spēli reālā laikā.</p>
+<section class="hero"><div class="wrap">
+  <div class="eyebrow"><span class="dot"></span><span>Prog I · 12. tēma · 6 stundas</span><span class="ver">— Flask · PostgreSQL · Deploy</span></div>
+  <div class="hero-grid">
+    <div>
+      <h1 class="headline">Pilnvērtīga <span class="slash">//</span><br><span class="accent">izstrāde</span> un deploy</h1>
+      <p class="lede">Apvieno visu kursu: <code>Flask</code> + <code>PostgreSQL</code> + mākonis. Kursa noslēgumā — publicēta web lietotne internetā.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="/programmesana1/prog1_12/prog1_121"><span>›</span> Sākt 12.1 stundu</a>
+        <a class="btn" href="/programmesana1/prog1_12/prog1_126">Noslēguma projekts <span class="caret">→</span></a>
+      </div>
+      <div class="hero-meta">
+        <span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
+        <span class="m"><span class="sw kw"></span> <b>Flask</b> · SQLAlchemy</span>
+        <span class="m"><span class="sw fn"></span> <b>Daudzspēlētāju Krustiņi</b></span>
+      </div>
     </div>
-</section>
+    <div>
+      <div class="editor" aria-hidden="true">
+        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog1_12/</em>app.py</span></div>
+        <div class="tabs"><span class="tab active"><span class="ic">●</span> app.py</span><span class="tab">models.py</span><span class="spacer"></span></div>
+        <div class="body">
+          <div class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12</div>
+          <div class="code"><span class="tok-kw">from</span> <span class="tok-typ">flask</span> <span class="tok-kw">import</span> Flask, session
+<span class="tok-kw">from</span> <span class="tok-typ">flask_sqlalchemy</span> <span class="tok-kw">import</span> SQLAlchemy
+<span class="tok-kw">import</span> <span class="tok-typ">os</span>
 
-<section class='section'>
-    <h2>Tēmas saturs</h2>
-    <div class="logic-box">
-        <ul class="step-list">
-                        <li><a href="/programmesana1/prog1_12/prog1_121"><b>1. stunda:</b> Front-end un back-end arhitektūra</a></li>
-            <li><a href="/programmesana1/prog1_12/prog1_122"><b>2. stunda:</b> Flask: Python kā web serveris</a></li>
-            <li><a href="/programmesana1/prog1_12/prog1_123"><b>3. stunda:</b> REST API izstrāde</a></li>
-            <li><a href="/programmesana1/prog1_12/prog1_124"><b>4. stunda:</b> Front-end + API integrācija</a></li>
-            <li><a href="/programmesana1/prog1_12/prog1_125"><b>5. stunda:</b> Izvietošana mākonī un drošība</a></li>
-            <li><a href="/programmesana1/prog1_12/prog1_126"><b>6. stunda:</b> Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a></li>
-        </ul>
+app <span class="tok-op">=</span> <span class="tok-fn">Flask</span>(__name__)
+app.config[<span class="tok-str">'SQLALCHEMY_DATABASE_URI'</span>] <span class="tok-op">=</span> \
+    os.<span class="tok-fn">environ</span>.<span class="tok-fn">get</span>(<span class="tok-str">'DATABASE_URL'</span>)
+db <span class="tok-op">=</span> <span class="tok-fn">SQLAlchemy</span>(app)
+
+<span class="tok-kw">class</span> <span class="tok-typ">Spēle</span>(db.<span class="tok-typ">Model</span>):
+    id    <span class="tok-op">=</span> db.<span class="tok-fn">Column</span>(db.<span class="tok-typ">Integer</span>, primary_key<span class="tok-op">=</span><span class="tok-kw">True</span>)
+    board <span class="tok-op">=</span> db.<span class="tok-fn">Column</span>(db.<span class="tok-typ">String</span>(<span class="tok-num">9</span>), default<span class="tok-op">=</span><span class="tok-str">'_________'</span>)<span class="cursor"></span></div>
+        </div>
+        <div class="statusbar"><span class="ok">● darbojas</span><span>Flask · SQLAlchemy</span><span class="spacer"></span><span>:5000</span></div>
+      </div>
     </div>
-</section>
+  </div>
+</div></section>
 
-<section class='section'>
-    <h2>12. tēmas špikeris</h2>
-    <div class="logic-box">
-        <h3>Flask minimālais serveris</h3>
-<pre><code class="language-python">from flask import Flask, jsonify, request
+<section id="stundas"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
+    <h2 class="sec-title">6 stundas — full-stack un publicēšana</h2>
+  </div><a class="sec-link" href="/programmesana1/prog1_12/prog1_126">noslēguma projekts <span>→</span></a></div>
+  <div class="projects">
+
+    <a class="project" href="/programmesana1/prog1_12/prog1_121">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="50" width="70" height="50" rx="4" fill="var(--surface)" stroke="var(--muted)"/><text x="55" y="72" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Pārlūks</text><text x="55" y="87" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">HTML/JS</text><line x1="90" y1="75" x2="120" y2="75" stroke="var(--kw)" stroke-width="2"/><rect x="120" y="40" width="80" height="70" rx="4" fill="var(--surface)" stroke="var(--kw)"/><text x="160" y="62" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">Flask</text><text x="160" y="76" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">Python API</text><text x="160" y="90" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">routes</text><line x1="200" y1="75" x2="230" y2="75" stroke="var(--str)" stroke-width="2"/><ellipse cx="260" cy="75" rx="30" ry="25" fill="var(--surface)" stroke="var(--str)"/><text x="260" y="72" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">DB</text><text x="260" y="86" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">Postgres</text><text x="160" y="155" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Front-end ↔ Back-end ↔ Datubāze</text></svg><span class="label">// full-stack</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d kw"></span> arhitektūra</span><span>full-stack</span></div><h3>Front-end un back-end arhitektūra</h3><p>Klienta-servera modelis, HTTP pieprasījumi, REST API dizains, koda organizācija slāņos.</p><div class="foot"><span>12.1 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_12/prog1_122">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="130" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="36" y="46" font-family="monospace" font-size="8" fill="var(--kw)">@app.route('/')</text><text x="36" y="62" font-family="monospace" font-size="8" fill="var(--fn)">def index(): return render_template()</text><text x="36" y="86" font-family="monospace" font-size="8" fill="var(--kw)">@app.route('/api/gājiens', methods=['POST'])</text><text x="36" y="102" font-family="monospace" font-size="8" fill="var(--fn)">def gājiens(): return jsonify(rezultāts)</text><text x="36" y="126" font-family="monospace" font-size="8" fill="var(--kw)">@app.route('/spēlētāji')</text><text x="36" y="142" font-family="monospace" font-size="8" fill="var(--fn)">def spēlētāji(): return get_all()</text></svg><span class="label">// Flask routes</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> Flask · Blueprints</span><span>backend</span></div><h3>Flask kā web serveris</h3><p>Maršrutu organizēšana ar Blueprints, request/response, Flask-SQLAlchemy integrācija.</p><div class="foot"><span>12.2 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_12/prog1_123">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="140" rx="4" fill="var(--surface)" stroke="var(--line)"/><rect x="30" y="36" width="260" height="22" rx="2" fill="var(--surface)"/><text x="46" y="51" font-family="monospace" font-size="8" fill="var(--kw)">GET</text><text x="76" y="51" font-family="monospace" font-size="8" fill="var(--muted)">/api/spēles</text><text x="280" y="51" font-family="monospace" font-size="7" fill="var(--fn)" text-anchor="end">200 OK</text><rect x="30" y="64" width="260" height="22" rx="2" fill="var(--surface)"/><text x="46" y="79" font-family="monospace" font-size="8" fill="var(--str)">POST</text><text x="84" y="79" font-family="monospace" font-size="8" fill="var(--muted)">/api/spēles</text><text x="280" y="79" font-family="monospace" font-size="7" fill="var(--kw)" text-anchor="end">201 Created</text><rect x="30" y="92" width="260" height="22" rx="2" fill="var(--surface)"/><text x="46" y="107" font-family="monospace" font-size="8" fill="var(--fn)">PUT</text><text x="76" y="107" font-family="monospace" font-size="8" fill="var(--muted)">/api/spēles/42</text><text x="280" y="107" font-family="monospace" font-size="7" fill="var(--fn)" text-anchor="end">200 OK</text><rect x="30" y="120" width="260" height="22" rx="2" fill="var(--surface)"/><text x="46" y="135" font-family="monospace" font-size="8" fill="var(--typ)">DELETE</text><text x="96" y="135" font-family="monospace" font-size="8" fill="var(--muted)">/api/spēles/42</text><text x="280" y="135" font-family="monospace" font-size="7" fill="var(--str)" text-anchor="end">204</text></svg><span class="label">// REST API</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> REST · JSON</span><span>API</span></div><h3>REST API izstrāde</h3><p>RESTful endpoint dizains, HTTP statusa kodi, <code>jsonify()</code>, CORS.</p><div class="foot"><span>12.3 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_12/prog1_124">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="30" width="130" height="110" rx="4" fill="var(--surface)" stroke="var(--line-soft)"/><text x="85" y="52" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Browser (JS)</text><text x="36" y="70" font-family="monospace" font-size="7" fill="var(--str)">const r = await fetch(</text><text x="36" y="84" font-family="monospace" font-size="7" fill="var(--fn)">  '/api/gajiens',</text><text x="36" y="98" font-family="monospace" font-size="7" fill="var(--kw)">  {method:'POST', ...})</text><line x1="150" y1="85" x2="170" y2="85" stroke="var(--kw)" stroke-width="2"/><rect x="170" y="30" width="130" height="110" rx="4" fill="var(--surface)" stroke="var(--kw)"/><text x="235" y="52" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">Flask (Python)</text><text x="178" y="70" font-family="monospace" font-size="7" fill="var(--kw)">@app.route('/api/...')</text><text x="178" y="84" font-family="monospace" font-size="7" fill="var(--fn)">def gajiens():</text><text x="178" y="98" font-family="monospace" font-size="7" fill="var(--str)">  return jsonify(res)</text></svg><span class="label">// fetch + Flask</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d typ"></span> JS · Flask</span><span>integrācija</span></div><h3>Front-end + API integrācija</h3><p>JS <code>fetch()</code> → Flask POST → DB → JSON atbilde → DOM atjaunošana.</p><div class="foot"><span>12.4 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_12/prog1_125">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="55" width="60" height="50" rx="4" fill="var(--surface)" stroke="var(--muted)"/><text x="50" y="80" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Lokāli</text><line x1="80" y1="80" x2="110" y2="80" stroke="var(--kw)" stroke-width="2"/><rect x="110" y="55" width="70" height="50" rx="4" fill="var(--surface)" stroke="var(--kw)"/><text x="145" y="75" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">git push</text><text x="145" y="90" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">GitHub CI</text><line x1="180" y1="80" x2="210" y2="80" stroke="var(--str)" stroke-width="2"/><rect x="210" y="55" width="90" height="50" rx="4" fill="var(--surface)" stroke="var(--str)"/><text x="255" y="75" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">Render</text><text x="255" y="89" font-family="monospace" font-size="7" fill="var(--fn)" text-anchor="middle">https://... 🔒</text><text x="160" y="148" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">ENV vars · SECRET_KEY · DATABASE_URL</text></svg><span class="label">// deploy</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d kw"></span> Render · deploy</span><span>izvietošana</span></div><h3>Izvietošana mākonī un drošība</h3><p>Render vai Railway deploy, environment variables, HTTPS, <code>requirements.txt</code>.</p><div class="foot"><span>12.5 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_12/prog1_126">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="150" rx="4" fill="var(--surface)" stroke="var(--line)"/><rect x="20" y="20" width="280" height="22" rx="4" fill="var(--surface)"/><text x="160" y="36" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">krustinji.onrender.com 🔒</text><rect x="80" y="55" width="160" height="100" rx="4" fill="var(--surface)" stroke="var(--line-soft)"/><line x1="133" y1="55" x2="133" y2="155" stroke="var(--line)"/><line x1="187" y1="55" x2="187" y2="155" stroke="var(--line)"/><line x1="80" y1="88" x2="240" y2="88" stroke="var(--line)"/><line x1="80" y1="121" x2="240" y2="121" stroke="var(--line)"/><text x="106" y="78" font-family="monospace" font-size="14" fill="var(--str)" text-anchor="middle">X</text><text x="160" y="110" font-family="monospace" font-size="14" fill="var(--typ)" text-anchor="middle">O</text><text x="213" y="78" font-family="monospace" font-size="14" fill="var(--str)" text-anchor="middle">X</text><text x="106" y="143" font-family="monospace" font-size="14" fill="var(--typ)" text-anchor="middle">O</text><text x="213" y="143" font-family="monospace" font-size="14" fill="var(--str)" text-anchor="middle">X</text><text x="160" y="183" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">Flask · PostgreSQL · publicēts!</text></svg><span class="label">// kursa noslēgums</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> Python · Full-stack</span><span>projekts</span></div><h3>Noslēguma projekts: Daudzspēlētāju Krustiņi</h3><p>Flask + PostgreSQL + JS — pilna publicēta web lietotne. Kursa noslēgums un portfolio gabals.</p><div class="foot"><span>12.6 noslēguma projekts</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+  </div>
+</div></section>
+
+<section id="spekeris"><div class="wrap">
+  <div class="sec-head"><div><div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div><h2 class="sec-title">Flask-SQLAlchemy un deploy špikeris</h2></div></div>
+  <div class="logic-box">
+    <h3>Flask-SQLAlchemy — modelis un CRUD</h3>
+    <pre><code class="language-python">from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///dev.db')
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-key')
+db = SQLAlchemy(app)
 
-@app.route("/api/speletaji")
-def saraksts():
-    return jsonify([{"vards": "Anna", "punkti": 120}])
+class Spēle(db.Model):
+    id     = db.Column(db.Integer, primary_key=True)
+    board  = db.Column(db.String(9), default='_________')
+    winner = db.Column(db.String(1), nullable=True)
 
-@app.route("/api/saglabat", methods=["POST"])
-def saglabat():
-    dati = request.json
-    return jsonify({"status": "ok", "id": 42}), 201
+# Izmantošana
+spele = Spēle()
+db.session.add(spele)
+db.session.commit()
+Spēle.query.filter_by(winner='X').all()</code></pre>
+  </div>
+</div></section>
 
-if __name__ == "__main__":
-    app.run(debug=True, port=5000)</code></pre>
-    </div>
-    <div class="logic-box">
-        <h3>HTTP statusa kodi</h3>
-        <table>
-            <thead><tr><th>Kods</th><th>Nozīme</th></tr></thead>
-            <tbody>
-                <tr><td>200</td><td>OK — viss izdevās</td></tr>
-                <tr><td>201</td><td>Created — resurss izveidots</td></tr>
-                <tr><td>400</td><td>Bad Request — klienta kļūda</td></tr>
-                <tr><td>401</td><td>Unauthorized — vajadzīga pierakstīšanās</td></tr>
-                <tr><td>404</td><td>Not Found — nav atrasts</td></tr>
-                <tr><td>500</td><td>Server Error — koda kļūda servera pusē</td></tr>
-            </tbody>
-        </table>
-    </div>
-</section>
-
-</body>
-</html>
+<section class="cta-strip"><div class="wrap"><div class="cta-panel">
+  <div class="cta-code"><span><span class="prompt">$</span> git push render main <span class="muted"># kods → mākonis → pieejams visai pasaulei</span></span></div>
+  <div class="cta-actions">
+    <a class="btn primary large" href="/programmesana1/prog1_11/prog1_11main"><span>←</span> 11. Tēma</a>
+    <a class="btn large" href="/programmesana1/programmesana1">Kursa pārskats <span class="caret">→</span></a>
+  </div>
+</div></div></section>
+</body></html>

@@ -1,88 +1,153 @@
-<!DOCTYPE html>
-<html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html><html lang="lv"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>9. Tēma — Web Integrācija un Bibliotēkas — ebSkola</title>
-<meta name="description" content="9. Tēma — Web Integrācija un Bibliotēkas — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Prog I 9. tēma: Flask, requests, pip, venv, web lietotnīte. Projekts: Krustiņi un nullītes pārlūkā.">
+<meta name="author" content="Eduards Baumanis"><meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_9/prog1_9main">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
+<meta property="og:type" content="website"><meta property="og:locale" content="lv_LV"><meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="9. Tēma — Web Integrācija un Bibliotēkas">
-<meta property="og:description" content="9. Tēma — Web Integrācija un Bibliotēkas — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_9/prog1_9main">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_9/prog1_9main"><meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="9. Tēma — Web Integrācija un Bibliotēkas">
-<meta name="twitter:description" content="9. Tēma — Web Integrācija un Bibliotēkas — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "9. Tēma — Web Integrācija un Bibliotēkas", "description": "9. Tēma — Web Integrācija un Bibliotēkas — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_9/prog1_9main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
-</script>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="manifest" href="../../manifest.json"><meta name="theme-color" content="#222831">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"9. Tēma — Web Integrācija","description":"Flask, pip, venv, requests, Jinja2 templates. Web lietotnīte ar API.","inLanguage":"lv","url":"https://ebskola.lv/programmesana1/prog1_9/prog1_9main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-</head>
-<body class="has-sidebar">
+</head><body class="page-home">
+<header class="topbar"><div class="wrap row">
+  <a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
+  <nav class="nav">
+    <a href="/programmesana1/programmesana1">Prog I</a>
+    <a href="/programmesana1/prog1_8/prog1_8main">8. Tēma</a>
+    <a href="/programmesana1/prog1_9/prog1_9main" aria-current="page">9. Tēma</a>
+    <a href="/programmesana1/prog1_10/prog1_10main">10. Tēma</a>
+    <a href="/sasnRez">rezultāti</a><a href="/paligm">palīgmateriāli</a>
+  </nav>
+  <div class="spacer"></div>
+  <a class="btn primary" href="/programmesana1/prog1_9/prog1_91">sākt stundu <span class="caret">→</span></a>
+</div></header>
 
-<aside class="sidebar-nav">
-  <h3>ebskola</h3>
-  <a class="active" href="/programmesana1/prog1_9/prog1_9main">9. Tēmas apkopojums + Špikeris</a>
-  <a href="/programmesana1/prog1_9/prog1_91">9.1 Ārējās bibliotēkas un instalēšana</a>
-  <a href="/programmesana1/prog1_9/prog1_92">9.2 Atvērtā koda licences un dokumentācija</a>
-  <a href="/programmesana1/prog1_9/prog1_93">9.3 Python pārvēršana tīmekļa saskarnē</a>
-  <a href="/programmesana1/prog1_9/prog1_94">9.4 HTML un Python sasaiste</a>
-  <a href="/programmesana1/prog1_9/prog1_95">9.5 Interaktivitāte pārlūkprogrammā</a>
-  <a href="/programmesana1/prog1_9/prog1_96">9.6 Noslēguma projekts: "Krustiņi un nullītes" pārlūkā</a>
-</aside>
-
-<nav class='galvenaisdiv'>
-    <a href="/">Visas Tēmas</a>
-    <a href="/sasnRez">Sasniedzamie rezultāti</a>
-    <a href="/paligm">Palīgmateriāli</a>
-</nav>
-
-<section class='section'>
-    <h1>9. Tēma — Web Integrācija un Bibliotēkas</h1>
-    
-    <div class="info-box">
-        <h3>Par šo tēmu</h3>
-        <p>Līdz šim mūsu programmas dzīvoja tikai terminālī, bet šajā tēmā mēs tās pārvērtīsim modernās tīmekļa lietotnēs. Tu iemācīsies izmantot <b>ārējās bibliotēkas</b> (piemēram, <i>Streamlit</i> vai <i>Flask</i>), lai ātri un efektīvi izveidotu lietotāja saskarni ar pogām, attēliem un interaktīviem elementiem.</p>
-        
-        <p>Mēs apskatīsim, kā lasīt tehnisko <b>dokumentāciju</b> un izvēlēties piemērotāko risinājumu savam projektam, vienlaikus izprotot <b>atvērtā koda licencēšanas</b> noteikumus. Tu sapratīsi, kā Python kods "sarunājas" ar pārlūkprogrammu un kāda ir tīmekļa lapu pamatstruktūra.</p>
-        
-        <p>Tēmas noslēgumā mēs apvienosim visu iepriekš apgūto — datu ielādi no failiem, algoritmu efektivitāti un projektēšanu —, lai izveidotu projektu <b>"Krustiņi un nullītes" pārlūkā</b>. Tā būs pilnvērtīga vienkārša 3×3 spēle, kurā divi spēlētāji veic gājienus, izmantojot pogu saskarni, nevis ievadot komandas terminālī. Spēles rezultāti tiks saglabāti un parādīti pārlūklapā.</p>
+<section class="hero"><div class="wrap">
+  <div class="eyebrow"><span class="dot"></span><span>Prog I · 9. tēma · 6 stundas</span><span class="ver">— Flask · Python · Web</span></div>
+  <div class="hero-grid">
+    <div>
+      <h1 class="headline">Web <span class="accent">integrācija</span> <span class="slash">//</span><br>un bibliotēkas</h1>
+      <p class="lede">Pārveido Python programmu par web lietotni ar <code>Flask</code>. Apgūsti <code>pip</code>, <code>venv</code>, <code>requests</code> un Jinja2 templates.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="/programmesana1/prog1_9/prog1_91"><span>›</span> Sākt 9.1 stundu</a>
+        <a class="btn" href="/programmesana1/prog1_9/prog1_96">Noslēguma projekts <span class="caret">→</span></a>
+      </div>
+      <div class="hero-meta">
+        <span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
+        <span class="m"><span class="sw kw"></span> <b>Flask</b> · requests</span>
+        <span class="m"><span class="sw fn"></span> <b>Krustiņi un nullītes</b></span>
+      </div>
     </div>
-</section>
+    <div>
+      <div class="editor" aria-hidden="true">
+        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog1_9/</em>app.py</span></div>
+        <div class="tabs"><span class="tab active"><span class="ic">●</span> app.py</span><span class="tab">templates/</span><span class="spacer"></span></div>
+        <div class="body">
+          <div class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11</div>
+          <div class="code"><span class="tok-kw">from</span> <span class="tok-typ">flask</span> <span class="tok-kw">import</span> Flask, render_template
+<span class="tok-kw">from</span> <span class="tok-typ">flask</span> <span class="tok-kw">import</span> request, jsonify
 
-<section class='section'>
-    <h2>Tēmas saturs (Stundu plāns)</h2>
-    
-    <div class="logic-box">
-        <ul class="step-list">
-            <li><a href="/programmesana1/prog1_9/prog1_91"><b>1. stunda:</b> Ārējo bibliotēku (Streamlit vai Flask) meklēšana un instalēšana</a></li>
-            <li><a href="/programmesana1/prog1_9/prog1_92"><b>2. stunda:</b> Atvērtā koda licencēšana un dokumentācijas lasīšana</a></li>
-            <li><a href="/programmesana1/prog1_9/prog1_93"><b>3. stunda:</b> Python koda pārvēršana tīmekļa saskarnē (pogas, attēli)</a></li>
-            <li><a href="/programmesana1/prog1_9/prog1_94"><b>4. stunda:</b> Tīmekļa lapu struktūras pamati: HTML un Python sasaiste</a></li>
-            <li><a href="/programmesana1/prog1_9/prog1_95"><b>5. stunda:</b> Interaktivitātes nodrošināšana pārlūkprogrammā</a></li>
-            <li><a href="/programmesana1/prog1_9/prog1_96"><b>6. stunda:</b> Noslēguma darbs: "Krustiņi un nullītes" spēle pārlūkā</a></li>
-        </ul>
+app <span class="tok-op">=</span> <span class="tok-fn">Flask</span>(__name__)
+
+<span class="tok-op">@</span>app.<span class="tok-fn">route</span>(<span class="tok-str">'/'</span>)
+<span class="tok-kw">def</span> <span class="tok-fn">mājaslapa</span>():
+    <span class="tok-kw">return</span> <span class="tok-fn">render_template</span>(<span class="tok-str">'index.html'</span>)
+
+<span class="tok-op">@</span>app.<span class="tok-fn">route</span>(<span class="tok-str">'/api/gajiens'</span>, methods<span class="tok-op">=</span>[<span class="tok-str">'POST'</span>])
+<span class="tok-kw">def</span> <span class="tok-fn">gajiens</span>(): ...<span class="cursor"></span></div>
+        </div>
+        <div class="statusbar"><span class="ok">● darbojas</span><span>Flask</span><span class="spacer"></span><span>:5000</span></div>
+      </div>
     </div>
-</section>
+  </div>
+</div></section>
 
-<section class='section'>
-    <h2>Papildus resursi</h2>
-    <div class="logic-box">
-        <p>Nepieciešama palīdzība ar bibliotēku instalēšanu vai vēlies uzzināt vairāk par tīmekļa elementiem? Ieskaties špikerī:</p>
-        <a href="/paligm">Atvērt 9. tēmas Špikeri (Web un Bibliotēkas)</a>
-    </div>
-</section>
+<section id="stundas"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
+    <h2 class="sec-title">6 stundas — pip, Flask un pārlūka spēle</h2>
+  </div><a class="sec-link" href="/programmesana1/prog1_9/prog1_96">noslēguma projekts <span>→</span></a></div>
+  <div class="projects">
+    <a class="project" href="/programmesana1/prog1_9/prog1_91">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="130" rx="4" fill="#1c2128" stroke="var(--line)"/><text x="36" y="46" font-family="monospace" font-size="8" fill="var(--kw)">$ pip install flask requests</text><text x="36" y="62" font-family="monospace" font-size="8" fill="var(--muted)">Collecting flask...</text><text x="36" y="76" font-family="monospace" font-size="8" fill="var(--kw)">Successfully installed flask</text><text x="36" y="100" font-family="monospace" font-size="8" fill="var(--fn)">$ python -m venv venv</text><text x="36" y="116" font-family="monospace" font-size="8" fill="var(--fn)">$ source venv/bin/activate</text><text x="36" y="132" font-family="monospace" font-size="8" fill="var(--str)">(venv) $</text><text x="36" y="166" font-family="monospace" font-size="8" fill="var(--muted)">pip freeze &gt; requirements.txt</text></svg><span class="label">// pip + venv</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d kw"></span> pip · venv</span><span>bibliotēkas</span></div><h3>Ārējo bibliotēku instalēšana</h3><p><code>pip install</code>, virtuālā vide <code>venv</code>, <code>requirements.txt</code> — projekta atkarību pārvaldība.</p><div class="foot"><span>9.1 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+    <a class="project" href="/programmesana1/prog1_9/prog1_92">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="30" y="30" width="260" height="130" rx="4" fill="var(--surface)" stroke="var(--line)"/><rect x="50" y="55" width="80" height="36" rx="3" fill="var(--surface)" stroke="var(--kw)"/><text x="90" y="70" font-family="monospace" font-size="9" fill="var(--kw)" text-anchor="middle">MIT</text><text x="90" y="84" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">brīva lietošana</text><rect x="140" y="55" width="80" height="36" rx="3" fill="var(--surface)" stroke="var(--str)"/><text x="180" y="70" font-family="monospace" font-size="9" fill="var(--str)" text-anchor="middle">GPL</text><text x="180" y="84" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">dalīties ar kodu</text><rect x="50" y="105" width="170" height="36" rx="3" fill="var(--surface)" stroke="var(--fn)"/><text x="135" y="120" font-family="monospace" font-size="9" fill="var(--fn)" text-anchor="middle">Apache 2.0</text></svg><span class="label">// licences</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> licences</span><span>atvērtais kods</span></div><h3>Atvērtā koda licencēšana</h3><p>MIT, GPL, Apache 2.0 atšķirības, kā lasīt bibliotēkas dokumentāciju.</p><div class="foot"><span>9.2 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+    <a class="project" href="/programmesana1/prog1_9/prog1_93">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="50" width="70" height="50" rx="4" fill="var(--surface)" stroke="var(--muted)"/><text x="55" y="72" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Pārlūks</text><line x1="90" y1="75" x2="120" y2="75" stroke="var(--kw)" stroke-width="2"/><rect x="120" y="40" width="80" height="70" rx="4" fill="var(--surface)" stroke="var(--kw)"/><text x="160" y="62" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">Flask</text><text x="160" y="78" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">@app.route</text><text x="160" y="92" font-family="monospace" font-size="7" fill="var(--fn)" text-anchor="middle">render_template</text><line x1="200" y1="75" x2="230" y2="75" stroke="var(--line-soft)" stroke-width="1.5"/><rect x="230" y="50" width="60" height="50" rx="4" fill="var(--surface)" stroke="var(--fn)"/><text x="260" y="78" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">Python</text></svg><span class="label">// Flask</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> Flask</span><span>web</span></div><h3>Python pārvēršana web saskarnē</h3><p>Flask <code>@app.route()</code>, HTTP GET/POST, <code>render_template()</code>, request/response cikls.</p><div class="foot"><span>9.3 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+    <a class="project" href="/programmesana1/prog1_9/prog1_94">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="140" rx="4" fill="var(--surface)" stroke="var(--line)"/><rect x="30" y="34" width="120" height="80" rx="3" fill="var(--surface)"/><text x="90" y="52" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">index.html (Jinja2)</text><text x="38" y="68" font-family="monospace" font-size="8" fill="var(--str)">&lt;h1&gt;{{ vārds }}&lt;/h1&gt;</text><text x="38" y="84" font-family="monospace" font-size="8" fill="var(--kw)">{% for x in saraksts %}</text><text x="38" y="100" font-family="monospace" font-size="8" fill="var(--fn)">  &lt;li&gt;{{ x }}&lt;/li&gt;</text><text x="38" y="116" font-family="monospace" font-size="8" fill="var(--kw)">{% endfor %}</text><rect x="160" y="34" width="130" height="80" rx="3" fill="var(--surface)"/><text x="225" y="52" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">app.py</text><text x="168" y="68" font-family="monospace" font-size="8" fill="var(--str)">render_template(</text><text x="168" y="84" font-family="monospace" font-size="8" fill="var(--fn)">  'index.html',</text><text x="168" y="100" font-family="monospace" font-size="8" fill="var(--kw)">  vārds="Anna")</text></svg><span class="label">// Jinja2</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d typ"></span> Jinja2</span><span>templates</span></div><h3>HTML un Python sasaiste</h3><p>Jinja2 <code>{{ variable }}</code>, <code>{% for %}</code>, <code>{% if %}</code> — Python mainīgie HTML šablonos.</p><div class="foot"><span>9.4 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+    <a class="project" href="/programmesana1/prog1_9/prog1_95">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="30" width="280" height="110" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="40" y="56" font-family="monospace" font-size="8" fill="var(--fn)">fetch('/api/gajiens', {</text><text x="40" y="72" font-family="monospace" font-size="8" fill="var(--fn)">  method: 'POST',</text><text x="40" y="88" font-family="monospace" font-size="8" fill="var(--str)">  body: JSON.stringify(g)</text><text x="40" y="104" font-family="monospace" font-size="8" fill="var(--fn)">}).then(r =&gt; r.json())</text><text x="40" y="120" font-family="monospace" font-size="8" fill="var(--fn)">  .then(d =&gt; atjaunot(d))</text><text x="40" y="166" font-family="monospace" font-size="8" fill="var(--muted)">JavaScript fetch() → Flask → JSON</text></svg><span class="label">// fetch() API</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> fetch · JSON</span><span>interaktivitāte</span></div><h3>Interaktivitāte pārlūkprogrammā</h3><p>JS <code>fetch()</code> → Flask POST → <code>jsonify()</code> atbilde → DOM atjaunošana bez lapas pārlādes.</p><div class="foot"><span>9.5 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+    <a class="project" href="/programmesana1/prog1_9/prog1_96">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="150" rx="4" fill="var(--surface)" stroke="var(--line)"/><rect x="20" y="20" width="280" height="22" rx="4" fill="var(--surface)"/><text x="160" y="36" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Krustiņi un Nullītes · Flask</text><rect x="80" y="55" width="160" height="100" rx="4" fill="var(--surface)" stroke="var(--line-soft)"/><line x1="133" y1="55" x2="133" y2="155" stroke="var(--line)"/><line x1="187" y1="55" x2="187" y2="155" stroke="var(--line)"/><line x1="80" y1="88" x2="240" y2="88" stroke="var(--line)"/><line x1="80" y1="121" x2="240" y2="121" stroke="var(--line)"/><text x="106" y="78" font-family="monospace" font-size="14" fill="var(--str)" text-anchor="middle">X</text><text x="160" y="110" font-family="monospace" font-size="14" fill="var(--typ)" text-anchor="middle">O</text><text x="213" y="78" font-family="monospace" font-size="14" fill="var(--str)" text-anchor="middle">X</text><text x="106" y="143" font-family="monospace" font-size="14" fill="var(--typ)" text-anchor="middle">O</text></svg><span class="label">$ flask run</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d kw"></span> Python · Flask</span><span>projekts</span></div><h3>Noslēguma projekts: Krustiņi un nullītes</h3><p>Flask backend + HTML/JS frontend. Spēles stāvoklis Python serverī, gājieni caur REST API.</p><div class="foot"><span>9.6 projekts</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+  </div>
+</div></section>
 
-</body>
-</html>
+<section id="spekeris"><div class="wrap">
+  <div class="sec-head"><div><div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div><h2 class="sec-title">Flask un pip špikeris</h2></div></div>
+  <div class="logic-box">
+    <h3>Flask minimālā lietotne</h3>
+    <pre><code class="language-python">from flask import Flask, render_template, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/api/gājiens', methods=['POST'])
+def gājiens():
+    dati = request.get_json()
+    rezultāts = apstrādāt(dati['gājiens'])
+    return jsonify({'rezultāts': rezultāts})
+
+if __name__ == '__main__':
+    app.run(debug=True)  # localhost:5000</code></pre>
+  </div>
+  <div class="logic-box">
+    <h3>pip un venv komandas</h3>
+    <pre><code class="language-python"># python -m venv venv            # izveido venv
+# source venv/bin/activate       # aktivizē (Linux/Mac)
+# venv\Scripts\activate          # aktivizē (Windows)
+# pip install flask requests     # instalē
+# pip freeze > requirements.txt  # saglabā atkarības
+# pip install -r requirements.txt</code></pre>
+  </div>
+</div></section>
+
+<section class="cta-strip"><div class="wrap"><div class="cta-panel">
+  <div class="cta-code"><span><span class="prompt">$</span> flask run <span class="muted"># Python kļūst par web serveri portā 5000</span></span></div>
+  <div class="cta-actions">
+    <a class="btn primary large" href="/programmesana1/prog1_8/prog1_8main"><span>←</span> 8. Tēma</a>
+    <a class="btn large" href="/programmesana1/prog1_10/prog1_10main">10. Tēma <span class="caret">→</span></a>
+  </div>
+</div></div></section>
+</body></html>

@@ -1,113 +1,161 @@
-<!DOCTYPE html>
-<html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>11. Tēma — Objektorientētā programmēšana (OOP) — ebSkola</title>
-<meta name="description" content="11. Tēma — Objektorientētā programmēšana (OOP) — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
+<!doctype html><html lang="lv"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>11. Tēma — Objektorientētā programmēšana — ebSkola</title>
+<meta name="description" content="Prog I 11. tēma: Python OOP — klases, mantošana, polimorfisms. Projekts: Turnīra simulators.">
+<meta name="author" content="Eduards Baumanis"><meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_11/prog1_11main">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="11. Tēma — Objektorientētā programmēšana (OOP)">
-<meta property="og:description" content="11. Tēma — Objektorientētā programmēšana (OOP) — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_11/prog1_11main">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
+<meta property="og:type" content="website"><meta property="og:locale" content="lv_LV"><meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="11. Tēma — Objektorientētā programmēšana">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_11/prog1_11main"><meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="11. Tēma — Objektorientētā programmēšana (OOP)">
-<meta name="twitter:description" content="11. Tēma — Objektorientētā programmēšana (OOP) — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "11. Tēma — Objektorientētā programmēšana (OOP)", "description": "11. Tēma — Objektorientētā programmēšana (OOP) — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_11/prog1_11main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
-</script>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="manifest" href="../../manifest.json"><meta name="theme-color" content="#222831">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"11. Tēma — OOP","description":"Python klases, __init__, metodes, mantošana, polimorfisms un dunder metodes.","inLanguage":"lv","url":"https://ebskola.lv/programmesana1/prog1_11/prog1_11main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
-</head>
-<body class="has-sidebar">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+</head><body class="page-home">
+<header class="topbar"><div class="wrap row">
+  <a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
+  <nav class="nav">
+    <a href="/programmesana1/programmesana1">Prog I</a>
+    <a href="/programmesana1/prog1_10/prog1_10main">10. Tēma</a>
+    <a href="/programmesana1/prog1_11/prog1_11main" aria-current="page">11. Tēma</a>
+    <a href="/programmesana1/prog1_12/prog1_12main">12. Tēma</a>
+    <a href="/sasnRez">rezultāti</a><a href="/paligm">palīgmateriāli</a>
+  </nav>
+  <div class="spacer"></div>
+  <a class="btn primary" href="/programmesana1/prog1_11/prog1_111">sākt stundu <span class="caret">→</span></a>
+</div></header>
 
-<aside class="sidebar-nav">
-  <h3>ebskola</h3>
-  <a class="active" href="/programmesana1/prog1_11/prog1_11main">11. Tēmas apkopojums + Špikeris</a>
-  <a href="/programmesana1/prog1_11/prog1_111">11.1 Klases un objekti</a>
-  <a href="/programmesana1/prog1_11/prog1_112">11.2 Konstruktori un atribūti</a>
-  <a href="/programmesana1/prog1_11/prog1_113">11.3 Metodes un self</a>
-  <a href="/programmesana1/prog1_11/prog1_114">11.4 Mantošana un super()</a>
-  <a href="/programmesana1/prog1_11/prog1_115">11.5 Polimorfisms un dunder metodes</a>
-  <a href="/programmesana1/prog1_11/prog1_116">11.6 Noslēguma projekts: Klases turnīra simulators</a>
-</aside>
-
-<nav class='galvenaisdiv'>
-    <a href="/">Tēmas</a>
-    <a href="/sasnRez">Sasniedzamie rezultāti</a>
-    <a href="/paligm">Palīgmateriāli</a>
-</nav>
-
-<section class='section'>
-    <h1>11. Tēma — Objektorientētā programmēšana (OOP)</h1>
-    <div class="logic-box">
-        <h3>Par šo tēmu</h3>
-        <p>Funkcijas un vārdnīcas ir labas mazām programmām, taču lielākiem projektiem nepieciešama spēcīgāka organizācijas paradigma — <b>objektorientētā programmēšana</b>. Šajā tēmā Tu iemācīsies projektēt programmas, kas atspoguļo reālus objektus: katrs dalībnieks, komanda, bonuss vai šķērslis kļūst par savu klasi ar saviem datiem un uzvedību.</p>
-        <p>Tu apgūsi četrus OOP stūrakmeņus: <b>iekapsulācija</b> (dati + metodes vienā vietā), <b>mantošana</b> (klašu hierarhija), <b>polimorfisms</b> (dažādas klases — vienots interfeiss) un <b>abstrakcija</b> (paslēpt sarežģītību).</p>
-        <p>Tēmas noslēgumā Tu izveidosi <b>klases turnīra simulatoru</b>, kurā komandas dalībnieki ar atšķirīgām lomām risina nejauši ģenerētus klases izaicinājumus. Simulatora arhitektūra demonstrēs visu četru OOP principu darbību.</p>
+<section class="hero"><div class="wrap">
+  <div class="eyebrow"><span class="dot"></span><span>Prog I · 11. tēma · 6 stundas</span><span class="ver">— Python · OOP · klases</span></div>
+  <div class="hero-grid">
+    <div>
+      <h1 class="headline">Objektorientētā <span class="slash">//</span><br><span class="accent">programmēšana</span></h1>
+      <p class="lede">Apgūsti Python <code>class</code>, <code>__init__</code>, mantošanu un polimorfismu. Veido RPG turnīra simulatoru ar cīnītāju hierarhiju.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="/programmesana1/prog1_11/prog1_111"><span>›</span> Sākt 11.1 stundu</a>
+        <a class="btn" href="/programmesana1/prog1_11/prog1_116">Noslēguma projekts <span class="caret">→</span></a>
+      </div>
+      <div class="hero-meta">
+        <span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
+        <span class="m"><span class="sw kw"></span> <b>class</b> · mantošana</span>
+        <span class="m"><span class="sw fn"></span> <b>Turnīra simulators</b></span>
+      </div>
     </div>
-</section>
+    <div>
+      <div class="editor" aria-hidden="true">
+        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog1_11/</em>cīnītājs.py</span></div>
+        <div class="tabs"><span class="tab active"><span class="ic">●</span> cīnītājs.py</span><span class="spacer"></span></div>
+        <div class="body">
+          <div class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12</div>
+          <div class="code"><span class="tok-kw">class</span> <span class="tok-typ">Cīnītājs</span>:
+    <span class="tok-kw">def</span> <span class="tok-fn">__init__</span>(self, vārds, hp<span class="tok-op">=</span><span class="tok-num">100</span>):
+        self.vārds <span class="tok-op">=</span> vārds
+        self.hp    <span class="tok-op">=</span> hp
 
-<section class='section'>
-    <h2>Tēmas saturs</h2>
-    <div class="logic-box">
-        <ul class="step-list">
-                        <li><a href="/programmesana1/prog1_11/prog1_111"><b>1. stunda:</b> Klases un objekti</a></li>
-            <li><a href="/programmesana1/prog1_11/prog1_112"><b>2. stunda:</b> Konstruktori un atribūti</a></li>
-            <li><a href="/programmesana1/prog1_11/prog1_113"><b>3. stunda:</b> Metodes un self</a></li>
-            <li><a href="/programmesana1/prog1_11/prog1_114"><b>4. stunda:</b> Mantošana un super()</a></li>
-            <li><a href="/programmesana1/prog1_11/prog1_115"><b>5. stunda:</b> Polimorfisms un dunder metodes</a></li>
-            <li><a href="/programmesana1/prog1_11/prog1_116"><b>6. stunda:</b> Noslēguma projekts: Klases turnīra simulators</a></li>
-        </ul>
+    <span class="tok-kw">def</span> <span class="tok-fn">uzbrukt</span>(self, pretinieks):
+        pretinieks.hp <span class="tok-op">-=</span> <span class="tok-num">10</span>
+
+<span class="tok-kw">class</span> <span class="tok-typ">Maģis</span>(<span class="tok-typ">Cīnītājs</span>):
+    <span class="tok-kw">def</span> <span class="tok-fn">uzbrukt</span>(self, pretinieks):
+        pretinieks.hp <span class="tok-op">-=</span> <span class="tok-num">20</span>
+        <span class="tok-com"># override — maģija spēcīgāka</span><span class="cursor"></span></div>
+        </div>
+        <div class="statusbar"><span class="ok">● palaists</span><span>Python 3.12</span><span class="spacer"></span><span>OOP</span></div>
+      </div>
     </div>
-</section>
+  </div>
+</div></section>
 
-<section class='section'>
-    <h2>11. tēmas špikeris</h2>
-    <div class="logic-box">
-        <h3>Klases anatomija</h3>
-<pre><code class="language-python">class Dalibnieks:
-    """Klases docstring — dokumentācija."""
+<section id="stundas"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
+    <h2 class="sec-title">6 stundas — klases, mantošana un turnīrs</h2>
+  </div><a class="sec-link" href="/programmesana1/prog1_11/prog1_116">noslēguma projekts <span>→</span></a></div>
+  <div class="projects">
 
-    # Klases atribūts (kopīgs visiem objektiem)
-    suga = "cilvēks"
+    <a class="project" href="/programmesana1/prog1_11/prog1_111">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="60" y="20" width="200" height="120" rx="4" fill="var(--surface)" stroke="var(--kw)"/><rect x="60" y="20" width="200" height="24" rx="4" fill="var(--surface)"/><text x="160" y="37" font-family="monospace" font-size="9" fill="var(--kw)" text-anchor="middle">class Cīnītājs</text><text x="75" y="60" font-family="monospace" font-size="8" fill="var(--muted)">atribūti:</text><text x="90" y="76" font-family="monospace" font-size="8" fill="var(--str)">self.vārds</text><text x="90" y="90" font-family="monospace" font-size="8" fill="var(--str)">self.hp = 100</text><text x="75" y="110" font-family="monospace" font-size="8" fill="var(--muted)">metodes:</text><text x="90" y="126" font-family="monospace" font-size="8" fill="var(--fn)">def uzbrukt(self, m)</text><rect x="80" y="154" width="60" height="28" rx="3" fill="var(--surface)" stroke="var(--str)"/><text x="110" y="172" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">Anna(100)</text><rect x="180" y="154" width="60" height="28" rx="3" fill="var(--surface)" stroke="var(--fn)"/><text x="210" y="172" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">Jānis(100)</text></svg><span class="label">// class</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d kw"></span> Python · class</span><span>OOP pamati</span></div><h3>Klases un objekti</h3><p><code>class</code> kā blueprint, instance kā konkrēts objekts, atribūti un metodes.</p><div class="foot"><span>11.1 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
 
-    def __init__(self, vards, energija=100):  # konstruktors
-        self.vards = vards               # objekta atribūts
-        self.energija = energija
+    <a class="project" href="/programmesana1/prog1_11/prog1_112">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="120" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="40" y="48" font-family="monospace" font-size="9" fill="var(--kw)">Cīnītājs("Anna", hp=80)</text><line x1="50" y1="58" x2="50" y2="100" stroke="var(--fn)" stroke-width="2"/><text x="40" y="72" font-family="monospace" font-size="8" fill="var(--fn)">  def __init__(self, vārds, hp):</text><text x="60" y="88" font-family="monospace" font-size="8" fill="var(--str)">  self.vārds = "Anna"</text><text x="60" y="104" font-family="monospace" font-size="8" fill="var(--str)">  self.hp    = 80</text><text x="40" y="160" font-family="monospace" font-size="8" fill="var(--muted)">self = šis konkrētais objekts</text></svg><span class="label">// __init__</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> __init__ · self</span><span>konstruktors</span></div><h3>Konstruktori un atribūti</h3><p><code>__init__</code> inicializācijas metode, <code>self</code> pašatsauce, instance vs klases atribūti.</p><div class="foot"><span>11.2 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
 
-    def sanem_punktus(self, b):                    # metode
-        self.energija -= b
-        return self.energija
+    <a class="project" href="/programmesana1/prog1_11/prog1_113">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="50" y="30" width="220" height="110" rx="4" fill="var(--surface)" stroke="var(--fn)"/><text x="160" y="52" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">anna = Cīnītājs("Anna")</text><text x="65" y="70" font-family="monospace" font-size="8" fill="var(--kw)">anna.uzbrukt(jānis)</text><text x="90" y="84" font-family="monospace" font-size="8" fill="var(--muted)">→ jānis.hp -= 10</text><text x="65" y="104" font-family="monospace" font-size="8" fill="var(--str)">anna.dziedināt(20)</text><text x="90" y="118" font-family="monospace" font-size="8" fill="var(--muted)">→ self.hp += 20</text><text x="65" y="160" font-family="monospace" font-size="8" fill="var(--muted)">str(anna) → __str__(self)</text></svg><span class="label">// metodes</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> metodes · self</span><span>metodes</span></div><h3>Metodes un self</h3><p>Instance metodes, <code>self</code> kā pirmais parametrs, metožu izsaukšana, <code>__str__</code>.</p><div class="foot"><span>11.3 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
 
-    def __str__(self):                    # dunder
-        return f"{self.vards} ({self.energija} enerģija)"
+    <a class="project" href="/programmesana1/prog1_11/prog1_114">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="110" y="20" width="100" height="36" rx="4" fill="var(--surface)" stroke="var(--kw)"/><text x="160" y="43" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">Cīnītājs (bāze)</text><line x1="80" y1="56" x2="120" y2="56" stroke="var(--muted)" stroke-width="1"/><line x1="160" y1="56" x2="160" y2="76" stroke="var(--muted)" stroke-width="1.5"/><line x1="240" y1="56" x2="200" y2="56" stroke="var(--muted)" stroke-width="1"/><rect x="30" y="76" width="100" height="36" rx="4" fill="var(--surface)" stroke="var(--str)"/><text x="80" y="99" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">Maģis(Cīnītājs)</text><rect x="110" y="76" width="100" height="36" rx="4" fill="var(--surface)" stroke="var(--fn)"/><text x="160" y="99" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">Karavīrs(Cīnītājs)</text><rect x="190" y="76" width="100" height="36" rx="4" fill="var(--surface)" stroke="var(--typ)"/><text x="240" y="99" font-family="monospace" font-size="8" fill="var(--typ)" text-anchor="middle">Archers(Cīnītājs)</text><text x="160" y="155" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">super().__init__(vārds, hp)</text></svg><span class="label">// mantošana</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d kw"></span> mantošana · super()</span><span>hierarhija</span></div><h3>Mantošana un super()</h3><p><code>class Maģis(Cīnītājs)</code>, <code>super().__init__()</code>, metodes mantošana un paplašināšana.</p><div class="foot"><span>11.4 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
 
-# Lietošana
-v = Dalibnieks("Marta", energija=120)
-v.sanem_punktus(15)
-print(v)        # Marta (105 enerģija)</code></pre>
-    </div>
-    <div class="logic-box">
-        <h3>4 OOP principi</h3>
-        <table>
-            <thead><tr><th>Princips</th><th>Nozīme</th></tr></thead>
-            <tbody>
-                <tr><td><b>Iekapsulācija</b></td><td>Dati un metodes apvienoti klasē, "_" prefiks norāda privāto.</td></tr>
-                <tr><td><b>Mantošana</b></td><td>Bērna klase pārmanto vecāku atribūtus un metodes.</td></tr>
-                <tr><td><b>Polimorfisms</b></td><td>Vairākas klases ar to pašu metodes nosaukumu, bet atšķirīgu uzvedību.</td></tr>
-                <tr><td><b>Abstrakcija</b></td><td>Paslēpt sarežģītību aiz vienkāršas saskarnes.</td></tr>
-            </tbody>
-        </table>
-    </div>
-</section>
+    <a class="project" href="/programmesana1/prog1_11/prog1_115">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="30" width="130" height="50" rx="3" fill="var(--surface)" stroke="var(--str)"/><text x="85" y="50" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">maģis.uzbrukt(e)</text><text x="85" y="65" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">kaitē: 20</text><rect x="170" y="30" width="130" height="50" rx="3" fill="var(--surface)" stroke="var(--kw)"/><text x="235" y="50" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">karavīrs.uzbrukt(e)</text><text x="235" y="65" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">kaitē: 15</text><text x="160" y="110" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Polimorfisms: viena metode, dažāds rezultāts</text><text x="160" y="155" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">__str__ · __repr__ · __eq__ · __len__</text></svg><span class="label">// polimorfisms</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> polimorfisms</span><span>dunder</span></div><h3>Polimorfisms un dunder metodes</h3><p>Metodes override, <code>isinstance()</code>, dunder metodes: <code>__str__</code>, <code>__eq__</code>, <code>__len__</code>.</p><div class="foot"><span>11.5 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
 
-</body>
-</html>
+    <a class="project" href="/programmesana1/prog1_11/prog1_116">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="130" height="45" rx="3" fill="var(--surface)" stroke="var(--str)"/><text x="85" y="40" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">Anna (Maģis)</text><rect x="20" y="40" width="130" height="8" rx="2" fill="var(--line)"/><rect x="20" y="40" width="90" height="8" rx="2" fill="var(--str)"/><rect x="170" y="20" width="130" height="45" rx="3" fill="var(--surface)" stroke="var(--kw)"/><text x="235" y="40" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">Jānis (Karavīrs)</text><rect x="170" y="40" width="130" height="8" rx="2" fill="var(--line)"/><rect x="170" y="40" width="55" height="8" rx="2" fill="var(--kw)"/><text x="160" y="90" font-family="monospace" font-size="14" fill="var(--fn)" text-anchor="middle">⚔</text><text x="160" y="120" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Kārta 4: Anna uzvar!</text><text x="160" y="140" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">4 cīnītāji → 2 pusfināli → 1 uzvarētājs</text></svg><span class="label">$ python turniirs.py</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> Python · OOP</span><span>projekts</span></div><h3>Noslēguma projekts: Turnīra simulators</h3><p>Cīnītāju klašu hierarhija, kaujas simulācija, turnīra kārtu sistēma, rezultātu vizualizācija.</p><div class="foot"><span>11.6 projekts</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+  </div>
+</div></section>
+
+<section id="spekeris"><div class="wrap">
+  <div class="sec-head"><div><div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div><h2 class="sec-title">OOP Python špikeris</h2></div></div>
+  <div class="logic-box">
+    <h3>Klase, mantošana un polimorfisms</h3>
+    <pre><code class="language-python">class Cīnītājs:
+    def __init__(self, vārds: str, hp: int = 100):
+        self.vārds = vārds
+        self.hp    = hp
+
+    def uzbrukt(self, pretinieks: "Cīnītājs") -> int:
+        kaitejums = 10
+        pretinieks.hp -= kaitejums
+        return kaitejums
+
+    def __str__(self) -> str:
+        return f"{self.vārds} (HP: {self.hp})"
+
+class Maģis(Cīnītājs):
+    def uzbrukt(self, pretinieks: "Cīnītājs") -> int:
+        kaitejums = 20  # polimorfisms — override
+        pretinieks.hp -= kaitejums
+        return kaitejums
+
+anna  = Maģis("Anna", hp=80)
+janis = Cīnītājs("Jānis")
+anna.uzbrukt(janis)
+print(janis)                        # Jānis (HP: 80)
+print(isinstance(anna, Cīnītājs))  # True</code></pre>
+  </div>
+</div></section>
+
+<section class="cta-strip"><div class="wrap"><div class="cta-panel">
+  <div class="cta-code"><span><span class="prompt">$</span> python turniirs.py <span class="muted"># OOP klases simulē RPG cīnītāju turnīru</span></span></div>
+  <div class="cta-actions">
+    <a class="btn primary large" href="/programmesana1/prog1_10/prog1_10main"><span>←</span> 10. Tēma</a>
+    <a class="btn large" href="/programmesana1/prog1_12/prog1_12main">12. Tēma <span class="caret">→</span></a>
+  </div>
+</div></div></section>
+</body></html>

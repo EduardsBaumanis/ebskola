@@ -1,89 +1,153 @@
-<!DOCTYPE html>
-<html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html><html lang="lv"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>5. Tēma — Datu pastāvība un algoritmi — ebSkola</title>
-<meta name="description" content="Programmēšana II 5. tēma: Datu pastāvība un algoritmi — Godot 4 + C++. Procedurālais klases labirints žanra projekts: Procedurālais klases labirints.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Prog II 5. tēma: Godot failu I/O, JSON serializācija, save/load, procedurāla paaudze. Projekts: Roguelike.">
+<meta name="author" content="Eduards Baumanis"><meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_5/prog2_5main">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
+<meta property="og:type" content="website"><meta property="og:locale" content="lv_LV"><meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="5. Tēma — Datu pastāvība un algoritmi">
-<meta property="og:description" content="Programmēšana II 5. tēma: Datu pastāvība un algoritmi — Godot 4 + C++. Procedurālais klases labirints žanra projekts: Procedurālais klases labirints.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_5/prog2_5main">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
+<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_5/prog2_5main"><meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "5. Tēma — Datu pastāvība un algoritmi", "description": "Piektā tēma fokusējas uz <b>datu pastāvību</b> (saglabāšana, ielāde) un <b>algoritmu efektivitāti</b>. Apgūsi FileAccess, JSON serializāciju, Resource sistēmu un procedural generation. Tēmas projekts ir <b>procedurāli ģenerēta klases labirinta spēle</b> ar nejauši ģenerētiem līmeņiem un pastāvīgu progresu.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_5/prog2_5main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
-</script>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="manifest" href="../../manifest.json"><meta name="theme-color" content="#222831">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"5. Tēma — Datu pastāvība","description":"Godot FileAccess, JSON serializācija, save/load arhitektūra, BSP procedurāla paaudze un Big-O.","inLanguage":"lv","url":"https://ebskola.lv/programmesana2/prog2_5/prog2_5main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
-</head>
-<body class="has-sidebar">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+</head><body class="page-home">
+<header class="topbar"><div class="wrap row">
+  <a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
+  <nav class="nav">
+    <a href="/programmesana2/programmesana2">Prog II</a>
+    <a href="/programmesana2/prog2_4/prog2_4main">4. Tēma</a>
+    <a href="/programmesana2/prog2_5/prog2_5main" aria-current="page">5. Tēma</a>
+    <a href="/programmesana2/prog2_6/prog2_6main">6. Tēma</a>
+    <a href="/sasnRez">rezultāti</a><a href="/paligm">palīgmateriāli</a>
+  </nav>
+  <div class="spacer"></div>
+  <a class="btn primary" href="/programmesana2/prog2_5/prog2_51">sākt stundu <span class="caret">→</span></a>
+</div></header>
 
-<aside class="sidebar-nav">
-  <h3>ebskola</h3>
-  <a class="active" href="/programmesana2/prog2_5/prog2_5main">5. Tēmas apkopojums</a>
-  <a href="/programmesana2/prog2_5/prog2_51">5.1 Failu I/O Godot vidē</a>
-  <a href="/programmesana2/prog2_5/prog2_52">5.2 JSON serializācija un Resource sistēma</a>
-  <a href="/programmesana2/prog2_5/prog2_53">5.3 Save/Load arhitektūra</a>
-  <a href="/programmesana2/prog2_5/prog2_54">5.4 Procedural generation</a>
-  <a href="/programmesana2/prog2_5/prog2_55">5.5 Algoritmu efektivitāte</a>
-  <a href="/programmesana2/prog2_5/prog2_56">5.6 Noslēguma projekts: Procedurālais klases labirints</a>
-</aside>
-
-<nav class='galvenaisdiv'>
-    <a href="/">Tēmas</a>
-    <a href="/sasnRez">Sasniedzamie rezultāti</a>
-    <a href="/paligm">Palīgmateriāli</a>
-</nav>
-
-<section class='section'>
-    <h1>5. Tēma — Datu pastāvība un algoritmi</h1>
-    <div class="info-box">
-        <h3>Par šo tēmu</h3>
-        <p>Piektā tēma fokusējas uz <b>datu pastāvību</b> (saglabāšana, ielāde) un <b>algoritmu efektivitāti</b>. Apgūsi FileAccess, JSON serializāciju, Resource sistēmu un procedural generation. Tēmas projekts ir <b>procedurāli ģenerēta klases labirinta spēle</b> ar nejauši ģenerētiem līmeņiem un pastāvīgu progresu.</p>
+<section class="hero"><div class="wrap">
+  <div class="eyebrow"><span class="dot"></span><span>Prog II · 5. tēma · 6 stundas</span><span class="ver">— C++ · Save/Load · Roguelike</span></div>
+  <div class="hero-grid">
+    <div>
+      <h1 class="headline">Datu <span class="accent">pastāvība</span> <span class="slash">//</span><br>un algoritmi</h1>
+      <p class="lede">Saglabā un ielādē spēles stāvokli ar <code>FileAccess</code> un <code>JSON</code>. Ģenerē labirintus ar <code>BSP</code>. Izproti <code>Big-O</code>.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="/programmesana2/prog2_5/prog2_51"><span>›</span> Sākt 5.1 stundu</a>
+        <a class="btn" href="/programmesana2/prog2_5/prog2_56">Noslēguma projekts <span class="caret">→</span></a>
+      </div>
+      <div class="hero-meta">
+        <span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
+        <span class="m"><span class="sw kw"></span> <b>FileAccess</b> · JSON</span>
+        <span class="m"><span class="sw fn"></span> <b>Roguelike labirints</b></span>
+      </div>
     </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kam pievērst uzmanību</h2>
-    <div class="logic-box">
-        <p>Šajā tēmā Tu izveidosi datu saglabāšanas, ielādes un algoritmu efektivitātes sistēmu un iemācīsies pamatot gan gala rezultātu, gan izvēlēto C++ risinājumu. Pastāvības tēma kļūst riskanta, ja kods pieņem, ka fails vienmēr eksistē, dati vienmēr ir pareizi un algoritms vienmēr būs pietiekami ātrs.</p>
-        <ul>
-            <li><b>Ko tu iemācīsies:</b> tēma ļauj redzēt, kā Godot editorā salikti objekti kļūst par programmējamu sistēmu.</li>
-            <li><b>Uzmanies:</b> nepaļaujies tikai uz klikšķiem editorā; katrā praktiskajā darbā pārkompilē, pārbaudi un īsi pieraksti rezultātu README.</li>
-            <li><b>C++ noteikums:</b> spēles noteikumi un sistēmas loģika jārealizē C++ GDExtension klasēs; citi faili drīkst kalpot kā resursi, konfigurācija vai build rīki.</li>
-            <li><b>Darba beigās pārbaudi:</b> C++ kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</li>
-        </ul>
+    <div>
+      <div class="editor" aria-hidden="true">
+        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog2_5/</em>save_system.cpp</span></div>
+        <div class="tabs"><span class="tab active"><span class="ic">●</span> save_system.cpp</span><span class="spacer"></span></div>
+        <div class="body">
+          <div class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11</div>
+          <div class="code"><span class="tok-kw">void</span> <span class="tok-typ">SaveSystem</span>::<span class="tok-fn">saglabāt</span>(<span class="tok-typ">String</span> ceļš) {
+  <span class="tok-typ">Dictionary</span> dati;
+  dati[<span class="tok-str">"hp"</span>]  <span class="tok-op">=</span> player-&gt;<span class="tok-fn">get_health</span>();
+  dati[<span class="tok-str">"lvl"</span>] <span class="tok-op">=</span> player-&gt;<span class="tok-fn">get_level</span>();
+  dati[<span class="tok-str">"pos"</span>] <span class="tok-op">=</span> player-&gt;<span class="tok-fn">get_position</span>();
+  <span class="tok-typ">Ref</span>&lt;<span class="tok-typ">FileAccess</span>&gt; f <span class="tok-op">=</span>
+    <span class="tok-typ">FileAccess</span>::<span class="tok-fn">open</span>(ceļš, WRITE);
+  f-&gt;<span class="tok-fn">store_string</span>(
+    <span class="tok-typ">JSON</span>::<span class="tok-fn">stringify</span>(dati));
+}
+<span class="tok-com">// user://saves/save.json</span><span class="cursor"></span></div>
+        </div>
+        <div class="statusbar"><span class="ok">● kompilēts</span><span>C++ · Godot</span><span class="spacer"></span><span>FileAccess</span></div>
+      </div>
     </div>
-</section>
-<section class='section'>
-    <h2>Tēmas saturs (Stundu plāns)</h2>
-    <div class="logic-box">
-        <ul class="step-list">
-            <li><a href="/programmesana2/prog2_5/prog2_51"><b>1. stunda:</b> Failu I/O Godot vidē</a></li>
-            <li><a href="/programmesana2/prog2_5/prog2_52"><b>2. stunda:</b> JSON serializācija un Resource sistēma</a></li>
-            <li><a href="/programmesana2/prog2_5/prog2_53"><b>3. stunda:</b> Save/Load arhitektūra</a></li>
-            <li><a href="/programmesana2/prog2_5/prog2_54"><b>4. stunda:</b> Procedural generation</a></li>
-            <li><a href="/programmesana2/prog2_5/prog2_55"><b>5. stunda:</b> Algoritmu efektivitāte</a></li>
-            <li><a href="/programmesana2/prog2_5/prog2_56"><b>6. stunda:</b> Noslēguma projekts: Procedurālais klases labirints</a></li>
-        </ul>
-    </div>
-</section>
+  </div>
+</div></section>
 
-<section class='section'>
-    <h2>Tēmas projekts: Procedurālais klases labirints</h2>
-    <div class="info-box">
-        <p>Tēmas noslēgumā Tu izveidosi <b>procedurāli ģenerētu klases labirinta spēli</b>, izmantojot visu, ko šajā tēmā iemācījies. Spēli izstrādāsi Godot 4 dzinējā ar C++ koda loģiku caur GDExtension.</p>
-    </div>
-</section>
+<section id="stundas"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
+    <h2 class="sec-title">6 stundas — save/load, BSP un Big-O</h2>
+  </div><a class="sec-link" href="/programmesana2/prog2_5/prog2_56">noslēguma projekts <span>→</span></a></div>
+  <div class="projects">
 
-</body>
-</html>
+    <a class="project" href="/programmesana2/prog2_5/prog2_51">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="30" y="40" width="80" height="100" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="70" y="62" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">user://</text><text x="70" y="80" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">saves/</text><text x="70" y="96" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">save.json</text><text x="70" y="112" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">config.cfg</text><line x1="110" y1="90" x2="145" y2="90" stroke="var(--kw)" stroke-width="2"/><rect x="145" y="65" width="130" height="50" rx="3" fill="var(--surface)" stroke="var(--kw)"/><text x="210" y="82" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">FileAccess::open(</text><text x="210" y="96" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">ceļš, WRITE)</text><text x="210" y="110" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">store_string()</text></svg><span class="label">// FileAccess</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d kw"></span> Godot · FileAccess</span><span>I/O</span></div><h3>Failu I/O Godot vidē</h3><p><code>FileAccess::open()</code>, <code>store_string()</code>, <code>get_as_text()</code>, <code>user://</code> direktorija.</p><div class="foot"><span>5.1 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana2/prog2_5/prog2_52">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="30" width="130" height="80" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="85" y="50" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">C++ Dictionary</text><text x="30" y="68" font-family="monospace" font-size="8" fill="var(--str)">{"hp": 80,</text><text x="30" y="82" font-family="monospace" font-size="8" fill="var(--str)"> "level": 3,</text><text x="30" y="96" font-family="monospace" font-size="8" fill="var(--str)"> "pos": [12,8]}</text><line x1="150" y1="70" x2="170" y2="70" stroke="var(--kw)" stroke-width="2"/><text x="195" y="60" font-family="monospace" font-size="8" fill="var(--muted)">JSON::stringify()</text><rect x="170" y="75" width="130" height="50" rx="3" fill="var(--surface)" stroke="var(--str)"/><text x="235" y="94" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">JSON teksts</text><text x="235" y="110" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">JSON::parse()</text></svg><span class="label">// JSON serialize</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> JSON · serializācija</span><span>formāts</span></div><h3>JSON serializācija un Resource sistēma</h3><p><code>JSON::stringify()</code>, <code>JSON::parse()</code>, Godot <code>Resource</code> saglabāšana, <code>.tres</code> faili.</p><div class="foot"><span>5.2 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana2/prog2_5/prog2_53">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="110" y="20" width="100" height="40" rx="4" fill="var(--surface)" stroke="var(--fn)"/><text x="160" y="45" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">GameState</text><line x1="80" y1="60" x2="110" y2="60" stroke="var(--muted)" stroke-width="1"/><line x1="160" y1="60" x2="160" y2="80" stroke="var(--muted)" stroke-width="1.5"/><line x1="240" y1="60" x2="210" y2="60" stroke="var(--muted)" stroke-width="1"/><rect x="30" y="80" width="80" height="36" rx="3" fill="var(--surface)" stroke="var(--kw)"/><text x="70" y="102" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">SaveManager</text><rect x="120" y="80" width="80" height="36" rx="3" fill="var(--surface)" stroke="var(--str)"/><text x="160" y="102" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">disk</text><rect x="210" y="80" width="80" height="36" rx="3" fill="var(--surface)" stroke="var(--typ)"/><text x="250" y="102" font-family="monospace" font-size="8" fill="var(--typ)" text-anchor="middle">load ←</text><text x="160" y="155" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">saglabāt() · ielādēt() · atiestatīt()</text></svg><span class="label">// save/load</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> arhitektūra</span><span>save/load</span></div><h3>Save/Load arhitektūra</h3><p>Viena atbildīgā SaveManager klase, GameState serializācija, ielāde spēles uzsākšanā.</p><div class="foot"><span>5.3 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana2/prog2_5/prog2_54">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="160" rx="3" fill="var(--surface)" stroke="var(--line-soft)"/><rect x="20" y="20" width="130" height="75" rx="3" fill="none" stroke="var(--kw)" stroke-width="2"/><rect x="150" y="20" width="150" height="75" rx="3" fill="none" stroke="var(--str)" stroke-width="2"/><rect x="20" y="95" width="170" height="85" rx="3" fill="none" stroke="var(--fn)" stroke-width="2"/><rect x="190" y="95" width="110" height="85" rx="3" fill="none" stroke="var(--typ)" stroke-width="2"/><rect x="35" y="35" width="100" height="45" rx="2" fill="var(--surface)" stroke="var(--muted)"/><rect x="165" y="35" width="120" height="45" rx="2" fill="var(--surface)" stroke="var(--muted)"/><rect x="35" y="110" width="140" height="55" rx="2" fill="var(--surface)" stroke="var(--muted)"/><rect x="205" y="110" width="80" height="55" rx="2" fill="var(--surface)" stroke="var(--muted)"/><text x="160" y="193" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">BSP — dalīšana uz pusēm → istabas → koridori</text></svg><span class="label">// BSP dungeon</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d typ"></span> BSP · procedurāls</span><span>ģenerācija</span></div><h3>Procedural generation ar BSP</h3><p>Binary Space Partitioning — rekursīva telpu dalīšana, istabu izveide, koridoru savienošana.</p><div class="foot"><span>5.4 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana2/prog2_5/prog2_55">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><line x1="40" y1="160" x2="290" y2="160" stroke="var(--muted)" stroke-width="1"/><line x1="40" y1="160" x2="40" y2="30" stroke="var(--muted)" stroke-width="1"/><line x1="40" y1="158" x2="290" y2="158" stroke="var(--kw)" stroke-width="2"/><path d="M40 145 Q100 135 160 100 Q220 60 290 35" fill="none" stroke="var(--str)" stroke-width="2"/><path d="M40 155 Q120 140 200 90 Q260 55 290 30" fill="none" stroke="var(--fn)" stroke-width="2"/><path d="M40 152 Q90 130 160 80 Q230 40 290 20" fill="none" stroke="var(--typ)" stroke-width="2"/><text x="300" y="162" font-family="monospace" font-size="7" fill="var(--kw)">O(1)</text><text x="300" y="55" font-family="monospace" font-size="7" fill="var(--str)">O(log n)</text><text x="300" y="50" font-family="monospace" font-size="7" fill="var(--fn)">O(n)</text><text x="300" y="25" font-family="monospace" font-size="7" fill="var(--typ)">O(n²)</text><text x="160" y="186" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">n (ievades lielums)</text></svg><span class="label">// Big-O</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> Big-O · profiling</span><span>efektivitāte</span></div><h3>Algoritmu efektivitāte</h3><p>Big-O notācija, O(1)/O(log n)/O(n)/O(n²) salīdzinājums, Godot Profiler izmantošana.</p><div class="foot"><span>5.5 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana2/prog2_5/prog2_56">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#1a1f2e"/><rect x="20" y="20" width="280" height="160" rx="3" fill="var(--surface)"/><text x="40" y="38" font-family="monospace" font-size="8" fill="var(--muted)">##.........##</text><text x="40" y="52" font-family="monospace" font-size="8" fill="var(--muted)">#.++++.....+#</text><text x="40" y="66" font-family="monospace" font-size="8" fill="var(--kw)">#.+@...*....#</text><text x="40" y="80" font-family="monospace" font-size="8" fill="var(--muted)">#.++++......#</text><text x="40" y="94" font-family="monospace" font-size="8" fill="var(--muted)">#...........#</text><text x="40" y="108" font-family="monospace" font-size="8" fill="var(--str)">#.....E.....#</text><text x="40" y="122" font-family="monospace" font-size="8" fill="var(--muted)">##.........##</text><text x="40" y="155" font-family="monospace" font-size="7" fill="var(--muted)">@ — spēlētājs · E — ienaidnieks · * — prece</text></svg><span class="label">// roguelike projekts</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> C++ · Godot</span><span>projekts</span></div><h3>Noslēguma projekts: Procedurālais labirints</h3><p>Roguelike ar BSP labirintu, save/load, permadeath, random loot un skaņu efektiem.</p><div class="foot"><span>5.6 projekts</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+  </div>
+</div></section>
+
+<section id="spekeris"><div class="wrap">
+  <div class="sec-head"><div><div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div><h2 class="sec-title">FileAccess un JSON špikeris</h2></div></div>
+  <div class="logic-box">
+    <h3>Save/Load ar FileAccess un JSON</h3>
+    <pre><code class="language-cpp">// Saglabāšana
+void SaveSystem::saglabāt() {
+    Dictionary dati;
+    dati["hp"]    = player->get_health();
+    dati["level"] = player->get_level();
+    dati["pos"]   = player->get_position();
+
+    Ref&lt;FileAccess&gt; f = FileAccess::open("user://save.json", FileAccess::WRITE);
+    f->store_string(JSON::stringify(dati));
+}
+
+// Ielādēšana
+void SaveSystem::ielādēt() {
+    Ref&lt;FileAccess&gt; f = FileAccess::open("user://save.json", FileAccess::READ);
+    Dictionary dati = JSON::parse_string(f->get_as_text());
+    player->set_health(dati["hp"]);
+    player->set_level(dati["level"]);
+}</code></pre>
+  </div>
+</div></section>
+
+<section class="cta-strip"><div class="wrap"><div class="cta-panel">
+  <div class="cta-code"><span><span class="prompt">C++</span> FileAccess::open(<span class="muted">"user://save.json"</span>, WRITE); <span class="muted">// saglabā starp sesijām</span></span></div>
+  <div class="cta-actions">
+    <a class="btn primary large" href="/programmesana2/prog2_4/prog2_4main"><span>←</span> 4. Tēma</a>
+    <a class="btn large" href="/programmesana2/prog2_6/prog2_6main">6. Tēma <span class="caret">→</span></a>
+  </div>
+</div></div></section>
+</body></html>

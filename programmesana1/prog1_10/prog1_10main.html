@@ -1,97 +1,161 @@
-<!DOCTYPE html>
-<html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>10. Tēma — Relāciju datubāzes un PostgreSQL — ebSkola</title>
-<meta name="description" content="10. Tēma — Relāciju datubāzes un PostgreSQL — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
+<!doctype html><html lang="lv"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>10. Tēma — Datubāzes un PostgreSQL — ebSkola</title>
+<meta name="description" content="Prog I 10. tēma: PostgreSQL, SQL CRUD, psycopg2, JOIN vaicājumi. Projekts: Highscore datubāze.">
+<meta name="author" content="Eduards Baumanis"><meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_10/prog1_10main">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="10. Tēma — Relāciju datubāzes un PostgreSQL">
-<meta property="og:description" content="10. Tēma — Relāciju datubāzes un PostgreSQL — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_10/prog1_10main">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
+<meta property="og:type" content="website"><meta property="og:locale" content="lv_LV"><meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="10. Tēma — Datubāzes un PostgreSQL">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_10/prog1_10main"><meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="10. Tēma — Relāciju datubāzes un PostgreSQL">
-<meta name="twitter:description" content="10. Tēma — Relāciju datubāzes un PostgreSQL — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "10. Tēma — Relāciju datubāzes un PostgreSQL", "description": "10. Tēma — Relāciju datubāzes un PostgreSQL — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_10/prog1_10main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
-</script>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="manifest" href="../../manifest.json"><meta name="theme-color" content="#222831">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"10. Tēma — PostgreSQL","description":"Relāciju datubāzes, SQL CRUD, tabulu projektēšana, JOIN un psycopg2 Python savienojums.","inLanguage":"lv","url":"https://ebskola.lv/programmesana1/prog1_10/prog1_10main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
-</head>
-<body class="has-sidebar">
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+</head><body class="page-home">
+<header class="topbar"><div class="wrap row">
+  <a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
+  <nav class="nav">
+    <a href="/programmesana1/programmesana1">Prog I</a>
+    <a href="/programmesana1/prog1_9/prog1_9main">9. Tēma</a>
+    <a href="/programmesana1/prog1_10/prog1_10main" aria-current="page">10. Tēma</a>
+    <a href="/programmesana1/prog1_11/prog1_11main">11. Tēma</a>
+    <a href="/sasnRez">rezultāti</a><a href="/paligm">palīgmateriāli</a>
+  </nav>
+  <div class="spacer"></div>
+  <a class="btn primary" href="/programmesana1/prog1_10/prog1_101">sākt stundu <span class="caret">→</span></a>
+</div></header>
 
-<aside class="sidebar-nav">
-  <h3>ebskola</h3>
-  <a class="active" href="/programmesana1/prog1_10/prog1_10main">10. Tēmas apkopojums + Špikeris</a>
-  <a href="/programmesana1/prog1_10/prog1_101">10.1 Ievads datubāzēs un PostgreSQL</a>
-  <a href="/programmesana1/prog1_10/prog1_102">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
-  <a href="/programmesana1/prog1_10/prog1_103">10.3 Tabulu projektēšana un saites</a>
-  <a href="/programmesana1/prog1_10/prog1_104">10.4 JOIN un sarežģīti vaicājumi</a>
-  <a href="/programmesana1/prog1_10/prog1_105">10.5 Python ↔ PostgreSQL (psycopg2)</a>
-  <a href="/programmesana1/prog1_10/prog1_106">10.6 Noslēguma projekts: Highscore datubāze</a>
-</aside>
-
-<nav class='galvenaisdiv'>
-    <a href="/">Tēmas</a>
-    <a href="/sasnRez">Sasniedzamie rezultāti</a>
-    <a href="/paligm">Palīgmateriāli</a>
-</nav>
-
-<section class='section'>
-    <h1>10. Tēma — Relāciju datubāzes un PostgreSQL</h1>
-    <div class="logic-box">
-        <h3>Par šo tēmu</h3>
-        <p>Failu glabāšana ar JSON un CSV ir lieliska maziem projektiem, taču īstas lietotnes glabā datus <b>relāciju datubāzē</b>. Šajā tēmā Tu iepazīsi PostgreSQL — vienu no spēcīgākajām atvērtā koda datubāzēm pasaulē — un apgūsi SQL valodas pamatus.</p>
-        <p>Tu iemācīsies projektēt tabulas (datu tipi, primārās un ārējās atslēgas), rakstīt vaicājumus (CRUD), apvienot vairākas tabulas ar <b>JOIN</b> un savienot Python ar datubāzi, izmantojot <code class="language-python">psycopg2</code> bibliotēku.</p>
-        <p>Tēmas noslēgumā Tu izveidosi <b>"Highscore datubāzi"</b> — pilnvērtīgu serveri, kas saglabā jebkuras spēles rezultātus, ļauj atskatīties uz vēsturi un parāda TOP 10 sarakstu pēc filtriem (mēneša, dienas, spēles).</p>
+<section class="hero"><div class="wrap">
+  <div class="eyebrow"><span class="dot"></span><span>Prog I · 10. tēma · 6 stundas</span><span class="ver">— PostgreSQL · SQL · psycopg2</span></div>
+  <div class="hero-grid">
+    <div>
+      <h1 class="headline">Datubāzes <span class="slash">//</span><br>un <span class="accent">PostgreSQL</span></h1>
+      <p class="lede">Iemācies glabāt datus relāciju datubāzē. Raksti <code>SQL</code> vaicājumus un savieno <code>PostgreSQL</code> ar Python, izmantojot <code>psycopg2</code>.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="/programmesana1/prog1_10/prog1_101"><span>›</span> Sākt 10.1 stundu</a>
+        <a class="btn" href="/programmesana1/prog1_10/prog1_106">Noslēguma projekts <span class="caret">→</span></a>
+      </div>
+      <div class="hero-meta">
+        <span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
+        <span class="m"><span class="sw kw"></span> <b>SQL</b> · PostgreSQL</span>
+        <span class="m"><span class="sw fn"></span> <b>Highscore datubāze</b></span>
+      </div>
     </div>
-</section>
+    <div>
+      <div class="editor" aria-hidden="true">
+        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog1_10/</em>datubaze.py</span></div>
+        <div class="tabs"><span class="tab active"><span class="ic">●</span> datubaze.py</span><span class="spacer"></span></div>
+        <div class="body">
+          <div class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11</div>
+          <div class="code"><span class="tok-kw">import</span> <span class="tok-typ">psycopg2</span>
 
-<section class='section'>
-    <h2>Tēmas saturs</h2>
-    <div class="logic-box">
-        <ul class="step-list">
-                        <li><a href="/programmesana1/prog1_10/prog1_101"><b>1. stunda:</b> Ievads datubāzēs un PostgreSQL</a></li>
-            <li><a href="/programmesana1/prog1_10/prog1_102"><b>2. stunda:</b> SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a></li>
-            <li><a href="/programmesana1/prog1_10/prog1_103"><b>3. stunda:</b> Tabulu projektēšana un saites</a></li>
-            <li><a href="/programmesana1/prog1_10/prog1_104"><b>4. stunda:</b> JOIN un sarežģīti vaicājumi</a></li>
-            <li><a href="/programmesana1/prog1_10/prog1_105"><b>5. stunda:</b> Python ↔ PostgreSQL (psycopg2)</a></li>
-            <li><a href="/programmesana1/prog1_10/prog1_106"><b>6. stunda:</b> Noslēguma projekts: Highscore datubāze</a></li>
-        </ul>
+sav <span class="tok-op">=</span> <span class="tok-typ">psycopg2</span>.<span class="tok-fn">connect</span>(
+    dbname<span class="tok-op">=</span><span class="tok-str">"spele_db"</span>,
+    user<span class="tok-op">=</span><span class="tok-str">"skolens"</span>,
+    host<span class="tok-op">=</span><span class="tok-str">"localhost"</span>)
+k <span class="tok-op">=</span> sav.<span class="tok-fn">cursor</span>()
+k.<span class="tok-fn">execute</span>(
+    <span class="tok-str">"INSERT INTO highscore"</span>
+    <span class="tok-str">" VALUES (%s, %s)"</span>,
+    (<span class="tok-str">"Anna"</span>, <span class="tok-num">250</span>))<span class="cursor"></span></div>
+        </div>
+        <div class="statusbar"><span class="ok">● savienots</span><span>PostgreSQL</span><span class="spacer"></span><span>:5432</span></div>
+      </div>
     </div>
-</section>
+  </div>
+</div></section>
 
-<section class='section'>
-    <h2>10. tēmas špikeris</h2>
-    <div class="logic-box">
-        <h3>SQL pamatkomandas</h3>
-<pre><code class="language-sql">CREATE TABLE speletaji (id SERIAL PRIMARY KEY, vards TEXT NOT NULL, punkti INTEGER);
-INSERT INTO speletaji (vards, punkti) VALUES ('Anna', 120);
-SELECT * FROM speletaji WHERE punkti &gt; 100 ORDER BY punkti DESC LIMIT 10;
-UPDATE speletaji SET punkti = 150 WHERE id = 1;
-DELETE FROM speletaji WHERE punkti &lt; 50;</code></pre>
-    </div>
-    <div class="logic-box">
-        <h3>JOIN tipi</h3>
-        <table>
-            <thead><tr><th>Tips</th><th>Atgriež</th></tr></thead>
-            <tbody>
-                <tr><td>INNER JOIN</td><td>Tikai sakritošās rindas no abām pusēm</td></tr>
-                <tr><td>LEFT JOIN</td><td>Visas rindas no kreisās + sakritošās no labās (NULL ja nav)</td></tr>
-                <tr><td>RIGHT JOIN</td><td>Visas no labās + sakritošās no kreisās</td></tr>
-                <tr><td>FULL OUTER JOIN</td><td>Visas no abām pusēm</td></tr>
-            </tbody>
-        </table>
-    </div>
-</section>
+<section id="stundas"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
+    <h2 class="sec-title">6 stundas — SQL, PostgreSQL un psycopg2</h2>
+  </div><a class="sec-link" href="/programmesana1/prog1_10/prog1_106">noslēguma projekts <span>→</span></a></div>
+  <div class="projects">
 
-</body>
-</html>
+    <a class="project" href="/programmesana1/prog1_10/prog1_101">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><ellipse cx="160" cy="80" rx="80" ry="36" fill="var(--surface)" stroke="var(--kw)"/><rect x="80" y="80" width="160" height="28" fill="var(--surface)"/><ellipse cx="160" cy="108" rx="80" ry="18" fill="var(--surface)" stroke="var(--line)"/><rect x="80" y="108" width="160" height="28" fill="var(--surface)"/><ellipse cx="160" cy="136" rx="80" ry="18" fill="var(--surface)" stroke="var(--line)"/><text x="160" y="82" font-family="monospace" font-size="9" fill="var(--kw)" text-anchor="middle">PostgreSQL</text><text x="160" y="110" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">tabulas</text><text x="160" y="140" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">rindas · kolonnas</text></svg><span class="label">// datubāze</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d kw"></span> PostgreSQL</span><span>ievads</span></div><h3>Ievads datubāzēs un PostgreSQL</h3><p>Relāciju datubāžu koncepti, tabulas, kolonnas un rindas, pgAdmin, pirmā datubāze.</p><div class="foot"><span>10.1 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_10/prog1_102">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="65" height="50" rx="3" fill="var(--surface)" stroke="var(--typ)"/><text x="52" y="42" font-family="monospace" font-size="8" fill="var(--typ)" text-anchor="middle">SELECT</text><text x="52" y="58" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">lasīt</text><rect x="95" y="20" width="65" height="50" rx="3" fill="var(--surface)" stroke="var(--kw)"/><text x="127" y="42" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">INSERT</text><text x="127" y="58" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">pievienot</text><rect x="170" y="20" width="65" height="50" rx="3" fill="var(--surface)" stroke="var(--str)"/><text x="202" y="42" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">UPDATE</text><text x="202" y="58" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">mainīt</text><rect x="245" y="20" width="65" height="50" rx="3" fill="var(--surface)" stroke="var(--fn)"/><text x="277" y="42" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">DELETE</text><text x="277" y="58" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">dzēst</text><text x="160" y="110" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">SELECT * FROM highscore</text><text x="160" y="125" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">WHERE punkti &gt; 50 ORDER BY punkti DESC;</text></svg><span class="label">// SQL CRUD</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d typ"></span> SQL · CRUD</span><span>vaicājumi</span></div><h3>SQL CRUD: SELECT, INSERT, UPDATE, DELETE</h3><p>Četras pamatoperācijas datubāzē, <code>WHERE</code>, <code>ORDER BY</code>, <code>LIMIT</code> klauzulas.</p><div class="foot"><span>10.2 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_10/prog1_103">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="30" y="30" width="110" height="70" rx="4" fill="var(--surface)" stroke="var(--kw)"/><text x="85" y="48" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">spēlētāji</text><text x="40" y="64" font-family="monospace" font-size="7" fill="var(--str)">🔑 id INT PK</text><text x="40" y="78" font-family="monospace" font-size="7" fill="var(--muted)">vārds VARCHAR</text><text x="40" y="92" font-family="monospace" font-size="7" fill="var(--muted)">reģ_datums DATE</text><rect x="180" y="30" width="110" height="70" rx="4" fill="var(--surface)" stroke="var(--str)"/><text x="235" y="48" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">rezultāti</text><text x="190" y="64" font-family="monospace" font-size="7" fill="var(--str)">🔑 id INT PK</text><text x="190" y="78" font-family="monospace" font-size="7" fill="var(--fn)">🔗 spēlētājs FK</text><text x="190" y="92" font-family="monospace" font-size="7" fill="var(--muted)">punkti INT</text><line x1="140" y1="65" x2="180" y2="65" stroke="var(--fn)" stroke-width="2"/><text x="160" y="60" font-family="monospace" font-size="7" fill="var(--fn)">FK</text></svg><span class="label">// ER modelis</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> SQL · ER</span><span>projektēšana</span></div><h3>Tabulu projektēšana un saites</h3><p>ER diagrammas, primārās (<code>PK</code>) un ārējās (<code>FK</code>) atslēgas, tabulu relācijas.</p><div class="foot"><span>10.3 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_10/prog1_104">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><circle cx="100" cy="100" r="55" fill="var(--surface)" stroke="var(--kw)" fill-opacity="0.7"/><circle cx="210" cy="100" r="55" fill="var(--surface)" stroke="var(--str)" fill-opacity="0.7"/><text x="100" y="88" font-family="monospace" font-size="9" fill="var(--kw)" text-anchor="middle">spēlētāji</text><text x="100" y="104" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">id, vārds</text><text x="210" y="88" font-family="monospace" font-size="9" fill="var(--str)" text-anchor="middle">rezultāti</text><text x="210" y="104" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">punkti</text><text x="157" y="104" font-family="monospace" font-size="9" fill="var(--fn)" text-anchor="middle">JOIN</text><text x="160" y="168" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">INNER · LEFT · RIGHT JOIN</text></svg><span class="label">// JOIN</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> SQL · JOIN</span><span>sarežģīti</span></div><h3>JOIN un sarežģīti vaicājumi</h3><p><code>INNER JOIN</code>, <code>LEFT JOIN</code>, <code>WHERE</code> ar vairākām tabulām, <code>COUNT</code>, <code>AVG</code>.</p><div class="foot"><span>10.4 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_10/prog1_105">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="65" width="70" height="40" rx="4" fill="var(--surface)" stroke="var(--kw)"/><text x="55" y="83" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">Python</text><text x="55" y="97" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">psycopg2</text><line x1="90" y1="85" x2="120" y2="85" stroke="var(--fn)" stroke-width="2"/><rect x="120" y="52" width="80" height="66" rx="4" fill="var(--surface)" stroke="var(--fn)"/><text x="160" y="72" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">cursor</text><text x="160" y="86" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">execute()</text><text x="160" y="100" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">fetchall()</text><text x="160" y="114" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">commit()</text><line x1="200" y1="85" x2="230" y2="85" stroke="var(--str)" stroke-width="2"/><ellipse cx="260" cy="85" rx="30" ry="25" fill="var(--surface)" stroke="var(--str)"/><text x="260" y="82" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">DB</text><text x="260" y="96" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">:5432</text></svg><span class="label">// psycopg2</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d typ"></span> psycopg2</span><span>integrācija</span></div><h3>Python ↔ PostgreSQL (psycopg2)</h3><p><code>psycopg2.connect()</code>, <code>cursor.execute()</code>, parametrizēti vaicājumi <code>%s</code>, <code>fetchall()</code>, <code>commit()</code>.</p><div class="foot"><span>10.5 stunda</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_10/prog1_106">
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="24" y="22" width="272" height="154" rx="4" fill="#1c2128" stroke="var(--line)"/><text x="40" y="48" font-family="monospace" font-size="8" fill="var(--kw)">$ python highscore_db.py</text><text x="40" y="64" font-family="monospace" font-size="8" fill="var(--fn)">Savienots ar PostgreSQL</text><text x="40" y="88" font-family="monospace" font-size="8" fill="var(--muted)">TOP 5:</text><text x="40" y="104" font-family="monospace" font-size="8" fill="var(--str)">1. Anna    — 95 punkti</text><text x="40" y="120" font-family="monospace" font-size="8" fill="var(--fn)">2. Pēteris — 88 punkti</text><text x="40" y="136" font-family="monospace" font-size="8" fill="var(--muted)">3. Marta   — 82 punkti</text><text x="40" y="158" font-family="monospace" font-size="8" fill="var(--kw)">Ierakstīts: Jānis 75</text></svg><span class="label">$ python highscore_db.py</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> Python · SQL</span><span>projekts</span></div><h3>Noslēguma projekts: Highscore datubāze</h3><p>Quiz rezultātu saglabāšana PostgreSQL, SELECT TOP-5, INSERT ar psycopg2, pilna CRUD lietotne.</p><div class="foot"><span>10.6 projekts</span><span class="open">atvērt ↗</span></div></div>
+    </a>
+
+  </div>
+</div></section>
+
+<section id="spekeris"><div class="wrap">
+  <div class="sec-head"><div><div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div><h2 class="sec-title">SQL un psycopg2 špikeris</h2></div></div>
+  <div class="logic-box">
+    <h3>psycopg2 — Python ↔ PostgreSQL savienojums</h3>
+    <pre><code class="language-python">import psycopg2
+
+sav = psycopg2.connect(dbname="spele_db", user="postgres", host="localhost")
+k = sav.cursor()
+
+# INSERT — vienmēr izmanto %s, nekad f-strings!
+k.execute("INSERT INTO highscore (vards, punkti) VALUES (%s, %s)", ("Anna", 95))
+sav.commit()
+
+# SELECT
+k.execute("SELECT vards, punkti FROM highscore ORDER BY punkti DESC LIMIT 5")
+top5 = k.fetchall()   # [(Anna, 95), (Janis, 88), ...]
+k.close(); sav.close()</code></pre>
+  </div>
+  <div class="logic-box">
+    <h3>SQL pamata vaicājumi</h3>
+    <pre><code class="language-sql">CREATE TABLE highscore (
+    id     SERIAL PRIMARY KEY,
+    vards  VARCHAR(50) NOT NULL,
+    punkti INTEGER DEFAULT 0
+);
+SELECT * FROM highscore WHERE punkti > 50 ORDER BY punkti DESC;
+INSERT INTO highscore (vards, punkti) VALUES ('Anna', 95);
+UPDATE highscore SET punkti = 100 WHERE vards = 'Anna';
+DELETE FROM highscore WHERE id = 5;</code></pre>
+  </div>
+</div></section>
+
+<section class="cta-strip"><div class="wrap"><div class="cta-panel">
+  <div class="cta-code"><span><span class="prompt">SQL</span> SELECT * FROM highscore ORDER BY punkti DESC LIMIT 5; <span class="muted">-- top 5</span></span></div>
+  <div class="cta-actions">
+    <a class="btn primary large" href="/programmesana1/prog1_9/prog1_9main"><span>←</span> 9. Tēma</a>
+    <a class="btn large" href="/programmesana1/prog1_11/prog1_11main">11. Tēma <span class="caret">→</span></a>
+  </div>
+</div></div></section>
+</body></html>
