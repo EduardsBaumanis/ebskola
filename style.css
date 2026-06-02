@@ -158,27 +158,32 @@ svg {
 .galvenaisdiv {
   display: flex;
   justify-content: center;
-  gap: 24px;
-  padding: 18px;
+  gap: 2px;
+  padding: 10px 18px;
   align-items: center;
   flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1;
 }
 .galvenaisdiv a {
-  color: var(--text);
-  font-weight: 600;
-  padding: 8px 12px;
+  color: var(--muted);
+  font-weight: 400;
+  padding: 6px 10px;
   border: 1px solid transparent;
-  border-radius: var(--r-3);
+  border-radius: var(--r-2);
   line-height: 1.2;
-  min-height: 44px;
+  min-height: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
 }
 .galvenaisdiv a:hover {
-  background-color: var(--surface-raised);
-  border-color: var(--line);
-  color: var(--warning);
+  background-color: var(--surface);
+  border-color: transparent;
+  color: var(--text);
   opacity: 1;
 }
 
@@ -378,75 +383,148 @@ article.logic-box { flex: 1; min-height: 250px; }
 }
 
 /* ====================================================
-   6. KREISĀS PUSES SĀNJOSLA
+   6. TĒMAS SĀNJOSLA
    ==================================================== */
 .sidebar-nav {
+  --sidebar-w: 280px;
   position: fixed;
-  left: 0;
-  top: 0;
-  width: 250px;
-  height: 100vh;
-  background-color: var(--surface-raised);
-  padding: 18px 0;
-  border-right: 3px solid var(--accent);
+  inset: 0 auto 0 0;
+  width: var(--sidebar-w);
+  height: 100dvh;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   overflow-y: auto;
-  z-index: 1000;
-  transition: width 0.3s ease;
+  padding: 18px 14px;
+  background:
+    linear-gradient(180deg, rgba(57, 62, 70, .94), rgba(42, 47, 52, .96)),
+    var(--surface);
+  border-right: 1px solid var(--line);
+  box-shadow: 18px 0 42px rgba(0, 0, 0, .22);
+  backdrop-filter: blur(8px);
   scrollbar-color: var(--accent) var(--surface);
 }
-.sidebar-nav a {
-  display: block;
-  padding: 11px 16px;
-  color: var(--text);
-  text-decoration: none;
-  border-left: 4px solid transparent;
-  transition: all 0.2s ease;
-  font-size: 15px;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
-}
-.sidebar-nav a:hover,
-.sidebar-nav a.active {
-  background-color: var(--surface);
-  color: var(--text);
-  border-left-color: var(--accent-strong);
-  opacity: 1;
+.sidebar-kicker {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0;
 }
 .sidebar-nav h3 {
-  color: var(--accent);
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  margin: 8px 0 16px 0;
-  padding: 8px 0;
-  border-bottom: 2px solid var(--accent);
+  color: var(--text);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.18;
+  margin: 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.sidebar-links {
+  display: grid;
+  gap: 6px;
+}
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 10px;
+  color: var(--muted);
+  border: 1px solid transparent;
+  border-radius: var(--r-2);
+  font-size: 13px;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.sidebar-nav a::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: 2px;
+  background: var(--line);
+}
+.sidebar-nav a.topic-main::before {
+  background: var(--accent);
+}
+.sidebar-nav a:hover {
+  background: var(--surface);
+  border-color: var(--line-soft);
+  color: var(--text);
+  opacity: 1;
+}
+.sidebar-nav a.active,
+.sidebar-nav a[aria-current="page"] {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--text);
+  box-shadow: inset 3px 0 0 var(--accent-strong);
+}
+.sidebar-nav a.active::before,
+.sidebar-nav a[aria-current="page"]::before {
+  background: var(--accent-strong);
 }
 
-/* Satura nobīde, lai sānjosla nepārklātu */
-body.has-sidebar {
-  margin: 0 auto 0 250px;
+/* Satura nobīde vecajām stundu lapām, lai sānjosla nepārklātu saturu. */
+body.has-sidebar:not(.page-home):not(.page-reference) {
+  margin: 0 0 0 280px;
   padding: 20px 50px 80px 50px;
-  max-width: min(1020px, calc(100% - 250px));
+  max-width: min(1020px, calc(100% - 280px));
+}
+body.page-reference.has-sidebar {
+  padding-left: 280px;
 }
 
 /* ====================================================
    7. RESPONSĪVAIS DIZAINS
    ==================================================== */
 @media (max-width: 1100px) {
-  .sidebar-nav { width: 200px; }
-  body.has-sidebar {
-    margin-left: 200px;
-    max-width: calc(100% - 200px);
+  .sidebar-nav { --sidebar-w: 240px; }
+  body.has-sidebar:not(.page-home):not(.page-reference) {
+    margin-left: 240px;
+    max-width: calc(100% - 240px);
     padding: 20px 30px 80px 30px;
+  }
+  body.page-reference.has-sidebar {
+    padding-left: 240px;
   }
 }
 
 @media (max-width: 1000px) {
-  .sidebar-nav { display: none; }
-  body.has-sidebar {
-    margin: 0 auto !important;
-    padding: 20px 30px 80px 30px !important;
-    max-width: 100% !important;
+  .sidebar-nav {
+    position: relative;
+    inset: auto;
+    width: auto;
+    height: auto;
+    margin: 12px 30px 0;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-3);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, .18);
+  }
+  .sidebar-nav h3 {
+    padding-bottom: 8px;
+  }
+  .sidebar-links {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scroll-snap-type: x proximity;
+  }
+  .sidebar-nav a {
+    flex: 0 0 min(260px, 82vw);
+    scroll-snap-align: start;
+  }
+  body.has-sidebar:not(.page-home):not(.page-reference) {
+    margin: 0 auto;
+    padding: 20px 30px 80px 30px;
+    max-width: 100%;
+  }
+  body.page-reference.has-sidebar {
+    padding-left: 0;
   }
   .galvenaisdiv {
     margin: 0 auto;
@@ -572,8 +650,8 @@ body.page-reference::before {
   z-index: 0;
 }
 
-body.page-home > *,
-body.page-reference > * {
+body.page-home > *:not(.sidebar-nav),
+body.page-reference > *:not(.sidebar-nav) {
   position: relative;
   z-index: 1;
 }
@@ -1699,13 +1777,18 @@ body.page-course > * {
 .page-course .galvenaisdiv {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 12px var(--pad);
+  min-height: 56px;
+  padding: 0 var(--pad);
   justify-content: flex-start;
   border-bottom: 1px solid var(--line-soft);
 }
 
 .page-course .galvenaisdiv a:first-child {
   margin-right: auto;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .page-course .section {
