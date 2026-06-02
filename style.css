@@ -478,7 +478,13 @@ body.has-sidebar:not(.page-home):not(.page-reference) {
   max-width: min(1020px, calc(100% - 280px));
 }
 body.page-reference.has-sidebar {
-  padding-left: 280px;
+  --sidebar-offset: 280px;
+  padding-left: var(--sidebar-offset);
+}
+body.page-reference.has-sidebar .topbar {
+  margin-left: calc(0px - var(--sidebar-offset));
+  padding-left: var(--sidebar-offset);
+  width: calc(100% + var(--sidebar-offset));
 }
 
 /* ====================================================
@@ -486,13 +492,17 @@ body.page-reference.has-sidebar {
    ==================================================== */
 @media (max-width: 1100px) {
   .sidebar-nav { --sidebar-w: 240px; }
+  body.has-sidebar .topbar .nav {
+    display: none;
+  }
   body.has-sidebar:not(.page-home):not(.page-reference) {
     margin-left: 240px;
     max-width: calc(100% - 240px);
     padding: 20px 30px 80px 30px;
   }
   body.page-reference.has-sidebar {
-    padding-left: 240px;
+    --sidebar-offset: 240px;
+    padding-left: var(--sidebar-offset);
   }
 }
 
@@ -528,6 +538,7 @@ body.page-reference.has-sidebar {
     max-width: 100%;
   }
   body.page-reference.has-sidebar {
+    --sidebar-offset: 0px;
     padding-left: 0;
   }
   .galvenaisdiv {
