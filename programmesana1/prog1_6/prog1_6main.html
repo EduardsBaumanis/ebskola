@@ -1,88 +1,302 @@
-<!DOCTYPE html>
-<html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html><html lang="lv"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>6. Tēma — Datu pastāvība un Analīze — ebSkola</title>
-<meta name="description" content="6. Tēma — Datu pastāvība un Analīze — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Prog I 6. tēma: failu I/O, CSV, JSON, datu pastāvība. Projekts: Quiz spēle ar Highscore.">
+<meta name="author" content="Eduards Baumanis"><meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_6/prog1_6main">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
+<meta property="og:type" content="website"><meta property="og:locale" content="lv_LV"><meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="6. Tēma — Datu pastāvība un Analīze">
-<meta property="og:description" content="6. Tēma — Datu pastāvība un Analīze — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_6/prog1_6main">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="6. Tēma — Datu pastāvība un Analīze">
-<meta name="twitter:description" content="6. Tēma — Datu pastāvība un Analīze — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "6. Tēma — Datu pastāvība un Analīze", "description": "6. Tēma — Datu pastāvība un Analīze — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_6/prog1_6main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
-</script>
+<meta property="og:description" content="Prog I 6. tēma: failu I/O, CSV, JSON. Projekts: Quiz spēle ar Highscore.">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_6/prog1_6main"><meta property="og:image" content="https://ebskola.lv/og-image.svg">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="6. Tēma — Datu pastāvība un Analīze">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="manifest" href="../../manifest.json"><meta name="theme-color" content="#222831">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"6. Tēma — Datu pastāvība","description":"Python failu I/O, CSV un JSON datu formāti, datu analīze un vizualizācija. Projekts: Quiz ar Highscore.","inLanguage":"lv","url":"https://ebskola.lv/programmesana1/prog1_6/prog1_6main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-</head>
-<body class="has-sidebar">
+</head><body class="page-home">
 
-<aside class="sidebar-nav">
-  <h3>ebskola</h3>
-  <a class="active" href="/programmesana1/prog1_6/prog1_6main">6. Tēmas apkopojums + Špikeris</a>
-  <a href="/programmesana1/prog1_6/prog1_61">6.1 Failu I/O</a>
-  <a href="/programmesana1/prog1_6/prog1_62">6.2 Digitālais rīks</a>
-  <a href="/programmesana1/prog1_6/prog1_63">6.3 Datu transformācija</a>
-  <a href="/programmesana1/prog1_6/prog1_64">6.4 Rezultātu tabulas</a>
-  <a href="/programmesana1/prog1_6/prog1_65">6.5 Analīze un Vizualizācija</a>
-  <a href="/programmesana1/prog1_6/prog1_66">6.6 Noslēguma projekts: Quiz spēle ar Highscore</a>
-</aside>
+<header class="topbar"><div class="wrap row">
+  <a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
+  <nav class="nav">
+    <a href="/programmesana1/programmesana1">Prog I</a>
+    <a href="/programmesana1/prog1_5/prog1_5main">5. Tēma</a>
+    <a href="/programmesana1/prog1_6/prog1_6main" aria-current="page">6. Tēma</a>
+    <a href="/programmesana1/prog1_7/prog1_7main">7. Tēma</a>
+    <a href="/sasnRez">rezultāti</a><a href="/paligm">palīgmateriāli</a>
+  </nav>
+  <div class="spacer"></div>
+  <a class="btn primary" href="/programmesana1/prog1_6/prog1_61">sākt stundu <span class="caret">→</span></a>
+</div></header>
 
-<nav class='galvenaisdiv'>
-    <a href="/">Tēmas</a>
-    <a href="/sasnRez">Sasniedzamie rezultāti</a>
-    <a href="/paligm">Palīgmateriāli</a>
-</nav>
-
-<section class='section'>
-    <h1>6. Tēma — Datu pastāvība un Analīze</h1>
-    
-    <div class="info-box">
-        <h3>Par šo tēmu</h3>
-        <p>Šajā tēmā mēs šķiram jaunu lapaspusi programmatūras izstrādē — pārejam no īslaicīgas atmiņas uz datu pastāvību. Tu iemācīsies, kā nodrošināt, lai spēlētāja progress un sasniegumi nepazustu pēc programmas aizvēršanas. Galvenais uzsvars tiek likts uz <b>failu apstrādi (I/O)</b> un koda pilnīgu nodalīšanu no satura.</p>
-        
-        <p>Mēs apgūsim darbu ar dažādiem failu formātiem: <b>.txt</b> vienkāršām piezīmēm, <b>.csv</b> tabulāriem datiem un <b>.json</b> sarežģītām datu struktūrām. Tu iemācīsies izmantot <code class="language-python">with open()</code> konstrukciju drošai failu pārvaldībai un sapratīsi, kāpēc strukturēti dati ir pamats jebkurai mūsdienu lietotnei.</p>
-        
-        <p>Tēmas ietvaros mēs integrēsim izklājlapas (<b>Google Sheets</b>) kā rīku jautājumu satura plānošanai un eksportēšanai. Noslēgumā pievērsīsimies datu analīzei un <b>vizualizācijai</b>, iemācoties uzkrātos rezultātus (piemēram, <i>Highscores</i> tabulu) pārvērst saprotamās diagrammās. Šī kursa kulminācija būs spēle <b>"Quiz spēle ar Highscore"</b>, kuras jautājumi tiek dinamiski ielādēti no JSON faila, bet labākie rezultāti tiek saglabāti CSV failā, lai nepazustu pēc programmas aizvēršanas.</p>
+<section class="hero"><div class="wrap">
+  <div class="eyebrow"><span class="dot"></span><span>Prog I · 6. tēma · 6 stundas</span><span class="ver">— Python · CSV · JSON · faili</span></div>
+  <div class="hero-grid">
+    <div>
+      <h1 class="headline">Datu <span class="accent">pastāvība</span> <span class="slash">//</span><br>un analīze</h1>
+      <p class="lede">Saglabā un nolasi datus failos starp programmām. Apgūsti <code>CSV</code> un <code>JSON</code> — pamatu jebkurai datu lietotnei.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="/programmesana1/prog1_6/prog1_61"><span>›</span> Sākt 6.1 stundu</a>
+        <a class="btn" href="/programmesana1/prog1_6/prog1_66">Noslēguma projekts <span class="caret">→</span></a>
+      </div>
+      <div class="hero-meta">
+        <span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
+        <span class="m"><span class="sw kw"></span> <b>CSV</b> · JSON · open()</span>
+        <span class="m"><span class="sw fn"></span> <b>Quiz + Highscore</b></span>
+      </div>
     </div>
-</section>
+    <div>
+      <div class="editor" aria-hidden="true">
+        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog1_6/</em>quiz.py</span></div>
+        <div class="tabs"><span class="tab active"><span class="ic">●</span> quiz.py</span><span class="tab">highscore.csv</span><span class="spacer"></span></div>
+        <div class="body">
+          <div class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11</div>
+          <div class="code"><span class="tok-kw">import</span> <span class="tok-typ">csv</span>, <span class="tok-typ">json</span>
 
-<section class='section'>
-    <h2>Tēmas saturs (Stundu plāns)</h2>
-    
-    <div class="logic-box">
-        <ul class="step-list">
-            <li><a href="/programmesana1/prog1_6/prog1_61"><b>1. stunda:</b> Failu lasīšana un rakstīšana (txt, csv, json)</a></li>
-            <li><a href="/programmesana1/prog1_6/prog1_62"><b>2. stunda:</b> Digitālais rīks: Google Sheets un stāsta eksports</a></li>
-            <li><a href="/programmesana1/prog1_6/prog1_63"><b>3. stunda:</b> Datu tīrīšana un transformācija Python vidē</a></li>
-            <li><a href="/programmesana1/prog1_6/prog1_64"><b>4. stunda:</b> Rezultātu tabulas (Highscores) un datu pastāvība</a></li>
-            <li><a href="/programmesana1/prog1_6/prog1_65"><b>5. stunda:</b> Datu vizualizācija un spēlētāju analīze</a></li>
-            <li><a href="/programmesana1/prog1_6/prog1_66"><b>6. stunda:</b> Noslēguma projekts: Quiz spēle ar Highscore</a></li>
-        </ul>
+<span class="tok-kw">def</span> <span class="tok-fn">saglabāt</span>(vārds, punkti):
+    <span class="tok-kw">with</span> <span class="tok-fn">open</span>(<span class="tok-str">"highscore.csv"</span>, <span class="tok-str">"a"</span>,
+              newline<span class="tok-op">=</span><span class="tok-str">""</span>) <span class="tok-kw">as</span> f:
+        <span class="tok-typ">csv</span>.<span class="tok-fn">writer</span>(f).<span class="tok-fn">writerow</span>(
+            [vārds, punkti])
+
+<span class="tok-kw">def</span> <span class="tok-fn">ielādēt</span>(ceļš):
+    <span class="tok-kw">with</span> <span class="tok-fn">open</span>(ceļš, encoding<span class="tok-op">=</span><span class="tok-str">"utf-8"</span>) <span class="tok-kw">as</span> f:
+        <span class="tok-kw">return</span> <span class="tok-typ">json</span>.<span class="tok-fn">load</span>(f)<span class="cursor"></span></div>
+        </div>
+        <div class="statusbar"><span class="ok">● palaists</span><span>Python 3.12</span><span class="spacer"></span><span>UTF-8</span></div>
+      </div>
     </div>
-</section>
+  </div>
+</div></section>
 
-<section class='section'>
-    <h2>Papildus resursi</h2>
-    <div class="logic-box">
-        <p>Aizmirsi, kā atvērt failu lasīšanai, vai kā atšķiras JSON no CSV? Ieskaties ātrajā uzziņu materiālā:</p>
-        <a href="/paligm">6. tēmas Špikeri (Failu I/O un Dati)</a>
+<section id="stundas"><div class="wrap">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
+      <h2 class="sec-title">6 stundas — faili, CSV, JSON un analīze</h2>
     </div>
-</section>
+    <a class="sec-link" href="/programmesana1/prog1_6/prog1_66">noslēguma projekts <span>→</span></a>
+  </div>
+  <div class="projects">
 
-</body>
-</html>
+    <a class="project" href="/programmesana1/prog1_6/prog1_61">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="50" y="40" width="80" height="100" rx="4" fill="var(--surface)" stroke="var(--line)"/>
+          <text x="90" y="62" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">fails.txt</text>
+          <rect x="62" y="70" width="56" height="6" rx="2" fill="var(--muted)"/>
+          <rect x="62" y="82" width="46" height="6" rx="2" fill="var(--muted)"/>
+          <rect x="62" y="94" width="52" height="6" rx="2" fill="var(--muted)"/>
+          <line x1="130" y1="90" x2="155" y2="90" stroke="var(--kw)" stroke-width="2"/>
+          <rect x="155" y="65" width="110" height="50" rx="3" fill="var(--surface)" stroke="var(--kw)"/>
+          <text x="210" y="82" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">with open("f")</text>
+          <text x="210" y="96" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">as f:</text>
+          <text x="210" y="110" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">f.read()</text>
+          <text x="90" y="165" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">"r" lasīt · "w" rakstīt · "a" pievienot</text>
+        </svg>
+        <span class="label">// open() + with</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d kw"></span> Python · faili</span><span>I/O</span></div>
+        <h3>Failu lasīšana un rakstīšana</h3>
+        <p><code>open()</code> režīmi (<code>"r"/"w"/"a"</code>), <code>with</code> konteksta pārvaldnieks, teksta rindas, UTF-8.</p>
+        <div class="foot"><span>6.1 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_6/prog1_62">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="20" y="30" width="280" height="130" rx="4" fill="var(--surface)" stroke="var(--line)"/>
+          <rect x="20" y="30" width="280" height="22" rx="4" fill="var(--surface)"/>
+          <text x="160" y="46" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Google Sheets → CSV</text>
+          <line x1="20" y1="60" x2="300" y2="60" stroke="var(--line-soft)"/>
+          <text x="60" y="76" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">vārds</text>
+          <text x="140" y="76" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">punkti</text>
+          <text x="220" y="76" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">datums</text>
+          <line x1="20" y1="82" x2="300" y2="82" stroke="var(--line-soft)"/>
+          <text x="60" y="98" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Anna</text>
+          <text x="140" y="98" font-family="monospace" font-size="8" fill="var(--num)" text-anchor="middle">85</text>
+          <text x="60" y="116" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Jānis</text>
+          <text x="140" y="116" font-family="monospace" font-size="8" fill="var(--num)" text-anchor="middle">92</text>
+          <rect x="210" y="140" width="80" height="14" rx="3" fill="var(--kw)"/>
+          <text x="250" y="151" font-family="monospace" font-size="7" fill="var(--bg)" text-anchor="middle">Eksportēt CSV</text>
+        </svg>
+        <span class="label">// Google Sheets</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d typ"></span> Google Sheets</span><span>digitālie rīki</span></div>
+        <h3>Digitālais rīks: Google Sheets</h3>
+        <p>Datu vākšana Sheets, eksportēšana CSV, ielāde Python ar <code>csv.reader()</code>, datu apstrāde.</p>
+        <div class="foot"><span>6.2 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_6/prog1_63">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="20" y="40" width="80" height="70" rx="4" fill="var(--surface)" stroke="var(--str)"/>
+          <text x="60" y="58" font-family="monospace" font-size="7" fill="var(--str)" text-anchor="middle">Neapstrādāti</text>
+          <text x="28" y="74" font-family="monospace" font-size="7" fill="var(--muted)">Anna, 85</text>
+          <text x="28" y="87" font-family="monospace" font-size="7" fill="var(--muted)"> , 92</text>
+          <text x="28" y="100" font-family="monospace" font-size="7" fill="var(--muted)">Jānis,,</text>
+          <rect x="120" y="50" width="60" height="50" rx="4" fill="var(--surface)" stroke="var(--line)"/>
+          <text x="150" y="68" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">filter()</text>
+          <text x="150" y="82" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">strip()</text>
+          <text x="150" y="96" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">sorted()</text>
+          <rect x="200" y="40" width="80" height="70" rx="4" fill="var(--surface)" stroke="var(--kw)"/>
+          <text x="240" y="58" font-family="monospace" font-size="7" fill="var(--kw)" text-anchor="middle">Tīri dati</text>
+          <text x="208" y="74" font-family="monospace" font-size="7" fill="var(--kw)">Anna 85</text>
+          <text x="208" y="87" font-family="monospace" font-size="7" fill="var(--kw)">Jānis 92</text>
+        </svg>
+        <span class="label">// filter + sorted</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d fn"></span> Python · filter</span><span>transformācija</span></div>
+        <h3>Datu tīrīšana un transformācija</h3>
+        <p><code>strip()</code>, <code>filter()</code>, <code>sorted(key=lambda)</code>, <code>None</code> vērtību apstrāde.</p>
+        <div class="foot"><span>6.3 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_6/prog1_64">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="20" y="20" width="280" height="155" rx="4" fill="var(--surface)" stroke="var(--line)"/>
+          <rect x="20" y="20" width="280" height="22" rx="4" fill="var(--surface)"/>
+          <text x="160" y="36" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">TOP 5 Highscore</text>
+          <text x="40" y="58" font-family="monospace" font-size="9" fill="var(--str)">🥇</text><text x="64" y="58" font-family="monospace" font-size="9" fill="var(--muted)">Anna</text><text x="270" y="58" font-family="monospace" font-size="9" fill="var(--num)" text-anchor="end">95</text>
+          <text x="40" y="76" font-family="monospace" font-size="9" fill="var(--fn)">🥈</text><text x="64" y="76" font-family="monospace" font-size="9" fill="var(--muted)">Pēteris</text><text x="270" y="76" font-family="monospace" font-size="9" fill="var(--num)" text-anchor="end">88</text>
+          <text x="40" y="94" font-family="monospace" font-size="9" fill="var(--muted)">🥉</text><text x="64" y="94" font-family="monospace" font-size="9" fill="var(--muted)">Marta</text><text x="270" y="94" font-family="monospace" font-size="9" fill="var(--num)" text-anchor="end">82</text>
+          <line x1="30" y1="104" x2="290" y2="104" stroke="var(--line-soft)"/>
+          <text x="64" y="120" font-family="monospace" font-size="9" fill="var(--muted)">Jānis</text><text x="270" y="120" font-family="monospace" font-size="9" fill="var(--muted)" text-anchor="end">75</text>
+          <text x="160" y="162" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">sorted(dati, key=lambda x: x[1], reverse=True)</text>
+        </svg>
+        <span class="label">// highscore.csv</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d str"></span> CSV · sorted</span><span>pastāvība</span></div>
+        <h3>Rezultātu tabulas un datu pastāvība</h3>
+        <p>Highscore CSV tabula, <code>sorted(key=lambda)</code>, TOP-N filtrēšana, CSV append un pārlasīšana.</p>
+        <div class="foot"><span>6.4 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_6/prog1_65">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <text x="30" y="36" font-family="monospace" font-size="8" fill="var(--muted)">Skoru vizualizācija</text>
+          <text x="30" y="58" font-family="monospace" font-size="8" fill="var(--muted)">Anna  </text>
+          <rect x="80" y="48" width="130" height="14" rx="2" fill="var(--kw)"/><text x="215" y="60" font-family="monospace" font-size="8" fill="var(--muted)">95</text>
+          <text x="30" y="80" font-family="monospace" font-size="8" fill="var(--muted)">Pēteris</text>
+          <rect x="80" y="70" width="100" height="14" rx="2" fill="var(--str)"/><text x="185" y="82" font-family="monospace" font-size="8" fill="var(--muted)">88</text>
+          <text x="30" y="102" font-family="monospace" font-size="8" fill="var(--muted)">Marta </text>
+          <rect x="80" y="92" width="80" height="14" rx="2" fill="var(--fn)"/><text x="165" y="104" font-family="monospace" font-size="8" fill="var(--muted)">82</text>
+          <text x="30" y="124" font-family="monospace" font-size="8" fill="var(--muted)">Jānis </text>
+          <rect x="80" y="114" width="65" height="14" rx="2" fill="var(--muted)"/><text x="150" y="126" font-family="monospace" font-size="8" fill="var(--muted)">75</text>
+          <text x="80" y="162" font-family="monospace" font-size="8" fill="var(--muted)">'█' * (punkti // 5)</text>
+        </svg>
+        <span class="label">// ASCII bar chart</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d typ"></span> vizualizācija</span><span>analīze</span></div>
+        <h3>Datu vizualizācija un analīze</h3>
+        <p>ASCII bāras diagramma terminālī, <code>min()</code>/<code>max()</code>/<code>sum()</code>, vidējā vērtība, matplotlib intro.</p>
+        <div class="foot"><span>6.5 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+    <a class="project" href="/programmesana1/prog1_6/prog1_66">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="24" y="22" width="272" height="154" rx="4" fill="#1c2128" stroke="var(--line)"/>
+          <rect x="40" y="62" width="118" height="78" rx="4" fill="var(--surface)" stroke="var(--line-soft)"/>
+          <rect x="52" y="74" width="72" height="7" rx="3" fill="var(--kw)"/>
+          <rect x="52" y="90" width="88" height="6" rx="3" fill="var(--muted)"/>
+          <rect x="52" y="108" width="70" height="6" rx="3" fill="var(--muted)"/>
+          <rect x="52" y="124" width="58" height="6" rx="3" fill="var(--str)"/>
+          <rect x="174" y="62" width="82" height="78" rx="4" fill="var(--surface)" stroke="var(--line-soft)"/>
+          <rect x="186" y="74" width="45" height="7" rx="3" fill="var(--typ)"/>
+          <line x1="186" y1="91" x2="244" y2="91" stroke="var(--line)"/>
+          <rect x="186" y="101" width="18" height="6" rx="2" fill="var(--fn)"/>
+          <rect x="214" y="101" width="28" height="6" rx="2" fill="var(--muted)"/>
+          <rect x="186" y="118" width="18" height="6" rx="2" fill="var(--fn)"/>
+          <rect x="214" y="118" width="20" height="6" rx="2" fill="var(--muted)"/>
+          <rect x="40" y="152" width="152" height="6" rx="3" fill="var(--kw)"/>
+          <rect x="202" y="152" width="54" height="6" rx="3" fill="var(--str)"/>
+        </svg>
+        <span class="label">$ python quiz.py</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d fn"></span> Python · JSON · CSV</span><span>projekts</span></div>
+        <h3>Noslēguma projekts: Quiz spēle ar Highscore</h3>
+        <p>Jautājumi no <code>JSON</code> faila, atbildes validācija, rezultāta saglabāšana <code>CSV</code>, TOP-5 highscore.</p>
+        <div class="foot"><span>6.6 projekts</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
+
+  </div>
+</div></section>
+
+<section id="spekeris"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">Failu I/O un CSV/JSON špikeris</h2>
+  </div></div>
+  <div class="logic-box">
+    <h3>Failu lasīšana, rakstīšana, CSV un JSON</h3>
+    <pre><code class="language-python">import csv, json
+
+# Teksta fails — lasīšana
+with open("dati.txt", "r", encoding="utf-8") as f:
+    saturs = f.read()
+
+# CSV — pievienot rindu
+with open("highscore.csv", "a", newline="") as f:
+    csv.writer(f).writerow(["Anna", 95])
+
+# CSV — nolasīt visu
+with open("highscore.csv", "r") as f:
+    dati = list(csv.reader(f))
+
+# JSON — saglabāt
+with open("jautajumi.json", "w", encoding="utf-8") as f:
+    json.dump({"jautajumi": [...]}, f, ensure_ascii=False, indent=2)
+
+# JSON — ielādēt
+with open("jautajumi.json", encoding="utf-8") as f:
+    dati = json.load(f)
+
+# TOP-5 highscore
+top5 = sorted(dati, key=lambda r: int(r[1]), reverse=True)[:5]</code></pre>
+  </div>
+</div></section>
+
+<section class="cta-strip"><div class="wrap"><div class="cta-panel">
+  <div class="cta-code">
+    <span><span class="prompt">$</span> python quiz.py <span class="muted"># JSON jautājumi + CSV highscore</span></span>
+    <span class="muted"># with open(...) garantē, ka fails vienmēr tiks aizvērts</span>
+  </div>
+  <div class="cta-actions">
+    <a class="btn primary large" href="/programmesana1/prog1_5/prog1_5main"><span>←</span> 5. Tēma</a>
+    <a class="btn large" href="/programmesana1/prog1_7/prog1_7main">7. Tēma <span class="caret">→</span></a>
+  </div>
+</div></div></section>
+</body></html>

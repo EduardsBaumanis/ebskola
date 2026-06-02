@@ -1,194 +1,327 @@
-<!DOCTYPE html>
-<html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html><html lang="lv"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>4. Tēma — Funkcijas un Modularitāte — ebSkola</title>
-<meta name="description" content="4. Tēma — Funkcijas un Modularitāte — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Prog I 4. tēma: Funkcijas, scope, modularitāte, PEP 8. Projekts: Skaitļu minētājs.">
+<meta name="author" content="Eduards Baumanis"><meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_4/prog1_4main">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
+<meta property="og:type" content="website"><meta property="og:locale" content="lv_LV"><meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="4. Tēma — Funkcijas un Modularitāte">
-<meta property="og:description" content="4. Tēma — Funkcijas un Modularitāte — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_4/prog1_4main">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4. Tēma — Funkcijas un Modularitāte">
-<meta name="twitter:description" content="4. Tēma — Funkcijas un Modularitāte — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "4. Tēma — Funkcijas un Modularitāte", "description": "4. Tēma — Funkcijas un Modularitāte — Programmēšana I — Python valoda, datu struktūras, algoritmi, OOP, datubāzes un web izstrāde.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_4/prog1_4main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
-</script>
+<meta property="og:description" content="Prog I 4. tēma: funkcijas, parametri, scope, modularitāte, PEP 8.">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_4/prog1_4main"><meta property="og:image" content="https://ebskola.lv/og-image.svg">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="4. Tēma — Funkcijas un Modularitāte">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="manifest" href="../../manifest.json"><meta name="theme-color" content="#222831">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"4. Tēma — Funkcijas un Modularitāte","description":"Python funkciju definēšana, parametri, return, scope, modularitāte un PEP 8 koda stils.","inLanguage":"lv","url":"https://ebskola.lv/programmesana1/prog1_4/prog1_4main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-</head>
-<body class="has-sidebar">
+</head><body class="page-home">
 
-<aside class="sidebar-nav">
-  <h3>ebskola</h3>
-  <a class="active" href="/programmesana1/prog1_4/prog1_4main">4. Tēmas apkopojums + Špikeris</a>
-  <a href="/programmesana1/prog1_4/prog1_41">4.1 Funkciju definēšana un parametri</a>
-  <a href="/programmesana1/prog1_4/prog1_42">4.2 Vērtību atgriešana (return)</a>
-  <a href="/programmesana1/prog1_4/prog1_43">4.3 Modularitāte un koda sadalīšana</a>
-  <a href="/programmesana1/prog1_4/prog1_44">4.4 Lokālie/globālie mainīgie un vārdnīcas</a>
-  <a href="/programmesana1/prog1_4/prog1_45">4.5 Spēles plānošana ar shēmām</a>
-  <a href="/programmesana1/prog1_4/prog1_46">4.6 Noslēguma projekts: Skaitļu minētājs</a>
-</aside>
+<header class="topbar"><div class="wrap row">
+  <a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
+  <nav class="nav">
+    <a href="/programmesana1/programmesana1">Prog I</a>
+    <a href="/programmesana1/prog1_3/prog1_3main">3. Tēma</a>
+    <a href="/programmesana1/prog1_4/prog1_4main" aria-current="page">4. Tēma</a>
+    <a href="/programmesana1/prog1_5/prog1_5main">5. Tēma</a>
+    <a href="/sasnRez">rezultāti</a><a href="/paligm">palīgmateriāli</a>
+  </nav>
+  <div class="spacer"></div>
+  <a class="btn primary" href="/programmesana1/prog1_4/prog1_41">sākt stundu <span class="caret">→</span></a>
+</div></header>
 
-<nav class='galvenaisdiv'>
-    <a href="/">Tēmas</a>
-    <a href="/sasnRez">Sasniedzamie rezultāti</a>
-    <a href="/paligm">Palīgmateriāli</a>
-</nav>
-
-<section class='section'>
-    <h1>4. Tēma — Funkcijas un Modularitāte</h1>
-    
-    <div class="info-box">
-        <h3>Par šo tēmu</h3>
-        <p>Šajā tēmā mēs apgūstam "skaldi un valdi" principu programmēšanā. Tu iemācīsies sadalīt sarežģītus uzdevumus mazākos, vieglāk pārvaldāmos apakšuzdevumos, izveidojot savu pirmo terminālī spēlējamo spēli <b>"Skaitļu minētājs"</b>. Galvenais uzsvars tiek likts uz koda atkārtotu izmantošanu un loģisku struktūru, kas spēlei ļaus aprēķināt mēģinājumus, dot mājienus un sākt jaunu spēli.</p>
-
-        <p>Tiek ieviests funkciju jēdziens: kā tās definēt, kā nodot tām informāciju caur parametriem un kā saņemt atpakaļ rezultātu, izmantojot <code class="language-python">return</code>. Tu izpratīsi atšķirību starp lokālajiem un globālajiem mainīgajiem (<i>scope</i>), iemācoties izvairīties no biežākajām kļūdām datu pieejamībā, kas rodas, programmai kļūstot apjomīgākai.</p>
-
-        <p>Tēmas noslēgumā mēs pāriesim pie modularitātes — koda sadalīšanas vairākos failos (<code class="language-python">.py</code> moduļos), kas ir obligāta prasme lielu projektu izstrādē. Īpaša vērība tiek pievērsta <b>PEP 8</b> vadlīnijām, nodrošinot, ka kods ir ne tikai funkcionāls, bet arī profesionāli noformēts. Spēles izstrāde sāksies ar algoritma plānošanu shēmā, pārvēršot katru spēles soli atsevišķā, loģiskā funkcijā (piem., <code class="language-python">izveido_skaitli()</code>, <code class="language-python">salidzina_atbildi()</code>, <code class="language-python">parada_rezultatu()</code>).</p>
+<section class="hero"><div class="wrap">
+  <div class="eyebrow"><span class="dot"></span><span>Prog I · 4. tēma · 6 stundas</span><span class="ver">— Python · funkcijas · modularitāte</span></div>
+  <div class="hero-grid">
+    <div>
+      <h1 class="headline">Funkcijas <span class="slash">//</span><br>un <span class="accent">modularitāte</span></h1>
+      <p class="lede">Iemācies sadalīt programmu pārskatāmos blokos ar <code>def</code>. Apgūsti parametrus, <code>return</code>, <code>scope</code> un koda sadalīšanu moduļos.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="/programmesana1/prog1_4/prog1_41"><span>›</span> Sākt 4.1 stundu</a>
+        <a class="btn" href="/programmesana1/prog1_4/prog1_46">Noslēguma projekts <span class="caret">→</span></a>
+      </div>
+      <div class="hero-meta">
+        <span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
+        <span class="m"><span class="sw kw"></span> <b>def</b> · return · scope</span>
+        <span class="m"><span class="sw fn"></span> <b>Skaitļu minētājs</b></span>
+      </div>
     </div>
-</section>
+    <div>
+      <div class="editor" aria-hidden="true">
+        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog1_4/</em>spele_logika.py</span></div>
+        <div class="tabs"><span class="tab active"><span class="ic">●</span> spele_logika.py</span><span class="tab">main.py</span><span class="spacer"></span></div>
+        <div class="body">
+          <div class="gutter">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11</div>
+          <div class="code"><span class="tok-kw">def</span> <span class="tok-fn">pārbaudīt</span>(
+        <span class="tok-op">minējums</span>: <span class="tok-typ">int</span>,
+        <span class="tok-op">slepenais</span>: <span class="tok-typ">int</span>) <span class="tok-op">-></span> <span class="tok-typ">str</span>:
+    <span class="tok-str">"""Atgriež padomu."""</span>
+    <span class="tok-kw">if</span> minējums <span class="tok-op">==</span> slepenais:
+        <span class="tok-kw">return</span> <span class="tok-str">"Pareizi! 🎉"</span>
+    <span class="tok-kw">elif</span> minējums <span class="tok-op">&lt;</span> slepenais:
+        <span class="tok-kw">return</span> <span class="tok-str">"Augstāk ↑"</span>
+    <span class="tok-kw">return</span> <span class="tok-str">"Zemāk ↓"</span>
 
-<section class='section'>
-    <h2>Tēmas saturs (Stundu plāns)</h2>
-    
-    <div class="logic-box">
-        <ul class="step-list">
-            <li><a href="/programmesana1/prog1_4/prog1_41"><b>1. stunda:</b> Funkciju definēšana un parametri</a></li>
-            <li><a href="/programmesana1/prog1_4/prog1_42"><b>2. stunda:</b> Mainīgo redzamība (Scope) un return</a></li>
-            <li><a href="/programmesana1/prog1_4/prog1_43"><b>3. stunda:</b> Modularitāte: Koda sadalīšana failos</a></li>
-            <li><a href="/programmesana1/prog1_4/prog1_44"><b>4. stunda:</b> PEP 8 un koda struktūras higiēna</a></li>
-            <li><a href="/programmesana1/prog1_4/prog1_45"><b>5. stunda:</b> Spēles plānošana ar algoritmu shēmām</a></li>
-            <li><a href="/programmesana1/prog1_4/prog1_46"><b>6. stunda:</b> Noslēguma projekts: Skaitļu minētājs</a></li>
-        </ul>
+<span class="tok-fn">print</span>(<span class="tok-fn">pārbaudīt</span>(<span class="tok-num">42</span>, <span class="tok-num">67</span>))<span class="cursor"></span></div>
+        </div>
+        <div class="statusbar"><span class="ok">● palaists</span><span>Python 3.12</span><span class="spacer"></span><span>UTF-8</span></div>
+      </div>
+      <div class="hero-badges">
+        <span class="badge"><span class="d kw"></span> def · parametri · return</span>
+        <span class="badge"><span class="d str"></span> type hints · docstring</span>
+        <span class="badge"><span class="d typ"></span> modularitāte · PEP 8</span>
+      </div>
     </div>
-</section>
+  </div>
+</div></section>
 
-<section class='section'>
-    <h2>4. tēmas špikeris</h2>
-    <p>Šeit apkopota svarīgākā Python sintakse un pamatprincipi par funkcijām, koda dalīšanu moduļos un datu struktūrām.</p>
-
-    <div class="logic-box">
-        <h3>▸ Funkcijas (Koda receptes)</h3>
-        <p>Funkcijas ļauj sagrupēt kodu, lai to varētu izmantot atkārtoti. Atslēgvārds <code>return</code> atdod aprēķina rezultātu atpakaļ galvenajai programmai.</p>
-        <pre><code class="language-python"># Funkcijas definēšana (ar 2 parametriem)
-def saskaiti(a, b):
-    summa = a + b
-    return summa  # Atdod vērtību un beidz funkcijas darbu
-
-# Funkcijas izsaukšana un rezultāta saglabāšana
-rezultats = saskaiti(10, 5)
-print(rezultats) # Izvada: 15</code></pre>
+<section id="stundas"><div class="wrap">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
+      <h2 class="sec-title">6 stundas — no def līdz moduļiem</h2>
+      <p class="sec-sub">Apgūsti funkciju izveidi, parametrus, vērtību atgriešanu, scope noteikumus un koda organizēšanu failos.</p>
     </div>
+    <a class="sec-link" href="/programmesana1/prog1_4/prog1_46">noslēguma projekts <span>→</span></a>
+  </div>
+  <div class="projects">
 
-    <div class="logic-box">
-        <h3>▸ Vārdnīcas (Dictionaries)</h3>
-        <p>Datu struktūra, kas glabā informāciju pāros: <b>Atslēga (Key) : Vērtība (Value)</b>.</p>
-        <pre><code class="language-python"># Vārdnīcas izveide (iekavās {})
-speletajs = {"vards": "Anna", "punkti": 100, "limenis": 5}
+    <a class="project" href="/programmesana1/prog1_4/prog1_41">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="100" y="30" width="120" height="50" rx="4" fill="var(--surface)" stroke="var(--kw)"/>
+          <text x="160" y="53" font-family="monospace" font-size="9" fill="var(--kw)" text-anchor="middle">def aprēķināt(a, b)</text>
+          <text x="160" y="68" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">parametri</text>
+          <line x1="50" y1="85" x2="100" y2="55" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="270" y1="85" x2="220" y2="55" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <rect x="20" y="85" width="70" height="30" rx="3" fill="var(--surface)" stroke="var(--line-soft)"/>
+          <text x="55" y="104" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">aprēķināt(3,5)</text>
+          <rect x="230" y="85" width="70" height="30" rx="3" fill="var(--surface)" stroke="var(--line-soft)"/>
+          <text x="265" y="104" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">aprēķināt(10,2)</text>
+          <line x1="160" y1="80" x2="160" y2="130" stroke="var(--fn)" stroke-width="2"/>
+          <rect x="110" y="130" width="100" height="30" rx="3" fill="var(--surface)" stroke="var(--fn)"/>
+          <text x="160" y="150" font-family="monospace" font-size="9" fill="var(--fn)" text-anchor="middle">return rezultāts</text>
+        </svg>
+        <span class="label">// def funkcija</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d kw"></span> Python · def</span><span>funkcijas</span></div>
+        <h3>Funkciju definēšana un parametri</h3>
+        <p><code>def</code> atslēgvārds, parametri un argumenti, noklusētās vērtības, type hints <code>def f(x: int) -> str</code>.</p>
+        <div class="foot"><span>4.1 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
 
-# Piekļūšana vērtībai pēc tās atslēgas
-print(speletajs["vards"])  # Izvada: Anna
+    <a class="project" href="/programmesana1/prog1_4/prog1_42">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="20" y="20" width="280" height="160" rx="4" fill="var(--surface)" stroke="var(--line-soft)"/>
+          <text x="160" y="42" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Globālais scope</text>
+          <rect x="80" y="55" width="160" height="100" rx="4" fill="var(--surface)" stroke="var(--line)"/>
+          <text x="160" y="74" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">Funkcijas scope</text>
+          <text x="160" y="92" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">lokāls_mainīgais</text>
+          <line x1="160" y1="100" x2="160" y2="125" stroke="var(--fn)" stroke-width="2"/>
+          <rect x="105" y="125" width="110" height="22" rx="3" fill="var(--surface)" stroke="var(--fn)"/>
+          <text x="160" y="140" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">return vērtība</text>
+          <text x="50" y="140" font-family="monospace" font-size="8" fill="var(--muted)">globāls</text>
+          <text x="240" y="140" font-family="monospace" font-size="8" fill="var(--muted)">mainīgais</text>
+        </svg>
+        <span class="label">// scope LEGB</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d str"></span> Python · scope</span><span>mainīgie</span></div>
+        <h3>Mainīgo redzamība (Scope) un return</h3>
+        <p>LEGB kārtula — Local → Enclosing → Global → Built-in, <code>return</code> vērtības, vairāki return.</p>
+        <div class="foot"><span>4.2 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
 
-# Vērtības mainīšana vai jaunas atslēgas pievienošana
-speletajs["punkti"] -= 10      # Atņem 10 punktus no esošās vērtības
-speletajs["bonuss"] = 50       # Pievieno jaunu atslēgu un vērtību</code></pre>
-    </div>
+    <a class="project" href="/programmesana1/prog1_4/prog1_43">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="110" y="20" width="100" height="40" rx="4" fill="var(--surface)" stroke="var(--kw)"/>
+          <text x="160" y="38" font-family="monospace" font-size="9" fill="var(--kw)" text-anchor="middle">main.py</text>
+          <text x="160" y="52" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">import spele_logika</text>
+          <line x1="90" y1="60" x2="60" y2="95" stroke="var(--str)" stroke-width="1.5"/>
+          <line x1="160" y1="60" x2="160" y2="95" stroke="var(--kw)" stroke-width="1.5"/>
+          <line x1="230" y1="60" x2="260" y2="95" stroke="var(--fn)" stroke-width="1.5"/>
+          <rect x="20" y="95" width="80" height="35" rx="3" fill="var(--surface)" stroke="var(--str)"/>
+          <text x="60" y="112" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">utils.py</text>
+          <text x="60" y="123" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">palīgfunkcijas</text>
+          <rect x="120" y="95" width="80" height="35" rx="3" fill="var(--surface)" stroke="var(--kw)"/>
+          <text x="160" y="112" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">spele_logika.py</text>
+          <text x="160" y="123" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">spēles funkcijas</text>
+          <rect x="220" y="95" width="80" height="35" rx="3" fill="var(--surface)" stroke="var(--fn)"/>
+          <text x="260" y="112" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">dati.py</text>
+          <text x="260" y="123" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">datu struktūras</text>
+        </svg>
+        <span class="label">// import moduļi</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d fn"></span> Python · import</span><span>modularitāte</span></div>
+        <h3>Modularitāte: Koda sadalīšana failos</h3>
+        <p>Programmas sadalīšana moduļos, <code>import</code>, <code>from module import func</code>, <code>if __name__ == "__main__"</code>.</p>
+        <div class="foot"><span>4.3 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
 
-    <div class="logic-box">
-        <h3>▸ Mainīgo tvērums (Scope)</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Tvērums</th>
-                    <th>Kur atrodas?</th>
-                    <th>Pieejamība programmā</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><b>Lokālais</b> (Local)</td>
-                    <td>Definēts <b>funkcijas iekšpusē</b>.</td>
-                    <td>Eksistē tikai šajā konkrētajā funkcijā. Ārpus tās nav pieejams (izraisīs <i>NameError</i>).</td>
-                </tr>
-                <tr>
-                    <td><b>Globālais</b> (Global)</td>
-                    <td>Definēts <b>ārpus</b> visām funkcijām.</td>
-                    <td>Redzams un pieejams lasīšanai visā koda failā.</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <a class="project" href="/programmesana1/prog1_4/prog1_44">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="20" y="20" width="130" height="120" rx="4" fill="var(--surface)" stroke="var(--str)"/>
+          <text x="85" y="38" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">❌ Pirms PEP 8</text>
+          <text x="30" y="58" font-family="monospace" font-size="8" fill="var(--muted)">x=5+3</text>
+          <text x="30" y="74" font-family="monospace" font-size="8" fill="var(--muted)">def myFunc():</text>
+          <text x="30" y="90" font-family="monospace" font-size="8" fill="var(--muted)">  A=input()</text>
+          <text x="30" y="106" font-family="monospace" font-size="8" fill="var(--muted)">  return A</text>
+          <rect x="170" y="20" width="130" height="120" rx="4" fill="var(--surface)" stroke="var(--kw)"/>
+          <text x="235" y="38" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">✓ Pēc PEP 8</text>
+          <text x="180" y="58" font-family="monospace" font-size="8" fill="var(--kw)">x = 5 + 3</text>
+          <text x="180" y="74" font-family="monospace" font-size="8" fill="var(--kw)">def my_func():</text>
+          <text x="180" y="90" font-family="monospace" font-size="8" fill="var(--muted)">    """Docs."""</text>
+          <text x="180" y="106" font-family="monospace" font-size="8" fill="var(--kw)">    a = input()</text>
+          <text x="180" y="122" font-family="monospace" font-size="8" fill="var(--kw)">    return a</text>
+        </svg>
+        <span class="label">// PEP 8 stils</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d typ"></span> Python · PEP 8</span><span>koda stils</span></div>
+        <h3>PEP 8 un koda struktūras higiēna</h3>
+        <p>PEP 8 noteikumi: <code>snake_case</code>, atstarpes ap operatoriem, 4 atstarpes indentācijai, docstrings.</p>
+        <div class="foot"><span>4.4 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
 
-    <div class="logic-box">
-        <h3>▸ Modularitāte (Koda importēšana)</h3>
-        <p>Kā savienot vairākus <code>.py</code> failus (moduļus) vienā lielā projektā.</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Komanda</th>
-                    <th>Kā darbojas?</th>
-                    <th>Kā izsaukt funkciju?</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code class="language-python">import kauja</code></td>
-                    <td>Ielādē visu moduli (failu <code class="language-python">kauja.py</code>). Drošākais veids.</td>
-                    <td>Jālieto faila vārds kā prefikss: <code class="language-python">kauja.uzbrukums()</code></td>
-                </tr>
-                <tr>
-                    <td><code class="language-python">from kauja import uzbrukums</code></td>
-                    <td>Ielādē tikai vienu konkrētu funkciju no faila.</td>
-                    <td>Var saukt pa tiešo: <code class="language-python">uzbrukums()</code></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <a class="project" href="/programmesana1/prog1_4/prog1_45">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="120" y="20" width="80" height="30" rx="20" fill="var(--surface)" stroke="var(--kw)"/>
+          <text x="160" y="40" font-family="monospace" font-size="9" fill="var(--kw)" text-anchor="middle">SĀKUMS</text>
+          <line x1="160" y1="50" x2="160" y2="70" stroke="var(--muted)" stroke-width="1.5"/>
+          <rect x="115" y="70" width="90" height="30" rx="3" fill="var(--surface-raised)" stroke="var(--line)"/>
+          <text x="160" y="90" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">ievadīt minējumu</text>
+          <line x1="160" y1="100" x2="160" y2="118" stroke="var(--muted)" stroke-width="1.5"/>
+          <polygon points="160,118 200,138 160,158 120,138" fill="var(--surface)" stroke="var(--fn)"/>
+          <text x="160" y="142" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">pareizi?</text>
+          <line x1="120" y1="138" x2="60" y2="138" stroke="var(--muted)" stroke-width="1.5"/>
+          <text x="85" y="128" font-family="monospace" font-size="7" fill="var(--str)">nē</text>
+          <line x1="200" y1="138" x2="260" y2="138" stroke="var(--muted)" stroke-width="1.5"/>
+          <text x="225" y="128" font-family="monospace" font-size="7" fill="var(--kw)">jā</text>
+          <rect x="230" y="125" width="50" height="26" rx="20" fill="var(--surface)" stroke="var(--kw)"/>
+          <text x="255" y="142" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">BEIGAS</text>
+        </svg>
+        <span class="label">// algoritma shēma</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d str"></span> plānošana</span><span>dizains</span></div>
+        <h3>Spēles plānošana ar algoritmu shēmām</h3>
+        <p>Plūsmas diagrammas pirms kodēšanas — loģikas vizualizācija, pseido-kods, soļu saraksts.</p>
+        <div class="foot"><span>4.5 stunda</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
 
-    <div class="logic-box">
-        <h3>▸ Algoritmu plānošanas simboli</h3>
-        <p>Kā vizuālās plānošanas shēmas elementi pārtop reālā Python kodā.</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Simbols</th>
-                    <th>Nozīme vizuālajā shēmā</th>
-                    <th>Atbilstība Python kodā</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><b>[ ] Taisnstūris</b></td>
-                    <td>Darbība / Lokācija / Stāsta istaba</td>
-                    <td><b>Funkcija</b> (piem., <code class="language-python">def pils_varti():</code>)</td>
-                </tr>
-                <tr>
-                    <td><b>&lt; &gt; Rombs</b></td>
-                    <td>Lēmums / Jautājums spēlētājam</td>
-                    <td><code class="language-python">input()</code> un <b>If/Else</b> zarošanās bloks</td>
-                </tr>
-                <tr>
-                    <td><b>&rarr; Bulta</b></td>
-                    <td>Plūsmas virziens uz nākamo soli</td>
-                    <td><b>Citas funkcijas izsaukšana</b></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
+    <a class="project" href="/programmesana1/prog1_4/prog1_46">
+      <div class="preview">
+        <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="320" height="200" fill="var(--bg)"/>
+          <rect x="24" y="22" width="272" height="154" rx="4" fill="#1c2128" stroke="var(--line)"/>
+          <rect x="24" y="22" width="272" height="23" rx="4" fill="var(--surface)"/>
+          <rect x="40" y="62" width="118" height="78" rx="4" fill="var(--surface)" stroke="var(--line-soft)"/>
+          <rect x="52" y="74" width="72" height="7" rx="3" fill="var(--kw)"/>
+          <rect x="52" y="90" width="88" height="5" rx="2" fill="var(--muted)"/>
+          <rect x="52" y="103" width="70" height="5" rx="2" fill="var(--str)"/>
+          <rect x="174" y="62" width="82" height="78" rx="4" fill="var(--surface)" stroke="var(--line-soft)"/>
+          <rect x="186" y="74" width="45" height="7" rx="3" fill="var(--typ)"/>
+          <rect x="186" y="100" width="28" height="5" rx="2" fill="var(--fn)"/>
+          <rect x="186" y="116" width="28" height="5" rx="2" fill="var(--fn)"/>
+          <rect x="186" y="132" width="52" height="5" rx="2" fill="var(--str)"/>
+          <rect x="40" y="152" width="152" height="5" rx="2" fill="var(--kw)"/>
+          <rect x="202" y="152" width="54" height="5" rx="2" fill="var(--str)"/>
+        </svg>
+        <span class="label">$ python skaitlu_minetajs.py</span>
+      </div>
+      <div class="body">
+        <div class="meta-top"><span class="lang"><span class="d fn"></span> Python · funkcijas</span><span>projekts</span></div>
+        <h3>Noslēguma projekts: Skaitļu minētājs</h3>
+        <p>Spēle sadalīta moduļos — <code>spele_logika.py</code>, <code>main.py</code>. Funkcijas, parametri, return, PEP 8.</p>
+        <div class="foot"><span>4.6 projekts</span><span class="open">atvērt ↗</span></div>
+      </div>
+    </a>
 
-</body>
-</html>
+  </div>
+</div></section>
+
+<section id="spekeris"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">4. tēmas funkciju špikeris</h2>
+  </div></div>
+  <div class="logic-box">
+    <h3>Funkciju pamatsintakse</h3>
+    <pre><code class="language-python"># Pamata funkcija ar type hints un docstring
+def aprēķināt_vidējo(skaitļi: list[float]) -> float:
+    """Atgriež saraksta vidējo vērtību."""
+    if not skaitļi:
+        return 0.0
+    return sum(skaitļi) / len(skaitļi)
+
+# Noklusētie parametri
+def sveikt(vārds: str, valoda: str = "lv") -> str:
+    if valoda == "lv":
+        return f"Sveiks, {vārds}!"
+    return f"Hello, {vārds}!"
+
+# Vairāki return vērtības (kā tuple)
+def dalīt(a: int, b: int) -> tuple[int, int]:
+    return a // b, a % b  # dalījums, atlikums
+
+dalījums, atlikums = dalīt(17, 5)  # unpacking</code></pre>
+  </div>
+  <div class="logic-box">
+    <h3>Modularitāte — koda sadalīšana failos</h3>
+    <pre><code class="language-python"># spele_logika.py
+def pārbaudīt(minējums: int, slepenais: int) -> str:
+    if minējums == slepenais:
+        return "Pareizi!"
+    return "Augstāk ↑" if minējums < slepenais else "Zemāk ↓"
+
+# main.py
+from spele_logika import pārbaudīt
+import random
+
+slepenais = random.randint(1, 100)
+while True:
+    minējums = int(input("Minē (1-100): "))
+    rezultāts = pārbaudīt(minējums, slepenais)
+    print(rezultāts)
+    if rezultāts == "Pareizi!":
+        break</code></pre>
+  </div>
+</div></section>
+
+<section class="cta-strip"><div class="wrap"><div class="cta-panel">
+  <div class="cta-code">
+    <span><span class="prompt">$</span> python main.py <span class="muted"># modulāra programma — katrs fails pilda savu lomu</span></span>
+    <span class="muted"># def + return + import = tīrs, atkārtoti izmantojams kods</span>
+  </div>
+  <div class="cta-actions">
+    <a class="btn primary large" href="/programmesana1/prog1_3/prog1_3main"><span>←</span> 3. Tēma</a>
+    <a class="btn large" href="/programmesana1/prog1_5/prog1_5main">5. Tēma <span class="caret">→</span></a>
+  </div>
+</div></div></section>
+</body></html>
