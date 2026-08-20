@@ -71,8 +71,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) — pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) — pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) — uzbūvē punktu un dzīvību paneli (HUD) spēles augšmalā · 2. uzdevums (~25 min) — izveido trīs ekrānus: izvēlni, spēles logu un beigu ekrānu · 3. uzdevums (~20 min) — pārbaudi, ka vienlaikus redzams tikai viens ekrāns. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver savu spēles projektu VS Code un pārliecinies, ka <code>index.html</code>, <code>style.css</code> un <code>script.js</code> ir savstarpēji saistīti.</p>
     </div>
 </section>
 
@@ -92,80 +92,72 @@
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums — Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>5.2 Vizuālo resursu un saskarnes (UI) pabeigšana</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-html">&lt;section class="iesildisanas-demo"&gt;
-  &lt;h2&gt;5.2 Vizuālo resursu un saskarnes (UI) pabeigšana&lt;/h2&gt;
-  &lt;p id="rezultats"&gt;Sākuma teksts&lt;/p&gt;
-  &lt;button id="poga"&gt;Pārbaudīt&lt;/button&gt;
-&lt;/section&gt;</code></pre>
-<pre><code class="language-css">.iesildisanas-demo {
-  padding: 16px;
-  border: 2px solid #FFB142;
-  border-radius: 6px;
-}
-
-.iesildisanas-demo button {
-  cursor: pointer;
+        <h3>1. uzdevums — Uzbūvē punktu un dzīvību paneli (HUD)</h3>
+        <p>Beigās tavas spēles augšmalā būs vienmēr redzams panelis ar punktiem un dzīvībām.</p>
+        <p><b>Nokopējamais paraugs:</b> HTML liec <code>index.html</code>, CSS — <code>style.css</code>, JavaScript — <code>script.js</code> beigās.</p>
+<pre><code class="language-html">&lt;div id="hud"&gt;
+  &lt;span&gt;Punkti: &lt;b id="punkti"&gt;0&lt;/b&gt;&lt;/span&gt;
+  &lt;span&gt;Dzīvības: &lt;b id="dzivibas"&gt;3&lt;/b&gt;&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+<pre><code class="language-css">#hud {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #222831;
+  color: #FFB142;
+  font-family: monospace;
 }</code></pre>
-<pre><code class="language-javascript">const rezultats = document.querySelector("#rezultats");
-const poga = document.querySelector("#poga");
-
-poga.addEventListener("click", () =&gt; {
-  rezultats.textContent = "Kods darbojas: 5.2 Vizuālo resursu un saskarnes (UI) pabeigšana";
-});</code></pre>
+<pre><code class="language-javascript">document.querySelector("#punkti").textContent = 120;
+document.querySelector("#dzivibas").textContent = 2;</code></pre>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. Sagataves ievieto atbilstošajos projekta failos: <code class="language-html">index.html</code>, <code class="language-css">style.css</code> un <code class="language-javascript">script.js</code>.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Atver</b> <code>index.html</code> un ielīmē HTML paraugu tieši virs spēles laukuma.</li>
+            <li><b>Ielīmē</b> CSS paraugu <code>style.css</code> faila beigās.</li>
+            <li><b>Saglabā</b> un atver lapu pārlūkā — panelim jābūt vienā rindā spēles augšmalā.</li>
+            <li><b>Ielīmē</b> JavaScript paraugu <code>script.js</code> faila beigās un pārlādē lapu.</li>
+            <li><b>Nomaini</b> skaitli <code>120</code> uz <code>350</code> un pārlādē lapu vēlreiz.</li>
+            <li><b>Nomaini</b> HUD fona krāsu <code>#222831</code> uz savas spēles krāsu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> spēles augšmalā redzams panelis, kurā punkti rāda 350 un dzīvības rāda 2.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums — Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, lietotājam redzamu projekta daļu.</p>
+        <h3>2. uzdevums — Izveido trīs ekrānus: izvēlni, spēli un beigu ekrānu</h3>
+        <p>Beigās spēlētājs redzēs sākuma izvēlni, un tikai pēc pogas nospiešanas parādīsies spēles laukums.</p>
         <ol class="step-list">
-
-            <li><b>Atver</b> <code>index.html</code> un izveido trīs ekrānus: sākuma izvēlni (<code>#menu</code>), spēles logu (<code>#spele-logs</code>) un beigu ekrānu (<code>#beigas</code>).</li>
-            <li><b>Sākumā</b> spēles logam un beigu ekrānam pievieno <code>style="display: none;"</code>.</li>
-            <li><b>Atver</b> <code>script.js</code> un atjaunini <code>saktSpeli()</code>: paslēp <code>#menu</code> un parādi <code>#spele-logs</code>.</li>
-            <li><b>Atjaunini</b> <code>beigtSpeli()</code>: paslēp <code>#spele-logs</code> un parādi <code>#beigas</code> ar tekstu "Spēle beigusies! Rezultāts: X".</li>
-            <li><b>Pievieno</b> <code>#beigas</code> pogu "Mēģināt vēlreiz", kas izsauc <code>saktSpeli()</code>.</li>
-            <li><b>Saglabā</b> un atver pārlūkā — pārbaudi, ka sākumā redzams tikai menūs.</li>
-            <li><b>Salabo</b>, ja kāds ekrāns nerādās pareizajā laikā — pārbaudi <code>display: none</code> un <code>display: block</code> vērtības.</li>
-            <li><b>Veic</b> <code>git commit -m "Add start menu and game over screen"</code>.</li>
+            <li><b>Atver</b> <code>index.html</code> un ietin savu saturu trīs blokos: <code>#menu</code>, <code>#spele-logs</code> un <code>#beigas</code>.</li>
+            <li><b>Pievieno</b> blokiem <code>#spele-logs</code> un <code>#beigas</code> atribūtu <code>style="display: none;"</code>.</li>
+            <li><b>Atver</b> <code>script.js</code> un funkcijā <code>saktSpeli()</code> paslēp <code>#menu</code>, bet parādi <code>#spele-logs</code>.</li>
+            <li><b>Papildini</b> funkciju <code>beigtSpeli()</code>: paslēp <code>#spele-logs</code> un parādi <code>#beigas</code>.</li>
+            <li><b>Pievieno</b> blokā <code>#beigas</code> pogu "Mēģināt vēlreiz", kas izsauc <code>saktSpeli()</code>.</li>
+            <li><b>Saglabā</b> un atver lapu pārlūkā — sākumā jābūt redzamai tikai izvēlnei.</li>
+            <li><b>Izpildi</b> <code>git commit -am "Add start menu and game over screen"</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> nospiežot "Sākt", izvēlne pazūd un parādās spēles laukums ar HUD.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums — Testē kodu un izdari secinājumu</h3>
-        <p>Pārbaudi, vai algoritms darbojas paredzami vairākās situācijās.</p>
+        <h3>3. uzdevums — Pārbaudi, ka vienlaikus redzams tikai viens ekrāns</h3>
+        <p>Beigās neviens ekrāns vairs nepaliks redzams zem cita ekrāna.</p>
         <ol class="step-list">
-            <li><b>Atver</b> pārlūkā — pārbaudi, ka pirmais redzamais ekrāns ir menūs.</li>
-            <li><b>Nospied</b> "Sākt" — pārbaudi, ka menūs pazūd un parādās spēles logs ar HUD.</li>
-            <li><b>Izsauc</b> <code>beigtSpeli()</code> no konsoles — pārbaudi, ka spēles logs pazūd un parādās beigu ekrāns.</li>
-            <li><b>Nospied</b> "Mēģināt vēlreiz" — pārbaudi, ka spēle sākas no sākuma ar atjaunotiem datiem.</li>
-            <li><b>Salabo</b>, ja kāds ekrāns netiek paslēpts — pārliecinies, ka visi 3 ekrāni nav vienlaikus redzami.</li>
-            <li><b>Pārbaudi</b>, ka HUD (punkti, dzīvības) atjaunojas pēc katra restarta.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc <code>display: none</code> ir labāks par elementu dzēšanu no DOM.</li>
+            <li><b>Atver</b> lapu pārlūkā un pārbaudi, ka pirmais redzamais ekrāns ir izvēlne.</li>
+            <li><b>Nospied</b> "Sākt" un pārbaudi, ka izvēlne pilnībā pazūd.</li>
+            <li><b>Izsauc</b> konsolē <code>beigtSpeli()</code> — jāparādās beigu ekrānam.</li>
+            <li><b>Nospied</b> "Mēģināt vēlreiz" un pārbaudi, ka atgriežas spēles laukums.</li>
+            <li><b>Salabo</b> ekrānu, kas paliek redzams, — tam trūkst rindas <code>style.display = "none"</code>.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc ekrānu slēpšana ar <code>display: none</code> ir ērtāka par elementa dzēšanu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> visos trīs spēles brīžos ekrānā redzams tieši viens no trim blokiem.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums — Pievieno mazu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>Papildu uzdevums — Padari izvēlnes pazušanu gludu</h3>
+        <p>Beigās izvēlne nepazudīs uzreiz, bet lēni izgaisīs 0,3 sekundēs.</p>
         <ol class="step-list">
-
-            <li><b>Pievieno</b> CSS animāciju menū pārejai: <code>#menu { transition: opacity 0.3s; }</code>.</li>
-            <li><b>Sākumā</b> iestati <code>#menu { opacity: 1; }</code>, bet pirms paslēpšanas — <code>opacity: 0</code>.</li>
-            <li><b>Izmanto</b> <code>setTimeout</code>, lai pēc pārejas beigām piešķirtu <code>display: none</code>.</li>
-            <li><b>Atver</b> pārlūkā — pārbaudi, ka pāreja starp ekrāniem ir gluda, ne uzreiz.</li>
-            <li><b>Salabo</b>, ja animācija nedarbojas — pārbaudi, vai CSS <code>transition</code> ir pareizajā elementā.</li>
-            <li><b>Veic</b> <code>git commit -m "Add screen transition animation"</code>.</li>
-            <li><b>Demonstrē</b> klasesbiedram — vai pāreja starp ekrāniem izskatās profesionāli?</li>
+            <li><b>Pievieno</b> <code>style.css</code>: <code>#menu { transition: opacity 0.3s; }</code>.</li>
+            <li><b>Iestati</b> funkcijā <code>saktSpeli()</code> vispirms <code>menu.style.opacity = 0;</code>.</li>
+            <li><b>Ietin</b> rindu <code>menu.style.display = "none";</code> iekšā <code>setTimeout(..., 300)</code>.</li>
+            <li><b>Atver</b> lapu pārlūkā un nospied "Sākt" — izvēlnei jāizgaist, nevis jāpazūd uzreiz.</li>
+            <li><b>Salabo</b>, ja izgaišanas nav: pārbaudi, vai <code>transition</code> ir uzrakstīts tieši <code>#menu</code> stilā.</li>
+            <li><b>Izpildi</b> <code>git commit -am "Add menu fade transition"</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> izvēlne pēc "Sākt" nospiešanas izgaist pakāpeniski, nevis pazūd vienā kadrā.</p>
     </div>
 </section>
 <section class='section'>
@@ -180,14 +172,14 @@ poga.addEventListener("click", () =&gt; {
 </section>
 
 <div class='section'>
-    <h2>Koda piemērs: Ekrānu pārslēgšana</h2>
+    <h2>Koda piemērs (ekrāns paliek redzams pa virsu spēlei)</h2>
     <div class='code-example'>
-        <pre><code class="language-css">/* CSS ekrānu kontrolei */
-#starta-ekrans {
+        <pre><code class="language-css">/* Izvēlne stāv pa virsu spēles laukumam */
+#menu {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0, 0, 0, 0.8);
     color: white;
     display: flex; /* Centrē saturu */
     flex-direction: column;
@@ -196,16 +188,31 @@ poga.addEventListener("click", () =&gt; {
     z-index: 10; /* Vienmēr pa virsu */
 }
 
-/* Klase, ko pievienosim ar JS, lai paslēptu ekrānu */
+/* Poga dod atgriezenisko saiti, kad pele ir virsū */
+#menu button:hover {
+    background: #FFB142;
+    cursor: pointer;
+}
+
+/* Klase, ko pievienosim ar JS. !important pārspēj display: flex */
 .hidden {
     display: none !important;
 }</code></pre>
-        <pre><code class="language-javascript">// JavaScript funkcija spēles sākšanai
+        <pre><code class="language-javascript">const menu = document.getElementById("menu");
+const speleLogs = document.getElementById("spele-logs");
+
 function saktSpeli() {
-    // Paslēpjam sākuma ekrānu
-    document.getElementById("starta-ekrans").classList.add("hidden");
-    // Šeit sākas spēles loģika un taimeri...
+    menu.classList.add("hidden");      // izvēlne pazūd
+    speleLogs.style.display = "block"; // spēles laukums parādās
+}
+
+function beigtSpeli() {
+    speleLogs.style.display = "none";
+    document.getElementById("beigas").style.display = "block";
 }</code></pre>
+        <div class='result'>
+            Nospiežot "Sākt", tumšais izvēlnes pārklājums pazūd un zem tā atklājas spēles laukums. Ja izvēlne paliek redzama, tai ir <code>display: flex</code>, ko pārraksta tikai <code>.hidden</code> ar <code>!important</code>. Pogai, pār kuru ved peli, jāmaina krāsa.
+        </div>
     </div>
 </div>
 

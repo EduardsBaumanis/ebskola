@@ -76,7 +76,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) — savieno "Sākt" un "Beigt" pogas ar spēles stāvokli · 2. uzdevums (~25 min) — savieno kustību, punktus un sadursmi vienā ciklā · 3. uzdevums (~20 min) — izpildi trīs testus un salabo vienu kļūdu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver savu 4.5 stundas projektu ar failiem <code>index.html</code> un <code>script.js</code>, kurā jau ir laukums, spēlētājs, ienaidnieks un sadursmes funkcija.</p>
     </div>
 </section>
 
@@ -85,6 +86,7 @@
     <p>Šajā prototipā nav jāievieš jauna spēles mehānika. Mērķis ir savienot jau apgūto: starta funkciju, notikumu klausītājus, elementu pārvietošanu, laika kontroli un sadursmju pārbaudi. Ja katra daļa ir atsevišķā funkcijā, kļūdas var atrast ātrāk.</p>
     <div class="code-example">
 <pre><code class="language-javascript">function saktSpeli() {
+  clearInterval(taimeris);   // aptur veco ciklu, ja tāds jau darbojas
   punkti = 0;
   speleAktiva = true;
   taimeris = setInterval(atjaunotSpeli, 100);
@@ -96,18 +98,16 @@ function beigtSpeli() {
 }</code></pre>
         <div class="result">Šeit izmantots tikai iepriekš apgūtais: funkcijas, mainīgie, taimeris un spēles stāvoklis.</div>
     </div>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> integrācija ~25 min, koda sakārtošana ~20 min, pāru testēšana un kļūdu labošana ~25 min.</p>
-    </div>
 </section>
 
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums — Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>4.6 Noslēguma projekts: Spēles dzinēja prototips</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
+        <h3>1. uzdevums — Savieno "Sākt" un "Beigt" pogas ar spēles stāvokli</h3>
+        <p>Beigās divas pogas ieslēgs un izslēgs tavu spēles ciklu, un konsole to parādīs.</p>
+        <p><b>Kopējamais paraugs:</b> divas funkcijas, ko ielīmē <code>script.js</code> failā.</p>
 <pre><code class="language-javascript">function saktSpeli() {
+  clearInterval(taimeris);   // aptur veco ciklu, ja tāds jau darbojas
   punkti = 0;
   speleAktiva = true;
   taimeris = setInterval(atjaunotSpeli, 100);
@@ -118,54 +118,53 @@ function beigtSpeli() {
   clearInterval(taimeris);
 }</code></pre>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. JavaScript fragmentu ievieto <code class="language-javascript">script.js</code> failā vai lapas esošajā skripta daļā.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Atver</b> <code>index.html</code> un pievieno pogas <code>&lt;button id="saktPoga"&gt;Sākt&lt;/button&gt;</code> un <code>&lt;button id="beigtPoga"&gt;Beigt&lt;/button&gt;</code>.</li>
+            <li><b>Atver</b> <code>script.js</code> un pārbaudi, ka faila augšā ir <code>let punkti = 0;</code>, <code>let speleAktiva = false;</code> un <code>let taimeris = null;</code>.</li>
+            <li><b>Ielīmē</b> abas parauga funkcijas <code>saktSpeli()</code> un <code>beigtSpeli()</code> faila beigās.</li>
+            <li><b>Uzraksti</b> pagaidu funkciju <code>atjaunotSpeli()</code>, kas pagaidām satur tikai <code>console.log("kadrs");</code>.</li>
+            <li><b>Piesaisti</b> abas funkcijas pogām ar <code>addEventListener</code> un saglabā failu.</li>
+            <li><b>Nospied</b> "Sākt", tad "Beigt" un vēro ierakstus konsolē.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc "Beigt" nospiešanas konsolē vairs neparādās neviens jauns "kadrs" ieraksts.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums — Ievieto algoritmu spēles prototipā</h3>
-        <p>Pievieno dzinējam vienu nelielu, atkārtoti lietojamu spēles mehāniku.</p>
+        <h3>2. uzdevums — Savieno kustību, punktus un sadursmi vienā ciklā</h3>
+        <p>Beigās viena cikla funkcija kustinās ienaidnieku, skaitīs punktus un pārbaudīs sadursmi.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mehāniku: kustību, punktu skaitīšanu, laika atskaiti, sadursmi, līmeņa maiņu vai spēles beigu nosacījumu.</li>
-            <li><b>Nosauc</b> funkcijas un mainīgos pēc to lomas, piemēram, <code>atjaunoSpeletaju()</code>, <code>punkti</code>, <code>laiks</code> vai <code>parbaudaSadursmi()</code>.</li>
-            <li><b>Uzraksti</b> funkciju, kas nolasa esošo stāvokli, veic vienu skaidru darbību un atjauno rezultātu ekrānā.</li>
-            <li><b>Izsauc</b> funkciju no pogas, tastatūras notikuma, taimera vai spēles cikla.</li>
-            <li><b>Pievieno</b> vienu īsu koda komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārbaudi</b>, ka mehānika darbojas kopā ar iepriekš izveidoto prototipa daļu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo funkciju.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto dzinēja mehāniku.</li>
+            <li><b>Atver</b> <code>script.js</code> un funkcijā <code>atjaunotSpeli()</code> izsauc savu ienaidnieka kustības kodu no 4.4 stundas.</li>
+            <li><b>Pievieno</b> tajā pašā funkcijā <code>punkti = punkti + 1;</code> un pārraksti tekstu elementā <code>#punkti</code>.</li>
+            <li><b>Pievieno</b> funkcijas beigās <code>if (parbauditSadursmi()) { beigtSpeli(); }</code>.</li>
+            <li><b>Papildini</b> bultiņu taustiņu klausītāju ar rindu <code>if (!speleAktiva) return;</code> pašā sākumā.</li>
+            <li><b>Saglabā</b>, nospied "Sākt" un aizvadi spēlētāju ienaidniekam ceļā.</li>
+            <li><b>Veic</b> <code>git commit -m "Connect movement, score and collision in game loop"</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc sadursmes punkti pārstāj augt, ienaidnieks apstājas un bultiņas vairs nekustina spēlētāju.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums — Testē prototipu un izdari secinājumu</h3>
-        <p>Pārbaudi, vai spēles dzinēja algoritms darbojas paredzami.</p>
+        <h3>3. uzdevums — Izpildi trīs testus un salabo vienu kļūdu</h3>
+        <p>Beigās tavs prototips izturēs trīs testus, un tu būsi izlabojis vienu atrastu kļūdu.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parasta spēlētāja darbība, robežgadījums un kļūdaina vai ļoti ātra darbība.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi redzamo rezultātu ekrānā.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko vērtību, ko šī mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai prototips nesabrūk.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu JavaScript kodā, datos vai DOM sasaistē.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura funkcija vai algoritma solis vislabāk palīdzēja saprast tēmu <b>4.6 Noslēguma projekts: Spēles dzinēja prototips</b>.</li>
+            <li><b>Izpildi</b> 1. testu: nospied "Sākt", nospēlē 10 sekundes un pieraksti punktu skaitu.</li>
+            <li><b>Izpildi</b> 2. testu: nospied "Sākt" trīs reizes pēc kārtas un pārbaudi, vai ātrums nemainās.</li>
+            <li><b>Izpildi</b> 3. testu: pēc sadursmes spied bultiņas un pārbaudi, vai spēlētājs paliek uz vietas.</li>
+            <li><b>Pieraksti</b>, kurš tests neizdevās, un salabo tieši to vienu vietu kodā.</li>
+            <li><b>Palaid</b> visus trīs testus vēlreiz ar izlaboto kodu.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kura mainīgā vai funkcijas trūkums izraisīja atrasto kļūdu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> visi trīs testi izdodas pēc kārtas un konsolē nav neviena sarkana kļūdas paziņojuma.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums — Pievieno mazu dzinēja uzlabojumu</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini prototipu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>Papildu uzdevums — Pievieno trīs dzīvību sistēmu</h3>
+        <p>Beigās ienaidnieka pieskāriens atņems vienu dzīvību, nevis uzreiz beigs spēli.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu papildinājumu, kas izmanto esošo spēles stāvokli vai funkcijas.</li>
-            <li><b>Pievieno</b> dzīvību sistēmu: ienaidnieka pieskāriens atņem dzīvību, nevis uzreiz beidz spēli.</li>
-            <li><b>Definē</b> <code>let dzivibas = 3;</code> un pievieno <code>&lt;p id="dzivibas"&gt;Dzīvības: 3&lt;/p&gt;</code>.</li>
-            <li><b>Kad</b> notiek sadursme, samazini dzīvības; ja tās sasniedz 0 — izsauc <code>beigtSpeli()</code>.</li>
-            <li><b>Savieno</b> papildinājumu ar prototipa galveno algoritmu un pārbaudi, ka tas darbojas.</li>
+            <li><b>Pievieno</b> <code>index.html</code> rindu <code>&lt;p id="dzivibas"&gt;Dzīvības: 3&lt;/p&gt;</code>.</li>
+            <li><b>Pievieno</b> <code>script.js</code> faila augšā <code>let dzivibas = 3;</code>.</li>
+            <li><b>Nomaini</b> sadursmes blokā <code>beigtSpeli()</code> pret <code>dzivibas = dzivibas - 1;</code> un teksta atjaunošanu.</li>
+            <li><b>Izsauc</b> <code>beigtSpeli()</code> tikai tad, kad <code>dzivibas</code> kļūst 0.</li>
+            <li><b>Pārvieto</b> spēlētāju atpakaļ uz sākuma pozīciju pēc katras zaudētās dzīvības.</li>
             <li><b>Veic</b> <code>git commit -m "Add lives system to game engine"</code>.</li>
-            <li><b>Demonstrē</b> klasesbiedram — vai viņš saprot, cik dzīvību ir un kad spēle beigsies?</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc trešās sadursmes teksts rāda "Dzīvības: 0" un spēle beidzas.</p>
     </div>
 </section>
 <section class='section'>

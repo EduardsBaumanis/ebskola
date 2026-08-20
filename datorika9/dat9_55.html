@@ -78,8 +78,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) — pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) — pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) — pārbaudi sadursmes funkciju ar trim testa vērtībām konsolē · 2. uzdevums (~25 min) — dod spēli klasesbiedram un salabo divas viņa atrastās kļūdas · 3. uzdevums (~20 min) — izpildi testa tabulu ar 8 pārbaudēm un salabo vienu kļūdu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver savu spēli pārlūkā, atver DevTools ar <code>F12</code> un sagatavo tukšu testa tabulu ar četrām kolonnām.</p>
     </div>
 </section>
 
@@ -103,70 +103,64 @@
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums — Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>5.5 Spēles testēšana, atkļūdošana un publicēšana</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
+        <h3>1. uzdevums — Pārbaudi sadursmes funkciju ar trim testiem</h3>
+        <p>Beigās zināsi, vai tava sadursmes funkcija atgriež pareizo atbildi arī tad, kad objekti tikai pieskaras.</p>
+        <p><b>Nokopējamais paraugs:</b> ielīmē to <code>script.js</code> faila beigās.</p>
 <pre><code class="language-javascript">function parbauditSadursmi(speletajs, skerslis) {
-  return speletajs.x < skerslis.x + skerslis.w &&
-         speletajs.x + speletajs.w > skerslis.x &&
-         speletajs.y < skerslis.y + skerslis.h &&
-         speletajs.y + speletajs.h > skerslis.y;
+  return speletajs.x &lt; skerslis.x + skerslis.w &amp;&amp;
+         speletajs.x + speletajs.w &gt; skerslis.x &amp;&amp;
+         speletajs.y &lt; skerslis.y + skerslis.h &amp;&amp;
+         speletajs.y + speletajs.h &gt; skerslis.y;
 }</code></pre>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. JavaScript fragmentu ievieto <code class="language-javascript">script.js</code> failā vai lapas esošajā skripta daļā.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Atver</b> <code>script.js</code> un ielīmē paraugu faila beigās.</li>
+            <li><b>Saglabā</b> failu un atver lapu pārlūkā ar <code>F12</code> atvērtu konsoli.</li>
+            <li><b>Ieraksti</b> konsolē <code>parbauditSadursmi({x:0,y:0,w:10,h:10}, {x:5,y:5,w:10,h:10})</code>.</li>
+            <li><b>Ieraksti</b> to pašu ar otro objektu <code>{x:50,y:50,w:10,h:10}</code> — atbildei jābūt <code>false</code>.</li>
+            <li><b>Ieraksti</b> to pašu ar otro objektu <code>{x:10,y:0,w:10,h:10}</code> — objekti tikai pieskaras.</li>
+            <li><b>Pieraksti</b> testa tabulā visus trīs rezultātus un to, kurš tevi pārsteidza.</li>
         </ol>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>2. uzdevums: Biedru beta tests un kļūdu labošana kodā</h2>
-    <p>Pārvērt biedra novērojumus par konkrētiem labojumiem savā HTML un JavaScript kodā.</p>
-    <div class='logic-box'>
-        <ol>
-            <li><b>Nodod</b> peli un tastatūru klasesbiedram. Nepalīdzi un nekomentē, kamēr viņš spēlē.</li>
-            <li><b>Pieraksti</b> tabulā katru kļūdu un tās vietu kodā, piem.: poga <code>#start</code> nereaģē, funkcija <code>updateScore()</code> nerāda punktus.</li>
-            <li><b>Sašķiro</b> atsauksmes trīs grupās: <code>kritiska</code>, <code>lietojamība</code>, <code>nākotnei</code>.</li>
-            <li><b>Izlabo</b> vienu kritisku kļūdu — piemēram, pievieno pogai skaidru tekstu:
-                <pre><code class="language-html">&lt;button id="start"&gt;Sākt spēli&lt;/button&gt;</code></pre>
-            </li>
-            <li><b>Pievieno</b> īsu pamācību virs spēles, lai biedram nav jāmin:
-                <pre><code class="language-html">&lt;p class="hint"&gt;Spied "Sākt", lai sāktu. Kustini ar bultiņām.&lt;/p&gt;</code></pre>
-            </li>
-            <li><b>Veic</b> <code>commit</code> ar konkrētu ziņu, piem., <i>"Fix unclear start button label"</i>.</li>
-        </ol>
-        <p><b>Pārbaudi:</b> palūdz citam biedram izmēģināt spēli vēlreiz — vai viņš tagad saprot, kā sākt, bez tava paskaidrojuma?</p>
+        <p class="done-when"><b>Gatavs, kad:</b> konsolē esi ieguvis vienu <code>true</code> un divus <code>false</code> rezultātus un tie ir pierakstīti.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums — Veic pilnu testa ciklu</h3>
-        <p>Pārbaudi spēles darbību sistemātiski un pieraksti kļūdas.</p>
+        <h3>2. uzdevums — Salabo divas kļūdas, ko atrada klasesbiedrs</h3>
+        <p>Beigās tava spēle būs saprotama cilvēkam, kurš to redz pirmo reizi un neko nejautā.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> testa tabulu (papīrā vai tekstā) ar kolonnām: ko pārbaudi, ko gaidīji, kas notika, statusu.</li>
-            <li><b>Pārbaudi</b> normālu spēles kārtu: sāc → kustini → sadursme → beigas → restarts.</li>
-            <li><b>Pārbaudi</b> robežgadījumu: nospied "Sākt" divreiz ātri — vai spēle nepaātrinās?</li>
-            <li><b>Pārbaudi</b> kļūdainu darbību: aizver un atver pārlūka cilni spēles vidū — vai spēle atjaunojas saprātīgi?</li>
-            <li><b>Salabo</b> vienu kļūdu no testa tabulas — pieraksti, kurā failā un funkcijā bija problēma.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar to pašu testa scenāriju.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāda ir atšķirība starp "spēle darbojas" un "spēle ir notestēta".</li>
+            <li><b>Nodod</b> tastatūru klasesbiedram un klusē, kamēr viņš spēlē trīs minūtes.</li>
+            <li><b>Pieraksti</b> katru viņa apjukuma brīdi un tā vietu kodā, piemēram: poga <code>#start</code> nereaģē.</li>
+            <li><b>Atzīmē</b> pie katras rindas vienu no trim vārdiem: kritiska, lietojamība, nākotnei.</li>
+            <li><b>Izlabo</b> vienu kritisku kļūdu kodā — bieži tā ir nepareizs <code>id</code> vai trūkstošs klausītājs.</li>
+            <li><b>Pievieno</b> virs spēles pamācību: <code>&lt;p class="hint"&gt;Spied "Sākt". Kustini ar bultiņām.&lt;/p&gt;</code>.</li>
+            <li><b>Izpildi</b> <code>git commit -am "Fix start button and add controls hint"</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> otrs klasesbiedrs sāk spēlēt bez neviena tava paskaidrojuma.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums — Koda tīrīšana un publicēšanas sagatavošana</h3>
-        <p>Ja pamatdarbs ir pabeigts, sagatavojiet projektu nodošanai.</p>
+        <h3>3. uzdevums — Aizpildi testa tabulu ar 8 pārbaudēm un salabo vienu kļūdu</h3>
+        <p>Beigās tev būs pierakstīts saraksts ar to, kas spēlē strādā un kas vēl nē.</p>
         <ol class="step-list">
-            <li><b>Atver</b> <code>script.js</code> un nodzēs visus <code>console.log()</code> izsaukumus, kas nav nepieciešami galaversijā.</li>
-            <li><b>Pārbaudī</b>, ka visi funkciju nosaukumi ir saprotami latviski vai angliski (ne <code>aaa()</code> vai <code>temp()</code>).</li>
-            <li><b>Pārbaudi</b> DevTools → "Console" uz publicēšanas versijas — nav jābūt kļūdas ziņojumiem.</li>
-            <li><b>Pārbaudi</b> spēli uz mobilā ekrāna izmēra: DevTools → toggle device toolbar (Ctrl+Shift+M).</li>
-            <li><b>Salabo</b> vismaz vienu vizuālu problēmu mazā ekrānā.</li>
-            <li><b>Veic</b> <code>git commit -m "Clean up console logs and fix mobile view"</code> un <code>git push</code>.</li>
-            <li><b>Atver</b> GitHub Pages saiti un pārbaudi, ka publicētā versija darbojas bez kļūdām.</li>
+            <li><b>Uzraksti</b> tabulai četras kolonnas: ko pārbaudu, ko gaidu, kas notika, statuss.</li>
+            <li><b>Pārbaudi</b> parasto kārtu: sāc, kusties, saduries, beidz, restartē — piecas rindas.</li>
+            <li><b>Pārbaudi</b> robežgadījumu: nospied "Sākt" divreiz ātri pēc kārtas.</li>
+            <li><b>Pārbaudi</b> otru robežgadījumu: pārslēdzies uz citu cilni spēles vidū un atgriezies.</li>
+            <li><b>Pārbaudi</b> DevTools konsoli visas kārtas laikā un pieraksti pirmo sarkano rindu.</li>
+            <li><b>Salabo</b> vienu kļūdu no tabulas un pieraksti, kurā failā un funkcijā tā bija.</li>
+            <li><b>Pārbaudi</b> labojumu ar to pašu testa soli vēlreiz un nomaini statusu uz "izdevās".</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> tabulā ir 8 aizpildītas rindas un vismaz vienai statuss ir mainīts no "jālabo" uz "izdevās".</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums — Sagatavo kodu publicēšanai</h3>
+        <p>Beigās tavs <code>script.js</code> būs bez liekām izdrukām un spēle izskatīsies pareizi arī telefona ekrānā.</p>
+        <ol class="step-list">
+            <li><b>Atver</b> <code>script.js</code> un nodzēs visus <code>console.log()</code>, kas vairs nav vajadzīgi.</li>
+            <li><b>Pārsauc</b> katru neskaidru funkciju, piemēram, <code>temp()</code> uz <code>parbauditSadursmes()</code>.</li>
+            <li><b>Ieslēdz</b> DevTools mobilo skatu ar <code>Ctrl+Shift+M</code> un izvēlies "iPhone SE".</li>
+            <li><b>Salabo</b> vienu vizuālu problēmu mazajā ekrānā, piemēram, HUD, kas iziet ārpus lapas.</li>
+            <li><b>Pārbaudi</b> konsoli vēlreiz — tai jābūt tukšai bez sarkanām rindām.</li>
+            <li><b>Izpildi</b> <code>git commit -am "Clean up logs and fix mobile view"</code> un <code>git push</code>.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> mobilajā skatā redzama visa spēle bez horizontālas ritjoslas un konsole ir tukša.</p>
     </div>
 </section>
 <section class='section'>
@@ -178,6 +172,32 @@
         <li><b>Mobilajā skatā pazūd UI:</b> pārbaudi elementu platumus un izvairies no fiksētiem pikseļiem tur, kur vajadzīgs elastīgs izkārtojums.</li>
     </ul>
 </section>
+
+<div class='section'>
+    <h2>Koda piemērs (konsoles kļūda un restarts ar veciem datiem)</h2>
+    <div class='code-example'>
+        <pre><code class="language-javascript">// Konsole rāda: Uncaught TypeError: Cannot read properties of null (reading 'style')
+// script.js:42  -> rindā 42 elementa ar šādu id lapā nav
+const beigas = document.getElementById("beigas");
+console.log(beigas); // null nozīmē: HTML ir cits id vai skripts palaists pirms HTML
+
+// Restarts, kas tiešām notīra iepriekšējo kārtu
+let pretinieki = [];
+
+function restartetSpeli() {
+    clearInterval(spelesIntervals);       // apturam veco ciklu
+    pretinieki.forEach((p) =&gt; p.remove()); // izņemam vecos DIV no lapas
+    pretinieki = [];                       // iztukšojam masīvu
+    spele.punkti = 0;
+    spele.dzivibas = 3;
+    atjaunotHud();
+    saktSpeli();
+}</code></pre>
+        <div class='result'>
+            Pēc labojuma konsole paliek tukša, un jaunā kārta sākas ar tukšu laukumu: ekrānā nav palikuši iepriekšējās kārtas pretinieki un punkti rāda 0. Ja masīvu <code>pretinieki</code> neiztukšo, vecie objekti turpina kustēties fonā un spēle kļūst arvien lēnāka.
+        </div>
+    </div>
+</div>
 
 <section class='section'>
     <h2>Nodošanas pierādījumi</h2>

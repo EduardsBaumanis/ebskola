@@ -71,8 +71,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) — pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) — pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) — palaid gatavu sekunžu skaitītāju · 2. uzdevums (~25 min) — uzbūvē spēles ciklu, kas kustina ienaidnieku · 3. uzdevums (~20 min) — salabo dubultā starta kļūdu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver savu 4.3 stundas projektu ar laukumu <code>#laukums</code> un spēlētāju <code>#speletajs</code> koda redaktorā un pārlūkā.</p>
     </div>
 </section>
 
@@ -83,87 +83,88 @@
         <ul>
             <li><b>setInterval(funkcija, milisekundes):</b> Iebūvēts JS rīks, kas liek pārlūkam atkārtoti izsaukt norādīto funkciju ik pēc noteikta laika (1000 ms = 1 sekunde).</li>
             <li><b>clearInterval(id):</b> Rīks, kas aptur iepriekš sākto ciklu. Tas ir svarīgi, lai spēle apstātos, kad iestājas "Game Over" vai beidzas laiks.</li>
-            <li><b>Automātiskā kustība:</b> Ja mēs `setInterval` ciklā katru reizi palielinām ienaidnieka `X` koordinātu par 5 pikseļiem (ik pēc 20ms), cilvēka acij izskatīsies, ka objekts plūdeni slīd pa ekrānu.</li>
+            <li><b>Automātiskā kustība:</b> Ja mēs <code>setInterval</code> ciklā katru reizi palielinām ienaidnieka <code>X</code> koordinātu par 5 pikseļiem (ik pēc 20 ms), cilvēka acij izskatīsies, ka objekts plūdeni slīd pa ekrānu.</li>
         </ul>
     </p>
-        <pre><code class="language-javascript">// Spēles cikls ar setInterval (60 FPS)
+        <pre><code class="language-javascript">// Spēles cikls: funkcija atkārtojas ik pēc 100 ms
 let punkti = 0;
-const cikls = setInterval(() =&gt; {
-  punkti += 1;
-  document.getElementById("score").textContent = punkti;
-}, 1000 / 60);
+let ciklsId = setInterval(function () {
+  punkti = punkti + 1;
+  document.getElementById("punkti").textContent = punkti;
+}, 100);
 
-// Pārtraukšana
-clearInterval(cikls);</code></pre>
+// Apturēšana — šo rindu izpilda TIKAI tad, kad spēle jābeidz
+function beigtSpeli() {
+  clearInterval(ciklsId);
+}</code></pre>
     </div>
 </section>
 
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums — Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>4.4 Laika kontrole (Timers) un spēles cikls</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-javascript">// Spēles cikls ar setInterval (60 FPS)
-let punkti = 0;
-const cikls = setInterval(() =&gt; {
-  punkti += 1;
-  document.getElementById("score").textContent = punkti;
-}, 1000 / 60);
+        <h3>1. uzdevums — Palaid gatavu sekunžu skaitītāju</h3>
+        <p>Beigās skaitlis lapā pieaugs par vienu katru sekundi, un poga to apturēs.</p>
+        <p><b>Kopējamais paraugs:</b> divas rindas HTML failā un viens taimeris JavaScript failā.</p>
+<pre><code class="language-html">&lt;p id="skaititajs"&gt;0&lt;/p&gt;
+&lt;button id="apturetPoga"&gt;Apturēt&lt;/button&gt;</code></pre>
+<pre><code class="language-javascript">let sekundes = 0;
+let ciklsId = setInterval(function () {
+  sekundes = sekundes + 1;
+  document.getElementById("skaititajs").textContent = sekundes;
+}, 1000);
 
-// Pārtraukšana
-clearInterval(cikls);</code></pre>
+document.getElementById("apturetPoga").addEventListener("click", function () {
+  clearInterval(ciklsId);
+});</code></pre>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. JavaScript fragmentu ievieto <code class="language-javascript">script.js</code> failā vai lapas esošajā skripta daļā.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Atver</b> <code>index.html</code> un ielīmē abas HTML rindas pirms <code>&lt;/body&gt;</code>.</li>
+            <li><b>Atver</b> <code>script.js</code> un ielīmē taimera kodu faila beigās.</li>
+            <li><b>Saglabā</b>, pārlādē lapu un vēro, kā skaitlis aug pats no sevis.</li>
+            <li><b>Nospied</b> "Apturēt" un pārbaudi, ka skaitlis vairs nemainās.</li>
+            <li><b>Nomaini</b> skaitli <code>1000</code> uz <code>200</code> un pārlādē lapu.</li>
+            <li><b>Pārbaudi</b>, ka skaitītājs tagad aug piecas reizes ātrāk.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> skaitlis aug bez tavas iejaukšanās un poga to nekavējoties aptur.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums — Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, lietotājam redzamu projekta daļu.</p>
+        <h3>2. uzdevums — Uzbūvē spēles ciklu, kas kustina ienaidnieku</h3>
+        <p>Beigās sarkanais kvadrāts pats slīdēs pa laukumu, un pogas to sāks un apturēs.</p>
         <ol class="step-list">
-
-            <li><b>Atver</b> <code>script.js</code> un pievieno: <code>let ciklsId = null; let speleAktiva = false; let ienX = 0;</code></li>
-            <li><b>Pievieno</b> funkciju <code>saktSpeli()</code>, kas iestata <code>speleAktiva = true</code> un sāk <code>setInterval(spelesCikls, 16)</code>.</li>
-            <li><b>Pievieno</b> funkciju <code>spelesCikls()</code>, kas palielina <code>ienX += 3</code> un atjauno ienaidnieka pozīciju; ja <code>ienX &gt; 400</code>, atiestatiet uz 0.</li>
-            <li><b>Pievieno</b> funkciju <code>beigtSpeli()</code>, kas izsauc <code>clearInterval(ciklsId)</code> un rāda "Spēle beigusies!".</li>
-            <li><b>Atver</b> <code>index.html</code>, pievieno pogas "Sākt" un "Apturēt" un pievieno ienaidnieka elementu ar <code>position: absolute</code>.</li>
-            <li><b>Saglabā</b> un atver pārlūkā — nospied "Sākt" un pārbaudi, ka ienaidnieks sāk kustēties pa ekrānu.</li>
-            <li><b>Nospied</b> "Apturēt" — pārbaudi, ka kustība apstājas.</li>
-            <li><b>Veic</b> <code>git commit -m "Add game loop with setInterval"</code>.</li>
+            <li><b>Atver</b> <code>index.html</code> un pievieno laukumā ienaidnieku: <code>&lt;div id="ienaidnieks" style="position:absolute;left:0;top:100px;width:30px;height:30px;background:red;"&gt;&lt;/div&gt;</code>.</li>
+            <li><b>Pievieno</b> divas pogas: <code>&lt;button id="saktPoga"&gt;Sākt&lt;/button&gt;</code> un <code>&lt;button id="beigtPoga"&gt;Apturēt&lt;/button&gt;</code>.</li>
+            <li><b>Atver</b> <code>script.js</code> un uzraksti faila augšā <code>let ienX = 0;</code> un <code>let ciklsId = null;</code>.</li>
+            <li><b>Uzraksti</b> funkciju <code>spelesCikls()</code>, kas pieskaita <code>ienX = ienX + 3</code>, atgriež <code>ienX</code> uz 0, kad tas pārsniedz 400, un iestata <code>style.left</code> ar <code>"px"</code>.</li>
+            <li><b>Uzraksti</b> funkciju <code>saktSpeli()</code>, kas piešķir <code>ciklsId = setInterval(spelesCikls, 16);</code>.</li>
+            <li><b>Uzraksti</b> funkciju <code>beigtSpeli()</code>, kas izsauc <code>clearInterval(ciklsId)</code>, un piesaisti abas funkcijas pogām.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc "Sākt" sarkanais kvadrāts slīd pa laukumu, un "Apturēt" to nostādina uz vietas.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums — Testē kodu un izdari secinājumu</h3>
-        <p>Pārbaudi, vai algoritms darbojas paredzami vairākās situācijās.</p>
+        <h3>3. uzdevums — Salabo dubultā starta kļūdu</h3>
+        <p>Beigās spēle darbosies vienādā ātrumā, lai cik reižu tu spiestu pogu "Sākt".</p>
         <ol class="step-list">
-            <li><b>Atver</b> pārlūkā un nospied "Sākt" — pārbaudi, ka ienaidnieks kustās plūdeni bez raustīšanās.</li>
-            <li><b>Nospied</b> "Apturēt" un vēlreiz "Sākt" — pārbaudi, ka ienaidnieks sāk no sākuma pozīcijas.</li>
-            <li><b>Mēģini</b> nospiest "Sākt" divreiz — pārbaudi, vai ienaidnieks kustās divreiz ātrāk (kļūda!).</li>
-            <li><b>Salabo</b>: pirms <code>setInterval</code> izsauc <code>clearInterval(ciklsId)</code>.</li>
-            <li><b>Palielini</b> <code>ienX += 3</code> uz <code>+= 10</code> — pārbaudi, ka kustība kļūst ātrāka.</li>
-            <li><b>Atjauno</b> uz sākotnējo ātrumu un pārbaudi, ka spēle joprojām darbojas stabili.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc <code>clearInterval</code> jāizsauc pirms jaunas <code>setInterval</code> sākšanas.</li>
+            <li><b>Nospied</b> "Sākt" vienu reizi un iegaumē, cik ātri kvadrāts slīd.</li>
+            <li><b>Nospied</b> "Sākt" vēl divas reizes bez apturēšanas — kustība kļūst neprātīgi ātra.</li>
+            <li><b>Atver</b> <code>script.js</code> un funkcijas <code>saktSpeli()</code> pirmajā rindā pievieno <code>clearInterval(ciklsId);</code>.</li>
+            <li><b>Pārlādē</b> lapu un nospied "Sākt" piecas reizes pēc kārtas.</li>
+            <li><b>Pārbaudi</b>, ka ātrums vairs nemainās, lai cik reižu pogu nospiestu.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc katra <code>setInterval</code> ID jāglabā mainīgajā ārpus funkcijas.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc piecām "Sākt" nospiešanām kvadrāts slīd tikpat ātri kā pēc pirmās.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums — Pievieno mazu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>Papildu uzdevums — Pievieno 30 sekunžu atskaiti</h3>
+        <p>Beigās spēle pati beigsies, kad taimeris nolaidīsies līdz nullei.</p>
         <ol class="step-list">
-
-            <li><b>Pievieno</b> mainīgo <code>let sekundes = 30;</code> un elementu <code>&lt;p id="taimeris"&gt;30&lt;/p&gt;</code>.</li>
-            <li><b>Pievieno</b> atsevišķu taimeri ar <code>setInterval</code>, kas samazina <code>sekundes</code> par 1 ik sekundi.</li>
-            <li><b>Atjaunini</b> <code>&lt;p id="taimeris"&gt;</code> ar aktuālo vērtību katru sekundi.</li>
-            <li><b>Kad</b> <code>sekundes &lt;= 0</code>, izsauc <code>beigtSpeli()</code>.</li>
-            <li><b>Atver</b> pārlūkā, sāc spēli un pārbaudi, ka taimeris iet atpakaļ un spēle beidzas pie 0.</li>
+            <li><b>Pievieno</b> <code>index.html</code> rindu <code>&lt;p id="taimeris"&gt;30&lt;/p&gt;</code>.</li>
+            <li><b>Pievieno</b> <code>script.js</code> faila augšā <code>let sekundes = 30;</code>.</li>
+            <li><b>Uzraksti</b> otru taimeri ar <code>setInterval</code>, kas ik sekundi atņem 1 no <code>sekundes</code>.</li>
+            <li><b>Ieraksti</b> jauno vērtību elementā <code>#taimeris</code> katrā taimera izsaukumā.</li>
+            <li><b>Izsauc</b> <code>beigtSpeli()</code>, kad <code>sekundes</code> kļūst 0, un apturi arī pašu atskaiti.</li>
             <li><b>Veic</b> <code>git commit -m "Add countdown timer to game"</code>.</li>
-            <li><b>Demonstrē</b> klasesbiedram — vai viņš saprot, ka spēle automātiski beidzas pēc 30 sekundēm?</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc 30 sekundēm taimeris rāda 0 un ienaidnieks pats apstājas.</p>
     </div>
 </section>
 <section class='section'>
@@ -178,31 +179,37 @@ clearInterval(cikls);</code></pre>
 </section>
 
 <div class='section'>
-    <h2>Koda piemērs</h2>
+    <h2>Koda piemērs (taimera apturēšana un dubultā setInterval novēršana)</h2>
     <div class='code-example'>
-        <pre><code class="language-javascript">let atlikusaisLaiks = 10;
+        <pre><code class="language-javascript">// SVARĪGI: ID definēts ĀRPUS funkcijām, citādi to nevar apturēt citā funkcijā
+let ciklsId = null;
+let ienX = 0;
+const ienaidnieks = document.getElementById("ienaidnieks");
 
-// Definējam mainīgo intervālam, lai vēlāk to varētu apturēt
-let taimerisID; 
-
-function atjauninotLaiku() {
-    atlikusaisLaiks--; // Samazinām par 1
-    document.getElementById("laiks").innerText = atlikusaisLaiks;
-
-    // Pārbaudām, vai laiks beidzies
-    if (atlikusaisLaiks <= 0) {
-        clearInterval(taimerisID); // Apturam taimeri
-        console.log("Spēle beigusies! Laiks iztecēja.");
-        
-        // Šeit mēs varētu apturēt arī ienaidnieku kustību
-        // clearInterval(ienaidniekaKustiba);
+function spelesCikls() {
+    ienX = ienX + 3;
+    if (ienX &gt; 400) {
+        ienX = 0;                            // sāk no jauna no kreisās malas
     }
+    ienaidnieks.style.left = ienX + "px";    // bez "px" kustība nenotiek
 }
 
-// Palaižam taimeri ik pēc 1000 milisekundēm (1 sekunde)
-taimerisID = setInterval(atjauninotLaiku, 1000);</code></pre>
+function saktSpeli() {
+    clearInterval(ciklsId);                  // apturam veco ciklu, ja tāds jau darbojas
+    ciklsId = setInterval(spelesCikls, 16);  // ~60 kadri sekundē
+}
+
+function beigtSpeli() {
+    clearInterval(ciklsId);
+    document.getElementById("statuss").textContent = "Spēle beigusies!";
+}
+
+document.getElementById("saktPoga").addEventListener("click", saktSpeli);
+document.getElementById("beigtPoga").addEventListener("click", beigtSpeli);</code></pre>
         <div class='result'>
-            <i>(Pārlūkā laiks samazināsies ik sekundi, līdz apstāsies pie 0, izvairoties no negatīviem skaitļiem, un konsolē parādīsies paziņojums par spēles beigām.)</i>
+            <i>Ekrānā:</i> pēc "Sākt" sarkanais kvadrāts slīd pa labi un pēc laukuma malas parādās no jauna kreisajā pusē.<br><br>
+            <i>Pēc "Apturēt":</i> kustība apstājas un parādās teksts "Spēle beigusies!".<br><br>
+            <i>Kāpēc svarīga pirmā rinda funkcijā <code>saktSpeli()</code>:</i> bez <code>clearInterval(ciklsId)</code> katrs jauns "Sākt" klikšķis palaistu vēl vienu paralēlu ciklu, un kvadrāts kļūtu arvien ātrāks.
         </div>
     </div>
 </div>

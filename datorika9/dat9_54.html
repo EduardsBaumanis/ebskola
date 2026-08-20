@@ -76,8 +76,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) — pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) — pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) — palaid bonusa funkciju <code>savaktPowerUp()</code> konsolē · 2. uzdevums (~25 min) — ieliec laukumā zeltu bonusu, ko var savākt un kas dod 25 punktus · 3. uzdevums (~20 min) — pievieno bonusam skaņu un pārbaudi robežgadījumus. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver savu spēles projektu; jādarbojas 5.3 stundas objektam <code>spele</code>, HUD atjaunošanai un sadursmju pārbaudei.</p>
     </div>
 </section>
 
@@ -91,82 +91,81 @@
             <li><b>Bonusi (Power-ups):</b> Elementi, kas uz laiku maina spēles noteikumus (piem., "vairogs", kas pasargā no vienas sadursmes, vai "magnēts").</li>
         </ul>
     </p>
-        <pre><code class="language-javascript">// Power-up pievienošana
-function savaktPowerUp(tips) {
-  if (tips === "atrums") spele.atrums *= 1.5;
-  if (tips === "dziviba") spele.dzivibas++;
-}
+        <pre><code class="language-javascript">// Audio objektu veido vienu reizi faila sākumā, nevis katrā sadursmē
+const bonusaSkana = new Audio("assets/audio/bonuss.mp3");
 
-// Skaņas atskaņošana
-new Audio("skanas/powerup.mp3").play();</code></pre>
+function savaktPowerUp(tips) {
+  if (tips === "atrums") spele.atrums = spele.atrums * 1.5;
+  if (tips === "dziviba") spele.dzivibas++;
+  bonusaSkana.currentTime = 0; // atgriež skaņu sākumā
+  bonusaSkana.play();
+}</code></pre>
     </div>
 </section>
 
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums — Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>5.4 Papildfunkciju ieviešana (Power-ups, līmeņi, skaņa)</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-javascript">// Power-up pievienošana
+        <h3>1. uzdevums — Palaid bonusa funkciju konsolē</h3>
+        <p>Beigās konsolē redzēsi, kā viens bonuss maina spēlētāja ātrumu un dzīvību skaitu.</p>
+        <p><b>Nokopējamais paraugs:</b> ielīmē to <code>script.js</code> faila beigās; objektu <code>spele</code> izveidoji 5.3 stundā.</p>
+<pre><code class="language-javascript">spele.atrums = 3; // pievienojam bonusiem vajadzīgo lauku
+
 function savaktPowerUp(tips) {
-  if (tips === "atrums") spele.atrums *= 1.5;
+  if (tips === "atrums") spele.atrums = spele.atrums * 1.5;
   if (tips === "dziviba") spele.dzivibas++;
-}
-
-// Skaņas atskaņošana
-new Audio("skanas/powerup.mp3").play();</code></pre>
+  console.log(tips, "→ ātrums:", spele.atrums, "dzīvības:", spele.dzivibas);
+}</code></pre>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. JavaScript fragmentu ievieto <code class="language-javascript">script.js</code> failā vai lapas esošajā skripta daļā.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Atver</b> <code>script.js</code> un ielīmē paraugu faila beigās.</li>
+            <li><b>Saglabā</b> un atver lapu pārlūkā ar <code>F12</code> atvērtu konsoli.</li>
+            <li><b>Ieraksti</b> konsolē <code>savaktPowerUp("atrums")</code> un nospied Enter.</li>
+            <li><b>Ieraksti</b> konsolē <code>savaktPowerUp("dziviba")</code> un apskati jauno dzīvību skaitu.</li>
+            <li><b>Nomaini</b> kodā reizinātāju <code>1.5</code> uz <code>2</code> un pārlādē lapu.</li>
+            <li><b>Izsauc</b> <code>savaktPowerUp("atrums")</code> vēlreiz un salīdzini abus rezultātus.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> konsolē pēc pirmā izsaukuma redzams ātrums 4.5, bet pēc reizinātāja maiņas — 6.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums — Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, lietotājam redzamu projekta daļu.</p>
+        <h3>2. uzdevums — Ieliec laukumā zeltu bonusu, kas dod 25 punktus</h3>
+        <p>Beigās spēlētājs varēs savākt zeltu apli, kas pazūd un pieskaita punktus.</p>
         <ol class="step-list">
-
-            <li><b>Atver</b> <code>index.html</code> un pievieno power-up elementu laukumā: <code>&lt;div id="bonuss" style="display:none;position:absolute;width:20px;height:20px;background:gold;border-radius:50%;"&gt;&lt;/div&gt;</code>.</li>
-            <li><b>Atver</b> <code>script.js</code> un pievieno funkciju <code>parāditBonusu()</code>, kas piešķir bonusam nejaušas koordinātes un iestata <code>display: block</code>.</li>
-            <li><b>Izsauc</b> <code>parāditBonusu()</code> no <code>saktSpeli()</code>.</li>
-            <li><b>Paplašini</b> sadursmju pārbaudi: ja spēlētājs pieskaras bonusam, pievieno 25 punktus un paslēp bonusu.</li>
-            <li><b>Saglabā</b> un sāc spēli — pievirzī spēlētāju pie zeltā apļa un pārbaudi, vai tiek pievienoti 25 punkti.</li>
-            <li><b>Salabo</b>, ja bonuss neparādās vai netiek "savākts" — pārbaudi elementu ID un sadursmes kodu.</li>
-            <li><b>Pārbaudi</b> DevTools konsoli — nav jābūt kļūdas ziņojumam.</li>
-            <li><b>Veic</b> <code>git commit -m "Add power-up mechanic with collision"</code>.</li>
+            <li><b>Atver</b> <code>index.html</code> un pievieno spēles laukumā <code>&lt;div id="bonuss"&gt;&lt;/div&gt;</code>.</li>
+            <li><b>Uzraksti</b> <code>style.css</code> stilu <code>#bonuss</code>: <code>position: absolute; width: 20px; height: 20px; background: gold; border-radius: 50%; display: none;</code>.</li>
+            <li><b>Izveido</b> <code>script.js</code> funkciju <code>paraditBonusu()</code>, kas ar <code>Math.random()</code> piešķir bonusam <code>left</code> un <code>top</code> laukuma robežās.</li>
+            <li><b>Iestati</b> tās beigās <code>bonuss.style.display = "block";</code> un izsauc funkciju no <code>saktSpeli()</code>.</li>
+            <li><b>Papildini</b> sadursmju pārbaudi: ja spēlētājs skar bonusu, izpildi <code>spele.punkti += 25</code> un <code>atjaunotHud()</code>.</li>
+            <li><b>Paslēp</b> savākto bonusu ar <code>bonuss.style.display = "none";</code> un izsauc <code>paraditBonusu()</code> pēc 3 sekundēm.</li>
+            <li><b>Izpildi</b> <code>git commit -am "Add gold power-up worth 25 points"</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> uzbraucot spēlētājam virsū zeltajam aplim, tas pazūd un HUD punkti palielinās par 25.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums — Testē kodu un izdari secinājumu</h3>
-        <p>Pārbaudi, vai algoritms darbojas paredzami vairākās situācijās.</p>
+        <h3>3. uzdevums — Pievieno bonusam skaņu un pārbaudi robežas</h3>
+        <p>Beigās katra bonusa savākšana atskaņos īsu skaņu, un bonuss vienmēr būs laukuma iekšpusē.</p>
         <ol class="step-list">
-            <li><b>Atver</b> pārlūkā — sāc spēli un pārbaudi, ka zeltais aplis parādās uz laukuma.</li>
-            <li><b>Pievirzī</b> spēlētāju pie bonusa — pārbaudi, ka tas pazūd un punkti pieaug par 25.</li>
-            <li><b>Pārbaudi</b>, ka bonuss paliek paslēpts (<code>display: none</code>) beigu ekrānā.</li>
-            <li><b>Salabo</b>, ja bonuss parādās ārpus laukuma — pārbaudi <code>Math.random()</code> robežas.</li>
-            <li><b>Pārbaudi</b>, ka bonusa savākšana neietekmē ienaidnieka kustību.</li>
-            <li><b>Pievieno</b> skaņu, kad bonuss tiek savākts: <code>new Audio("skanas/bonuss.mp3").play();</code></li>
-            <li><b>Pieraksti</b> vienu secinājumu: kā "atgriezeniskā saite" (skaņa + vizuāls efekts) padara spēli interesantāku.</li>
+            <li><b>Pievieno</b> <code>script.js</code> sākumā rindu <code>const bonusaSkana = new Audio("assets/audio/bonuss.mp3");</code>.</li>
+            <li><b>Izsauc</b> bonusa savākšanas vietā <code>bonusaSkana.currentTime = 0;</code> un <code>bonusaSkana.play();</code>.</li>
+            <li><b>Savāc</b> bonusu piecas reizes pēc kārtas un klausies, vai skaņa nesāk raustīties.</li>
+            <li><b>Pārbaudi</b>, vai bonuss kādreiz parādās ārpus laukuma malas.</li>
+            <li><b>Salabo</b> <code>Math.random()</code> robežas: reizini ar laukuma platumu mīnus 20 pikseļi.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc skaņa un pazūdošs objekts kopā ir labāka atgriezeniskā saite nekā tikai punkti.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> desmit savāktiem bonusiem visi parādās laukuma iekšpusē un katrs atskaņo skaņu.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums — Pievieno mazu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>Papildu uzdevums — Pievieno vairogu uz 3 sekundēm</h3>
+        <p>Beigās savāktais vairogs uz trim sekundēm pasargās spēlētāju no sadursmes ar pretinieku.</p>
         <ol class="step-list">
-
-            <li><b>Pievieno</b> otro power-up — "vairogs" (<code>&lt;div id="vairogs"&gt;</code>), kas uz 3 sekundēm pasargā no sadursmes.</li>
-            <li><b>Definē</b> <code>let vairogAktivs = false;</code> <code>script.js</code>.</li>
-            <li><b>Savācot</b> vairogu, iestati <code>vairogAktivs = true</code> un pēc 3 sekundēm (<code>setTimeout</code>) atpakaļ uz <code>false</code>.</li>
-            <li><b>Pārbaudi</b> sadursmju funkcijā: ja <code>vairogAktivs === true</code>, ignorē sadursmi ar ienaidnieku.</li>
-            <li><b>Pievieno</b> vizuālu efektu: kamēr vairogs aktīvs, spēlētājam ir <code>border: 3px solid gold;</code>.</li>
-            <li><b>Veic</b> <code>git commit -m "Add shield power-up with 3s protection"</code>.</li>
-            <li><b>Demonstrē</b> klasesbiedram — vai viņš redz, kad vairogs ir aktīvs un kad beidzas?</li>
+            <li><b>Pievieno</b> <code>index.html</code> otru bonusu <code>&lt;div id="vairogs"&gt;&lt;/div&gt;</code> un tam zilu CSS stilu.</li>
+            <li><b>Definē</b> <code>script.js</code> sākumā <code>let vairogAktivs = false;</code>.</li>
+            <li><b>Iestati</b> vairoga savākšanas brīdī <code>vairogAktivs = true;</code>.</li>
+            <li><b>Pievieno</b> tur pašā <code>setTimeout(() =&gt; { vairogAktivs = false; }, 3000);</code>.</li>
+            <li><b>Pārbaudi</b> sadursmju funkcijā: ja <code>vairogAktivs</code> ir <code>true</code>, dzīvību neatņem.</li>
+            <li><b>Piešķir</b> spēlētājam <code>border: 3px solid gold;</code>, kamēr vairogs ir aktīvs.</li>
+            <li><b>Izpildi</b> <code>git commit -am "Add shield power-up with 3s protection"</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ar zeltu rāmi spēlētājs izbrauc cauri pretiniekam bez dzīvības zaudēšanas, bet pēc 3 sekundēm atkal to zaudē.</p>
     </div>
 </section>
 <section class='section'>
@@ -174,33 +173,36 @@ new Audio("skanas/powerup.mp3").play();</code></pre>
     <div class='logic-box'>
 <ul>
         <li><b>Skaņu pārklāšanās:</b> Ja skaņa tiek atskaņota pārāk bieži (piem., katru sekundi), tā var sākt "raustīties". Izmanto tikai īsus efektus.</li>
-        <li><b>Pārāk liela grūtība:</b> Ja <code>kustibasAtrums</code> pieaug pārāk strauji, spēle kļūst nespēlējama jau pēc 20 sekundēm. Testē un pielāgo skaitļus!</li>
+        <li><b>Pārāk liela grūtība:</b> Ja <code>spele.atrums</code> pieaug pārāk strauji, spēle kļūst nespēlējama jau pēc 20 sekundēm. Testē un pielāgo skaitļus!</li>
         <li><b>Atmiņas noplūde:</b> Ja tu katrā ciklā veido jaunu <code>new Audio()</code> objektu, dators var sākt bremzēt. Labāk definē audio mainīgo vienreiz faila sākumā.</li>
     </ul>
     </div>
 </section>
 
 <div class='section'>
-    <h2>Koda piemērs: Skaņa un Līmeņi</h2>
+    <h2>Koda piemērs (skaņa bez atmiņas noplūdes un līmeņa maiņa)</h2>
     <div class='code-example'>
-        <pre><code class="language-javascript">// Audio objekta sagatavošana
-const punktaSkanas = new Audio("assets/audio/point.mp3");
-let limenis = 1;
+        <pre><code class="language-javascript">// Audio objektu izveido VIENU reizi faila sākumā, ne katrā sadursmē
+const punktaSkana = new Audio("assets/audio/point.mp3");
 
 function savaktPunktus() {
-    punkti += 10;
-    punktaSkanas.play(); // Atskaņojam skaņu
+    spele.punkti += 10;
 
-    // Pārbaudām līmeņa maiņu
-    if (punkti >= 100 * limenis) {
-        limenis++;
-        ienaidniekaAtrums += 1;
-        document.getElementById("status").innerText = "LĪMENIS " + limenis;
-        console.log("Grūtība palielināta!");
+    punktaSkana.currentTime = 0; // atgriež skaņu sākumā, ja tā vēl skan
+    punktaSkana.play();
+
+    // Katri 100 punkti = jauns līmenis un lielāks ātrums
+    if (spele.punkti &gt;= 100 * spele.limenis) {
+        spele.limenis++;
+        spele.atrums = spele.atrums + 1;
+        document.getElementById("limenis").textContent = spele.limenis;
     }
 
-    atjaunotHUD();
+    atjaunotHud();
 }</code></pre>
+        <div class='result'>
+            Katrs savāktais objekts atskaņo īsu skaņu, un pie 100 punktiem HUD līmenis pārslēdzas uz 2, bet pretinieki kļūst ātrāki. Ja <code>new Audio()</code> rakstītu funkcijas iekšpusē, pēc 50 savākumiem pārlūks sāktu bremzēt.
+        </div>
     </div>
 </div>
 

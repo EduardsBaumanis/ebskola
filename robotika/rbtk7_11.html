@@ -64,14 +64,14 @@
 </aside>
 <section class='section'>
     <h1>1.1 Ievads LEGO SPIKE un robota pamatkustības</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Konstruēt bāzes robotu, ieprogrammēt tā taisnvirziena kustību, pārbaudīt pagriezienu loģiku un analizēt leņķu ietekmi uz trajektoriju.</p>
+    <p><b>Tavs šīs stundas izaicinājums:</b> Uzbūvēt braukšanas bāzi, nobraukt precīzus 50 cm turp un atpakaļ un izbraukt kvadrātu ar <code>repeat</code> ciklu.</p>
     <a href="/sasnRez">Datorika 7. klase (D.7.1.1., D.7.2.1.)</a>
 </section>
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) — pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) — pārbaudi rezultātu, izlabo kļūdas un pieraksti, kas strādā. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) — uzbūvē braukšanas bāzi un palaid pirmos 20 cm · 2. uzdevums (~25 min) — nobrauc precīzus 50 cm turp un atpakaļ · 3. uzdevums (~15 min) — izbrauc kvadrātu ar <code>repeat [4]</code> ciklu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> paņem LEGO SPIKE Prime komplektu, atver SPIKE lietotni datorā, sagatavo USB vadu, mērlenti un līmlenti starta līnijai uz grīdas.</p>
     </div>
 </section>
 
@@ -80,66 +80,75 @@
     <div class='logic-box'>
 <p>Lai robots varētu patstāvīgi kustēties, tam ir nepieciešamas trīs lietas: "smadzenes" jeb Hubs (kas dod komandas), motori (kas veic fizisko darbu) un programma (instrukcijas angļu valodā).</p>
     <ul>
-        <li><b>Porti (A līdz F):</b> Hubam ir 6 pieslēgvietas. Ir ļoti svarīgi atcerēties, kuros portos ir pieslēgti tavi labās un kreisās puses motori.</li>
+        <li><b>Porti (A līdz F):</b> Hubam ir 6 pieslēgvietas. Ir ļoti svarīgi atcerēties, kuros portos ir pieslēgti tavi labās un kreisās puses motori. Šajā tēmā vienmēr lietosim portu A kreisajam un portu B labajam riteņa motoram.</li>
         <li><b>"Movement" bloki (Rozā krāsā):</b> SPIKE lietotnē ir zili "Motor" bloki un rozā "Movement" bloki. Tā kā mūsu robotam ir divi motori un mēs gribam, lai tie strādātu reizē (kā automašīnai), mēs izmantosim tikai rozā blokus.</li>
         <li><b>Konfigurācija:</b> Pašā programmas sākumā robotam OBLIGĀTI jāpasaka, kuros portos atrodas riteņi, izmantojot bloku <code>set movement motors to [A] and [B]</code>.</li>
     </ul>
     <p><i>Vizuālais orientieris:</i> SPIKE lietotnē meklē rozā "set movement motors" un "move forward" blokus; tie ir šīs stundas kustības programmas pamats.</p>
-    <p><b>Svarīgi par pagriezieniem:</b> Ja tu pasaki robotam pagriezties par 90 grādiem (degrees), tas nenozīmē, ka pats robots pagriezīsies par 90 grādiem telpā! Tas nozīmē, ka <i>robota motors (ritenis)</i> veiks 90 grādu apgriezienu. Lai robots pagrieztos par 90 grādiem pret istabas sienu, riteņiem bieži vien jāgriežas vairāk, piemēram, 175 vai 185 grādus. Tas jums būs jāatklāj eksperimentējot!</p>
+    <p><b>Svarīgi par pagriezieniem:</b> Ja tu pasaki robotam pagriezties par 90 grādiem (degrees), tas nenozīmē, ka pats robots pagriezīsies par 90 grādiem telpā! Tas nozīmē, ka <i>robota motors (ritenis)</i> veiks 90 grādu apgriezienu. Lai robots pagrieztos par 90 grādiem pret istabas sienu, riteņiem bieži vien jāgriežas vairāk, piemēram, 175 vai 185 grādus. Tev to nāksies atrast, mainot skaitli un pārbaudot!</p>
     </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Bāzes robota konstruēšana</h2>
-    <p>Kopā ar komandu uzbūvējiet pārvietošanās bāzi (Driving Base) un savienojiet to ar datoru.</p>
+    <h3>1. uzdevums — Uzbūvē braukšanas bāzi un palaid pirmos 20 cm</h3>
+    <p>Beigās tavs robots nobrauks 20 cm uz priekšu un pats apstāsies.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Atveriet LEGO SPIKE lietotni datorā, dodieties uz sadaļu "Build" un atrodiet "Driving Base 1".</li>
-            <li>Sadaliet pienākumus (piemēram, divi meklē detaļas, divi būvē), lai strādātu ātrāk.</li>
-            <li>Kad robots gatavs, ieslēdziet Hubu un savienojiet to ar datoru (izmantojot USB vadu vai Bluetooth).</li>
-            <li>Izveidojiet jaunu "Word Blocks" projektu.</li>
+        <ol class="step-list">
+            <li><b>Atver</b> SPIKE lietotnē sadaļu "Build" un izvēlies modeli "Driving Base 1".</li>
+            <li><b>Uzbūvē</b> braukšanas bāzi pēc instrukcijas soļiem.</li>
+            <li><b>Iespraud</b> kreisā motora vadu portā A, labā motora vadu portā B.</li>
+            <li><b>Savieno</b> Hubu ar datoru pa USB vadu un izveido jaunu "Word Blocks" projektu.</li>
+            <li><b>Ievelc</b> zem <code>when program starts</code> bloku <code>set movement motors to [A] and [B]</code>.</li>
+            <li><b>Pievieno</b> bloku <code>move [forward] for [20] [cm]</code> un palaid programmu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> robots pēc palaišanas nobrauc aptuveni vienu lineāla garumu uz priekšu un pats apstājas.</p>
     </div>
 </section>
 
 <section class='section'>
-    <h2>2. uzdevums: Precīzā braukšana (Taisne)</h2>
-    <p>Ieprogrammējiet robotu nobraukt tieši 50 centimetrus uz priekšu un atgriezties starta pozīcijā atpakaļgaitā.</p>
+    <h3>2. uzdevums — Nobrauc precīzus 50 cm turp un atpakaļ</h3>
+    <p>Beigās robots nobrauks 50 cm uz priekšu un atgriezīsies uz savas starta līnijas.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Programmas sākumā pievienojiet bloku <code>set movement motors to</code> un norādiet savu motoru portus (piem., A un B).</li>
-            <li>Izmantojiet bloku <code>move [forward] for [10] [cm]</code> un nomainiet vērtību uz 50.</li>
-            <li>Pievienojiet nākamo bloku, norādot virzienu <code>[backward]</code>, lai tas atgrieztos atpakaļ.</li>
-            <li>Palaidiet kodu un ar mērlenti pārbaudiet, vai tiešām nobraukti 50cm. Ja riteņi izslīd, mēģiniet pievienot ātruma samazināšanas bloku <code>set movement speed to [50]%</code>.</li>
+        <ol class="step-list">
+            <li><b>Uzlīmē</b> uz grīdas starta līniju ar līmlenti un atmēri no tās 50 cm ar mērlenti.</li>
+            <li><b>Nomaini</b> blokā <code>move [forward] for [20] [cm]</code> skaitli no 20 uz 50.</li>
+            <li><b>Pievieno</b> zem tā bloku <code>move [backward] for [50] [cm]</code>.</li>
+            <li><b>Palaid</b> programmu no starta līnijas un nomēri, cik centimetru robots patiesībā nobrauca.</li>
+            <li><b>Ieliec</b> programmas sākumā bloku <code>set movement speed to [40]%</code>, ja riteņi izslīd pa grīdu.</li>
+            <li><b>Atkārto</b> braucienu vēl divas reizes un pieraksti novirzi centimetros.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc atpakaļgaitas robota priekšpuse apstājas ne tālāk kā 3 cm no starta līnijas.</p>
     </div>
 </section>
 
 <section class='section'>
-    <h2>3. uzdevums: Kvadrāta dejsolis</h2>
-    <p>Liekam robotam apbraukt iedomātu kasti – izveidojiet kodu, kas liek robotam nobraukt precīzu kvadrātu.</p>
+    <h3>3. uzdevums — Izbrauc kvadrātu ar repeat ciklu</h3>
+    <p>Beigās robots nobrauks kvadrātu un atgriezīsies turpat, kur sāka.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Kvadrātam ir 4 vienādas malas. Pievienojiet bloku braukšanai uz priekšu par 20 cm.</li>
-            <li>Pievienojiet pagrieziena bloku <code>move [Right] for [180] [degrees]</code>. Atcerieties – 180 riteņa grādi var nebūt 90 grādi telpā! Pārbaudiet un mainiet ciparu, līdz robots pagriežas tieši par 90 grādiem (taisnā leņķī).</li>
-            <li>Tā vietā, lai kopētu šos divus blokus vēl trīs reizes, izmantojiet oranžo "Control" bloku <code>repeat [4]</code> un ielieciet braukšanas/griešanās komandas tajā iekšā (Cikls).</li>
+        <ol class="step-list">
+            <li><b>Izveido</b> jaunu programmu ar bloku <code>set movement motors to [A] and [B]</code>.</li>
+            <li><b>Pievieno</b> bloku <code>move [forward] for [20] [cm]</code>.</li>
+            <li><b>Pievieno</b> zem tā pagrieziena bloku <code>move [right] for [180] [degrees]</code>.</li>
+            <li><b>Palaid</b> programmu un pieliec pie robota lapas stūri, lai redzētu, vai pagrieziens ir taisns leņķis.</li>
+            <li><b>Maini</b> grādu skaitli (piemēram, uz 175 vai 190), līdz robots pagriežas tieši par 90 grādiem.</li>
+            <li><b>Ieliec</b> abus blokus oranžajā <code>repeat [4] times</code> ciklā un palaid vēlreiz.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> robots nobrauc četras vienāda garuma malas un apstājas mazāk nekā 10 cm no starta punkta.</p>
     </div>
 </section>
 
 <section class='section'>
-    <h2>4. uzdevums (Zvaigznītes izaicinājums): "Astoņnieks"</h2>
-    <p>Izaicinājums ātrākajām komandām – ieprogrammējiet robotu, lai tas izbrauc "8" cipara trajektoriju.</p>
+    <h3>Papildu uzdevums — Izbrauc astoņnieka trajektoriju</h3>
+    <p>Beigās robota ceļš uz grīdas veidos cipara 8 formu no diviem apļiem.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pārveidojiet programmu tā, lai robots sākumā izbrauktu pilnu apli pa labi.</li>
-            <li>Lai robota kustība nebūtu stūraina kā kvadrātam, izpētiet, kā izmantot kustības blokus ar stūrēšanas (steering) vērtību, piemēram, <code>start moving at [50] % steering</code>.</li>
-            <li>Pēc viena pilna apļa pa labi, uzrakstiet kodu pilnam aplim pa kreisi, lai noslēgtu astoņnieku.</li>
+        <ol class="step-list">
+            <li><b>Izveido</b> jaunu programmu ar bloku <code>set movement motors to [A] and [B]</code>.</li>
+            <li><b>Pievieno</b> bloku <code>start moving at [50] % steering</code> un zem tā <code>wait for [3] seconds</code>.</li>
+            <li><b>Pievieno</b> bloku <code>start moving at [-50] % steering</code> un zem tā <code>wait for [3] seconds</code>.</li>
+            <li><b>Pievieno</b> pašās beigās bloku <code>stop moving</code>.</li>
+            <li><b>Maini</b> sekunžu skaitli abās vietās, līdz katrs aplis noslēdzas pilnībā.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> robots izbrauc divus vienāda lieluma apļus, kas krustojas vienā punktā.</p>
     </div>
 </section>
 
@@ -147,31 +156,35 @@
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
     <div class='logic-box'>
 <ul>
-        <li><b>Robots griežas uz riņķi, nevis brauc uz priekšu:</b> Koda sākumā esat sajaukuši labā un kreisā motora portus. Samainiet vietām portu burtus <code>set movement motors</code>.</li>
-        <li><b>Robots nebrauc taisni, bet "velk" uz vienu pusi:</b> Pārbaudiet, vai abi riteņi ir stingri uzspiesti uz motoru asīm un nekur nerīvējas gar robota rāmi. Vai arī viens no kabeļiem traucē riteņa kustībai.</li>
-        <li><b>Pēc pagrieziena robots neapstājas un turpina griezties:</b> Jūs izmantojāt <code>start moving</code> bloku bez beigu nosacījuma. Pagriezieniem vienmēr labāk izmantot <code>move for [degrees/cm/rotations]</code> bloku, kas apstājas pats.</li>
+        <li><b>Robots griežas uz riņķi, nevis brauc uz priekšu:</b> koda sākumā esi sajaucis labā un kreisā motora portus. Samaini vietām portu burtus blokā <code>set movement motors</code>.</li>
+        <li><b>Robots nebrauc taisni, bet "velk" uz vienu pusi:</b> pārbaudi, vai abi riteņi ir stingri uzspiesti uz motoru asīm un nekur nerīvējas gar robota rāmi. Var būt arī, ka kabelis traucē riteņa kustībai.</li>
+        <li><b>Pēc pagrieziena robots neapstājas un turpina griezties:</b> esi izmantojis <code>start moving</code> bloku bez beigu nosacījuma. Pagriezieniem lieto <code>move [right] for [180] [degrees]</code> bloku, kas apstājas pats.</li>
     </ul>
     </div>
 </section>
 
 <div class='section'>
-    <h2>Koda piemērs (Kvadrāta algoritms)</h2>
+    <h2>Koda piemērs (pagrieziena grādu pielāgošana kvadrātā)</h2>
     <div class='code-example'>
         <pre><code class="language-powershell">
 # SPIKE Word Blocks vizuālā koda tekstuālā reprezentācija
 
 when program starts
 set movement motors to [A] and [B]
-set movement speed to [50]%
+set movement speed to [40]%
 
 repeat [4] times:
-    move [Straight] for [20] [cm]
-    move [Right] for [180] [degrees] 
-    # Piezīme: 180 grādi šeit ir riteņa apgrieziens, kas jāpielāgo, 
-    # lai fiziski sanāktu 90 grādu pagrieziens uz paklāja.
+    move [forward] for [20] [cm]
+    move [right] for [180] [degrees]
+    # 180 ir RITEŅA grādi, nevis robota pagrieziens telpā.
+    # Ja kvadrāts "aizveras" par agru -> samazini uz 175.
+    # Ja robots nepagriežas pietiekami -> palielini uz 190.
+
+stop moving
+# NELIETO pagriezienam "start moving" — tas nekad neapstājas pats.
         </code></pre>
         <div class='result'>
-            Robots nobrauks vienādu distanci, pagriezīsies par aptuveni 90 grādiem telpā, un atkārtos to 4 reizes, izveidojot slēgtu kvadrāta trajektoriju.
+            Uz grīdas paliek slēgts kvadrāts: robots nobrauc četras 20 cm malas, katru reizi pagriežas par aptuveni 90 grādiem un beigās apstājas dažus centimetrus no starta punkta.
         </div>
     </div>
 </div>
