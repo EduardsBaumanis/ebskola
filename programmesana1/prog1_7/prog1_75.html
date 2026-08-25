@@ -74,13 +74,13 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - salīdzini sorted() ar savu bubble_sort · 2. uzdevums (~25 min) - izmēri 'in' sarakstā pret kopu · 3. uzdevums (~20 min) - izvēlies pareizo struktūru un pamato izvēli. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver VS Code un izveido failu <code>strukturas.py</code>. Noderēs 7.2 stundas <code>bubble_sort</code> funkcija - nokopē to blakus.</p>
     </div>
 </section>
 
 <section class='section'>
-    <h2>Teorija: Kāpēc iebūvētās funkcijas ir ātrākas?</h2>
+    <h2>Teorija: Pareizā funkcija un pareizā datu struktūra</h2>
     <div class="logic-box">
         <ul class="step-list">
             <li><b>Zem pārsega slēpjas "C" valoda:</b> Python iebūvētās funkcijas nav rakstītas pašā Python valodā. Tās ir ieprogrammētas "C" valodā, kas atrodas tuvāk datora aparatūrai (dzelžiem). Tāpēc tās darbojas ievērojami ātrāk.</li>
@@ -97,6 +97,13 @@
                 </ul>
             </li>
             <li><b>Zelta likums:</b> Vienmēr izmanto iebūvētās funkcijas datu meklēšanai un kārtošanai, ja vien nav nepieciešama ļoti specifiska spēles loģika, ko standartfunkcijas neatbalsta.</li>
+            <li><b>Datu struktūra ir svarīgāka par funkciju:</b> 7.4 stundā redzēji, ka iebūvētā funkcija ir ātrāka par tavu ciklu, bet abas bija O(n). Šajā stundā mainām pašu datu glabāšanas veidu, un tas maina sarežģītības klasi.
+                <ul>
+                    <li><code class="language-python">x in saraksts</code> - pārbauda elementus pēc kārtas, sarežģītība <b>O(n)</b>.</li>
+                    <li><code class="language-python">x in kopa</code> (<code class="language-python">set</code>) - aprēķina elementa vietu uzreiz, sarežģītība <b>O(1)</b>.</li>
+                    <li>Miljonā elementu šī atšķirība ir nevis dažas reizes, bet tūkstošiem reižu.</li>
+                </ul>
+            </li>
         </ul>
     </div>
 </section>
@@ -114,99 +121,90 @@
 
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
-
-    <div class="logic-box">
-        <h3>1. uzdevums: "Lielākais ienaidnieks"</h3>
-        <p>Atradīsim vājāko un spēcīgāko ienaidnieku datu masīvā, izmantojot vienas rindas iebūvētās komandas.</p>
+    <div class='logic-box'>
+        <h3>1. uzdevums - Salīdzini sorted() ar savu bubble_sort</h3>
+        <p>Beigās tu skaitļos redzēsi, cik lēna ir pašrakstīta kārtošana.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. Python sagatavi ievieto <code class="language-python">main.py</code> failā un palaid no termināļa.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Nokopē</b> savu <code>bubble_sort</code> funkciju no 7.2 stundas.</li>
+            <li><b>Izveido</b> divus vienādus sarakstus ar 3000 elementiem apgrieztā secībā.</li>
+            <li><b>Izmēri</b> ar <code>time.time()</code>, cik ilgi strādā <code>bubble_sort</code>.</li>
+            <li><b>Izmēri</b> tāpat <code class="language-python">sorted(dati)</code> laiku.</li>
+            <li><b>Izdrukā</b> abus laikus ar <code>:.4f</code>.</li>
+            <li><b>Pieraksti</b>, cik reižu ātrāks bija <code>sorted()</code>.</li>
         </ol>
-        <div class='code-example'>
-<pre><code class="language-python">ienaidnieku_hp = [45, 12, 89, 3, 99, 21, 50, 77, 8, 34]
-
-vajakais = min(ienaidnieku_hp)
-stiprakais = max(ienaidnieku_hp)
-
-print(f"Vājākais ienaidnieks: {vajakais} HP")
-print(f"Spēcīgākais ienaidnieks: {stiprakais} HP")
-</code></pre>
-            <div class="result">
-Vājākais ienaidnieks: 3 HP<br>
-Spēcīgākais ienaidnieks: 99 HP
-            </div>
-        </div>
-    </div>
-    <div class="logic-box">
-        <h3>2. uzdevums: "Ātruma sacīkstes (O(n) pret O(n))"</h3>
-        <p>Pārbaudīsim praksē apgalvojumu, ka iebūvētais "C" kods ir ātrāks par tīru Python kodu, pat ja abiem ir lineāra sarežģītība O(n).</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu konkrētu projekta vietu: ievadi, aprēķinu, izvēli, ciklu, datu struktūru, funkciju vai rezultāta izvadi.</li>
-            <li><b>Nosauc</b> funkcijas un mainīgos pēc to lomas, piemēram, <code>punkti</code>, <code>gajiens</code>, <code>atbilde</code>, <code>rezultats</code> vai <code>parbauda_ievadi()</code>.</li>
-            <li><b>Uzraksti</b> funkciju vai koda bloku, kas nolasa sākuma datus, tos apstrādā un atgriež vai izvada rezultātu.</li>
-            <li><b>Savieno</b> šo kodu ar jau esošo projekta plūsmu, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās darbības.</li>
-            <li><b>Pārbaudi</b>, ka iepriekšējais kods joprojām darbojas pēc jaunā fragmenta pievienošanas.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms paplašini risinājumu.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto funkcionalitāti.</li>
-        </ol>
-        <div class='code-example'>
-<pre><code class="language-python">import time
-
-lieli_dati = list(range(5000000))
-
-# 1. Mūsu pašu rakstītais O(n) cikls
-sakums_savs = time.time()
-lielakais_savs = lieli_dati[0]
-for skaitlis in lieli_dati:
-    if skaitlis > lielakais_savs:
-        lielakais_savs = skaitlis
-laiks_savs = time.time() - sakums_savs
-
-# 2. Python iebūvētā O(n) funkcija
-sakums_ieb = time.time()
-lielakais_ieb = max(lieli_dati)
-laiks_ieb = time.time() - sakums_ieb
-
-print(f"Paša rakstīts cikls aizņēma: {laiks_savs:.5f}s")
-print(f"Iebūvētā max() funkcija aizņēma: {laiks_ieb:.5f}s")
-</code></pre>
-            <div class="result">
-Paša rakstīts cikls aizņēma: 0.18520s<br>
-Iebūvētā max() funkcija aizņēma: 0.04110s
-            </div>
-        </div>
-    </div>
-    <div class="logic-box">
-        <h3>3. uzdevums: "Timsort pret Burbuli"</h3>
-        <p>Ja pie O(n) atšķirība ir mērāma sekundes simtdaļās, kas notiks, ja salīdzināsim mūsu O(n²) <i>Bubble Sort</i> ar Python iebūvēto O(n log n) <i>Timsort</i> algoritmu?</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parasta ievade, robežgadījums un kļūdaina vai tukša ievade.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi termināļa izvadi.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko vērtību, ko šis kods var saņemt.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai programma neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu kodā, datos vai ievades pārbaudē.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura koda rinda vai algoritma solis vislabāk palīdzēja saprast tēmu <b>7.5 Iebūvēto funkciju efektivitāte</b>.</li>
-        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> abi saraksti sakārtojas vienādi, bet <code>sorted()</code> to izdara daudzkārt ātrāk par tavu ciklu.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>2. uzdevums - Izmēri 'in' sarakstā pret kopu</h3>
+        <p>Beigās tu redzēsi, ka datu struktūras maiņa maina ātrumu vairāk nekā funkcijas maiņa.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu mainīgo, funkciju, nosacījumu, ciklu, datu elementu vai rezultāta izvadi.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projekta kodu.</li>
-            <li><b>Pārbaudi</b>, ka pamatfunkcija un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Izveido</b> sarakstu <code class="language-python">dati_saraksts = list(range(200000))</code>.</li>
+            <li><b>Izveido</b> kopu <code class="language-python">dati_kopa = set(dati_saraksts)</code>.</li>
+            <li><b>Izmēri</b> laiku pārbaudei <code class="language-python">199999 in dati_saraksts</code>.</li>
+            <li><b>Izmēri</b> laiku pārbaudei <code class="language-python">199999 in dati_kopa</code>.</li>
+            <li><b>Izdrukā</b> abus laikus ar <code>:.6f</code>.</li>
+            <li><b>Izrēķini</b>, cik reižu kopa bija ātrāka.</li>
+            <li><b>Pieraksti</b>, kāpēc te vairs nepietiek teikt, ka abas ir O(n).</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> kopa atbild gandrīz uzreiz, bet saraksts prasa manāmi ilgāk, un attiecība ir vismaz simtos reižu.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Izvēlies pareizo struktūru un pamato izvēli</h3>
+        <p>Beigās tu pratīsi izvēlēties struktūru pēc uzdevuma, nevis pēc ieraduma.</p>
+        <ol class="step-list">
+            <li><b>Pieraksti</b> trīs uzdevumus: TOP 5 rezultāti, spēlētāju vārdu pārbaude, spēlētāja profils.</li>
+            <li><b>Izvēlies</b> katram struktūru: saraksts, kopa vai vārdnīca.</li>
+            <li><b>Pamato</b> katru izvēli ar vienu teikumu.</li>
+            <li><b>Pārbaudi</b> kopu ar dublikātiem: pievieno vienu vārdu divreiz un izdrukā kopu.</li>
+            <li><b>Pārbaudi</b>, vai kopa saglabā pievienošanas secību.</li>
+            <li><b>Izlabo</b> savu izvēli, ja secība vai dublikāti to izjauc.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc TOP 5 sarakstam kopa neder.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> katram no trim uzdevumiem tev ir izvēlēta struktūra un viens teikums, kāpēc tieši tā.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Pārbaudi arī vārdnīcu</h3>
+        <p>Ja pamatdarbs ir gatavs, izmēri arī atslēgas meklēšanu vārdnīcā.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> vārdnīcu ar 200 000 atslēgām, izmantojot <code class="language-python">{i: i for i in range(200000)}</code>.</li>
+            <li><b>Izmēri</b> laiku pārbaudei <code class="language-python">199999 in vardnica</code>.</li>
+            <li><b>Salīdzini</b> to ar kopas un saraksta rezultātiem.</li>
+            <li><b>Pieraksti</b>, kura no trim struktūrām bija lēnākā.</li>
+            <li><b>Pieraksti</b>, ko vārdnīca dod papildus salīdzinājumā ar kopu.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> vārdnīcas un kopas laiki ir līdzīgi, bet abi krasi atšķiras no saraksta.</p>
     </div>
 </section>
+<div class='section'>
+    <h2>Koda piemērs (saraksts pret kopu - grūtākā daļa)</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">import time
+
+# Grūtākā doma šajā stundā: ātrumu var uzlabot, NEMAINOT algoritmu,
+# bet nomainot datu struktūru, kurā dati glabājas.
+
+n = 200000
+dati_saraksts = list(range(n))
+dati_kopa = set(dati_saraksts)     # tie paši dati, cita struktūra
+
+mekletais = n - 1                  # sliktākais gadījums: pats pēdējais
+
+sakums = time.time()
+atrasts_sarakstā = mekletais in dati_saraksts     # O(n) - iet pēc kārtas
+laiks_saraksts = time.time() - sakums
+
+sakums = time.time()
+atrasts_kopā = mekletais in dati_kopa             # O(1) - aprēķina vietu uzreiz
+laiks_kopa = time.time() - sakums
+
+print(f"Sarakstā: {atrasts_sarakstā}  ({laiks_saraksts:.6f} s)")
+print(f"Kopā:     {atrasts_kopā}  ({laiks_kopa:.6f} s)")
+print(f"Kopa ir ~{laiks_saraksts / laiks_kopa:.0f}x ātrāka")</code></pre>
+        <div class='result'>
+            Abas pārbaudes atgriež <code>True</code>, bet kopa atbild gandrīz uzreiz, kamēr saraksts pārstaigā visus 200 000 elementus. Uzmanies: kopa neglabā secību un nepieļauj dublikātus, tāpēc tā neder visur - piemēram, TOP 5 sarakstam tā nederēs.
+        </div>
+    </div>
+</div>
 <div class="stundas-navigacija">
     <a href="/programmesana1/prog1_7/prog1_74" class="nav-btn">⬅ Iepriekšējā stunda</a>
     <a href="/programmesana1/prog1_7/prog1_76" class="nav-btn">Nākamā stunda ➡</a>

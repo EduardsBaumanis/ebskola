@@ -73,8 +73,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izmēri O(1) darbību · 2. uzdevums (~25 min) - salīdzini O(n) ar O(n²) · 3. uzdevums (~20 min) - nosaki sarežģītību svešam kodam. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver VS Code un izveido failu <code>big_o.py</code>. Laiku mērīsi ar <code>time</code> bibliotēku, bet secinājumus izdarīsi par soļu skaitu, nevis sekundēm.</p>
     </div>
 </section>
 
@@ -106,108 +106,92 @@
 
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
-
-    <div class="logic-box">
-        <h3>1. uzdevums: "Konstantais ātrums - O(1)"</h3>
-        <p>Pierādīsim, ka O(1) darbības prasa vienādu laiku neatkarīgi no datu apjoma.</p>
+    <div class='logic-box'>
+        <h3>1. uzdevums - Izmēri O(1) darbību</h3>
+        <p>Beigās tu redzēsi, ka daži darbi neatkarīgi no datu apjoma aizņem vienādu laiku.</p>
         <ol class="step-list">
-        <li>Failā <code class="language-python">big_o.py</code> <b>importē</b> <code class="language-python">time</code> bibliotēku.</li>
-        <li><b>Izveido</b> funkciju <code class="language-python">iegut_pirmo(dati)</code>, kas atgriež saraksta elementu ar indeksu <code class="language-python">[0]</code>.</li>
-        <li><b>Izsauc</b> to divreiz: vienreiz ar sarakstu, kurā ir 10 elementi, otreiz – ar 10 000 000 elementiem.</li>
-        <li><b>Nomēri</b> un izdrukā laiku abiem izsaukumiem.</li>
+            <li><b>Ieraksti</b> <code class="language-python">import time</code>.</li>
+            <li><b>Uzraksti</b> funkciju <code class="language-python">def iegut_pirmo(dati):</code>, kas atgriež <code class="language-python">dati[0]</code>.</li>
+            <li><b>Izveido</b> sarakstu ar 10 elementiem un otru ar 1 000 000 elementiem.</li>
+            <li><b>Izmēri</b> laiku ar <code class="language-python">sakums = time.time()</code> pirms un pēc izsaukuma.</li>
+            <li><b>Izdrukā</b> abus laikus.</li>
+            <li><b>Pieraksti</b>, vai lielākais saraksts prasīja manāmi vairāk laika.</li>
         </ol>
-        <div class='code-example'>
-<pre><code class="language-python">
-import time
-
-def iegut_pirmo(dati):
-    return dati[0]
-
-mazs_saraksts = list(range(10))
-liels_saraksts = list(range(10000000))
-
-# Mērām mazam
-sakums = time.time()
-iegut_pirmo(mazs_saraksts)
-laiks_mazam = time.time() - sakums
-
-# Mērām lielam
-sakums = time.time()
-iegut_pirmo(liels_saraksts)
-laiks_lielam = time.time() - sakums
-
-print(f"O(1) laiks mazam sarakstam: {laiks_mazam:.7f}s")
-print(f"O(1) laiks milzīgam sarakstam: {laiks_lielam:.7f}s")
-</code></pre>
-            <div class="result"><b>Sagaidāmais rezultāts (laiks būs gandrīz identisks un ļoti tuvu nullei):</b><br>O(1) laiks mazam sarakstam: 0.0000010s<br>O(1) laiks milzīgam sarakstam: 0.0000012s</div>
-        </div>
+        <p class="done-when"><b>Gatavs, kad:</b> abi laiki ir gandrīz vienādi, lai gan viens saraksts ir 100 000 reižu lielāks.</p>
     </div>
-    <div class="logic-box">
-        <h3>2. uzdevums: "Lineārais O(n) pret Kvadrātisko O(n²)"</h3>
-        <p>Apskatīsim, cik reāli soļus dators veic atkarībā no uzrakstīto ciklu daudzuma.</p>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Salīdzini O(n) ar O(n kvadrātā)</h3>
+        <p>Beigās tu redzēsi, cik strauji aug ligzdota cikla laiks.</p>
         <ol class="step-list">
-        <li><b>Pievieno</b> failam divus mainīgos: <code class="language-python">soli_n = 0</code> un <code class="language-python">soli_n2 = 0</code>.</li>
-        <li><b>Izveido</b> vienu parastu <code class="language-python">for</code> ciklu no 0 līdz 100, kas katrā solī palielina <code class="language-python">soli_n</code> par 1.</li>
-        <li><b>Izveido</b> iegulto ciklu (cikls ciklā), kur abi iet no 0 līdz 100, un palielini <code class="language-python">soli_n2</code> par 1.</li>
-        <li><b>Izdrukā</b> abu mainīgo beigu vērtības.</li>
+            <li><b>Uzraksti</b> funkciju ar vienu ciklu, kas saskaita visus saraksta elementus.</li>
+            <li><b>Uzraksti</b> otru funkciju ar diviem ligzdotiem cikliem pār to pašu sarakstu.</li>
+            <li><b>Palaid</b> abas ar 100 elementiem un pieraksti laikus.</li>
+            <li><b>Palaid</b> abas ar 1000 elementiem un pieraksti laikus.</li>
+            <li><b>Izrēķini</b>, cik reižu pieauga katras funkcijas laiks.</li>
+            <li><b>Pieraksti</b>, kura funkcija palēninājās vairāk.</li>
         </ol>
-        <div class='code-example'>
-<pre><code class="language-python">
-elementu_skaits = 100
-
-soli_n = 0
-# O(n) - Lineārs algoritms
-for i in range(elementu_skaits):
-    soli_n += 1
-
-soli_n2 = 0
-# O(n^2) - Kvadrātisks algoritms
-for i in range(elementu_skaits):
-    for j in range(elementu_skaits):
-        soli_n2 += 1
-
-print(f"Datu apjoms: {elementu_skaits}")
-print(f"O(n) soļu skaits: {soli_n}")
-print(f"O(n^2) soļu skaits: {soli_n2}")
-</code></pre>
-            <div class="result"><b>Sagaidāmais rezultāts:</b><br>Datu apjoms: 100<br>O(n) soļu skaits: 100<br>O(n^2) soļu skaits: 10000</div>
-        </div>
+        <p class="done-when"><b>Gatavs, kad:</b> palielinot datus 10 reizes, viena cikla laiks aug ~10 reizes, bet ligzdotā - ~100 reizes.</p>
     </div>
-    <div class="logic-box">
-        <h3>3. uzdevums: "Koda analītiķis"</h3>
-        <p>Tavs uzdevums kā inženierim ir nolasīt kodu un uzreiz saprast tā sarežģītību.</p>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Nosaki sarežģītību svešam kodam</h3>
+        <p>Beigās tu pratīsi paskatīties uz kodu un pateikt tā Big O.</p>
         <ol class="step-list">
-        <li><b>Pārkopē</b> zemāk esošos trīs funkciju fragmentus savā Python failā.</li>
-        <li>Virs katras funkcijas <b>pievieno</b> komentāru (<code class="language-python">#</code>), kurā norādi tās Big O notāciju (piem., O(1), O(n), O(n²)).</li>
-        <li>Komentārā ar vienu teikumu <b>pamato</b> savu atbildi.</li>
+            <li><b>Uzraksti</b> trīs īsas funkcijas: vienu ar <code>saraksts[0]</code>, vienu ar vienu ciklu, vienu ar diviem ligzdotiem.</li>
+            <li><b>Pieraksti</b> katrai savu minējumu: O(1), O(n) vai O(n²).</li>
+            <li><b>Pievieno</b> katrai skaitītāju, cik operāciju tā veic.</li>
+            <li><b>Palaid</b> katru ar 10 un ar 100 elementiem.</li>
+            <li><b>Salīdzini</b> skaitītāja vērtības ar saviem minējumiem.</li>
+            <li><b>Izlabo</b> minējumu, ja skaitļi to neapstiprina.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc Big O nemēra sekundēs.</li>
         </ol>
-        <div class='code-example'>
-<pre><code class="language-python">
-# 1. Analīze
-# Tava atbilde: O(...) jo ...
-def dzes_pedejo(dati):
-    dati.pop()
-
-# 2. Analīze
-# Tava atbilde: O(...) jo ...
-def aprekinat_kopejo_rezultatu(punkti):
-    summa = 0
-    for punkts in punkti:
-        summa += punkts
-    return summa
-
-# 3. Analīze
-# Tava atbilde: O(...) jo ...
-def meklet_dublikatus(dati):
-    for i in dati:
-        for j in dati:
-            if i == j:
-                print("Atrasts dublikāts!")
-</code></pre>
-            <div class="result"><b>Sagaidāmais rezultāts:</b><br>Tev ir veiksmīgi jāaizpilda komentāri, norādot, ka pirmā funkcija ir O(1), otrā O(n), bet trešā O(n²), apzinoties iterāciju skaitu.</div>
-        </div>
+        <p class="done-when"><b>Gatavs, kad:</b> visiem trim gadījumiem tavs minējums sakrīt ar izmērīto operāciju skaita pieaugumu.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Atrodi O(log n)</h3>
+        <p>Ja pamatdarbs ir gatavs, izmēri bināro meklēšanu no 7.1 stundas.</p>
+        <ol class="step-list">
+            <li><b>Nokopē</b> savu <code>binary_search</code> funkciju no 7.1 stundas.</li>
+            <li><b>Pievieno</b> tai soļu skaitītāju, ja tā vēl nav.</li>
+            <li><b>Palaid</b> ar 100, 1000 un 10 000 elementiem.</li>
+            <li><b>Pieraksti</b> soļu skaitu katrā gadījumā.</li>
+            <li><b>Pieraksti</b>, par cik soļiem pieauga rezultāts, kad dati pieauga 10 reizes.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> dati pieaugot 10 reizes, soļu skaits pieaug tikai par dažiem - tā izskatās O(log n).</p>
     </div>
 </section>
+<div class='section'>
+    <h2>Koda piemērs (O(n) pret O(n²) mērījums - grūtākā daļa)</h2>
+    <div class='code-example'>
+        <pre><code class="language-python">import time
+
+# Grūtākā vieta: saprast, ka svarīgs nav SEKUNŽU skaits,
+# bet tas, CIK REIZES laiks pieaug, kad dati pieaug 10 reizes.
+
+def viens_cikls(dati):          # O(n)
+    kopa = 0
+    for x in dati:
+        kopa += x
+    return kopa
+
+def divi_cikli(dati):           # O(n kvadrātā)
+    skaits = 0
+    for x in dati:
+        for y in dati:
+            skaits += 1
+    return skaits
+
+for n in (100, 1000):
+    dati = list(range(n))
+
+    t0 = time.time(); viens_cikls(dati); t1 = time.time()
+    t2 = time.time(); divi_cikli(dati);  t3 = time.time()
+
+    print(f"n={n:5}  O(n)={t1-t0:.5f}s   O(n^2)={t3-t2:.5f}s")</code></pre>
+        <div class='result'>
+            Palielinot n no 100 uz 1000 (10 reizes), O(n) funkcijas laiks pieaug aptuveni 10 reizes, bet O(n²) funkcijas laiks - aptuveni 100 reizes. Tieši šī attiecība, nevis pati sekunžu vērtība, ir Big O jēga.
+        </div>
+    </div>
+</div>
 <div class="stundas-navigacija">
     <a href="/programmesana1/prog1_7/prog1_72" class="nav-btn">⬅ Iepriekšējā stunda</a>
     <a href="/programmesana1/prog1_7/prog1_74" class="nav-btn">Nākamā stunda ➡</a>

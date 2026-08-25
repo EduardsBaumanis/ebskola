@@ -74,8 +74,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - uzraksti lineāro meklēšanu · 2. uzdevums (~25 min) - uzraksti bināro meklēšanu sakārtotā sarakstā · 3. uzdevums (~20 min) - saskaiti soļus abiem un salīdzini. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver VS Code un izveido failu <code>mekle_skaitli.py</code>. Binārā meklēšana strādā tikai sakārtotā sarakstā - to atceries visu stundu.</p>
     </div>
 </section>
 
@@ -141,87 +141,93 @@ code .
 
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
-
-    <div class="logic-box">
-        <h3>1. uzdevums: "Kur ir mans skaitlis?"</h3>
-        <p>Sāksim ar lineāro meklēšanu. Tavs uzdevums ir izveidot funkciju, kas pārbauda spēlētāja inventāru.</p>
+    <div class='logic-box'>
+        <h3>1. uzdevums - Uzraksti lineāro meklēšanu</h3>
+        <p>Beigās funkcija pateiks, kurā vietā sarakstā atrodas meklētais ID.</p>
         <ol class="step-list">
-        <li>Failā <code class="language-python">mekle_skaitli.py</code> <b>izveido</b> sarakstu ar nejaušiem priekšmetu ID numuriem.</li>
-        <li><b>Izveido</b> funkciju <code class="language-python">linear_search(saraksts, mekletais)</code>.</li>
-        <li><b>Izmanto</b> <code class="language-python">for</code> ciklu un <code class="language-python">enumerate()</code>, lai ietu cauri sarakstam un atgrieztu indeksa numuru, kur priekšmets atrasts.</li>
-        <li>Ja priekšmets nav atrasts, <b>atgriez</b> <code class="language-python">-1</code>.</li>
+            <li><b>Izveido</b> sarakstu ar 20 nejaušiem ID numuriem, izmantojot <code class="language-python">random.randint</code>.</li>
+            <li><b>Uzraksti</b> funkciju <code class="language-python">def linear_search(saraksts, mekletais):</code>.</li>
+            <li><b>Izmanto</b> funkcijā ciklu <code class="language-python">for i, elements in enumerate(saraksts):</code>.</li>
+            <li><b>Atgriez</b> indeksu <code>i</code>, tiklīdz elements sakrīt ar meklēto.</li>
+            <li><b>Atgriez</b> funkcijas beigās <code class="language-python">-1</code>, ja nekas netika atrasts.</li>
+            <li><b>Izsauc</b> funkciju gan ar esošu, gan neesošu numuru.</li>
         </ol>
-        <div class='code-example'>
-<pre><code class="language-python">
-def linear_search(inventars, meklejama_atslega):
-    for indekss, prieksmets in enumerate(inventars):
-        if prieksmets == meklejama_atslega:
-            return indekss
-    return -1
-
-speletaja_inventars = [45, 12, 89, 3, 99, 21]
-atraduma_vieta = linear_search(speletaja_inventars, 99)
-
-print(f"Slepenā atslēga atrasta slotā: {atraduma_vieta}")
-</code></pre>
-            <div class="result"><b>Sagaidāmais rezultāts:</b><br>Slepenā atslēga atrasta slotā: 4</div>
-        </div>
+        <p class="done-when"><b>Gatavs, kad:</b> ar esošu numuru funkcija atgriež indeksu, ar neesošu - <code>-1</code>, nevis kļūdu.</p>
     </div>
-    <div class="logic-box">
-        <h3>2. uzdevums: "Grāmatas metode" un Datu kārtošana</h3>
-        <p>Lai izmantotu bināro meklēšanu, dati ir jāsakārto. Sagatavosim datus un simulēsim bināro meklēšanu.</p>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Uzraksti bināro meklēšanu sakārtotā sarakstā</h3>
+        <p>Beigās meklēšana atmetīs pusi saraksta katrā solī.</p>
         <ol class="step-list">
-        <li><b>Pievieno</b> esošajam kodam jaunu sarakstu: <code class="language-python">nesakartoti_dati = [42, 15, 8, 99, 23, 4, 16, 81, 100, 5, 1, 33, 50, 60, 11]</code>.</li>
-        <li><b>Izmanto</b> Python iebūvēto funkciju <code class="language-python">sorted()</code>, lai izveidotu jaunu, sakārtotu sarakstu un to izdrukātu.</li>
-        <li><b>Izveido</b> daudzrindu komentāru (<code class="language-python">""" ... """</code>), kurā apraksti soļus, kā Tu, izmantojot binārās meklēšanas loģiku, atrastu skaitli <b>42</b> šajā sakārtotajā sarakstā.</li>
+            <li><b>Sakārto</b> sarakstu ar <code class="language-python">saraksts.sort()</code>.</li>
+            <li><b>Uzraksti</b> funkciju <code class="language-python">def binary_search(saraksts, mekletais):</code>.</li>
+            <li><b>Ieraksti</b> tajā <code class="language-python">apaksa = 0</code> un <code class="language-python">augsa = len(saraksts) - 1</code>.</li>
+            <li><b>Uzraksti</b> ciklu <code class="language-python">while apaksa &lt;= augsa:</code>.</li>
+            <li><b>Izrēķini</b> vidu ar <code class="language-python">vidus = (apaksa + augsa) // 2</code>.</li>
+            <li><b>Pārbīdi</b> <code>apaksa</code> vai <code>augsa</code> atkarībā no salīdzinājuma.</li>
+            <li><b>Izsauc</b> abas funkcijas ar to pašu skaitli un salīdzini rezultātus.</li>
         </ol>
-        <div class='code-example'>
-<pre><code class="language-python">
-nesakartoti_dati = [42, 15, 8, 99, 23, 4, 16, 81, 100, 5, 1, 33, 50, 60, 11]
-sakartoti_dati = sorted(nesakartoti_dati)
-print(f"Sakārtots inventārs: {sakartoti_dati}")
-
-"""
-Binārās meklēšanas simulācija skaitlim 42:
-Saraksts: [1, 4, 5, 8, 11, 15, 16, 23, 33, 42, 50, 60, 81, 99, 100]
-1. solis: Vidējais elements ir 23. 42 ir lielāks, atmetam kreiso pusi un 23.
-2. solis: Jauns diapazons [33, 42, 50, 60, 81, 99, 100]. Vidējais ir 60. 42 ir mazāks, atmetam labo pusi.
-3. solis: Jauns diapazons [33, 42, 50]. Vidējais ir 42. Atrasts! Pārbaudes prasīja 3 soļus.
-"""
-</code></pre>
-            <div class="result"><b>Sagaidāmais rezultāts:</b><br>Sakārtots inventārs: [1, 4, 5, 8, 11, 15, 16, 23, 33, 42, 50, 60, 81, 99, 100]</div>
-        </div>
+        <p class="done-when"><b>Gatavs, kad:</b> abas funkcijas atrod vienu un to pašu skaitli, un binārā strādā tikai pēc <code>sort()</code>.</p>
     </div>
-    <div class="logic-box">
-        <h3>3. uzdevums: "Efektivitātes mērītājs"</h3>
-        <p>Cik lēna patiesībā ir lineārā meklēšana? Pārbaudīsim to ar miljonu ierakstiem!</p>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Saskaiti soļus abiem un salīdzini</h3>
+        <p>Beigās tu skaitļos redzēsi, cik lielā mērā binārā meklēšana ir ātrāka.</p>
         <ol class="step-list">
-        <li>Faila sākumā <b>importē</b> bibliotēku: <code class="language-python">import time</code>.</li>
-        <li><b>Izmanto</b> <code class="language-python">range()</code> un <code class="language-python">list()</code>, lai izveidotu sarakstu <code class="language-python">lieli_dati</code> ar 1 000 000 secīgiem skaitļiem.</li>
-        <li><b>Mēģini</b> atrast pēdējo skaitli (999999), izmantojot savu iepriekš izveidoto <code class="language-python">linear_search</code> funkciju.</li>
-        <li><b>Piefiksē</b> sākuma un beigu laiku, lai aprēķinātu, cik sekundes aizņēma meklēšana.</li>
+            <li><b>Pievieno</b> abām funkcijām skaitītāju <code class="language-python">soli = 0</code>.</li>
+            <li><b>Palielini</b> to katrā cikla iterācijā.</li>
+            <li><b>Atgriez</b> gan indeksu, gan soļu skaitu.</li>
+            <li><b>Palaid</b> abas ar sarakstu no 20 elementiem un pieraksti soļus.</li>
+            <li><b>Palielini</b> sarakstu līdz 1000 elementiem un palaid vēlreiz.</li>
+            <li><b>Pieraksti</b>, cik reižu pieauga soļu skaits katrai metodei.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc binārajai meklēšanai vajag sakārtotu sarakstu.</li>
         </ol>
-        <div class='code-example'>
-<pre><code class="language-python">
-import time
-
-# Izveidojam milzīgu inventāru
-lieli_dati = list(range(1000000))
-
-# Mērām laiku
-sakuma_laiks = time.time()
-rezultats = linear_search(lieli_dati, 999999)
-beigu_laiks = time.time()
-
-pateretais_laiks = beigu_laiks - sakuma_laiks
-
-print(f"Skaitlis atrasts indeksā: {rezultats}")
-print(f"Lineārā meklēšana aizņēma: {pateretais_laiks:.5f} sekundes")
-</code></pre>
-            <div class="result"><b>Sagaidāmais rezultāts (laiks atšķirsies atkarībā no datora):</b><br>Skaitlis atrasts indeksā: 999999<br>Lineārā meklēšana aizņēma: 0.04512 sekundes</div>
-        </div>
+        <p class="done-when"><b>Gatavs, kad:</b> palielinot sarakstu 50 reizes, lineārās meklēšanas soļi aug ļoti strauji, bet binārās - tikai par dažiem.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Izmēģini iebūvēto index()</h3>
+        <p>Ja pamatdarbs ir gatavs, salīdzini savu kodu ar Python gatavo risinājumu.</p>
+        <ol class="step-list">
+            <li><b>Izmanto</b> <code class="language-python">saraksts.index(mekletais)</code> tā paša skaitļa meklēšanai.</li>
+            <li><b>Salīdzini</b> rezultātu ar savas funkcijas atbildi.</li>
+            <li><b>Izsauc</b> <code>index()</code> ar neesošu skaitli un pieraksti kļūdu.</li>
+            <li><b>Ieliec</b> to <code>try/except ValueError</code> blokā.</li>
+            <li><b>Pieraksti</b>, ar ko <code>index()</code> uzvedība atšķiras no tavas funkcijas.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> <code>index()</code> ar neesošu skaitli met <code>ValueError</code>, bet tava funkcija atgriež <code>-1</code>.</p>
     </div>
 </section>
+<div class='section'>
+    <h2>Koda piemērs (binārās meklēšanas robežas - grūtākā daļa)</h2>
+    <div class='code-example'>
+        <pre><code class="language-python"># Grūtākā vieta nav pati ideja "atmetam pusi", bet DIVAS ROBEŽAS.
+# Ja apaksa/augsa pārbīda nepareizi, cikls vai nu izlaiž atbildi,
+# vai griežas mūžīgi. Tāpēc pēc salīdzinājuma vidus VIENMĒR tiek izslēgts.
+
+def binary_search(saraksts, mekletais):
+    apaksa = 0
+    augsa = len(saraksts) - 1
+    soli = 0
+
+    while apaksa &lt;= augsa:          # &lt;= , nevis &lt; - citādi pazūd pēdējais elements
+        soli += 1
+        vidus = (apaksa + augsa) // 2
+
+        if saraksts[vidus] == mekletais:
+            return vidus, soli
+        elif saraksts[vidus] &lt; mekletais:
+            apaksa = vidus + 1       # +1 izslēdz jau pārbaudīto vidu
+        else:
+            augsa = vidus - 1        # -1 izslēdz jau pārbaudīto vidu
+
+    return -1, soli
+
+dati = sorted([42, 15, 8, 99, 23, 4, 16, 81, 100, 5, 1, 33, 50, 60, 11])
+vieta, soli = binary_search(dati, 42)
+print(f"Atrasts indeksā {vieta}, izmantojot {soli} soļus.")</code></pre>
+        <div class='result'>
+            15 elementu sarakstā skaitlis tiek atrasts 3-4 soļos, nevis 10. Ja aizmirsti <code>+1</code> vai <code>-1</code>, cikls nekad nebeidzas - tieši tur iestrēgst lielākā daļa skolēnu.
+        </div>
+    </div>
+</div>
 <div class="stundas-navigacija">
     <a href="/programmesana1/prog1_7/prog1_7main" class="nav-btn">⬅ Tēmas apkopojums</a>
     <a href="/programmesana1/prog1_7/prog1_72" class="nav-btn">Nākamā stunda ➡</a>
