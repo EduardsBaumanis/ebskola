@@ -77,8 +77,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~15 min) - izveido trīs tabulu shēmu · 2. uzdevums (~25 min) - uzraksti Python funkcijas rezultātu pievienošanai · 3. uzdevums (~20 min) - izveido TOP sarakstu un statistiku. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> šis ir 10. tēmas noslēguma projekts. Vajadzēs PostgreSQL un psycopg2. Sāc ar shēmu uz papīra, pirms raksti SQL.</p>
     </div>
 </section>
 
@@ -102,59 +102,57 @@ rezultati (id, speletajs_id, speles_veids_id, punkti, spelets)</code></pre>
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>10.6 Noslēguma projekts: Highscore datubāze</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-sql">speletaji (id, vards, izveidots)
-speles_veidi (id, nosaukums)
-rezultati (id, speletajs_id, speles_veids_id, punkti, spelets)</code></pre>
+        <h3>1. uzdevums - Izveido trīs tabulu shēmu</h3>
+        <p>Beigās tavā datubāzē būs pareizi saistītas trīs tabulas.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. SQL fragmentu ievieto <code class="language-sql">queries.sql</code> failā vai datubāzes klienta vaicājuma logā.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Izveido</b> failu <code>schema.sql</code>.</li>
+            <li><b>Uzraksti</b> tabulu <code>speletaji</code> ar <code>id</code> un unikālu <code>vards</code>.</li>
+            <li><b>Uzraksti</b> tabulu <code>speles_veidi</code> ar <code>id</code> un unikālu <code>nosaukums</code>.</li>
+            <li><b>Uzraksti</b> tabulu <code>rezultati</code> ar ārējām atslēgām uz abām iepriekšējām.</li>
+            <li><b>Pievieno</b> <code>rezultati</code> tabulai <code>punkti</code> ar <code>CHECK</code> un <code>datums</code>.</li>
+            <li><b>Izpildi</b> skriptu un pārbaudi visas trīs tabulas.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> visas trīs tabulas eksistē, un <code>rezultati</code> nevar ievadīt bez esoša spēlētāja un spēles veida.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas datu paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Uzraksti Python funkcijas rezultātu pievienošanai</h3>
+        <p>Beigās jebkura tava spēle varēs saglabāt rezultātu ar vienu izsaukumu.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: rezultātu glabāšanu, spēlētāju sarakstu, statistiku, CRUD darbību vai atskaiti.</li>
-            <li><b>Nosauc</b> tabulas, kolonnas, funkcijas un mainīgos pēc to lomas, piemēram, <code>speletaji</code>, <code>rezultati</code> vai <code>ielade_topu()</code>.</li>
-            <li><b>Uzraksti</b> SQL vaicājumu vai Python funkciju, kas nolasa, saglabā, atjaunina vai apkopo datus.</li>
-            <li><b>Savieno</b> vaicājumu ar projekta Python kodu vai rezultāta izvadi.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās datu apstrādes vietas.</li>
-            <li><b>Pārbaudi</b>, ka esošie dati netiek sabojāti un atkārtota palaišana dod saprotamu rezultātu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo vaicājumu.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto datu funkcionalitāti.</li>
+            <li><b>Izveido</b> failu <code>highscore.py</code>.</li>
+            <li><b>Uzraksti</b> funkciju <code class="language-python">def pievieno_rezultatu(vards, speles_veids, punkti):</code>.</li>
+            <li><b>Atrodi</b> vai izveido spēlētāju un atgriez viņa <code>id</code>.</li>
+            <li><b>Atrodi</b> vai izveido spēles veidu un atgriez tā <code>id</code>.</li>
+            <li><b>Ievadi</b> rezultātu, izmantojot <code>%s</code> vietturus.</li>
+            <li><b>Izsauc</b> funkciju piecas reizes ar dažādiem datiem.</li>
+            <li><b>Pārbaudi</b> datubāzē, ka spēlētāji nedublējas.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc pieciem izsaukumiem tabulā <code>rezultati</code> ir 5 rindas, bet katrs spēlētājs ir tikai vienreiz.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē datus un izdari secinājumu</h3>
-        <p>Pārbaudi, vai datu algoritms darbojas paredzami.</p>
+        <h3>3. uzdevums - Izveido TOP sarakstu un statistiku</h3>
+        <p>Beigās tava programma atgriezīs gatavu rezultātu tabulu.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parasts ieraksts, robežgadījums un kļūdains vai tukšs ieraksts.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu terminālī vai datubāzē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko datu vērtību.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai kods neizdzēš vai nesabojā vajadzīgos datus.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu SQL vaicājumā, Python kodā vai datu validācijā.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura tabula, vaicājums vai Python funkcija vislabāk palīdzēja saprast tēmu <b>10.6 Noslēguma projekts: Highscore datubāze</b>.</li>
+            <li><b>Uzraksti</b> funkciju <code class="language-python">def top_saraksts(speles_veids, limits=5):</code>.</li>
+            <li><b>Izmanto</b> tajā <code>JOIN</code> starp visām trim tabulām.</li>
+            <li><b>Pievieno</b> <code>WHERE</code> pēc spēles veida un <code>ORDER BY</code> pēc punktiem.</li>
+            <li><b>Uzraksti</b> otru funkciju, kas atgriež vidējo, rekordu un spēļu skaitu.</li>
+            <li><b>Izdrukā</b> abu funkciju rezultātus glītā tabulā.</li>
+            <li><b>Veic</b> commit ar ziņu <code>Pievieno highscore datubazi</code> un push.</li>
+            <li><b>Iesniedz</b> krātuves saiti skolotājam.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> TOP saraksts atgriež tieši norādītās spēles rezultātus, sakārtotus no labākā.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu datu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu datu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Filtrē pēc datumu intervāla</h3>
+        <p>Ja pamatdarbs ir gatavs, ļauj skatīt tikai šīs nedēļas rezultātus.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu kolonnu, filtru, kārtošanu, ievades pārbaudi vai atskaites izvadi.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projekta kodu.</li>
-            <li><b>Pārbaudi</b>, ka pamatvaicājumi un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Pievieno</b> funkcijai parametrus <code>no_datuma</code> un <code>lidz_datumam</code>.</li>
+            <li><b>Papildini</b> vaicājumu ar <code class="language-sql">WHERE datums BETWEEN %s AND %s</code>.</li>
+            <li><b>Izsauc</b> funkciju ar pēdējo septiņu dienu intervālu.</li>
+            <li><b>Pārbaudi</b>, ka vecāki rezultāti neparādās.</li>
+            <li><b>Pārbaudi</b>, ka tukšs intervāls neizraisa kļūdu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> vaicājums atgriež tikai norādītā intervāla rezultātus, un tukšs intervāls dod tukšu sarakstu.</p>
     </div>
 </section>
 <section class='section'>

@@ -76,8 +76,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - ievadi datus ar INSERT · 2. uzdevums (~25 min) - filtrē un kārto ar SELECT · 3. uzdevums (~20 min) - droši lieto UPDATE un DELETE. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver savu datubāzi <code>spele</code> no 10.1 stundas. Brīdinājums: <code>UPDATE</code> un <code>DELETE</code> bez <code>WHERE</code> maina visas rindas.</p>
     </div>
 </section>
 
@@ -111,70 +111,57 @@ DELETE FROM speletaji WHERE punkti &lt; 50;</code></pre>
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-sql">-- INSERT (var ievadīt vairākas rindas reizē)
-INSERT INTO speletaji (vards, punkti) VALUES ('Anna', 120), ('Jānis', 95);
-
--- SELECT (filtrēšana, kārtošana, ierobežošana)
-SELECT vards, punkti FROM speletaji
-WHERE punkti &gt; 100
-ORDER BY punkti DESC
-LIMIT 5;
-
--- UPDATE (vienmēr ar WHERE - citādi atjaunina visu!)
-UPDATE speletaji SET punkti = punkti + 10 WHERE vards = 'Anna';
-
--- DELETE (uzmanīgi! vienmēr ar WHERE)
-DELETE FROM speletaji WHERE punkti &lt; 50;</code></pre>
+        <h3>1. uzdevums - Ievadi datus ar INSERT</h3>
+        <p>Beigās tabulā būs pietiekami daudz datu, ar ko strādāt.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. SQL fragmentu ievieto <code class="language-sql">queries.sql</code> failā vai datubāzes klienta vaicājuma logā.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Izpildi</b> <code class="language-sql">INSERT INTO speletaji (vards, punkti) VALUES ('Anna', 120), ('Jānis', 95);</code>.</li>
+            <li><b>Pievieno</b> vēl četrus spēlētājus vienā komandā.</li>
+            <li><b>Izpildi</b> <code class="language-sql">SELECT COUNT(*) FROM speletaji;</code>.</li>
+            <li><b>Pārbaudi</b>, vai skaitlis sakrīt ar ievadīto rindu skaitu.</li>
+            <li><b>Izpildi</b> <code class="language-sql">SELECT * FROM speletaji;</code> un apskati <code>id</code> kolonnu.</li>
+            <li><b>Pieraksti</b>, kas piešķīra <code>id</code> vērtības, ja tu tās neievadīji.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> tabulā ir vismaz 6 spēlētāji, un katram ir automātiski piešķirts unikāls <code>id</code>.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas datu paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Filtrē un kārto ar SELECT</h3>
+        <p>Beigās tu izvilksi tieši tos datus, kas vajadzīgi, nevis visus.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: rezultātu glabāšanu, spēlētāju sarakstu, statistiku, CRUD darbību vai atskaiti.</li>
-            <li><b>Nosauc</b> tabulas, kolonnas, funkcijas un mainīgos pēc to lomas, piemēram, <code>speletaji</code>, <code>rezultati</code> vai <code>ielade_topu()</code>.</li>
-            <li><b>Uzraksti</b> SQL vaicājumu vai Python funkciju, kas nolasa, saglabā, atjaunina vai apkopo datus.</li>
-            <li><b>Savieno</b> vaicājumu ar projekta Python kodu vai rezultāta izvadi.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās datu apstrādes vietas.</li>
-            <li><b>Pārbaudi</b>, ka esošie dati netiek sabojāti un atkārtota palaišana dod saprotamu rezultātu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo vaicājumu.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto datu funkcionalitāti.</li>
+            <li><b>Izpildi</b> <code class="language-sql">SELECT vards, punkti FROM speletaji WHERE punkti &gt; 100;</code>.</li>
+            <li><b>Pievieno</b> <code class="language-sql">ORDER BY punkti DESC</code> un izpildi vēlreiz.</li>
+            <li><b>Pievieno</b> <code class="language-sql">LIMIT 3</code> un pieraksti, cik rindu atgriezās.</li>
+            <li><b>Uzraksti</b> vaicājumu, kas atrod spēlētājus ar punktiem no 50 līdz 100.</li>
+            <li><b>Uzraksti</b> vaicājumu, kas atrod spēlētāju pēc vārda.</li>
+            <li><b>Izpildi</b> <code class="language-sql">SELECT AVG(punkti) FROM speletaji;</code>.</li>
+            <li><b>Pieraksti</b> vidējo punktu skaitu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> TOP 3 vaicājums atgriež tieši trīs rindas, sakārtotas no lielākā punktu skaita.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē datus un izdari secinājumu</h3>
-        <p>Pārbaudi, vai datu algoritms darbojas paredzami.</p>
+        <h3>3. uzdevums - Droši lieto UPDATE un DELETE</h3>
+        <p>Beigās tu zināsi, kā nesabojāt visu tabulu ar vienu komandu.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parasts ieraksts, robežgadījums un kļūdains vai tukšs ieraksts.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu terminālī vai datubāzē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko datu vērtību.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai kods neizdzēš vai nesabojā vajadzīgos datus.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu SQL vaicājumā, Python kodā vai datu validācijā.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura tabula, vaicājums vai Python funkcija vislabāk palīdzēja saprast tēmu <b>10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</b>.</li>
+            <li><b>Izpildi</b> vispirms <code class="language-sql">SELECT * FROM speletaji WHERE vards = 'Anna';</code>.</li>
+            <li><b>Pārliecinies</b>, ka atgriežas tieši viena rinda.</li>
+            <li><b>Izpildi</b> <code class="language-sql">UPDATE speletaji SET punkti = punkti + 10 WHERE vards = 'Anna';</code>.</li>
+            <li><b>Pārbaudi</b> rezultātu ar <code>SELECT</code>.</li>
+            <li><b>Izpildi</b> <code class="language-sql">SELECT * FROM speletaji WHERE punkti &lt; 50;</code>.</li>
+            <li><b>Izdzēs</b> tieši šīs rindas ar <code class="language-sql">DELETE FROM speletaji WHERE punkti &lt; 50;</code>.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc pirms <code>UPDATE</code> vienmēr jāizpilda <code>SELECT</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> Annas punkti pieauga tieši par 10, un dzēstas tikai tās rindas, ko iepriekš redzēji <code>SELECT</code> rezultātā.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu datu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu datu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Izmēģini transakciju</h3>
+        <p>Ja pamatdarbs ir gatavs, iemācies atsaukt kļūdainu komandu.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu kolonnu, filtru, kārtošanu, ievades pārbaudi vai atskaites izvadi.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projekta kodu.</li>
-            <li><b>Pārbaudi</b>, ka pamatvaicājumi un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Izpildi</b> <code class="language-sql">BEGIN;</code>.</li>
+            <li><b>Izpildi</b> <code class="language-sql">DELETE FROM speletaji;</code> bez <code>WHERE</code>.</li>
+            <li><b>Pārbaudi</b> ar <code>SELECT</code>, ka tabula ir tukša.</li>
+            <li><b>Izpildi</b> <code class="language-sql">ROLLBACK;</code>.</li>
+            <li><b>Pārbaudi</b> ar <code>SELECT</code> vēlreiz.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc <code>ROLLBACK</code> visi dati ir atgriezušies, it kā dzēšana nekad nebūtu notikusi.</p>
     </div>
 </section>
 <section class='section'>

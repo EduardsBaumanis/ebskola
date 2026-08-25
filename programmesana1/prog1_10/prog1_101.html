@@ -30,6 +30,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 </head>
 <body class="page-reference has-sidebar">
 <header class="topbar">
@@ -76,8 +77,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izveido datubāzi un pieslēdzies · 2. uzdevums (~25 min) - uzraksti pirmo CREATE TABLE · 3. uzdevums (~20 min) - pārbaudi datu tipu ierobežojumus. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> uzstādi PostgreSQL un atver pgAdmin vai psql. Ja instalēšana neizdodas, pasaki skolotājam - visu stundu var izpildīt arī uz kopīgā skolas servera.</p>
     </div>
 </section>
 
@@ -104,62 +105,56 @@ CREATE TABLE speletaji (
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>10.1 Ievads datubāzēs un PostgreSQL</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-sql">-- Pirmā tabula
-CREATE TABLE speletaji (
-    id SERIAL PRIMARY KEY,    -- auto-increment unikāls ID
-    vards TEXT NOT NULL,
-    punkti INTEGER DEFAULT 0
-);</code></pre>
+        <h3>1. uzdevums - Izveido datubāzi un pieslēdzies</h3>
+        <p>Beigās tev būs sava datubāze, kurā strādāt visu tēmu.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. SQL fragmentu ievieto <code class="language-sql">queries.sql</code> failā vai datubāzes klienta vaicājuma logā.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Atver</b> pgAdmin vai izpildi terminālī <code class="language-bash">psql -U postgres</code>.</li>
+            <li><b>Izpildi</b> <code class="language-sql">CREATE DATABASE spele;</code>.</li>
+            <li><b>Pieslēdzies</b> tai ar <code class="language-bash">\c spele</code> vai izvēlies to pgAdmin sarakstā.</li>
+            <li><b>Izpildi</b> <code class="language-sql">SELECT version();</code>.</li>
+            <li><b>Pieraksti</b>, kāda PostgreSQL versija tev uzstādīta.</li>
+            <li><b>Pieraksti</b>, ar kādu lietotājvārdu tu pieslēdzies.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> <code>SELECT version();</code> atgriež versijas tekstu, nevis kļūdu par pieslēgumu.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas datu paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Uzraksti pirmo CREATE TABLE</h3>
+        <p>Beigās datubāzē būs tabula ar pareiziem datu tipiem.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: rezultātu glabāšanu, spēlētāju sarakstu, statistiku, CRUD darbību vai atskaiti.</li>
-            <li><b>Nosauc</b> tabulas, kolonnas, funkcijas un mainīgos pēc to lomas, piemēram, <code>speletaji</code>, <code>rezultati</code> vai <code>ielade_topu()</code>.</li>
-            <li><b>Uzraksti</b> SQL vaicājumu vai Python funkciju, kas nolasa, saglabā, atjaunina vai apkopo datus.</li>
-            <li><b>Savieno</b> vaicājumu ar projekta Python kodu vai rezultāta izvadi.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās datu apstrādes vietas.</li>
-            <li><b>Pārbaudi</b>, ka esošie dati netiek sabojāti un atkārtota palaišana dod saprotamu rezultātu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo vaicājumu.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto datu funkcionalitāti.</li>
+            <li><b>Izveido</b> failu <code>schema.sql</code>.</li>
+            <li><b>Ieraksti</b> <code class="language-sql">CREATE TABLE IF NOT EXISTS speletaji (</code>.</li>
+            <li><b>Pievieno</b> lauku <code class="language-sql">id SERIAL PRIMARY KEY</code>.</li>
+            <li><b>Pievieno</b> lauku <code class="language-sql">vards TEXT NOT NULL UNIQUE</code>.</li>
+            <li><b>Pievieno</b> laukus <code class="language-sql">punkti INTEGER DEFAULT 0</code> un <code class="language-sql">izveidots TIMESTAMP DEFAULT NOW()</code>.</li>
+            <li><b>Izpildi</b> skriptu un pārbaudi tabulu ar <code class="language-sql">\d speletaji</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> tabula <code>speletaji</code> eksistē un tajā ir visi četri lauki ar pareiziem tipiem.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē datus un izdari secinājumu</h3>
-        <p>Pārbaudi, vai datu algoritms darbojas paredzami.</p>
+        <h3>3. uzdevums - Pārbaudi datu tipu ierobežojumus</h3>
+        <p>Beigās tu redzēsi, ka datubāze pati neļauj ievadīt sliktus datus.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parasts ieraksts, robežgadījums un kļūdains vai tukšs ieraksts.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu terminālī vai datubāzē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko datu vērtību.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai kods neizdzēš vai nesabojā vajadzīgos datus.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu SQL vaicājumā, Python kodā vai datu validācijā.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura tabula, vaicājums vai Python funkcija vislabāk palīdzēja saprast tēmu <b>10.1 Ievads datubāzēs un PostgreSQL</b>.</li>
+            <li><b>Ievadi</b> vienu spēlētāju ar <code class="language-sql">INSERT INTO speletaji (vards) VALUES ('Anna');</code>.</li>
+            <li><b>Izpildi</b> to pašu komandu vēlreiz un izlasi kļūdu.</li>
+            <li><b>Pieraksti</b>, kurš ierobežojums to neļāva.</li>
+            <li><b>Mēģini</b> ievadīt spēlētāju bez vārda un pieraksti kļūdu.</li>
+            <li><b>Mēģini</b> ievadīt punktus kā tekstu <code>'daudz'</code> un pieraksti kļūdu.</li>
+            <li><b>Izpildi</b> <code class="language-sql">SELECT * FROM speletaji;</code> un pārbaudi, cik rindu ir.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: ar ko datubāze šeit ir labāka par CSV failu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> datubāze noraidīja trīs nederīgus ierakstus, un tabulā ir tikai viena derīga rinda.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu datu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu datu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Pievieno CHECK ierobežojumu</h3>
+        <p>Ja pamatdarbs ir gatavs, neļauj ievadīt negatīvus punktus.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu kolonnu, filtru, kārtošanu, ievades pārbaudi vai atskaites izvadi.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projekta kodu.</li>
-            <li><b>Pārbaudi</b>, ka pamatvaicājumi un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Izpildi</b> <code class="language-sql">ALTER TABLE speletaji ADD CONSTRAINT punkti_pozitivi CHECK (punkti &gt;= 0);</code>.</li>
+            <li><b>Mēģini</b> ievadīt spēlētāju ar punktiem <code>-10</code>.</li>
+            <li><b>Pieraksti</b> kļūdas nosaukumu.</li>
+            <li><b>Ievadi</b> spēlētāju ar punktiem <code>50</code> un pārbaudi, ka tas izdodas.</li>
+            <li><b>Pieraksti</b>, kāpēc šādu pārbaudi labāk likt datubāzē, nevis Python kodā.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> negatīvi punkti tiek noraidīti pašā datubāzē, arī tad, ja Python kods to nepārbauda.</p>
     </div>
 </section>
 <section class='section'>
