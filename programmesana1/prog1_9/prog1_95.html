@@ -75,8 +75,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - saglabā skaitītāju ar session_state · 2. uzdevums (~25 min) - uzbūvē To-Do sarakstu ar formu · 3. uzdevums (~20 min) - pievieno dzēšanu un notīrīšanu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver Streamlit projektu. Šajā stundā galvenais jēdziens ir <code>st.session_state</code> - bez tā lapa aizmirst visu pie katras pārlādes.</p>
     </div>
 </section>
 
@@ -114,80 +114,57 @@ st.dataframe(st.session_state.saraksts)</code></pre>
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>9.5 Interaktivitāte pārlūkprogrammā</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-python">import streamlit as st
-
-# Inicializācija (tikai pirmoreiz)
-if "klikski" not in st.session_state:
-    st.session_state.klikski = 0
-if "saraksts" not in st.session_state:
-    st.session_state.saraksts = []
-
-# Atjaunināšana
-if st.button("Klikšķini mani"):
-    st.session_state.klikski += 1
-
-st.write(f"Klikšķi: {st.session_state.klikski}")
-
-# Forma - apkopo visus inputus pirms iesniegšanas
-with st.form("speletajs"):
-    vards = st.text_input("Vārds")
-    punkti = st.number_input("Punkti")
-    iesniegt = st.form_submit_button("Pievienot")
-
-if iesniegt:
-    st.session_state.saraksts.append({"vards": vards, "punkti": punkti})
-
-st.dataframe(st.session_state.saraksts)</code></pre>
+        <h3>1. uzdevums - Saglabā skaitītāju ar session_state</h3>
+        <p>Beigās tu redzēsi, kāpēc parasts mainīgais Streamlit lapā nestrādā.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. Python fragmentu ievieto <code class="language-python">main.py</code> failā un palaid no termināļa.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Ieraksti</b> <code class="language-python">klikski = 0</code> un pogu, kas to palielina.</li>
+            <li><b>Izdrukā</b> vērtību un nospied pogu vairākas reizes.</li>
+            <li><b>Pieraksti</b>, kāpēc skaitlis nepieaug.</li>
+            <li><b>Nomaini</b> uz <code class="language-python">if "klikski" not in st.session_state:</code> ar sākuma vērtību 0.</li>
+            <li><b>Palielini</b> pogas iekšpusē <code class="language-python">st.session_state.klikski += 1</code>.</li>
+            <li><b>Nospied</b> pogu piecas reizes un pārbaudi skaitli.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ar parastu mainīgo skaitlis vienmēr paliek 1, bet ar <code>session_state</code> tas sasniedz 5.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Uzbūvē To-Do sarakstu ar formu</h3>
+        <p>Beigās tavs saraksts saglabāsies starp klikšķiem.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu vietu projektā: datu apstrādi, skatu, formu, API maršrutu, validāciju vai rezultāta izvadi.</li>
-            <li><b>Nosauc</b> funkcijas, mainīgos un failus pēc to lomas, piemēram, <code>apstrada_gajienu()</code>, <code>rezultats</code> vai <code>routes.py</code>.</li>
-            <li><b>Uzraksti</b> funkciju vai maršrutu, kas nolasa datus, apstrādā tos un atgriež rezultātu.</li>
-            <li><b>Savieno</b> šo kodu ar HTML formu, pogu, saiti, API pieprasījumu vai redzamu izvades vietu.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās apstrādes vietas.</li>
-            <li><b>Pārbaudi</b>, ka esošā projekta daļa joprojām darbojas.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms paplašini risinājumu.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto funkcionalitāti.</li>
+            <li><b>Izveido</b> <code class="language-python">if "todo" not in st.session_state:</code> ar tukšu sarakstu.</li>
+            <li><b>Pievieno</b> <code class="language-python">with st.form("forma", clear_on_submit=True):</code>.</li>
+            <li><b>Ieliec</b> formā <code class="language-python">st.text_input("Jauns uzdevums")</code>.</li>
+            <li><b>Ieliec</b> formā <code class="language-python">st.form_submit_button("+ Pievienot")</code>.</li>
+            <li><b>Pievieno</b> ievadīto tekstu sarakstam, ja poga nospiesta un lauks nav tukšs.</li>
+            <li><b>Izdrukā</b> visu sarakstu ar ciklu.</li>
+            <li><b>Pievieno</b> trīs uzdevumus un pārbaudi, ka visi paliek redzami.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc trim pievienošanām sarakstā ir trīs ieraksti, un ievades lauks katru reizi iztukšojas.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē kodu un izdari secinājumu</h3>
-        <p>Pārbaudi, vai algoritms darbojas paredzami ar dažādiem datiem.</p>
+        <h3>3. uzdevums - Pievieno dzēšanu un notīrīšanu</h3>
+        <p>Beigās lietotājs varēs arī izņemt uzdevumus, ne tikai pievienot.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu ievadi, robežgadījumu un kļūdainu vai tukšu ievadi.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu pārlūkā, terminālī vai API atbildē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko vērtību, ko šis kods var saņemt.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai lietotājs saņem saprotamu atbildi.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu Python kodā, HTML sasaistē vai datu validācijā.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura koda daļa vislabāk palīdzēja saprast tēmu <b>9.5 Interaktivitāte pārlūkprogrammā</b>.</li>
+            <li><b>Pievieno</b> katram uzdevumam pogu ar unikālu <code>key</code> parametru.</li>
+            <li><b>Izdzēs</b> attiecīgo elementu no saraksta, kad poga nospiesta.</li>
+            <li><b>Palaid</b> un izdzēs vidējo uzdevumu.</li>
+            <li><b>Pārbaudi</b>, vai pārējie palika savās vietās.</li>
+            <li><b>Pievieno</b> pogu <code>Notīrīt visu</code>, kas iztukšo sarakstu.</li>
+            <li><b>Nospied</b> to un pārbaudi, ka lapa neavarē ar tukšu sarakstu.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc katrai pogai vajag savu <code>key</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> vidējā uzdevuma dzēšana neizjauc pārējos, un tukšs saraksts nerada kļūdu.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Pievieno atzīmi par izpildi</h3>
+        <p>Ja pamatdarbs ir gatavs, ļauj atzīmēt uzdevumus kā pabeigtus.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu ievades lauku, API atbildi, validāciju, datu elementu vai redzamu rezultātu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projektu.</li>
-            <li><b>Pārbaudi</b>, ka pamatfunkcija un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Nomaini</b> saraksta elementus uz vārdnīcām ar atslēgām <code>teksts</code> un <code>gatavs</code>.</li>
+            <li><b>Pievieno</b> katram <code class="language-python">st.checkbox()</code> ar unikālu key.</li>
+            <li><b>Atjaunini</b> vārdnīcas vērtību pēc atzīmēšanas.</li>
+            <li><b>Izdrukā</b> atsevišķi, cik uzdevumi pabeigti no kopējā skaita.</li>
+            <li><b>Pārbaudi</b>, ka atzīme saglabājas pēc lapas pārlādes.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> lapa rāda, piemēram, <code>2 no 3 pabeigti</code>, un atzīmes nepazūd.</p>
     </div>
 </section>
 <section class='section'>

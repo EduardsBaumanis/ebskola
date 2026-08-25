@@ -75,8 +75,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - palaid pirmo Streamlit lapu · 2. uzdevums (~25 min) - pievieno ievades elementus un pogu · 3. uzdevums (~20 min) - pārcel savu Python spēli uz saskarni. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> aktivizē savu virtuālo vidi un izpildi <code class="language-bash">pip install streamlit</code>. Lapu palaidīsi ar <code>streamlit run</code>, nevis ar <code>python</code>.</p>
     </div>
 </section>
 
@@ -113,78 +113,57 @@ st.bar_chart(df.set_index("Vārds"))</code></pre>
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>9.3 Python pārvēršana tīmekļa saskarnē</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-python">import streamlit as st
-
-# Virsraksti
-st.title("Mans projekts")
-st.header("Apakšsadaļa")
-st.write("Vienkāršs teksts")
-st.markdown("**Treknrakstā** un *kursīvā*")
-
-# Ievades elementi
-vards = st.text_input("Tavs vārds:")
-vecums = st.number_input("Vecums", min_value=1, max_value=120, value=18)
-ir_skoleens = st.checkbox("Es piedalos")
-limenis = st.slider("Grūtība", 1, 10, 5)
-
-if st.button("Sākt"):
-    st.success(f"Sveiks, {vards}! ({vecums} g.)")
-
-# Datu attēlošana
-import pandas as pd
-df = pd.DataFrame({"Vārds": ["Anna", "Jānis"], "Punkti": [120, 95]})
-st.dataframe(df)
-st.bar_chart(df.set_index("Vārds"))</code></pre>
+        <h3>1. uzdevums - Palaid pirmo Streamlit lapu</h3>
+        <p>Beigās tavs Python kods būs redzams pārlūkā.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. Python fragmentu ievieto <code class="language-python">main.py</code> failā un palaid no termināļa.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Izveido</b> failu <code>lapa.py</code> un ieraksti <code class="language-python">import streamlit as st</code>.</li>
+            <li><b>Pievieno</b> rindu <code class="language-python">st.title("Mans projekts")</code>.</li>
+            <li><b>Pievieno</b> rindu <code class="language-python">st.write("Sveiks, pasaule!")</code>.</li>
+            <li><b>Izpildi</b> terminālī <code class="language-bash">streamlit run lapa.py</code>.</li>
+            <li><b>Atver</b> pārlūkā adresi, ko izdrukāja terminālis.</li>
+            <li><b>Nomaini</b> virsraksta tekstu, saglabā failu un vēro, kas notiek pārlūkā.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pārlūkā redzams tavs virsraksts, un pēc faila saglabāšanas lapa pati piedāvā pārlādēties.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Pievieno ievades elementus un pogu</h3>
+        <p>Beigās lietotājs varēs ievadīt datus bez termināļa.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu vietu projektā: datu apstrādi, skatu, formu, API maršrutu, validāciju vai rezultāta izvadi.</li>
-            <li><b>Nosauc</b> funkcijas, mainīgos un failus pēc to lomas, piemēram, <code>apstrada_gajienu()</code>, <code>rezultats</code> vai <code>routes.py</code>.</li>
-            <li><b>Uzraksti</b> funkciju vai maršrutu, kas nolasa datus, apstrādā tos un atgriež rezultātu.</li>
-            <li><b>Savieno</b> šo kodu ar HTML formu, pogu, saiti, API pieprasījumu vai redzamu izvades vietu.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās apstrādes vietas.</li>
-            <li><b>Pārbaudi</b>, ka esošā projekta daļa joprojām darbojas.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms paplašini risinājumu.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto funkcionalitāti.</li>
+            <li><b>Pievieno</b> <code class="language-python">vards = st.text_input("Tavs vārds:")</code>.</li>
+            <li><b>Pievieno</b> <code class="language-python">vecums = st.number_input("Vecums", min_value=1, max_value=120)</code>.</li>
+            <li><b>Pievieno</b> <code class="language-python">if st.button("Apstiprināt"):</code>.</li>
+            <li><b>Izdrukā</b> zem tā <code class="language-python">st.write(f"Sveiks, {vards}!")</code>.</li>
+            <li><b>Palaid</b> un ievadi savu vārdu.</li>
+            <li><b>Pārbaudi</b>, kas notiek, ja vārda lauks ir tukšs.</li>
+            <li><b>Pievieno</b> nosacījumu, kas prasa ievadīt vārdu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> poga parāda sveicienu ar ievadīto vārdu, bet ar tukšu lauku parādās lūgums to aizpildīt.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē kodu un izdari secinājumu</h3>
-        <p>Pārbaudi, vai algoritms darbojas paredzami ar dažādiem datiem.</p>
+        <h3>3. uzdevums - Pārcel savu Python spēli uz saskarni</h3>
+        <p>Beigās tava vecā termināļa spēle strādās pārlūkā.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu ievadi, robežgadījumu un kļūdainu vai tukšu ievadi.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu pārlūkā, terminālī vai API atbildē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko vērtību, ko šis kods var saņemt.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai lietotājs saņem saprotamu atbildi.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu Python kodā, HTML sasaistē vai datu validācijā.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura koda daļa vislabāk palīdzēja saprast tēmu <b>9.3 Python pārvēršana tīmekļa saskarnē</b>.</li>
+            <li><b>Nokopē</b> savu skaitļu minētāju no 4.6 stundas jaunā failā.</li>
+            <li><b>Aizstāj</b> katru <code class="language-python">input()</code> ar <code class="language-python">st.number_input()</code>.</li>
+            <li><b>Aizstāj</b> katru <code class="language-python">print()</code> ar <code class="language-python">st.write()</code>.</li>
+            <li><b>Ieliec</b> minējuma pārbaudi zem <code class="language-python">if st.button("Min!"):</code>.</li>
+            <li><b>Palaid</b> un izmēģini vienu minējumu.</li>
+            <li><b>Pieraksti</b>, kas notiek ar slepeno skaitli pēc katra klikšķa.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc <code>while</code> cikls te vairs neder.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> spēle reaģē uz pogu, un tu vari izskaidrot, kāpēc skaitlis mainās pie katra klikšķa.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Pievieno sānjoslu</h3>
+        <p>Ja pamatdarbs ir gatavs, pārcel iestatījumus uz sānjoslu.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu ievades lauku, API atbildi, validāciju, datu elementu vai redzamu rezultātu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projektu.</li>
-            <li><b>Pārbaudi</b>, ka pamatfunkcija un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Pievieno</b> <code class="language-python">st.sidebar.header("Iestatījumi")</code>.</li>
+            <li><b>Pārcel</b> diapazona izvēli uz <code class="language-python">st.sidebar.slider()</code>.</li>
+            <li><b>Izmanto</b> slidera vērtību spēles diapazonam.</li>
+            <li><b>Palaid</b> un nomaini diapazonu uz 1-1000.</li>
+            <li><b>Pārbaudi</b>, ka spēle strādā ar jauno diapazonu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> sānjoslā ir slideris, un spēles diapazons mainās līdzi tā vērtībai.</p>
     </div>
 </section>
 <section class='section'>
