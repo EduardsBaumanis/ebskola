@@ -106,7 +106,7 @@ Visiem obligātajiem SR no `sasnRez.html` ir vismaz viena stundu piesaiste savā
 | [1.3 Koda sinhronizācija (Desktop)](programmesana1/prog1_1/prog1_13.html) | `2.4.9` | Atbilst vecumposmam |
 | [1.4 Failu sistēma un organizācija](programmesana1/prog1_1/prog1_14.html) | `2.4.12`, `2.4.9` | Atbilst vecumposmam |
 | [1.5 Dokumentēšana, README un Licences](programmesana1/prog1_1/prog1_15.html) | `2.4.6`, `2.4.8` | Atbilst vecumposmam |
-| [1.6 Noslēguma pārbaudes darbs — Darba vide un kodu pārvaldība](programmesana1/prog1_1/prog1_16.html) | `2.4.8`, `2.4.9`, `2.4.12`, `3.1.1` | Atbilst vecumposmam |
+| [1.6 Noslēguma pārbaudes darbs - Darba vide un kodu pārvaldība](programmesana1/prog1_1/prog1_16.html) | `2.4.8`, `2.4.9`, `2.4.12`, `3.1.1` | Atbilst vecumposmam |
 | [2.1 Ievade un datu tipi](programmesana1/prog1_2/prog1_21.html) | `2.4.13` | Atbilst vecumposmam |
 | [2.2 Interaktivitāte un konvertācija](programmesana1/prog1_2/prog1_22.html) | `2.4.13` | Atbilst vecumposmam |
 | [2.3 Matemātika un f-strings](programmesana1/prog1_2/prog1_23.html) | `2.4.13` | Atbilst vecumposmam |
@@ -144,9 +144,9 @@ Visiem obligātajiem SR no `sasnRez.html` ir vismaz viena stundu piesaiste savā
 | [7.5 Iebūvēto funkciju efektivitāte](programmesana1/prog1_7/prog1_75.html) | `2.4.19`, `2.4.16` | Atbilst vecumposmam |
 | [7.6 Noslēguma projekts: "Koda lauzējs: AI Efektivitāte"](programmesana1/prog1_7/prog1_76.html) | `2.4.10`, `2.4.13`, `2.4.16`, `2.4.19` | Atbilst vecumposmam |
 | [8.1 Problēmas formulēšana un automatizācija](programmesana1/prog1_8/prog1_81.html) | `2.4.1` | Atbilst vecumposmam |
-| [8.2 Prasību specifikācija — Lietotāju stāsti](programmesana1/prog1_8/prog1_82.html) | `2.4.4` | Atbilst vecumposmam |
+| [8.2 Prasību specifikācija - Lietotāju stāsti](programmesana1/prog1_8/prog1_82.html) | `2.4.4` | Atbilst vecumposmam |
 | [8.3 Datu modelis un UI plūsma](programmesana1/prog1_8/prog1_83.html) | `2.4.5` | Atbilst vecumposmam |
-| [8.4 Prezentācijas māksla — Pitch sagatavošana](programmesana1/prog1_8/prog1_84.html) | `2.3.10` | Atbilst vecumposmam |
+| [8.4 Prezentācijas māksla - Pitch sagatavošana](programmesana1/prog1_8/prog1_84.html) | `2.3.10` | Atbilst vecumposmam |
 | [8.5 Sasniedzamie rezultāti un resursu plānošana](programmesana1/prog1_8/prog1_85.html) | `2.4.5`, `2.4.1` | Atbilst vecumposmam |
 | [8.6 Noslēguma projekts: Projektējuma aizstāvēšana](programmesana1/prog1_8/prog1_86.html) | `2.4.6`, `2.4.7`, `2.4.1`, `2.4.3` | Atbilst vecumposmam |
 | [9.1 Ārējās bibliotēkas un instalēšana](programmesana1/prog1_9/prog1_91.html) | `2.4.11`, `2.4.12`, `2.4.2` | Atbilst vecumposmam |
@@ -263,13 +263,13 @@ Visiem obligātajiem SR no `sasnRez.html` ir vismaz viena stundu piesaiste savā
 
 | SR | Grupa | Stundas |
 |---|---|---|
-| `D.7.1.1` | Datorika 7. klasei — robotikas konteksts (MK 747) | [rbtk7_11](robotika/rbtk7_11.html), [rbtk7_14](robotika/rbtk7_14.html), [rbtk7_21](robotika/rbtk7_21.html), [rbtk7_24](robotika/rbtk7_24.html), [rbtk7_25](robotika/rbtk7_25.html) |
-| `D.7.2.1` | Datorika 7. klasei — robotikas konteksts (MK 747) | [rbtk7_11](robotika/rbtk7_11.html), [rbtk7_12](robotika/rbtk7_12.html), [rbtk7_13](robotika/rbtk7_13.html), [rbtk7_15](robotika/rbtk7_15.html), [rbtk7_21](robotika/rbtk7_21.html), [rbtk7_22](robotika/rbtk7_22.html), [rbtk7_23](robotika/rbtk7_23.html), [rbtk7_25](robotika/rbtk7_25.html) |
-| `D.7.3.1` | Datorika 7. klasei — robotikas konteksts (MK 747) | [rbtk7_13](robotika/rbtk7_13.html), [rbtk7_15](robotika/rbtk7_15.html), [rbtk7_22](robotika/rbtk7_22.html), [rbtk7_25](robotika/rbtk7_25.html) |
-| `D.7.4.1` | Datorika 7. klasei — robotikas konteksts (MK 747) | [rbtk7_12](robotika/rbtk7_12.html), [rbtk7_23](robotika/rbtk7_23.html) |
-| `D.7.4.2` | Datorika 7. klasei — robotikas konteksts (MK 747) | [rbtk7_13](robotika/rbtk7_13.html), [rbtk7_14](robotika/rbtk7_14.html), [rbtk7_15](robotika/rbtk7_15.html), [rbtk7_24](robotika/rbtk7_24.html) |
-| `D.7.5.1` | Datorika 7. klasei — robotikas konteksts (MK 747) | [rbtk7_14](robotika/rbtk7_14.html), [rbtk7_15](robotika/rbtk7_15.html) |
-| `D.7.6.1` | Datorika 7. klasei — robotikas konteksts (MK 747) | [rbtk7_15](robotika/rbtk7_15.html), [rbtk7_21](robotika/rbtk7_21.html), [rbtk7_22](robotika/rbtk7_22.html), [rbtk7_23](robotika/rbtk7_23.html), [rbtk7_24](robotika/rbtk7_24.html), [rbtk7_25](robotika/rbtk7_25.html) |
+| `D.7.1.1` | Datorika 7. klasei - robotikas konteksts (MK 747) | [rbtk7_11](robotika/rbtk7_11.html), [rbtk7_14](robotika/rbtk7_14.html), [rbtk7_21](robotika/rbtk7_21.html), [rbtk7_24](robotika/rbtk7_24.html), [rbtk7_25](robotika/rbtk7_25.html) |
+| `D.7.2.1` | Datorika 7. klasei - robotikas konteksts (MK 747) | [rbtk7_11](robotika/rbtk7_11.html), [rbtk7_12](robotika/rbtk7_12.html), [rbtk7_13](robotika/rbtk7_13.html), [rbtk7_15](robotika/rbtk7_15.html), [rbtk7_21](robotika/rbtk7_21.html), [rbtk7_22](robotika/rbtk7_22.html), [rbtk7_23](robotika/rbtk7_23.html), [rbtk7_25](robotika/rbtk7_25.html) |
+| `D.7.3.1` | Datorika 7. klasei - robotikas konteksts (MK 747) | [rbtk7_13](robotika/rbtk7_13.html), [rbtk7_15](robotika/rbtk7_15.html), [rbtk7_22](robotika/rbtk7_22.html), [rbtk7_25](robotika/rbtk7_25.html) |
+| `D.7.4.1` | Datorika 7. klasei - robotikas konteksts (MK 747) | [rbtk7_12](robotika/rbtk7_12.html), [rbtk7_23](robotika/rbtk7_23.html) |
+| `D.7.4.2` | Datorika 7. klasei - robotikas konteksts (MK 747) | [rbtk7_13](robotika/rbtk7_13.html), [rbtk7_14](robotika/rbtk7_14.html), [rbtk7_15](robotika/rbtk7_15.html), [rbtk7_24](robotika/rbtk7_24.html) |
+| `D.7.5.1` | Datorika 7. klasei - robotikas konteksts (MK 747) | [rbtk7_14](robotika/rbtk7_14.html), [rbtk7_15](robotika/rbtk7_15.html) |
+| `D.7.6.1` | Datorika 7. klasei - robotikas konteksts (MK 747) | [rbtk7_15](robotika/rbtk7_15.html), [rbtk7_21](robotika/rbtk7_21.html), [rbtk7_22](robotika/rbtk7_22.html), [rbtk7_23](robotika/rbtk7_23.html), [rbtk7_24](robotika/rbtk7_24.html), [rbtk7_25](robotika/rbtk7_25.html) |
 
 ### Programmēšana I
 

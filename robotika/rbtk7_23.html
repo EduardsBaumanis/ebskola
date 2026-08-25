@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2.3 Analogie signāli (Potenciometrs) — ebSkola</title>
+<title>2.3 Analogie signāli (Potenciometrs) - ebSkola</title>
 <meta name="description" content="Pieslēgt potenciometru, izprast analogo datu nolasīšanu (no 0 līdz 1023) un izmantot iegūtos datus, lai plūstoši mainītu LED diodes spilgtumu.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
@@ -22,7 +22,7 @@
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "2.3 Analogie signāli (Potenciometrs)", "description": "Pieslēgt potenciometru, izprast analogo datu nolasīšanu (no 0 līdz 1023) un izmantot iegūtos datus, lai plūstoši mainītu LED diodes spilgtumu.", "inLanguage": "lv", "url": "https://ebskola.lv/robotika/rbtk7_23", "isPartOf": {"@type": "Course", "name": "ebSkola — robotika", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "2.3 Analogie signāli (Potenciometrs)", "description": "Pieslēgt potenciometru, izprast analogo datu nolasīšanu (no 0 līdz 1023) un izmantot iegūtos datus, lai plūstoši mainītu LED diodes spilgtumu.", "inLanguage": "lv", "url": "https://ebskola.lv/robotika/rbtk7_23", "isPartOf": {"@type": "Course", "name": "ebSkola - robotika", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -52,7 +52,7 @@
 
 <aside class="sidebar-nav" aria-label="Tēmas navigācija">
   <div class="sidebar-kicker">Robotika</div>
-  <h3>2. Tēma — Ievads Arduino un elektronikas pamatos</h3>
+  <h3>2. Tēma - Ievads Arduino un elektronikas pamatos</h3>
   <div class="sidebar-links">
     <a class="topic-main" href="/robotika/rbtk7_2main">Tēmas sākums</a>
     <a href="/robotika/rbtk7_21">2.1 Ievads Arduino un Tinkercad</a>
@@ -64,13 +64,13 @@
 </aside>
 <section class='section'>
     <h1>2.3 Analogie signāli (Potenciometrs)</h1>
-    <p><b>Tavs šīs stundas izaicinājums:</b> Pieslēgt potenciometru, izprast analogo datu nolasīšanu (no 0 līdz 1023) un izmantot iegūtos datus, lai plūstoši mainītu LED diodes spilgtumu.</p>
+    <p><b>Stundas uzdevums:</b> Pieslēgt potenciometru, izprast analogo datu nolasīšanu (no 0 līdz 1023) un izmantot iegūtos datus, lai plūstoši mainītu LED diodes spilgtumu.</p>
     <a href="/sasnRez">Datorika 7. klase (D.7.2.1., D.7.4.1., D.7.6.1.)</a>
 </section>
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) — atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) — pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) — pārbaudi rezultātu, izlabo kļūdas un pieraksti, kas strādā. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
+        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un pieraksti, kas strādā. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
         <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
     </div>
 </section>
@@ -83,66 +83,54 @@
         <li><b>Analogie porti (A0 līdz A5):</b> Arduino apakšējā labajā stūrī ir īpaši porti. Tie spēj izmērīt spriegumu (no 0V līdz 5V) un pārvērst to skaitlī no <b>0 līdz 1023</b>.</li>
         <li><b>Potenciometrs:</b> Tas ir mainīgs rezistors (gluži kā skaļuma regulēšanas poga radio). Tam ir 3 kājiņas. Ārējās pieslēdz pie 5V un GND, bet vidējā kājiņa iet uz analogo portu (A0). Griežot kloķi, spriegums vidējā kājiņā mainās.</li>
         <li><b>analogRead(pin):</b> Komanda, kas nolasa sensora vērtību. Piemēram: <code>int dati = analogRead(A0);</code></li>
-        <li><b>analogWrite(pin, vērtība):</b> Ja gribam plūstoši iedegt LED diodi (nevis tikai ieslēgt/izslēgt), izmantojam šo komandu. <i>Svarīgi:</i> Tā darbojas tikai uz portiem, kuriem blakus ir vilnītis (<b>~</b>), piemēram, ~9. Vērtība var būt no <b>0 līdz 255</b>.</li>
+        <li><b>analogWrite(pin, vērtība):</b> Ja gribam plūstoši iedegt LED diodi (nevis tikai ieslēgt/izslēgt), izmantojam šo komandu. <i>Piezīme:</i> Tā darbojas tikai uz portiem, kuriem blakus ir vilnītis (<b>~</b>), piemēram, ~9. Vērtība var būt no <b>0 līdz 255</b>.</li>
     </ul>
     <p><i>Vizuālais orientieris:</i> potenciometra vidējā kāja savienojas ar A0 pinu, bet abas ārējās kājas ar 5V un GND.</p>
     </div>
 </section>
 
 <section class='section'>
-    <h2>1. uzdevums: Potenciometra pieslēgšana</h2>
-    <p>Virtuālajā vidē atrodiet potenciometru un pareizi savienojiet tā 3 kājiņas ar Arduino plati.</p>
+    <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Izveidojiet jaunu Tinkercad projektu ar Arduino un maketo plati (savienojiet 5V un GND līnijas).</li>
-            <li>Atrodiet "Potentiometer" un novietojiet to uz maketo plates.</li>
-            <li>Kreiso kājiņu (Terminal 1) savienojiet ar melno GND (-) līniju.</li>
-            <li>Labo kājiņu (Terminal 2) savienojiet ar sarkano 5V (+) līniju.</li>
-            <li><b>Svarīgi:</b> Vidējo kājiņu (Wiper) savienojiet ar vadu pie Arduino <b>A0</b> portu (atrodas plates apakšā).</li>
+        <h3>1. uzdevums: Potenciometra pieslēgšana</h3>
+        <p>Virtuālajā vidē atrodiet potenciometru un pareizi savienojiet tā 3 kājiņas ar Arduino plati.</p>
+        <ol class="step-list">
+            <li><b>Izveidojiet</b> jaunu Tinkercad projektu ar Arduino un maketo plati (savienojiet 5V un GND līnijas).</li>
+            <li><b>Atrodiet</b> "Potentiometer" un novietojiet to uz maketo plates.</li>
+            <li>Kreiso kājiņu (Terminal 1) <b>savienojiet</b> ar melno GND (-) līniju.</li>
+            <li>Labo kājiņu (Terminal 2) <b>savienojiet</b> ar sarkano 5V (+) līniju.</li>
+            <li><b>Piezīme:</b> Vidējo kājiņu (Wiper) savienojiet ar vadu pie Arduino <b>A0</b> portu (atrodas plates apakšā).</li>
         </ol>
     </div>
-</section>
-
-<section class='section'>
-    <h2>2. uzdevums: Analogo datu nolasīšana</h2>
-    <p>Uzrakstiet kodu, kas nolasa potenciometra pozīciju un drukā šos ciparus (0-1023) Serial Monitor ekrānā.</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Koda (Text) skatā <code>setup()</code> ierakstiet komandu saziņai ar datoru: <code>Serial.begin(9600);</code> (Analogajiem portiem nevajag <code>pinMode</code>).</li>
-            <li><code>loop()</code> izveidojiet mainīgo nolasīšanai: <code>int sensoraVertiba = analogRead(A0);</code></li>
-            <li>Izvadiet vērtību ekrānā: <code>Serial.println(sensoraVertiba);</code> un pievienojiet <code>delay(50);</code>.</li>
-            <li>Palaidiet simulāciju, atveriet Serial Monitor un ar peli pagrieziet potenciometra kloķi! Vērojiet, kā mainās skaitļi.</li>
+        <h3>2. uzdevums: Analogo datu nolasīšana</h3>
+        <p>Uzrakstiet kodu, kas nolasa potenciometra pozīciju un drukā šos ciparus (0-1023) Serial Monitor ekrānā.</p>
+        <ol class="step-list">
+            <li>Koda (Text) skatā <code>setup()</code> <b>ierakstiet</b> komandu saziņai ar datoru: <code>Serial.begin(9600);</code> (Analogajiem portiem nevajag <code>pinMode</code>).</li>
+            <li><code>loop()</code> <b>izveidojiet</b> mainīgo nolasīšanai: <code>int sensoraVertiba = analogRead(A0);</code></li>
+            <li><b>Izvadiet</b> vērtību ekrānā: <code>Serial.println(sensoraVertiba);</code> un pievienojiet <code>delay(50);</code>.</li>
+            <li><b>Palaidiet</b> simulāciju, atveriet Serial Monitor un ar peli pagrieziet potenciometra kloķi! Vērojiet, kā mainās skaitļi.</li>
         </ol>
     </div>
-</section>
-
-<section class='section'>
-    <h2>3. uzdevums: LED spilgtuma regulēšana (Dimmer)</h2>
-    <p>Pievienojiet LED diodi un izmantojiet potenciometru, lai plūstoši regulētu tās spilgtumu (no pilnīgas tumsas līdz maksimālai gaismai).</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pievienojiet maketo platei LED diodi ar rezistoru (220 Ω) un savienojiet to ar Arduino <b>9. portu</b> (tam blakus ir ~ zīme!).</li>
-            <li><code>setup()</code> pievienojiet: <code>pinMode(9, OUTPUT);</code></li>
-            <li><code>loop()</code> mums sensora rādījums (0-1023) jāpārvērš gaismas formātā (0-255). Izdalīsim rādījumu ar 4! Rakstiet: <code>int gaisma = sensoraVertiba / 4;</code></li>
-            <li>Ieslēdziet gaismu ar mainīgu spēku: <code>analogWrite(9, gaisma);</code>. Palaidiet simulāciju un grieziet kloķi!</li>
+        <h3>3. uzdevums: LED spilgtuma regulēšana (Dimmer)</h3>
+        <p>Pievienojiet LED diodi un izmantojiet potenciometru, lai plūstoši regulētu tās spilgtumu (no pilnīgas tumsas līdz maksimālai gaismai).</p>
+        <ol class="step-list">
+            <li><b>Pievienojiet</b> maketo platei LED diodi ar rezistoru (220 Ω) un savienojiet to ar Arduino <b>9. portu</b> (tam blakus ir ~ zīme!).</li>
+            <li><code>setup()</code> <b>pievienojiet</b>: <code>pinMode(9, OUTPUT);</code></li>
+            <li><code>loop()</code> mums sensora rādījums (0-1023) <b>jāpārvērš</b> gaismas formātā (0-255). Izdalīsim rādījumu ar 4! Rakstiet: <code>int gaisma = sensoraVertiba / 4;</code></li>
+            <li><b>Ieslēdziet</b> gaismu ar mainīgu spēku: <code>analogWrite(9, gaisma);</code>. Palaidiet simulāciju un grieziet kloķi!</li>
         </ol>
     </div>
-</section>
-
-<section class='section'>
-    <h2>4. uzdevums (Zvaigznītes izaicinājums): Instrumentu panelis ar sliekšņiem</h2>
-    <p>Ātrākajām komandām – izveidojiet programmu, kur trīs dažādas LED diodes iedegas atkarībā no potenciometra pozīcijas (kā skaļuma indikatoram).</p>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pievienojiet vēl divas LED diodes (piemēram, pie 10. un 11. porta).</li>
-            <li>Izmantojot <code>If ... Else If ... Else</code> loģiku, izveidojiet nosacījumus:</li>
-            <li>Ja sensora vērtība ir mazāka par 300, deg tikai pirmā diode.</li>
-            <li>Ja vērtība ir starp 300 un 700, deg pirmā un otrā diode.</li>
-            <li>Ja vērtība ir lielāka par 700, deg visas trīs diodes.</li>
+        <h3>4. uzdevums (Zvaigznītes izaicinājums): Instrumentu panelis ar sliekšņiem</h3>
+        <p>Ātrākajām komandām – izveidojiet programmu, kur trīs dažādas LED diodes iedegas atkarībā no potenciometra pozīcijas (kā skaļuma indikatoram).</p>
+        <ol class="step-list">
+            <li><b>Pievienojiet</b> vēl divas LED diodes (piemēram, pie 10. un 11. porta).</li>
+            <li>Izmantojot <code>If ... Else If ... Else</code> loģiku, <b>izveidojiet</b> nosacījumus:</li>
+            <li>Ja sensora vērtība ir mazāka par 300, <b>deg</b> tikai pirmā diode.</li>
+            <li>Ja vērtība ir starp 300 un 700, <b>deg</b> pirmā un otrā diode.</li>
+            <li>Ja vērtība ir lielāka par 700, <b>deg</b> visas trīs diodes.</li>
         </ol>
     </div>
 </section>
