@@ -76,8 +76,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - pārraksti klasi ar __init__ · 2. uzdevums (~25 min) - pievieno noklusējuma vērtības · 3. uzdevums (~20 min) - pārbaudi datus konstruktorā. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver savu 11.1 stundas failu <code>klases.py</code>. Šoreiz atbrīvosies no atribūtu piešķiršanas ar roku.</p>
     </div>
 </section>
 
@@ -116,75 +116,56 @@ print(v2.info())  # Jānis (prezentetajs): 80/80 enerģija</code></pre>
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>11.2 Konstruktori un atribūti</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-python">class Dalibnieks:
-    def __init__(self, vards, energija=100, klase="kapteinis"):
-        # self ir norāde uz JAUNO objektu
-        self.vards = vards
-        self.energija = energija
-        self.maks_energija = energija
-        self.klase = klase
-        self.aktiva = True
-
-    def info(self):
-        return f"{self.vards} ({self.klase}): {self.energija}/{self.maks_energija} enerģija"
-
-# Izveide ar pozicionāliem argumentiem
-v1 = Dalibnieks("Marta")
-# Izveide ar nosauktiem argumentiem
-v2 = Dalibnieks(vards="Jānis", energija=80, klase="prezentetajs")
-
-print(v1.info())  # Marta (kapteinis): 100/100 enerģija
-print(v2.info())  # Jānis (prezentetajs): 80/80 enerģija</code></pre>
+        <h3>1. uzdevums - Pārraksti klasi ar __init__</h3>
+        <p>Beigās objekta izveide un datu piešķiršana notiks vienā rindā.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. Python fragmentu ievieto <code class="language-python">main.py</code> failā un palaid no termināļa.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Ieraksti</b> klasē <code class="language-python">def __init__(self, vards, energija):</code>.</li>
+            <li><b>Piešķir</b> tajā <code class="language-python">self.vards = vards</code>.</li>
+            <li><b>Piešķir</b> arī <code class="language-python">self.energija = energija</code>.</li>
+            <li><b>Izveido</b> objektu ar <code class="language-python">Dalibnieks("Anna", 100)</code>.</li>
+            <li><b>Izdrukā</b> objekta vārdu un enerģiju.</li>
+            <li><b>Mēģini</b> izveidot objektu bez argumentiem un izlasi kļūdu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> objektu var izveidot vienā rindā, bet bez argumentiem rodas <code>TypeError</code>.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto OOP algoritmu projektā</h3>
-        <p>Pievieno šīs stundas objektorientēto paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Pievieno noklusējuma vērtības</h3>
+        <p>Beigās daļu argumentu varēs izlaist.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta būtību, ko var modelēt ar objektu: spēlētāju, komandu, rezultātu, kartīti, jautājumu vai turnīra raundu.</li>
-            <li><b>Nosauc</b> klasi, atribūtus un metodes pēc to lomas, piemēram, <code>Speletajs</code>, <code>punkti</code> vai <code>pievieno_punktu()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas maina objekta stāvokli vai aprēķina rezultātu.</li>
-            <li><b>Savieno</b> objektu ar esošo projekta ciklu, ievadi, datiem vai rezultāta izvadi.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās OOP loģikas vietas.</li>
-            <li><b>Pārbaudi</b>, ka vecais kods joprojām darbojas pēc klases pievienošanas.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo metodi.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto klasi vai metodi.</li>
+            <li><b>Nomaini</b> parametru uz <code class="language-python">energija=100</code>.</li>
+            <li><b>Pievieno</b> trešo parametru <code class="language-python">klase="kapteinis"</code>.</li>
+            <li><b>Izveido</b> objektu tikai ar vārdu.</li>
+            <li><b>Izdrukā</b> visus trīs atribūtus.</li>
+            <li><b>Izveido</b> otru objektu, norādot arī klasi.</li>
+            <li><b>Pievieno</b> <code class="language-python">self.maks_energija = energija</code> un paskaidro sev, kāpēc tas noder.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> objektu var izveidot gan ar vienu argumentu, gan ar trim, un abos gadījumos tas strādā.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē objektus un izdari secinājumu</h3>
-        <p>Pārbaudi, vai objekti un metodes darbojas paredzami.</p>
+        <h3>3. uzdevums - Pārbaudi datus konstruktorā</h3>
+        <p>Beigās klase pati neļaus izveidot bezjēdzīgu objektu.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parasts objekts, robežgadījums un kļūdaini vai tukši dati.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu terminālī.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko vērtību, ko objekts var saņemt.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai programma neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu klasē, metodē vai objektu sasaistē.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura klase, metode vai objekta stāvokļa maiņa vislabāk palīdzēja saprast tēmu <b>11.2 Konstruktori un atribūti</b>.</li>
+            <li><b>Pievieno</b> <code class="language-python">if energija &lt;= 0:</code> un zem tā <code class="language-python">raise ValueError("Enerģijai jābūt pozitīvai")</code>.</li>
+            <li><b>Pievieno</b> pārbaudi arī tukšam vārdam.</li>
+            <li><b>Mēģini</b> izveidot objektu ar enerģiju <code>-5</code>.</li>
+            <li><b>Izlasi</b> kļūdas tekstu un pārbaudi, ka tas ir tavs.</li>
+            <li><b>Mēģini</b> izveidot objektu ar tukšu vārdu.</li>
+            <li><b>Izveido</b> derīgu objektu un pārliecinies, ka tas izdodas.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc pārbaudi labāk likt konstruktorā, nevis katrā metodē.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> nederīgi dati met tavu <code>ValueError</code> ar saprotamu tekstu, bet derīgs objekts izveidojas.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu OOP uzlabojumu</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu objektorientētu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Pievieno izveides laiku</h3>
+        <p>Ja pamatdarbs ir gatavs, liec objektam atcerēties, kad tas radīts.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, objektu sarakstu vai pārbaudes nosacījumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projekta kodu.</li>
-            <li><b>Pārbaudi</b>, ka pamatklase un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Importē</b> <code class="language-python">from datetime import datetime</code>.</li>
+            <li><b>Pievieno</b> konstruktorā <code class="language-python">self.izveidots = datetime.now()</code>.</li>
+            <li><b>Izveido</b> divus objektus ar nelielu pauzi starp tiem.</li>
+            <li><b>Izdrukā</b> abu izveides laikus.</li>
+            <li><b>Pieraksti</b>, kāpēc šo vērtību nevajag padot kā argumentu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> abiem objektiem ir atšķirīgs izveides laiks, ko tu nekur neievadīji.</p>
     </div>
 </section>
 <section class='section'>

@@ -76,8 +76,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - uzraksti pirmo metodi ar self · 2. uzdevums (~25 min) - liec metodei mainīt objekta stāvokli · 3. uzdevums (~20 min) - pievieno metodi, kas atgriež atbildi. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver savu 11.2 stundas klasi <code>Dalibnieks</code>. Atceries: katras metodes pirmais parametrs ir <code>self</code>.</p>
     </div>
 </section>
 
@@ -125,84 +125,56 @@ marta.dziedinas(20)</code></pre>
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>11.3 Metodes un self</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-python">class Dalibnieks:
-    def __init__(self, vards, energija=100, temps=10):
-        self.vards = vards
-        self.energija = energija
-        self.maks_energija = energija
-        self.temps = temps
-
-    def sanem_punktus(self, punkti):
-        """Saņem punktu izmaiņas."""
-        self.energija = max(0, self.energija - punkti)
-        if self.energija == 0:
-            print(f"{self.vards} pabeidza raundu!")
-
-    def gajiens(self, merkis):
-        """Veic gājienu pret citu dalībnieku."""
-        print(f"{self.vards} veic gājienu pret {merkis.vards} ar {self.temps} punktiem!")
-        merkis.sanem_punktus(self.temps)
-
-    def dziedinas(self, daudzums):
-        self.energija = min(self.maks_energija, self.energija + daudzums)
-
-# Lietošana
-marta = Dalibnieks("Marta", energija=120, temps=15)
-nokavets_zvans = Dalibnieks("Nokavēts zvans", energija=60, temps=8)
-
-marta.gajiens(nokavets_zvans)  # Marta veic gājienu pret Nokavēts zvans ar 15 punktiem!
-nokavets_zvans.gajiens(marta)
-marta.dziedinas(20)</code></pre>
+        <h3>1. uzdevums - Uzraksti pirmo metodi ar self</h3>
+        <p>Beigās objekts pats varēs par sevi pastāstīt.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. Python fragmentu ievieto <code class="language-python">main.py</code> failā un palaid no termināļa.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Pievieno</b> klasē <code class="language-python">def apraksts(self):</code>.</li>
+            <li><b>Izdrukā</b> tajā vārdu un enerģiju ar f-string.</li>
+            <li><b>Izsauc</b> to ar <code class="language-python">dalibnieks.apraksts()</code>.</li>
+            <li><b>Izdzēs</b> parametru <code>self</code> un izsauc vēlreiz.</li>
+            <li><b>Pieraksti</b>, kāda kļūda radās.</li>
+            <li><b>Ieliec</b> <code>self</code> atpakaļ.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> metode izdrukā objekta datus, un bez <code>self</code> rodas <code>TypeError</code>.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto OOP algoritmu projektā</h3>
-        <p>Pievieno šīs stundas objektorientēto paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Liec metodei mainīt objekta stāvokli</h3>
+        <p>Beigās metode varēs samazināt dalībnieka enerģiju.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta būtību, ko var modelēt ar objektu: spēlētāju, komandu, rezultātu, kartīti, jautājumu vai turnīra raundu.</li>
-            <li><b>Nosauc</b> klasi, atribūtus un metodes pēc to lomas, piemēram, <code>Speletajs</code>, <code>punkti</code> vai <code>pievieno_punktu()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas maina objekta stāvokli vai aprēķina rezultātu.</li>
-            <li><b>Savieno</b> objektu ar esošo projekta ciklu, ievadi, datiem vai rezultāta izvadi.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās OOP loģikas vietas.</li>
-            <li><b>Pārbaudi</b>, ka vecais kods joprojām darbojas pēc klases pievienošanas.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo metodi.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto klasi vai metodi.</li>
+            <li><b>Pievieno</b> metodi <code class="language-python">def sanem_punktus(self, punkti):</code>.</li>
+            <li><b>Samazini</b> tajā <code class="language-python">self.energija = max(0, self.energija - punkti)</code>.</li>
+            <li><b>Izsauc</b> to ar 30 un izdrukā enerģiju.</li>
+            <li><b>Izsauc</b> vēlreiz ar 200 un izdrukā enerģiju.</li>
+            <li><b>Pārbaudi</b>, ka enerģija nekļūst negatīva.</li>
+            <li><b>Pieraksti</b>, ko dara funkcija <code>max()</code> šajā rindā.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc liela trieciena enerģija ir tieši 0, nevis negatīvs skaitlis.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē objektus un izdari secinājumu</h3>
-        <p>Pārbaudi, vai objekti un metodes darbojas paredzami.</p>
+        <h3>3. uzdevums - Pievieno metodi, kas atgriež atbildi</h3>
+        <p>Beigās tu varēsi jautāt objektam, vai tas vēl ir spēlē.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parasts objekts, robežgadījums un kļūdaini vai tukši dati.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu terminālī.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko vērtību, ko objekts var saņemt.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai programma neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu klasē, metodē vai objektu sasaistē.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura klase, metode vai objekta stāvokļa maiņa vislabāk palīdzēja saprast tēmu <b>11.3 Metodes un self</b>.</li>
+            <li><b>Pievieno</b> metodi <code class="language-python">def vai_aktivs(self):</code>.</li>
+            <li><b>Atgriez</b> tajā <code class="language-python">return self.energija &gt; 0</code>.</li>
+            <li><b>Izsauc</b> to pirms un pēc trieciena.</li>
+            <li><b>Uzraksti</b> nosacījumu, kas izdrukā ziņu, ja dalībnieks vairs nav aktīvs.</li>
+            <li><b>Izveido</b> divus dalībniekus un liec vienam saņemt lielu triecienu.</li>
+            <li><b>Izdrukā</b> abu statusu ciklā.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: ar ko metode, kas atgriež vērtību, atšķiras no tās, kas tikai izdrukā.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> cikls izdrukā, ka viens dalībnieks ir aktīvs, bet otrs - nav.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu OOP uzlabojumu</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu objektorientētu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Pievieno atjaunošanās metodi</h3>
+        <p>Ja pamatdarbs ir gatavs, ļauj dalībniekam atgūt enerģiju.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, objektu sarakstu vai pārbaudes nosacījumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projekta kodu.</li>
-            <li><b>Pārbaudi</b>, ka pamatklase un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Pievieno</b> metodi <code class="language-python">def atjaunojas(self, daudzums):</code>.</li>
+            <li><b>Palielini</b> enerģiju, bet ne virs <code>self.maks_energija</code>.</li>
+            <li><b>Izmanto</b> tam funkciju <code class="language-python">min()</code>.</li>
+            <li><b>Izsauc</b> to ar lielu skaitli un izdrukā enerģiju.</li>
+            <li><b>Pārbaudi</b>, ka enerģija nepārsniedz maksimumu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pat ar ļoti lielu atjaunošanos enerģija apstājas tieši uz maksimuma.</p>
     </div>
 </section>
 <section class='section'>
