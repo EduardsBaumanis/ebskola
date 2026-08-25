@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
 </head>
 <body class="page-reference has-sidebar">
 <header class="topbar">
@@ -70,8 +70,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un pieraksti, kas strādā. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - pieslēdz servo motora trīs vadus · 2. uzdevums (~20 min) - liec motoram griezties pa trim leņķiem · 3. uzdevums (~25 min) - vadi motora leņķi ar potenciometru. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver tinkercad.com un jaunu Circuit projektu - noderēs arī 2.3 stundas potenciometra slēgums, jo to izmantosi 3. uzdevumā.</p>
     </div>
 </section>
 
@@ -91,46 +91,57 @@
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums: Virtuālā Servo motora pieslēgšana</h3>
-        <p>Tinkercad vidē pievienojiet "Micro Servo" un pareizi savienojiet tā trīs vadus ar Arduino un maketo plati.</p>
+        <h3>1. uzdevums - Pieslēdz servo motora trīs vadus</h3>
+        <p>Beigās tavs servo motors būs pareizi savienots ar strāvu un 9. portu.</p>
         <ol class="step-list">
-            <li><b>Izveidojiet</b> jaunu Tinkercad projektu. Pievienojiet Arduino un Breadboard (savienojiet 5V un GND).</li>
-            <li><b>Atrodiet</b> "Micro Servo" un novietojiet to darba laukumā.</li>
-            <li><b>Pietuviniet</b> peli motora vadiem, lai redzētu to nosaukumus: savienojiet "Ground" ar melno (-) līniju, "Power" ar sarkano (+) līniju.</li>
-            <li>Trešo vadu, ko sauc par "Signal", <b>savienojiet</b> ar Arduino <b>9. portu</b>. Iekrāsojiet šo vadu oranžu vai dzeltenu!</li>
+            <li><b>Izveido</b> jaunu Tinkercad projektu ar Arduino un maketo plati.</li>
+            <li><b>Savieno</b> 5V ar sarkano (+) līniju un GND ar melno (-) līniju.</li>
+            <li><b>Ievelc</b> darba laukumā komponenti "Micro Servo".</li>
+            <li><b>Savieno</b> motora vadu "Ground" ar melno (-) līniju.</li>
+            <li><b>Savieno</b> vadu "Power" ar sarkano (+) līniju.</li>
+            <li><b>Savieno</b> vadu "Signal" ar Arduino <b>9. portu</b> un iekrāso to oranžu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> no motora iet tieši trīs vadi un signāla vads beidzas 9. portā.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums: "Logu tīrītāja" algoritms</h3>
-        <p>Uzrakstiet kodu, kas liek motoram automātiski pagriezties uz 0 grādiem, tad uz 90 grādiem un tad uz 180 grādiem, radot logu tīrītāja efektu.</p>
+        <h3>2. uzdevums - Liec motoram griezties pa trim leņķiem</h3>
+        <p>Beigās motora ass pati staigās starp 0, 90 un 180 grādiem.</p>
         <ol class="step-list">
-            <li><b>Atveriet</b> koda logu. Pašā augšā (virs <code>setup()</code>) pievienojiet bibliotēku: <code>#include &lt;Servo.h&gt;</code> un izveidojiet motoru: <code>Servo mansMotors;</code></li>
-            <li><code>setup()</code> <b>pasakiet</b>, pie kura pina motors pieslēgts: <code>mansMotors.attach(9);</code></li>
-            <li><code>loop()</code> <b>dodiet</b> komandu pagriezties uz 0 grādiem: <code>mansMotors.write(0);</code> un pagaidiet sekundi: <code>delay(1000);</code></li>
-            <li><b>Pievienojiet</b> vēl komandas, lai tas pagriežas uz 90 grādiem (pagaida) un uz 180 grādiem (pagaida). Nospiediet Start!</li>
+            <li><b>Ieraksti</b> koda pašā augšā rindu <code>#include &lt;Servo.h&gt;</code>.</li>
+            <li><b>Ieraksti</b> zem tās rindu <code>Servo mansMotors;</code>.</li>
+            <li><b>Ieraksti</b> funkcijā <code>setup()</code> rindu <code>mansMotors.attach(9);</code>.</li>
+            <li><b>Ieraksti</b> funkcijā <code>loop()</code> rindas <code>mansMotors.write(0);</code> un <code>delay(1000);</code>.</li>
+            <li><b>Pievieno</b> tādu pašu pāri leņķim 90 un vēl vienu leņķim 180.</li>
+            <li><b>Palaid</b> simulāciju un vēro motora asi.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> motors bez apstājas atkārto trīs pozīcijas, katrā pastāvot vienu sekundi.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums: Analogo dzinēju vadība (Potenciometrs + Servo)</h3>
-        <p>Apvienojiet iepriekšējās stundas zināšanas! Pievienojiet potenciometru un izmantojiet to kā "stūri", lai kontrolētu motora leņķi reāllaikā.</p>
+        <h3>3. uzdevums - Vadi motora leņķi ar potenciometru</h3>
+        <p>Beigās motora ass sekos tavai rokai, kad griezīsi kloķi.</p>
         <ol class="step-list">
-            <li><b>Pievienojiet</b> maketo platei potenciometru (ārējās kājas pie 5V un GND, vidējo pie <b>A0</b> porta).</li>
-            <li>Sadaļā <code>loop()</code> <b>izdzēsiet</b> iepriekšējo kodu. Izveidojiet mainīgo nolasīšanai: <code>int kloķis = analogRead(A0);</code></li>
-            <li><b>Pievienojiet</b> rindiņu, kas pārveido 1023 uz 180 grādiem: <code>int lenkis = map(kloķis, 0, 1023, 0, 180);</code></li>
-            <li><b>Nosūtiet</b> šo jauno leņķi uz motoru: <code>mansMotors.write(lenkis);</code> un pievienojiet īsu <code>delay(15);</code>, lai motors paspēj noreaģēt.</li>
-            <li><b>Palaidiet</b> simulāciju – griežot potenciometru ar peli, motoram ir precīzi jāseko jūsu kustībai!</li>
+            <li><b>Pievieno</b> potenciometru: malējās kājas pie 5V un GND, vidējo pie <b>A0</b>.</li>
+            <li><b>Izdzēs</b> no <code>loop()</code> iepriekšējā uzdevuma rindas.</li>
+            <li><b>Ieraksti</b> rindu <code>int klokis = analogRead(A0);</code>.</li>
+            <li><b>Pievieno</b> rindu <code>int lenkis = map(klokis, 0, 1023, 0, 180);</code>.</li>
+            <li><b>Pievieno</b> rindas <code>mansMotors.write(lenkis);</code> un <code>delay(15);</code>.</li>
+            <li><b>Palaid</b> simulāciju un lēnām pagriez kloķi.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: ko dara funkcija <code>map()</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> kloķa galos motors stāv 0 un 180 grādos un pa vidu seko kloķim bez raustīšanās.</p>
     </div>
     <div class='logic-box'>
-        <h3>4. uzdevums (Zvaigznītes izaicinājums): "Kodu atslēga" ar pogām</h3>
-        <p>Ātrākajām komandām – noņemiet potenciometru un pievienojiet divas spiedpogas. Kreisā poga griež motoru pa kreisi (-10 grādi), labā – pa labi (+10 grādi).</p>
+        <h3>Papildu uzdevums - Motora vadība ar divām pogām</h3>
+        <p>Ja pamatdarbs ir gatavs, nomaini kloķi pret divām pogām, kas griež asi pa soļiem.</p>
         <ol class="step-list">
-            <li><b>Pievienojiet</b> divas pogas ar <code>INPUT_PULLUP</code> loģiku pie portiem (piem., 2 un 3).</li>
-            <li><b>Izveidojiet</b> globālu mainīgo <code>int pozicija = 90;</code> virs <code>setup()</code>.</li>
-            <li><b>Izmantojiet</b> "If" loģiku: Ja nospiež 2. pogu, <code>pozicija = pozicija - 10;</code> (un obigāti <code>delay(100);</code>, lai nepārlektu pārāk ātri).</li>
-            <li>Ja <b>nospiež</b> 3. pogu, <code>pozicija = pozicija + 10;</code>.</li>
-            <li>Beigās <b>nosūtiet</b> <code>pozicija</code> vērtību uz motoru: <code>mansMotors.write(pozicija);</code></li>
+            <li><b>Pievieno</b> divas pogas ar <code>INPUT_PULLUP</code> pie portiem 2 un 3.</li>
+            <li><b>Ieraksti</b> virs <code>setup()</code> rindu <code>int pozicija = 90;</code>.</li>
+            <li><b>Uzraksti</b> nosacījumu: ja nospiesta 2. poga, <code>pozicija = pozicija - 10;</code>.</li>
+            <li><b>Uzraksti</b> otru nosacījumu: ja nospiesta 3. poga, <code>pozicija = pozicija + 10;</code>.</li>
+            <li><b>Pievieno</b> abos zaros <code>delay(100);</code>, lai leņķis nelec pārāk ātri.</li>
+            <li><b>Pievieno</b> cikla beigās <code>mansMotors.write(pozicija);</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> katrs pogas piespiediens pagriež asi tieši par vienu soli, nevis aizgriež to līdz galam.</p>
     </div>
 </section>
 
@@ -138,17 +149,22 @@
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
     <div class='logic-box'>
 <ul>
-        <li><b>Kods uzrāda kļūdu pie vārda "Servo":</b> Jūs aizmirsāt koda pašā augšā iekļaut bibliotēku <code>#include &lt;Servo.h&gt;</code>, vai arī uzrakstījāt vārdu "servo" ar mazo burtu. C++ ir ļoti jutīgs pret lielo/mazo burtu lietojumu!</li>
-        <li><b>Motors simulācijā "dreb" vai raustās:</b> Jūs aizmirsāt <code>loop()</code> beigās pievienot <code>delay(15);</code>. Ja mikrokontrolieris sūta komandas tūkstošiem reižu sekundē, fiziskais motors nespēj tikt līdzi un sāk vibrēt.</li>
-        <li><b>Map funkcija nestrādā pareizi:</b> Pārbaudiet mainīgo nosaukumus. Vai jūs mēģināt motoram nosūtīt nolasītos potenciometra datus (0-1023) tiešā veidā, nepārveidojot tos ar <code>map</code>? Motors saprot tikai vērtības no 0 līdz 180!</li>
+        <li><b>Kods uzrāda kļūdu pie vārda "Servo":</b> Tu aizmirsi koda augšā ierakstīt <code>#include &lt;Servo.h&gt;</code> vai uzrakstīji "servo" ar mazo burtu. C++ atšķir lielos un mazos burtus!</li>
+        <li><b>Motors simulācijā "dreb" vai raustās:</b> Tu aizmirsi <code>loop()</code> beigās pievienot <code>delay(15);</code>. Ja komandas nāk tūkstošiem reižu sekundē, motors nespēj tikt līdzi un sāk vibrēt.</li>
+        <li><b>Map funkcija nestrādā pareizi:</b> Pārbaudi mainīgo nosaukumus un to, vai tiešām lieto <code>map()</code>. Ja motoram sūti potenciometra vērtību (0-1023) tiešā veidā, tas saprot tikai 0-180 un apstāsies galā.</li>
+        <li><b>Kods nekompilējas, un kļūda rāda uz mainīgā vārdu:</b> Mainīgo nosaukumos nedrīkst lietot garumzīmes un mīkstinājuma zīmes. Raksti <code>klokis</code>, nevis <code>kloķis</code>, un <code>lenkis</code>, nevis <code>leņķis</code>.</li>
     </ul>
     </div>
 </section>
 
 <div class='section'>
-    <h2>Koda piemērs (Stūres mehānisms ar potenciometru)</h2>
+    <h2>Koda piemērs (map() no 0-1023 uz 0-180 - grūtākā daļa)</h2>
     <div class='code-example'>
-        <pre><code class="language-powershell">
+        <pre><code class="language-cpp">// Grūtākā vieta: potenciometrs dod 0..1023, bet servo saprot tikai 0..180.
+// Bez map() motors jau pie ceturtdaļas kloķa aizgriežas līdz galam un apstājas.
+//   map(vērtība, no_min, no_max, uz_min, uz_max)
+//   map(512, 0, 1023, 0, 180)  ->  90 grādi (tieši pa vidu)
+
 #include &lt;Servo.h&gt; // Pievieno Servo bibliotēku
 
 Servo mansMotors;   // Izveido motora objektu
@@ -174,7 +190,7 @@ void loop() {
 }
         </code></pre>
         <div class='result'>
-            Griežot potenciometra kloķi pa kreisi un pa labi, Servo motora rotējošā ass proporcionāli sekos jūsu pirksta/peles kustībām. Tas ir pamats, kā darbojas automašīnu tālvadības pulšu stūres mehānismi.
+            Griežot kloķi, motora ass proporcionāli seko tavai kustībai visā 0-180 grādu diapazonā. Ja izņem <code>map()</code> rindu, ass aizgriežas līdz galam jau pie neliela kloķa pagrieziena un tālāk nekustas.
         </div>
     </div>
 </div>

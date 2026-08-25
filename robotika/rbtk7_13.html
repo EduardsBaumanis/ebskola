@@ -70,8 +70,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un pieraksti, kas strādā. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - pieslēdz krāsu sensoru un apstādini robotu uz sarkanas krāsas · 2. uzdevums (~25 min) - uzraksti divu stāvokļu līniju sekotāju · 3. uzdevums (~20 min) - noregulē slieksni un ātrumu uz reālās trases. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> paņem robotu no 1.2 stundas, vienu krāsu sensoru ar garo vadu, robotikas paklāju ar melnu līniju un sarkanu LEGO klucīti.</p>
     </div>
 </section>
 
@@ -107,44 +107,54 @@ while True:
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>Izpildes soļi:</h3>
-        <ol>
-            <li>Pievienojiet krāsu sensoru robota priekšpusē tā, lai tas būtu vērsts uz leju (pret zemi). Optimālais augstums no grīdas ir aptuveni 1-2 LEGO klucīšu biezumā.</li>
-            <li>Pievienojiet sensoru brīvam portam (piem., E).</li>
-            <li>Izmantojiet blokus: <code>start moving [forward]</code>.</li>
-            <li>Pievienojiet oranžo <code>wait until</code> bloku un tajā ievietojiet gaiši zilo sensora bloku <code>[Color Sensor on E] sees [Red]</code>.</li>
-            <li>Pēc tam pievienojiet <code>stop moving</code> bloku. Pārbaudiet!</li>
+        <h3>1. uzdevums - Apstādini robotu uz sarkanas krāsas</h3>
+        <p>Beigās tavs robots brauks taisni un pats apstāsies, ieraugot sarkanu klucīti.</p>
+        <ol class="step-list">
+            <li><b>Piestiprini</b> krāsu sensoru robota priekšā ar aci uz leju, 1-2 klucīšu augstumā no grīdas.</li>
+            <li><b>Iespraud</b> sensora vadu portā E.</li>
+            <li><b>Ievelc</b> programmā bloku <code>start moving [forward]</code>.</li>
+            <li><b>Pievieno</b> zem tā oranžo <code>wait until</code> bloku ar nosacījumu <code>[Color Sensor on E] sees [Red]</code>.</li>
+            <li><b>Pievieno</b> beigās bloku <code>stop moving</code>.</li>
+            <li><b>Noliec</b> sarkanu klucīti metra attālumā un palaid programmu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> robots pats apstājas pie sarkanā klucīša, nevis pārbrauc tam pāri.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums: Divu stāvokļu līniju sekotājs (Zig-zag)</h3>
-        <p>Izveidojiet programmu, kas ļauj robotam sekot melnas līnijas malai, izmantojot atstarotās gaismas intensitāti.</p>
+        <h3>2. uzdevums - Uzraksti divu stāvokļu līniju sekotāju</h3>
+        <p>Beigās tavs robots pats sekos melnas līnijas malai pa visu trasi.</p>
         <ol class="step-list">
-            <li><b>Izveidojiet</b> jaunu kodu. Sākumā iestatiet motorus. Tad pievienojiet oranžo <code>forever</code> ciklu.</li>
-            <li>Iekšā ciklā <b>ievietojiet</b> oranžo <code>If ... Else ...</code> bloku.</li>
-            <li>"If" nosacījumā <b>ielieciet</b> bloku, kas pārbauda gaismas intensitāti: <code>[Color Sensor on E] reflection < [50]%</code>. (Viss, kas tumšāks par 50%, skaitīsies līnija).</li>
-            <li>Sadaļā "If" (kad redz melnu) <b>ielieciet</b> komandu nedaudz pagriezties pa labi (piemēram, <code>start moving at [30] % steering</code>).</li>
-            <li>Sadaļā "Else" (kad redz baltu) <b>ielieciet</b> komandu nedaudz pagriezties pa kreisi (piemēram, <code>start moving at [-30] % steering</code>).</li>
+            <li><b>Izveido</b> jaunu programmu un sāc ar bloku <code>set movement motors to [A] and [B]</code>.</li>
+            <li><b>Pievieno</b> oranžo <code>forever</code> ciklu.</li>
+            <li><b>Ieliec</b> ciklā <code>If ... Else ...</code> bloku ar nosacījumu <code>[Color Sensor on E] reflection &lt; [50]%</code>.</li>
+            <li><b>Ieraksti</b> "If" zarā (redz melnu) bloku <code>start moving at [30] % steering</code>.</li>
+            <li><b>Ieraksti</b> "Else" zarā (redz baltu) bloku <code>start moving at [-30] % steering</code>.</li>
+            <li><b>Noliec</b> robotu tā, lai sensors būtu uz līnijas malas, un palaid.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> robots pats nobrauc vismaz vienu līnijas taisni, nenobraucot no tās.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums: Koda pielāgošana reālajai trasei</h3>
-        <p>Pārbaudiet robotu uz robotikas paklāja un noregulējiet parametrus tā, lai kustība kļūtu vienmērīgāka un ātrāka.</p>
+        <h3>3. uzdevums - Noregulē slieksni un ātrumu uz reālās trases</h3>
+        <p>Beigās tavs robots nobrauks visu apli, arī līkumus, bez raustīšanās.</p>
         <ol class="step-list">
-            <li><b>Novietojiet</b> robotu uz līnijas MALAS (sensors daļēji uz melnā, daļēji uz baltā).</li>
-            <li>Ja robots raustās pārāk traki (ass zig-zag), <b>samaziniet</b> stūrēšanas (steering) procentus no 30 uz 15 vai 20.</li>
-            <li><b>Pievienojiet</b> programmai <code>set movement speed</code> bloku. Kas notiek, ja palielina ātrumu? Robots, visticamāk, līniju pazaudēs. Atrodiet labāko balansu starp ātrumu un stabilitāti!</li>
-            <li><b>Pārbaudiet</b>, vai jūsu sensors nav pārāk tuvu grīdai (strīķējas) vai pārāk augstu (neredz atšķirību starp melnu un baltu).</li>
+            <li><b>Noliec</b> sensoru uz melnās līnijas un pieraksti, kādu procentu rāda portu skats.</li>
+            <li><b>Noliec</b> sensoru uz baltā laukuma un pieraksti arī šo procentu.</li>
+            <li><b>Izrēķini</b> abu skaitļu vidējo aritmētisko un ieraksti to "If" nosacījumā 50 vietā.</li>
+            <li><b>Samazini</b> stūrēšanu no 30 uz 20, ja robots raustās pārāk asi.</li>
+            <li><b>Pievieno</b> bloku <code>set movement speed to [25]%</code> un palaid pa visu trasi.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc slieksnis ir atkarīgs no klases apgaismojuma.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> robots nobrauc visu apli un neapstājas līkumā.</p>
     </div>
     <div class='logic-box'>
-        <h3>4. uzdevums (Zvaigznītes izaicinājums): "Saskaitītie krustojumi"</h3>
-        <p>Izaicinājums ātrākajām komandām – izveidojiet programmu, kurā robots brauc pa līniju, bet saskaita, cik reizes tas šķērsojis zaļu līniju/krustojumu, un apstājas pēc 3. reizes.</p>
+        <h3>Papildu uzdevums - Saskaiti zaļos krustojumus</h3>
+        <p>Ja pamatdarbs ir gatavs, liec robotam apstāties pēc trešā zaļā krustojuma.</p>
         <ol class="step-list">
-            <li>Jums būs nepieciešams <b>izveidot</b> Mainīgo (Variable) – nosauciet to "Krustojumi". Koda sākumā iestatiet to uz 0.</li>
-            <li><b>Nomainiet</b> <code>forever</code> ciklu uz <code>repeat until [Krustojumi = 3]</code>.</li>
-            <li><b>Papildiniet</b> "If-Else" loģiku. Jums būs nepieciešams vēl viens If bloks, kas pārbauda: JA sensors redz ZAĻU krāsu, TAD <code>change [Krustojumi] by 1</code> un nedaudz pagaidīt (lai nesaskaitītu vienu līniju vairākas reizes).</li>
+            <li><b>Izveido</b> mainīgo (Variable) ar nosaukumu "Krustojumi" un iestati to uz 0.</li>
+            <li><b>Nomaini</b> <code>forever</code> ciklu uz <code>repeat until [Krustojumi = 3]</code>.</li>
+            <li><b>Pievieno</b> ciklā vēl vienu If bloku ar nosacījumu <code>[Color Sensor on E] sees [Green]</code>.</li>
+            <li><b>Ieraksti</b> tajā <code>change [Krustojumi] by 1</code> un <code>wait for [0.5] seconds</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> robots apstājas tieši pēc trešā zaļā krustojuma, nevis pēc pirmā.</p>
     </div>
 </section>
 
@@ -152,31 +162,37 @@ while True:
     <h2>Biežākās kļūdas (un kā tās labot):</h2>
     <div class='logic-box'>
 <ul>
-        <li><b>Robots riņķo uz vietas, kad atrod līniju:</b> Jūsu stūrēšanas vērtības (steering) ir pārāk lielas (piemēram, 100%), vai arī motors A un B griežas pretējos virzienos. Līnijas sekošanai pietiek ar nelielu pagrieziena leņķi (10% līdz 30%).</li>
-        <li><b>Robots pazaudē līniju līkumos:</b> Izvēlētais braukšanas ātrums ir pārāk liels, vai arī "If" nosacījuma slieksnis (50%) neatbilst jūsu klases apgaismojumam. Paskatieties portu skatā, kādu procentu sensors rāda uz melnā un baltā, un izrēķiniet vidējo aritmētisko.</li>
-        <li><b>Sensors "redz" līniju tikai dažreiz:</b> Iespējams, izmantojat "Color" (Krāsas) atpazīšanas režīmu melnas līnijas meklēšanai. Krāsu atpazīšana prasa ideālu apgaismojumu. Vienmēr līniju sekošanai izmantojiet "Reflected Light" (Atstarotā gaisma) bloku!</li>
+        <li><b>Robots riņķo uz vietas, kad atrod līniju:</b> Tava stūrēšanas vērtība (steering) ir pārāk liela (piemēram, 100%), vai arī motori A un B griežas pretējos virzienos. Līnijas sekošanai pietiek ar 10% līdz 30%.</li>
+        <li><b>Robots pazaudē līniju līkumos:</b> Braukšanas ātrums ir pārāk liels, vai arī slieksnis (50%) neatbilst tavas klases apgaismojumam. Paskaties portu skatā, kādu procentu sensors rāda uz melnā un baltā, un izrēķini vidējo aritmētisko.</li>
+        <li><b>Sensors "redz" līniju tikai dažreiz:</b> Melnas līnijas meklēšanai izmanto nevis "Color" (Krāsas) režīmu, bet "Reflected Light" (Atstarotā gaisma) bloku - krāsu atpazīšana prasa ideālu apgaismojumu.</li>
     </ul>
     </div>
 </section>
 
 <div class='section'>
-    <h2>Koda piemērs (Vienkāršais līniju sekotājs)</h2>
+    <h2>Koda piemērs (sliekšņa izrēķināšana - grūtākā daļa)</h2>
     <div class='code-example'>
-        <pre><code class="language-powershell">
-# SPIKE Word Blocks vizuālā koda tekstuālā reprezentācija
+        <pre><code class="language-powershell"># SPIKE Word Blocks vizuālā koda tekstuālā reprezentācija
+# Grūtākais nav uzrakstīt If-Else, bet atrast PAREIZO slieksni.
+
+# 1. solis - nomēri abas virsmas portu skatā (Port View):
+#    uz melnās līnijas sensors rāda, piemēram,  8%
+#    uz baltā laukuma sensors rāda, piemēram,  76%
+
+# 2. solis - slieksnis ir abu skaitļu vidējais aritmētiskais:
+#    (8 + 76) / 2 = 42     -> nosacījumā raksti 42, nevis 50
 
 when program starts
 set movement motors to [A] and [B]
 set movement speed to [25]%
 
 forever:
-    if [Color Sensor on E] reflection < [50]% then:
-        start moving at [25] % steering  # Griežas uz vienu pusi (prom no līnijas)
+    if [Color Sensor on E] reflection < [42]% then:
+        start moving at [20] % steering   # redz melnu -> griežas atpakaļ uz balto
     else:
-        start moving at [-25] % steering # Griežas uz otru pusi (atpakaļ uz līniju)
-        </code></pre>
+        start moving at [-20] % steering  # redz baltu -> griežas atpakaļ uz līniju</code></pre>
         <div class='result'>
-            Robots nepārtraukti "lēkās" no līnijas malas uz balto laukumu un atpakaļ, radot zig-zag kustību, kas vidēji virzīs to uz priekšu pa līnijas trajektoriju.
+            Ar slieksni 42 robots tur sensoru tieši uz līnijas malas un brauc vienmērīgā zig-zag. Ja atstāj 50, bet klasē ir tumšāks apgaismojums, robots baltu virsmu noturēs par melnu un aizbrauks prom no līnijas.
         </div>
     </div>
 </div>

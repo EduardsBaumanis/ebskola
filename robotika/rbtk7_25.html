@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-c.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
 </head>
 <body class="page-reference has-sidebar">
 <header class="topbar">
@@ -74,7 +74,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Priekšzināšanu robeža:</b> uzdevumos izmanto tikai iepriekš apgūto un šīs lapas teorijas/koda piemēros parādīto. Ja parādās jauna komanda vai rīks, vispirms atrod tās paraugu teorijas blokā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - saslēdz shēmu un nodefinē mainīgos · 2. uzdevums (~25 min) - uzraksti spēles loģiku ar millis() · 3. uzdevums (~20 min) - pievieno 3 raundus, vidējo un false start. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver tinkercad.com, sagatavo zaļu LED, 220 omu rezistoru un divas spiedpogas - visu spēli vispirms pārbaudīsi simulācijā.</p>
     </div>
 </section>
 
@@ -92,48 +93,60 @@ if (digitalRead(POGA_REAGE) == LOW) {
 }</code></pre>
         <div class="result">Jaunais fragments ir skaidrots pirms uzdevuma: <code>millis()</code> atgriež laiku kopš programmas palaišanas.</div>
     </div>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> shēma un mainīgie ~20 min, spēles loģika ~30 min, rezultātu aprēķins un tests ~20 min.</p>
-    </div>
 </section>
 
 <section class='section'>
     <h2>Darba uzdevuma gaita</h2>
 
     <div class='logic-box'>
-        <h3>1. solis: Shēma un mainīgie (1. līmenis)</h3>
-        <ol>
+        <h3>1. uzdevums - Saslēdz shēmu un nodefinē mainīgos</h3>
+        <p>Beigās tava shēma būs gatava un kods zinās, kurā portā ir katra detaļa.</p>
+        <ol class="step-list">
             <li><b>Saslēdz</b> uz maketo plates: zaļo LED ar 220Ω rezistoru pie pin 9, divas spiedpogas pie pin 2 un pin 3 (ar <code>INPUT_PULLUP</code>).</li>
-            <li>Pirmajā <code>setup()</code> daļā <b>nodefinē</b> mainīgos: <code>const int LED = 9;</code>, <code>const int POGA_START = 2;</code>, <code>const int POGA_REAGE = 3;</code>.</li>
+            <li><b>Nodefinē</b> mainīgos <b>virs</b> <code>setup()</code>: <code>const int LED = 9;</code>, <code>const int POGA_START = 2;</code>, <code>const int POGA_REAGE = 3;</code>.</li>
+            <li><b>Ieraksti</b> funkcijā <code>setup()</code> abu pogu <code>pinMode(..., INPUT_PULLUP);</code> un LED <code>pinMode(LED, OUTPUT);</code>.</li>
             <li><b>Pievieno</b> <code>Serial.begin(9600);</code>, lai varētu redzēt rezultātus datorā.</li>
-            <li><b>Izveido</b> funkciju <code>iededz_led()</code> un <code>nodzes_led()</code> - abas tiek izsauktas no <code>loop()</code>.</li>
+            <li><b>Palaid</b> simulāciju un pārbaudi, ka kods kompilējas bez kļūdām.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> kods kompilējas un mainīgie ir virs <code>setup()</code>, nevis iekšā tajā - citādi <code>loop()</code> tos neredz.</p>
     </div>
 
     <div class='logic-box'>
-        <h3>2. solis: Spēles loģika ar nejaušību (2. līmenis)</h3>
-        <ol>
+        <h3>2. uzdevums - Uzraksti spēles loģiku ar millis()</h3>
+        <p>Beigās Serial Monitor parādīs tavu reakcijas laiku milisekundēs.</p>
+        <ol class="step-list">
             <li>Funkcijā <code>loop()</code> <b>gaidi</b>, līdz tiek nospiesta START poga (LOW signāls).</li>
             <li><b>Pievieno</b> nejaušu pauzi: <code>delay(random(1000, 4001));</code> - Arduino gaidīs no 1 līdz 4 sekundēm.</li>
             <li><b>Iededz</b> LED un saglabā laiku ar <code>unsigned long sakums = millis();</code>.</li>
             <li><b>Gaidi</b> otrās pogas nospiešanu un aprēķini reakciju: <code>laiks = millis() - sakums;</code>.</li>
             <li><b>Izvadi</b> rezultātu: <code>Serial.print("Reakcija: "); Serial.print(laiks); Serial.println(" ms");</code>.</li>
+            <li><b>Palaid</b> simulāciju un izspēlē vienu raundu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc pogas nospiešanas Serial Monitor parāda skaitli, kas ir aptuveni 200-500 ms.</p>
     </div>
 
     <div class='logic-box'>
-        <h3>3. solis: Vidējais rezultāts un false start (3. līmenis)</h3>
-        <ol>
+        <h3>3. uzdevums - Pievieno 3 raundus, vidējo un false start</h3>
+        <p>Beigās spēle nospēlēs trīs raundus un pateiks tavu vidējo reakcijas laiku.</p>
+        <ol class="step-list">
             <li><b>Pievieno</b> <code>for</code> ciklu, kas izpilda 3 raundus.</li>
             <li><b>Saglabā</b> katra raunda laiku masīvā <code>int laiki[3];</code>.</li>
             <li>Pēc cikla <b>aprēķini</b> vidējo: <code>summa / 3</code> un izvadi to.</li>
             <li><b>Pievieno</b> pārbaudi: ja spēlētājs nospiež pogu, kamēr LED vēl nav iedegusies - paziņo "FALSE START!" un sāc raundu no jauna.</li>
-            <li><b>Pārbaudi</b> visus iespējamos scenārijus.</li>
+            <li><b>Pārbaudi</b> abus scenārijus: godīgu raundu un apzinātu false start.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc trim raundiem parādās vidējais laiks, bet par agru nospiesta poga dod "FALSE START!" un raunds sākas no jauna.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildus uzdevums: skaņas signāls</h3>
-        <p>Pievieno buzzer elementu, kas īsi nopīkst pie starta vai false start. Šis uzdevums nav nepieciešams pamata vērtējumam.</p>
+        <h3>Papildu uzdevums - Skaņas signāls</h3>
+        <p>Ja pamatdarbs ir gatavs, pievieno pīkstuli, kas apstiprina startu un brīdina par false start.</p>
+        <ol class="step-list">
+            <li><b>Ievelc</b> shēmā komponenti "Piezo" un savieno to ar 8. portu un GND.</li>
+            <li><b>Pievieno</b> LED iedegšanās brīdī rindu <code>tone(8, 1000, 100);</code>.</li>
+            <li><b>Pievieno</b> false start gadījumā <code>tone(8, 300, 400);</code> - zemāku un garāku signālu.</li>
+            <li><b>Palaid</b> spēli un pārbaudi abas skaņas.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> starts un false start skan atšķirīgi, un tu vari tos atšķirt ar aizvērtām acīm.</p>
     </div>
 </section>
 
@@ -146,6 +159,47 @@ if (digitalRead(POGA_REAGE) == LOW) {
         <li><b>False start nav pamanīts:</b> pārbaudi pogu pirms LED iedegšanas un raundu sāc no jauna.</li>
     </ul>
 </section>
+
+<div class='section'>
+    <h2>Koda piemērs (false start un millis() - grūtākā daļa)</h2>
+    <div class='code-example'>
+        <pre><code class="language-cpp">// Grūtākā daļa nav laika mērīšana, bet GAIDĪŠANA.
+// Ja nejaušās pauzes laikā lieto delay(), Arduino tajā brīdī ir "kurls"
+// un false start palaiž garām. Tāpēc gaidīt vajag ciklā, kas VIENLAIKUS
+// skatās pulksteni UN pogu.
+
+unsigned long pauze = random(1000, 4001);
+unsigned long pauzesSakums = millis();
+bool falseStart = false;
+
+// Gaida nejaušo pauzi, bet visu laiku vēro arī pogu
+while (millis() - pauzesSakums &lt; pauze) {
+  if (digitalRead(POGA_REAGE) == LOW) {   // nospieda PIRMS laika
+    Serial.println("FALSE START!");
+    falseStart = true;
+    break;
+  }
+}
+
+if (!falseStart) {
+  digitalWrite(LED, HIGH);
+  unsigned long sakums = millis();        // pulkstenis sākas TIEŠI te
+
+  while (digitalRead(POGA_REAGE) == HIGH) {
+    // gaida, līdz spēlētājs nospiež pogu
+  }
+
+  unsigned long laiks = millis() - sakums;
+  digitalWrite(LED, LOW);
+  Serial.print("Reakcija: ");
+  Serial.print(laiks);
+  Serial.println(" ms");
+}</code></pre>
+        <div class='result'>
+            Godīgā raundā Serial Monitor rāda, piemēram, "Reakcija: 284 ms". Ja pogu nospiež, kamēr LED vēl ir tumša, parādās "FALSE START!" un raunds netiek ieskaitīts. Ja nejaušo pauzi taisa ar <code>delay()</code>, false start netiek pamanīts vispār.
+        </div>
+    </div>
+</div>
 
 <section class='section'>
     <h2>Vērtēšanas kritēriji</h2>
