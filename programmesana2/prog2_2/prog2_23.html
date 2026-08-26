@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārraksti Python if C++ sintaksē · 2. uzdevums (~25 min) - izveido enum un switch priekšmetu veidiem · 3. uzdevums (~20 min) - pievieno ciklu, kas pārbauda visus priekšmetus · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atceries no Programmēšanas I: <code>if</code>, <code>elif</code>, <code>else</code> un <code>for</code> cikls. C++ dara to pašu, bet ar figūriekavām un semikoliem. Šodien pārtulkosi jau zināmo.</p>
     </div>
 </section>
 
@@ -145,67 +146,72 @@ struct PhysicsCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>2.3 Vadības struktūras spēles loģikā</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Pārraksti Python if C++ sintaksē</h3>
+        <p>Beigās tu redzēsi, ka loģika ir tā pati, tikai pieraksts cits.</p>
+        <ol class="step-list">
+            <li><b>Uzraksti</b> burtnīcā Python nosacījumu: ja enerģija zem 0, varonis mirst; ja zem 30, brīdinājums; citādi viss labi.</li>
+            <li><b>Izveido</b> C++ klasē lauku <code class="language-cpp">int health = 100;</code>.</li>
+            <li><b>Ieraksti</b> <code class="language-cpp">if (health &lt;= 0) { ... }</code> ar figūriekavām.</li>
+            <li><b>Pievieno</b> <code class="language-cpp">else if (health &lt; 30) { ... }</code> - ievēro, ka tas ir divi vārdi, nevis <code>elif</code>.</li>
+            <li><b>Pievieno</b> <code class="language-cpp">else { ... }</code> un katrā zarā izdruku.</li>
+            <li><b>Kompilē</b> un pārbaudi ar trim dažādām <code>health</code> vērtībām.</li>
+            <li><b>Pieraksti</b> trīs atšķirības starp Python un C++ pierakstu.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> visi trīs zari nostrādā pareizi, un burtnīcā ir trīs pierakstītas atšķirības.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Izveido enum un switch priekšmetu veidiem</h3>
+        <p>Beigās priekšmetu veidi būs nosaukumi, nevis nesaprotami skaitļi.</p>
+        <ol class="step-list">
+            <li><b>Ieraksti</b> virs klases <code class="language-cpp">enum class PickupType { COIN, GEM, KEY };</code>.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-cpp">void on_pickup(PickupType type);</code>.</li>
+            <li><b>Ieraksti</b> tajā <code class="language-cpp">switch (type) {</code>.</li>
+            <li><b>Pievieno</b> katram veidam <code class="language-cpp">case PickupType::COIN:</code> ar savu darbību.</li>
+            <li><b>Pievieno</b> katram <code>case</code> beigās <code class="language-cpp">break;</code>.</li>
+            <li><b>Izdzēs</b> vienu <code>break;</code>, kompilē un pieraksti, kas notiek.</li>
+            <li><b>Ieliec</b> <code>break;</code> atpakaļ un pārbaudi visus trīs veidus.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> katrs priekšmeta veids dod savu rezultātu, un tu zini, ka bez <code>break</code> izpildās arī nākamais <code>case</code>.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Pievieno ciklu, kas pārbauda visus priekšmetus</h3>
+        <p>Beigās viena cilpa apstrādās visu priekšmetu sarakstu.</p>
+        <ol class="step-list">
+            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;vector&gt;</code>.</li>
+            <li><b>Izveido</b> <code class="language-cpp">std::vector&lt;PickupType&gt; items = { PickupType::COIN, PickupType::GEM, PickupType::COIN };</code>.</li>
+            <li><b>Uzraksti</b> ciklu <code class="language-cpp">for (PickupType t : items) { on_pickup(t); }</code>.</li>
+            <li><b>Kompilē</b> un pārbaudi, ka izdrukājas trīs rindas.</li>
+            <li><b>Pievieno</b> sarakstam vēl vienu priekšmetu un palaid vēlreiz.</li>
+            <li><b>Pārbaudi</b>, vai cikls bija jāmaina.</li>
+            <li><b>Pieraksti</b>, ar ko šis cikls līdzinās Python <code>for</code> ciklam.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> cikls apstrādā visus saraksta priekšmetus, un pievienojot ceturto, kods nav jāmaina.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Saskaiti katra veida priekšmetus</h3>
+        <p>Ja pamatdarbs ir gatavs, izveido kopsavilkumu.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> trīs skaitītājus - pa vienam katram veidam.</li>
+            <li><b>Palielini</b> attiecīgo skaitītāju katrā <code>case</code> zarā.</li>
+            <li><b>Izdrukā</b> pēc cikla visu trīs skaitītāju vērtības.</li>
+            <li><b>Pārbaudi</b>, vai summa sakrīt ar saraksta garumu.</li>
+            <li><b>Pievieno</b> sarakstam dublikātus un pārbaudi vēlreiz.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> skaitītāju summa vienmēr sakrīt ar priekšmetu skaitu sarakstā.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PhysicsCheckpoint {
-    String lesson = "2.3 Vadības struktūras spēles loģikā";
-    bool uses_cpp = true;
-    bool uses_physics_process = true;
-    bool uses_delta_time = true;
-    bool checks_collisions = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C++ sintaksē uzrakstīt <code>if/else if/else</code>, izveidot <code>enum class</code> ar <code>switch</code> un apstrādāt priekšmetu sarakstu ar ciklu, un vari nosaukt galvenās atšķirības no Python.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>C++ fails ar visiem trim uzdevumiem tavā GitHub krātuvē.</li>
+            <li>Ekrānuzņēmums ar Output paneli, kurā redzamas cikla izdrukas.</li>
+            <li>Burtnīcā: trīs atšķirības starp Python un C++ pierakstu un viens teikums, kas notiek bez <code>break</code>.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>2.3 Vadības struktūras spēles loģikā</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, ekrānuzņēmumu un burtnīcas fotogrāfiju skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

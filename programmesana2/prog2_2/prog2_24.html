@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pievieno sienu un pārbaudi sadursmi · 2. uzdevums (~25 min) - izveido savācamu monētu ar Area2D · 3. uzdevums (~20 min) - iestati Collision Layers · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu projektu ar vadāmu objektu no 2.2 stundas. Šodien objekts vairs nevarēs iet cauri sienām.</p>
     </div>
 </section>
 
@@ -136,67 +137,72 @@ struct PhysicsCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>2.4 Sadursmju noteikšana</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Pievieno sienu un pārbaudi sadursmi</h3>
+        <p>Beigās tavs objekts apstāsies pie sienas, nevis ies tai cauri.</p>
+        <ol class="step-list">
+            <li><b>Nomaini</b> sava vadāmā objekta tipu uz <code>CharacterBody2D</code>.</li>
+            <li><b>Pievieno</b> tam bērnu <code>CollisionShape2D</code> ar taisnstūra formu.</li>
+            <li><b>Pievieno</b> scēnai <code>StaticBody2D</code> ar nosaukumu <code>Siena</code> un tās sadursmes formu.</li>
+            <li><b>Nomaini</b> kodā kustību uz <code class="language-cpp">set_velocity(dir * speed);</code> un <code class="language-cpp">move_and_slide();</code>.</li>
+            <li><b>Kompilē</b> un mēģini iebraukt sienā.</li>
+            <li><b>Izdzēs</b> sienas <code>CollisionShape2D</code> un pamēģini vēlreiz.</li>
+            <li><b>Ieliec</b> to atpakaļ un pieraksti, kāpēc bez formas sadursmes nav.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> objekts apstājas pie sienas, bet bez <code>CollisionShape2D</code> iet tai cauri.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Izveido savācamu monētu ar Area2D</h3>
+        <p>Beigās monēta pazudīs, kad tai pieskarsies.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> scēnai <code>Area2D</code> ar nosaukumu <code>Monēta</code> un tās sadursmes formu.</li>
+            <li><b>Izveido</b> C++ klasi <code>Coin</code>, kas manto no <code>Area2D</code>.</li>
+            <li><b>Reģistrē</b> <code>_bind_methods</code> metodē <code class="language-cpp">ClassDB::bind_method(D_METHOD("on_body_entered", "body"), &amp;Coin::on_body_entered);</code>.</li>
+            <li><b>Savieno</b> <code>_ready</code> metodē signālu ar <code class="language-cpp">connect("body_entered", Callable(this, "on_body_entered"));</code>.</li>
+            <li><b>Ieraksti</b> apstrādātājā izdruku un <code class="language-cpp">queue_free();</code>.</li>
+            <li><b>Kompilē</b> un uzbrauc monētai virsū.</li>
+            <li><b>Pieraksti</b>, ar ko <code>Area2D</code> atšķiras no <code>StaticBody2D</code>.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> uzbraucot monētai, tā pazūd un Output panelī parādās izdruka, bet objekts neapstājas.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Iestati Collision Layers</h3>
+        <p>Beigās tu noteiksi, kurš objekts ar kuru drīkst sadurties.</p>
+        <ol class="step-list">
+            <li><b>Atver</b> sienas Inspector sadaļu <b>Collision</b>.</li>
+            <li><b>Iestati</b> sienai <code>Layer</code> 1 un noņem visus <code>Mask</code> ķeksīšus.</li>
+            <li><b>Iestati</b> spēlētājam <code>Layer</code> 2 un <code>Mask</code> 1 un 3.</li>
+            <li><b>Iestati</b> monētai <code>Layer</code> 3.</li>
+            <li><b>Palaid</b> un pārbaudi, ka spēlētājs joprojām apstājas pie sienas un savāc monētu.</li>
+            <li><b>Noņem</b> spēlētājam <code>Mask</code> 1 un pārbaudi, kas notiek ar sienu.</li>
+            <li><b>Ieliec</b> ķeksīti atpakaļ un pieraksti, ko nozīmē Layer un ko Mask.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> noņemot Mask 1, spēlētājs sāk iet cauri sienai, un tu vari izskaidrot, kāpēc.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Saskaiti savāktās monētas</h3>
+        <p>Ja pamatdarbs ir gatavs, pievieno rezultāta skaitītāju.</p>
+        <ol class="step-list">
+            <li><b>Nokopē</b> monētu vēl trīs reizes dažādās vietās.</li>
+            <li><b>Pievieno</b> spēlētāja klasei lauku <code class="language-cpp">int score = 0;</code>.</li>
+            <li><b>Palielini</b> to, kad monēta tiek savākta.</li>
+            <li><b>Izdrukā</b> rezultātu pēc katras savāktās monētas.</li>
+            <li><b>Savāc</b> visas monētas un pārbaudi gala skaitli.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc visu monētu savākšanas izdrukātais skaitlis sakrīt ar monētu skaitu.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PhysicsCheckpoint {
-    String lesson = "2.4 Sadursmju noteikšana";
-    bool uses_cpp = true;
-    bool uses_physics_process = true;
-    bool uses_delta_time = true;
-    bool checks_collisions = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavā projektā spēlētājs apstājas pie <code>StaticBody2D</code> sienas, savāc <code>Area2D</code> monētu, kas pazūd, un tu proti ar Collision Layers un Masks noteikt, kurš objekts ar kuru sadursies.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Īss video vai divi ekrānuzņēmumi: objekts pie sienas un monētas savākšanas brīdis.</li>
+            <li>Fails <code>coin.cpp</code> ar signāla savienojumu GitHub krātuvē.</li>
+            <li>Burtnīcā: ar ko <code>Area2D</code> atšķiras no <code>StaticBody2D</code> un ko nozīmē Layer un Mask.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>2.4 Sadursmju noteikšana</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un attēlus skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

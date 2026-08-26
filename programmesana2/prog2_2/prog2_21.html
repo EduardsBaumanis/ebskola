@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - liec objektam kustēties ar delta · 2. uzdevums (~25 min) - salīdzini _process un _physics_process · 3. uzdevums (~20 min) - pārbaudi, kas notiek bez delta · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu Godot projektu ar sagatavotu C++ vidi. Šodien galvenais jautājums ir viens: kāpēc ātrums vienmēr jāreizina ar <code>delta</code>.</p>
     </div>
 </section>
 
@@ -128,67 +129,72 @@ struct PhysicsCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>2.1 Process un fizikas cikli</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Liec objektam kustēties ar delta</h3>
+        <p>Beigās tavs objekts pats vienmērīgi pārvietosies pa ekrānu.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> C++ klasi <code>Mover</code>, kas manto no <code>Node2D</code>.</li>
+            <li><b>Pievieno</b> laukus <code class="language-cpp">Vector2 velocity;</code> un <code class="language-cpp">double speed = 200.0;</code>.</li>
+            <li><b>Pieteic</b> metodi <code class="language-cpp">void _physics_process(double delta) override;</code>.</li>
+            <li><b>Ieraksti</b> tajā <code class="language-cpp">set_position(get_position() + velocity * delta);</code>.</li>
+            <li><b>Iestati</b> konstruktorā <code class="language-cpp">velocity = Vector2(speed, 0);</code>.</li>
+            <li><b>Kompilē</b> ar <code class="language-bash">scons platform=windows</code> un pievieno mezglu scēnai.</li>
+            <li><b>Palaid</b> spēli un vēro, kā objekts virzās pa labi.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> objekts pārvietojas vienmērīgi pa labi un neizlec pa gabaliem.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Salīdzini _process un _physics_process</h3>
+        <p>Beigās tu zināsi, kuru metodi kurai lietai izvēlēties.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> klasei arī <code class="language-cpp">void _process(double delta) override;</code>.</li>
+            <li><b>Izdrukā</b> abās metodēs <code class="language-cpp">UtilityFunctions::print(delta);</code>.</li>
+            <li><b>Palaid</b> spēli uz dažām sekundēm un aptur to.</li>
+            <li><b>Salīdzini</b> Output panelī abu metožu izdrukātās vērtības.</li>
+            <li><b>Pieraksti</b>, kurai metodei <code>delta</code> ir vienmēr vienāds un kurai mainās.</li>
+            <li><b>Pieraksti</b>, kura metode ir piemērota kustībai un fizikai.</li>
+            <li><b>Izdzēs</b> izdrukas, lai Output panelis netiktu piesārņots.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> tu vari pateikt, ka <code>_physics_process</code> delta ir stabils, bet <code>_process</code> delta svārstās.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Pārbaudi, kas notiek bez delta</h3>
+        <p>Beigās tu sapratīsi, kāpēc bez delta spēle uz cita datora strādā citādi.</p>
+        <ol class="step-list">
+            <li><b>Nomaini</b> kustības rindu uz <code class="language-cpp">set_position(get_position() + velocity);</code> - bez <code>delta</code>.</li>
+            <li><b>Kompilē</b> un palaid spēli.</li>
+            <li><b>Pieraksti</b>, cik ātri objekts tagad aizlido no ekrāna.</li>
+            <li><b>Atver</b> <b>Project Settings -&gt; Physics -&gt; Common</b> un nomaini <code>Physics Ticks per Second</code> uz <code>30</code>.</li>
+            <li><b>Palaid</b> vēlreiz un pieraksti, vai ātrums mainījās.</li>
+            <li><b>Ieliec</b> <code>delta</code> atpakaļ un atkārto abus mērījumus.</li>
+            <li><b>Pieraksti</b> secinājumu: ar <code>delta</code> ātrums nemainījās, bez tā - mainījās.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> bez <code>delta</code> objekta ātrums mainās, mainot fizikas biežumu, bet ar <code>delta</code> paliek vienāds.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Liec objektam kustēties pa apli</h3>
+        <p>Ja pamatdarbs ir gatavs, izmanto delta arī leņķim.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> lauku <code class="language-cpp">double angle = 0.0;</code>.</li>
+            <li><b>Palielini</b> to katrā kadrā ar <code class="language-cpp">angle += 2.0 * delta;</code>.</li>
+            <li><b>Izrēķini</b> pozīciju ar <code class="language-cpp">Vector2(cos(angle), sin(angle)) * 150</code>.</li>
+            <li><b>Pieskaiti</b> tai ekrāna centru <code>(640, 360)</code>.</li>
+            <li><b>Palaid</b> un pārbaudi, ka objekts riņķo vienmērīgi.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> objekts brauc pa apli ap ekrāna centru ar vienmērīgu ātrumu.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PhysicsCheckpoint {
-    String lesson = "2.1 Process un fizikas cikli";
-    bool uses_cpp = true;
-    bool uses_physics_process = true;
-    bool uses_delta_time = true;
-    bool checks_collisions = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tev ir C++ klase, kas pārvieto objektu, izmantojot <code>delta</code>, un tu ar mērījumu vari pierādīt, kāpēc bez <code>delta</code> spēles ātrums mainās atkarībā no datora.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Fails <code>mover.cpp</code> tavā GitHub krātuvē.</li>
+            <li>Ekrānuzņēmums ar Output paneli, kurā redzamas abu metožu <code>delta</code> vērtības.</li>
+            <li>Burtnīcā: ar ko <code>_process</code> atšķiras no <code>_physics_process</code> un kāpēc ātrums jāreizina ar <code>delta</code>.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>2.1 Process un fizikas cikli</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, ekrānuzņēmumu un burtnīcas fotogrāfiju skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

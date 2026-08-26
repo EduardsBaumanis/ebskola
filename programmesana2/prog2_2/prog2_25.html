@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pievieno gravitāciju · 2. uzdevums (~25 min) - pievieno lēcienu un zemes pārbaudi · 3. uzdevums (~20 min) - pievieno mainīgu lēciena augstumu un coyote time · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu projektu ar sadursmēm no 2.4 stundas. Atceries: Godot Y ass iet uz LEJU, tāpēc lēciena spēks ir NEGATĪVS skaitlis.</p>
     </div>
 </section>
 
@@ -149,67 +150,72 @@ struct PhysicsCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>2.5 Gravitācija un platformas mehānika</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Pievieno gravitāciju</h3>
+        <p>Beigās tavs varonis kritīs uz leju, līdz atsitīsies pret grīdu.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> klasei konstanti <code class="language-cpp">const float GRAVITY = 1200.0f;</code>.</li>
+            <li><b>Pievieno</b> lauku <code class="language-cpp">Vector2 velocity_internal;</code>.</li>
+            <li><b>Ieraksti</b> <code class="language-cpp">_physics_process</code> metodē <code class="language-cpp">if (!is_on_floor()) { velocity_internal.y += GRAVITY * delta; }</code>.</li>
+            <li><b>Nodod</b> ātrumu ar <code class="language-cpp">set_velocity(velocity_internal);</code> un izsauc <code class="language-cpp">move_and_slide();</code>.</li>
+            <li><b>Atjauno</b> pēc tam <code class="language-cpp">velocity_internal = get_velocity();</code>.</li>
+            <li><b>Pievieno</b> scēnai grīdu kā <code>StaticBody2D</code> ar sadursmes formu.</li>
+            <li><b>Kompilē</b> un palaid - varonim jākrīt un jāapstājas uz grīdas.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> varonis krīt uz leju un apstājas uz grīdas, nevis krīt bezgalīgi.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Pievieno lēcienu un zemes pārbaudi</h3>
+        <p>Beigās varonis lēks tikai tad, kad stāv uz zemes.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> Input Map darbību <code>jump</code> ar atstarpes taustiņu.</li>
+            <li><b>Pievieno</b> konstanti <code class="language-cpp">const float JUMP_FORCE = -550.0f;</code>.</li>
+            <li><b>Ieraksti</b> <code class="language-cpp">if (input-&gt;is_action_just_pressed("jump") &amp;&amp; is_on_floor()) { velocity_internal.y = JUMP_FORCE; }</code>.</li>
+            <li><b>Kompilē</b> un pārbaudi lēcienu.</li>
+            <li><b>Noņem</b> nosacījumu <code>is_on_floor()</code> un pamēģini lēkt gaisā.</li>
+            <li><b>Pieraksti</b>, kas notiek bez šīs pārbaudes.</li>
+            <li><b>Ieliec</b> pārbaudi atpakaļ un nomaini <code>JUMP_FORCE</code> uz pozitīvu skaitli, lai redzētu, kas notiek.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> varonis lec tikai no zemes, un tu vari izskaidrot, kāpēc lēciena spēks ir negatīvs.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Pievieno mainīgu lēciena augstumu un coyote time</h3>
+        <p>Beigās lēciens jutīsies daudz labāk - kā īstā platformas spēlē.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> nosacījumu: ja <code>jump</code> tiek atlaists un <code>velocity_internal.y &lt; 0</code>, samazini <code>y</code> uz pusi.</li>
+            <li><b>Kompilē</b> un salīdzini īsu un garu atstarpes piespiedienu.</li>
+            <li><b>Pievieno</b> lauku <code class="language-cpp">double coyote = 0.0;</code>.</li>
+            <li><b>Iestati</b> to uz <code>0.1</code>, kad varonis ir uz zemes, citādi samazini ar <code>delta</code>.</li>
+            <li><b>Nomaini</b> lēciena nosacījumu uz <code class="language-cpp">coyote &gt; 0.0</code> vietā <code>is_on_floor()</code>.</li>
+            <li><b>Pārbaudi</b>: noej no platformas malas un uzreiz nospied lēcienu.</li>
+            <li><b>Pieraksti</b>, kāpēc šī neliela tolerance padara spēli patīkamāku.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> īss piespiediens dod zemu lēcienu, garš - augstu, un varonis vēl var palēkt tieši pēc nokāpšanas no malas.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Pievieno dubulto lēcienu</h3>
+        <p>Ja pamatdarbs ir gatavs, ļauj palēkt vēlreiz gaisā.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> lauku <code class="language-cpp">int jumps_left = 1;</code>.</li>
+            <li><b>Atjauno</b> to uz 1, kad varonis pieskaras zemei.</li>
+            <li><b>Samazini</b> par vienu pēc katra lēciena.</li>
+            <li><b>Atļauj</b> lēkt, kamēr <code>jumps_left &gt; 0</code>.</li>
+            <li><b>Pārbaudi</b>, ka gaisā var palēkt tieši vienu papildu reizi.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> varonis var palēkt divas reizes, bet trešo reizi gaisā - ne.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PhysicsCheckpoint {
-    String lesson = "2.5 Gravitācija un platformas mehānika";
-    bool uses_cpp = true;
-    bool uses_physics_process = true;
-    bool uses_delta_time = true;
-    bool checks_collisions = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavam varonim ir strādājoša platformas mehānika: gravitācija, lēciens tikai no zemes, mainīgs lēciena augstums atkarībā no taustiņa turēšanas ilguma un coyote time tolerance.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Īss video, kurā redzams īss lēciens, garš lēciens un lēciens tieši pēc nokāpšanas no malas.</li>
+            <li>Fails <code>player.cpp</code> ar gravitācijas un lēciena kodu GitHub krātuvē.</li>
+            <li>Burtnīcā: kāpēc <code>JUMP_FORCE</code> ir negatīvs un ko dara coyote time.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>2.5 Gravitācija un platformas mehānika</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un video skolotāja norādītajā vietā.</p>
     </div>
 </section>
 
