@@ -83,7 +83,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - eksportē spēli uz datoru · 2. uzdevums (~25 min) - eksportē uz tīmekli un palaid lokāli · 3. uzdevums (~20 min) - publicē spēli internetā · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu spēli. Šodien no projekta taisīsi failu, ko var iedot citam cilvēkam. Pirms sāc, lejupielādē export templates: <b>Editor -&gt; Manage Export Templates</b>.</p>
     </div>
 </section>
 
@@ -128,67 +129,73 @@ struct PolishCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>6.5 Eksports un publicēšana</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Eksportē spēli uz datoru</h3>
+        <p>Beigās tev būs fails, ko var palaist bez Godot.</p>
+        <ol class="step-list">
+            <li><b>Atver</b> <b>Project -&gt; Export</b>.</li>
+            <li><b>Nospied</b> <b>Add</b> un izvēlies savu platformu (Windows, Linux vai macOS).</li>
+            <li><b>Pārbaudi</b>, vai zem loga nav sarkana brīdinājuma par trūkstošiem templates.</li>
+            <li><b>Nospied</b> <b>Export Project</b> un saglabā mapē <code>build/</code>.</li>
+            <li><b>Aizver</b> Godot pilnībā.</li>
+            <li><b>Palaid</b> eksportēto failu un izspēlē vienu līmeni.</li>
+            <li><b>Pievieno</b> <code>.gitignore</code> failam rindu <code>build/</code>.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> eksportētā spēle palaižas bez Godot editora, un mape <code>build/</code> nenonāk GitHub.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Eksportē uz tīmekli un palaid lokāli</h3>
+        <p>Beigās tavu spēli varēs spēlēt pārlūkā.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> eksporta profilu <b>Web</b>.</li>
+            <li><b>Eksportē</b> projektu mapē <code>web_build/</code> ar nosaukumu <code>index.html</code>.</li>
+            <li><b>Pārbaudi</b>, ka mapē ir faili ar paplašinājumiem <code>.wasm</code>, <code>.pck</code> un <code>.js</code>.</li>
+            <li><b>Mēģini</b> atvērt <code>index.html</code> tieši no diska un pieraksti, kas notiek.</li>
+            <li><b>Palaid</b> mapē <code class="language-bash">python -m http.server 8000</code>.</li>
+            <li><b>Atver</b> pārlūkā <code>localhost:8000</code> un izspēlē spēli.</li>
+            <li><b>Pieraksti</b>, kāpēc vajadzēja serveri, nevis pietika ar faila atvēršanu.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> spēle darbojas pārlūkā caur <code>localhost:8000</code>, bet, atverot failu tieši, tā nestrādā.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Publicē spēli internetā</h3>
+        <p>Beigās tavu spēli varēs atvērt jebkurš pēc saites.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> kontu vietnē <code>itch.io</code>.</li>
+            <li><b>Nospied</b> <b>Upload new project</b> un izvēlies <b>HTML</b> tipu.</li>
+            <li><b>Saspied</b> mapes <code>web_build/</code> saturu ZIP arhīvā.</li>
+            <li><b>Augšupielādē</b> arhīvu un ieķeksē <b>This file will be played in the browser</b>.</li>
+            <li><b>Iestati</b> loga izmēru atbilstoši savam projektam.</li>
+            <li><b>Saglabā</b> un atver spēles publisko saiti telefonā vai citā datorā.</li>
+            <li><b>Pieraksti</b>, vai spēle strādāja tāpat kā tavā datorā.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> spēle atveras un ir spēlējama no citas ierīces pa publisko saiti.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Uzraksti spēles aprakstu</h3>
+        <p>Ja pamatdarbs ir gatavs, noformē spēles lapu.</p>
+        <ol class="step-list">
+            <li><b>Uzraksti</b> divus teikumus par to, kas spēlē jādara.</li>
+            <li><b>Pievieno</b> vadības aprakstu: kuri taustiņi ko dara.</li>
+            <li><b>Augšupielādē</b> divus ekrānuzņēmumus.</li>
+            <li><b>Pievieno</b> savu vārdu kā autoru un norādi uz izmantotajiem resursiem.</li>
+            <li><b>Palūdz</b> klasesbiedram izspēlēt spēli, neko nepaskaidrojot.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> klasesbiedrs saprata, kā spēlēt, tikai izlasot tavu lapu.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PolishCheckpoint {
-    String lesson = "6.5 Eksports un publicēšana";
-    bool uses_cpp = true;
-    bool connects_ui_signals = true;
-    bool routes_audio_events = true;
-    bool verifies_export_build = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tava spēle ir eksportēta gan kā datora programma, gan kā tīmekļa versija, un tā ir publicēta internetā ar publisku saiti, kas strādā arī citās ierīcēs.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Publiskā saite uz tavu spēli itch.io vietnē.</li>
+            <li>Ekrānuzņēmums ar spēli, kas darbojas pārlūkā citā ierīcē.</li>
+            <li>Ekrānuzņēmums ar Godot eksporta logu, kurā redzami abi profili.</li>
+            <li>Burtnīcā: kāpēc web eksportu nevar palaist, vienkārši atverot <code>index.html</code>.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>6.5 Eksports un publicēšana</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Iesniedz publisko spēles saiti un abus ekrānuzņēmumus skolotāja norādītajā vietā. Saitei jāstrādā arī skolotāja datorā.</p>
     </div>
 </section>
 

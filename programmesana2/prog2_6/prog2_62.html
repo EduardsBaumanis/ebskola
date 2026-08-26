@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - uztaisi pirmo Tween animāciju · 2. uzdevums (~25 min) - animē izvēlnes parādīšanos · 3. uzdevums (~20 min) - pievieno atsauksmes animāciju spēlē · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu izvēlni no 6.1 stundas. Animācija nav tikai skaistums - tā pasaka spēlētājam, ka viņa darbība tika pamanīta.</p>
     </div>
 </section>
 
@@ -135,67 +136,72 @@ struct PolishCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>6.2 Animācijas un Tween</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Uztaisi pirmo Tween animāciju</h3>
+        <p>Beigās objekts vienmērīgi pārvietosies no vienas vietas uz otru.</p>
+        <ol class="step-list">
+            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;godot_cpp/classes/tween.hpp&gt;</code>.</li>
+            <li><b>Izveido</b> kodā <code class="language-cpp">Ref&lt;Tween&gt; tween = create_tween();</code>.</li>
+            <li><b>Pievieno</b> <code class="language-cpp">tween-&gt;tween_property(objekts, "position", Vector2(600, 300), 1.0);</code>.</li>
+            <li><b>Kompilē</b> un palaid - objektam vienmērīgi jāaizslīd.</li>
+            <li><b>Nomaini</b> ilgumu uz 0.2 un palaid vēlreiz.</li>
+            <li><b>Pievieno</b> <code class="language-cpp">-&gt;set_trans(Tween::TRANS_ELASTIC);</code>.</li>
+            <li><b>Pieraksti</b>, kā mainījās kustības raksturs.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> objekts pārvietojas vienmērīgi, un ar <code>TRANS_ELASTIC</code> tas mērķī nedaudz atlec.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Animē izvēlnes parādīšanos</h3>
+        <p>Beigās izvēlne parādīsies mīksti, nevis uzreiz.</p>
+        <ol class="step-list">
+            <li><b>Iestati</b> izvēlnei sākumā <code class="language-cpp">set_modulate(Color(1, 1, 1, 0));</code>.</li>
+            <li><b>Izveido</b> <code>_ready</code> metodē Tween.</li>
+            <li><b>Animē</b> īpašību <code>modulate:a</code> no 0 uz 1 vienā sekundē.</li>
+            <li><b>Palaid</b> un vēro, kā izvēlne parādās.</li>
+            <li><b>Pievieno</b> arī nelielu nobīdi no augšas uz vietu.</li>
+            <li><b>Savieno</b> abas animācijas ar <code class="language-cpp">set_parallel(true);</code>.</li>
+            <li><b>Pieraksti</b>, ar ko paralēla animācija atšķiras no secīgas.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> izvēlne vienlaikus izgaismojas un noslīd vietā, nevis dara to pa vienam.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Pievieno atsauksmes animāciju spēlē</h3>
+        <p>Beigās spēlētājs redzēs, ka viņa darbība tika pamanīta.</p>
+        <ol class="step-list">
+            <li><b>Izvēlies</b> vienu notikumu savā spēlē, piemēram monētas savākšanu.</li>
+            <li><b>Pievieno</b> tam Tween, kas objektu uz brīdi palielina un tad atgriež.</li>
+            <li><b>Pievieno</b> arī krāsas mirgojumu, kad spēlētājs saņem triecienu.</li>
+            <li><b>Pārliecinies</b>, ka animācija netraucē spēles gaitu.</li>
+            <li><b>Pārbaudi</b>, kas notiek, ja notikums atkārtojas ļoti ātri.</li>
+            <li><b>Apturi</b> iepriekšējo Tween ar <code class="language-cpp">kill()</code>, ja tas vēl darbojas.</li>
+            <li><b>Pieraksti</b>, kāpēc animācija palīdz saprast spēli.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> savācot monētu, tā uz mirkli palielinās, un ātri atkārtojot notikumu, animācijas nesajūk.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Izmēģini AnimationPlayer</h3>
+        <p>Ja pamatdarbs ir gatavs, salīdzini otru pieeju.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> scēnai <code>AnimationPlayer</code> mezglu.</li>
+            <li><b>Izveido</b> tajā animāciju ar diviem atslēgkadriem.</li>
+            <li><b>Palaid</b> to no koda ar <code class="language-cpp">play("nosaukums");</code>.</li>
+            <li><b>Pieraksti</b>, kura pieeja bija ātrāk izveidojama.</li>
+            <li><b>Pieraksti</b>, kurā gadījumā labāk lietot katru no tām.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> abas pieejas dod animāciju, un tu vari nosaukt, kad kura ir ērtāka.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PolishCheckpoint {
-    String lesson = "6.2 Animācijas un Tween";
-    bool uses_cpp = true;
-    bool connects_ui_signals = true;
-    bool routes_audio_events = true;
-    bool verifies_export_build = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē darbojas Tween animācijas: izvēlne parādās mīksti, un vismaz viens spēles notikums dod spēlētājam vizuālu atsauksmi, kas nesajūk pie ātras atkārtošanas.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Video, kurā redzama izvēlnes parādīšanās un spēles notikuma animācija.</li>
+            <li>C++ fails ar <code>create_tween</code> un <code>tween_property</code> izsaukumiem.</li>
+            <li>Burtnīcā: ar ko paralēla animācija atšķiras no secīgas un kāpēc vajag <code>kill()</code>.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>6.2 Animācijas un Tween</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un video skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

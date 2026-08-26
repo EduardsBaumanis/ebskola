@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - atskaņo pirmo skaņu · 2. uzdevums (~25 min) - pievieno fona mūziku ar pāreju · 3. uzdevums (~20 min) - sakārto skaļumu ar audio bus · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu spēli. Sagatavo divus audio failus: vienu īsu efektu un vienu garāku mūziku. Ja tādu nav, lejupielādē bezmaksas skaņas no <code>freesound.org</code> vai <code>opengameart.org</code>.</p>
     </div>
 </section>
 
@@ -131,67 +132,73 @@ struct PolishCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>6.3 Audio sistēma</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Atskaņo pirmo skaņu</h3>
+        <p>Beigās spēle noskanēs, kad kaut kas notiek.</p>
+        <ol class="step-list">
+            <li><b>Ievelc</b> audio failu projekta mapē, piemēram <code>res://sounds/jump.ogg</code>.</li>
+            <li><b>Pievieno</b> scēnai <code>AudioStreamPlayer</code> mezglu ar nosaukumu <code>SFX</code>.</li>
+            <li><b>Iekļauj</b> C++ failā <code class="language-cpp">#include &lt;godot_cpp/classes/audio_stream_player.hpp&gt;</code>.</li>
+            <li><b>Paņem</b> mezglu ar <code class="language-cpp">get_node&lt;AudioStreamPlayer&gt;("SFX");</code>.</li>
+            <li><b>Izsauc</b> <code class="language-cpp">sfx-&gt;play();</code> lēciena vai savākšanas brīdī.</li>
+            <li><b>Kompilē</b> un pārbaudi skaņu.</li>
+            <li><b>Izsauc</b> notikumu ļoti ātri vairākas reizes un pieraksti, kas notiek ar skaņu.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> notikuma brīdī atskan skaņa, un tu esi pierakstījis, kas notiek, atkārtojot to ļoti ātri.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Pievieno fona mūziku ar pāreju</h3>
+        <p>Beigās mūzika sāksies mīksti, nevis uzreiz pilnā skaļumā.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> otru <code>AudioStreamPlayer</code> ar nosaukumu <code>Music</code>.</li>
+            <li><b>Iestati</b> tā audio failu un ieslēdz atkārtošanos importa iestatījumos.</li>
+            <li><b>Iestati</b> sākumā skaļumu uz <code class="language-cpp">set_volume_db(-40);</code>.</li>
+            <li><b>Izveido</b> Tween, kas vienā sekundē paceļ skaļumu līdz 0 dB.</li>
+            <li><b>Palaid</b> un ieklausies, vai mūzika ienāk pakāpeniski.</li>
+            <li><b>Pievieno</b> arī izejošu pāreju, kad spēle beidzas.</li>
+            <li><b>Pieraksti</b>, kāpēc skaļumu mēra decibelos, nevis procentos.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> mūzika ienāk pakāpeniski, atkārtojas bez pauzes un beigās izgaist.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Sakārto skaļumu ar audio bus</h3>
+        <p>Beigās spēlētājs varēs atsevišķi regulēt mūziku un efektus.</p>
+        <ol class="step-list">
+            <li><b>Atver</b> apakšā cilni <b>Audio</b>.</li>
+            <li><b>Izveido</b> divus jaunus bus: <code>Music</code> un <code>SFX</code>.</li>
+            <li><b>Piesaisti</b> katru atskaņotāju savam bus Inspector panelī.</li>
+            <li><b>Pievieno</b> iestatījumu logam divus <code>HSlider</code> mezglus.</li>
+            <li><b>Savieno</b> tos ar <code class="language-cpp">AudioServer::get_singleton()-&gt;set_bus_volume_db(...)</code>.</li>
+            <li><b>Pārbaudi</b>, ka mūzikas slīdnis nemaina efektu skaļumu.</li>
+            <li><b>Iestati</b> mūziku uz nulli un pārbaudi, ka efekti joprojām skan.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> abi slīdņi darbojas neatkarīgi: izslēdzot mūziku, skaņas efekti joprojām atskan.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Saglabā skaļuma iestatījumus</h3>
+        <p>Ja pamatdarbs ir gatavs, atceries spēlētāja izvēli.</p>
+        <ol class="step-list">
+            <li><b>Saglabā</b> abu bus skaļumu JSON failā ar 5.3 stundas <code>SaveManager</code>.</li>
+            <li><b>Ielādē</b> tos spēles startā.</li>
+            <li><b>Iestati</b> slīdņu pozīcijas pēc ielādētajām vērtībām.</li>
+            <li><b>Aizver</b> spēli un palaid no jauna.</li>
+            <li><b>Pārbaudi</b>, ka skaļums palicis tāds, kādu to atstāji.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc spēles restarta skaļuma slīdņi ir tajā pašā vietā, kur tu tos atstāji.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PolishCheckpoint {
-    String lesson = "6.3 Audio sistēma";
-    bool uses_cpp = true;
-    bool connects_ui_signals = true;
-    bool routes_audio_events = true;
-    bool verifies_export_build = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē skan skaņas efekti un fona mūzika ar mīkstām pārejām, un mūziku ar efektiem var regulēt atsevišķi caur diviem audio bus.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Video ar skaņu, kurā dzirdama mūzikas ienākšana un vismaz viens skaņas efekts.</li>
+            <li>Ekrānuzņēmums ar Audio cilni, kurā redzami tavi divi bus.</li>
+            <li>C++ fails ar audio kodu.</li>
+            <li>Burtnīcā: kāpēc skaļumu mēra decibelos un kāpēc mūziku un efektus tur atsevišķos bus.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>6.3 Audio sistēma</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, video ar skaņu un ekrānuzņēmumu skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

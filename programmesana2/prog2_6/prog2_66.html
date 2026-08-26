@@ -84,7 +84,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~20 min) - izvēlies puzli un uztaisi laukumu · 2. uzdevums (~25 min) - uzraksti uzvaras noteikumu un līmeņus · 3. uzdevums (~20 min) - pievieno izvēlni, skaņu un eksportē · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> šis ir visa kursa noslēguma projekts. Izvēlies VIENU puzles veidu un uztaisi to pilnībā - labāk viena pabeigta spēle nekā trīs iesāktas. Izmanto visu, ko esi apguvis.</p>
     </div>
 </section>
 
@@ -134,67 +135,73 @@ struct PolishCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>6.6 Noslēguma projekts: Puzzle spēle</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Izvēlies puzli un uztaisi laukumu</h3>
+        <p>Beigās tev būs spēles laukums, ko var apskatīt un ar ko darboties.</p>
+        <ol class="step-list">
+            <li><b>Izvēlies</b> vienu variantu: Sokoban, Match-3, Tetris klons vai 4x4 mozaīka.</li>
+            <li><b>Uzzīmē</b> burtnīcā, kā izskatīsies laukums un kas ir uzvara.</li>
+            <li><b>Izveido</b> režģi ar <code class="language-cpp">std::vector&lt;std::vector&lt;int&gt;&gt;</code>.</li>
+            <li><b>Attēlo</b> režģi uz ekrāna ar <code>TileMap</code> vai <code>ColorRect</code> mezgliem.</li>
+            <li><b>Pievieno</b> vadību, kas maina režģa saturu.</li>
+            <li><b>Palaid</b> un pārbaudi, ka ekrāns atbilst režģa saturam.</li>
+            <li><b>Pārliecinies</b>, ka nevar izdarīt neatļautu gājienu.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ekrānā redzamais laukums vienmēr atbilst režģa datiem, un neatļauts gājiens netiek pieņemts.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Uzraksti uzvaras noteikumu un līmeņus</h3>
+        <p>Beigās spēli varēs pabeigt un pāriet uz nākamo līmeni.</p>
+        <ol class="step-list">
+            <li><b>Uzraksti</b> metodi <code class="language-cpp">bool is_solved();</code>, kas pārbauda uzvaras nosacījumu.</li>
+            <li><b>Izsauc</b> to pēc katra gājiena.</li>
+            <li><b>Parādi</b> uzvaras paziņojumu, kad tas atgriež <code>true</code>.</li>
+            <li><b>Izveido</b> vismaz trīs līmeņus - vai nu failā, vai kodā.</li>
+            <li><b>Ielādē</b> nākamo līmeni pēc uzvaras.</li>
+            <li><b>Pievieno</b> gājienu skaitītāju un pogu <b>Sākt no jauna</b>.</li>
+            <li><b>Izej</b> visus trīs līmeņus pēc kārtas.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> visus trīs līmeņus var atrisināt, uzvara tiek atpazīta pareizi, un restarta poga strādā.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Pievieno izvēlni, skaņu un eksportē</h3>
+        <p>Beigās tava spēle būs pabeigts, izdodams produkts.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> sākuma izvēlni no 6.1 stundas.</li>
+            <li><b>Pievieno</b> skaņas efektu gājienam un uzvarai no 6.3 stundas.</li>
+            <li><b>Pievieno</b> animāciju uzvaras brīdim no 6.2 stundas.</li>
+            <li><b>Saglabā</b> labāko rezultātu ar 5.3 stundas <code>SaveManager</code>.</li>
+            <li><b>Eksportē</b> spēli uz tīmekli pēc 6.5 stundas soļiem.</li>
+            <li><b>Publicē</b> to un pārbaudi saiti citā ierīcē.</li>
+            <li><b>Veic</b> commit un push ar visu projektu.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> spēle sākas ar izvēlni, skan skaņas, labākais rezultāts saglabājas, un publiskā saite strādā.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Pievieno padoma pogu</h3>
+        <p>Ja pamatdarbs ir gatavs, palīdzi spēlētājam, kurš iestrēdzis.</p>
+        <ol class="step-list">
+            <li><b>Uzraksti</b> metodi, kas atrod vienu derīgu nākamo gājienu.</li>
+            <li><b>Pievieno</b> pogu <b>Padoms</b>, kas to izceļ uz ekrāna.</li>
+            <li><b>Ierobežo</b> padomu skaitu vienā līmenī.</li>
+            <li><b>Parādi</b>, cik padomu vēl atlicis.</li>
+            <li><b>Pārbaudi</b>, ka pēc padomu beigām poga vairs nedarbojas.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> padoma poga izceļ derīgu gājienu un pēc noteikta reižu skaita pārstāj darboties.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PolishCheckpoint {
-    String lesson = "6.6 Noslēguma projekts: Puzzle spēle";
-    bool uses_cpp = true;
-    bool connects_ui_signals = true;
-    bool routes_audio_events = true;
-    bool verifies_export_build = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tev ir pabeigta un publicēta puzles spēle: strādājošs laukums, pareizi atpazīta uzvara, vismaz trīs atrisināmi līmeņi, sākuma izvēlne, skaņa, saglabāts labākais rezultāts un publiska tīmekļa saite.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Publiskā saite uz spēli, kas strādā skolotāja ierīcē.</li>
+            <li>Saite uz GitHub krātuvi ar visu pirmkodu.</li>
+            <li>Video, kurā izej vismaz vienu līmeni no sākuma izvēlnes līdz uzvarai.</li>
+            <li>Īss apraksts (5-8 teikumi): kuru puzli izvēlējies, kā darbojas uzvaras pārbaude, kas bija visgrūtāk un kā to atrisināji.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>6.6 Noslēguma projekts: Puzzle spēle</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, publicē spēli, tad iesniedz abas saites, video un aprakstu skolotāja norādītajā vietā. Šis ir kursa noslēguma darbs - pārliecinies, ka saite strādā, pirms to iesniedz.</p>
     </div>
 </section>
 
