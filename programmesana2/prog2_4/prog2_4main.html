@@ -32,7 +32,7 @@
 </div></header>
 
 <section class="hero"><div class="wrap">
-  <div class="eyebrow"><span class="dot"></span><span>Prog II · 4. tēma · 6 stundas</span><span class="ver"> - C++ · AI · Shooter</span></div>
+  <div class="eyebrow"><span class="dot"></span><span>Prog II · 4. tēma · 6 stundas</span><span class="ver"> - C++ · AI · šautene</span></div>
   <div class="hero-grid">
     <div>
       <h1 class="headline">Datu struktūras <span class="slash">//</span><br>un <span class="accent">AI</span></h1>
@@ -85,7 +85,7 @@
   <div class="sec-head">
     <div>
       <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
-      <h2 class="sec-title">6 stundas - STL, AI un Top-down Shooter</h2>
+      <h2 class="sec-title">6 stundas - STL, AI un top-down šautene</h2>
     </div>
     <a class="sec-link" href="/programmesana2/prog2_4/prog2_46">noslēguma projekts <span>→</span></a>
   </div>
@@ -252,7 +252,7 @@
       </div>
       <div class="body">
         <div class="meta-top"><span class="lang"><span class="d str"></span> C++ · AI</span><span>projekts</span></div>
-        <h3>Noslēguma projekts: Top-down Shooter ar AI</h3>
+        <h3>Noslēguma projekts: Top-down šautene</h3>
         <p>Ienaidnieki ar A* pathfinding, ieroču sistēma, viļņu pārvaldnieks, highscore ar <code>std::map</code>.</p>
         <div class="foot"><span>4.6 projekts</span><span class="open">atvērt ↗</span></div>
       </div>
@@ -261,41 +261,141 @@
   </div>
 </div></section>
 
-<section id="spekeris"><div class="wrap">
+<section id="cheatsheet"><div class="wrap">
   <div class="sec-head"><div>
     <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-    <h2 class="sec-title">STL un NavigationAgent2D špikeris</h2>
+    <h2 class="sec-title">4. tēmas špikeris - datu struktūras un AI</h2>
+    <p class="sec-sub">Saraksti, vārdnīcas, stāvokļu mašīna, pathfinding un object pooling. Katrs bloks atbilst vienai stundai.</p>
   </div></div>
   <div class="logic-box">
-    <h3>STL datu struktūras - galvenās operācijas</h3>
-    <pre><code class="language-cpp">// std::vector - dinamisks masīvs
-#include &lt;vector&gt;
-std::vector&lt;Bullet*&gt; bullets;
-bullets.push_back(new Bullet());     // pievieno
-bullets.erase(bullets.begin() + i); // izdzēš
-for (auto* b : bullets) b->update(); // iterē
+    <h3>4.1 Saraksti: std::vector pret Godot Array</h3>
+    <pre><code class="language-cpp">#include &lt;vector&gt;
+// Python:  enemies = []  /  enemies.append(e)  /  len(enemies)
+std::vector&lt;Enemy*&gt; enemies;
+enemies.push_back(e);                 // pievieno beigās
+enemies.size();                       // garums
+enemies.erase(enemies.begin() + 1);   // izņem otro
+enemies.at(10);                       // DROŠI: met kļūdu, ja nav
+enemies[10];                          // BĪSTAMI: klusa atmiņas kļūda
 
-// std::map - atslēga → vērtība
-#include &lt;map&gt;
-std::map&lt;String, int&gt; scores;
-scores["Anna"] = 500;
-scores["Janis"]++;
-if (scores.count("Anna")) { ... }  // pārbauda vai eksistē</code></pre>
+for (Enemy *e : enemies) { e-&gt;update(); }      // Python: for e in enemies
+
+// NEDZĒS cikla laikā! Vispirms savāc, tad dzēs:
+std::vector&lt;Enemy*&gt; dzest;
+for (Enemy *e : enemies) if (!e-&gt;alive) dzest.push_back(e);
+for (Enemy *e : dzest)   /* izņem no enemies */ ;
+
+// Godot Array - dažādi tipi vienā sarakstā, vajadzīgs saziņai ar editoru
+Array bullets;  bullets.push_back(42);  bullets.push_back("teksts");</code></pre>
+    <p class="cheat-note"><code>std::vector</code> - iekšējam kodam (ātrs, tipa-drošs). <code>Array</code> - kad dati jānodod Godot.</p>
   </div>
   <div class="logic-box">
-    <h3>NavigationAgent2D A* pathfinding</h3>
-    <pre><code class="language-cpp">// enemy_ai.cpp
-void EnemyAI::_physics_process(double delta) {
-    auto* nav = get_node&lt;NavigationAgent2D&gt;("NavigationAgent2D");
-    nav->set_target_position(player->get_global_position());
+    <h3>4.2 Vārdnīcas: std::map pret Dictionary</h3>
+    <pre><code class="language-cpp">#include &lt;map&gt;
+// Python:  inventars = {}  /  inventars["zobens"] = 5
+std::map&lt;String, int&gt; inventory;
+inventory["Health Potion"] = 5;
 
-    if (nav->is_navigation_finished()) return;
+// BĪSTAMI: kvadrātiekavas ar neesošu atslēgu KLUSI izveido ierakstu ar 0
+int x = inventory["nav taada"];       // tagad sarakstā ir lieks ieraksts!
 
-    Vector2 next = nav->get_next_path_position();
-    Vector2 dir  = (next - get_global_position()).normalized();
-    set_velocity(dir * SPEED);
+// DROŠI:
+int get_amount(String name) {
+    if (inventory.count(name) &gt; 0) return inventory[name];
+    return 0;
+}
+
+for (auto &amp;p : inventory)             // Python: for k, v in d.items()
+    UtilityFunctions::print(p.first, " x", p.second);
+
+// std::map           sakārtots pēc atslēgas, meklēšana O(log n)
+// std::unordered_map nesakārtots, meklēšana O(1) - ātrāks
+// Dictionary         Godot tips: dažādi vērtību tipi, der saglabāšanai
+Dictionary save;  save["level"] = 5;  save["name"] = "Anna";</code></pre>
+    <p class="cheat-note">Ja saraksta izmērs pieaug pēc <b>lasīšanas</b>, tu esi lietojis kvadrātiekavas neesošai atslēgai.</p>
+  </div>
+  <div class="logic-box">
+    <h3>4.3 Stāvokļu mašīna: viens stāvoklis vienlaikus</h3>
+    <pre><code class="language-cpp">enum class EnemyState { IDLE, PATROL, CHASE, ATTACK, DEAD };
+
+class Enemy : public CharacterBody2D {
+    EnemyState state = EnemyState::IDLE;
+    double state_time = 0.0;
+
+    void change_state(EnemyState s) { state = s; state_time = 0.0; }
+
+    void _physics_process(double delta) {
+        state_time += delta;
+        double d = get_position().distance_to(player-&gt;get_position());
+
+        // Slieksnis ATPAKAĻ ir LIELĀKS nekā uz priekšu -> nemirgo uz robežas
+        if (state != EnemyState::DEAD) {
+            if      (d &lt; 50)  change_state(EnemyState::ATTACK);
+            else if (d &lt; 300) change_state(EnemyState::CHASE);
+            else if (d &gt; 400) change_state(EnemyState::PATROL);
+        }
+
+        switch (state) {
+            case EnemyState::PATROL: patrol();  break;
+            case EnemyState::CHASE:  chase();   break;
+            case EnemyState::ATTACK: attack();  break;
+            case EnemyState::DEAD:              break;   // gala stāvoklis
+            default:                            break;
+        }
+    }
+};</code></pre>
+    <p class="cheat-note"><code>DEAD</code> ir gala stāvoklis - no tā nav nevienas izejošas pārejas.</p>
+  </div>
+  <div class="logic-box">
+    <h3>4.4 Pathfinding: apiet sienu, nevis spiesties tajā</h3>
+    <pre><code class="language-cpp">#include &lt;godot_cpp/classes/navigation_agent2d.hpp&gt;
+
+// Scēnā: NavigationRegion2D -> NavigationPolygon -> Bake
+//        Ienaidniekam bērns: NavigationAgent2D
+
+void Enemy::chase() {
+    NavigationAgent2D *agent = get_node&lt;NavigationAgent2D&gt;("NavigationAgent2D");
+    agent-&gt;set_target_position(player-&gt;get_position());
+
+    Vector2 next = agent-&gt;get_next_path_position();
+    Vector2 dir  = (next - get_position()).normalized();
+
+    set_velocity(dir * speed);
     move_and_slide();
-}</code></pre>
+}
+
+// A* algoritms, ko Godot izmanto iekšēji:
+//   g = cik tālu jau esmu gājis
+//   h = taisnais attālums līdz mērķim (novērtējums)
+//   f = g + h  -> vienmēr izvēlas soli ar mazāko f</code></pre>
+    <p class="cheat-note">Bez navigācijas zonas ienaidnieks spiežas sienā. Ar to - apiet apkārt.</p>
+  </div>
+  <div class="logic-box">
+    <h3>4.5 Object pooling: neveido un nedzēs, bet lieto atkārtoti</h3>
+    <pre><code class="language-cpp">class BulletPool {
+    std::vector&lt;Bullet*&gt; pool;
+    static const int POOL_SIZE = 50;
+
+public:
+    void initialize(Node *parent) {
+        for (int i = 0; i &lt; POOL_SIZE; i++) {
+            Bullet *b = memnew(Bullet);
+            b-&gt;set_visible(false);
+            b-&gt;set_process(false);
+            parent-&gt;add_child(b);
+            pool.push_back(b);
+        }
+    }
+    Bullet *get_bullet() {
+        for (Bullet *b : pool)
+            if (!b-&gt;is_visible()) return b;    // atkārtoti lieto neaktīvo
+        return nullptr;                        // visi aizņemti
+    }
+};
+
+// Bez pooling: 200 šāvieni = 200 memnew + 200 queue_free -> FPS krīt
+// Ar pooling:  mezglu skaits scēnā paliek nemainīgs</code></pre>
+    <p class="cheat-note">Ja <code>get_bullet()</code> atgriež <code>nullptr</code>, pārbaudi to - citādi programma avarēs.</p>
   </div>
 </div></section>
 

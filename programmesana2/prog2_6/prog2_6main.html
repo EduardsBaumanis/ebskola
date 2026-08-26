@@ -14,6 +14,7 @@
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 </head><body class="page-home">
 <header class="topbar"><div class="wrap row">
   <a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
@@ -116,24 +117,119 @@
   </div>
 </div></section>
 
-<section id="spekeris"><div class="wrap">
-  <div class="sec-head"><div><div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div><h2 class="sec-title">UI, Tween un Audio špikeris</h2></div></div>
+<section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">6. tēmas špikeris - UI, animācijas, skaņa un publicēšana</h2>
+    <p class="sec-sub">Saskarne, Tween, audio, atkļūdošana un eksports. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
   <div class="logic-box">
-    <h3>Control nodes un Tween animācija</h3>
-    <pre><code class="language-cpp">// Poga ar Tween "pop in" animāciju
-void UIManager::_ready() {
-    Button* play = get_node&lt;Button&gt;("VBox/PlayButton");
-    play->connect("pressed", callable_mp(this, &amp;UIManager::_on_play));
+    <h3>6.1 UI: Control mezgli un konteineri</h3>
+    <pre><code class="language-cpp">// Control mezgli NAV Node2D - tiem ir enkuri, konteineri un tēma.
+//   Label            teksts            Button       poga
+//   LineEdit         viena rinda       TextEdit     vairākas rindas
+//   VBoxContainer    kārto vertikāli   HBoxContainer  horizontāli
+//   GridContainer    režģis            PanelContainer fons un rāmis
+// Konteiners kārto bērnus PATS - nelieto rokas pozīcijas tajā.
 
-    // Iejas animācija
-    Ref&lt;Tween&gt; tw = create_tween();
-    tw->tween_property(play, "scale", Vector2(1, 1), 0.3)
-      ->from(Vector2(0, 0));
+void MainMenu::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("on_start_pressed"),
+                         &amp;MainMenu::on_start_pressed);
 }
-
-void UIManager::_on_play() {
-    get_tree()->change_scene_to_file("res://levels/level_1.tscn");
+void MainMenu::_ready() {
+    Button *b = get_node&lt;Button&gt;("VBoxContainer/StartButton");
+    b-&gt;connect("pressed", Callable(this, "on_start_pressed"));
+}
+void MainMenu::on_start_pressed() {
+    get_tree()-&gt;change_scene_to_file("res://level1.tscn");
 }</code></pre>
+    <p class="cheat-note">Enkurs (<b>Layout -&gt; Anchors Preset -&gt; Center</b>) notur izvēlni vidū, mainot loga izmēru.</p>
+  </div>
+  <div class="logic-box">
+    <h3>6.2 Tween - animācija ar kodu</h3>
+    <pre><code class="language-cpp">#include &lt;godot_cpp/classes/tween.hpp&gt;
+
+Ref&lt;Tween&gt; tween = create_tween();
+
+// no pašreizējās vērtības uz (600, 300) vienā sekundē
+tween-&gt;tween_property(node, "position", Vector2(600, 300), 1.0);
+
+// izgaismošanās
+node-&gt;set_modulate(Color(1, 1, 1, 0));
+tween-&gt;tween_property(node, "modulate:a", 1.0, 0.5);
+
+tween-&gt;set_parallel(true);                  // visas reizē, nevis pēc kārtas
+tween-&gt;set_trans(Tween::TRANS_ELASTIC);     // atlec mērķī
+
+// Ja notikums var atkārtoties ātri - apturi veco:
+if (active_tween.is_valid()) active_tween-&gt;kill();
+
+// AnimationPlayer = vizuāli veidota animācija ar atslēgkadriem
+//   player-&gt;play("uzvara");</code></pre>
+    <p class="cheat-note">Animācija nav tikai skaistums - tā pasaka spēlētājam, ka darbība tika pamanīta.</p>
+  </div>
+  <div class="logic-box">
+    <h3>6.3 Audio: efekti, mūzika un bus</h3>
+    <pre><code class="language-cpp">#include &lt;godot_cpp/classes/audio_stream_player.hpp&gt;
+
+AudioStreamPlayer *sfx = get_node&lt;AudioStreamPlayer&gt;("SFX");
+sfx-&gt;play();
+
+// Mūzikas mīksta ienākšana
+AudioStreamPlayer *music = get_node&lt;AudioStreamPlayer&gt;("Music");
+music-&gt;set_volume_db(-40);
+music-&gt;play();
+create_tween()-&gt;tween_property(music, "volume_db", 0.0, 1.0);
+
+// Atsevišķi bus (apakšā cilne Audio): Master -> Music , SFX
+AudioServer *srv = AudioServer::get_singleton();
+int idx = srv-&gt;get_bus_index("Music");
+srv-&gt;set_bus_volume_db(idx, -10.0);
+
+// Skaļumu mēra decibelos:  0 dB = pilns , -80 dB = kluss</code></pre>
+    <p class="cheat-note">Mūziku un efektus liec atsevišķos bus - tad spēlētājs var izslēgt mūziku, saglabājot skaņas.</p>
+  </div>
+  <div class="logic-box">
+    <h3>6.4 Atkļūdošana: trīs veidi atrast kļūdu</h3>
+    <pre><code class="language-cpp">// 1. Izdrukas - ātrākais veids saprast, KUR vērtība kļūst nepareiza
+UtilityFunctions::print("pirms: ", get_position());
+UtilityFunctions::printerr("KĻŪDA: mezgls nav atrasts");   // sarkans
+
+// Pašpārbaude - labāk brīdinājums nekā klusa avārija
+Node *n = get_node_or_null&lt;Node&gt;("Player");
+if (n == nullptr) UtilityFunctions::printerr("Nav mezgla Player!");
+
+// 2. Breakpoint - Debugger cilne
+//    uzklikšķini rindas numura kreisajā malā -> spēle apstājas
+//    Stack Variables rāda VISUS mainīgos uzreiz, neko neizdrukājot
+//    Step Into / Step Over - iet pa vienai rindai
+
+// 3. Profiler - Debugger -> Profiler -> Start
+//    kārto pēc laika -> augšā ir funkcija, kas ēd visvairāk</code></pre>
+    <p class="cheat-note">Izdrukas ir ātrākas vienai vērtībai. Breakpoint ir labāks, kad jāredz daudz mainīgo reizē.</p>
+  </div>
+  <div class="logic-box">
+    <h3>6.5 Eksports un publicēšana</h3>
+    <pre><code class="language-bash"># 0. Editor -> Manage Export Templates -> Download (vienreiz)
+
+# Datora versija
+# Project -> Export -> Add -> Windows/Linux/macOS -> Export Project
+
+# Tīmekļa versija
+# Project -> Export -> Add -> Web -> saglabā kā web_build/index.html
+# web_build/ satur: index.html, .pck, .wasm, .js
+
+# index.html NEVAR atvērt tieši no diska - vajag serveri:
+cd web_build
+python -m http.server 8000
+# atver http://localhost:8000
+
+# Publicēšana: itch.io -> Upload new project -> HTML
+#   saspied web_build/ saturu ZIP arhīvā
+#   ieķeksē "This file will be played in the browser"
+
+# Pirms eksporta: app.run debug izslēgts, .gitignore satur build/</code></pre>
+    <p class="cheat-note">Pēc publicēšanas obligāti atver saiti <b>citā ierīcē</b> - uz sava datora tā strādā arī tad, ja kaut kas trūkst.</p>
   </div>
 </div></section>
 

@@ -396,82 +396,153 @@
 </section>
 
 <!-- Cheatsheet -->
-<section id="cheatsheet">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-        <h2 class="sec-title">OOP C++/Godot špikeris</h2>
-        <p class="sec-sub">Klases, mantošana, virtual, GDCLASS makro un signālu shēma.</p>
-      </div>
-    </div>
+<section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">3. tēmas špikeris - klases C++ valodā</h2>
+    <p class="sec-sub">No pirmās klases līdz signāliem un Inspector īpašībām. Ja klases redzi pirmoreiz, sāc ar pirmo bloku.</p>
+  </div></div>
+  <div class="logic-box">
+    <h3>3.1 No Python vārdnīcas uz C++ klasi</h3>
+    <pre><code class="language-cpp">// Python, ko jau zini:
+//   dalibnieks = {"vards": "Anna", "energija": 100}
+//   dalibnieks["energija"] -= 20
 
-    <div class="editor narrow spaced" aria-label="OOP mantošanas piemērs">
-      <div class="titlebar">
-        <span class="dots"><i></i><i></i><i></i></span>
-        <span class="crumb"><em>prog2_3/</em>player.cpp</span>
-      </div>
-      <div class="tabs">
-        <span class="tab active"><span class="ic">●</span> player.cpp</span>
-        <span class="tab">entity.h</span>
-        <span class="spacer"></span>
-      </div>
-      <div class="body">
-        <div class="gutter">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16</div>
-<div class="code"><span class="tok-com">// Mantošana un override</span>
-<span class="tok-kw">void</span> <span class="tok-fn">Player::uzbrukt</span>(<span class="tok-typ">Entity</span>* m) {
-    m-&gt;<span class="tok-fn">sanemtKaitinejumu</span>(attack + exp/<span class="tok-num">10</span>);
-    <span class="tok-fn">emit_signal</span>(<span class="tok-str">"uzbrucis"</span>, attack);
-}
+class Participant {
+private:                       // pieejams TIKAI klases iekšienē
+    int energy;
+    int max_energy;
 
-<span class="tok-com">// Signāla savienošana C++</span>
-<span class="tok-kw">void</span> <span class="tok-fn">Player::_ready</span>() {
-    <span class="tok-fn">connect</span>(<span class="tok-str">"uzbrucis"</span>, <span class="tok-fn">callable_mp</span>(
-        ui, &amp;<span class="tok-typ">UIManager</span>::<span class="tok-fn">_on_attack</span>));
-}
+public:                        // pieejams no ārpuses
+    String name;
+    int level = 1;
 
-<span class="tok-com">// ADD_PROPERTY inspektora redaktoram</span>
-<span class="tok-fn">ADD_PROPERTY</span>(<span class="tok-typ">PropertyInfo</span>(<span class="tok-typ">Variant</span>::INT,
-    <span class="tok-str">"health"</span>), <span class="tok-str">"set_health"</span>, <span class="tok-str">"get_health"</span>);<span class="cursor"></span></div>
-      </div>
-      <div class="statusbar">
-        <span class="ok">● C++ · OOP</span>
-        <span class="spacer"></span>
-        <span>UTF-8</span>
-      </div>
-    </div>
+    Participant(String n, int h) {      // konstruktors
+        name = n;
+        energy = max_energy = h;
+    }
 
-    <table>
-      <thead>
-        <tr><th>Koncepte</th><th>C++ / Godot sintakse</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Klases deklarācija</td><td><code>class Foo : public Bar { GDCLASS(Foo, Bar) };</code></td></tr>
-        <tr><td>virtual metode</td><td><code>virtual void uzbrukt(Entity* m);</code></td></tr>
-        <tr><td>override</td><td><code>void uzbrukt(Entity* m) override;</code></td></tr>
-        <tr><td>Signāla emitēšana</td><td><code>emit_signal("nosaukums", args...);</code></td></tr>
-        <tr><td>Signāla savienošana</td><td><code>connect("sig", callable_mp(obj, &amp;T::fn));</code></td></tr>
-        <tr><td>Inspektora īpašība</td><td><code>ADD_PROPERTY(PropertyInfo(...), "set_x", "get_x");</code></td></tr>
-        <tr><td>class pret struct</td><td>class: private pēc noklusējuma; struct: public pēc noklusējuma</td></tr>
-      </tbody>
-    </table>
+    void apply_penalty(int amount) {    // metode = funkcija klasē
+        energy -= amount;
+        if (energy &lt; 0) energy = 0;
+    }
+    bool is_active() const { return energy &gt; 0; }
+    int  get_energy() const { return energy; }   // privāto lasa caur metodi
+};
+
+Participant p("Anna", 100);
+p.apply_penalty(30);
+// p.energy = 9999;   <- KOMPILATORA KĻŪDA: energy ir private</code></pre>
+    <p class="cheat-note">Klases beigās vajag semikolu: <code>};</code> - to aizmirst gandrīz visi.</p>
   </div>
-</section>
+  <div class="logic-box">
+    <h3>3.2 Mantošana: viena bāze, vairākas lomas</h3>
+    <pre><code class="language-cpp">class Participant {
+public:
+    virtual void apply_penalty(int amount);   // virtual = drīkst pārrakstīt
+};
+
+class Captain : public Participant {
+private:
+    int stability = 10;
+public:
+    Captain(String n) : Participant(n, 150) {}   // izsauc VECĀKA konstruktoru
+
+    void apply_penalty(int amount) override {    // override = pārraksta
+        amount = std::max(1, amount - stability);
+        Participant::apply_penalty(amount);      // izsauc vecāka versiju
+    }
+};
+
+// Polimorfisms: viens cikls apkalpo visas lomas
+std::vector&lt;Participant*&gt; party = { new Captain("Anna"),
+                                    new Presenter("Jānis") };
+for (Participant *p : party) {
+    p-&gt;apply_penalty(20);        // katrai lomai savs rezultāts
+}</code></pre>
+    <p class="cheat-note">Bez <code>: Participant(n, 150)</code> kods nekompilējas. Bez <code>virtual</code> pārrakstīšana nenostrādā.</p>
+  </div>
+  <div class="logic-box">
+    <h3>3.3 Signāli - objekti sarunājas, viens otru nezinot</h3>
+    <pre><code class="language-cpp">// RAIDĪTĀJS
+void Participant::_bind_methods() {
+    ADD_SIGNAL(MethodInfo("finished",
+               PropertyInfo(Variant::STRING, "name")));
+}
+void Participant::apply_penalty(int amount) {
+    energy -= amount;
+    if (energy &lt;= 0) emit_signal("finished", name);
+}
+
+// KLAUSĪTĀJS
+void TournamentManager::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("on_finished", "name"),
+                         &amp;TournamentManager::on_finished);
+}
+void TournamentManager::_ready() {
+    participant-&gt;connect("finished", Callable(this, "on_finished"));
+}
+void TournamentManager::on_finished(String name) {
+    UtilityFunctions::print(name, " izstājās");
+}</code></pre>
+    <p class="cheat-note">Dalībnieks nezina, ka menedžeris eksistē. Tāpēc dalībnieku var lietot arī citā spēlē.</p>
+  </div>
+  <div class="logic-box">
+    <h3>3.4 GDCLASS un Inspector īpašības</h3>
+    <pre><code class="language-cpp">class Obstacle : public CharacterBody2D {
+    GDCLASS(Obstacle, CharacterBody2D)      // bez semikola!
+
+private:
+    int energy = 50;
+
+protected:
+    static void _bind_methods();
+
+public:
+    int  get_energy() const { return energy; }
+    void set_energy(int v)  { energy = (v &lt; 0) ? 0 : v; }
+};
+
+void Obstacle::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("get_energy"), &amp;Obstacle::get_energy);
+    ClassDB::bind_method(D_METHOD("set_energy", "v"), &amp;Obstacle::set_energy);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "energy"),
+                 "set_energy", "get_energy");
+}
+// register_types.cpp:
+ClassDB::register_class&lt;Obstacle&gt;();</code></pre>
+    <p class="cheat-note">Tagad vienu klasi var lietot daudziem mezgliem, katram Inspector panelī iestatot citu vērtību.</p>
+  </div>
+  <div class="logic-box">
+    <h3>3.5 struct un kompozīcija</h3>
+    <pre><code class="language-cpp">struct Buff { String name; int focus_bonus; int turns_left; };
+
+struct Stats {                       // struct: viss public pēc noklusējuma
+    int energy = 100, max_energy = 100;
+    int focus = 10, calm = 5, speed = 5;
+    std::vector&lt;Buff&gt; buffs;
+
+    void heal(int amount) {
+        energy = std::min(max_energy, energy + amount);   // nepārsniedz max
+    }
+    int get_total_focus() const {    // RĒĶINA, nevis glabā atsevišķi
+        int total = focus;
+        for (const auto &amp;b : buffs) total += b.focus_bonus;
+        return total;
+    }
+};
+
+class Participant {
+private:
+    Stats stats;                     // kompozīcija: klasei PIEDER struct
+public:
+    Stats &amp;get_stats() { return stats; }
+};
+
+p.get_stats().heal(30);</code></pre>
+    <p class="cheat-note">Kopējo vērtību rēķini no saraksta. Ja to glabā atsevišķā laukā, tas ātri kļūst nepareizs.</p>
+  </div>
+</div></section>
 
 <!-- CTA strip -->
 <section class="cta-strip">
@@ -503,7 +574,7 @@
           <li><a href="/programmesana2/programmesana2">Kursa pārskats</a></li>
           <li><a href="/programmesana2/prog2_2/prog2_2main">2. Tēma - Platformer</a></li>
           <li><a href="/programmesana2/prog2_3/prog2_3main">3. Tēma - RPG</a></li>
-          <li><a href="/programmesana2/prog2_4/prog2_4main">4. Tēma - Shooter</a></li>
+          <li><a href="/programmesana2/prog2_4/prog2_4main">4. Tēma - Datu struktūras un AI</a></li>
         </ul>
       </div>
       <div class="foot-col">

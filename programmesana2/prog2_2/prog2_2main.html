@@ -372,81 +372,133 @@
 </section>
 
 <!-- Cheatsheet -->
-<section id="cheatsheet">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-        <h2 class="sec-title">CharacterBody2D špikeris</h2>
-        <p class="sec-sub">Ātrākā uzziņa par kustību, gravitāciju un sadursmēm Godot C++.</p>
-      </div>
-    </div>
+<section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">2. tēmas špikeris - spēles mehānika</h2>
+    <p class="sec-sub">Kustība, ievade, vadības struktūras, sadursmes un lēciens - viss vienuviet. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
+  <div class="logic-box">
+    <h3>2.1 delta - kāpēc bez tā spēle uz cita datora ir citāda</h3>
+    <pre><code class="language-cpp">void Mover::_physics_process(double delta) {
+    // PAREIZI: ātrums pikseļos SEKUNDĒ
+    set_position(get_position() + velocity * delta);
 
-    <div class="editor narrow spaced" aria-label="CharacterBody2D kustības piemērs">
-      <div class="titlebar">
-        <span class="dots"><i></i><i></i><i></i></span>
-        <span class="crumb"><em>prog2_2/</em>player.cpp</span>
-      </div>
-      <div class="tabs">
-        <span class="tab active"><span class="ic">●</span> player.cpp</span>
-        <span class="spacer"></span>
-      </div>
-      <div class="body">
-        <div class="gutter">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16</div>
-<div class="code"><span class="tok-com">// Gravitācija + lēkšana + kustība</span>
-<span class="tok-kw">const float</span> GRAVITY = <span class="tok-num">980.0f</span>;
-<span class="tok-kw">const float</span> SPEED   = <span class="tok-num">200.0f</span>;
-<span class="tok-kw">const float</span> JUMP    = <span class="tok-num">500.0f</span>;
+    // NEPAREIZI: ātrums pikseļos KADRĀ
+    // set_position(get_position() + velocity);
+    //   -> uz 144 Hz datora objekts kustas 2.4x ātrāk nekā uz 60 Hz
+}
 
-<span class="tok-typ">void</span> <span class="tok-fn">Player::_physics_process</span>(<span class="tok-typ">double</span> d) {
-    <span class="tok-typ">Vector2</span> vel = <span class="tok-fn">get_velocity</span>();
-    <span class="tok-kw">if</span> (!<span class="tok-fn">is_on_floor</span>())
-        vel.y += GRAVITY * d;        <span class="tok-com">// gravitācija</span>
-    <span class="tok-kw">if</span> (<span class="tok-fn">is_on_floor</span>() &amp;&amp; <span class="tok-fn">jump_pressed</span>())
-        vel.y = -JUMP;               <span class="tok-com">// lēkšana</span>
-    vel.x = <span class="tok-fn">get_input_dir</span>() * SPEED; <span class="tok-com">// kustība</span>
-    <span class="tok-fn">set_velocity</span>(vel);
-    <span class="tok-fn">move_and_slide</span>();             <span class="tok-com">// Godot risina sadursmes</span>
-}<span class="cursor"></span></div>
-      </div>
-      <div class="statusbar">
-        <span class="ok">● C++ · Godot 4</span>
-        <span class="spacer"></span>
-        <span>UTF-8</span>
-      </div>
-    </div>
-
-    <table>
-      <thead>
-        <tr><th>Metode / konstante</th><th>Nozīme</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>get_velocity() / set_velocity()</code></td><td>Lasa / iestata kustības vektoru</td></tr>
-        <tr><td><code>move_and_slide()</code></td><td>Kustas un apstrādā sadursmes automātiski</td></tr>
-        <tr><td><code>is_on_floor()</code></td><td>True, ja stāv uz grīdas</td></tr>
-        <tr><td><code>is_on_wall()</code></td><td>True, ja pieskaras sienai</td></tr>
-        <tr><td><code>vel.y += GRAVITY * delta</code></td><td>Gravitācija - palielina Y ātrumu</td></tr>
-        <tr><td><code>vel.y = -JUMP_FORCE</code></td><td>Lēkšana - negatīvs Y (uz augšu)</td></tr>
-        <tr><td><code>Input::get_singleton()-&gt;is_action_pressed()</code></td><td>Pārbauda, vai darbība aktīva</td></tr>
-      </tbody>
-    </table>
+// Kuru metodi lietot?
+void _process(double delta)           // katrā zīmētajā kadrā, delta SVĀRSTĀS
+                                      // -> vizuāli efekti, UI
+void _physics_process(double delta)   // fiksēti 60 reizes/s, delta STABILS
+                                      // -> kustība, fizika, sadursmes</code></pre>
+    <p class="cheat-note">Īkšķa likums: ja objekts kustas vai saduras - <code>_physics_process</code>. Viss pārējais - <code>_process</code>.</p>
   </div>
-</section>
+  <div class="logic-box">
+    <h3>2.2 Ievade un normalizēta kustība</h3>
+    <pre><code class="language-cpp">#include &lt;godot_cpp/classes/input.hpp&gt;
+
+void Player::_physics_process(double delta) {
+    Input *input = Input::get_singleton();
+    Vector2 dir(0, 0);
+
+    if (input-&gt;is_action_pressed("move_right")) dir.x += 1;
+    if (input-&gt;is_action_pressed("move_left"))  dir.x -= 1;
+    if (input-&gt;is_action_pressed("move_down"))  dir.y += 1;
+    if (input-&gt;is_action_pressed("move_up"))    dir.y -= 1;
+
+    dir = dir.normalized();     // BEZ ŠĪ diagonāle ir 1.41x ātrāka!
+    set_velocity(dir * speed);
+    move_and_slide();
+}
+
+// is_action_pressed()      - kamēr TUR taustiņu   -> kustība
+// is_action_just_pressed() - vienu reizi nospiežot -> lēciens, šāviens</code></pre>
+    <p class="cheat-note">Darbību nosaukumus (<code>move_right</code>) veido <b>Project Settings -&gt; Input Map</b>, nevis raksti taustiņu kodus.</p>
+  </div>
+  <div class="logic-box">
+    <h3>2.3 C++ vadības struktūras pret Python</h3>
+    <pre><code class="language-cpp">// Python:  if x <= 0:      /  elif x < 30:  /  else:
+if (health &lt;= 0) {
+    die();
+} else if (health &lt; 30) {          // divi vārdi, nevis "elif"
+    play_warning();
+} else {
+    show_normal();
+}                                   // figūriekavas, nevis atkāpe
+
+// enum + switch = saprotami nosaukumi skaitļu vietā
+enum class PickupType { COIN, GEM, KEY };
+
+switch (type) {
+    case PickupType::COIN: score += 1;  break;   // BEZ break izpildās
+    case PickupType::GEM:  score += 10; break;   // arī nākamais case!
+    default:               score += 5;  break;
+}
+
+// Python:  for t in items:
+#include &lt;vector&gt;
+for (PickupType t : items) { on_pickup(t); }</code></pre>
+    <p class="cheat-note">Trīs biežākās kļūdas: aizmirsts semikols, aizmirsts <code>break</code> un <code>=</code> vietā, kur vajag <code>==</code>.</p>
+  </div>
+  <div class="logic-box">
+    <h3>2.4 Sadursmju mezgli un slāņi</h3>
+    <pre><code class="language-cpp">// Kurš mezgls kam:
+//   StaticBody2D      siena, grīda - nekustas, aptur citus
+//   CharacterBody2D   spēlētājs, ienaidnieks - kustību raksti pats
+//   RigidBody2D       pilna fizika: gravitācija, masa, spēks
+//   Area2D            monēta, finišs - PAMANA, bet neaptur
+//   CollisionShape2D  BEZ ŠĪ neviens no augšējiem nesaduras
+
+// Area2D signāls C++ pusē
+void Coin::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("on_body_entered", "body"),
+                         &amp;Coin::on_body_entered);
+}
+void Coin::_ready() {
+    connect("body_entered", Callable(this, "on_body_entered"));
+}
+void Coin::on_body_entered(Node2D *body) {
+    queue_free();          // izdzēš monētu
+}
+
+// Layer = "kas es esmu"      Mask = "ar ko es sadursimies"
+//   Siena:     Layer 1
+//   Spēlētājs: Layer 2, Mask 1 un 3
+//   Monēta:    Layer 3</code></pre>
+    <p class="cheat-note">Ja objekts iet cauri sienai - vispirms pārbaudi <code>CollisionShape2D</code>, tad Mask ķeksīšus.</p>
+  </div>
+  <div class="logic-box">
+    <h3>2.5 Gravitācija, lēciens, coyote time</h3>
+    <pre><code class="language-cpp">const float GRAVITY = 1200.0f;
+const float JUMP_FORCE = -550.0f;   // NEGATĪVS, jo Y iet uz leju
+
+void Player::_physics_process(double delta) {
+    Input *input = Input::get_singleton();
+
+    if (!is_on_floor()) velocity_internal.y += GRAVITY * delta;
+
+    // coyote time: īsa tolerance pēc nokāpšanas no malas
+    if (is_on_floor()) coyote = 0.1;
+    else               coyote -= delta;
+
+    if (input-&gt;is_action_just_pressed("jump") &amp;&amp; coyote &gt; 0.0) {
+        velocity_internal.y = JUMP_FORCE;
+        coyote = 0.0;
+    }
+    // mainīgs lēciena augstums: atlaid ātrāk = zemāks lēciens
+    if (input-&gt;is_action_just_released("jump") &amp;&amp; velocity_internal.y &lt; 0)
+        velocity_internal.y *= 0.5;
+
+    set_velocity(velocity_internal);
+    move_and_slide();
+    velocity_internal = get_velocity();
+}</code></pre>
+    <p class="cheat-note">Bez <code>is_on_floor()</code> vai <code>coyote</code> pārbaudes varonis var lēkt bezgalīgi gaisā.</p>
+  </div>
+</div></section>
 
 <!-- CTA strip -->
 <section class="cta-strip">

@@ -28,6 +28,7 @@
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 </head>
 <body class="page-home">
 
@@ -405,86 +406,154 @@
 </section>
 
 <!-- Cheatsheet -->
-<section id="cheatsheet">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-        <h2 class="sec-title">C++ GDExtension špikeris</h2>
-        <p class="sec-sub">Klases deklarācija, _bind_methods, _process un īpašību reģistrācija.</p>
-      </div>
-    </div>
+<section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">1. tēmas špikeris - Godot un C++ pamati</h2>
+    <p class="sec-sub">Viss, ko apgūsti šajā tēmā, vienuviet: no projekta izveides līdz Pong spēles kodam. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
+  <div class="logic-box">
+    <h3>1.1 Projekta sagatavošana un build komandas</h3>
+    <pre><code class="language-bash"># Godot projekta izveide: Project Manager -> New Project -> Pong
+# Loga izmērs: Project -> Project Settings -> Display -> Window
+#   Viewport Width = 1280 , Viewport Height = 720
 
-    <div class="editor narrow spaced" aria-label="C++ GDExtension pamati">
-      <div class="titlebar">
-        <span class="dots"><i></i><i></i><i></i></span>
-        <span class="crumb"><em>prog2_1/</em>pong_ball.h</span>
-      </div>
-      <div class="tabs">
-        <span class="tab active"><span class="ic">●</span> pong_ball.h</span>
-        <span class="tab">pong_ball.cpp</span>
-        <span class="spacer"></span>
-      </div>
-      <div class="body">
-        <div class="gutter">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18</div>
-<div class="code"><span class="tok-com">// pong_ball.h - minimālais GDExtension header</span>
-<span class="tok-kw">#ifndef</span> PONG_BALL_H
-<span class="tok-kw">#define</span> PONG_BALL_H
-<span class="tok-kw">#include</span> <span class="tok-str">&lt;godot_cpp/classes/node2d.hpp&gt;</span>
-<span class="tok-kw">using namespace</span> <span class="tok-typ">godot</span>;
+# .gitignore projekta mapē (OBLIGĀTI - citādi GitHub aizpildās ar būvējuma failiem)
+.godot/
+gdext/godot-cpp/
+*.obj
 
-<span class="tok-kw">class</span> <span class="tok-typ">PongBall</span> : <span class="tok-kw">public</span> <span class="tok-typ">Node2D</span> {
-    <span class="tok-fn">GDCLASS</span>(<span class="tok-typ">PongBall</span>, <span class="tok-typ">Node2D</span>)
-<span class="tok-kw">private</span>:
-    <span class="tok-typ">Vector2</span> speed = {<span class="tok-num">200</span>, <span class="tok-num">150</span>};
-<span class="tok-kw">protected</span>:
-    <span class="tok-kw">static void</span> <span class="tok-fn">_bind_methods</span>();
-<span class="tok-kw">public</span>:
-    <span class="tok-kw">void</span> <span class="tok-fn">_process</span>(<span class="tok-typ">double</span> delta) <span class="tok-kw">override</span>;
-    <span class="tok-kw">void</span> <span class="tok-fn">atgriezties</span>();
-};
-<span class="tok-kw">#endif</span><span class="cursor"></span></div>
-      </div>
-      <div class="statusbar">
-        <span class="ok">● C++ · GDExtension</span>
-        <span class="spacer"></span>
-        <span>UTF-8</span>
-      </div>
-    </div>
+# GDExtension build vide (1.3 stunda)
+pip install scons
+git clone -b 4.2 https://github.com/godotengine/godot-cpp
+cd godot-cpp &amp;&amp; scons platform=windows      # linux / macos
+# Pirmā kompilēšana aizņem 10-20 min. Tas ir normāli.
 
-    <table>
-      <thead>
-        <tr><th>Elements</th><th>Nozīme</th><th>Piemērs</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>GDCLASS(T, B)</code></td><td>Reģistrē klasi Godot sistēmā</td><td><code>GDCLASS(PongBall, Node2D)</code></td></tr>
-        <tr><td><code>_bind_methods()</code></td><td>Saista C++ metodes ar Godot</td><td><code>ClassDB::bind_method(...)</code></td></tr>
-        <tr><td><code>_process(double d)</code></td><td>Katrā kadrā izsaukts</td><td><code>set_position(get_position() + v * d)</code></td></tr>
-        <tr><td><code>_physics_process(double d)</code></td><td>Fizikas kadrā (fiksēts)</td><td><code>move_and_slide()</code></td></tr>
-        <tr><td><code>D_METHOD("nosaukums")</code></td><td>Metodes nosaukums Godot pusē</td><td><code>D_METHOD("atgriezties")</code></td></tr>
-        <tr><td><code>ADD_PROPERTY</code></td><td>Eksponē mainīgo inspektoram</td><td><code>ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed"), ...)</code></td></tr>
-        <tr><td><code>ClassDB::bind_method</code></td><td>Saista metodi ar D_METHOD</td><td><code>ClassDB::bind_method(D_METHOD("f"), &amp;T::f)</code></td></tr>
-      </tbody>
-    </table>
+# Katru reizi pēc C++ koda maiņas:
+scons platform=windows</code></pre>
+    <p class="cheat-note">Ja terminālis neatrod <code>scons</code>, aizver to un atver no jauna - vecais terminālis atceras veco PATH.</p>
   </div>
-</section>
+  <div class="logic-box">
+    <h3>1.2 Scene Tree - biežāk lietotie mezgli</h3>
+    <pre><code>Main (Node2D)              <- scēnas sakne, tur visu kopā
+├── Speles (Node2D)         <- grupē spēles objektus
+│   ├── PaddleLeft          (CharacterBody2D) + CollisionShape2D
+│   ├── PaddleRight         (CharacterBody2D) + CollisionShape2D
+│   ├── Bumba               (CharacterBody2D) + CollisionShape2D
+│   ├── SienaAugsa          (StaticBody2D)    + CollisionShape2D
+│   └── SienaApaksa         (StaticBody2D)    + CollisionShape2D
+├── UI (Node2D)             <- grupē saskarni
+│   └── Punkti              (Label)
+└── Camera2D
+
+Mezglu tipi:
+  Node2D            bāzes 2D objekts, ir pozīcija un rotācija
+  Sprite2D          parāda attēlu
+  Label             parāda tekstu
+  CharacterBody2D   kustīgs objekts, kuram kustību raksti pats
+  StaticBody2D      nekustīgs šķērslis (siena, grīda)
+  Area2D            zona, kas pamana ieiešanu (monēta, finišs)
+  CollisionShape2D  BEZ ŠĪ nav nekādu sadursmju
+
+Atkārtoti lietojams objekts: labais klikšķis -> Save Branch as Scene</code></pre>
+    <p class="cheat-note">Katram mezglam dod nosaukumu, no kura var saprast, kas tas ir. <code>Node2D2</code> pēc nedēļas neko nepateiks.</p>
+  </div>
+  <div class="logic-box">
+    <h3>1.3-1.4 C++ klase: header un implementācija</h3>
+    <pre><code class="language-cpp">// ---------- hello.hpp : PASAKA, KAS klase IR ----------
+#pragma once
+#include &lt;godot_cpp/classes/node.hpp&gt;
+
+using namespace godot;
+
+class Hello : public Node {
+    GDCLASS(Hello, Node)          // bez šī Godot klasi neredz
+
+private:
+    int counter;
+    String player_name;
+
+protected:
+    static void _bind_methods();  // te reģistrē metodes un īpašības
+
+public:
+    Hello();
+    void _ready() override;
+    void say_hello();
+};
+
+// ---------- hello.cpp : PASAKA, KO metodes DARA ----------
+#include "hello.hpp"
+#include &lt;godot_cpp/core/class_db.hpp&gt;
+#include &lt;godot_cpp/variant/utility_functions.hpp&gt;
+
+void Hello::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("say_hello"), &amp;Hello::say_hello);
+}
+
+Hello::Hello() { counter = 0; player_name = "Pong Player"; }
+
+void Hello::_ready() {
+    UtilityFunctions::print(player_name, " / ", counter);   // = print() Python
+}
+
+// ---------- register_types.cpp : bez šī klase editorā NEPARĀDĀS ----------
+ClassDB::register_class&lt;Hello&gt;();</code></pre>
+    <p class="cheat-note">Divi faili vienai klasei: <code>.hpp</code> saka <b>kas</b>, <code>.cpp</code> saka <b>ko dara</b>. Katras komandas beigās semikols.</p>
+  </div>
+  <div class="logic-box">
+    <h3>1.5 Koordinātes - Y iet uz LEJU</h3>
+    <pre><code>(0,0) ─────────────── X aug pa labi ──────────────► (1280, 0)
+  │
+  │        SienaAugsa      y = 10
+  │
+  │   PaddleLeft                        PaddleRight
+  │   (60, 360)          Bumba          (1220, 360)
+  │                     (640, 360)  <- laukuma centrs
+  │
+  │        SienaApaksa     y = 710
+  ▼
+Y aug uz LEJU                                    (0, 720)
+
+Centrs = (platums / 2, augstums / 2) = (1280/2, 720/2) = (640, 360)
+
+// C++ pozīcijas maiņa
+Vector2 pos = get_position();
+pos.x += 10;                 // pa labi
+pos.y -= 10;                 // UZ AUGŠU (mīnus!)
+set_position(pos);</code></pre>
+    <p class="cheat-note">Tāpēc lēciena spēks vienmēr ir <b>negatīvs</b> skaitlis - uz augšu nozīmē mazāku Y.</p>
+  </div>
+  <div class="logic-box">
+    <h3>1.6 Pong: kustība, atlēkšana, punkti</h3>
+    <pre><code class="language-cpp">// --- Paddle: vadība ar taustiņiem ---
+void Paddle::_physics_process(double delta) {
+    Input *input = Input::get_singleton();
+    Vector2 v(0, 0);
+    if (input-&gt;is_action_pressed("kreisais_augsup")) v.y -= speed;
+    if (input-&gt;is_action_pressed("kreisais_lejup"))  v.y += speed;
+    set_velocity(v);
+    move_and_slide();
+}
+
+// --- Ball: lidojums un atlēkšana ---
+void Ball::reset_ball() {
+    set_position(Vector2(640, 360));
+    double y = UtilityFunctions::randf_range(-180.0, 180.0);
+    velocity = Vector2(base_speed, y);
+}
+
+void Ball::_physics_process(double delta) {
+    auto col = move_and_collide(velocity * delta);   // * delta VIENMĒR
+    if (col.is_valid()) {
+        velocity = velocity.bounce(col-&gt;get_normal());
+    }
+    if (get_position().x &lt; 0)    { labais_punkts++;   reset_ball(); }
+    if (get_position().x &gt; 1280) { kreisais_punkts++; reset_ball(); }
+}</code></pre>
+    <p class="cheat-note">Taustiņu nosaukumus (<code>kreisais_augsup</code>) definē <b>Project Settings -&gt; Input Map</b>, nevis kodā.</p>
+  </div>
+</div></section>
 
 <!-- CTA strip -->
 <section class="cta-strip">
