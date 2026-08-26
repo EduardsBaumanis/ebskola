@@ -76,8 +76,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - uzbūvē GET un POST pēc REST · 2. uzdevums (~25 min) - pievieno validāciju un pareizus statusa kodus · 3. uzdevums (~20 min) - pievieno filtrēšanu un kārtošanu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver savu 12.2 stundas <code>serveris.py</code>. Šoreiz maršrutus sakārtosi pēc REST principiem, lai citi programmētāji tos saprastu bez skaidrojuma.</p>
     </div>
 </section>
 
@@ -109,68 +109,57 @@
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>12.3 REST API izstrāde</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-python">from flask import Flask, render_template
-
-app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return render_template("index.html", temats="12.3 REST API izstrāde")
-
-if __name__ == "__main__":
-    app.run(debug=True)</code></pre>
-<pre><code class="language-html">&lt;h1&gt;{{ temats }}&lt;/h1&gt;
-&lt;p&gt;Ja redzi šo tekstu pārlūkā, iesildīšanās piemērs darbojas.&lt;/p&gt;</code></pre>
+        <h3>1. uzdevums - Uzbūvē GET un POST pēc REST</h3>
+        <p>Beigās viena adrese apkalpos gan lasīšanu, gan pievienošanu.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. Python daļu ievieto <code class="language-python">app.py</code>, bet HTML daļu ievieto <code class="language-html">templates/index.html</code>.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Izveido</b> sarakstu <code class="language-python">REZULTATI = []</code>.</li>
+            <li><b>Uzraksti</b> <code class="language-python">@app.route("/api/rezultati", methods=["GET"])</code>, kas atgriež visu sarakstu.</li>
+            <li><b>Uzraksti</b> otru funkciju tai pašai adresei ar <code class="language-python">methods=["POST"]</code>.</li>
+            <li><b>Piešķir</b> katram jaunam ierakstam <code>id</code>.</li>
+            <li><b>Atgriez</b> pēc izveides statusa kodu 201.</li>
+            <li><b>Pārbaudi</b> abus maršrutus ar <code>curl</code> vai pārlūku.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> viena adrese ar GET atgriež sarakstu, bet ar POST pievieno ierakstu un atgriež 201.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Pievieno validāciju un pareizus statusa kodus</h3>
+        <p>Beigās serveris noraidīs sliktus datus, nevis tos saglabās.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu vietu projektā: datu apstrādi, skatu, formu, API maršrutu, validāciju vai rezultāta izvadi.</li>
-            <li><b>Nosauc</b> funkcijas, mainīgos un failus pēc to lomas, piemēram, <code>apstrada_gajienu()</code>, <code>rezultats</code> vai <code>routes.py</code>.</li>
-            <li><b>Uzraksti</b> funkciju vai maršrutu, kas nolasa datus, apstrādā tos un atgriež rezultātu.</li>
-            <li><b>Savieno</b> šo kodu ar HTML formu, pogu, saiti, API pieprasījumu vai redzamu izvades vietu.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās apstrādes vietas.</li>
-            <li><b>Pārbaudi</b>, ka esošā projekta daļa joprojām darbojas.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms paplašini risinājumu.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto funkcionalitāti.</li>
+            <li><b>Pārbaudi</b>, vai <code class="language-python">request.json</code> satur atslēgu <code>vards</code>.</li>
+            <li><b>Atgriez</b> statusa kodu 400 ar paskaidrojumu, ja tās nav.</li>
+            <li><b>Pārbaudi</b>, vai <code>punkti</code> ir skaitlis un nav negatīvs.</li>
+            <li><b>Nosūti</b> POST pieprasījumu bez vārda un pieraksti atbildi.</li>
+            <li><b>Nosūti</b> pieprasījumu ar negatīviem punktiem un pieraksti atbildi.</li>
+            <li><b>Nosūti</b> derīgu pieprasījumu un pārbaudi, ka tas izdodas.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc validācija jāveic serverī, nevis pārlūkā.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> trūkstoši vai nederīgi dati atgriež 400 ar paskaidrojumu, bet derīgi - 201.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē kodu un izdari secinājumu</h3>
-        <p>Pārbaudi, vai algoritms darbojas paredzami ar dažādiem datiem.</p>
+        <h3>3. uzdevums - Pievieno filtrēšanu un kārtošanu</h3>
+        <p>Beigās klients varēs prasīt tikai TOP 5 rezultātus.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu ievadi, robežgadījumu un kļūdainu vai tukšu ievadi.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu pārlūkā, terminālī vai API atbildē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko vērtību, ko šis kods var saņemt.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai lietotājs saņem saprotamu atbildi.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu Python kodā, HTML sasaistē vai datu validācijā.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura koda daļa vislabāk palīdzēja saprast tēmu <b>12.3 REST API izstrāde</b>.</li>
+            <li><b>Nolasi</b> parametru ar <code class="language-python">request.args.get("limit", 100, type=int)</code>.</li>
+            <li><b>Sakārto</b> rezultātus pēc punktiem dilstoši.</li>
+            <li><b>Atgriez</b> tikai pirmos <code>limit</code> ierakstus.</li>
+            <li><b>Atver</b> pārlūkā <code>/api/rezultati?limit=5</code>.</li>
+            <li><b>Atver</b> to pašu bez parametra un salīdzini.</li>
+            <li><b>Ievadi</b> parametru <code>limit=abc</code> un pieraksti, kas notiek.</li>
+            <li><b>Pieraksti</b>, ko dara <code>type=int</code> šajā izsaukumā.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ar <code>?limit=5</code> atgriežas tieši pieci ieraksti, un nederīgs parametrs neizraisa 500 kļūdu.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Pievieno DELETE</h3>
+        <p>Ja pamatdarbs ir gatavs, pabeidz visu CRUD komplektu.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu ievades lauku, API atbildi, validāciju, datu elementu vai redzamu rezultātu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projektu.</li>
-            <li><b>Pārbaudi</b>, ka pamatfunkcija un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Uzraksti</b> <code class="language-python">@app.route("/api/rezultati/&lt;int:id&gt;", methods=["DELETE"])</code>.</li>
+            <li><b>Atrodi</b> ierakstu pēc <code>id</code> un izdzēs to.</li>
+            <li><b>Atgriez</b> statusa kodu 404, ja ieraksta nav.</li>
+            <li><b>Pārbaudi</b> ar <code class="language-bash">curl -X DELETE http://localhost:5000/api/rezultati/1</code>.</li>
+            <li><b>Pārbaudi</b>, ka GET vairs šo ierakstu nerāda.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> esošs ieraksts tiek izdzēsts, bet neesoša dzēšana atgriež 404.</p>
     </div>
 </section>
 <section class='section'>

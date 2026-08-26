@@ -78,8 +78,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izņem noslēpumus no koda · 2. uzdevums (~25 min) - sagatavo projektu izvietošanai · 3. uzdevums (~20 min) - izvieto mākonī un pārbaudi. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver savu Flask projektu un GitHub krātuvi. Brīdinājums: paroli vai atslēgu, kas vienreiz nonākusi GitHub, uzskata par nopludinātu - tā jāmaina.</p>
     </div>
 </section>
 
@@ -114,62 +114,56 @@ SECRET_KEY = os.getenv("SECRET_KEY")</code></pre>
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>12.5 Izvietošana mākonī un drošība</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-python">import os
-from dotenv import load_dotenv
-load_dotenv()  # nolasa .env failu
-
-DATABASE_URL = os.getenv("DATABASE_URL")
-SECRET_KEY = os.getenv("SECRET_KEY")</code></pre>
+        <h3>1. uzdevums - Izņem noslēpumus no koda</h3>
+        <p>Beigās tavā kodā vairs nebūs nevienas paroles.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. Python fragmentu ievieto <code class="language-python">main.py</code> failā un palaid no termināļa.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Atrodi</b> kodā visas vietas, kur ierakstīta parole vai atslēga.</li>
+            <li><b>Aizstāj</b> katru ar <code class="language-python">os.environ.get("DATABASE_URL")</code>.</li>
+            <li><b>Pievieno</b> faila augšā <code class="language-python">import os</code>.</li>
+            <li><b>Izveido</b> failu <code>.env</code> ar īstajām vērtībām.</li>
+            <li><b>Pievieno</b> <code>.gitignore</code> failam rindu <code>.env</code>.</li>
+            <li><b>Izpildi</b> <code class="language-bash">git status</code> un pārliecinies, ka <code>.env</code> tur nav.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> <code>git status</code> nerāda <code>.env</code>, un kodā nav neviena ierakstīta paroles teksta.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Sagatavo projektu izvietošanai</h3>
+        <p>Beigās serveris varēs palaist tavu lietotni bez tavas palīdzības.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu vietu projektā: datu apstrādi, skatu, formu, API maršrutu, validāciju vai rezultāta izvadi.</li>
-            <li><b>Nosauc</b> funkcijas, mainīgos un failus pēc to lomas, piemēram, <code>apstrada_gajienu()</code>, <code>rezultats</code> vai <code>routes.py</code>.</li>
-            <li><b>Uzraksti</b> funkciju vai maršrutu, kas nolasa datus, apstrādā tos un atgriež rezultātu.</li>
-            <li><b>Savieno</b> šo kodu ar HTML formu, pogu, saiti, API pieprasījumu vai redzamu izvades vietu.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās apstrādes vietas.</li>
-            <li><b>Pārbaudi</b>, ka esošā projekta daļa joprojām darbojas.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms paplašini risinājumu.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto funkcionalitāti.</li>
+            <li><b>Izpildi</b> <code class="language-bash">pip freeze &gt; requirements.txt</code>.</li>
+            <li><b>Pievieno</b> <code class="language-bash">pip install gunicorn</code> un atjauno <code>requirements.txt</code>.</li>
+            <li><b>Nomaini</b> <code class="language-python">app.run(debug=True)</code> uz <code class="language-python">app.run(debug=False)</code>.</li>
+            <li><b>Pieraksti</b>, kāpēc <code>debug=True</code> publiskā serverī ir bīstams.</li>
+            <li><b>Izveido</b> failu <code>Procfile</code> ar rindu <code>web: gunicorn app:app</code>.</li>
+            <li><b>Veic</b> commit un push uz GitHub.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> krātuvē ir <code>requirements.txt</code> un <code>Procfile</code>, bet nav <code>.env</code>.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē kodu un izdari secinājumu</h3>
-        <p>Pārbaudi, vai algoritms darbojas paredzami ar dažādiem datiem.</p>
+        <h3>3. uzdevums - Izvieto mākonī un pārbaudi</h3>
+        <p>Beigās tava lietotne būs pieejama no jebkura datora.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu ievadi, robežgadījumu un kļūdainu vai tukšu ievadi.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu pārlūkā, terminālī vai API atbildē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko vērtību, ko šis kods var saņemt.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai lietotājs saņem saprotamu atbildi.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu Python kodā, HTML sasaistē vai datu validācijā.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura koda daļa vislabāk palīdzēja saprast tēmu <b>12.5 Izvietošana mākonī un drošība</b>.</li>
+            <li><b>Izveido</b> kontu vietnē <code>render.com</code>.</li>
+            <li><b>Izvēlies</b> New -> Web Service un pieslēdz savu GitHub krātuvi.</li>
+            <li><b>Ievadi</b> vides mainīgos Render sadaļā Environment.</li>
+            <li><b>Palaid</b> izvietošanu un vēro žurnālu, līdz parādās <code>Live</code>.</li>
+            <li><b>Atver</b> iegūto adresi telefonā, nevis savā datorā.</li>
+            <li><b>Pārbaudi</b>, ka API atgriež datus arī no turienes.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: ar ko <code>localhost</code> atšķiras no publiskas adreses.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> lapa atveras telefonā pa mobilo internetu, nevis tikai tavā datorā.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Pievieno pieprasījumu ierobežojumu</h3>
+        <p>Ja pamatdarbs ir gatavs, pasargā API no pārslodzes.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu ievades lauku, API atbildi, validāciju, datu elementu vai redzamu rezultātu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projektu.</li>
-            <li><b>Pārbaudi</b>, ka pamatfunkcija un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Instalē</b> <code class="language-bash">pip install flask-limiter</code>.</li>
+            <li><b>Pievieno</b> ierobežojumu, piemēram 30 pieprasījumi minūtē.</li>
+            <li><b>Izsauc</b> API ciklā vairāk reižu, nekā atļauts.</li>
+            <li><b>Pieraksti</b>, kāds statusa kods atnāca.</li>
+            <li><b>Pieraksti</b>, kāpēc šāds ierobežojums ir vajadzīgs.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pārsniedzot ierobežojumu, serveris atgriež kodu 429, nevis apstājas.</p>
     </div>
 </section>
 <section class='section'>

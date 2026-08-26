@@ -76,8 +76,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izseko īstam HTTP pieprasījumam · 2. uzdevums (~25 min) - uzzīmē savas lietotnes arhitektūru · 3. uzdevums (~20 min) - sadali funkcijas starp priekšgalu un aizmuguri. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> atver pārlūku un burtnīcu. Šajā stundā kodu vēl nerakstīsi - vispirms jāsaprot, kura koda daļa strādā pārlūkā un kura uz servera.</p>
     </div>
 </section>
 
@@ -107,68 +107,56 @@
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>12.1 Front-end un back-end arhitektūra</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-python">from flask import Flask, render_template
-
-app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return render_template("index.html", temats="12.1 Front-end un back-end arhitektūra")
-
-if __name__ == "__main__":
-    app.run(debug=True)</code></pre>
-<pre><code class="language-html">&lt;h1&gt;{{ temats }}&lt;/h1&gt;
-&lt;p&gt;Ja redzi šo tekstu pārlūkā, iesildīšanās piemērs darbojas.&lt;/p&gt;</code></pre>
+        <h3>1. uzdevums - Izseko īstam HTTP pieprasījumam</h3>
+        <p>Beigās tu savām acīm redzēsi pieprasījumu un atbildi.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. Python daļu ievieto <code class="language-python">app.py</code>, bet HTML daļu ievieto <code class="language-html">templates/index.html</code>.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Atver</b> jebkuru mājaslapu un nospied <code>F12</code>.</li>
+            <li><b>Izvēlies</b> cilni <b>Network</b> un pārlādē lapu ar <code>F5</code>.</li>
+            <li><b>Uzklikšķini</b> uz pirmā ieraksta sarakstā.</li>
+            <li><b>Pieraksti</b>, kāda ir metode (GET vai POST) un statusa kods.</li>
+            <li><b>Atrodi</b> sadaļu <b>Response</b> un pieraksti, kāda tipa saturs atnāca.</li>
+            <li><b>Atrodi</b> vienu ierakstu ar statusa kodu, kas nav 200, un pieraksti to.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> burtnīcā ir pierakstīta viena metode, viens statusa kods 200 un viens cits statusa kods.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Uzzīmē savas lietotnes arhitektūru</h3>
+        <p>Beigās tev būs shēma, kas rāda, kur dzīvo katra daļa.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu vietu projektā: datu apstrādi, skatu, formu, API maršrutu, validāciju vai rezultāta izvadi.</li>
-            <li><b>Nosauc</b> funkcijas, mainīgos un failus pēc to lomas, piemēram, <code>apstrada_gajienu()</code>, <code>rezultats</code> vai <code>routes.py</code>.</li>
-            <li><b>Uzraksti</b> funkciju vai maršrutu, kas nolasa datus, apstrādā tos un atgriež rezultātu.</li>
-            <li><b>Savieno</b> šo kodu ar HTML formu, pogu, saiti, API pieprasījumu vai redzamu izvades vietu.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās apstrādes vietas.</li>
-            <li><b>Pārbaudi</b>, ka esošā projekta daļa joprojām darbojas.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms paplašini risinājumu.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto funkcionalitāti.</li>
+            <li><b>Uzzīmē</b> trīs kastes: <code>Pārlūks</code>, <code>Serveris</code>, <code>Datubāze</code>.</li>
+            <li><b>Novelc</b> bultu no pārlūka uz serveri un uzraksti uz tās <code>GET /api/rezultati</code>.</li>
+            <li><b>Novelc</b> atpakaļbultu un uzraksti uz tās <code>200 + JSON</code>.</li>
+            <li><b>Novelc</b> bultu no servera uz datubāzi un atpakaļ.</li>
+            <li><b>Pieraksti</b> katrā kastē, kādā valodā tā kods ir rakstīts.</li>
+            <li><b>Atzīmē</b>, kura kaste atrodas lietotāja datorā.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> shēmā ir trīs kastes, četras bultas ar uzrakstiem, un tu vari parādīt, kura daļa strādā lietotāja datorā.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē kodu un izdari secinājumu</h3>
-        <p>Pārbaudi, vai algoritms darbojas paredzami ar dažādiem datiem.</p>
+        <h3>3. uzdevums - Sadali funkcijas starp priekšgalu un aizmuguri</h3>
+        <p>Beigās tu zināsi, kur katra funkcija jāraksta.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu ievadi, robežgadījumu un kļūdainu vai tukšu ievadi.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu pārlūkā, terminālī vai API atbildē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko vērtību, ko šis kods var saņemt.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai lietotājs saņem saprotamu atbildi.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu Python kodā, HTML sasaistē vai datu validācijā.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura koda daļa vislabāk palīdzēja saprast tēmu <b>12.1 Front-end un back-end arhitektūra</b>.</li>
+            <li><b>Uzraksti</b> sarakstu ar sešām savas spēles funkcijām.</li>
+            <li><b>Atzīmē</b> katrai <code>F</code> (priekšgals) vai <code>B</code> (aizmugure).</li>
+            <li><b>Atzīmē</b> ar <code>B</code> visu, kas glabā datus vai pārbauda uzvaru.</li>
+            <li><b>Pieraksti</b>, kāpēc uzvaras pārbaudi nedrīkst atstāt tikai pārlūkā.</li>
+            <li><b>Atrodi</b> vienu funkciju, kas vajadzīga abās pusēs.</li>
+            <li><b>Pieraksti</b>, kāda būtu problēma, ja parole tiktu pārbaudīta pārlūkā.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc aizmugurei nekad nedrīkst uzticēties priekšgala datiem.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> visas datu glabāšanas un uzvaras pārbaudes funkcijas ir atzīmētas ar <code>B</code>, un tu vari pamatot kāpēc.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Salīdzini statusa kodus</h3>
+        <p>Ja pamatdarbs ir gatavs, uzzini, ko serveris ar tiem pasaka.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu ievades lauku, API atbildi, validāciju, datu elementu vai redzamu rezultātu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projektu.</li>
-            <li><b>Pārbaudi</b>, ka pamatfunkcija un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Uzraksti</b>, ko nozīmē kodi 200, 201, 400, 404 un 500.</li>
+            <li><b>Atrodi</b> pārlūkā vienu lapu, kas atgriež 404.</li>
+            <li><b>Pieraksti</b>, kura no šīm kļūdām ir lietotāja vaina.</li>
+            <li><b>Pieraksti</b>, kura ir servera vaina.</li>
+            <li><b>Pieraksti</b>, kuru kodu atgriezīsi, kad kāds izveidos jaunu rezultātu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> tu vari pateikt, ka 400 ir lietotāja kļūda, 500 - servera, bet 201 nozīmē 'izveidots'.</p>
     </div>
 </section>
 <section class='section'>

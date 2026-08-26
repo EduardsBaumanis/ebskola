@@ -77,8 +77,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - palaid pirmo Flask serveri · 2. uzdevums (~25 min) - atgriez JSON no maršruta · 3. uzdevums (~20 min) - pieņem datus ar POST. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> aktivizē virtuālo vidi un izpildi <code class="language-bash">pip install flask</code>. Serveri apturēsi ar <code>Ctrl+C</code> terminālī.</p>
     </div>
 </section>
 
@@ -123,86 +123,57 @@ if __name__ == "__main__":
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>12.2 Flask: Python kā web serveris</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-python">from flask import Flask, jsonify, request
-
-app = Flask(__name__)
-
-# Vienkārša maršruta
-@app.route("/")
-def home():
-    return "&lt;h1&gt;Sveiks!&lt;/h1&gt;"
-
-# JSON atbilde
-@app.route("/api/speletaji")
-def saraksts():
-    return jsonify([
-        {"vards": "Anna", "punkti": 120},
-        {"vards": "Jānis", "punkti": 95}
-    ])
-
-# Maršruta ar parametru
-@app.route("/api/speletajs/&lt;int:id&gt;")
-def viens(id):
-    return jsonify({"id": id, "vards": "Anna"})
-
-# POST pieprasījums
-@app.route("/api/saglabat", methods=["POST"])
-def saglabat():
-    dati = request.json
-    return jsonify({"status": "ok", "saņēmu": dati}), 201
-
-if __name__ == "__main__":
-    app.run(debug=True, port=5000)</code></pre>
+        <h3>1. uzdevums - Palaid pirmo Flask serveri</h3>
+        <p>Beigās tavs Python kods atbildēs pārlūkam.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. Python fragmentu ievieto <code class="language-python">main.py</code> failā un palaid no termināļa.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Izveido</b> failu <code>serveris.py</code> un ieraksti <code class="language-python">from flask import Flask</code>.</li>
+            <li><b>Ieraksti</b> <code class="language-python">app = Flask(__name__)</code>.</li>
+            <li><b>Pievieno</b> dekoratoru <code class="language-python">@app.route("/")</code>.</li>
+            <li><b>Uzraksti</b> zem tā funkciju, kas atgriež <code class="language-python">"&lt;h1&gt;Sveiks!&lt;/h1&gt;"</code>.</li>
+            <li><b>Pievieno</b> faila beigās <code class="language-python">app.run(debug=True)</code>.</li>
+            <li><b>Palaid</b> un atver pārlūkā <code>http://localhost:5000</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pārlūkā redzams liels uzraksts <code>Sveiks!</code>, un terminālī parādās ieraksts par pieprasījumu.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Atgriez JSON no maršruta</h3>
+        <p>Beigās serveris atdos datus, nevis tekstu.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu vietu projektā: datu apstrādi, skatu, formu, API maršrutu, validāciju vai rezultāta izvadi.</li>
-            <li><b>Nosauc</b> funkcijas, mainīgos un failus pēc to lomas, piemēram, <code>apstrada_gajienu()</code>, <code>rezultats</code> vai <code>routes.py</code>.</li>
-            <li><b>Uzraksti</b> funkciju vai maršrutu, kas nolasa datus, apstrādā tos un atgriež rezultātu.</li>
-            <li><b>Savieno</b> šo kodu ar HTML formu, pogu, saiti, API pieprasījumu vai redzamu izvades vietu.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās apstrādes vietas.</li>
-            <li><b>Pārbaudi</b>, ka esošā projekta daļa joprojām darbojas.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms paplašini risinājumu.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto funkcionalitāti.</li>
+            <li><b>Importē</b> <code class="language-python">jsonify</code> no Flask.</li>
+            <li><b>Pievieno</b> maršrutu <code class="language-python">@app.route("/api/speletaji")</code>.</li>
+            <li><b>Atgriez</b> tajā <code class="language-python">jsonify([{"vards": "Anna", "punkti": 120}])</code>.</li>
+            <li><b>Atver</b> pārlūkā <code>/api/speletaji</code> un apskati rezultātu.</li>
+            <li><b>Atgriez</b> to pašu bez <code>jsonify</code> un pieraksti, kas notiek.</li>
+            <li><b>Ieliec</b> <code>jsonify</code> atpakaļ.</li>
+            <li><b>Pārbaudi</b> F12 Network cilnē, kāds ir atbildes <code>Content-Type</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> atbildes <code>Content-Type</code> ir <code>application/json</code>, nevis <code>text/html</code>.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē kodu un izdari secinājumu</h3>
-        <p>Pārbaudi, vai algoritms darbojas paredzami ar dažādiem datiem.</p>
+        <h3>3. uzdevums - Pieņem datus ar POST</h3>
+        <p>Beigās serveris varēs saņemt jaunu ierakstu.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu ievadi, robežgadījumu un kļūdainu vai tukšu ievadi.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu pārlūkā, terminālī vai API atbildē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko vērtību, ko šis kods var saņemt.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai lietotājs saņem saprotamu atbildi.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu Python kodā, HTML sasaistē vai datu validācijā.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura koda daļa vislabāk palīdzēja saprast tēmu <b>12.2 Flask: Python kā web serveris</b>.</li>
+            <li><b>Izveido</b> sarakstu <code class="language-python">SPELETAJI = []</code> faila augšā.</li>
+            <li><b>Pievieno</b> maršrutu ar <code class="language-python">methods=["POST"]</code>.</li>
+            <li><b>Nolasi</b> tajā <code class="language-python">dati = request.json</code>.</li>
+            <li><b>Pievieno</b> datus sarakstam un atgriez tos ar statusa kodu 201.</li>
+            <li><b>Izmēģini</b> to ar <code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"vards":"Jānis"}' http://localhost:5000/api/speletaji</code>.</li>
+            <li><b>Atver</b> GET maršrutu un pārbaudi, ka jaunais ieraksts tur ir.</li>
+            <li><b>Pieraksti</b> vienu secinājumu: kāpēc dati pazūd, kad serveri restartē.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc POST pieprasījuma GET maršruts rāda jauno spēlētāju, bet pēc servera restarta saraksts atkal ir tukšs.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Pievieno maršrutu ar parametru</h3>
+        <p>Ja pamatdarbs ir gatavs, ļauj pieprasīt vienu konkrētu spēlētāju.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu ievades lauku, API atbildi, validāciju, datu elementu vai redzamu rezultātu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projektu.</li>
-            <li><b>Pārbaudi</b>, ka pamatfunkcija un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Pievieno</b> maršrutu <code class="language-python">@app.route("/api/speletaji/&lt;int:id&gt;")</code>.</li>
+            <li><b>Atrodi</b> sarakstā spēlētāju ar šo <code>id</code>.</li>
+            <li><b>Atgriez</b> to kā JSON.</li>
+            <li><b>Atgriez</b> statusa kodu 404, ja spēlētājs nav atrasts.</li>
+            <li><b>Pārbaudi</b> abus gadījumus pārlūkā.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> esošs <code>id</code> atgriež spēlētāju, bet neesošs - kodu 404, nevis servera kļūdu.</p>
     </div>
 </section>
 <section class='section'>

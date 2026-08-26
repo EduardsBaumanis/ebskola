@@ -79,8 +79,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>70 min darba sadalījums:</b> 1. uzdevums (~20 min) - atjauno teorijas piemēru vai minimālo prototipu; 2. uzdevums (~25 min) - pielieto to galvenajā uzdevumā; 3. uzdevums (~25 min) - pārbaudi rezultātu, izlabo kļūdas un tikai beigās pieraksti vienu secinājumu. Papildus/4. līmeņa uzdevums ir paredzēts tikai tad, ja pamatdarbs ir pabeigts.</p>
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>70 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~15 min) - uzraksti spēles klasi ar uzvaras pārbaudi · 2. uzdevums (~25 min) - pievieno API gājieniem un stāvoklim · 3. uzdevums (~20 min) - savieno pārlūku un izvieto mākonī. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+        <p><b>Pirms sāc:</b> šis ir visa kursa noslēguma projekts. Tajā satiekas OOP, Flask, REST, JavaScript un izvietošana. Sāc ar spēles loģiku bez tīmekļa - to var pārbaudīt uzreiz.</p>
     </div>
 </section>
 
@@ -110,68 +110,57 @@
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-python">from flask import Flask, render_template
-
-app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return render_template("index.html", temats="12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes")
-
-if __name__ == "__main__":
-    app.run(debug=True)</code></pre>
-<pre><code class="language-html">&lt;h1&gt;{{ temats }}&lt;/h1&gt;
-&lt;p&gt;Ja redzi šo tekstu pārlūkā, iesildīšanās piemērs darbojas.&lt;/p&gt;</code></pre>
+        <h3>1. uzdevums - Uzraksti spēles klasi ar uzvaras pārbaudi</h3>
+        <p>Beigās spēles noteikumi strādās un būs pārbaudīti bez servera.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. Python daļu ievieto <code class="language-python">app.py</code>, bet HTML daļu ievieto <code class="language-html">templates/index.html</code>.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Izveido</b> failu <code>spele.py</code> ar klasi <code class="language-python">class Spele:</code>.</li>
+            <li><b>Pievieno</b> klases atribūtu ar visām 8 uzvaras kombinācijām.</li>
+            <li><b>Uzraksti</b> <code class="language-python">__init__</code> ar laukumu un pašreizējo spēlētāju.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-python">gajiens(self, p)</code>, kas neļauj spēlēt aizņemtā rūtiņā.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-python">uzvaretajs(self)</code>.</li>
+            <li><b>Pārbaudi</b> klasi terminālī, izspēlējot vienu partiju bez pārlūka.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> terminālī var izspēlēt pilnu partiju, un uzvaru metode atrod pareizo uzvarētāju.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu projekta daļu.</p>
+        <h3>2. uzdevums - Pievieno API gājieniem un stāvoklim</h3>
+        <p>Beigās spēles stāvoklis dzīvos uz servera, nevis pārlūkā.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu vietu projektā: datu apstrādi, skatu, formu, API maršrutu, validāciju vai rezultāta izvadi.</li>
-            <li><b>Nosauc</b> funkcijas, mainīgos un failus pēc to lomas, piemēram, <code>apstrada_gajienu()</code>, <code>rezultats</code> vai <code>routes.py</code>.</li>
-            <li><b>Uzraksti</b> funkciju vai maršrutu, kas nolasa datus, apstrādā tos un atgriež rezultātu.</li>
-            <li><b>Savieno</b> šo kodu ar HTML formu, pogu, saiti, API pieprasījumu vai redzamu izvades vietu.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās apstrādes vietas.</li>
-            <li><b>Pārbaudi</b>, ka esošā projekta daļa joprojām darbojas.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms paplašini risinājumu.</li>
-            <li><b>Veic</b> Git commit ar īsu ziņu par pievienoto funkcionalitāti.</li>
+            <li><b>Izveido</b> Flask maršrutu <code>GET /api/spele</code>, kas atgriež laukumu un gājiena kārtu.</li>
+            <li><b>Izveido</b> maršrutu <code>POST /api/gajiens</code>, kas pieņem rūtiņas numuru.</li>
+            <li><b>Pārbaudi</b> serverī, vai gājiens ir atļauts, un atgriez 400, ja nav.</li>
+            <li><b>Atgriez</b> pēc katra gājiena jauno spēles stāvokli.</li>
+            <li><b>Izmēģini</b> abus maršrutus ar <code>curl</code>.</li>
+            <li><b>Mēģini</b> spēlēt jau aizņemtā rūtiņā un pārbaudi atbildi.</li>
+            <li><b>Pieraksti</b>, kāpēc uzvaras pārbaude ir serverī, nevis JavaScript.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> serveris noraida gājienu aizņemtā rūtiņā ar kodu 400 un atgriež pareizu stāvokli.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē kodu un izdari secinājumu</h3>
-        <p>Pārbaudi, vai algoritms darbojas paredzami ar dažādiem datiem.</p>
+        <h3>3. uzdevums - Savieno pārlūku un izvieto mākonī</h3>
+        <p>Beigās divi cilvēki varēs spēlēt no dažādiem datoriem.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu ievadi, robežgadījumu un kļūdainu vai tukšu ievadi.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu pārlūkā, terminālī vai API atbildē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko vai tukšāko vērtību, ko šis kods var saņemt.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai lietotājs saņem saprotamu atbildi.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu Python kodā, HTML sasaistē vai datu validācijā.</li>
-            <li><b>Pārbaudi</b> labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura koda daļa vislabāk palīdzēja saprast tēmu <b>12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</b>.</li>
+            <li><b>Izveido</b> <code>index.html</code> ar 9 pogām.</li>
+            <li><b>Izsauc</b> <code>POST /api/gajiens</code>, kad kāda poga nospiesta.</li>
+            <li><b>Atjauno</b> laukumu no atbildes pēc katra gājiena.</li>
+            <li><b>Pievieno</b> automātisku atjaunošanu ik pēc dažām sekundēm.</li>
+            <li><b>Izvieto</b> projektu Render pēc 12.5 stundas soļiem.</li>
+            <li><b>Atver</b> spēli divās ierīcēs un izspēlē vienu partiju.</li>
+            <li><b>Veic</b> commit, push un iesniedz skolotājam publisko saiti.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> divi spēlētāji no dažādām ierīcēm redz vienu un to pašu laukumu un var izspēlēt partiju.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu funkciju</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini projektu ar vienu nelielu programmētu uzlabojumu.</p>
+        <h3>Papildu uzdevums - Saglabā partijas datubāzē</h3>
+        <p>Ja pamatdarbs ir gatavs, savieno projektu ar 10. tēmas datubāzi.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu ievades lauku, API atbildi, validāciju, datu elementu vai redzamu rezultātu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo projektu.</li>
-            <li><b>Pārbaudi</b>, ka pamatfunkcija un papildinājums darbojas kopā.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Izveido</b> tabulu partiju rezultātiem.</li>
+            <li><b>Saglabā</b> katras pabeigtās partijas uzvarētāju un datumu.</li>
+            <li><b>Izveido</b> maršrutu <code>GET /api/statistika</code>.</li>
+            <li><b>Parādi</b> lapā, cik reižu uzvarējis X un cik O.</li>
+            <li><b>Pārbaudi</b>, ka statistika saglabājas pēc servera restarta.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc servera restarta statistika joprojām rāda visas iepriekšējās partijas.</p>
     </div>
 </section>
 <section class='section'>
