@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - uzraksti .hpp un .cpp failu pāri · 2. uzdevums (~25 min) - reģistrē klasi un nokompilē · 3. uzdevums (~20 min) - pievieno mainīgo un izdrukā to Godot · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu projektu ar sagatavoto godot-cpp no 1.3 stundas. Atceries no Python: <code>print()</code> izdrukā tekstu. C++ Godot vidē to dara <code>UtilityFunctions::print()</code>.</p>
     </div>
 </section>
 
@@ -132,81 +133,72 @@ public:
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>1.4 Pirmais C++ skripts: mainīgie un izvade</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">// hello.hpp
-#pragma once
-#include &lt;godot_cpp/classes/node.hpp&gt;
-#include &lt;godot_cpp/variant/string.hpp&gt;
-
-namespace godot {
-
-class Hello : public Node {
-    GDCLASS(Hello, Node)
-
-private:
-    int counter = 0;
-    String player_name = "Pong Player";
-
-protected:
-    static void _bind_methods();
-
-public:
-    Hello();
-    ~Hello();
-    void _ready() override;
-    void say_hello();
-};
-
-}  // namespace godot</code></pre>
+        <h3>1. uzdevums - Uzraksti .hpp un .cpp failu pāri</h3>
+        <p>Beigās tev būs pirmā C++ klase, kas var kļūt par Godot mezglu.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Izveido</b> mapē <code>gdext/src</code> failu <code>hello.hpp</code>.</li>
+            <li><b>Ieraksti</b> tajā <code class="language-cpp">#pragma once</code> un iekļauj <code class="language-cpp">&lt;godot_cpp/classes/node.hpp&gt;</code>.</li>
+            <li><b>Uzraksti</b> klasi <code class="language-cpp">class Hello : public Node {</code> ar makro <code class="language-cpp">GDCLASS(Hello, Node)</code>.</li>
+            <li><b>Pieteic</b> header failā metodi <code class="language-cpp">void say_hello();</code>.</li>
+            <li><b>Izveido</b> otru failu <code>hello.cpp</code> un iekļauj tajā <code>hello.hpp</code>.</li>
+            <li><b>Uzraksti</b> tur metodes ķermeni, kas izsauc <code class="language-cpp">UtilityFunctions::print("Sveiks no C++!");</code>.</li>
+            <li><b>Pieraksti</b>, ar ko header fails atšķiras no implementācijas faila.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> abos failos ir viena un tā pati metode <code>say_hello</code>, un tu vari pateikt, kurš fails pasaka <i>kas</i>, bet kurš <i>ko dara</i>.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
+        <h3>2. uzdevums - Reģistrē klasi un nokompilē</h3>
+        <p>Beigās tava C++ klase parādīsies Godot editorā kā jauns mezgla tips.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
+            <li><b>Atver</b> failu <code>register_types.cpp</code>.</li>
+            <li><b>Iekļauj</b> tajā <code>hello.hpp</code>.</li>
+            <li><b>Pievieno</b> inicializācijas funkcijā rindu <code class="language-cpp">ClassDB::register_class&lt;Hello&gt;();</code>.</li>
+            <li><b>Uzraksti</b> klasē <code>Hello</code> tukšu metodi <code class="language-cpp">void Hello::_bind_methods() {}</code>.</li>
+            <li><b>Izpildi</b> mapē <code>gdext</code> komandu <code class="language-bash">scons platform=windows</code>.</li>
+            <li><b>Atver</b> Godot un pievieno scēnai jaunu mezglu, meklējot <code>Hello</code>.</li>
+            <li><b>Pieraksti</b>, kas notiek, ja reģistrācijas rindu izdzēš un kompilē vēlreiz.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> Godot mezglu meklētājā parādās tips <code>Hello</code>, un bez reģistrācijas rindas tas pazūd.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
+        <h3>3. uzdevums - Pievieno mainīgo un izdrukā to Godot</h3>
+        <p>Beigās tava klase izdrukās tekstu Output panelī, kad palaidīsi spēli.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>1.4 Pirmais C++ skripts: mainīgie un izvade</b>.</li>
+            <li><b>Pievieno</b> header failā privātu lauku <code class="language-cpp">int counter;</code>.</li>
+            <li><b>Pievieno</b> arī lauku <code class="language-cpp">String player_name;</code>.</li>
+            <li><b>Uzraksti</b> konstruktoru, kas iestata <code>counter = 0</code> un <code>player_name = "Pong Player"</code>.</li>
+            <li><b>Pieteic</b> metodi <code class="language-cpp">void _ready() override;</code> un izdrukā tajā abus laukus.</li>
+            <li><b>Kompilē</b> ar <code>scons</code> un palaid spēli ar <code>F5</code>.</li>
+            <li><b>Paskaties</b> cilnē <b>Output</b> un pieraksti izdrukāto tekstu.</li>
+            <li><b>Nomaini</b> <code>player_name</code> vērtību, kompilē vēlreiz un pārbaudi izmaiņu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> palaižot spēli, Output panelī parādās tavs teksts ar spēlētāja vārdu un skaitli 0.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
+        <h3>Papildu uzdevums - Salīdzini ar Python</h3>
+        <p>Ja pamatdarbs ir gatavs, pieraksti, ar ko C++ atšķiras no jau zināmā.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Uzraksti</b> burtnīcā tabulu ar divām kolonnām: Python un C++.</li>
+            <li><b>Ieraksti</b> tajā, kā abās valodās izdrukā tekstu.</li>
+            <li><b>Ieraksti</b>, kā abās valodās pieteic mainīgo ar veselu skaitli.</li>
+            <li><b>Ieraksti</b>, kas C++ ir obligāts katras komandas beigās.</li>
+            <li><b>Pieraksti</b> vienu lietu, kas C++ ir jādara, bet Python nav.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> tabulā ir vismaz trīs rindas, un tu vari nosaukt vienu C++ prasību, kuras Python nav.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tev ir uzrakstīta pirmā C++ klase <code>Hello</code>, kas ir reģistrēta, nokompilēta, pievienota Godot scēnai un palaižot spēli izdrukā tekstu Output panelī.</p>
+        <p><b>Iesniedzamais:</b></p>
+        <ol class="step-list">
+            <li>Faili <code>hello.hpp</code> un <code>hello.cpp</code> tavā GitHub krātuvē.</li>
+            <li>Ekrānuzņēmums ar Godot <b>Output</b> paneli, kurā redzama tava izdruka.</li>
+            <li>Viens teikums burtnīcā: kāpēc bez <code>ClassDB::register_class</code> klase editorā neparādās.</li>
+        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā.</p>
     </div>
 </section>
 <section class='section'>

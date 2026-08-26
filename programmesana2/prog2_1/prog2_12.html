@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido pirmo scēnu ar trim mezgliem · 2. uzdevums (~25 min) - saliec Pong laukuma koku · 3. uzdevums (~20 min) - saglabā paddle kā atsevišķu scēnu · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu Pong projektu no 1.1 stundas. Šodien vēl nerakstīsi kodu - tikai saliksi objektu koku, uz kuru vēlāk atsauksies C++ kods.</p>
     </div>
 </section>
 
@@ -129,70 +130,72 @@ void Main::_ready() {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>1.2 Scene Tree un Node sistēma</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/classes/character_body2d.hpp&gt;
-#include &lt;godot_cpp/classes/node2d.hpp&gt;
-#include &lt;godot_cpp/variant/utility_functions.hpp&gt;
-
-using namespace godot;
-
-void Main::_ready() {
-    CharacterBody2D *left = get_node&lt;CharacterBody2D&gt;("PaddleLeft");
-    CharacterBody2D *right = get_node&lt;CharacterBody2D&gt;("PaddleRight");
-    Node2D *ball = get_node&lt;Node2D&gt;("Ball");
-
-    UtilityFunctions::print("Scene ready: ", left-&gt;get_name(), ", ",
-                            right-&gt;get_name(), ", ", ball-&gt;get_name());
-}</code></pre>
+        <h3>1. uzdevums - Izveido pirmo scēnu ar trim mezgliem</h3>
+        <p>Beigās tev būs scēna ar vecāku mezglu un diviem bērniem.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Nospied</b> Scene panelī <b>+ Other Node</b>.</li>
+            <li><b>Izvēlies</b> tipu <code>Node2D</code> un pārsauc to par <code>Main</code>.</li>
+            <li><b>Nospied</b> uz <code>Main</code> ar labo pogu un izvēlies <b>Add Child Node</b>.</li>
+            <li><b>Pievieno</b> bērnu <code>Sprite2D</code> un pārsauc to par <code>Bumba</code>.</li>
+            <li><b>Pievieno</b> vēl vienu bērnu <code>Label</code> un pārsauc to par <code>Punkti</code>.</li>
+            <li><b>Saglabā</b> scēnu ar <code>Ctrl+S</code> kā <code>main.tscn</code>.</li>
+            <li><b>Pārbaudi</b>, ka Scene panelī <code>Bumba</code> un <code>Punkti</code> ir nobīdīti pa labi zem <code>Main</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> Scene panelī ir koks ar <code>Main</code> augšā un diviem bērniem zem tā, un fails <code>main.tscn</code> ir saglabāts.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
+        <h3>2. uzdevums - Saliec Pong laukuma koku</h3>
+        <p>Beigās tavā scēnā būs visi Pong objekti ar saprotamiem nosaukumiem.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
+            <li><b>Pievieno</b> zem <code>Main</code> mezglu <code>CharacterBody2D</code> un pārsauc to par <code>PaddleLeft</code>.</li>
+            <li><b>Pievieno</b> otru <code>CharacterBody2D</code> un pārsauc to par <code>PaddleRight</code>.</li>
+            <li><b>Pievieno</b> katram paddle bērnu <code>CollisionShape2D</code>.</li>
+            <li><b>Izvēlies</b> Inspector panelī <code>Shape</code> -&gt; <b>New RectangleShape2D</b>.</li>
+            <li><b>Pievieno</b> katram paddle arī bērnu <code>ColorRect</code>, lai to redzētu.</li>
+            <li><b>Pārbaudi</b>, ka neviens mezgls nesaucas <code>Node2D2</code> vai <code>Sprite2D3</code>.</li>
+            <li><b>Saglabā</b> scēnu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> Scene kokā katram mezglam ir nosaukums, no kura var saprast, kas tas ir, un abiem paddle ir sadursmes forma.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
+        <h3>3. uzdevums - Saglabā paddle kā atsevišķu scēnu</h3>
+        <p>Beigās vienu paddle varēsi lietot atkārtoti, nekopējot mezglus.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>1.2 Scene Tree un Node sistēma</b>.</li>
+            <li><b>Nospied</b> uz <code>PaddleLeft</code> ar labo pogu.</li>
+            <li><b>Izvēlies</b> <b>Save Branch as Scene</b> un saglabā kā <code>paddle.tscn</code>.</li>
+            <li><b>Ievēro</b>, ka mezgla ikonai tagad ir maza filmiņas zīme - tā ir atsevišķa scēna.</li>
+            <li><b>Izdzēs</b> <code>PaddleRight</code> no koka.</li>
+            <li><b>Ievelc</b> <code>paddle.tscn</code> no FileSystem paneļa uz <code>Main</code> un pārsauc to par <code>PaddleRight</code>.</li>
+            <li><b>Atver</b> <code>paddle.tscn</code>, nomaini krāsu un saglabā.</li>
+            <li><b>Atgriezies</b> uz <code>main.tscn</code> un pārbaudi abus paddle.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> nomainot krāsu vienā <code>paddle.tscn</code> failā, tā mainās abiem paddle uzreiz.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
+        <h3>Papildu uzdevums - Sakārto koku pēc atbildības</h3>
+        <p>Ja pamatdarbs ir gatavs, sadali scēnu loģiskās grupās.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Pievieno</b> zem <code>Main</code> tukšu <code>Node2D</code> ar nosaukumu <code>Speles</code>.</li>
+            <li><b>Pievieno</b> otru tukšu <code>Node2D</code> ar nosaukumu <code>UI</code>.</li>
+            <li><b>Pārvelc</b> abus paddle un bumbu zem <code>Speles</code>.</li>
+            <li><b>Pārvelc</b> <code>Punkti</code> zem <code>UI</code>.</li>
+            <li><b>Pieraksti</b>, kāpēc šāds dalījums vēlāk atvieglos koda rakstīšanu.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> koks ir sadalīts divās grupās, un zem <code>Main</code> ir tikai divi tiešie bērni.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tev ir saglabāta Pong scēna <code>main.tscn</code>, kurā objekti sakārtoti saprotamā Node kokā, un viens paddle ir izveidots kā atkārtoti lietojama scēna <code>paddle.tscn</code>.</p>
+        <p><b>Iesniedzamais:</b></p>
+        <ol class="step-list">
+            <li>Ekrānuzņēmums ar Scene paneli, kurā redzams viss tavs mezglu koks ar nosaukumiem.</li>
+            <li>Faili <code>main.tscn</code> un <code>paddle.tscn</code> tavā GitHub krātuvē (veic commit un push).</li>
+            <li>Viens teikums burtnīcā: ar ko scēna atšķiras no mezgla.</li>
+        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā.</p>
     </div>
 </section>
 <section class='section'>

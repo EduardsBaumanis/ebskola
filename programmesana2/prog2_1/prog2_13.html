@@ -84,7 +84,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - uzstādi kompilatoru un SCons · 2. uzdevums (~25 min) - lejupielādē godot-cpp un nokompilē to · 3. uzdevums (~20 min) - pieslēdz bibliotēku Godot projektam · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> šī ir tehniski grūtākā stunda tēmā. Neuztraucies, ja kompilēšana aizņem ilgi - tas ir normāli. Ja kāds solis neizdodas, pieraksti precīzu kļūdas tekstu un ej tālāk pie skolotāja.</p>
     </div>
 </section>
 
@@ -127,68 +128,72 @@ void initialize_pong_module(ModuleInitializationLevel level) {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>1.3 C++ un GDExtension sagatavošana</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/core/class_db.hpp&gt;
-#include "hello.hpp"
-
-using namespace godot;
-
-void initialize_pong_module(ModuleInitializationLevel level) {
-    if (level != MODULE_INITIALIZATION_LEVEL_SCENE) {
-        return;
-    }
-
-    ClassDB::register_class&lt;Hello&gt;();
-}</code></pre>
+        <h3>1. uzdevums - Uzstādi kompilatoru un SCons</h3>
+        <p>Beigās tavs dators pratīs pārvērst C++ tekstu par programmu.</p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li><b>Uzstādi</b> kompilatoru: Windows - <b>Visual Studio Build Tools</b> ar C++ darbarīkiem; Linux - <code class="language-bash">sudo apt install build-essential</code>; macOS - <code class="language-bash">xcode-select --install</code>.</li>
+            <li><b>Pārbaudi</b> terminālī <code class="language-bash">python --version</code> - vajadzīga Python 3.</li>
+            <li><b>Izpildi</b> <code class="language-bash">pip install scons</code>.</li>
+            <li><b>Izpildi</b> <code class="language-bash">scons --version</code> un pieraksti versijas numuru.</li>
+            <li><b>Aizver</b> termināli un atver no jauna, ja komanda netiek atpazīta.</li>
+            <li><b>Pieraksti</b> burtnīcā, kuru kompilatoru uzstādīji.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> komanda <code>scons --version</code> atbild ar versijas numuru, nevis ar kļūdu par neatpazītu komandu.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
+        <h3>2. uzdevums - Lejupielādē godot-cpp un nokompilē to</h3>
+        <p>Beigās tev būs sagatavota bibliotēka, ar kuru C++ var runāt ar Godot.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
+            <li><b>Izveido</b> projekta mapē apakšmapi <code>gdext</code>.</li>
+            <li><b>Izpildi</b> tajā <code class="language-bash">git clone -b 4.2 https://github.com/godotengine/godot-cpp</code>.</li>
+            <li><b>Ieej</b> mapē ar <code class="language-bash">cd godot-cpp</code>.</li>
+            <li><b>Izpildi</b> <code class="language-bash">scons platform=windows</code> (vai <code>linux</code>, vai <code>macos</code>).</li>
+            <li><b>Pagaidi</b> - pirmā kompilēšana var aizņemt 10-20 minūtes. Šajā laikā izlasi teoriju vēlreiz.</li>
+            <li><b>Pārbaudi</b>, ka mapē <code>godot-cpp/bin</code> parādījās fails ar paplašinājumu <code>.a</code> vai <code>.lib</code>.</li>
+            <li><b>Pieraksti</b>, cik ilgi kompilēšana aizņēma.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> mapē <code>godot-cpp/bin</code> ir jauns bibliotēkas fails, un terminālis beigās raksta <code>scons: done building targets</code>.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
+        <h3>3. uzdevums - Pieslēdz bibliotēku Godot projektam</h3>
+        <p>Beigās Godot zinās, kur meklēt tavu C++ kodu.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>1.3 C++ un GDExtension sagatavošana</b>.</li>
+            <li><b>Izveido</b> projekta mapē failu <code>pong.gdextension</code>.</li>
+            <li><b>Ieraksti</b> tajā sadaļu <code>[configuration]</code> ar rindu <code>entry_symbol = "pong_library_init"</code>.</li>
+            <li><b>Pievieno</b> sadaļu <code>[libraries]</code> ar ceļu uz savas platformas bibliotēkas failu.</li>
+            <li><b>Saglabā</b> failu un aizver Godot editoru pilnībā.</li>
+            <li><b>Atver</b> projektu no jauna un paskaties cilnē <b>Output</b>.</li>
+            <li><b>Pieraksti</b>, vai tur parādījās kļūdas ziņojums par bibliotēku.</li>
+            <li><b>Pievieno</b> <code>.gitignore</code> failam rindas <code>gdext/godot-cpp/</code> un <code>*.obj</code>.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> Godot atveras bez kļūdas par trūkstošu bibliotēku, un mape <code>godot-cpp</code> nenonāk GitHub.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
+        <h3>Papildu uzdevums - Saprot, ko dara katrs solis</h3>
+        <p>Ja pamatdarbs ir gatavs, pieraksti sev atgādni turpmākajām reizēm.</p>
         <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
+            <li><b>Uzraksti</b> failu <code>BUILD.md</code> projekta mapē.</li>
+            <li><b>Pieraksti</b> tajā trīs komandas, ko šodien izpildīji, pareizā secībā.</li>
+            <li><b>Pieraksti</b> katrai vienu teikumu, ko tā dara.</li>
+            <li><b>Pieraksti</b> vienu kļūdu, ar ko saskāries, un kā to atrisināji.</li>
+            <li><b>Veic</b> commit un push.</li>
         </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc <code>BUILD.md</code> instrukcijas klasesbiedrs varētu atkārtot uzstādīšanu bez tavas palīdzības.</p>
+    </div>
+</section>
+
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavā datorā ir uzstādīts C++ kompilators un SCons, nokompilēta godot-cpp bibliotēka, un Godot projekts atveras bez kļūdas par trūkstošu GDExtension bibliotēku.</p>
+        <p><b>Iesniedzamais:</b></p>
+        <ol class="step-list">
+            <li>Ekrānuzņēmums ar termināli, kurā redzams <code>scons: done building targets</code>.</li>
+            <li>Ekrānuzņēmums ar Godot cilni <b>Output</b> pēc projekta atvēršanas.</li>
+            <li>Fails <code>pong.gdextension</code> tavā GitHub krātuvē.</li>
+            <li>Ja kaut kas neizdevās - precīzs kļūdas teksts, nokopēts no termināļa.</li>
+        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumus. Ja uzstādīšana neizdevās, obligāti iesniedz kļūdas tekstu - to risināsim nākamās stundas sākumā.</p>
     </div>
 </section>
 <section class='section'>

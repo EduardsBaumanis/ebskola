@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - novieto objektus pēc koordinātēm · 2. uzdevums (~25 min) - pievieno sienas un vidus līniju · 3. uzdevums (~20 min) - pievieno punktu skaitītāju un kameru · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu <code>main.tscn</code>. Atceries galveno: Godot koordinātes sākas kreisajā AUGŠĒJĀ stūrī, un Y pieaug uz LEJU, nevis uz augšu kā matemātikā.</p>
     </div>
 </section>
 
@@ -113,65 +114,73 @@ void GameHud::set_score(int left, int right) {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>1.5 Spēles laukuma izveide</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/classes/label.hpp&gt;
-#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Novieto objektus pēc koordinātēm</h3>
+        <p>Beigās abi paddle stāvēs precīzi laukuma malās, nevis nejaušās vietās.</p>
+        <ol class="step-list">
+            <li><b>Izvēlies</b> <code>PaddleLeft</code> un atver Inspector paneli.</li>
+            <li><b>Ieraksti</b> <code>Transform -&gt; Position</code> vērtības <code>x = 60</code>, <code>y = 360</code>.</li>
+            <li><b>Ieraksti</b> <code>PaddleRight</code> pozīciju <code>x = 1220</code>, <code>y = 360</code>.</li>
+            <li><b>Novieto</b> bumbu pašā centrā: <code>x = 640</code>, <code>y = 360</code>.</li>
+            <li><b>Palaid</b> spēli ar <code>F5</code> un pārbaudi, vai visi trīs objekti ir redzami.</li>
+            <li><b>Nomaini</b> viena paddle <code>y</code> uz <code>0</code> un palaid vēlreiz.</li>
+            <li><b>Pieraksti</b>, uz kuru pusi objekts pārvietojās, un ieliec vērtību atpakaļ.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> abi paddle ir pretējās malās vienā augstumā, un tu vari pateikt, ka <code>y = 0</code> ir ekrāna augšā.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Pievieno sienas un vidus līniju</h3>
+        <p>Beigās bumbai būs no kā atlēkt, un laukums izskatīsies kā īsts Pong.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> <code>StaticBody2D</code> ar nosaukumu <code>SienaAugsa</code>.</li>
+            <li><b>Pievieno</b> tai bērnu <code>CollisionShape2D</code> ar <code>RectangleShape2D</code> formu.</li>
+            <li><b>Iestati</b> formas platumu <code>1280</code> un augstumu <code>20</code>, pozīciju <code>x = 640</code>, <code>y = 10</code>.</li>
+            <li><b>Izveido</b> tāpat <code>SienaApaksa</code> ar pozīciju <code>y = 710</code>.</li>
+            <li><b>Pievieno</b> <code>Line2D</code> ar nosaukumu <code>VidusLinija</code>.</li>
+            <li><b>Ieraksti</b> tās punktus: <code>(640, 0)</code> un <code>(640, 720)</code>.</li>
+            <li><b>Palaid</b> spēli un pārbaudi, ka līnija sadala laukumu uz pusēm.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ekrānā ir divas sienas ar sadursmes formām un līnija tieši pa vidu.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Pievieno punktu skaitītāju un kameru</h3>
+        <p>Beigās laukumā būs vieta, kur vēlāk parādīsies rezultāts.</p>
+        <ol class="step-list">
+            <li><b>Izvēlies</b> mezglu <code>Punkti</code> un iestati tā tekstu uz <code>0 : 0</code>.</li>
+            <li><b>Novieto</b> to pozīcijā <code>x = 600</code>, <code>y = 40</code>.</li>
+            <li><b>Palielini</b> fonta izmēru Inspector sadaļā <code>Theme Overrides -&gt; Font Sizes</code>.</li>
+            <li><b>Pievieno</b> zem <code>Main</code> mezglu <code>Camera2D</code>.</li>
+            <li><b>Iestati</b> kameras pozīciju <code>x = 640</code>, <code>y = 360</code>.</li>
+            <li><b>Palaid</b> spēli un pārbaudi, ka viss laukums ietilpst ekrānā.</li>
+            <li><b>Saglabā</b> scēnu un veic commit.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> palaižot spēli, redzams viss laukums ar sienām, līniju un rezultātu <code>0 : 0</code> augšā.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Izrēķini pozīcijas pats</h3>
+        <p>Ja pamatdarbs ir gatavs, pārbaudi, vai proti strādāt ar koordinātēm.</p>
+        <ol class="step-list">
+            <li><b>Izrēķini</b>, kāda būtu centra pozīcija logā <code>1920 x 1080</code>.</li>
+            <li><b>Pieraksti</b> atbildi burtnīcā pirms pārbaudes.</li>
+            <li><b>Nomaini</b> projekta loga izmēru uz <code>1920 x 1080</code>.</li>
+            <li><b>Pārvieto</b> bumbu uz savu izrēķināto pozīciju un palaid.</li>
+            <li><b>Atgriez</b> loga izmēru atpakaļ uz <code>1280 x 720</code>.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> tava izrēķinātā centra pozīcija bija pareiza, un bumba tiešām bija ekrāna vidū.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-void GameHud::set_score(int left, int right) {
-    get_node&lt;Label&gt;("ScoreLeft")-&gt;set_text(String::num_int64(left));
-    get_node&lt;Label&gt;("ScoreRight")-&gt;set_text(String::num_int64(right));
-}</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavā <code>main.tscn</code> scēnā ir gatavs Pong laukums: abi paddle malās, bumba centrā, divas sienas ar sadursmes formām, vidus līnija, rezultāta uzraksts un kamera.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Ekrānuzņēmums ar palaistu spēli, kurā redzams viss laukums.</li>
+            <li>Ekrānuzņēmums ar Scene paneli, kurā redzams pilns mezglu koks.</li>
+            <li>Fails <code>main.tscn</code> tavā GitHub krātuvē.</li>
+            <li>Burtnīcā: kāda ir laukuma centra pozīcija un kā tu to izrēķināji.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>1.5 Spēles laukuma izveide</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un abus ekrānuzņēmumus skolotāja norādītajā vietā.</p>
     </div>
 </section>
 <section class='section'>
