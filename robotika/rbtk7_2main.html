@@ -366,141 +366,147 @@
   </section>
 
   <!-- Cheatsheet -->
-  <section id="cheatsheet">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> apkopojums</div>
-          <h2 class="sec-title">Arduino C++ - ātrā uzziņa</h2>
-          <p class="sec-sub">Galvenās funkcijas un to atšķirības - svarīgākā terminoloģija tēmas laikā.</p>
-        </div>
-      </div>
+  <section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">2. tēmas špikeris - Arduino un elektronika</h2>
+    <p class="sec-sub">Shēmas, LED, pogas, analogie signāli un servo. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
+  <div class="logic-box">
+    <h3>2.1 Pirmā shēma un Blink</h3>
+    <pre><code class="language-cpp">// Kods un shēma ir VIENA UN TĀ PATI vieta:
+//   kodā: 13  <---->  shēmā: Arduino pins ar numuru 13
+//                     |
+//                     +-- rezistors 220 omi
+//                     |
+//                     +-- LED gara kaja (Anods, +)
+//                         LED isa kaja (Katods, -) --> GND
 
-      <table>
-        <thead>
-          <tr>
-            <th>Kategorija</th>
-            <th>Komanda / jēdziens</th>
-            <th>Paskaidrojums</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Struktūra</strong></td>
-            <td><code>void setup()</code></td>
-            <td>Izpildās vienu reizi - sākotnējā konfigurācija</td>
-          </tr>
-          <tr>
-            <td><strong>Struktūra</strong></td>
-            <td><code>void loop()</code></td>
-            <td>Izpildās bezgalīgi - galvenā programmas cilpa</td>
-          </tr>
-          <tr>
-            <td><strong>Digitāls</strong></td>
-            <td><code>pinMode(pin, OUTPUT)</code></td>
-            <td>Iestata pinu kā izvades vai ievades pinu</td>
-          </tr>
-          <tr>
-            <td><strong>Digitāls</strong></td>
-            <td><code>digitalWrite(pin, HIGH)</code></td>
-            <td>Iestata digitālo pinu uz 5V (<code>HIGH</code>) vai 0V (<code>LOW</code>)</td>
-          </tr>
-          <tr>
-            <td><strong>Digitāls</strong></td>
-            <td><code>digitalRead(pin)</code></td>
-            <td>Nolasa ievades pina stāvokli - <code>HIGH</code> vai <code>LOW</code></td>
-          </tr>
-          <tr>
-            <td><strong>Analogs</strong></td>
-            <td><code>analogRead(pin)</code></td>
-            <td>Nolasa analogo vērtību - skaitlis no 0 līdz 1023</td>
-          </tr>
-          <tr>
-            <td><strong>Analogs</strong></td>
-            <td><code>analogWrite(pin, 0-255)</code></td>
-            <td>PWM signāls - regulē spilgtumu vai ātrumu</td>
-          </tr>
-          <tr>
-            <td><strong>Serial</strong></td>
-            <td><code>Serial.begin(9600)</code></td>
-            <td>Atver Serial Monitor savienojumu ar 9600 baud</td>
-          </tr>
-          <tr>
-            <td><strong>Serial</strong></td>
-            <td><code>Serial.print()</code> / <code>println()</code></td>
-            <td>Izvada datus Serial Monitorā - ar vai bez pārneses</td>
-          </tr>
-          <tr>
-            <td><strong>Laiks</strong></td>
-            <td><code>delay(ms)</code></td>
-            <td>Bloķē izpildi uz <em>ms</em> milisekundēm - programma nereaģē</td>
-          </tr>
-          <tr>
-            <td><strong>Laiks</strong></td>
-            <td><code>millis()</code></td>
-            <td>Atgriež ms kopš ieslēgšanas - nebloķē, izmanto reakcijas mērīšanai</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div style="margin-top:32px;">
-        <div class="example-caption">Piemērs: reakcijas spēles skelets ar millis()</div>
-        <div class="editor compact" aria-hidden="true">
-          <div class="titlebar">
-            <span class="dots"><i></i><i></i><i></i></span>
-            <span class="crumb"><em>robots/</em>reaction.ino</span>
-          </div>
-          <div class="body">
-            <div class="gutter">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20</div>
-<div class="code"><span class="tok-kw">int</span> LED <span class="tok-op">=</span> <span class="tok-num">13</span>;
-<span class="tok-kw">int</span> POGA <span class="tok-op">=</span> <span class="tok-num">7</span>;
-<span class="tok-kw">long</span> sakums <span class="tok-op">=</span> <span class="tok-num">0</span>;
-<span class="tok-kw">bool</span> spele_aktiva <span class="tok-op">=</span> <span class="tok-kw">false</span>;
-
-<span class="tok-kw">void</span> <span class="tok-fn">setup</span>() {
-  <span class="tok-fn">pinMode</span>(LED, OUTPUT);
-  <span class="tok-fn">pinMode</span>(POGA, INPUT_PULLUP);
-  Serial.<span class="tok-fn">begin</span>(<span class="tok-num">9600</span>);
+void setup() {              // izpildās VIENU reizi
+  pinMode(13, OUTPUT);      // 13. pins dos strāvu ĀRĀ
 }
 
-<span class="tok-kw">void</span> <span class="tok-fn">loop</span>() {
-  <span class="tok-kw">if</span> (<span class="tok-op">!</span>spele_aktiva) {
-    <span class="tok-fn">delay</span>(<span class="tok-fn">random</span>(<span class="tok-num">1000</span>, <span class="tok-num">4000</span>));   <span class="tok-com">// nejauša pauze</span>
-    <span class="tok-fn">digitalWrite</span>(LED, HIGH);
-    sakums <span class="tok-op">=</span> <span class="tok-fn">millis</span>();            <span class="tok-com">// fiksē brīdi</span>
-    spele_aktiva <span class="tok-op">=</span> <span class="tok-kw">true</span>;
-  } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (<span class="tok-fn">digitalRead</span>(POGA) <span class="tok-op">==</span> LOW) {
-    Serial.<span class="tok-fn">println</span>(<span class="tok-str">"Laiks: "</span> <span class="tok-op">+</span> <span class="tok-fn">String</span>(<span class="tok-fn">millis</span>() <span class="tok-op">-</span> sakums) <span class="tok-op">+</span> <span class="tok-str">" ms"</span>);
-    <span class="tok-fn">digitalWrite</span>(LED, LOW); spele_aktiva <span class="tok-op">=</span> <span class="tok-kw">false</span>; }</div>
-          </div>
-          <div class="statusbar">
-            <span class="ok">● C++ · Arduino</span>
-            <span class="spacer"></span>
-            <span>Ln 20, Col 60</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+void loop() {               // atkārtojas BEZGALĪGI
+  digitalWrite(13, HIGH);   // ieslēdz
+  delay(1000);              // gaida 1000 ms = 1 s
+  digitalWrite(13, LOW);    // izslēdz
+  delay(1000);
+}
+
+// LED bez rezistora sadeg. Rezistors 220 omi, NEVIS kiloomi.
+// Katras komandas beigās semikols. digitalWrite - lielais W!</code></pre>
+    <p class="cheat-note">Ja diode nedeg: salīdzini skaitli kodā ar pinu, kurā tiešām iesprausts vads - tur ir 90% kļūdu.</p>
+  </div>
+  <div class="logic-box">
+    <h3>2.2 Pogas un if-else</h3>
+    <pre><code class="language-cpp">int buttonPin = 2;
+int ledPin = 13;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);   // BEZ PULLUP poga "lēkā" pati no sevis
+  Serial.begin(9600);
+}
+
+void loop() {
+  int stavoklis = digitalRead(buttonPin);
+  Serial.println(stavoklis);          // Serial Monitor: 1 vaļā, 0 nospiesta
+
+  if (stavoklis == LOW) {             // == , nevis = !
+    digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+  }
+}
+
+// Ar INPUT_PULLUP:  poga ATLAISTA = HIGH (1)
+//                   poga NOSPIESTA = LOW (0)   <- otrādi, nekā šķiet!
+// Pogu liec PĀRI maketo plates vidus gropītei, citādi būs īssavienojums.</code></pre>
+    <p class="cheat-note">Ar vienu <code>=</code> kods nesalīdzina, bet PIEŠĶIR vērtību - nosacījums vienmēr būs patiess.</p>
+  </div>
+  <div class="logic-box">
+    <h3>2.3 Analogie signāli un map()</h3>
+    <pre><code class="language-cpp">int potPin = A0;
+int ledPin = 9;        // OBLIGĀTI ports ar tildi ~ (3,5,6,9,10,11)
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  int sensors = analogRead(potPin);      // 0 .. 1023
+  int spilgtums = sensors / 4;           // 0 .. 255  (1023/4 = 255)
+
+  Serial.println(spilgtums);
+  analogWrite(ledPin, spilgtums);        // analogWrite, NE digitalWrite
+  delay(15);
+}
+
+// analogRead()  dod 0..1023   (ievade)
+// analogWrite() pieņem 0..255 (izvade) - TIKAI ~ portos
+// Potenciometrs: malējās kājas -> 5V un GND, VIDĒJĀ -> A0
+//   Ja vidējā kāja pieslēgta nepareizi, tas simulācijā "uzsprāgst".</code></pre>
+    <p class="cheat-note">Portā 13 spilgtums nemainīsies - tam nav tildes, tāpēc tas prot tikai ieslēgt un izslēgt.</p>
+  </div>
+  <div class="logic-box">
+    <h3>2.4 Servo motors un bibliotēka</h3>
+    <pre><code class="language-cpp">#include &lt;Servo.h&gt;      // bibliotēka - koda augšā
+
+Servo mansMotors;       // objekts
+int potPin = A0;
+
+void setup() {
+  mansMotors.attach(9);           // signāla vads 9. portā
+}
+
+void loop() {
+  int klokis = analogRead(potPin);              // 0..1023
+  int lenkis = map(klokis, 0, 1023, 0, 180);    // -> 0..180 grādi
+  mansMotors.write(lenkis);
+  delay(15);                      // bez šī motors "dreb"
+}
+
+// map(vertiba, no_min, no_max, uz_min, uz_max)
+//   map(512, 0, 1023, 0, 180) -> 90 grādi (tieši pa vidu)
+// Bez map() motors jau pie ceturtdaļas kloķa aizgriežas līdz galam.
+
+// Servo vadi: sarkans -> 5V , brūns/melns -> GND , dzeltens -> signāls
+// Mainīgo vārdos NEDRĪKST garumzīmes: klokis , NEVIS kloķis</code></pre>
+    <p class="cheat-note">C++ mainīgo nosaukumos nedrīkst lietot ā, ē, ķ, ņ - kompilators to nepieņem.</p>
+  </div>
+  <div class="logic-box">
+    <h3>2.5 Reakcijas spēle: millis() un false start</h3>
+    <pre><code class="language-cpp">const int LED = 9;              // const int liec VIRS setup(),
+const int POGA_START = 2;       // nevis iekšā - citādi loop() tos neredz
+const int POGA_REAGE = 3;
+
+// Grūtākā daļa: nejaušo pauzi NEDRĪKST taisīt ar delay(),
+// jo tajā laikā Arduino ir "kurls" un false start paliek nepamanīts.
+
+unsigned long pauze = random(1000, 4001);
+unsigned long sakums = millis();
+bool falseStart = false;
+
+while (millis() - sakums &lt; pauze) {          // gaida UN vēro pogu
+  if (digitalRead(POGA_REAGE) == LOW) {
+    Serial.println("FALSE START!");
+    falseStart = true;
+    break;
+  }
+}
+
+if (!falseStart) {
+  digitalWrite(LED, HIGH);
+  unsigned long t = millis();               // pulkstenis sākas TIEŠI te
+  while (digitalRead(POGA_REAGE) == HIGH) { }
+  Serial.print("Reakcija: ");
+  Serial.print(millis() - t);
+  Serial.println(" ms");
+}</code></pre>
+    <p class="cheat-note"><code>millis()</code> atgriež milisekundes kopš palaišanas. Laika starpību glabā <code>unsigned long</code>, nevis <code>int</code>.</p>
+  </div>
+</div></section>
 
   <!-- CTA strip -->
   <section class="cta-strip">

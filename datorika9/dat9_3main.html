@@ -371,110 +371,131 @@
 </section>
 
 <!-- Cheatsheet - PRESERVED from original dat9_3main.html -->
-<section id="cheatsheet">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-        <h2 class="sec-title">JavaScript špikeris</h2>
-        <p class="sec-sub">Mainīgie, datu ievade, loģika, masīvi, cikli un HTML manipulācija.</p>
-      </div>
-    </div>
+<section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">3. tēmas špikeris - JavaScript pamati</h2>
+    <p class="sec-sub">Mainīgie, datu tipi, sazarojumi, masīvi un cikli. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
+  <div class="logic-box">
+    <h3>3.1 Mainīgie un funkcijas</h3>
+    <pre><code class="language-javascript">// script.js - pieslēgts ar &lt;script src="script.js"&gt;&lt;/script&gt; pirms &lt;/body&gt;
 
-    <div class="logic-box">
-      <h3>1. Mainīgie un pamatdarbības</h3>
-      <div class="code-example">
-        <pre><code class="language-javascript">// Mainīgo definēšana un mainīšana
-let punkti = 0;
-const MAX_PUNKTI = 100;
+let punkti = 40;                          // vērtību var mainīt
+let dzivibas = 3;
+const SPELES_NOSAUKUMS = "Klases cīņa";   // const vairs mainīt NEDRĪKST
 
-punkti = punkti + 10;
-console.log("Tavi punkti: " + punkti);</code></pre>
-        <div class="result">
-          <b>let</b> – mainīgais, kura vērtību kodā vēlāk var mainīt.<br><br>
-          <b>const</b> – konstante, kuras vērtība paliek nemainīga.<br><br>
-          <b>console.log()</b> – izmanto kodu atkļūdošanai, izvadot datus pārlūka izstrādātāju slēptajā konsolē (F12).
-        </div>
-      </div>
-    </div>
+function atjaunotEkranu() {
+    document.getElementById("punkti").textContent = punkti;
+}
 
-    <div class="logic-box">
-      <h3>2. Datu ievade un funkcijas</h3>
-      <div class="code-example">
-        <pre><code class="language-javascript">// Funkcija, ko var piesaistīt HTML pogai
-function pievienotDatus() {
-    let ievade = prompt("Ievadi punktu daudzumu:");
-    let skaitlis = Number(ievade);
-    console.log(typeof skaitlis);
-}</code></pre>
-        <div class="result">
-          <b>prompt()</b> – atver dialoglodziņu lietotāja ievadei. Piezīme: rezultāts vienmēr ir teksta formātā (String).<br><br>
-          <b>Number()</b> – pārveido teksta datu tipu par skaitli, lai varētu veikt matemātiskas darbības.<br><br>
-          <b>function</b> – definē atkārtoti izmantojamu koda bloku, ko aktivizē ar <code>onclick</code> atribūtu HTML pogā.
-        </div>
-      </div>
-    </div>
+atjaunotEkranu();     // funkcija izpildās TIKAI kad to izsauc
 
-    <div class="logic-box">
-      <h3>3. Loģiskie operatori un sazarojumi</h3>
-      <div class="code-example">
-        <pre><code class="language-javascript">// Lēmumu pieņemšana kodā
-if (punkti >= MAX_PUNKTI) {
-    console.log("Līmenis pabeigts!");
-} else if (punkti > 50 && punkti < 100) {
-    console.log("Puse ir garām!");
-} else {
-    console.log("Turpini censties!");
-}</code></pre>
-        <div class="result">
-          <b>===</b> un <b>!==</b> – precīzi vienāds / nav vienāds.<br>
-          <b>&lt;</b> un <b>&gt;</b> – mazāks / lielāks.<br><br>
-          <b>&amp;&amp;</b> (loģiskais UN) – abiem nosacījumiem jāizpildās.<br>
-          <b>||</b> (loģiskais VAI) – vismaz vienam nosacījumam jāizpildās.<br><br>
-          <b>if / else if / else</b> – nosaka koda izpildi atkarībā no tā, vai nosacījums ir <i>true</i> vai <i>false</i>.
-        </div>
-      </div>
-    </div>
-
-    <div class="logic-box">
-      <h3>4. Masīvi (Datu strukturēšana)</h3>
-      <div class="code-example">
-        <pre><code class="language-javascript">// Masīva izveide un manipulācija
-let materiali = ["Marķieris", "Pieraksti"];
-
-materiali.push("Uzlīmes"); // Pievieno beigās
-materiali.pop();         // Izdzēš pēdējo
-
-console.log(materiali[0]); // Izvada: Marķieris
-console.log("Skaits: " + materiali.length);</code></pre>
-        <div class="result">
-          <b>Masīvs (Array)</b> – datu struktūra vairāku vērtību glabāšanai. Tiek definēts ar kvadrātiekavām <code class="language-javascript">[]</code>.<br><br>
-          <b>Indeksi</b> – elementu skaitīšana masīvā vienmēr sākas ar <b>0</b>.<br><br>
-          <b>.push()</b> / <b>.pop()</b> – pievieno vai dzēš elementu no masīva beigām.<br><br>
-          <b>.length</b> – atgriež kopējo masīva elementu skaitu.
-        </div>
-      </div>
-    </div>
-
-    <div class="logic-box">
-      <h3>5. Cikli un HTML manipulācija</h3>
-      <div class="code-example">
-        <pre><code class="language-javascript">// Automātiska HTML saraksta ģenerēšana
-let saraksts = document.getElementById("dati");
-saraksts.innerHTML = ""; // Iztukšo esošo saturu
-
-for (let i = 0; i < 3; i++) {
-    saraksts.innerHTML += "&lt;li&gt;Aplis " + i + "&lt;/li&gt;";
-}</code></pre>
-        <div class="result">
-          <b>for cikls</b> – atkārto koda bloku. Sastāv no 3 daļām: sākuma stāvokļa (<code class="language-javascript">let i = 0</code>), nosacījuma (<code class="language-javascript">i &lt; 3</code>) un soļa (<code class="language-javascript">i++</code>).<br><br>
-          <b>document.getElementById()</b> – atrod HTML elementu pēc tā ID.<br><br>
-          <b>innerHTML +=</b> – papildina HTML elementa saturu ar jaunā koda virkni, nepārrakstot visu iepriekšējo.
-        </div>
-      </div>
-    </div>
+// let    parasts mainīgais
+// const  nemainīga vērtība (const punkti = 0; punkti = 5; -> TypeError)
+// Katras komandas beigās semikols.
+// JavaScript atšķir lielos un mazos burtus: Punkti != punkti</code></pre>
+    <p class="cheat-note">Spēles datus definē <b>ārpus</b> funkcijām - citādi tie pazūd, tiklīdz funkcija beidzas.</p>
   </div>
-</section>
+  <div class="logic-box">
+    <h3>3.2 Datu tipi un ievade</h3>
+    <pre><code class="language-javascript">let punkti = 0;
+
+function pievienotPunktus() {
+    let ievade = prompt("Cik punktu pievienot?");  // prompt VIENMĒR atdod tekstu
+    let jauni = Number(ievade);                    // teksts "10" -> skaitlis 10
+
+    if (isNaN(jauni)) {                            // vai tiešām sanāca skaitlis?
+        alert("Lūdzu ievadi skaitli!");
+        return;
+    }
+
+    punkti = punkti + jauni;
+    document.getElementById("punkti").textContent = punkti;
+}
+
+// BEZ Number():   "10" + 5  ->  "105"   (teksti tiek salikti kopā)
+// AR Number():     10  + 5  ->   15
+
+// Datu tipi: string "teksts" , number 42 , boolean true/false
+typeof punkti      // "number"</code></pre>
+    <p class="cheat-note">Ja skaitļi sāk "salipt kopā" (<code>105</code> vietā <code>15</code>), tu esi aizmirsis <code>Number()</code>.</p>
+  </div>
+  <div class="logic-box">
+    <h3>3.3 Sazarojumi un loģiskie operatori</h3>
+    <pre><code class="language-javascript">let punkti = 150;
+let dzivibas = 0;
+
+function parbauditStavokli() {
+    let statuss = document.getElementById("statuss");
+
+    // SVARĪGI: vissvarīgākais nosacījums vienmēr ir PIRMAIS
+    if (dzivibas &lt;= 0) {
+        statuss.textContent = "Spēle beigusies!";
+    } else if (punkti &gt;= 100) {
+        statuss.textContent = "Lielisks rezultāts!";
+    } else {
+        statuss.textContent = "Turpini spēlēt";
+    }
+}
+
+// ===  vienāds (arī tips)      !==  nav vienāds
+// &amp;&amp;   UN (abiem jābūt)       ||   VAI (pietiek ar vienu)
+// !    NE (apgriež otrādi)
+
+if (punkti &gt;= 100 &amp;&amp; dzivibas &gt; 0) { /* abiem jābūt patiesiem */ }</code></pre>
+    <p class="cheat-note">JavaScript lieto <code>===</code>, nevis <code>==</code>. Ar vienu <code>=</code> tu piešķir vērtību, nevis salīdzini.</p>
+  </div>
+  <div class="logic-box">
+    <h3>3.4 Masīvi</h3>
+    <pre><code class="language-javascript">let inventars = ["marķieris", "plāns", "lapiņa"];
+
+inventars.length          // 3           cik elementu
+inventars[0]              // "marķieris" pirmais ir 0, nevis 1
+inventars[inventars.length - 1]          // pēdējais
+inventars.push("zīmulis") //             pievieno beigās
+inventars.pop()           //             izņem pēdējo
+inventars.includes("plāns")              // true / false
+
+function paraditInventaru() {
+    let vieta = document.getElementById("inventars-parads");
+
+    // Bez šī nosacījuma tukša soma lapā izskatītos kā pazudusi
+    if (inventars.length === 0) {
+        vieta.textContent = "Soma ir tukša";
+        return;
+    }
+    vieta.textContent = inventars.join(", ");
+}</code></pre>
+    <p class="cheat-note"><code>inventars[3]</code> trīs elementu masīvā dod <code>undefined</code> - nevis kļūdu. Tāpēc tā ir grūti pamanāma.</p>
+  </div>
+  <div class="logic-box">
+    <h3>3.5-3.6 Cikli un teksta spēle</h3>
+    <pre><code class="language-javascript">let inventars = ["marķieris", "plāns", "lapiņa"];
+
+function zimetSarakstu() {
+    let saraksts = document.getElementById("inventara-saraksts");
+
+    // Bez šīs rindas katrs izsaukums pieliktu sarakstu vēlreiz klāt
+    saraksts.innerHTML = "";
+
+    for (let i = 0; i &lt; inventars.length; i++) {
+        saraksts.innerHTML += "&lt;li&gt;" + inventars[i] + "&lt;/li&gt;";
+    }
+}
+
+// for cikls: sākums ; nosacījums ; solis
+for (let i = 0; i &lt; 5; i++) { }     // i = 0,1,2,3,4
+
+// Pār visiem masīva elementiem
+for (let lieta of inventars) { console.log(lieta); }
+
+// while - kamēr nosacījums ir patiess
+let dzivibas = 3;
+while (dzivibas &gt; 0) { dzivibas--; }   // bez dzivibas-- lapa iesalst!</code></pre>
+    <p class="cheat-note">Pirms zīmēt sarakstu no jauna, vienmēr notīri veco ar <code>innerHTML = ""</code>.</p>
+  </div>
+</div></section>
 
 <!-- CTA strip -->
 <section class="cta-strip">

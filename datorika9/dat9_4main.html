@@ -380,127 +380,148 @@
 </section>
 
 <!-- Cheatsheet -->
-<section id="cheatsheet">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-        <h2 class="sec-title">Spēles dzinēja špikeris</h2>
-        <p class="sec-sub">Funkcijas, notikumi, DOM, laika vadība un sadursmju formula.</p>
-      </div>
-    </div>
+<section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">4. tēmas špikeris - spēles dzinējs</h2>
+    <p class="sec-sub">Funkcijas, notikumi, DOM, taimeri un sadursmes. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
+  <div class="logic-box">
+    <h3>4.1 Funkcijas un spēles dati</h3>
+    <pre><code class="language-javascript">// SVARĪGI: spēles dati definēti ĀRPUS funkcijām, citādi tie "nomirst"
+let punkti = 0;
+let dzivibas = 3;
 
-    <div class="logic-box">
-      <h3>1. Funkciju definēšana un izsaukšana</h3>
-      <div class="code-example">
-        <pre><code class="language-javascript">// Funkcija ar parametru un atgriešanas vērtību
-function aprēķināt(a, b) {
-  return a + b;
+// Viena vieta, kas pārraksta abus tekstus lapā
+function atjaunotEkranu() {
+    document.getElementById("punkti").textContent = punkti;
+    document.getElementById("dzivibas").textContent = dzivibas;
 }
-let rezultāts = aprēķināt(10, 5); // = 15
 
-// Arrow funkcija (īsāks pieraksts)
-const kustēt = (obj, dx) => obj.x += dx;</code></pre>
-        <div class="result">
-          <b>function</b> – definē atkārtoti izmantojamu koda bloku.<br><br>
-          <b>parametri</b> – mainīgie, ko padod funkcijai izsaucot.<br><br>
-          <b>return</b> – atgriež vērtību no funkcijas.<br><br>
-          <b>Arrow =&gt;</b> – īsāks funkcijas pieraksts ES6 stilā.
-        </div>
-      </div>
-    </div>
+function pievienotPunktus(cik) {      // parametrs
+    punkti += cik;
+    atjaunotEkranu();                 // izsauc otru funkciju
+}
 
-    <div class="logic-box">
-      <h3>2. addEventListener - tastatūra un pele</h3>
-      <div class="code-example">
-        <pre><code class="language-javascript">// Tastatūras notikums
-document.addEventListener("keydown", e => {
-  if (e.key === "ArrowLeft")  x -= 5;
-  if (e.key === "ArrowRight") x += 5;
-  if (e.key === " ") lekt();
+function zaudetDzivibu() {
+    dzivibas--;
+    atjaunotEkranu();
+    if (dzivibas &lt;= 0) beigtSpeli();
+}
+
+pievienotPunktus(10);</code></pre>
+    <p class="cheat-note">Ja vienu un to pašu kodu raksti divās vietās, tā vieta ir jāizvelk atsevišķā funkcijā.</p>
+  </div>
+  <div class="logic-box">
+    <h3>4.2 Notikumu klausītāji</h3>
+    <pre><code class="language-javascript">let spX = 180;
+const speletajs = document.getElementById("speletajs");
+
+function veiktUzbrukumu() {
+    console.log("Bam! Ienaidnieks saņem bojājumus.");
+}
+
+// PAREIZI: funkcijas NOSAUKUMS bez iekavām
+poga.addEventListener("click", veiktUzbrukumu);
+
+// NEPAREIZI: ar iekavām funkcija izpildās UZREIZ, nevis pēc klikšķa
+// poga.addEventListener("click", veiktUzbrukumu());
+
+// Tastatūra
+document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowLeft")  kustinat(-10, 0);
+    if (e.key === "ArrowRight") kustinat(10, 0);
 });
 
-// Peles klikšķis
-canvas.addEventListener("click", e => {
-  console.log(e.clientX, e.clientY);
-});</code></pre>
-        <div class="result">
-          <code>addEventListener</code> – piereģistrē funkciju notikumam.<br><br>
-          <code>e.key</code> – nospiestā taustiņa nosaukums ("ArrowLeft", " " utt.).<br><br>
-          <code>e.clientX/Y</code> – peles koordinātes ekrānā.<br><br>
-          <code>keydown</code> – notikums kad taustiņš nospiests.
-        </div>
-      </div>
-    </div>
-
-    <div class="logic-box">
-      <h3>3. DOM manipulācija</h3>
-      <div class="code-example">
-        <pre><code class="language-javascript">// Elementu atrašana un mainīšana
-let punktiElem = document.getElementById("punkti");
-punktiElem.innerHTML = "Punkti: " + p;
-punktiElem.classList.add("aktīvs");
-punktiElem.style.color = "orange";
-
-// Jauna elementa izveide
-let div = document.createElement("div");
-document.body.appendChild(div);</code></pre>
-        <div class="result">
-          <b>getElementById()</b> – atrod elementu pēc ID.<br><br>
-          <b>innerHTML</b> – iestata HTML saturu.<br><br>
-          <b>classList.add/remove</b> – pievieno/noņem CSS klasi.<br><br>
-          <b>createElement</b> – izveido jaunu HTML elementu.
-        </div>
-      </div>
-    </div>
-
-    <div class="logic-box">
-      <h3>4. Spēles cikls ar requestAnimationFrame</h3>
-      <div class="code-example">
-        <pre><code class="language-javascript">// 60fps spēles cikls
-function spelesCikls() {
-  // 1. Nodzēst iepriekšējo kadru
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // 2. Atjaunot stāvokli
-  speletajs.x += atrums;
-  // 3. Uzzīmēt visu
-  zzimēt();
-  // 4. Pieprasīt nākamo kadru
-  requestAnimationFrame(spelesCikls);
-}
-spelesCikls(); // Palaiž ciklu</code></pre>
-        <div class="result">
-          <b>requestAnimationFrame</b> – izsauc funkciju pirms nākamā ekrāna kadra (~60x/s).<br><br>
-          <b>ctx.clearRect</b> – notīra canvas pirms uzzīmēšanas.<br><br>
-          <b>setInterval(fn, 16)</b> – alternatīva, bet rAF ir labāka.
-        </div>
-      </div>
-    </div>
-
-    <div class="logic-box">
-      <h3>5. AABB sadursmju noteikšana</h3>
-      <div class="code-example">
-        <pre><code class="language-javascript">// Vienkārša taisnstūru sadursme
-function saduras(a, b) {
-  return (
-    a.x &lt; b.x + b.w &&
-    a.x + a.w &gt; b.x &&
-    a.y &lt; b.y + b.h &&
-    a.y + a.h &gt; b.y
-  );
-}
-if (saduras(speletajs, skerslis)) {
-  dzivibas--;
-}</code></pre>
-        <div class="result">
-          <b>AABB</b> – Axis-Aligned Bounding Box - visvienkāršākā sadursmju metode.<br><br>
-          <b>4 nosacījumi</b> – pārbauda visas 4 puses overlap.<br><br>
-          <b>Lietošana</b> – salīdzina spēlētāja un šķēršļa koordinātes katru kadru.
-        </div>
-      </div>
-    </div>
+// Biežākie notikumi:
+//   click     peles klikšķis
+//   keydown   taustiņš nospiests
+//   keyup     taustiņš atlaists</code></pre>
+    <p class="cheat-note">Ja funkcija izpildās uzreiz lapas ielādē, nevis pēc klikšķa - tu esi pielicis liekas iekavas.</p>
   </div>
-</section>
+  <div class="logic-box">
+    <h3>4.3 DOM - elementu kustināšana</h3>
+    <pre><code class="language-javascript">let spX = 180;
+let spY = 250;
+const speletajs = document.getElementById("speletajs");
+
+function kustinat(dx, dy) {
+    // 1. Mainām koordinātas
+    spX = spX + dx;
+    spY = spY + dy;
+
+    // 2. Neļaujam iziet ārpus laukuma
+    if (spX &lt; 0) spX = 0;
+    if (spX &gt; 360) spX = 360;
+
+    // 3. Pārliekam elementu uz jauno vietu
+    speletajs.style.left = spX + "px";    // "px" OBLIGĀTI!
+    speletajs.style.top  = spY + "px";
+}
+
+// CSS elementam jābūt position: absolute;
+// Bez "px" pārlūks vērtību ignorē, un nekas nekustas.
+
+element.textContent = "teksts";        // droši
+element.innerHTML = "&lt;b&gt;teksts&lt;/b&gt;";  // ļauj HTML
+element.classList.add("hidden");       // pievieno klasi</code></pre>
+    <p class="cheat-note">Aizmirsts <code>+ "px"</code> ir biežākais iemesls, kāpēc objekts nekustas un kļūdu paziņojuma nav.</p>
+  </div>
+  <div class="logic-box">
+    <h3>4.4 Taimeri un spēles cikls</h3>
+    <pre><code class="language-javascript">// SVARĪGI: ID definēts ĀRPUS funkcijām, citādi to nevar apturēt citā funkcijā
+let ciklsId = null;
+let ienX = 0;
+const ienaidnieks = document.getElementById("ienaidnieks");
+
+function spelesCikls() {
+    ienX += 3;
+    if (ienX &gt; 400) ienX = 0;
+    ienaidnieks.style.left = ienX + "px";
+}
+
+function saktSpeli() {
+    clearInterval(ciklsId);                    // aptur veco, ja tāds jau ir
+    ciklsId = setInterval(spelesCikls, 30);    // ik pēc 30 ms
+}
+
+function beigtSpeli() {
+    clearInterval(ciklsId);
+    ciklsId = null;
+}
+
+// setInterval(f, ms)  atkārto bezgalīgi
+// setTimeout(f, ms)   izpilda vienu reizi pēc pauzes
+// clearInterval(id)   aptur</code></pre>
+    <p class="cheat-note">Bez <code>clearInterval</code> pirms jauna <code>setInterval</code> spēle sāk skriet divreiz ātrāk pēc katra restarta.</p>
+  </div>
+  <div class="logic-box">
+    <h3>4.5-4.6 Sadursmes un dzinēja prototips</h3>
+    <pre><code class="language-javascript">function parbauditSadursmi() {
+    // 1. Iegūstam abu elementu kastes (taisnstūrus atmiņā)
+    const a = document.getElementById("speletajs").getBoundingClientRect();
+    const b = document.getElementById("ienaidnieks").getBoundingClientRect();
+
+    // 2. Divi taisnstūri saduras TIKAI tad, ja pārklājas ABĀS asīs
+    const sadursme = a.left   &lt; b.right  &amp;&amp;
+                     a.right  &gt; b.left   &amp;&amp;
+                     a.top    &lt; b.bottom &amp;&amp;
+                     a.bottom &gt; b.top;
+
+    if (sadursme) zaudetDzivibu();
+}
+
+// Spēles restarts - viss vienuviet
+function saktSpeli() {
+    clearInterval(taimeris);    // aptur veco ciklu
+    punkti = 0;                 // atgriež sākuma vērtības
+    dzivibas = 3;
+    speleAktiva = true;
+    taimeris = setInterval(atjaunotSpeli, 100);
+}</code></pre>
+    <p class="cheat-note">Restartā obligāti atgriez <b>visus</b> mainīgos sākuma vērtībās - citādi otrā spēle sākas ar pirmās rezultātu.</p>
+  </div>
+</div></section>
 
 <!-- CTA strip -->
 <section class="cta-strip">

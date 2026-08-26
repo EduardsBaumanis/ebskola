@@ -27,6 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 </head>
 <body class="page-home">
 
@@ -387,92 +388,136 @@
 </section>
 
 <!-- Cheatsheet -->
-<section id="cheatsheet">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-        <h2 class="sec-title">Publicēšanas špikeris</h2>
-        <p class="sec-sub">Git darbplūsma, projekta pārbaudes saraksts un README veidne.</p>
-      </div>
-    </div>
+<section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">5. tēmas špikeris - pilnvērtīga spēle un publicēšana</h2>
+    <p class="sec-sub">Plānošana, UI ekrāni, spēles loģika, papildfunkcijas, atkļūdošana un publicēšana. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
+  <div class="logic-box">
+    <h3>5.1 Plāns un versiju kontrole</h3>
+    <pre><code class="language-bash"># 1. Pārbaudi, kas ir mainīts
+git status
 
-    <table style="margin-bottom:24px;">
-      <thead><tr><th>Solis</th><th>Komanda / darbība</th><th>Piezīme</th></tr></thead>
-      <tbody>
-        <tr><td>1. Pievienot failus</td><td><code>git add .</code></td><td>Visus izmainītos failus stages</td></tr>
-        <tr><td>2. Commit</td><td><code>git commit -m "teksts"</code></td><td>Saglabā izmaiņas ar aprakstu</td></tr>
-        <tr><td>3. Push</td><td><code>git push origin main</code></td><td>Augšupielādē uz GitHub</td></tr>
-        <tr><td>4. GitHub Pages</td><td>Settings → Pages → main/root</td><td>Ieslēdz publicēšanu</td></tr>
-        <tr><td>5. URL</td><td><code>lietotajs.github.io/spele</code></td><td>Pieejams ~1-2 minūtes pēc push</td></tr>
-      </tbody>
-    </table>
+# 2. Pievieno tikai plāna failu
+git add roadmap.md
+git commit -m "Add project roadmap"
+git push
 
-    <div class="logic-box" style="margin-bottom:24px;">
-      <h3>Gatava projekta pārbaudes saraksts</h3>
-      <ul>
-        <li><code>index.html</code> - galvenā lapa (GitHub Pages to atver pirmā)</li>
-        <li><code>style.css</code> - visi stili strādā ar relatīvām URL</li>
-        <li><code>game.js</code> - spēles loģika darbojas bez konsolē kļūdām</li>
-        <li><code>README.md</code> - projekta apraksts, ekrānuzņēmumi, vadības instrukcija</li>
-        <li><code>LICENSE</code> - MIT vai cita brīvā licence</li>
-        <li><code>.gitignore</code> - node_modules/, .DS_Store, *.env izslēgti</li>
-        <li>Spēle testēta divos pārlūkos (Chrome + Firefox)</li>
-        <li>DevTools konsolē nav neapstrādātu kļūdu</li>
-      </ul>
-    </div>
-
-    <div class="editor narrow" aria-label="README.md veidne">
-      <div class="titlebar">
-        <span class="dots"><i></i><i></i><i></i></span>
-        <span class="crumb">README.md</span>
-      </div>
-      <div class="tabs">
-        <span class="tab active"><span class="ic">●</span> README.md</span>
-        <span class="spacer"></span>
-      </div>
-      <div class="body">
-        <div class="gutter">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16</div>
-<div class="code"><span class="tok-com"># Mana Spēle</span>
-
-<span class="tok-str">![Spēles ekrānuzņēmums](screenshot.png)</span>
-
-<span class="tok-kw">## Par spēli</span>
-Īss apraksts - kas tas ir un kā spēlēt.
-
-<span class="tok-kw">## Vadība</span>
-<span class="tok-fn">- ←→</span> Kustēties pa kreisi/labi
-<span class="tok-fn">- SPACE</span> Lēkt
-<span class="tok-fn">- R</span> Restartēt
-
-<span class="tok-kw">## Publicēšana</span>
-<span class="tok-com">Spēle pieejama: https://lietotajs.github.io/spele</span>
-
-<span class="tok-fn">Licence: MIT | Autors: Vards Uzvards 2026</span></div>
-      </div>
-      <div class="statusbar">
-        <span class="ok">● Markdown</span>
-        <span class="spacer"></span>
-        <span>UTF-8</span>
-      </div>
-    </div>
+# roadmap.md struktūra:
+#   ## Obligāti (M)     ko bez tā spēle nestrādā
+#   ## Vēlams (V)       ko pievienot, ja paliek laiks
+#   ## Ārpus apjoma     ko apzināti NEDARU
+#
+# Katram punktam pieraksti, cik stundu tas prasīs,
+# un saskaiti kopā - vai vispār ietilpst atlikušajā laikā?</code></pre>
+    <p class="cheat-note">Plāns, kurā viss ir "obligāts", nav plāns. Vismaz trešdaļai jābūt sadaļā "vēlams".</p>
   </div>
-</section>
+  <div class="logic-box">
+    <h3>5.2 UI ekrānu pārslēgšana</h3>
+    <pre><code class="language-javascript">const menu = document.getElementById("menu");
+const speleLogs = document.getElementById("spele-logs");
+
+function saktSpeli() {
+    menu.classList.add("hidden");        // izvēlne pazūd
+    speleLogs.classList.remove("hidden");
+    // ... spēles sākuma kods
+}
+
+function beigtSpeli() {
+    speleLogs.classList.add("hidden");
+    document.getElementById("beigas").classList.remove("hidden");
+}
+
+/* CSS pusē tikai viena rinda:
+   .hidden { display: none; }            */
+
+// classList.add()     pievieno klasi
+// classList.remove()  noņem
+// classList.toggle()  pievieno vai noņem
+
+// Katram ekrānam sava kaste: menu / spele-logs / beigas
+// Vienlaikus redzams tikai viens.</code></pre>
+    <p class="cheat-note">Ekrānus slēp ar CSS klasi, nevis rakstot <code>style.display</code> katrā vietā - tad izskatu maini vienuviet.</p>
+  </div>
+  <div class="logic-box">
+    <h3>5.3 Spēles stāvoklis vienā objektā</h3>
+    <pre><code class="language-javascript">// Viss spēles stāvoklis vienuviet - vieglāk restartēt un atkļūdot
+let spele = {
+    punkti: 0,
+    dzivibas: 3,
+    limenis: 1,
+    aktiva: false
+};
+
+let spelesIntervals = null;
+
+function atjaunotHud() {
+    document.getElementById("punkti").textContent = spele.punkti;
+    document.getElementById("dzivibas").textContent = spele.dzivibas;
+}
+
+function restartet() {
+    spele = { punkti: 0, dzivibas: 3, limenis: 1, aktiva: true };
+    clearInterval(spelesIntervals);
+    spelesIntervals = setInterval(spelesCikls, 30);
+    atjaunotHud();
+}</code></pre>
+    <p class="cheat-note">Ar vienu objektu restarts ir viena rinda. Ar pieciem atsevišķiem mainīgajiem vienu vienmēr aizmirsīsi atiestatīt.</p>
+  </div>
+  <div class="logic-box">
+    <h3>5.4 Papildfunkcijas: skaņa un līmeņi</h3>
+    <pre><code class="language-javascript">// Audio objektu izveido VIENU reizi faila sākumā, ne katrā sadursmē
+const punktaSkana = new Audio("assets/audio/point.mp3");
+
+function savaktPunktus() {
+    spele.punkti += 10;
+
+    punktaSkana.currentTime = 0;    // attin, lai ātri klikšķi arī skan
+    punktaSkana.play();
+
+    // Līmenis aug ik pēc 100 punktiem
+    const jaunsLimenis = Math.floor(spele.punkti / 100) + 1;
+    if (jaunsLimenis &gt; spele.limenis) {
+        spele.limenis = jaunsLimenis;
+        atrums += 1;                // spēle kļūst grūtāka
+    }
+    atjaunotHud();
+}
+
+// Power-up ar laiku
+function aktivetVairogu() {
+    spele.vairogs = true;
+    setTimeout(() =&gt; { spele.vairogs = false; }, 5000);   // 5 sekundes
+}</code></pre>
+    <p class="cheat-note">Ja <code>new Audio()</code> raksti funkcijas iekšpusē, katrā sadursmē top jauns objekts un spēle sāk bremzēt.</p>
+  </div>
+  <div class="logic-box">
+    <h3>5.5-5.6 Atkļūdošana un publicēšana</h3>
+    <pre><code class="language-javascript">// Konsole (F12) rāda:
+// Uncaught TypeError: Cannot read properties of null (reading 'style')
+// script.js:42   -> rindā 42 elementa ar šādu id lapā NAV
+
+const beigas = document.getElementById("beigas");
+console.log(beigas);      // null -> pārbaudi id pareizrakstību HTML pusē
+
+// Biežākās kļūdas konsolē:
+//   ...of null            id nesakrīt ar HTML vai skripts ielādēts par agru
+//   ... is not defined    mainīgā vārds uzrakstīts citādi
+//   ... is not a function iekavas vai nosaukuma kļūda
+
+console.log("punkti:", spele.punkti);   // pārbaudi vērtības gaitā
+
+/* PUBLICĒŠANA - GitHub Pages
+   Settings -> Pages -> Branch: main -> Save
+
+   README.md struktūra:
+     1. Spēles nosaukums        4. Izmantotās tehnoloģijas
+     2. Publiskā saite          5. Zināmās kļūdas
+     3. Vadība                                            */</code></pre>
+    <p class="cheat-note">Publicēto saiti obligāti atver <b>telefonā</b> - lielo/mazo burtu kļūdas ceļos parādās tikai uz servera, ne uz tava datora.</p>
+  </div>
+</div></section>
 
 <!-- CTA strip -->
 <section class="cta-strip">

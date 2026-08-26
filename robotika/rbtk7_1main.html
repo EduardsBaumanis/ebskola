@@ -362,117 +362,138 @@ hub.light_matrix.<span class="tok-fn">show_image</span>(<span class="tok-str">'H
   </section>
 
   <!-- Cheatsheet -->
-  <section id="cheatsheet">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> apkopojums</div>
-          <h2 class="sec-title">LEGO SPIKE Python - ātrā uzziņa</h2>
-          <p class="sec-sub">Svarīgākās komandas un to izmantošana tēmas uzdevumos.</p>
-        </div>
-      </div>
+  <section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">1. tēmas špikeris - LEGO SPIKE</h2>
+    <p class="sec-sub">Kustība, sensori, satvērējs un misija. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
+  <div class="logic-box">
+    <h3>1.1 Pamatkustība ar rozā blokiem</h3>
+    <pre><code>when program starts
+set movement motors to [A] and [B]     <- OBLIGĀTI pirmais
+set movement speed to [40]%
 
-      <table>
-        <thead>
-          <tr>
-            <th>Kategorija</th>
-            <th>Komanda</th>
-            <th>Ko dara</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Motori</strong></td>
-            <td><code>motors.start(steering=0, speed=50)</code></td>
-            <td>Sāk kustību taisni ar ātrumu 50</td>
-          </tr>
-          <tr>
-            <td><strong>Motori</strong></td>
-            <td><code>motors.stop()</code></td>
-            <td>Aptur abus motorus</td>
-          </tr>
-          <tr>
-            <td><strong>Motori</strong></td>
-            <td><code>motors.move(distance)</code></td>
-            <td>Pārvietojas norādīto distanci</td>
-          </tr>
-          <tr>
-            <td><strong>Sensori</strong></td>
-            <td><code>color_sensor.get_color()</code></td>
-            <td>Atgriež atpazīto krāsu kā tekstu</td>
-          </tr>
-          <tr>
-            <td><strong>Sensori</strong></td>
-            <td><code>distance_sensor.get_distance_cm()</code></td>
-            <td>Atgriež attālumu centimetros</td>
-          </tr>
-          <tr>
-            <td><strong>Habs</strong></td>
-            <td><code>hub.speaker.beep()</code></td>
-            <td>Atskaņo skaņas signālu</td>
-          </tr>
-          <tr>
-            <td><strong>Habs</strong></td>
-            <td><code>hub.light_matrix.show_image('HAPPY')</code></td>
-            <td>Rāda attēlu 5×5 LED matricā</td>
-          </tr>
-          <tr>
-            <td><strong>Laiks</strong></td>
-            <td><code>wait_for_seconds(n)</code></td>
-            <td>Gaida <em>n</em> sekundes</td>
-          </tr>
-          <tr>
-            <td><strong>Laiks</strong></td>
-            <td><code>wait_until(condition)</code></td>
-            <td>Gaida, kamēr nosacījums kļūst patiess</td>
-          </tr>
-        </tbody>
-      </table>
+move [forward] for [50] [cm]           <- brauc uz priekšu 50 cm
+move [Right] for [180] [degrees]       <- griežas
 
-      <div style="margin-top:32px;">
-        <div class="example-caption">Piemērs: līnijas sekotāja programma</div>
-        <div class="editor compact" aria-hidden="true">
-          <div class="titlebar">
-            <span class="dots"><i></i><i></i><i></i></span>
-            <span class="crumb"><em>robots/</em>liniju_sekotajs.py</span>
-          </div>
-          <div class="body">
-            <div class="gutter">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13</div>
-<div class="code"><span class="tok-kw">from</span> spike <span class="tok-kw">import</span> <span class="tok-typ">PrimeHub</span>, <span class="tok-typ">Motor</span>, <span class="tok-typ">ColorSensor</span>
+repeat [4]                             <- kvadrāts: 4 reizes
+    move [forward] for [20] [cm]
+    move [Right] for [180] [degrees]
 
-hub <span class="tok-op">=</span> <span class="tok-typ">PrimeHub</span>()
-motors <span class="tok-op">=</span> <span class="tok-typ">Motor</span>(<span class="tok-str">'A'</span>, <span class="tok-str">'B'</span>)
-krasu_sensors <span class="tok-op">=</span> <span class="tok-typ">ColorSensor</span>(<span class="tok-str">'C'</span>)
+UZMANĪBU par pagriezieniem:
+  180 grādi = RITEŅA apgrieziens, NEVIS robota pagrieziens telpā!
+  Lai robots pagrieztos par 90 grādiem pret sienu, riteņiem
+  bieži jāgriežas 175-185 grādi. To atrod, mainot skaitli un pārbaudot.
 
-<span class="tok-kw">while</span> <span class="tok-kw">True</span>:
-    krasa <span class="tok-op">=</span> krasu_sensors.<span class="tok-fn">get_color</span>()
-    <span class="tok-kw">if</span> krasa <span class="tok-op">==</span> <span class="tok-str">'black'</span>:
-        motors.<span class="tok-fn">start</span>(steering<span class="tok-op">=</span><span class="tok-num">0</span>, speed<span class="tok-op">=</span><span class="tok-num">30</span>)
-    <span class="tok-kw">else</span>:
-        motors.<span class="tok-fn">start</span>(steering<span class="tok-op">=</span><span class="tok-num">30</span>, speed<span class="tok-op">=</span><span class="tok-num">20</span>)
-        <span class="tok-com"># pagriežas atpakaļ uz līniju</span></div>
-          </div>
-          <div class="statusbar">
-            <span class="ok">● Python · SPIKE</span>
-            <span class="spacer"></span>
-            <span>Ln 13, Col 38</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+Rozā "Movement" bloki  = abi motori kopā (kā automašīnai)
+Zilie "Motor" bloki    = viens konkrēts motors (roka, satvērējs)</code></pre>
+    <p class="cheat-note">Porti: šajā kursā A = kreisais ritenis, B = labais, C = satvērējs, E/F = sensori.</p>
+  </div>
+  <div class="logic-box">
+    <h3>1.2 Distances sensors</h3>
+    <pre><code>when program starts
+set movement motors to [A] and [B]
+
+start moving [forward]                 <- BEZGALĪGS bloks
+wait until [Distance Sensor on F] distance &lt; [15] [cm]
+stop moving
+
+NEPAREIZI:
+  move [forward] for [10] [cm]         <- šim ir beigu punkts,
+  wait until ...                          tāpēc tas IGNORĒ sensoru
+
+PAREIZI:
+  start moving [forward]               <- bez beigu punkta,
+  wait until ...                          tāpēc sensors var to apturēt
+
+Izvairīšanās cikls:
+forever
+    if [Distance Sensor on F] distance &lt; [15] [cm] then
+        move [backward] for [10] [cm]
+        move [Right] for [180] [degrees]
+    else
+        start moving [forward]</code></pre>
+    <p class="cheat-note">Ja robots ietriecas sienā, gandrīz vienmēr iemesls ir <code>move for [10] cm</code> lietošana <code>start moving</code> vietā.</p>
+  </div>
+  <div class="logic-box">
+    <h3>1.3 Krāsu sensors un līniju sekotājs</h3>
+    <pre><code># Slieksni NEVAR uzminēt - to jāIZMĒRA katrā klasē!
+# 1. Noliec sensoru uz MELNĀS līnijas -> portu skats rāda, piem.,  8%
+# 2. Noliec sensoru uz BALTĀ laukuma  -> portu skats rāda, piem., 76%
+# 3. Slieksnis = vidējais aritmētiskais: (8 + 76) / 2 = 42
+
+when program starts
+set movement motors to [A] and [B]
+set movement speed to [25]%
+
+forever
+    if [Color Sensor on E] reflection &lt; [42]% then
+        start moving at [20] % steering    <- redz melnu, griežas atpakaļ
+    else
+        start moving at [-20] % steering   <- redz baltu, griežas atpakaļ
+
+# Divi režīmi:
+#   Color            atpazīst krāsu (sarkans, zaļš) - prasa labu gaismu
+#   Reflected Light  0-100% - LĪNIJAI lieto ŠO, tas ir precīzāks</code></pre>
+    <p class="cheat-note">Ar noklusējuma slieksni 50 tumšākā klasē robots baltu virsmu noturēs par melnu un aizbrauks prom no līnijas.</p>
+  </div>
+  <div class="logic-box">
+    <h3>1.4 Satvērējs uz trešā motora</h3>
+    <pre><code># Satveršanai lieto LAIKU, nevis grādus!
+
+NEPAREIZI:
+  run motor [C] for [90] [degrees]
+  # Ja klucītis ir pa vidu, motors nevar sasniegt 90 grādus
+  # -> programma gaida MŪŽĪGI un tālāk neiet
+
+PAREIZI:
+  start motor [C] at [30]% speed
+  wait [1] seconds
+  stop motor [C]
+
+Pilns misijas algoritms:
+when program starts
+set movement motors to [A] and [B]
+run motor [C] to position [0] degrees   <- atver spīles (sākuma stāvoklis)
+move [forward] for [30] [cm]
+start motor [C]
+wait [1] seconds
+stop motor [C]                          <- satvēra
+move [backward] for [30] [cm]
+run motor [C] to position [0] degrees   <- atlaida
+
+# Zobrati: mazs griež lielu -> vairāk SPĒKA, mazāk ātruma</code></pre>
+    <p class="cheat-note">Ja programma "iestrēgst" un robots nekustas tālāk, meklē <code>run motor for degrees</code> bloku.</p>
+  </div>
+  <div class="logic-box">
+    <h3>1.5 Misija: sākuma stāvoklis ir obligāts</h3>
+    <pre><code># Biežākā problēma: misija izdodas PIRMAJĀ reizē, bet otrajā ne.
+# Iemesls: spīles palika aizvērtas un mainīgie - saskaitīti.
+
+when program starts
+
+# --- 1. SĀKUMA STĀVOKLIS (bez šī misija strādā tikai vienreiz) ---
+set movement motors to [A] and [B]
+set movement speed to [40]%
+run motor [C] to position [0] degrees    # spīles atpakaļ vaļā
+set [Kravas] to [0]                      # skaitītājs uz nulli
+
+# --- 2. MISIJA ---
+move [forward] for [30] [cm]
+wait until [Distance Sensor on F] distance &lt; [10] [cm]
+stop moving
+start motor [C]
+wait [1] seconds
+stop motor [C]
+move [backward] for [30] [cm]
+run motor [C] to position [0] degrees
+change [Kravas] by [1]
+
+# Testē TRĪS reizes pēc kārtas - tikai tad zini, ka misija ir stabila.</code></pre>
+    <p class="cheat-note">Sensoriem lieto portus E un F - A, B un C jau ir aizņemti ar motoriem.</p>
+  </div>
+</div></section>
 
   <!-- CTA strip -->
   <section class="cta-strip">
