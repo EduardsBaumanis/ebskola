@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido stāvokļu enum un pārslēgšanu · 2. uzdevums (~25 min) - pievieno pārejas noteikumus · 3. uzdevums (~20 min) - iztestē visus stāvokļus · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu projektu ar ienaidnieku. Stāvokļu mašīna nozīmē vienu vienkāršu noteikumu: ienaidnieks vienā brīdī var būt tikai vienā stāvoklī.</p>
     </div>
 </section>
 
@@ -151,67 +152,73 @@ struct AiDataCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>4.3 State machines AI uzvedībai</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Izveido stāvokļu enum un pārslēgšanu</h3>
+        <p>Beigās ienaidnieks zinās, kurā stāvoklī tas atrodas.</p>
+        <ol class="step-list">
+            <li><b>Ieraksti</b> <code class="language-cpp">enum class EnemyState { IDLE, PATROL, CHASE, ATTACK, DEAD };</code>.</li>
+            <li><b>Pievieno</b> klasei lauku <code class="language-cpp">EnemyState state = EnemyState::IDLE;</code>.</li>
+            <li><b>Uzraksti</b> <code>_physics_process</code> metodē <code class="language-cpp">switch (state) { ... }</code>.</li>
+            <li><b>Pievieno</b> katram stāvoklim savu <code>case</code> ar izdruku un <code>break;</code>.</li>
+            <li><b>Kompilē</b> un palaid - jāizdrukājas tikai <code>IDLE</code>.</li>
+            <li><b>Nomaini</b> sākuma stāvokli uz <code>PATROL</code> un palaid vēlreiz.</li>
+            <li><b>Pieraksti</b>, kāpēc vienlaikus izdrukājas tikai viens stāvoklis.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> Output panelī atkārtojas tikai viena stāvokļa nosaukums, nevis visi pieci.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Pievieno pārejas noteikumus</h3>
+        <p>Beigās ienaidnieks pats pārslēgsies starp stāvokļiem.</p>
+        <ol class="step-list">
+            <li><b>Uzraksti</b> metodi <code class="language-cpp">void change_state(EnemyState new_state);</code>, kas izdrukā pāreju.</li>
+            <li><b>Izrēķini</b> katrā kadrā attālumu līdz spēlētājam ar <code>distance_to</code>.</li>
+            <li><b>Pārslēdz</b> uz <code>CHASE</code>, ja attālums ir mazāks par 300.</li>
+            <li><b>Pārslēdz</b> uz <code>ATTACK</code>, ja attālums ir mazāks par 50.</li>
+            <li><b>Pārslēdz</b> atpakaļ uz <code>PATROL</code>, ja attālums pārsniedz 400.</li>
+            <li><b>Kompilē</b> un pastaigā ar spēlētāju tuvāk un tālāk.</li>
+            <li><b>Pieraksti</b>, kāpēc atgriešanās slieksnis (400) ir lielāks par dzīšanās slieksni (300).</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pieejot tuvāk, ienaidnieks pāriet CHASE un ATTACK, bet aizejot - atgriežas PATROL.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Iztestē visus stāvokļus</h3>
+        <p>Beigās tu būsi pārliecinājies, ka neviens stāvoklis neiestrēgst.</p>
+        <ol class="step-list">
+            <li><b>Pieraksti</b> tabulu ar visiem pieciem stāvokļiem.</li>
+            <li><b>Atzīmē</b> katram, no kura stāvokļa tajā var nokļūt.</li>
+            <li><b>Pārbaudi</b> spēlē katru pāreju un atzīmē tabulā, vai tā notika.</li>
+            <li><b>Atrodi</b> stāvokli, no kura nevar izkļūt, ja tāds ir.</li>
+            <li><b>Pārbaudi</b>, kas notiek, kad ienaidnieka HP nokrīt līdz nullei.</li>
+            <li><b>Pievieno</b> pāreju uz <code>DEAD</code> un pārliecinies, ka no tā vairs neizkļūst.</li>
+            <li><b>Pieraksti</b>, kurš stāvoklis ir gala stāvoklis.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> tabulā katrai pārejai ir atzīme, un no <code>DEAD</code> stāvokļa ienaidnieks vairs neatgriežas.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Pievieno stāvokļa taimeri</h3>
+        <p>Ja pamatdarbs ir gatavs, neļauj stāvokļiem mainīties pārāk bieži.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> lauku <code class="language-cpp">double state_time = 0.0;</code>.</li>
+            <li><b>Palielini</b> to katrā kadrā ar <code>delta</code>.</li>
+            <li><b>Atiestati</b> to uz nulli katrā <code>change_state</code> izsaukumā.</li>
+            <li><b>Neļauj</b> mainīt stāvokli, ja <code>state_time</code> ir mazāks par 0.3.</li>
+            <li><b>Pārbaudi</b>, ka ienaidnieks vairs nemirgo starp diviem stāvokļiem.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> stāvot tieši uz sliekšņa robežas, ienaidnieks vairs nemaina stāvokli vairākas reizes sekundē.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct AiDataCheckpoint {
-    String lesson = "4.3 State machines AI uzvedībai";
-    bool uses_cpp = true;
-    bool chooses_container = true;
-    bool separates_ai_state = true;
-    bool handles_removal_safely = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavam ienaidniekam ir strādājoša stāvokļu mašīna ar pieciem stāvokļiem, pārejas notiek pēc attāluma līdz spēlētājam, un <code>DEAD</code> ir gala stāvoklis, no kura nevar izkļūt.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Fails <code>enemy.cpp</code> ar <code>enum class</code> un <code>switch</code> GitHub krātuvē.</li>
+            <li>Video vai ekrānuzņēmumu sērija, kurā redzamas pārejas PATROL -> CHASE -> ATTACK.</li>
+            <li>Fotografēta stāvokļu tabula ar atzīmētām pārbaudītajām pārejām.</li>
+            <li>Burtnīcā: kāpēc atgriešanās slieksnis ir lielāks par dzīšanās slieksni.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>4.3 State machines AI uzvedībai</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, video un tabulas fotogrāfiju skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

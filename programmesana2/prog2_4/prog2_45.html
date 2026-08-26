@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izšauj pirmo lādiņu · 2. uzdevums (~25 min) - izveido lādiņu krātuvi · 3. uzdevums (~20 min) - salīdzini abas pieejas ar mērījumu · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu projektu. Šodien uztaisīsi šaušanu divos veidos un pats izmērīsi, kurš no tiem ir ātrāks.</p>
     </div>
 </section>
 
@@ -146,67 +147,72 @@ struct AiDataCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>4.5 Šaušanas mehānika un object pooling</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Izšauj pirmo lādiņu</h3>
+        <p>Beigās spēlētājs varēs šaut ar peles klikšķi.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> scēnu <code>bullet.tscn</code> ar <code>Area2D</code> sakni un sadursmes formu.</li>
+            <li><b>Izveido</b> C++ klasi <code>Bullet</code>, kas kustas taisni ar <code>delta</code>.</li>
+            <li><b>Pievieno</b> tai laiku, pēc kura lādiņš izdzēšas ar <code class="language-cpp">queue_free();</code>.</li>
+            <li><b>Izveido</b> Input Map darbību <code>shoot</code> ar peles kreiso pogu.</li>
+            <li><b>Ielādē</b> spēlētāja klasē scēnu ar <code class="language-cpp">ResourceLoader::get_singleton()-&gt;load("res://bullet.tscn")</code>.</li>
+            <li><b>Izveido</b> jaunu lādiņu ar <code class="language-cpp">instantiate()</code> un pievieno to scēnai.</li>
+            <li><b>Kompilē</b> un izšauj dažus lādiņus.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ar katru peles klikšķi parādās lādiņš, kas lido prom un pēc laika pazūd.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Izveido lādiņu krātuvi</h3>
+        <p>Beigās lādiņi tiks izmantoti atkārtoti, nevis veidoti no jauna.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> klasi <code>BulletPool</code> ar lauku <code class="language-cpp">std::vector&lt;Bullet*&gt; pool;</code>.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-cpp">void initialize(Node* parent);</code>.</li>
+            <li><b>Izveido</b> tajā ciklā 50 lādiņus ar <code class="language-cpp">memnew(Bullet)</code> un paslēp tos.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-cpp">Bullet* get_bullet();</code>, kas atgriež pirmo neaktīvo.</li>
+            <li><b>Atgriez</b> <code>nullptr</code>, ja visi ir aizņemti, un apstrādā šo gadījumu.</li>
+            <li><b>Nomaini</b> šaušanas kodu tā, lai tas ņemtu lādiņu no krātuves.</li>
+            <li><b>Atgriez</b> lādiņu krātuvē, kad tā laiks beidzas, nevis dzēs to.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> šaujot lādiņi parādās kā iepriekš, bet scēnas kokā mezglu skaits vairs neaug.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Salīdzini abas pieejas ar mērījumu</h3>
+        <p>Beigās tev būs skaitļos pierādīts, kāpēc krātuve ir vērtīga.</p>
+        <ol class="step-list">
+            <li><b>Izšauj</b> 200 lādiņus ar pirmo pieeju un pieraksti FPS rādījumu.</li>
+            <li><b>Ieslēdz</b> FPS rādītāju ar <b>Debug -&gt; Visible Collision Shapes</b> un profilēšanas paneli.</li>
+            <li><b>Izšauj</b> 200 lādiņus ar krātuves pieeju un pieraksti FPS.</li>
+            <li><b>Saskaiti</b>, cik mezglu abos gadījumos ir scēnas kokā.</li>
+            <li><b>Pieraksti</b>, kura pieeja radīja vairāk mezglu.</li>
+            <li><b>Pieraksti</b>, kāpēc objekta izveide un dzēšana maksā vairāk nekā tā paslēpšana.</li>
+            <li><b>Izvēlies</b>, kuru pieeju atstāsi savā spēlē, un pamato.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ar krātuvi mezglu skaits paliek nemainīgs, un tu vari nosaukt abu pieeju FPS atšķirību.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Pievieno šaušanas ātruma ierobežojumu</h3>
+        <p>Ja pamatdarbs ir gatavs, neļauj šaut bezgalīgi ātri.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> lauku <code class="language-cpp">double cooldown = 0.0;</code>.</li>
+            <li><b>Samazini</b> to katrā kadrā ar <code>delta</code>.</li>
+            <li><b>Atļauj</b> šaut tikai tad, kad tas ir mazāks vai vienāds ar nulli.</li>
+            <li><b>Iestati</b> to uz 0.2 pēc katra šāviena.</li>
+            <li><b>Pārbaudi</b>, ka turot peles pogu, lādiņi nāk vienmērīgi.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> turot peles pogu, lādiņi izšaujas ar vienmērīgu atstarpi, nevis visi uzreiz.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct AiDataCheckpoint {
-    String lesson = "4.5 Šaušanas mehānika un object pooling";
-    bool uses_cpp = true;
-    bool chooses_container = true;
-    bool separates_ai_state = true;
-    bool handles_removal_safely = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē ir strādājoša šaušana, kas izmanto lādiņu krātuvi (object pooling), un tu ar mērījumu vari pierādīt, ar ko tā ir labāka par lādiņu veidošanu un dzēšanu katru reizi.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Faili <code>bullet.cpp</code> un <code>bullet_pool.cpp</code> GitHub krātuvē.</li>
+            <li>Ekrānuzņēmums ar scēnas koku pēc 200 izšautiem lādiņiem, izmantojot krātuvi.</li>
+            <li>Burtnīcā: abu pieeju FPS un mezglu skaits un viens teikums, kāpēc krātuve ir ātrāka.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>4.5 Šaušanas mehānika un object pooling</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, ekrānuzņēmumu un burtnīcas fotogrāfiju skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

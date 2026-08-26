@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido ienaidnieku sarakstu ar vector · 2. uzdevums (~25 min) - pievieno un izņem elementus droši · 3. uzdevums (~20 min) - salīdzini vector ar Godot Array · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atceries no Programmēšanas I sarakstus: <code>materiali.append("x")</code> un <code>materiali.pop(0)</code>. C++ tas pats saucas <code>std::vector</code>, ar <code>push_back</code> un <code>erase</code>.</p>
     </div>
 </section>
 
@@ -134,67 +135,72 @@ struct AiDataCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>4.1 Vector un Array</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Izveido ienaidnieku sarakstu ar vector</h3>
+        <p>Beigās viens mainīgais glabās visus ienaidniekus.</p>
+        <ol class="step-list">
+            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;vector&gt;</code>.</li>
+            <li><b>Pievieno</b> klasei lauku <code class="language-cpp">std::vector&lt;Enemy*&gt; enemies;</code>.</li>
+            <li><b>Pievieno</b> trīs ienaidniekus ar <code class="language-cpp">enemies.push_back(...);</code>.</li>
+            <li><b>Izdrukā</b> to skaitu ar <code class="language-cpp">enemies.size();</code>.</li>
+            <li><b>Uzraksti</b> ciklu <code class="language-cpp">for (Enemy* e : enemies) { ... }</code>, kas izdrukā katra nosaukumu.</li>
+            <li><b>Pievieno</b> ceturto ienaidnieku un palaid vēlreiz.</li>
+            <li><b>Pārbaudi</b>, vai cikls bija jāmaina.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> cikls izdrukā visus ienaidniekus, un pievienojot ceturto, kods nav jāmaina.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Pievieno un izņem elementus droši</h3>
+        <p>Beigās tu zināsi, kāpēc sarakstu nedrīkst mainīt cikla laikā.</p>
+        <ol class="step-list">
+            <li><b>Izņem</b> otro elementu ar <code class="language-cpp">enemies.erase(enemies.begin() + 1);</code>.</li>
+            <li><b>Izdrukā</b> saraksta izmēru pirms un pēc izņemšanas.</li>
+            <li><b>Mēģini</b> piekļūt elementam <code class="language-cpp">enemies[10]</code> un pieraksti, kas notiek.</li>
+            <li><b>Nomaini</b> to uz <code class="language-cpp">enemies.at(10)</code> un salīdzini rezultātu.</li>
+            <li><b>Uzraksti</b> ciklu, kas cikla iekšpusē mēģina izdzēst elementu, un palaid to.</li>
+            <li><b>Pārraksti</b> to tā, lai dzēšamos vispirms savāktu otrā sarakstā.</li>
+            <li><b>Pieraksti</b>, kāpēc pirmais variants ir bīstams.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> saraksta izmērs pēc dzēšanas ir par vienu mazāks, un droši dzēst izdodas tikai pēc cikla.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Salīdzini vector ar Godot Array</h3>
+        <p>Beigās tu zināsi, kuru sarakstu kurā vietā lietot.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> <code class="language-cpp">Array bullets;</code> un pievieno tam dažas vērtības.</li>
+            <li><b>Izdrukā</b> tā izmēru ar <code class="language-cpp">bullets.size();</code>.</li>
+            <li><b>Mēģini</b> ielikt <code>Array</code> sarakstā gan skaitli, gan tekstu.</li>
+            <li><b>Mēģini</b> to pašu ar <code class="language-cpp">std::vector&lt;int&gt;</code> un izlasi kompilatora kļūdu.</li>
+            <li><b>Pieraksti</b>, kurš saraksts pieļauj dažādus tipus.</li>
+            <li><b>Pieraksti</b>, kurš saraksts ir vajadzīgs, lai datus nodotu Godot editoram.</li>
+            <li><b>Izvēlies</b> savam ienaidnieku sarakstam pareizo variantu un pamato izvēli.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> tu vari pateikt, ka <code>std::vector</code> ir tipa-drošs un ātrs iekšējam kodam, bet <code>Array</code> vajadzīgs saziņai ar Godot.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Atrodi tuvāko ienaidnieku</h3>
+        <p>Ja pamatdarbs ir gatavs, izmanto sarakstu reālam aprēķinam.</p>
+        <ol class="step-list">
+            <li><b>Uzraksti</b> metodi, kas saņem spēlētāja pozīciju.</li>
+            <li><b>Izej</b> ciklā cauri visiem ienaidniekiem.</li>
+            <li><b>Izrēķini</b> katram attālumu ar <code class="language-cpp">position.distance_to(...)</code>.</li>
+            <li><b>Saglabā</b> mainīgajā to, kuram attālums ir mazākais.</li>
+            <li><b>Izdrukā</b> tuvākā ienaidnieka nosaukumu un attālumu.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> metode atgriež tieši to ienaidnieku, kurš ekrānā ir vistuvāk spēlētājam.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct AiDataCheckpoint {
-    String lesson = "4.1 Vector un Array";
-    bool uses_cpp = true;
-    bool chooses_container = true;
-    bool separates_ai_state = true;
-    bool handles_removal_safely = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C++ izveidot <code>std::vector</code> sarakstu, droši pievienot un izņemt elementus un izskaidrot, ar ko tas atšķiras no Godot <code>Array</code>.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>C++ fails ar ienaidnieku sarakstu un ciklu GitHub krātuvē.</li>
+            <li>Ekrānuzņēmums ar Output paneli, kurā redzams saraksta izmērs pirms un pēc dzēšanas.</li>
+            <li>Burtnīcā: kāpēc sarakstu nedrīkst mainīt cikla laikā un kad lieto <code>Array</code>, nevis <code>std::vector</code>.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>4.1 Vector un Array</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, ekrānuzņēmumu un burtnīcas fotogrāfiju skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

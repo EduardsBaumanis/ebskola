@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - sagatavo navigācijas reģionu · 2. uzdevums (~25 min) - liec ienaidniekam sekot ceļam · 3. uzdevums (~20 min) - salīdzini taisno kustību ar pathfinding · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu projektu ar stāvokļu mašīnu no 4.3 stundas. Šodien ienaidnieks vairs neiestrēgs aiz sienas.</p>
     </div>
 </section>
 
@@ -140,67 +141,73 @@ struct AiDataCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>4.4 Pathfinding ar A*</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Sagatavo navigācijas reģionu</h3>
+        <p>Beigās Godot zinās, pa kurām vietām drīkst staigāt.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> scēnai mezglu <code>NavigationRegion2D</code>.</li>
+            <li><b>Izveido</b> tam <code>NavigationPolygon</code> resursu Inspector panelī.</li>
+            <li><b>Uzzīmē</b> daudzstūri, kas aptver visu staigājamo laukumu.</li>
+            <li><b>Pievieno</b> laukumā divas sienas kā <code>StaticBody2D</code>.</li>
+            <li><b>Izgriez</b> navigācijas daudzstūrī caurumus ap sienām.</li>
+            <li><b>Nospied</b> <b>Bake NavigationPolygon</b>.</li>
+            <li><b>Pārbaudi</b>, ka zilā zona neiet pāri sienām.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> navigācijas zona aptver grīdu, bet ne sienas, un tā ir redzama editorā zilā krāsā.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Liec ienaidniekam sekot ceļam</h3>
+        <p>Beigās ienaidnieks apstaigās sienu, nevis iestrēgs tajā.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> ienaidniekam bērnu <code>NavigationAgent2D</code>.</li>
+            <li><b>Iekļauj</b> C++ failā <code class="language-cpp">#include &lt;godot_cpp/classes/navigation_agent2d.hpp&gt;</code>.</li>
+            <li><b>Paņem</b> to kodā ar <code class="language-cpp">get_node&lt;NavigationAgent2D&gt;("NavigationAgent2D");</code>.</li>
+            <li><b>Iestati</b> mērķi ar <code class="language-cpp">agent-&gt;set_target_position(player_pos);</code>.</li>
+            <li><b>Paņem</b> nākamo punktu ar <code class="language-cpp">Vector2 next = agent-&gt;get_next_path_position();</code>.</li>
+            <li><b>Virzies</b> uz to ar <code class="language-cpp">(next - get_position()).normalized() * speed</code>.</li>
+            <li><b>Kompilē</b> un noliec spēlētāju aiz sienas.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ienaidnieks apiet sienu apkārt un nonāk pie spēlētāja, nevis spiežas sienā.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Salīdzini taisno kustību ar pathfinding</h3>
+        <p>Beigās tu redzēsi, ko tieši pathfinding atrisina.</p>
+        <ol class="step-list">
+            <li><b>Nomaini</b> kodu uz taisnu kustību tieši pret spēlētāju, bez agenta.</li>
+            <li><b>Noliec</b> spēlētāju aiz sienas un palaid.</li>
+            <li><b>Pieraksti</b>, kur ienaidnieks apstājās.</li>
+            <li><b>Ieliec</b> pathfinding kodu atpakaļ un atkārto to pašu testu.</li>
+            <li><b>Pieraksti</b>, cik ilgi tagad aizņēma nonākšana pie spēlētāja.</li>
+            <li><b>Pārbaudi</b>, kas notiek, ja spēlētājs ir ārpus navigācijas zonas.</li>
+            <li><b>Pieraksti</b>, ko dara <code>g</code> un ko <code>h</code> A* algoritmā.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> bez pathfinding ienaidnieks iestrēgst pie sienas, bet ar to - apiet apkārt.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Zīmē ceļu uz ekrāna</h3>
+        <p>Ja pamatdarbs ir gatavs, parādi, pa kuru ceļu ienaidnieks iet.</p>
+        <ol class="step-list">
+            <li><b>Paņem</b> pilnu ceļu ar <code class="language-cpp">agent-&gt;get_current_navigation_path();</code>.</li>
+            <li><b>Pievieno</b> scēnai <code>Line2D</code> mezglu.</li>
+            <li><b>Iestati</b> tā punktus uz ceļa punktiem katrā kadrā.</li>
+            <li><b>Palaid</b> un vēro, kā līnija mainās, kustinot spēlētāju.</li>
+            <li><b>Pieraksti</b>, cik punktu parasti ir ceļā.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ekrānā redzama līnija, kas rāda ienaidnieka plānoto ceļu ap sienu.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct AiDataCheckpoint {
-    String lesson = "4.4 Pathfinding ar A*";
-    bool uses_cpp = true;
-    bool chooses_container = true;
-    bool separates_ai_state = true;
-    bool handles_removal_safely = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavā līmenī ir izcepts navigācijas reģions, un ienaidnieks ar <code>NavigationAgent2D</code> apiet sienas, lai nonāktu pie spēlētāja, nevis iestrēgst pret tām.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Video, kurā ienaidnieks apiet sienu, lai nonāktu pie spēlētāja.</li>
+            <li>Ekrānuzņēmums ar navigācijas zonu editorā (zilā zona ap sienām).</li>
+            <li>Fails <code>enemy.cpp</code> ar <code>NavigationAgent2D</code> kodu.</li>
+            <li>Burtnīcā: ko A* algoritmā nozīmē <code>g</code> un ko <code>h</code>.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>4.4 Pathfinding ar A*</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, video un ekrānuzņēmumu skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

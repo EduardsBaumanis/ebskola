@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido inventāru ar std::map · 2. uzdevums (~25 min) - pievieno drošu meklēšanu · 3. uzdevums (~20 min) - salīdzini map ar Godot Dictionary · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atceries no Programmēšanas I vārdnīcas: <code>inventars["zobens"] = 1</code>. C++ tas pats saucas <code>std::map</code>, un Godot pusē - <code>Dictionary</code>.</p>
     </div>
 </section>
 
@@ -133,67 +134,72 @@ struct AiDataCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>4.2 Map un Dictionary</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Izveido inventāru ar std::map</h3>
+        <p>Beigās priekšmetus varēs atrast pēc nosaukuma, nevis pēc numura.</p>
+        <ol class="step-list">
+            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;map&gt;</code>.</li>
+            <li><b>Izveido</b> <code class="language-cpp">std::map&lt;String, int&gt; inventory;</code>.</li>
+            <li><b>Pievieno</b> <code class="language-cpp">inventory["Health Potion"] = 5;</code>.</li>
+            <li><b>Pievieno</b> vēl divus priekšmetus ar dažādiem daudzumiem.</li>
+            <li><b>Izdrukā</b> viena priekšmeta daudzumu pēc nosaukuma.</li>
+            <li><b>Uzraksti</b> ciklu <code class="language-cpp">for (auto&amp; p : inventory) { ... }</code>, kas izdrukā visu.</li>
+            <li><b>Pieraksti</b>, kādā secībā priekšmeti izdrukājās.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> izdrukā redzami visi trīs priekšmeti, un tie ir sakārtoti pēc nosaukuma alfabētiski.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Pievieno drošu meklēšanu</h3>
+        <p>Beigās neesoša priekšmeta pieprasījums vairs neradīs pārsteigumus.</p>
+        <ol class="step-list">
+            <li><b>Izdrukā</b> <code class="language-cpp">inventory["Nav taada"]</code> un pieraksti rezultātu.</li>
+            <li><b>Izdrukā</b> pēc tam saraksta izmēru un pieraksti, vai tas mainījās.</li>
+            <li><b>Pieraksti</b>, kāpēc tas ir bīstami.</li>
+            <li><b>Nomaini</b> pārbaudi uz <code class="language-cpp">if (inventory.count("Health Potion") &gt; 0) { ... }</code>.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-cpp">int get_amount(String name);</code>, kas atgriež 0, ja priekšmeta nav.</li>
+            <li><b>Izsauc</b> to ar esošu un neesošu nosaukumu.</li>
+            <li><b>Pārbaudi</b>, ka saraksta izmērs vairs nemainās.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> kvadrātiekavas ar neesošu atslēgu klusi pievieno jaunu ierakstu, bet tava metode to nedara.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Salīdzini map ar Godot Dictionary</h3>
+        <p>Beigās tu zināsi, kuru struktūru lietot saziņai ar Godot.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> <code class="language-cpp">Dictionary save_data;</code>.</li>
+            <li><b>Pievieno</b> tam <code class="language-cpp">save_data["player_name"] = "Anna";</code> un <code class="language-cpp">save_data["level"] = 5;</code>.</li>
+            <li><b>Izdrukā</b> abas vērtības.</li>
+            <li><b>Pieraksti</b>, vai <code>Dictionary</code> pieļauj dažādu tipu vērtības vienā struktūrā.</li>
+            <li><b>Mēģini</b> to pašu ar <code class="language-cpp">std::map&lt;String, int&gt;</code> un izlasi kļūdu.</li>
+            <li><b>Pieraksti</b>, kura struktūra derēs saglabāšanai failā.</li>
+            <li><b>Izvēlies</b> savam inventāram pareizo variantu un pamato.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> <code>Dictionary</code> pieņem dažādus tipus vienā struktūrā, bet <code>std::map</code> - tikai vienu.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Izmēģini unordered_map</h3>
+        <p>Ja pamatdarbs ir gatavs, salīdzini divas C++ vārdnīcas.</p>
+        <ol class="step-list">
+            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;unordered_map&gt;</code>.</li>
+            <li><b>Izveido</b> to pašu inventāru ar <code>std::unordered_map</code>.</li>
+            <li><b>Izdrukā</b> to ciklā un salīdzini secību ar <code>std::map</code>.</li>
+            <li><b>Pieraksti</b>, kura no tām saglabā kārtību.</li>
+            <li><b>Pieraksti</b>, kura ir ātrāka meklēšanai.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> <code>std::map</code> izdrukā alfabētiski, bet <code>unordered_map</code> - nesakārtoti.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct AiDataCheckpoint {
-    String lesson = "4.2 Map un Dictionary";
-    bool uses_cpp = true;
-    bool chooses_container = true;
-    bool separates_ai_state = true;
-    bool handles_removal_safely = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C++ izveidot <code>std::map</code> inventāru, droši meklēt tajā priekšmetus, nepievienojot tukšus ierakstus, un izskaidrot, kad jālieto Godot <code>Dictionary</code>.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>C++ fails ar inventāru un <code>get_amount</code> metodi GitHub krātuvē.</li>
+            <li>Ekrānuzņēmums, kurā redzams, ka pēc neesoša priekšmeta pieprasījuma saraksta izmērs nemainās.</li>
+            <li>Burtnīcā: kāpēc kvadrātiekavas ar neesošu atslēgu ir bīstamas un kad lieto <code>Dictionary</code>.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>4.2 Map un Dictionary</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, ekrānuzņēmumu un burtnīcas fotogrāfiju skolotāja norādītajā vietā.</p>
     </div>
 </section>
 
