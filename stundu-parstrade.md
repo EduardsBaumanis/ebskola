@@ -1134,6 +1134,34 @@ Drošības zars pirms apvienošanas: `backup/vienkarsosana-pirms-merge`.
 
 ---
 
+---
+
+## Tēmu ievadlapas (25 špikeri)
+
+Katrai tēmai ir ievadlapa (`*main.html`) ar stundu sarakstu un špikeri. Špikeri tika pārskatīti pret faktisko stundu saturu un pārstrādāti.
+
+**Kas bija nepareizi:**
+
+- Špikeri sedza tikai daļu tēmas. Piemēram, Programmēšanas II 1. tēmas špikeris rādīja tikai C++ klases reģistrāciju, lai gan tēmā ir arī Scene Tree, koordinātes un build komandas. Programmēšanas I 11. tēmā bija viens fragments, lai gan tēmā ir klases, konstruktori, metodes, mantošana un polimorfisms.
+- Apjoms bija ļoti nevienmērīgs: no 824 līdz 4807 baitiem.
+- Divi špikeri lietoja ar roku rakstītu `<span class="tok-*">` izcelšanu, ko nevar uzturēt; pārējie - parasto `pre/code`.
+- `prog2_5` visur rakstīja **BSP**, bet stunda faktiski māca **Random Walk** algoritmu.
+- `prog2_4` un `prog2_3` lietoja anglisko *Shooter* latviskā *šautene* vietā.
+- Viena lapa ielādēja neeksistējošu `prism-text.min.js` (404).
+
+**Kas ir tagad:** katrā špikerī 5 bloki, viens katrai stundai (pēdējais bloks apvieno noslēguma projektu ar priekšpēdējo stundu), katram norādīts stundas numurs, un zem katra koda bloka ir piezīme par to, kur skolēni parasti kļūdās. Apjoms visur 4400-5900 baiti.
+
+| Kurss | Tēmas | Špikeris sedz |
+|---|---|---|
+| Datorika 9 | 5 | git, HTML, CSS un Box Model, JS pamati, DOM un taimeri, publicēšana |
+| Robotika 7 | 2 | SPIKE bloki un sensori, Arduino shēmas un servo |
+| Programmēšana I | 12 | no PATH kļūdas līdz Flask REST API |
+| Programmēšana II | 6 | no Godot instalācijas līdz eksportam uz tīmekli |
+
+Visās 25 ievadlapās pārbaudīts: sabalansēti tagi, viena špikera sadaļa, katrai lietotajai valodai ielādēts Prism izcēlējs, derīgs JSON-LD un visas 150 saites uz stundām ved uz esošiem failiem.
+
+Stundu kartiņu nosaukumi ievadlapās ir saīsināti (piemēram, *Datu tipi un interaktivitāte* pret stundas *Datu tipi un interaktivitāte (Input/Output)*). Tas ir apzināti - kartiņā garš nosaukums nesalasās. Saturiski nepareizie nosaukumi ir izlaboti.
+
 ## Kas vēl nav izdarīts
 
 **Neapvienotais zars** `claude/audit-lesson-content-mLhPS` atstāts neaiztikts. Tas nav apvienots ar `origin/main`, satur 2 satura commitus, bet ir balstīts uz vecu koku - apvienojot to tagad, `style.css` tiktu atgriezts par ~2275 rindām.
