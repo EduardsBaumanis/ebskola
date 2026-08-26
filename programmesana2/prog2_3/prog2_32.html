@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido bērna klasi · 2. uzdevums (~25 min) - pārraksti metodi ar override · 3. uzdevums (~20 min) - izsauc visas lomas vienā ciklā · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu <code>Participant</code> klasi no 3.1 stundas. Šodien no vienas klases taisīsi vairākas lomas, nekopējot kodu.</p>
     </div>
 </section>
 
@@ -142,67 +143,72 @@ struct OopCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>3.2 Mantošana C++ un Godot</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Izveido bērna klasi</h3>
+        <p>Beigās jaunā klase mantos visu no vecāku klases.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> failu <code>captain.hpp</code>.</li>
+            <li><b>Ieraksti</b> <code class="language-cpp">class Captain : public Participant {</code>.</li>
+            <li><b>Pievieno</b> konstruktoru <code class="language-cpp">Captain(String n) : Participant(n, 150) {}</code>.</li>
+            <li><b>Pievieno</b> privātu lauku <code class="language-cpp">int stability = 10;</code>.</li>
+            <li><b>Izveido</b> objektu <code class="language-cpp">Captain c("Anna");</code> un izsauc tam <code>is_active()</code>.</li>
+            <li><b>Pieraksti</b>, no kurienes šī metode radās, ja tu to <code>Captain</code> klasē nerakstīji.</li>
+            <li><b>Izdzēs</b> <code>: Participant(n, 150)</code> daļu, kompilē un izlasi kļūdu.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> bērna objektam strādā vecāka metodes, bet bez vecāka konstruktora izsaukuma kods nekompilējas.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Pārraksti metodi ar override</h3>
+        <p>Beigās kapteinis sodu izturēs labāk nekā parasts dalībnieks.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> vecāka klasē atslēgvārdu <code class="language-cpp">virtual</code> pirms <code>apply_penalty</code>.</li>
+            <li><b>Pievieno</b> <code>Captain</code> klasē <code class="language-cpp">void apply_penalty(int amount) override;</code>.</li>
+            <li><b>Ieraksti</b> tajā <code class="language-cpp">amount = std::max(1, amount - stability);</code>.</li>
+            <li><b>Izsauc</b> pēc tam vecāka versiju ar <code class="language-cpp">Participant::apply_penalty(amount);</code>.</li>
+            <li><b>Izmēģini</b> vienādu sodu abiem: parastam dalībniekam un kapteinim.</li>
+            <li><b>Pieraksti</b>, cik enerģijas katrs zaudēja.</li>
+            <li><b>Izdzēs</b> <code>virtual</code> vārdu, kompilē un pieraksti, kas mainās.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ar vienādu sodu kapteinis zaudē mazāk enerģijas nekā parasts dalībnieks.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Izsauc visas lomas vienā ciklā</h3>
+        <p>Beigās viens cikls apkalpos jebkuru lomu skaitu.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> vēl vienu bērna klasi <code>Presenter</code> ar citu enerģiju.</li>
+            <li><b>Pārraksti</b> arī tai <code>apply_penalty</code> savā veidā.</li>
+            <li><b>Izveido</b> <code class="language-cpp">std::vector&lt;Participant*&gt; party;</code>.</li>
+            <li><b>Pievieno</b> tam pa vienam objektam no katras klases.</li>
+            <li><b>Uzraksti</b> ciklu, kas katram izsauc <code>apply_penalty(20)</code>.</li>
+            <li><b>Izdrukā</b> pēc cikla katra vārdu un atlikušo enerģiju.</li>
+            <li><b>Pieraksti</b>, kāpēc cikls nezina, kura loma tam tiek padota.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> viens cikls apstrādā visas lomas, un katra zaudē atšķirīgu enerģijas daudzumu.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Pievieno trešo lomu</h3>
+        <p>Ja pamatdarbs ir gatavs, paplašini hierarhiju.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> klasi <code>TimeKeeper</code> ar mazāku enerģiju, bet lielāku ātrumu.</li>
+            <li><b>Pārraksti</b> tai <code>apply_penalty</code> tā, lai tā zaudētu vairāk.</li>
+            <li><b>Pievieno</b> to sarakstam.</li>
+            <li><b>Palaid</b> ciklu vēlreiz un pārbaudi, vai kods bija jāmaina.</li>
+            <li><b>Pieraksti</b>, cik rindu bija jāpieraksta ciklā.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> trešā loma darbojas ciklā, un pašā ciklā nebija jāmaina neviena rinda.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct OopCheckpoint {
-    String lesson = "3.2 Mantošana C++ un Godot";
-    bool uses_cpp = true;
-    bool has_header_file = true;
-    bool has_single_responsibility = true;
-    bool uses_godot_registration = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti izveidot bērna klasi ar <code>public</code> mantošanu, izsaukt vecāka konstruktoru, pārrakstīt metodi ar <code>virtual</code> un <code>override</code> un apstrādāt visas lomas vienā ciklā.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Faili <code>captain.hpp</code> un <code>presenter.hpp</code> tavā GitHub krātuvē.</li>
+            <li>Ekrānuzņēmums ar Output paneli, kurā redzams, ka pēc vienāda soda lomām palikusi atšķirīga enerģija.</li>
+            <li>Burtnīcā: kas notiek, ja no vecāka metodes noņem <code>virtual</code>.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>3.2 Mantošana C++ un Godot</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

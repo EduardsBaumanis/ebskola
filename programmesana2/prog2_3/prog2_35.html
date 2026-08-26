@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido struct statistikai · 2. uzdevums (~25 min) - ieliec struct klasē un pievieno metodes · 3. uzdevums (~20 min) - pievieno pagaidu bonusus sarakstā · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu dalībnieku klasi. Šodien sakārtosi tās laukus: tā vietā, lai klasē būtu desmit atsevišķi skaitļi, tie visi dzīvos vienā <code>struct</code>.</p>
     </div>
 </section>
 
@@ -136,67 +137,72 @@ struct OopCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>3.5 Statistikas sistēma un struct</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Izveido struct statistikai</h3>
+        <p>Beigās visi dalībnieka skaitļi būs vienuviet.</p>
+        <ol class="step-list">
+            <li><b>Uzraksti</b> failā <code>stats.hpp</code> <code class="language-cpp">struct Stats {</code>.</li>
+            <li><b>Pievieno</b> laukus <code class="language-cpp">int energy = 100;</code> un <code class="language-cpp">int max_energy = 100;</code>.</li>
+            <li><b>Pievieno</b> arī <code class="language-cpp">int focus = 10;</code>, <code class="language-cpp">int calm = 5;</code> un <code class="language-cpp">int speed = 5;</code>.</li>
+            <li><b>Ievēro</b>, ka <code>struct</code> laukiem nav jāraksta <code>public:</code> - tie tādi ir jau paši par sevi.</li>
+            <li><b>Izveido</b> objektu <code class="language-cpp">Stats s;</code> un izdrukā visus laukus.</li>
+            <li><b>Nomaini</b> vienu lauku un izdrukā vēlreiz.</li>
+            <li><b>Pieraksti</b>, ar ko <code>struct</code> atšķiras no <code>class</code>.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> izdrukā redzamas visas noklusējuma vērtības, un tu vari nosaukt atšķirību no <code>class</code>.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Ieliec struct klasē un pievieno metodes</h3>
+        <p>Beigās klase glabās statistiku vienā laukā, nevis piecos.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> <code>Participant</code> klasei privātu lauku <code class="language-cpp">Stats stats;</code>.</li>
+            <li><b>Izdzēs</b> vecos atsevišķos skaitļu laukus.</li>
+            <li><b>Pievieno</b> <code>Stats</code> struktūrai metodi <code class="language-cpp">void heal(int amount);</code>.</li>
+            <li><b>Ieraksti</b> tajā <code class="language-cpp">energy = std::min(max_energy, energy + amount);</code>.</li>
+            <li><b>Pievieno</b> klasei publisku metodi <code class="language-cpp">Stats&amp; get_stats();</code>.</li>
+            <li><b>Izsauc</b> <code class="language-cpp">p.get_stats().heal(30);</code> un izdrukā enerģiju.</li>
+            <li><b>Pārbaudi</b>, ka enerģija nepārsniedz maksimumu.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc lielas dziedināšanas enerģija apstājas tieši uz <code>max_energy</code>, nevis to pārsniedz.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Pievieno pagaidu bonusus sarakstā</h3>
+        <p>Beigās dalībniekam varēs uzlikt bonusus, kas summējas.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> <code class="language-cpp">struct Buff { String name; int focus_bonus; };</code>.</li>
+            <li><b>Pievieno</b> <code>Stats</code> struktūrai lauku <code class="language-cpp">std::vector&lt;Buff&gt; buffs;</code>.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-cpp">int get_total_focus() const;</code>.</li>
+            <li><b>Saskaiti</b> tajā ciklā pamata <code>focus</code> plus visu bonusu summu.</li>
+            <li><b>Pievieno</b> divus bonusus un izdrukā kopējo fokusu.</li>
+            <li><b>Izdzēs</b> vienu bonusu un izdrukā vēlreiz.</li>
+            <li><b>Pieraksti</b>, kāpēc kopējo vērtību labāk rēķināt, nevis glabāt atsevišķā laukā.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> kopējais fokuss mainās, pievienojot un noņemot bonusus, un vienmēr sakrīt ar summu.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Pievieno bonusiem ilgumu</h3>
+        <p>Ja pamatdarbs ir gatavs, liec bonusiem beigties pēc dažām kārtām.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> <code>Buff</code> struktūrai lauku <code class="language-cpp">int turns_left;</code>.</li>
+            <li><b>Uzraksti</b> metodi, kas samazina visiem bonusiem <code>turns_left</code> par vienu.</li>
+            <li><b>Izdzēs</b> no saraksta tos, kuriem tas sasniedzis nulli.</li>
+            <li><b>Izsauc</b> šo metodi trīs reizes pēc kārtas.</li>
+            <li><b>Izdrukā</b> pēc katras reizes kopējo fokusu.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> bonusi pazūd paši pēc norādītā kārtu skaita, un fokuss atgriežas sākuma vērtībā.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct OopCheckpoint {
-    String lesson = "3.5 Statistikas sistēma un struct";
-    bool uses_cpp = true;
-    bool has_header_file = true;
-    bool has_single_responsibility = true;
-    bool uses_godot_registration = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti izveidot <code>struct</code> datu grupēšanai, ielikt to klasē kā lauku (kompozīcija) un rēķināt kopējo vērtību no saraksta, nevis glabāt to atsevišķi.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Faili <code>stats.hpp</code> un atjauninātais <code>participant.hpp</code> GitHub krātuvē.</li>
+            <li>Ekrānuzņēmums ar Output paneli, kurā redzams kopējais fokuss pirms un pēc bonusa noņemšanas.</li>
+            <li>Burtnīcā: ar ko <code>struct</code> atšķiras no <code>class</code> un kāpēc kopējo fokusu labāk rēķināt.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>3.5 Statistikas sistēma un struct</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, ekrānuzņēmumu un burtnīcas fotogrāfiju skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

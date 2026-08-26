@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido pirmo klasi ar laukiem · 2. uzdevums (~25 min) - pievieno konstruktoru un metodes · 3. uzdevums (~20 min) - pārbaudi private un public atšķirību · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> šī ir pirmā stunda par klasēm. Atceries no Programmēšanas I vārdnīcas: <code>dalibnieks = {"vards": "Anna", "energija": 100}</code>. Klase ir tas pats, tikai ar iebūvētām funkcijām un stingru kārtību.</p>
     </div>
 </section>
 
@@ -142,67 +143,72 @@ struct OopCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>3.1 C++ klases pamati</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Izveido pirmo klasi ar laukiem</h3>
+        <p>Beigās viens objekts glabās visus dalībnieka datus kopā.</p>
+        <ol class="step-list">
+            <li><b>Uzraksti</b> burtnīcā Python vārdnīcu, kas glabā dalībnieka vārdu, enerģiju un līmeni.</li>
+            <li><b>Izveido</b> failu <code>participant.hpp</code> ar <code class="language-cpp">#pragma once</code>.</li>
+            <li><b>Ieraksti</b> <code class="language-cpp">class Participant {</code> un beigās <code class="language-cpp">};</code> ar semikolu.</li>
+            <li><b>Pievieno</b> sadaļu <code class="language-cpp">public:</code>.</li>
+            <li><b>Pieteic</b> tajā laukus <code class="language-cpp">String name;</code>, <code class="language-cpp">int energy;</code> un <code class="language-cpp">int level = 1;</code>.</li>
+            <li><b>Izveido</b> objektu citā failā un piešķir tā laukiem vērtības.</li>
+            <li><b>Izdrukā</b> visus trīs laukus un kompilē.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> izdrukā redzami visi trīs lauki, un tu vari parādīt, kura koda rinda atbilst kurai vārdnīcas atslēgai.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Pievieno konstruktoru un metodes</h3>
+        <p>Beigās objektu varēsi izveidot vienā rindā, un tas pats pratīs sevi mainīt.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> klasē konstruktoru <code class="language-cpp">Participant(String n, int h) { name = n; energy = h; }</code>.</li>
+            <li><b>Izveido</b> objektu ar <code class="language-cpp">Participant p("Anna", 100);</code>.</li>
+            <li><b>Pievieno</b> metodi <code class="language-cpp">void apply_penalty(int amount);</code>.</li>
+            <li><b>Ieraksti</b> tajā enerģijas samazināšanu un pārbaudi, ka tā nekļūst negatīva.</li>
+            <li><b>Pievieno</b> metodi <code class="language-cpp">bool is_active();</code>, kas atgriež <code class="language-cpp">energy &gt; 0</code>.</li>
+            <li><b>Izsauc</b> abas metodes un izdrukā rezultātu.</li>
+            <li><b>Pieraksti</b>, ar ko metode atšķiras no parastas funkcijas.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> objektu var izveidot vienā rindā, un pēc liela soda enerģija ir tieši 0, nevis negatīva.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Pārbaudi private un public atšķirību</h3>
+        <p>Beigās tu zināsi, kāpēc daļu datu paslēpj.</p>
+        <ol class="step-list">
+            <li><b>Pārvieto</b> lauku <code>energy</code> uz sadaļu <code class="language-cpp">private:</code>.</li>
+            <li><b>Mēģini</b> to nomainīt no ārpuses ar <code class="language-cpp">p.energy = 9999;</code>.</li>
+            <li><b>Kompilē</b> un pieraksti kompilatora kļūdas tekstu.</li>
+            <li><b>Pievieno</b> publisku metodi <code class="language-cpp">int get_energy();</code>.</li>
+            <li><b>Nolasi</b> enerģiju caur šo metodi un izdrukā to.</li>
+            <li><b>Pieraksti</b>, kāpēc ir labi, ka enerģiju var mainīt tikai caur <code>apply_penalty</code>.</li>
+            <li><b>Pārliecinies</b>, ka projekts kompilējas bez kļūdām.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> tieša piekļuve privātam laukam dod kompilatora kļūdu, bet caur metodi vērtību nolasīt var.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Izveido komandu no trim dalībniekiem</h3>
+        <p>Ja pamatdarbs ir gatavs, strādā ar vairākiem objektiem reizē.</p>
+        <ol class="step-list">
+            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;vector&gt;</code>.</li>
+            <li><b>Izveido</b> <code class="language-cpp">std::vector&lt;Participant&gt; team;</code>.</li>
+            <li><b>Pievieno</b> tam trīs dalībniekus ar dažādām enerģijām.</li>
+            <li><b>Uzraksti</b> ciklu, kas izdrukā katra vārdu un enerģiju.</li>
+            <li><b>Saskaiti</b> ciklā, cik dalībnieku vēl ir aktīvi.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> cikls izdrukā visus trīs dalībniekus un pareizi saskaita aktīvos.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct OopCheckpoint {
-    String lesson = "3.1 C++ klases pamati";
-    bool uses_cpp = true;
-    bool has_header_file = true;
-    bool has_single_responsibility = true;
-    bool uses_godot_registration = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C++ uzrakstīt klasi ar laukiem, konstruktoru un metodēm, izveidot no tās objektu un paskaidrot, kāpēc daļa lauku ir <code>private</code>.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Faili <code>participant.hpp</code> un <code>participant.cpp</code> tavā GitHub krātuvē.</li>
+            <li>Ekrānuzņēmums ar Output paneli, kurā redzami dalībnieka dati un enerģija pēc soda.</li>
+            <li>Burtnīcā: Python vārdnīca un tai atbilstošā C++ klase blakus, un viens teikums, kāpēc <code>energy</code> ir <code>private</code>.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>3.1 C++ klases pamati</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, ekrānuzņēmumu un burtnīcas fotogrāfiju skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

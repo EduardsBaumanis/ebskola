@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - reģistrē un raidi signālu · 2. uzdevums (~25 min) - pieslēdzies signālam no cita objekta · 3. uzdevums (~20 min) - salīdzini signālu ar tiešu izsaukumu · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu projektu ar dalībnieku klasēm. Signāls ir kā paziņojums: viens objekts pasaka "tas notika", bet citi paši izlemj, vai klausīties.</p>
     </div>
 </section>
 
@@ -134,67 +135,73 @@ struct OopCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>3.3 Signāli un objektu komunikācija</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Reģistrē un raidi signālu</h3>
+        <p>Beigās tavs objekts pratīs paziņot, ka tas beidzis darbu.</p>
+        <ol class="step-list">
+            <li><b>Nomaini</b> <code>Participant</code> tā, lai tā mantotu no <code>Node</code> un lietotu <code class="language-cpp">GDCLASS(Participant, Node)</code>.</li>
+            <li><b>Pievieno</b> <code>_bind_methods</code> metodē <code class="language-cpp">ADD_SIGNAL(MethodInfo("finished", PropertyInfo(Variant::STRING, "name")));</code>.</li>
+            <li><b>Uzraksti</b> metodē <code>apply_penalty</code> pārbaudi, vai enerģija nokritusi līdz 0.</li>
+            <li><b>Izsauc</b> tajā <code class="language-cpp">emit_signal("finished", name);</code>.</li>
+            <li><b>Kompilē</b> un pievieno objektu scēnai.</li>
+            <li><b>Pārbaudi</b> Godot editorā cilnē <b>Node -&gt; Signals</b>, vai signāls <code>finished</code> tur ir redzams.</li>
+            <li><b>Pieraksti</b>, kas notiek, ja <code>ADD_SIGNAL</code> rindu izdzēš.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> Godot editora Signals sarakstā parādās tavs signāls <code>finished</code>.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Pieslēdzies signālam no cita objekta</h3>
+        <p>Beigās cits objekts uzzinās par notikumu, tieši to nepārbaudot.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> C++ klasi <code>TournamentManager</code>, kas manto no <code>Node</code>.</li>
+            <li><b>Pievieno</b> tai metodi <code class="language-cpp">void on_participant_finished(String name);</code>.</li>
+            <li><b>Reģistrē</b> to <code>_bind_methods</code> metodē ar <code>ClassDB::bind_method</code>.</li>
+            <li><b>Savieno</b> <code>_ready</code> metodē signālu ar <code class="language-cpp">participant-&gt;connect("finished", Callable(this, "on_participant_finished"));</code>.</li>
+            <li><b>Izdrukā</b> apstrādātājā, kurš dalībnieks beidzis darbu.</li>
+            <li><b>Kompilē</b> un samazini dalībnieka enerģiju līdz nullei.</li>
+            <li><b>Pārbaudi</b> Output panelī, ka paziņojums pienāca.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> kad dalībnieka enerģija sasniedz 0, menedžeris izdrukā tā vārdu, lai gan pats to nepārbaudīja.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Salīdzini signālu ar tiešu izsaukumu</h3>
+        <p>Beigās tu zināsi, kāpēc signāli ir ērtāki par tiešu saiti.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> otru dalībnieku un pieslēdz arī to tam pašam signālam.</li>
+            <li><b>Samazini</b> abu enerģiju un pārbaudi, ka pienāk divi paziņojumi.</li>
+            <li><b>Iedomājies</b> variantu, kur <code>Participant</code> pats izsauktu menedžeri, un pieraksti, ko tad vajadzētu glabāt katrā dalībniekā.</li>
+            <li><b>Pieraksti</b>, kas notiktu ar šo variantu, ja menedžera scēnā nav.</li>
+            <li><b>Atvieno</b> vienu dalībnieku ar <code class="language-cpp">disconnect(...)</code> un pārbaudi vēlreiz.</li>
+            <li><b>Pieraksti</b>, cik paziņojumu tagad pienāca.</li>
+            <li><b>Pieraksti</b> secinājumu: kurš objekts zina par kuru.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> abi dalībnieki raida signālu neatkarīgi, un atvienotais vairs neizraisa paziņojumu.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Pievieno signālam vairāk datu</h3>
+        <p>Ja pamatdarbs ir gatavs, nodod signālā arī skaitli.</p>
+        <ol class="step-list">
+            <li><b>Papildini</b> <code>ADD_SIGNAL</code> ar otru parametru, piemēram atlikušo enerģiju.</li>
+            <li><b>Nodod</b> to <code>emit_signal</code> izsaukumā.</li>
+            <li><b>Papildini</b> apstrādātāja metodi ar otru parametru.</li>
+            <li><b>Izdrukā</b> abus datus.</li>
+            <li><b>Pārbaudi</b>, ka kompilators sūdzas, ja parametru skaits nesakrīt.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> signāls nodod gan vārdu, gan skaitli, un tie abi parādās izdrukā.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct OopCheckpoint {
-    String lesson = "3.3 Signāli un objektu komunikācija";
-    bool uses_cpp = true;
-    bool has_header_file = true;
-    bool has_single_responsibility = true;
-    bool uses_godot_registration = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C++ klasē reģistrēt Godot signālu, to raidīt notikuma brīdī un pieslēgt tam citu objektu, un vari izskaidrot, kāpēc signāls ir ērtāks par tiešu izsaukumu.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Faili ar <code>ADD_SIGNAL</code>, <code>emit_signal</code> un <code>connect</code> izsaukumiem GitHub krātuvē.</li>
+            <li>Ekrānuzņēmums ar Godot <b>Node -&gt; Signals</b> cilni, kurā redzams tavs signāls.</li>
+            <li>Ekrānuzņēmums ar Output paneli, kurā redzami abu dalībnieku paziņojumi.</li>
+            <li>Burtnīcā: viens teikums par to, kurš objekts par kuru zina, lietojot signālus.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>3.3 Signāli un objektu komunikācija</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un abus ekrānuzņēmumus skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

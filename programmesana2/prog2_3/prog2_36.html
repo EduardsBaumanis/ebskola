@@ -81,7 +81,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~20 min) - saliec komandu un šķēršļus · 2. uzdevums (~25 min) - uzraksti vienas kārtas loģiku · 3. uzdevums (~20 min) - pievieno turnīra ciklu un rezultātu · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> šis ir 3. tēmas noslēguma projekts. Izmanto visu apgūto: klases, mantošanu, signālus, Inspector īpašības un <code>struct</code>. Sāc ar vienu kārtu, tikai tad taisi ciklu.</p>
     </div>
 </section>
 
@@ -124,67 +125,73 @@ struct OopCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>3.6 Noslēguma projekts: Klases turnīra simulators</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Saliec komandu un šķēršļus</h3>
+        <p>Beigās tev būs trīs dalībnieki un trīs šķēršļi, gatavi turnīram.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> C++ klasi <code>TournamentManager</code>, kas manto no <code>Node</code>.</li>
+            <li><b>Pievieno</b> tai <code class="language-cpp">std::vector&lt;Participant*&gt; party;</code> un <code class="language-cpp">std::vector&lt;Obstacle*&gt; obstacles;</code>.</li>
+            <li><b>Pievieno</b> komandai pa vienam <code>Captain</code>, <code>Presenter</code> un <code>TimeKeeper</code> objektam.</li>
+            <li><b>Pievieno</b> šķēršļu sarakstam trīs dažādus <code>Obstacle</code> mezglus.</li>
+            <li><b>Izdrukā</b> <code>_ready</code> metodē visu dalībnieku un šķēršļu nosaukumus.</li>
+            <li><b>Kompilē</b> un palaid, lai pārbaudītu abus sarakstus.</li>
+            <li><b>Pārliecinies</b>, ka neviens saraksts nav tukšs.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> Output panelī izdrukājas trīs dalībnieki un trīs šķēršļi ar saviem nosaukumiem.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Uzraksti vienas kārtas loģiku</h3>
+        <p>Beigās viena turnīra kārta samazinās enerģiju pareizajiem objektiem.</p>
+        <ol class="step-list">
+            <li><b>Uzraksti</b> metodi <code class="language-cpp">void play_turn();</code>.</li>
+            <li><b>Izvēlies</b> tajā nejaušu šķērsli ar <code class="language-cpp">UtilityFunctions::randi_range(...)</code>.</li>
+            <li><b>Izvēlies</b> nejaušu dalībnieku no komandas.</li>
+            <li><b>Izsauc</b> dalībniekam <code>apply_penalty</code> ar šķēršļa spēku.</li>
+            <li><b>Izdrukā</b>, kurš šķērslis kuram dalībniekam iedarbojās un cik enerģijas palika.</li>
+            <li><b>Izsauc</b> metodi trīs reizes un pārbaudi izdrukas.</li>
+            <li><b>Pārbaudi</b>, ka katra loma sodu izcieš atšķirīgi.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> katrā kārtā izdrukājas cits šķērslis un dalībnieks, un kapteinis zaudē mazāk nekā pārējie.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Pievieno turnīra ciklu un rezultātu</h3>
+        <p>Beigās turnīrs noskaidros uzvarētāju pats.</p>
+        <ol class="step-list">
+            <li><b>Uzraksti</b> ciklu, kas izsauc <code>play_turn()</code>, kamēr aktīvi vismaz divi dalībnieki.</li>
+            <li><b>Pieslēdzies</b> katra dalībnieka signālam <code>finished</code> no 3.3 stundas.</li>
+            <li><b>Izdrukā</b> paziņojumu, kad kāds dalībnieks izstājas.</li>
+            <li><b>Saskaiti</b> kārtu skaitu ar lauku <code class="language-cpp">int current_turn = 0;</code>.</li>
+            <li><b>Izdrukā</b> beigās uzvarētāja vārdu un kopējo kārtu skaitu.</li>
+            <li><b>Palaid</b> simulāciju trīs reizes un pieraksti rezultātus.</li>
+            <li><b>Veic</b> commit un push.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> trīs palaišanas reizēs uzvar dažādi dalībnieki, un cikls vienmēr beidzas, nevis griežas bezgalīgi.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Parādi turnīru uz ekrāna</h3>
+        <p>Ja pamatdarbs ir gatavs, pārcel izdrukas no Output uz spēles logu.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> scēnai <code>Label</code> mezglu katram dalībniekam.</li>
+            <li><b>Atjaunini</b> tajos enerģijas vērtību pēc katras kārtas.</li>
+            <li><b>Pievieno</b> vienu <code>Label</code> notikumu žurnālam.</li>
+            <li><b>Pievieno</b> pogu, kas izpilda vienu kārtu.</li>
+            <li><b>Izspēlē</b> turnīru, spiežot pogu, nevis palaižot ciklu.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> turnīru var izspēlēt ar pogu, un enerģijas vērtības uz ekrāna mainās pēc katras kārtas.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct OopCheckpoint {
-    String lesson = "3.6 Noslēguma projekts: Klases turnīra simulators";
-    bool uses_cpp = true;
-    bool has_header_file = true;
-    bool has_single_responsibility = true;
-    bool uses_godot_registration = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tev ir strādājošs klases turnīra simulators: trīs dalībnieku lomas ar atšķirīgu uzvedību, trīs šķēršļi, kārtu cikls ar signāliem par izstāšanos un izdrukāts uzvarētājs ar kārtu skaitu.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Saite uz GitHub krātuvi ar visu projektu.</li>
+            <li>Ekrānuzņēmums ar Output paneli, kurā redzama vismaz viena pilna turnīra norise līdz uzvarētājam.</li>
+            <li>Faili <code>tournament_manager.cpp</code>, <code>participant.hpp</code> un vismaz vienas lomas klase.</li>
+            <li>Burtnīcā: trīs palaišanas reižu rezultāti un viens teikums par to, kāpēc rezultāti atšķiras.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>3.6 Noslēguma projekts: Klases turnīra simulators</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā. Projektam jābūt kompilējamam no tavas krātuves.</p>
     </div>
 </section>
 
