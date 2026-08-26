@@ -254,37 +254,144 @@
   </div>
 </div></section>
 
-<section id="spekeris"><div class="wrap">
+<section id="cheatsheet"><div class="wrap">
   <div class="sec-head"><div>
     <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-    <h2 class="sec-title">Failu I/O un CSV/JSON špikeris</h2>
+    <h2 class="sec-title">6. tēmas špikeris - faili un dati</h2>
+    <p class="sec-sub">Failu I/O, CSV, JSON, datu transformācija un vizualizācija. Katrs bloks atbilst vienai stundai.</p>
   </div></div>
   <div class="logic-box">
-    <h3>Failu lasīšana, rakstīšana, CSV un JSON</h3>
-    <pre><code class="language-python">import csv, json
+    <h3>6.1 Failu režīmi un JSON</h3>
+    <pre><code class="language-python"># Režīmi - "w" ir BĪSTAMS
+open("dati.txt", "r")   # lasa; ja faila nav -> FileNotFoundError
+open("dati.txt", "w")   # raksta; IZDZĒŠ visu veco saturu bez brīdinājuma!
+open("dati.txt", "a")   # pieraksta beigās; drošs
 
-# Teksta fails - lasīšana
+# with aizver failu pats, arī ja rodas kļūda
+with open("dati.txt", "a", encoding="utf-8") as f:
+    f.write("Jauna rinda\n")           # \n = jauna rinda
+
 with open("dati.txt", "r", encoding="utf-8") as f:
-    saturs = f.read()
+    for rinda in f:
+        print(rinda.strip())           # .strip() noņem \n
 
-# CSV - pievienot rindu
-with open("highscore.csv", "a", newline="") as f:
-    csv.writer(f).writerow(["Anna", 95])
+# JSON - vesela struktūra vienā failā
+import json
+dati = {"vards": "Anna", "punkti": 100, "materiali": ["marķieris"]}
 
-# CSV - nolasīt visu
-with open("highscore.csv", "r") as f:
-    dati = list(csv.reader(f))
+with open("save.json", "w", encoding="utf-8") as f:
+    json.dump(dati, f, indent=4)       # indent=4 -> salasāmi
 
-# JSON - saglabāt
-with open("jautajumi.json", "w", encoding="utf-8") as f:
-    json.dump({"jautajumi": [...]}, f, ensure_ascii=False, indent=2)
+with open("save.json", "r", encoding="utf-8") as f:
+    ielade = json.load(f)</code></pre>
+    <p class="cheat-note"><code>encoding="utf-8"</code> raksti vienmēr - bez tā garumzīmes failā var pārvērsties par simbolu putru.</p>
+  </div>
+  <div class="logic-box">
+    <h3>6.2-6.3 CSV lasīšana un transformācija</h3>
+    <pre><code class="language-python">import csv
 
-# JSON - ielādēt
-with open("jautajumi.json", encoding="utf-8") as f:
-    dati = json.load(f)
+# DictReader pārvērš katru rindu par vārdnīcu,
+# kur atslēgas ir tabulas PIRMĀ rinda (galvenes)
+with open('pasaule.csv', mode='r', encoding='utf-8') as f:
+    lasitajs = csv.DictReader(f)
+    for rinda in lasitajs:
+        print(rinda['id'], rinda['teksts'])
 
-# TOP-5 highscore
-top5 = sorted(dati, key=lambda r: int(r[1]), reverse=True)[:5]</code></pre>
+# Dati no izklājlapas ir netīri - jātīra
+id_skaitlis = int(rinda['id'].strip())    # " 2 " -> 2
+#   .strip()  noņem liekās atstarpes
+#   int()     teksts -> skaitlis
+
+# Saraksts -> vārdnīca pēc id = tūlītēja piekļuve
+pasaules_karte = {}
+for rinda in lasitajs:
+    pasaules_karte[int(rinda['id'].strip())] = rinda
+
+pasaules_karte[2]['teksts']    # uzreiz, bez cikla
+
+# Bojāta rinda nedrīkst apturēt visu ielādi
+try:
+    id_skaitlis = int(rinda['id'].strip())
+except ValueError:
+    print("Izlaižu bojātu rindu:", rinda)
+    continue</code></pre>
+    <p class="cheat-note">Saraksts prasa pārmeklēt visas rindas. Vārdnīca pēc <code>id</code> atrod ierakstu uzreiz.</p>
+  </div>
+  <div class="logic-box">
+    <h3>6.4 JSON lasīt-mainīt-rakstīt cikls</h3>
+    <pre><code class="language-python">import json
+
+# 1. LASĪT (ar trūkstoša faila apstrādi)
+try:
+    with open("scores.json", "r", encoding="utf-8") as f:
+        top = json.load(f)
+except FileNotFoundError:
+    top = []                    # pirmā reize - sākam ar tukšu sarakstu
+
+# 2. MAINĪT
+top.append({"vards": "Anna", "punkti": 120})
+
+# 3. RAKSTĪT - vienmēr VISU sarakstu, režīmā "w"
+with open("scores.json", "w", encoding="utf-8") as f:
+    json.dump(top, f, indent=4)
+
+# JSON failam nedrīkst "pierakstīt klāt" ar "a" - tas sabojātu formātu.
+
+# Kārtošana pēc lauka
+top.sort(key=lambda x: x["punkti"], reverse=True)
+for i, ieraksts in enumerate(top[:5], 1):        # TOP 5
+    print(f"{i}. {ieraksts['vards']} - {ieraksts['punkti']}")</code></pre>
+    <p class="cheat-note"><code>top[:5]</code> ar trim ierakstiem atgriež trīs - kļūdu tas nerada.</p>
+  </div>
+  <div class="logic-box">
+    <h3>6.5 Agregācija un teksta diagramma</h3>
+    <pre><code class="language-python">statistika = {"Mežs": 15, "Ala": 8, "Pils": 3}
+
+kopa = 0
+for skaitlis in statistika.values():
+    kopa += skaitlis
+
+videjais = kopa / len(statistika)
+print(f"Vidēji {videjais:.1f}")
+
+# Stabiņu diagramma no simboliem
+print("--- LOKĀCIJU POPULARITĀTE ---")
+for vieta, skaits in statistika.items():
+    stabins = "#" * skaits              # simbolu var reizināt!
+    print(f"{vieta:10} {stabins} {skaits}")
+
+# {vieta:10} = teksts 10 zīmju platumā -> stabiņi sākas vienā līnijā
+
+# Sakārtots pēc lieluma
+for vieta, skaits in sorted(statistika.items(),
+                            key=lambda x: x[1], reverse=True):
+    print(f"{vieta:10} {'#' * skaits}")</code></pre>
+    <p class="cheat-note">Secinājumam jābalstās uz skaitli: "Mežs ir 15 no 26 gadījumiem, tas ir 58%", nevis "Mežs šķiet populārs".</p>
+  </div>
+  <div class="logic-box">
+    <h3>6.6 Noslēguma projekts: dati ārpus koda</h3>
+    <pre><code class="language-python">import json, random
+
+def ielade_jautajumus(fails="jautajumi.json"):
+    with open(fails, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+jautajumi = ielade_jautajumus()
+vards = input("Tavs vārds: ")
+punkti = 0
+
+for j in random.sample(jautajumi, 5):        # 5 nejauši, bez atkārtošanās
+    print(j["teksts"])
+    for i, v in enumerate(j["varianti"], 1):
+        print(f"  {i}. {v}")
+    atbilde = int(input("Atbilde: ")) - 1
+    if atbilde == j["pareizais"]:
+        punkti += 1
+
+# Rezultāts CSV failā, režīmā "a" - vecie rezultāti paliek
+with open("highscore.csv", "a", encoding="utf-8") as f:
+    f.write(f"{vards},{punkti}\n")</code></pre>
+    <p class="cheat-note">Jautājumi dzīvo <code>jautajumi.json</code> failā - lai pievienotu jaunu, kods nav jāmaina.</p>
   </div>
 </div></section>
 

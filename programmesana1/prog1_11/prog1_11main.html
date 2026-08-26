@@ -119,34 +119,127 @@
   </div>
 </div></section>
 
-<section id="spekeris"><div class="wrap">
-  <div class="sec-head"><div><div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div><h2 class="sec-title">OOP Python špikeris</h2></div></div>
+<section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">11. tēmas špikeris - objektorientētā programmēšana</h2>
+    <p class="sec-sub">Klases, konstruktori, metodes, mantošana un polimorfisms. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
   <div class="logic-box">
-    <h3>Klase, mantošana un polimorfisms</h3>
-    <pre><code class="language-python">class Cīnītājs:
-    def __init__(self, vārds: str, hp: int = 100):
-        self.vārds = vārds
-        self.hp    = hp
+    <h3>11.1 Klase un objekts</h3>
+    <pre><code class="language-python"># Klase = veidne (cepuma forma). Objekts = eksemplārs (cepums).
 
-    def uzbrukt(self, pretinieks: "Cīnītājs") -> int:
-        kaitejums = 10
-        pretinieks.hp -= kaitejums
-        return kaitejums
+class Speletajs:
+    maks_energija = 100        # KLASES atribūts - kopīgs visiem objektiem
 
-    def __str__(self) -> str:
-        return f"{self.vārds} (HP: {self.hp})"
+speletajs1 = Speletajs()       # objekts
+speletajs2 = Speletajs()
 
-class Maģis(Cīnītājs):
-    def uzbrukt(self, pretinieks: "Cīnītājs") -> int:
-        kaitejums = 20  # polimorfisms - override
-        pretinieks.hp -= kaitejums
-        return kaitejums
+speletajs1.vards = "Anna"      # OBJEKTA atribūts - tikai šim objektam
+speletajs2.vards = "Jānis"
 
-anna  = Maģis("Anna", hp=80)
-janis = Cīnītājs("Jānis")
-anna.uzbrukt(janis)
-print(janis)                        # Jānis (HP: 80)
-print(isinstance(anna, Cīnītājs))  # True</code></pre>
+speletajs1.vards               # "Anna"  - otram nemainījās
+
+Speletajs.maks_energija = 120  # mainās ABIEM objektiem
+speletajs1.maks_energija = 200 # mainās TIKAI pirmajam
+
+print(speletajs1 == speletajs2)   # False - divi dažādi objekti</code></pre>
+    <p class="cheat-note">Klases atribūts pieder visiem, objekta atribūts - vienam. Skaitītājam, cik objektu izveidots, vajag klases atribūtu.</p>
+  </div>
+  <div class="logic-box">
+    <h3>11.2 Konstruktors __init__</h3>
+    <pre><code class="language-python">class Dalibnieks:
+    def __init__(self, vards, energija=100, klase="kapteinis"):
+        # self = norāde uz JAUNO objektu, vienmēr pirmais parametrs
+        if energija <= 0:
+            raise ValueError("Enerģijai jābūt pozitīvai")
+        if not vards:
+            raise ValueError("Vārds nedrīkst būt tukšs")
+
+        self.vards = vards
+        self.energija = energija
+        self.maks_energija = energija      # atceramies sākuma vērtību
+        self.klase = klase
+
+d1 = Dalibnieks("Anna")                    # noklusējumi: 100, "kapteinis"
+d2 = Dalibnieks("Jānis", 80, "prezentētājs")
+
+# Dalibnieks()          -> TypeError: trūkst arguments 'vards'
+# Dalibnieks("X", -5)   -> ValueError: tava paša pārbaude</code></pre>
+    <p class="cheat-note">Pārbaudi liec konstruktorā - tad neviens objekts vispār nevar rasties nederīgs.</p>
+  </div>
+  <div class="logic-box">
+    <h3>11.3 Metodes un self</h3>
+    <pre><code class="language-python">class Dalibnieks:
+    def __init__(self, vards, energija=100):
+        self.vards = vards
+        self.energija = energija
+        self.maks_energija = energija
+
+    def sanem_punktus(self, punkti):          # MAINA objekta stāvokli
+        self.energija = max(0, self.energija - punkti)
+
+    def atjaunojas(self, daudzums):
+        self.energija = min(self.maks_energija, self.energija + daudzums)
+
+    def vai_aktivs(self):                     # ATGRIEŽ atbildi
+        return self.energija > 0
+
+    def apraksts(self):
+        print(f"{self.vards}: {self.energija} enerģija")
+
+d = Dalibnieks("Anna")
+d.sanem_punktus(30)      # Python pats padod objektu kā self
+d.vai_aktivs()           # True
+
+# Aizmirsts self definīcijā -> TypeError: takes 0 positional arguments</code></pre>
+    <p class="cheat-note"><code>max(0, ...)</code> un <code>min(maks, ...)</code> ir īsākais veids, kā noturēt vērtību robežās.</p>
+  </div>
+  <div class="logic-box">
+    <h3>11.4 Mantošana un super()</h3>
+    <pre><code class="language-python">class Dalibnieks:
+    def __init__(self, vards, energija=100, temps=10):
+        self.vards = vards
+        self.energija = energija
+        self.temps = temps
+
+class Kapteinis(Dalibnieks):              # manto visu no Dalibnieks
+    def __init__(self, vards):
+        super().__init__(vards, energija=120)   # izsauc VECĀKA konstruktoru
+        self.loma = "kapteinis"                 # savs papildinājums
+
+    def sauklis(self):                          # sava metode
+        print(f"{self.vards}: komanda gatava!")
+
+k = Kapteinis("Anna")
+k.vai_aktivs()          # strādā - mantots no vecāka
+isinstance(k, Dalibnieks)   # True
+
+# Bez super().__init__() -> AttributeError: nav 'vards'</code></pre>
+    <p class="cheat-note">Mantošana ietaupa kopēšanu: kopīgais dzīvo vecākklasē, atšķirīgais - bērnos.</p>
+  </div>
+  <div class="logic-box">
+    <h3>11.5-11.6 Polimorfisms un dunder metodes</h3>
+    <pre><code class="language-python">class Dalibnieks:
+    def runa(self):  print("Dalībnieks runā vispārīgi.")
+    def __str__(self):  return f"{self.vards} ({self.energija})"
+    def __repr__(self): return f"Dalibnieks({self.vards!r})"
+    def __lt__(self, cits): return self.energija < cits.energija
+
+class Kapteinis(Dalibnieks):
+    def runa(self):  print("Komanda gatava!")      # pārraksta
+
+class Prezentetajs(Dalibnieks):
+    def runa(self):  print("Slaids ir gatavs!")
+
+# Polimorfisms: viens cikls, dažāda uzvedība
+for d in [Kapteinis("Anna"), Prezentetajs("Jānis")]:
+    d.runa()                # katrs runā savādāk, cikls to nezina
+
+print(d)          # lieto __str__   - cilvēkam
+print([d])        # lieto __repr__  - programmētājam
+sorted(saraksts)  # lieto __lt__    - bez tā TypeError</code></pre>
+    <p class="cheat-note">Pievienojot ceturto lomu, cikls nav jāmaina - tā ir polimorfisma galvenā vērtība.</p>
   </div>
 </div></section>
 

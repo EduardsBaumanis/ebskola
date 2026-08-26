@@ -14,6 +14,7 @@
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 </head><body class="page-home">
 <header class="topbar"><div class="wrap row">
   <a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
@@ -110,35 +111,134 @@ app <span class="tok-op">=</span> <span class="tok-fn">Flask</span>(__name__)
   </div>
 </div></section>
 
-<section id="spekeris"><div class="wrap">
-  <div class="sec-head"><div><div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div><h2 class="sec-title">Flask un pip špikeris</h2></div></div>
+<section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">9. tēmas špikeris - bibliotēkas un tīmekļa saskarne</h2>
+    <p class="sec-sub">pip, virtuālā vide, API, licences un Streamlit. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
   <div class="logic-box">
-    <h3>Flask minimālā lietotne</h3>
-    <pre><code class="language-python">from flask import Flask, render_template, request, jsonify
+    <h3>9.1 Virtuālā vide un pip</h3>
+    <pre><code class="language-bash"># Izveido projektam savu vidi (lai bibliotēkas nesajaucas starp projektiem)
+python -m venv venv
 
-app = Flask(__name__)
+# Aktivizē
+venv\Scripts\activate          # Windows
+source venv/bin/activate       # macOS / Linux
+# Rindas sākumā jāparādās (venv)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+pip install requests           # uzstāda bibliotēku
+pip list                       # ko esmu uzstādījis?
+pip freeze > requirements.txt  # saraksts citiem
 
-@app.route('/api/gājiens', methods=['POST'])
-def gājiens():
-    dati = request.get_json()
-    rezultāts = apstrādāt(dati['gājiens'])
-    return jsonify({'rezultāts': rezultāts})
+# Cits cilvēks atkārto tavu vidi ar vienu komandu:
+pip install -r requirements.txt
 
-if __name__ == '__main__':
-    app.run(debug=True)  # localhost:5000</code></pre>
+# .gitignore OBLIGĀTI:
+venv/          # vide NEKAD nedrīkst nonākt GitHub - tā ir simtiem MB
+.env           # paroles arī ne</code></pre>
+    <p class="cheat-note">GitHub sūti <code>requirements.txt</code>, nevis pašu <code>venv/</code> mapi.</p>
   </div>
   <div class="logic-box">
-    <h3>pip un venv komandas</h3>
-    <pre><code class="language-python"># python -m venv venv            # izveido venv
-# source venv/bin/activate       # aktivizē (Linux/Mac)
-# venv\Scripts\activate          # aktivizē (Windows)
-# pip install flask requests     # instalē
-# pip freeze > requirements.txt  # saglabā atkarības
-# pip install -r requirements.txt</code></pre>
+    <h3>9.2 API izsaukums ar requests</h3>
+    <pre><code class="language-python">import requests
+
+def laiks_riga():
+    try:
+        r = requests.get(
+            "https://api.open-meteo.com/v1/forecast",
+            params={"latitude": 56.95, "longitude": 24.10,
+                    "current_weather": True},
+            timeout=5                      # bez šī programma var karāties mūžīgi
+        )
+        if r.status_code != 200:           # 200 = viss kārtībā
+            return None
+        return r.json()["current_weather"]
+    except requests.exceptions.RequestException:
+        print("Nav savienojuma ar serveri")
+        return None
+
+dati = laiks_riga()
+if dati:
+    print(dati["temperature"])
+
+# Statusa kodi: 200 OK , 404 nav atrasts , 500 servera kļūda</code></pre>
+    <p class="cheat-note">Vienmēr pārbaudi <code>status_code</code> un liec <code>timeout</code> - internets var arī nestrādāt.</p>
+  </div>
+  <div class="logic-box">
+    <h3>9.3 Streamlit - Python kā tīmekļa lapa</h3>
+    <pre><code class="language-python">import streamlit as st
+
+st.title("Mans projekts")
+st.write("Vienkāršs teksts")
+st.markdown("**Trekns** un *slīps*")
+
+vards = st.text_input("Tavs vārds:")
+vecums = st.number_input("Vecums", min_value=1, max_value=120)
+
+if st.button("Apstiprināt"):
+    if vards:
+        st.write(f"Sveiks, {vards}!")
+    else:
+        st.warning("Lūdzu ievadi vārdu")
+
+st.sidebar.header("Iestatījumi")
+diapazons = st.sidebar.slider("Diapazons", 1, 1000, 100)</code></pre>
+    <p class="cheat-note">Palaid ar <code>streamlit run lapa.py</code>, NEVIS <code>python lapa.py</code>. Skripts izpildās no augšas <b>pie katra klikšķa</b>, tāpēc <code>while</code> cikls te neder.</p>
+  </div>
+  <div class="logic-box">
+    <h3>9.4-9.5 HTML/CSS un session_state</h3>
+    <pre><code class="language-python">import streamlit as st
+
+# Savs HTML - vajag unsafe_allow_html=True, citādi redzēsi tagus kā tekstu
+st.markdown("&lt;h1 style='color:#FFB142;'&gt;Virsraksts&lt;/h1&gt;",
+            unsafe_allow_html=True)
+
+col1, col2 = st.columns([2, 1])       # pirmā kolonna divreiz platāka
+with col1:
+    st.write("Kreisā puse")
+
+# session_state - BEZ ŠĪ lapa aizmirst visu pie katra klikšķa
+if "klikski" not in st.session_state:      # inicializē tikai pirmoreiz
+    st.session_state.klikski = 0
+
+if st.button("Klikšķini"):
+    st.session_state.klikski += 1
+st.write(f"Klikšķi: {st.session_state.klikski}")
+
+# Forma - iztukšojas pēc nosūtīšanas
+with st.form("forma", clear_on_submit=True):
+    jauns = st.text_input("Jauns uzdevums")
+    ok = st.form_submit_button("Pievienot")
+
+# Katrai pogai ciklā vajag SAVU key
+for i, u in enumerate(st.session_state.todo):
+    st.button("Dzēst", key=f"del_{i}")</code></pre>
+    <p class="cheat-note">Parasts mainīgais Streamlit lapā vienmēr paliek 1 - skaitītājam obligāti vajag <code>session_state</code>.</p>
+  </div>
+  <div class="logic-box">
+    <h3>9.6 Noslēguma projekts un licences</h3>
+    <pre><code class="language-python">import streamlit as st
+
+if "laukums" not in st.session_state:
+    st.session_state.laukums = ["" for _ in range(9)]
+    st.session_state.gajiens = "X"
+
+UZVARES = [(0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)]
+
+for rinda in range(3):
+    cols = st.columns(3)
+    for k in range(3):
+        i = rinda * 3 + k
+        if cols[k].button(st.session_state.laukums[i] or " ", key=f"r{i}"):
+            if not st.session_state.laukums[i]:          # neaizņemta rūtiņa
+                st.session_state.laukums[i] = st.session_state.gajiens
+                st.session_state.gajiens = "O" if st.session_state.gajiens == "X" else "X"
+
+# Licences (9.2): MIT - dari ko gribi, norādi autoru
+#                 GPL - tavs projekts arī jāpublicē kā atvērtais kods
+#                 bez licences - neviens neko nedrīkst</code></pre>
+    <p class="cheat-note">Pirms publicēšanas pārbaudi savu bibliotēku licences - viena GPL bibliotēka var noteikt tavu projekta licenci.</p>
   </div>
 </div></section>
 

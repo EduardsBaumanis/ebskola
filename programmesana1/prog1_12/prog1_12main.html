@@ -118,29 +118,146 @@ db <span class="tok-op">=</span> <span class="tok-fn">SQLAlchemy</span>(app)
   </div>
 </div></section>
 
-<section id="spekeris"><div class="wrap">
-  <div class="sec-head"><div><div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div><h2 class="sec-title">Flask-SQLAlchemy un deploy špikeris</h2></div></div>
+<section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">12. tēmas špikeris - tīmekļa izstrāde</h2>
+    <p class="sec-sub">Klients-serveris, Flask, REST API, fetch un izvietošana. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
   <div class="logic-box">
-    <h3>Flask-SQLAlchemy - modelis un CRUD</h3>
-    <pre><code class="language-python">from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-import os
+    <h3>12.1 Klients un serveris</h3>
+    <pre><code>  PĀRLŪKS (frontend)                    SERVERIS (backend)
+  HTML / CSS / JavaScript               Python / Flask
+  lietotāja datorā                      tavā vai mākoņa datorā
+         │                                      │
+         │──── GET /api/rezultati ─────────────►│
+         │                                      │  lasa datubāzi
+         │◄─── 200 OK + JSON ───────────────────│
+         │                                      │
+         │──── POST /api/rezultati + JSON ─────►│  pārbauda un saglabā
+         │◄─── 201 Created ─────────────────────│
+
+Statusa kodi:
+  200 OK          viss kārtībā
+  201 Created     jauns ieraksts izveidots
+  400 Bad Request lietotājs atsūtīja sliktus datus
+  404 Not Found   nav tādas adreses
+  500 Server Error servera kods avarēja
+
+GALVENAIS LIKUMS: serveris NEKAD neuzticas pārlūka datiem.
+Uzvaras pārbaude, cena, tiesības - viss serverī, jo pārlūku var apiet.</code></pre>
+    <p class="cheat-note">Pārlūkā drīkst pārbaudīt ērtībai, bet <b>serverī pārbaudīt ir obligāti</b>.</p>
+  </div>
+  <div class="logic-box">
+    <h3>12.2 Flask serveris</h3>
+    <pre><code class="language-python">from flask import Flask, jsonify, request
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///dev.db')
-app.secret_key = os.environ.get('SECRET_KEY', 'dev-key')
-db = SQLAlchemy(app)
+SPELETAJI = []
 
-class Spēle(db.Model):
-    id     = db.Column(db.Integer, primary_key=True)
-    board  = db.Column(db.String(9), default='_________')
-    winner = db.Column(db.String(1), nullable=True)
+@app.route("/")
+def home():
+    return "&lt;h1&gt;Sveiks!&lt;/h1&gt;"
 
-# Izmantošana
-spele = Spēle()
-db.session.add(spele)
-db.session.commit()
-Spēle.query.filter_by(winner='X').all()</code></pre>
+@app.route("/api/speletaji")                 # GET pēc noklusējuma
+def visi():
+    return jsonify(SPELETAJI)                # bez jsonify nav JSON
+
+@app.route("/api/speletaji", methods=["POST"])
+def pievienot():
+    dati = request.json
+    SPELETAJI.append(dati)
+    return jsonify(dati), 201                # 201 = izveidots
+
+@app.route("/api/speletaji/&lt;int:id&gt;")
+def viens(id):
+    for s in SPELETAJI:
+        if s["id"] == id: return jsonify(s)
+    return jsonify({"kluda": "nav atrasts"}), 404
+
+app.run(debug=True)     # debug=True TIKAI izstrādē!</code></pre>
+    <p class="cheat-note">Sarakstā glabātie dati pazūd, restartējot serveri - pastāvīgai glabāšanai vajag failu vai datubāzi.</p>
+  </div>
+  <div class="logic-box">
+    <h3>12.3 REST API ar validāciju</h3>
+    <pre><code class="language-python">@app.route("/api/rezultati", methods=["GET"])
+def saraksts():
+    limit = request.args.get("limit", 100, type=int)   # ?limit=5
+    sakartoti = sorted(REZULTATI, key=lambda r: r["punkti"], reverse=True)
+    return jsonify(sakartoti[:limit])
+
+@app.route("/api/rezultati", methods=["POST"])
+def pievienot():
+    dati = request.json
+
+    if not dati or "vards" not in dati:
+        return jsonify({"kluda": "Trūkst lauks 'vards'"}), 400
+    if not isinstance(dati.get("punkti"), int) or dati["punkti"] < 0:
+        return jsonify({"kluda": "'punkti' jābūt pozitīvam skaitlim"}), 400
+
+    dati["id"] = len(REZULTATI) + 1
+    REZULTATI.append(dati)
+    return jsonify(dati), 201
+
+# REST likumi: viena adrese = viens resurss
+#   GET    /api/rezultati       saraksts
+#   POST   /api/rezultati       izveido jaunu
+#   DELETE /api/rezultati/5     dzēš vienu</code></pre>
+    <p class="cheat-note"><code>type=int</code> pasargā no <code>?limit=abc</code> - bez tā serveris atgrieztu 500.</p>
+  </div>
+  <div class="logic-box">
+    <h3>12.4 fetch() - pārlūks runā ar serveri</h3>
+    <pre><code class="language-javascript">async function ielade() {
+  const r = await fetch("http://localhost:5000/api/rezultati");
+  if (!r.ok) {                          // vienmēr pārbaudi
+    console.error("Kļūda:", r.status);
+    return;
+  }
+  const dati = await r.json();
+
+  let html = "";
+  for (const x of dati) {
+    html += `&lt;tr&gt;&lt;td&gt;${x.vards}&lt;/td&gt;&lt;td&gt;${x.punkti}&lt;/td&gt;&lt;/tr&gt;`;
+  }
+  document.getElementById("saraksts").innerHTML = html;
+}
+
+document.getElementById("forma").addEventListener("submit", async (e) =&gt; {
+  e.preventDefault();                   // BEZ ŠĪ lapa pārlādējas!
+  await fetch("http://localhost:5000/api/rezultati", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ vards: vards.value, punkti: +punkti.value })
+  });
+  ielade();                             // atjauno tabulu
+});</code></pre>
+    <p class="cheat-note">CORS kļūda konsolē? Serverī: <code>pip install flask-cors</code> un <code>CORS(app)</code>.</p>
+  </div>
+  <div class="logic-box">
+    <h3>12.5 Izvietošana un drošība</h3>
+    <pre><code class="language-python">import os
+from flask import Flask
+
+app = Flask(__name__)
+
+# NEKAD neraksti paroli kodā - lasi no vides mainīgā
+DATABASE_URL = os.environ.get("DATABASE_URL")
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-key")
+
+# .env fails (LOKĀLI, .gitignore sarakstā):
+#   DATABASE_URL=postgres://...
+#   SECRET_KEY=...
+
+# Pirms izvietošanas:
+#   app.run(debug=False)        debug=True publiski rāda tavu kodu!
+#   pip install gunicorn
+#   pip freeze > requirements.txt
+#   Procfile:  web: gunicorn app:app
+#   .gitignore satur .env un venv/
+
+# Render / Railway: pieslēdz GitHub krātuvi, vides mainīgos ievadi
+# mājaslapas Environment sadaļā, nevis failā.</code></pre>
+    <p class="cheat-note">Parole, kas vienreiz nonākusi GitHub, ir uzskatāma par nopludinātu - to jāmaina, ne tikai jāizdzēš.</p>
   </div>
 </div></section>
 

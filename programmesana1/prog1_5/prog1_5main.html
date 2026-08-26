@@ -255,36 +255,142 @@ skaits <span class="tok-op">=</span> {}
   </div>
 </div></section>
 
-<section id="spekeris"><div class="wrap">
+<section id="cheatsheet"><div class="wrap">
   <div class="sec-head"><div>
     <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-    <h2 class="sec-title">Kolekciju špikeris</h2>
+    <h2 class="sec-title">5. tēmas špikeris - datu struktūras</h2>
+    <p class="sec-sub">Saraksti, vārdnīcas, cikli pār kolekcijām un reālu datu apstrāde. Katrs bloks atbilst vienai stundai.</p>
   </div></div>
   <div class="logic-box">
-    <h3>list un dict - galvenās operācijas</h3>
-    <pre><code class="language-python"># LIST - secīgs, mainīgs, dublējas atļauts
-k = ["♠", "♥", "♦", "♣"]
-k.append("★")           # pievieno beigās
-k.insert(0, "Joker")     # pievieno pozīcijā
-k.remove("♦")            # izdzēš pirmo sakritību
-k.pop()                  # izdzēš un atgriež pēdējo
-k.sort()                 # kārto uz vietas
-sorted(k)                # atgriež jaunu sakārtotu kopiju
-k[1:3]                   # slice: elementi no [1] līdz [2]
-k[-1]                    # pēdējais elements
+    <h3>5.1 Saraksti un to metodes</h3>
+    <pre><code class="language-python">materiali = ["marķieris", "pieraksti"]
 
-# DICT - atslēga: vērtība, nesakārtotas
-spēlētājs = {"vārds": "Anna", "punkti": 0}
-spēlētājs["punkti"] += 10
-spēlētājs.get("dzīves", 3)  # noklusētā vērtība ja nav
-spēlētājs.keys()            # visas atslēgas
-spēlētājs.values()          # visas vērtības
-spēlētājs.items()           # (atslēga, vērtība) pāri
-"vārds" in spēlētājs        # True
+len(materiali)                  # 2      elementu skaits
+materiali.append("uzlīmes")     #        pievieno BEIGĀS
+materiali.insert(1, "taimeris") #        ievieto 1. pozīcijā, pārējos pabīda
+materiali.pop(0)                #        izņem un ATGRIEŽ 0. elementu
+materiali.sort()                #        sakārto alfabētiski (uz vietas)
+materiali.reverse()             #        apgriež otrādi
+"marķieris" in materiali        # True   vai ir sarakstā?
 
-# LIST COMPREHENSION - kompakts for cikls
-pāri = [x for x in kārtis if x.atklāta]
-kvadrāti = [x**2 for x in range(10)]</code></pre>
+# Indeksi sākas ar 0
+#   materiali[0]   pirmais
+#   materiali[-1]  pēdējais
+#   materiali[len(materiali)]   -> IndexError VIENMĒR
+
+# DROŠA izņemšana
+if i < len(materiali):
+    materiali.pop(i)
+else:
+    print("Nav tāda elementa")</code></pre>
+    <p class="cheat-note">Lietotājam rādi numuru 1, 2, 3, bet kodā lieto indeksu 0, 1, 2 - atņem vienu.</p>
+  </div>
+  <div class="logic-box">
+    <h3>5.2 Vārdnīcas</h3>
+    <pre><code class="language-python">profils = {
+    "vards": "Anna",
+    "punkti": 10,
+    "materiali": ["marķieris"]      # sarakstu var likt vārdnīcā
+}
+
+profils["punkti"] += 5              # maina
+profils["limenis"] = 1              # pievieno jaunu atslēgu
+profils["materiali"].append("uzlīme")
+
+# DROŠA piekļuve
+profils.get("zelts")        # None - ja atslēgas nav
+profils.get("zelts", 0)     # 0    - ar noklusējumu
+if "zelts" in profils: ...  # pārbaude
+# profils["zelts"]          -> KeyError - programma apstājas
+
+# Vārdnīca vārdnīcā
+speletaji = {"Anna": {"punkti": 10}, "Jānis": {"punkti": 8}}
+speletaji["Anna"]["punkti"]         # 10
+
+# Saraksts vai vārdnīca?
+#   saraksts  - kārtība ir svarīga (TOP 5)
+#   vārdnīca  - meklē pēc nosaukuma (spēlētāja profils)</code></pre>
+    <p class="cheat-note">Ja atslēgas nosaukums var būt kļūdains vai nāk no lietotāja - lieto <code>.get()</code>, nevis kvadrātiekavas.</p>
+  </div>
+  <div class="logic-box">
+    <h3>5.3 For cikli pār kolekcijām</h3>
+    <pre><code class="language-python"># Saraksts
+for lieta in materiali:
+    print(lieta)
+
+# Vārdnīca - TIKAI atslēgas
+for atslega in statistika:
+    print(atslega)
+
+# Vārdnīca - atslēga UN vērtība
+for nosaukums, skaitlis in statistika.items():
+    print(f"{nosaukums.upper()}: {skaitlis}")
+
+# Ar numerāciju no 1
+for nr, lieta in enumerate(materiali, 1):
+    print(f"{nr}. {lieta}")
+
+# Skaitīšana un filtrēšana
+kopa = 0                       # OBLIGĀTI pirms cikla, ne tajā!
+lieli = 0
+for nosaukums, skaitlis in statistika.items():
+    kopa += skaitlis
+    if skaitlis > 100:
+        lieli += 1
+print(f"Kopā {kopa}, virs 100: {lieli}")</code></pre>
+    <p class="cheat-note">Ja skaitītāju definē <b>cikla iekšpusē</b>, tas katrā apgriezienā sākas no nulles un rezultāts vienmēr būs nepareizs.</p>
+  </div>
+  <div class="logic-box">
+    <h3>5.4-5.5 Reāli dati: vākšana un tīrīšana</h3>
+    <pre><code class="language-python"># Aptaujas dati kodā
+popularakie = ["Marķieris", "Taimeris", "Pults"]     # izvēles -> saraksts
+ieteikumi = {"Anna": "Pievieno punktu tabulu"}       # teksts  -> vārdnīca
+
+# Reāli dati vienmēr ir "netīri" - tos jāatlasa
+derigas = []
+for atbilde in visas_atbildes:
+    if atbilde.strip() == "":        # izlaiž tukšās
+        continue
+    derigas.append(atbilde.strip())
+
+print(f"No {len(visas_atbildes)} palika {len(derigas)}")
+
+# Biežuma skaitīšana
+skaits = {}
+for vards in derigas:
+    skaits[vards] = skaits.get(vards, 0) + 1     # .get ar noklusējumu 0
+
+# Procenti
+for atbilde, n in skaits.items():
+    print(f"{atbilde}: {n / len(derigas) * 100:.0f}%")</code></pre>
+    <p class="cheat-note"><code>skaits.get(vards, 0) + 1</code> ir standarta paņēmiens skaitītājam - bez tā pirmajā reizē būtu <code>KeyError</code>.</p>
+  </div>
+  <div class="logic-box">
+    <h3>5.6 Noslēguma projekts: stāvoklis vārdnīcā</h3>
+    <pre><code class="language-python">import random
+
+klajs = ["A", "A", "B", "B"]        # sāc ar 2x2, tikai tad palielini
+random.shuffle(klajs)
+
+spele = {                            # viss spēles stāvoklis vienuviet
+    "meginajumi": 0,
+    "atrasti_pari": 0,
+    "atvertas": []
+}
+
+while spele["atrasti_pari"] < len(klajs) // 2:
+    a = int(input("Pirmā kārts (1-4): ")) - 1     # numurs -> indekss
+    b = int(input("Otrā kārts (1-4): ")) - 1
+
+    print(klajs[a], klajs[b])
+    spele["meginajumi"] += 1
+
+    if klajs[a] == klajs[b]:
+        spele["atrasti_pari"] += 1
+        spele["atvertas"].extend([a, b])
+
+print(f"Gatavs {spele['meginajumi']} mēģinājumos!")</code></pre>
+    <p class="cheat-note">Viena vārdnīca ar spēles stāvokli ir vieglāk saprotama nekā pieci atsevišķi mainīgie.</p>
   </div>
 </div></section>
 

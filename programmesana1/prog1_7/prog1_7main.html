@@ -372,87 +372,137 @@
   </section>
 
   <!-- Cheatsheet -->
-  <section id="cheatsheet">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-          <h2 class="sec-title">7. tēmas špikeris</h2>
-          <p class="sec-sub">Ātrā uzziņa - algoritmi, Big O tabula un iebūvētās funkcijas.</p>
-        </div>
-        <a class="sec-link" href="/paligm">visi špikeļi <span>→</span></a>
-      </div>
+  <section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">7. tēmas špikeris - algoritmi un to efektivitāte</h2>
+    <p class="sec-sub">Meklēšana, kārtošana, Big O un pareizās datu struktūras izvēle. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
+  <div class="logic-box">
+    <h3>7.1 Lineārā un binārā meklēšana</h3>
+    <pre><code class="language-python">def linear_search(saraksts, mekletais):
+    for i, elements in enumerate(saraksts):
+        if elements == mekletais:
+            return i
+    return -1                      # nav atrasts
 
-      <div class="editor wide" aria-hidden="true">
-        <div class="titlebar">
-          <span class="dots"><i></i><i></i><i></i></span>
-          <span class="crumb"><em>prog1_7/</em>špikeris.py</span>
-        </div>
-        <div class="tabs">
-          <span class="tab active"><span class="ic">●</span> meklēšana</span>
-          <span class="tab">big_o</span>
-          <span class="tab">sorted()</span>
-          <span class="spacer"></span>
-        </div>
-        <div class="body">
-          <div class="gutter">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24</div>
-<div class="code"><span class="tok-com"># Lineārā meklēšana - O(n)</span>
-<span class="tok-kw">def</span> <span class="tok-fn">lineārā</span>(<span class="tok-op">s</span>, <span class="tok-op">m</span>):
-    <span class="tok-kw">for</span> i, v <span class="tok-kw">in</span> <span class="tok-fn">enumerate</span>(s):
-        <span class="tok-kw">if</span> v <span class="tok-op">==</span> m: <span class="tok-kw">return</span> i
-    <span class="tok-kw">return</span> <span class="tok-op">-</span><span class="tok-num">1</span>
+def binary_search(saraksts, mekletais):     # TIKAI sakārtotā sarakstā!
+    apaksa, augsa, soli = 0, len(saraksts) - 1, 0
+    while apaksa <= augsa:                  # <= , nevis <
+        soli += 1
+        vidus = (apaksa + augsa) // 2
+        if saraksts[vidus] == mekletais:
+            return vidus, soli
+        elif saraksts[vidus] < mekletais:
+            apaksa = vidus + 1              # +1 izslēdz pārbaudīto vidu
+        else:
+            augsa = vidus - 1               # -1 izslēdz pārbaudīto vidu
+    return -1, soli
 
-<span class="tok-com"># Bubble sort - O(n²)</span>
-<span class="tok-kw">for</span> i <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-fn">len</span>(s)):
-    <span class="tok-kw">for</span> j <span class="tok-kw">in</span> <span class="tok-fn">range</span>(<span class="tok-fn">len</span>(s)<span class="tok-op">-</span>i<span class="tok-op">-</span><span class="tok-num">1</span>):
-        <span class="tok-kw">if</span> s[j] <span class="tok-op">&gt;</span> s[j<span class="tok-op">+</span><span class="tok-num">1</span>]: s[j], s[j<span class="tok-op">+</span><span class="tok-num">1</span>] <span class="tok-op">=</span> s[j<span class="tok-op">+</span><span class="tok-num">1</span>], s[j]
+# 1000 elementi:  lineārā līdz 1000 soļiem , binārā ~10 soļi</code></pre>
+    <p class="cheat-note">Bez <code>+1</code> un <code>-1</code> cikls var griezties mūžīgi - tur iestrēgst lielākā daļa.</p>
+  </div>
+  <div class="logic-box">
+    <h3>7.2 Burbuļkārtošana</h3>
+    <pre><code class="language-python">def bubble_sort(saraksts):
+    n = len(saraksts)
+    salidzinajumi = 0
 
-<span class="tok-com"># Big O tabula:</span>
-<span class="tok-com"># O(1) - konstants (masīva elements pēc indeksa)</span>
-<span class="tok-com"># O(log n) - logaritmisks (binārā meklēšana)</span>
-<span class="tok-com"># O(n) - lineārs (lineārā meklēšana)</span>
-<span class="tok-com"># O(n log n) - (Python sorted(), merge sort)</span>
-<span class="tok-com"># O(n²) - kvadrātisks (bubble sort)</span>
+    for j in range(n):
+        mainits = False
+        for i in range(n - 1 - j):          # -j: beigas jau ir sakārtotas
+            salidzinajumi += 1
+            if saraksts[i] > saraksts[i + 1]:
+                # apmaiņa vienā rindā, bez pagaidu mainīgā
+                saraksts[i], saraksts[i + 1] = saraksts[i + 1], saraksts[i]
+                mainits = True
+        if not mainits:                     # jau sakārtots - beidzam
+            break
 
-<span class="tok-com"># sorted() ar key parametru</span>
-<span class="tok-fn">sorted</span>(vārdi, key<span class="tok-op">=</span><span class="tok-kw">lambda</span> x: <span class="tok-fn">len</span>(x))
+    return saraksts, salidzinajumi
 
-<span class="tok-com"># timeit - mēra izpildes laiku</span>
-<span class="tok-kw">import</span> timeit
-timeit.<span class="tok-fn">timeit</span>(<span class="tok-str">"sorted([3,1,2])"</span>, number<span class="tok-op">=</span><span class="tok-num">10000</span>)</div>
-        </div>
-        <div class="statusbar">
-          <span class="ok">● špikeris</span>
-          <span>Python 3.12</span>
-          <span class="spacer"></span>
-          <span>UTF-8</span>
-        </div>
-      </div>
-    </div>
-  </section>
+# Divi cikli:
+#   iekšējais - viens gājiens, aizstumj lielāko uz beigām
+#   ārējais   - atkārto gājienu, cik reižu vajag</code></pre>
+    <p class="cheat-note">6 elementiem ~15 salīdzinājumi, 10 elementiem ~45. Divkāršojot datus, darbs pieaug četrkārt.</p>
+  </div>
+  <div class="logic-box">
+    <h3>7.3 Big O - kā laiks aug</h3>
+    <pre><code class="language-python"># O(1)        nemainās         saraksts[0]
+# O(log n)    +daži soļi        binārā meklēšana
+# O(n)        10x               viens cikls
+# O(n log n)  ~13x              sorted()
+# O(n^2)      100x              divi ligzdoti cikli
+
+import time
+
+for n in (100, 1000):
+    dati = list(range(n))
+
+    t0 = time.time()
+    kopa = sum(dati)                        # O(n)
+    t1 = time.time()
+
+    t2 = time.time()
+    for x in dati:                          # O(n^2)
+        for y in dati:
+            pass
+    t3 = time.time()
+
+    print(f"n={n}: O(n)={t1-t0:.5f}s  O(n^2)={t3-t2:.5f}s")
+
+# Svarīgs nav sekunžu skaits, bet CIK REIZES laiks pieaug,
+# palielinot datus 10x.</code></pre>
+    <p class="cheat-note">Big O nemēra sekundēs, jo katrs dators ir citāds. Tas mēra <b>soļu skaita pieaugumu</b>.</p>
+  </div>
+  <div class="logic-box">
+    <h3>7.4 Iebūvētās funkcijas pret pašrakstītu ciklu</h3>
+    <pre><code class="language-python">dati = list(range(5_000_000))
+
+# Pašrakstīts cikls - O(n)
+lielakais = dati[0]
+for x in dati:
+    if x > lielakais:
+        lielakais = x
+
+# Iebūvētā funkcija - ARĪ O(n), bet vairākas reizes ātrāka
+lielakais = max(dati)
+
+# Kāpēc? Iebūvētās funkcijas ir rakstītas C valodā,
+# tāpēc to cikls neiet caur Python interpretatoru.
+
+min(dati)  max(dati)  sum(dati)  len(dati)  sorted(dati)
+
+# len() ir O(1) - Python garumu glabā atsevišķi, neskaita katru reizi
+# sorted() lieto Timsort - O(n log n), nevis O(n^2) kā burbulis</code></pre>
+    <p class="cheat-note">Vienāds Big O vēl nenozīmē vienādu ātrumu - iebūvētā versija ir gan ātrāka, gan īsāka.</p>
+  </div>
+  <div class="logic-box">
+    <h3>7.5-7.6 Datu struktūras izvēle un binārā stratēģija</h3>
+    <pre><code class="language-python">import time
+n = 200_000
+kā_saraksts = list(range(n))
+kā_kopa = set(kā_saraksts)          # tie paši dati, cita struktūra
+
+199_999 in kā_saraksts   # O(n)  - iet cauri visiem
+199_999 in kā_kopa       # O(1)  - aprēķina vietu uzreiz, simtiem reižu ātrāk
+
+# Ko kad lietot:
+#   saraksts (list)  kārtība svarīga, drīkst dublikāti   -> TOP 5
+#   kopa (set)       tikai pārbaude "vai ir"             -> vārdu saraksts
+#   vārdnīca (dict)  atslēga -> vērtība                  -> profils
+
+# Binārā stratēģija darbībā (7.6 projekts)
+apaksa, augsa = 1, 100
+minejums = (apaksa + augsa) // 2         # pirmais minējums vienmēr 50
+if atbilde == "lielaks":  apaksa = minejums + 1
+elif atbilde == "mazaks": augsa  = minejums - 1
+if apaksa > augsa:  print("Atbildes ir pretrunīgas!")
+
+# 100 skaitļiem: ne vairāk kā 7 minējumi</code></pre>
+    <p class="cheat-note">Ātrumu bieži uzlabo, nomainot <b>datu struktūru</b>, nevis pārrakstot algoritmu.</p>
+  </div>
+</div></section>
 
   <!-- CTA strip -->
   <section class="cta-strip">

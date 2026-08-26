@@ -28,6 +28,7 @@
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-markdown.min.js"></script>
 </head>
 <body class="page-home">
 
@@ -338,83 +339,125 @@
   </section>
 
   <!-- Cheatsheet -->
-  <section id="cheatsheet">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-          <h2 class="sec-title">8. tēmas špikeris</h2>
-          <p class="sec-sub">User story veidne, unittest pamati un docstring konvencijas.</p>
-        </div>
-        <a class="sec-link" href="/paligm">visi špikeļi <span>→</span></a>
-      </div>
+  <section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">8. tēmas špikeris - projektēšana un plānošana</h2>
+    <p class="sec-sub">Problēmas formulēšana, prasības, datu modelis, prezentācija un plāns. Šajā tēmā kodu neraksta - te top dokumenti.</p>
+  </div></div>
+  <div class="logic-box">
+    <h3>8.1 Problēmas formulējums</h3>
+    <pre><code class="language-markdown">## Vājš formulējums (tā raksta lielākā daļa)
+Spēli ir grūti papildināt un tas aizņem daudz laika.
 
-      <div class="editor wide" aria-hidden="true">
-        <div class="titlebar">
-          <span class="dots"><i></i><i></i><i></i></span>
-          <span class="crumb"><em>prog1_8/</em>špikeris.py</span>
-        </div>
-        <div class="tabs">
-          <span class="tab active"><span class="ic">●</span> user_stories</span>
-          <span class="tab">unittest</span>
-          <span class="tab">docstrings</span>
-          <span class="spacer"></span>
-        </div>
-        <div class="body">
-          <div class="gutter">1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22</div>
-<div class="code"><span class="tok-com"># User story veidne:</span>
-<span class="tok-com"># "Kā [loma], es gribu [darbība], lai [mērķis]."</span>
+  Kas nav labi:
+  - "grūti" un "daudz" nav skaitļi - to nevar pārbaudīt
+  - nav pateikts, KAS tieši ir grūti
+  - nav skaidrs, kad problēma būtu atrisināta
 
-<span class="tok-com"># unittest pamati</span>
-<span class="tok-kw">import</span> unittest
+## Spēcīgs formulējums
+Katras jaunas lokācijas pievienošana prasa labot 20 Python funkcijas un
+aizņem ~40 minūtes. Nedēļā pievienoju 3 lokācijas, tātad 2 stundas nedēļā
+aiziet kopēšanai, un 4 no 10 reizēm rodas kļūda nepareiza ID dēļ.
 
-<span class="tok-kw">class</span> <span class="tok-typ">TestAtzīmes</span>(unittest.<span class="tok-typ">TestCase</span>):
-    <span class="tok-kw">def</span> <span class="tok-fn">test_videjais</span>(<span class="tok-op">self</span>):
-        <span class="tok-op">self</span>.<span class="tok-fn">assertEqual</span>(<span class="tok-fn">vidējais</span>([<span class="tok-num">3</span>,<span class="tok-num">5</span>,<span class="tok-num">7</span>]), <span class="tok-num">5</span>)
+  Kas ir labi:
+  - skaitļi: 20 funkcijas, 40 min, 2 h, 4 no 10
+  - konkrēta darbība: lokācijas pievienošana
+  - NAV minēts risinājums - tikai problēma</code></pre>
+    <p class="cheat-note">Risinājumu ("uztaisīšu CSV") šeit nerakstām. Vispirms problēma, tikai tad risinājums.</p>
+  </div>
+  <div class="logic-box">
+    <h3>8.2 Lietotāju stāsti un akceptēšanas kritēriji</h3>
+    <pre><code class="language-markdown">## User Story
+Kā [lietotājs], es vēlos [darbība], lai [ieguvums].
 
-<span class="tok-com"># assert izteiksme</span>
-<span class="tok-kw">assert</span> <span class="tok-fn">vidējais</span>([<span class="tok-num">3</span>,<span class="tok-num">5</span>,<span class="tok-num">7</span>]) <span class="tok-op">==</span> <span class="tok-num">5</span>
+Kā spēlētājs, es vēlos redzēt savu inventāru,
+lai zinātu, kādus priekšmetus esmu savācis.
 
-<span class="tok-com"># Google style docstring</span>
-<span class="tok-kw">def</span> <span class="tok-fn">vidējais</span>(<span class="tok-op">atzīmes</span>):
-    <span class="tok-str">"""Aprēķina vidējo atzīmi.
+## Akceptēšanas kritēriji - PĀRBAUDĀMI
+- [ ] Nospiežot "i", parādās saraksts ar visiem priekšmetiem
+- [ ] Tukšs inventārs rāda "Inventārs ir tukšs", nevis kļūdu
+- [ ] Katram priekšmetam redzams nosaukums un skaits
+      -> uz katru var atbildēt tikai JĀ vai NĒ
 
-    Args:
-        atzīmes: saraksts ar skaitļiem
-    Returns:
-        float: vidējā vērtība
-    """</span></div>
-        </div>
-        <div class="statusbar">
-          <span class="ok">● špikeris</span>
-          <span>Python 3.12</span>
-          <span class="spacer"></span>
-          <span>UTF-8</span>
-        </div>
-      </div>
-    </div>
-  </section>
+## NEPĀRBAUDĀMI - tā nevajag
+- [ ] Inventārs izskatās labi        <- kā izmērīt?
+- [ ] Inventārs strādā ātri          <- cik ātri?
+
+## Prioritāte
+M = obligāts , V = vēlams , apjoms 1-5
+Sāc ar to, kas ir M un ar mazāko apjomu.</code></pre>
+    <p class="cheat-note">Ja kritēriju nevar pārbaudīt ar jā/nē, tas noved pie strīda par to, vai darbs ir gatavs.</p>
+  </div>
+  <div class="logic-box">
+    <h3>8.3 Datu modelis un UI plūsma</h3>
+    <pre><code>ER diagramma - kādi dati sistēmā vispār ir
+
+  ┌───────────────┐            ┌──────────────┐
+  │  Spēlētājs    │  atrodas   │  Lokācija    │
+  ├───────────────┤───────────►├──────────────┤
+  │ id  (atslēga) │            │ id (atslēga) │
+  │ vards         │            │ teksts       │
+  │ hp            │            │ izvele_a     │
+  └───────────────┘            └──────────────┘
+
+UI plūsma - pa kādiem ekrāniem lietotājs staigā
+
+  [Sākums] --nospiež Sākt--> [Spēle] --uzvar--> [Rezultāts]
+      ▲                                              │
+      └───────────── Spēlēt vēlreiz ─────────────────┘
+
+Pārbaude:
+  - vai katram ER atribūtam ir ekrāns, kur to redz?
+  - vai no katra ekrāna var tikt PROM? (nav strupceļu)</code></pre>
+    <p class="cheat-note">Zīmē abas diagrammas kopā - tikai tā pamanīsi datus, ko neviens ekrāns nerāda.</p>
+  </div>
+  <div class="logic-box">
+    <h3>8.4 Pitch struktūra</h3>
+    <pre><code>Lifta runa - 45-60 sekundes, 4-5 teikumi:
+  1. Āķis      - kas piesaista uzmanību
+  2. Problēma  - no 8.1 formulējuma, ar skaitli
+  3. Risinājums- ko tu būvē
+  4. Ieguvums  - kas mainīsies lietotājam
+
+Slaidu plāns - 5 slaidi, katram VIENA doma:
+  1. Āķis          2. Problēma      3. Risinājums
+  4. Demo          5. Nākamie soļi
+
+Likumi:
+  - ne vairāk par 20 vārdiem uz slaida
+  - visi 5 slaidi kopā < 100 vārdi
+  - iztestē ar taimeri UN ar klasesbiedru
+  - sagatavo atbildes uz 3 jautājumiem, tostarp par risku</code></pre>
+    <p class="cheat-note">Ja klasesbiedrs pēc runas nesaprot, ko tu būvē, vaina ir runā, nevis klausītājā.</p>
+  </div>
+  <div class="logic-box">
+    <h3>8.5-8.6 Plāns, resursi un aizstāvēšana</h3>
+    <pre><code class="language-markdown">## Starprezultāti
+1. Datu ielādes modulis - gatavs, kad CSV ielādējas bez kļūdām
+2. Spēles navigācijas cikls - gatavs, kad var pāriet starp 3 lokācijām
+3. Rezultātu saglabāšana - gatavs, kad rezultāts paliek pēc restarta
+   -> katram pabeigtību var pārbaudīt ar JĀ/NĒ
+
+## Resursi
+- Tehniskie: Python 3.12, csv, json, VS Code
+- Informatīvie: dokumentācija, 6. tēmas koda paraugi
+- Laiks: 3 h nedēļā
+- * TRŪKST: piekļuve skolas serverim -> prasīšu skolotājam
+
+## Riski
+| Risks | Plāns B |
+|---|---|
+| CSV eksports sabojā garumzīmes | saglabāt UTF-8, pārbaudīt uzreiz |
+| Nepaspēju 3. posmu | iesniedzu ar 2 posmiem, 3. kā papildu |
+
+## Definition of Done
+- [ ] Programma palaižas bez kļūdām
+- [ ] README apraksta palaišanu
+- [ ] Iztestēts ar tukšu un bojātu ievadi</code></pre>
+    <p class="cheat-note">Aizstāvēšanā katrai tehniskai izvēlei jābūt pamatojumam, kas atsaucas uz prasību - nevis "tā bija vieglāk".</p>
+  </div>
+</div></section>
 
   <!-- CTA strip -->
   <section class="cta-strip">

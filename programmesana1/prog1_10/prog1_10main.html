@@ -118,35 +118,135 @@ k.<span class="tok-fn">execute</span>(
   </div>
 </div></section>
 
-<section id="spekeris"><div class="wrap">
-  <div class="sec-head"><div><div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div><h2 class="sec-title">SQL un psycopg2 špikeris</h2></div></div>
+<section id="cheatsheet"><div class="wrap">
+  <div class="sec-head"><div>
+    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+    <h2 class="sec-title">10. tēmas špikeris - datubāzes</h2>
+    <p class="sec-sub">PostgreSQL, CRUD, tabulu saites, JOIN un psycopg2. Katrs bloks atbilst vienai stundai.</p>
+  </div></div>
   <div class="logic-box">
-    <h3>psycopg2 - Python ↔ PostgreSQL savienojums</h3>
-    <pre><code class="language-python">import psycopg2
+    <h3>10.1 Tabulas izveide un ierobežojumi</h3>
+    <pre><code class="language-sql">CREATE DATABASE spele;
 
-sav = psycopg2.connect(dbname="spele_db", user="postgres", host="localhost")
-k = sav.cursor()
+CREATE TABLE IF NOT EXISTS speletaji (
+    id        SERIAL PRIMARY KEY,     -- numurē pats, unikāls
+    vards     TEXT NOT NULL UNIQUE,   -- obligāts un neatkārtojas
+    punkti    INTEGER DEFAULT 0,      -- ja nenorāda, būs 0
+    izveidots TIMESTAMP DEFAULT NOW()
+);
 
-# INSERT - vienmēr izmanto %s, nekad f-strings!
-k.execute("INSERT INTO highscore (vards, punkti) VALUES (%s, %s)", ("Anna", 95))
-sav.commit()
+-- Ierobežojumi datubāzi pasargā arī tad, ja Python kods kļūdās:
+--   NOT NULL    lauks nedrīkst būt tukšs
+--   UNIQUE      vērtība nedrīkst atkārtoties
+--   DEFAULT     noklusējuma vērtība
+--   CHECK       savs noteikums
+ALTER TABLE speletaji
+    ADD CONSTRAINT punkti_pozitivi CHECK (punkti >= 0);
 
-# SELECT
-k.execute("SELECT vards, punkti FROM highscore ORDER BY punkti DESC LIMIT 5")
-top5 = k.fetchall()   # [(Anna, 95), (Janis, 88), ...]
-k.close(); sav.close()</code></pre>
+\d speletaji        -- parāda tabulas uzbūvi (psql)</code></pre>
+    <p class="cheat-note">Pārbaudi liec datubāzē, ne tikai Python - tad tā nostrādā arī tad, ja datus ievada kāds cits.</p>
   </div>
   <div class="logic-box">
-    <h3>SQL pamata vaicājumi</h3>
-    <pre><code class="language-sql">CREATE TABLE highscore (
-    id     SERIAL PRIMARY KEY,
-    vards  VARCHAR(50) NOT NULL,
-    punkti INTEGER DEFAULT 0
+    <h3>10.2 CRUD - četras pamata darbības</h3>
+    <pre><code class="language-sql">-- CREATE
+INSERT INTO speletaji (vards, punkti) VALUES ('Anna', 120), ('Jānis', 95);
+
+-- READ
+SELECT vards, punkti FROM speletaji
+WHERE punkti > 100
+ORDER BY punkti DESC
+LIMIT 5;
+
+SELECT COUNT(*) FROM speletaji;        -- cik rindu
+SELECT AVG(punkti) FROM speletaji;     -- vidējais
+
+-- UPDATE  <- VIENMĒR ar WHERE!
+UPDATE speletaji SET punkti = punkti + 10 WHERE vards = 'Anna';
+
+-- DELETE  <- VIENMĒR ar WHERE!
+DELETE FROM speletaji WHERE punkti < 50;
+
+-- Drošības tīkls, ja neesi drošs:
+BEGIN;
+DELETE FROM speletaji;      -- ups, bez WHERE
+ROLLBACK;                   -- atsauc visu</code></pre>
+    <p class="cheat-note">Pirms <code>UPDATE</code> vai <code>DELETE</code> izpildi to pašu ar <code>SELECT</code> - redzēsi, ko tieši skarsi.</p>
+  </div>
+  <div class="logic-box">
+    <h3>10.3 Primārās un ārējās atslēgas</h3>
+    <pre><code class="language-sql">CREATE TABLE speletaji (
+    id    SERIAL PRIMARY KEY,          -- PK: unikāli identificē rindu
+    vards TEXT NOT NULL UNIQUE
 );
-SELECT * FROM highscore WHERE punkti > 50 ORDER BY punkti DESC;
-INSERT INTO highscore (vards, punkti) VALUES ('Anna', 95);
-UPDATE highscore SET punkti = 100 WHERE vards = 'Anna';
-DELETE FROM highscore WHERE id = 5;</code></pre>
+
+CREATE TABLE speles (
+    id           SERIAL PRIMARY KEY,
+    speletajs_id INTEGER NOT NULL
+                 REFERENCES speletaji(id)      -- FK: norāda uz citu tabulu
+                 ON DELETE CASCADE,            -- dzēšot spēlētāju, dzēš spēles
+    punkti       INTEGER NOT NULL CHECK (punkti >= 0),
+    spelets      TIMESTAMP DEFAULT NOW()
+);
+
+-- Ārējā atslēga neļauj:
+--   ievadīt spēli neesošam spēlētājam
+--   izdzēst spēlētāju, kuram ir spēles (bez ON DELETE CASCADE)
+
+-- Normalizācija: spēlētāja vārdu glabā TIKAI vienā tabulā.
+-- Nomainot vārdu vienuviet, tas mainās visos rezultātos.</code></pre>
+    <p class="cheat-note">Ja vienus un tos pašus datus glabā divās tabulās, agri vai vēlu tie sāk atšķirties.</p>
+  </div>
+  <div class="logic-box">
+    <h3>10.4 JOIN un GROUP BY</h3>
+    <pre><code class="language-sql">-- INNER JOIN: tikai tie, kam ir atbilstība ABĀS tabulās
+SELECT s.vards, sp.punkti
+FROM speletaji s
+INNER JOIN speles sp ON s.id = sp.speletajs_id
+ORDER BY sp.punkti DESC;
+
+-- LEFT JOIN: VISI spēlētāji, arī tie BEZ spēlēm (tiem būs NULL)
+SELECT s.vards, COUNT(sp.id) AS speles_skaits
+FROM speletaji s
+LEFT JOIN speles sp ON s.id = sp.speletajs_id
+GROUP BY s.vards;
+
+-- Kopsavilkums
+SELECT s.vards,
+       COUNT(sp.id)        AS speles_skaits,
+       SUM(sp.punkti)      AS kopa,
+       AVG(sp.punkti)::INT AS videjie,
+       MAX(sp.punkti)      AS rekords
+FROM speletaji s
+INNER JOIN speles sp ON s.id = sp.speletajs_id
+GROUP BY s.vards
+HAVING COUNT(sp.id) >= 2      -- HAVING filtrē GRUPAS, WHERE filtrē RINDAS
+ORDER BY kopa DESC LIMIT 5;</code></pre>
+    <p class="cheat-note">Lietojot <code>COUNT</code>, <code>SUM</code> vai <code>AVG</code>, visiem pārējiem laukiem jābūt <code>GROUP BY</code> sarakstā.</p>
+  </div>
+  <div class="logic-box">
+    <h3>10.5 psycopg2 - Python un datubāze</h3>
+    <pre><code class="language-python">import psycopg2
+from psycopg2.extras import RealDictCursor
+
+with psycopg2.connect(host="localhost", database="spele",
+                      user="postgres", password=parole) as conn:
+    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+
+        # DROŠI: %s ir vietturis, NEVIS f-string
+        cur.execute(
+            "INSERT INTO speletaji (vards, punkti) VALUES (%s, %s)",
+            (vards, punkti)
+        )
+        conn.commit()              # BEZ ŠĪ dati nesaglabājas!
+
+        cur.execute("SELECT * FROM speletaji WHERE punkti > %s", (100,))
+        for rinda in cur.fetchall():
+            print(rinda["vards"])   # RealDictCursor -> pieeja pēc nosaukuma
+
+# NEKAD tā:
+#   f"SELECT * FROM speletaji WHERE vards = '{vards}'"
+#   ievadot   ' OR '1'='1   lietotājs dabū VISAS rindas (SQL injekcija)</code></pre>
+    <p class="cheat-note">Paroli glabā vides mainīgajā vai <code>.env</code> failā, kas ir <code>.gitignore</code> sarakstā - nekad kodā.</p>
   </div>
 </div></section>
 

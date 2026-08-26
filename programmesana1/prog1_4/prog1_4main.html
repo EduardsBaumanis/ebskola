@@ -273,51 +273,134 @@
   </div>
 </div></section>
 
-<section id="spekeris"><div class="wrap">
+<section id="cheatsheet"><div class="wrap">
   <div class="sec-head"><div>
     <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-    <h2 class="sec-title">4. tēmas funkciju špikeris</h2>
+    <h2 class="sec-title">4. tēmas špikeris - funkcijas un modularitāte</h2>
+    <p class="sec-sub">Funkcijas, return, moduļi, mainīgo tvērums un vārdnīcas. Katrs bloks atbilst vienai stundai.</p>
   </div></div>
   <div class="logic-box">
-    <h3>Funkciju pamatsintakse</h3>
-    <pre><code class="language-python"># Pamata funkcija ar type hints un docstring
-def aprēķināt_vidējo(skaitļi: list[float]) -> float:
-    """Atgriež saraksta vidējo vērtību."""
-    if not skaitļi:
-        return 0.0
-    return sum(skaitļi) / len(skaitļi)
+    <h3>4.1 Funkcijas definēšana un izsaukšana</h3>
+    <pre><code class="language-python">def sasveicinaties():          # DEFINĒ - vēl neko nedara
+    print("Sveiks!")
 
-# Noklusētie parametri
-def sveikt(vārds: str, valoda: str = "lv") -> str:
-    if valoda == "lv":
-        return f"Sveiks, {vārds}!"
-    return f"Hello, {vārds}!"
+sasveicinaties()               # IZSAUC - tikai tagad izpildās
 
-# Vairāki return vērtības (kā tuple)
-def dalīt(a: int, b: int) -> tuple[int, int]:
-    return a // b, a % b  # dalījums, atlikums
+# Ar parametriem
+def paradit_punktus(komanda, punkti, soda_punkti=0):
+    rezultats = punkti - soda_punkti
+    if rezultats < 0:
+        rezultats = 0
+    print(f"{komanda}: {rezultats}")
 
-dalījums, atlikums = dalīt(17, 5)  # unpacking</code></pre>
+paradit_punktus("Lāči", 50, 10)    # -> Lāči: 40
+paradit_punktus("Bebri", 25)       # soda_punkti=0 pēc noklusējuma
+
+# parametrs = vārds definīcijā     arguments = vērtība izsaukumā
+# TypeError: missing 1 required positional argument
+#   -> argumentu skaits nesakrīt ar parametru skaitu</code></pre>
+    <p class="cheat-note">Funkcija, kas ir tikai definēta, bet nekad neizsaukta, neizdara neko - un kļūdu arī nerāda.</p>
   </div>
   <div class="logic-box">
-    <h3>Modularitāte - koda sadalīšana failos</h3>
-    <pre><code class="language-python"># spele_logika.py
-def pārbaudīt(minējums: int, slepenais: int) -> str:
-    if minējums == slepenais:
-        return "Pareizi!"
-    return "Augstāk ↑" if minējums < slepenais else "Zemāk ↓"
+    <h3>4.2 return pret print</h3>
+    <pre><code class="language-python">def saskaiti_a(a, b):
+    print(a + b)          # tikai PARĀDA
 
-# main.py
-from spele_logika import pārbaudīt
+def saskaiti_b(a, b):
+    return a + b          # ATDOD vērtību tālākai lietošanai
+
+x = saskaiti_a(2, 3)      # izdrukā 5, bet x ir None !
+y = saskaiti_b(2, 3)      # y ir 5 - ar to var rēķināt tālāk
+
+# Vairāki return - pirmais, kas izpildās, beidz funkciju
+def dabut_bonusu(tips):
+    if tips == "markieris": return 15
+    if tips == "taimeris":  return 10
+    return 5                       # noklusējums, ja nekas nesakrita
+    print("šī rinda NEKAD neizpildīsies")   # kods aiz return
+
+# Funkcijas var savienot
+kopa = gala_punkti(100, dabut_bonusu("markieris"))</code></pre>
+    <p class="cheat-note">Ja funkcijas rezultāts ir <code>None</code>, tu esi lietojis <code>print</code> tur, kur vajadzēja <code>return</code>.</p>
+  </div>
+  <div class="logic-box">
+    <h3>4.3 Moduļi - koda sadalīšana failos</h3>
+    <pre><code class="language-python"># ---------- punkti.py ----------
+def aprekinat_bonusus(riks):
+    if riks == "markieris": return 15
+    return 5
+
+# ---------- main.py ----------
+import punkti                              # ievelk visu moduli
+r = punkti.aprekinat_bonusus("markieris")  # prefikss OBLIGĀTS
+
+# vai
+from punkti import aprekinat_bonusus       # ievelk vienu funkciju
+r = aprekinat_bonusus("markieris")         # bez prefiksa
+
+from punkti import aprekinat_bonusus, aprekinat_sodu   # vairākas
+
+# Abiem failiem jābūt VIENĀ mapē.
+# NameError: name 'aprekinat_bonusus' is not defined
+#   -> lietoji import, bet aizmirsi prefiksu punkti.</code></pre>
+    <p class="cheat-note">Sadali kodu tā, lai <code>main.py</code> tikai savieno moduļus, bet aprēķini dzīvo atsevišķi.</p>
+  </div>
+  <div class="logic-box">
+    <h3>4.4 Mainīgo tvērums un vārdnīcas</h3>
+    <pre><code class="language-python">klases_punkti = 100          # GLOBĀLS - redzams visur
+
+def parbaudit():
+    vietejais = 5            # LOKĀLS - pazūd, kad funkcija beidzas
+    print(klases_punkti)     # globālo redz
+
+parbaudit()
+# print(vietejais)   -> NameError: lokālais ārpusē neeksistē
+
+# Vārdnīca: piekļuve pēc NOSAUKUMA, nevis numura
+speletajs = {"vards": "Anna", "hp": 100, "punkti": 0}
+speletajs["hp"] = 90               # maina
+speletajs["limenis"] = 1           # pievieno jaunu atslēgu
+speletajs.get("zelts", 0)          # DROŠI: 0, ja atslēgas nav
+# speletajs["zelts"]               -> KeyError
+
+# Vārdnīca funkcijā MAINĀS arī ārpusē, skaitlis - nē
+def nonemt(ieraksts, cik):
+    ieraksts["hp"] -= cik          # maina oriģinālu!
+nonemt(speletajs, 30)              # speletajs["hp"] tagad ir 60</code></pre>
+    <p class="cheat-note">Saraksti un vārdnīcas funkcijā tiek mainīti uz vietas. Skaitļi un teksti - nē.</p>
+  </div>
+  <div class="logic-box">
+    <h3>4.5-4.6 No shēmas uz kodu</h3>
+    <pre><code class="language-python"># Blokshēmas figūra          Python konstrukcija
+#   ovāls                     programmas sākums / return
+#   paralelograms             input() / print()
+#   taisnstūris               aprēķins vai funkcijas izsaukums
+#   rombs                     if / elif / else
+#   bulta atpakaļ uz augšu    while cikls
+
 import random
 
-slepenais = random.randint(1, 100)
-while True:
-    minējums = int(input("Minē (1-100): "))
-    rezultāts = pārbaudīt(minējums, slepenais)
-    print(rezultāts)
-    if rezultāts == "Pareizi!":
-        break</code></pre>
+def izveido_skaitli():
+    return random.randint(1, 100)
+
+def salidzina(minetais, patiesais):
+    if minetais < patiesais: return "par mazu"
+    if minetais > patiesais: return "par lielu"
+    return "trāpīts"
+
+patiesais = izveido_skaitli()
+meginajumi = 0
+
+while True:                                  # <- bulta atpakaļ shēmā
+    minetais = int(input("Min skaitli: "))
+    meginajumi += 1
+    atbilde = salidzina(minetais, patiesais)  # <- rombs shēmā
+    print(atbilde)
+    if atbilde == "trāpīts":
+        break
+
+print(f"Uzminēji {meginajumi} mēģinājumos!")</code></pre>
+    <p class="cheat-note">Shēmu labot ir ātrāk nekā gatavu kodu - tāpēc zīmē pirms raksti.</p>
   </div>
 </div></section>
 
