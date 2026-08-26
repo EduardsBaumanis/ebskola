@@ -773,8 +773,369 @@ Drošības zars pirms apvienošanas: `backup/vienkarsosana-pirms-merge`.
 
 ---
 
+## Programmēšana II (36 stundas)
+
+Šim kursam bija atsevišķas prasības, tāpēc tas atšķiras no pārējiem:
+
+| Prasība | Kā risināts |
+|---|---|
+| **80 min stundas**, nevis 70 | Katrā stundā plāns 10 + 20 + 25 + 20 + 5 min. Pēdējās 5 minūtes atvēlētas darba iesniegšanai. |
+| Skolēni atceras **Programmēšanas I 1.-6. tēmu** | Uzdevumi tieši atsaucas uz Python sarakstiem, vārdnīcām, cikliem un failu darbu un rāda C++ variantu kā to pašu citā pierakstā. |
+| **Nekādu Godot priekšzināšanu** | 1.1 sākas ar lejupielādi un editora piecu daļu apskatu. Soļos nosaukta katra izvēlne un poga. |
+| Valoda **piemērota, bet pārvaldāma skolēnam ar UDS** | Viens solis - viena darbība. Katram uzdevumam viens nosaukts rezultāts un pārbaudāms `Gatavs, kad:`. Nav izvēlņu tipa uzdevumu. |
+| **Skaidrs stundas gala mērķis, ko iesniedz skolotājam** | Katras stundas beigās jauna sadaļa **Ko iesniedz skolotājam**: stundas mērķis vienā teikumā, numurēts iesniedzamo darbu saraksts un iesniegšanas veids. |
+
+> **Piezīme par priekšzināšanām.** Kursa 3. tēma māca objektorientēto programmēšanu. Programmēšanas I OOP ir 11. tēmā, tātad **ārpus** tā, ko šie skolēni atceras. Tāpēc 3.1 nesāk ar pieņēmumu, ka klases ir pazīstamas: pirmais solis ir uzrakstīt Python vārdnīcu un tai blakus to pašu kā C++ klasi.
+
+> **Piezīme par kursa grūtumu.** Kurss lieto Godot 4 ar C++ GDExtension, kas prasa kompilatoru un SCons build vidi. Tas ir ievērojami stāvāks slīpums nekā Python. Uzdevumos tas ņemts vērā: 1.3 (build vides uzstādīšana) ir atzīmēta kā tēmas tehniski grūtākā stunda, tajā norādīts, ka ilga kompilēšana ir normāla, un **pats kļūdas teksts ir iesniedzams darbs**, lai stunda nebeigtos ar tukšu rezultātu, ja uzstādīšana neizdodas.
+
+
+### 1. tēma - Ievads Godot un C++
+
+**[1.1 Godot instalācija un projekta sagatavošana](programmesana2/prog2_1/prog2_11.html)**
+
+- 1. uzdevums - Uzstādi Godot un izveido Pong projektu
+- 2. uzdevums - Atrodi piecas editora daļas
+- 3. uzdevums - Iestati logu un saglabā projektu Git
+- Papildu uzdevums - Saglabā savu editora izkārtojumu
+
+> **Iesniedz:** Tev ir uzstādīts Godot 4 un izveidots tukšs Pong projekts pareizā loga izmērā, kas saglabāts GitHub krātuvē, un tu proti nosaukt piecas editora galvenās daļas.
+
+**[1.2 Scene Tree un Node sistēma](programmesana2/prog2_1/prog2_12.html)**
+
+- 1. uzdevums - Izveido pirmo scēnu ar trim mezgliem
+- 2. uzdevums - Saliec Pong laukuma koku
+- 3. uzdevums - Saglabā paddle kā atsevišķu scēnu
+- Papildu uzdevums - Sakārto koku pēc atbildības
+
+> **Iesniedz:** Tev ir saglabāta Pong scēna main.tscn, kurā objekti sakārtoti saprotamā Node kokā, un viens paddle ir izveidots kā atkārtoti lietojama scēna paddle.tscn.
+
+**[1.3 C++ un GDExtension sagatavošana](programmesana2/prog2_1/prog2_13.html)**
+
+- 1. uzdevums - Uzstādi kompilatoru un SCons
+- 2. uzdevums - Lejupielādē godot-cpp un nokompilē to
+- 3. uzdevums - Pieslēdz bibliotēku Godot projektam
+- Papildu uzdevums - Saprot, ko dara katrs solis
+
+> **Iesniedz:** Tavā datorā ir uzstādīts C++ kompilators un SCons, nokompilēta godot-cpp bibliotēka, un Godot projekts atveras bez kļūdas par trūkstošu GDExtension bibliotēku.
+
+**[1.4 Pirmais C++ skripts: mainīgie un izvade](programmesana2/prog2_1/prog2_14.html)**
+
+- 1. uzdevums - Uzraksti .hpp un .cpp failu pāri
+- 2. uzdevums - Reģistrē klasi un nokompilē
+- 3. uzdevums - Pievieno mainīgo un izdrukā to Godot
+- Papildu uzdevums - Salīdzini ar Python
+
+> **Iesniedz:** Tev ir uzrakstīta pirmā C++ klase Hello, kas ir reģistrēta, nokompilēta, pievienota Godot scēnai un palaižot spēli izdrukā tekstu Output panelī.
+
+**[1.5 Spēles laukuma izveide](programmesana2/prog2_1/prog2_15.html)**
+
+- 1. uzdevums - Novieto objektus pēc koordinātēm
+- 2. uzdevums - Pievieno sienas un vidus līniju
+- 3. uzdevums - Pievieno punktu skaitītāju un kameru
+- Papildu uzdevums - Izrēķini pozīcijas pats
+
+> **Iesniedz:** Tavā main.tscn scēnā ir gatavs Pong laukums: abi paddle malās, bumba centrā, divas sienas ar sadursmes formām, vidus līnija, rezultāta uzraksts un kamera.
+
+**[1.6 Noslēguma projekts: Pong](programmesana2/prog2_1/prog2_16.html)**
+
+- 1. uzdevums - Liec paddle kustēties
+- 2. uzdevums - Liec bumbai lidot un atlekt
+- 3. uzdevums - Pievieno punktus un uzvaru
+- Papildu uzdevums - Paātrini bumbu pēc katra sitiena
+
+> **Iesniedz:** Tev ir strādājoša Pong spēle: abi spēlētāji vada savus paddle, bumba lido un atlec, spēle skaita punktus un paziņo uzvarētāju pie 5 punktiem. Visa spēles loģika ir C++ klasēs.
+
+
+### 2. tēma - Spēles mehānika
+
+**[2.1 Process un fizikas cikli](programmesana2/prog2_2/prog2_21.html)**
+
+- 1. uzdevums - Liec objektam kustēties ar delta
+- 2. uzdevums - Salīdzini _process un _physics_process
+- 3. uzdevums - Pārbaudi, kas notiek bez delta
+- Papildu uzdevums - Liec objektam kustēties pa apli
+
+> **Iesniedz:** Tev ir C++ klase, kas pārvieto objektu, izmantojot delta, un tu ar mērījumu vari pierādīt, kāpēc bez delta spēles ātrums mainās atkarībā no datora.
+
+**[2.2 Input apstrāde un Input Map](programmesana2/prog2_2/prog2_22.html)**
+
+- 1. uzdevums - Izveido Input Map darbības
+- 2. uzdevums - Vadi objektu ar taustiņiem
+- 3. uzdevums - Normalizē diagonālo kustību
+- Papildu uzdevums - Pievieno skriešanas taustiņu
+
+> **Iesniedz:** Tev ir izveidotas četras Input Map darbības, un C++ klase pārvieto objektu pēc taustiņiem tā, ka diagonālā kustība nav ātrāka par taisno.
+
+**[2.3 Vadības struktūras spēles loģikā](programmesana2/prog2_2/prog2_23.html)**
+
+- 1. uzdevums - Pārraksti Python if C++ sintaksē
+- 2. uzdevums - Izveido enum un switch priekšmetu veidiem
+- 3. uzdevums - Pievieno ciklu, kas pārbauda visus priekšmetus
+- Papildu uzdevums - Saskaiti katra veida priekšmetus
+
+> **Iesniedz:** Tu proti C++ sintaksē uzrakstīt if/else if/else, izveidot enum class ar switch un apstrādāt priekšmetu sarakstu ar ciklu, un vari nosaukt galvenās atšķirības no Python.
+
+**[2.4 Sadursmju noteikšana](programmesana2/prog2_2/prog2_24.html)**
+
+- 1. uzdevums - Pievieno sienu un pārbaudi sadursmi
+- 2. uzdevums - Izveido savācamu monētu ar Area2D
+- 3. uzdevums - Iestati Collision Layers
+- Papildu uzdevums - Saskaiti savāktās monētas
+
+> **Iesniedz:** Tavā projektā spēlētājs apstājas pie StaticBody2D sienas, savāc Area2D monētu, kas pazūd, un tu proti ar Collision Layers un Masks noteikt, kurš objekts ar kuru sadursies.
+
+**[2.5 Gravitācija un platformas mehānika](programmesana2/prog2_2/prog2_25.html)**
+
+- 1. uzdevums - Pievieno gravitāciju
+- 2. uzdevums - Pievieno lēcienu un zemes pārbaudi
+- 3. uzdevums - Pievieno mainīgu lēciena augstumu un coyote time
+- Papildu uzdevums - Pievieno dubulto lēcienu
+
+> **Iesniedz:** Tavam varonim ir strādājoša platformas mehānika: gravitācija, lēciens tikai no zemes, mainīgs lēciena augstums atkarībā no taustiņa turēšanas ilguma un coyote time tolerance.
+
+**[2.6 Noslēguma projekts: Platformas spēle](programmesana2/prog2_2/prog2_26.html)**
+
+- 1. uzdevums - Uzbūvē pirmo līmeni
+- 2. uzdevums - Pievieno ienaidnieku un savācamos
+- 3. uzdevums - Pievieno finišu, HUD un līmeņu maiņu
+- Papildu uzdevums - Pievieno otro līmeni
+
+> **Iesniedz:** Tev ir izspēlējama platformas spēle: varonis ar gravitāciju un lēcienu, vismaz viens līmenis ar platformām, patrulējošs ienaidnieks, savācamas monētas, HUD ar HP un rezultātu, un finišs, kas noved pie uzvaras vai nākamā līmeņa.
+
+
+### 3. tēma - Objektorientētā programmēšana C++
+
+**[3.1 C++ klases pamati](programmesana2/prog2_3/prog2_31.html)**
+
+- 1. uzdevums - Izveido pirmo klasi ar laukiem
+- 2. uzdevums - Pievieno konstruktoru un metodes
+- 3. uzdevums - Pārbaudi private un public atšķirību
+- Papildu uzdevums - Izveido komandu no trim dalībniekiem
+
+> **Iesniedz:** Tu proti C++ uzrakstīt klasi ar laukiem, konstruktoru un metodēm, izveidot no tās objektu un paskaidrot, kāpēc daļa lauku ir private.
+
+**[3.2 Mantošana C++ un Godot](programmesana2/prog2_3/prog2_32.html)**
+
+- 1. uzdevums - Izveido bērna klasi
+- 2. uzdevums - Pārraksti metodi ar override
+- 3. uzdevums - Izsauc visas lomas vienā ciklā
+- Papildu uzdevums - Pievieno trešo lomu
+
+> **Iesniedz:** Tu proti izveidot bērna klasi ar public mantošanu, izsaukt vecāka konstruktoru, pārrakstīt metodi ar virtual un override un apstrādāt visas lomas vienā ciklā.
+
+**[3.3 Signāli un objektu komunikācija](programmesana2/prog2_3/prog2_33.html)**
+
+- 1. uzdevums - Reģistrē un raidi signālu
+- 2. uzdevums - Pieslēdzies signālam no cita objekta
+- 3. uzdevums - Salīdzini signālu ar tiešu izsaukumu
+- Papildu uzdevums - Pievieno signālam vairāk datu
+
+> **Iesniedz:** Tu proti C++ klasē reģistrēt Godot signālu, to raidīt notikuma brīdī un pieslēgt tam citu objektu, un vari izskaidrot, kāpēc signāls ir ērtāks par tiešu izsaukumu.
+
+**[3.4 Custom GDExtension klases editorā redzamas](programmesana2/prog2_3/prog2_34.html)**
+
+- 1. uzdevums - Padari klasi redzamu editorā
+- 2. uzdevums - Pievieno rediģējamas īpašības
+- 3. uzdevums - Iestati vērtības Inspector un pārbaudi
+- Papildu uzdevums - Pievieno izvēlni ar variantiem
+
+> **Iesniedz:** Tava C++ klase parādās Godot editorā kā mezgla tips, tās lauki ir rediģējami Inspector panelī, un vairāki viena tipa mezgli var strādāt ar dažādām vērtībām bez koda maiņas.
+
+**[3.5 Statistikas sistēma un struct](programmesana2/prog2_3/prog2_35.html)**
+
+- 1. uzdevums - Izveido struct statistikai
+- 2. uzdevums - Ieliec struct klasē un pievieno metodes
+- 3. uzdevums - Pievieno pagaidu bonusus sarakstā
+- Papildu uzdevums - Pievieno bonusiem ilgumu
+
+> **Iesniedz:** Tu proti izveidot struct datu grupēšanai, ielikt to klasē kā lauku (kompozīcija) un rēķināt kopējo vērtību no saraksta, nevis glabāt to atsevišķi.
+
+**[3.6 Noslēguma projekts: Klases turnīra simulators](programmesana2/prog2_3/prog2_36.html)**
+
+- 1. uzdevums - Saliec komandu un šķēršļus
+- 2. uzdevums - Uzraksti vienas kārtas loģiku
+- 3. uzdevums - Pievieno turnīra ciklu un rezultātu
+- Papildu uzdevums - Parādi turnīru uz ekrāna
+
+> **Iesniedz:** Tev ir strādājošs klases turnīra simulators: trīs dalībnieku lomas ar atšķirīgu uzvedību, trīs šķēršļi, kārtu cikls ar signāliem par izstāšanos un izdrukāts uzvarētājs ar kārtu skaitu.
+
+
+### 4. tēma - Datu struktūras un AI
+
+**[4.1 Vector un Array](programmesana2/prog2_4/prog2_41.html)**
+
+- 1. uzdevums - Izveido ienaidnieku sarakstu ar vector
+- 2. uzdevums - Pievieno un izņem elementus droši
+- 3. uzdevums - Salīdzini vector ar Godot Array
+- Papildu uzdevums - Atrodi tuvāko ienaidnieku
+
+> **Iesniedz:** Tu proti C++ izveidot std::vector sarakstu, droši pievienot un izņemt elementus un izskaidrot, ar ko tas atšķiras no Godot Array.
+
+**[4.2 Map un Dictionary](programmesana2/prog2_4/prog2_42.html)**
+
+- 1. uzdevums - Izveido inventāru ar std::map
+- 2. uzdevums - Pievieno drošu meklēšanu
+- 3. uzdevums - Salīdzini map ar Godot Dictionary
+- Papildu uzdevums - Izmēģini unordered_map
+
+> **Iesniedz:** Tu proti C++ izveidot std::map inventāru, droši meklēt tajā priekšmetus, nepievienojot tukšus ierakstus, un izskaidrot, kad jālieto Godot Dictionary.
+
+**[4.3 State machines AI uzvedībai](programmesana2/prog2_4/prog2_43.html)**
+
+- 1. uzdevums - Izveido stāvokļu enum un pārslēgšanu
+- 2. uzdevums - Pievieno pārejas noteikumus
+- 3. uzdevums - Iztestē visus stāvokļus
+- Papildu uzdevums - Pievieno stāvokļa taimeri
+
+> **Iesniedz:** Tavam ienaidniekam ir strādājoša stāvokļu mašīna ar pieciem stāvokļiem, pārejas notiek pēc attāluma līdz spēlētājam, un DEAD ir gala stāvoklis, no kura nevar izkļūt.
+
+**[4.4 Pathfinding ar A*](programmesana2/prog2_4/prog2_44.html)**
+
+- 1. uzdevums - Sagatavo navigācijas reģionu
+- 2. uzdevums - Liec ienaidniekam sekot ceļam
+- 3. uzdevums - Salīdzini taisno kustību ar pathfinding
+- Papildu uzdevums - Zīmē ceļu uz ekrāna
+
+> **Iesniedz:** Tavā līmenī ir izcepts navigācijas reģions, un ienaidnieks ar NavigationAgent2D apiet sienas, lai nonāktu pie spēlētāja, nevis iestrēgst pret tām.
+
+**[4.5 Šaušanas mehānika un object pooling](programmesana2/prog2_4/prog2_45.html)**
+
+- 1. uzdevums - Izšauj pirmo lādiņu
+- 2. uzdevums - Izveido lādiņu krātuvi
+- 3. uzdevums - Salīdzini abas pieejas ar mērījumu
+- Papildu uzdevums - Pievieno šaušanas ātruma ierobežojumu
+
+> **Iesniedz:** Tavā spēlē ir strādājoša šaušana, kas izmanto lādiņu krātuvi (object pooling), un tu ar mērījumu vari pierādīt, ar ko tā ir labāka par lādiņu veidošanu un dzēšanu katru reizi.
+
+**[4.6 Noslēguma projekts: Top-down šautene](programmesana2/prog2_4/prog2_46.html)**
+
+- 1. uzdevums - Spēlētājs ar kustību un mērķēšanu
+- 2. uzdevums - Divi ienaidnieku tipi ar AI
+- 3. uzdevums - Viļņu sistēma un rezultāts
+- Papildu uzdevums - Pievieno savācamos bonusus
+
+> **Iesniedz:** Tev ir izspēlējama top-down šautene: spēlētājs ar 8 virzienu kustību un mērķēšanu pret peli, vismaz divi ienaidnieku tipi ar atšķirīgu AI, viļņu sistēma ar augošu grūtību un HUD ar punktiem un HP.
+
+
+### 5. tēma - Dati un algoritmi
+
+**[5.1 Failu I/O Godot vidē](programmesana2/prog2_5/prog2_51.html)**
+
+- 1. uzdevums - Ieraksti un nolasi failu
+- 2. uzdevums - Saglabā spēles rezultātu
+- 3. uzdevums - Apstrādā trūkstošu failu
+- Papildu uzdevums - Saglabā vairākas vērtības
+
+> **Iesniedz:** Tava spēle saglabā rezultātu failā user:// mapē, ielādē to pēc restarta un neizmet kļūdu, ja saglabāšanas faila vēl nav.
+
+**[5.2 JSON serializācija un Resource sistēma](programmesana2/prog2_5/prog2_52.html)**
+
+- 1. uzdevums - Pārvērs Dictionary par JSON
+- 2. uzdevums - Nolasi JSON atpakaļ
+- 3. uzdevums - Apstrādā bojātu JSON
+- Papildu uzdevums - Saglabā sarakstu JSON failā
+
+> **Iesniedz:** Tava spēle saglabā stāvokli salasāmā JSON failā, ielādē to atpakaļ ar pareiziem datu tipiem un neapstājas, ja fails ir bojāts.
+
+**[5.3 Save/Load arhitektūra](programmesana2/prog2_5/prog2_53.html)**
+
+- 1. uzdevums - Izveido SaveManager ar slotiem
+- 2. uzdevums - Liec objektiem saglabāt sevi pašiem
+- 3. uzdevums - Pievieno autosave un versiju
+- Papildu uzdevums - Parādi slotu izvēlni
+
+> **Iesniedz:** Tavā spēlē ir SaveManager ar vairākiem slotiem, objekti paši saglabā savus datus caur Saveable interfeisu, darbojas autosave, un saglabātajam failam ir versijas pārbaude.
+
+**[5.4 Procedural generation](programmesana2/prog2_5/prog2_54.html)**
+
+- 1. uzdevums - Ģenerē labirintu ar Random Walk
+- 2. uzdevums - Pārvērs režģi par spēles laukumu
+- 3. uzdevums - Pārbaudi, vai labirints ir izejams
+- Papildu uzdevums - Pievieno sēklu atkārtojamībai
+
+> **Iesniedz:** Tava spēle pati uzģenerē labirintu ar Random Walk algoritmu, pārvērš to par spēlējamu laukumu un pirms sākuma pārbauda, ka izeja tiešām ir sasniedzama.
+
+**[5.5 Algoritmu efektivitāte](programmesana2/prog2_5/prog2_55.html)**
+
+- 1. uzdevums - Izmēri divu algoritmu laiku
+- 2. uzdevums - Atrodi un salabo lēno vietu savā spēlē
+- 3. uzdevums - Pierādi uzlabojumu ar mērījumu
+- Papildu uzdevums - Salīdzini vector ar map meklēšanu
+
+> **Iesniedz:** Tu proti izmērīt koda izpildes laiku, atrast lēnāko vietu ar Godot profileri, to izlabot un ar skaitļiem pierādīt, ka uzlabojums tiešām notika.
+
+**[5.6 Noslēguma projekts: Procedurālais klases labirints](programmesana2/prog2_5/prog2_56.html)**
+
+- 1. uzdevums - Savieno labirintu ar spēlētāju
+- 2. uzdevums - Pievieno savācamos un šķēršļus
+- 3. uzdevums - Pievieno meta-progresu un saglabāšanu
+- Papildu uzdevums - Pievieno spēlētāja klases
+
+> **Iesniedz:** Tev ir izspēlējams procedurālais labirints: katrs līmenis tiek uzģenerēts un pārbaudīts, ka ir izejams, labirintā ir savācamie un šķēršļi, un kopējais progress saglabājas JSON failā arī pēc neveiksmīga mēģinājuma.
+
+
+### 6. tēma - Pilnvērtīga izstrāde un publicēšana
+
+**[6.1 UI elementi un Control nodes](programmesana2/prog2_6/prog2_61.html)**
+
+- 1. uzdevums - Uzbūvē sākuma izvēlni
+- 2. uzdevums - Savieno pogas ar kodu
+- 3. uzdevums - Pievieno enkurus un pārbaudi izmērus
+- Papildu uzdevums - Pievieno iestatījumu logu
+
+> **Iesniedz:** Tavai spēlei ir sākuma izvēlne ar trim pogām Control mezglos, pogas ir savienotas ar C++ kodu caur signāliem, un izvēlne paliek centrā, mainot loga izmēru.
+
+**[6.2 Animācijas un Tween](programmesana2/prog2_6/prog2_62.html)**
+
+- 1. uzdevums - Uztaisi pirmo Tween animāciju
+- 2. uzdevums - Animē izvēlnes parādīšanos
+- 3. uzdevums - Pievieno atsauksmes animāciju spēlē
+- Papildu uzdevums - Izmēģini AnimationPlayer
+
+> **Iesniedz:** Tavā spēlē darbojas Tween animācijas: izvēlne parādās mīksti, un vismaz viens spēles notikums dod spēlētājam vizuālu atsauksmi, kas nesajūk pie ātras atkārtošanas.
+
+**[6.3 Audio sistēma](programmesana2/prog2_6/prog2_63.html)**
+
+- 1. uzdevums - Atskaņo pirmo skaņu
+- 2. uzdevums - Pievieno fona mūziku ar pāreju
+- 3. uzdevums - Sakārto skaļumu ar audio bus
+- Papildu uzdevums - Saglabā skaļuma iestatījumus
+
+> **Iesniedz:** Tavā spēlē skan skaņas efekti un fona mūzika ar mīkstām pārejām, un mūziku ar efektiem var regulēt atsevišķi caur diviem audio bus.
+
+**[6.4 Atkļūdošana un profilēšana](programmesana2/prog2_6/prog2_64.html)**
+
+- 1. uzdevums - Atrodi kļūdu ar izdrukām
+- 2. uzdevums - Lieto breakpoint un mainīgo skatu
+- 3. uzdevums - Atrodi lēnāko vietu ar profileri
+- Papildu uzdevums - Pievieno pašpārbaudes izdrukas
+
+> **Iesniedz:** Tu proti atrast kļūdu trīs veidos: ar izdrukām, ar breakpoint un mainīgo skatu, un ar profileri atrast laikietilpīgāko funkciju.
+
+**[6.5 Eksports un publicēšana](programmesana2/prog2_6/prog2_65.html)**
+
+- 1. uzdevums - Eksportē spēli uz datoru
+- 2. uzdevums - Eksportē uz tīmekli un palaid lokāli
+- 3. uzdevums - Publicē spēli internetā
+- Papildu uzdevums - Uzraksti spēles aprakstu
+
+> **Iesniedz:** Tava spēle ir eksportēta gan kā datora programma, gan kā tīmekļa versija, un tā ir publicēta internetā ar publisku saiti, kas strādā arī citās ierīcēs.
+
+**[6.6 Noslēguma projekts: Puzzle spēle](programmesana2/prog2_6/prog2_66.html)**
+
+- 1. uzdevums - Izvēlies puzli un uztaisi laukumu
+- 2. uzdevums - Uzraksti uzvaras noteikumu un līmeņus
+- 3. uzdevums - Pievieno izvēlni, skaņu un eksportē
+- Papildu uzdevums - Pievieno padoma pogu
+
+> **Iesniedz:** Tev ir pabeigta un publicēta puzles spēle: strādājošs laukums, pareizi atpazīta uzvara, vismaz trīs atrisināmi līmeņi, sākuma izvēlne, skaņa, saglabāts labākais rezultāts un publiska tīmekļa saite.
+
+
+---
+
 ## Kas vēl nav izdarīts
 
-**Programmēšana II - 36 stundas** (`programmesana2/prog2_1` līdz `prog2_6`) vēl nav pārstrādātas. Visās 36 lapās joprojām ir vispārīgā sagatave: `1. uzdevums - Iesildies ar gatavu piemēru`, izvēlnes tipa 2. uzdevums ("Izvēlies vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu") un neviena no tām nesatur 70 min plānu.
-
 **Neapvienotais zars** `claude/audit-lesson-content-mLhPS` atstāts neaiztikts. Tas nav apvienots ar `origin/main`, satur 2 satura commitus, bet ir balstīts uz vecu koku - apvienojot to tagad, `style.css` tiktu atgriezts par ~2275 rindām.
+
+Visas 148 mācību stundas (30 datorikā, 10 robotikā, 72 Programmēšanā I, 36 Programmēšanā II) tagad atbilst stundu standartam.
