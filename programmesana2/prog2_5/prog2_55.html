@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izmēri divu algoritmu laiku · 2. uzdevums (~25 min) - atrodi un salabo lēno vietu savā spēlē · 3. uzdevums (~20 min) - pierādi uzlabojumu ar mērījumu · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu spēli no 4.6 vai 5.4 stundas. Šodien nemācīsimies jaunu mehāniku - padarīsim esošo ātrāku un to pierādīsim ar skaitļiem.</p>
     </div>
 </section>
 
@@ -148,67 +149,73 @@ struct PersistenceCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>5.5 Algoritmu efektivitāte</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Izmēri divu algoritmu laiku</h3>
+        <p>Beigās tu redzēsi, ka ligzdots cikls aug daudz straujāk.</p>
+        <ol class="step-list">
+            <li><b>Uzraksti</b> funkciju ar vienu ciklu pār 1000 elementiem.</li>
+            <li><b>Uzraksti</b> otru funkciju ar diviem ligzdotiem cikliem pār to pašu sarakstu.</li>
+            <li><b>Izmēri</b> abas ar <code class="language-cpp">Time::get_singleton()-&gt;get_ticks_usec();</code> pirms un pēc.</li>
+            <li><b>Izdrukā</b> abus laikus mikrosekundēs.</li>
+            <li><b>Atkārto</b> mērījumu ar 100 elementiem un pieraksti abus rezultātus.</li>
+            <li><b>Izrēķini</b>, cik reižu pieauga katras funkcijas laiks.</li>
+            <li><b>Pieraksti</b>, kura no tām ir O(n) un kura O(n kvadrātā).</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> palielinot datus 10 reizes, viena cikla laiks aug ~10 reizes, bet ligzdotā - ~100 reizes.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Atrodi un salabo lēno vietu savā spēlē</h3>
+        <p>Beigās tava spēle darbosies raitāk.</p>
+        <ol class="step-list">
+            <li><b>Palaid</b> savu spēli un atver <b>Debugger -&gt; Profiler</b>.</li>
+            <li><b>Nospied</b> <b>Start</b> un spēlē 30 sekundes.</li>
+            <li><b>Atrodi</b> sarakstā funkciju, kas aizņem visvairāk laika.</li>
+            <li><b>Pieraksti</b> tās nosaukumu un laiku.</li>
+            <li><b>Atrodi</b> kodā vietu, kur tā tiek izsaukta katrā kadrā bez vajadzības.</li>
+            <li><b>Pārvieto</b> to ārpus cikla vai izsauc retāk.</li>
+            <li><b>Kompilē</b> un palaid profileri vēlreiz.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> profilerī tavas izlabotās funkcijas laiks ir manāmi mazāks nekā pirms labojuma.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Pierādi uzlabojumu ar mērījumu</h3>
+        <p>Beigās tev būs skaitļi, nevis sajūta.</p>
+        <ol class="step-list">
+            <li><b>Pieraksti</b> tabulā FPS pirms labojuma un pēc tā.</li>
+            <li><b>Pieraksti</b> arī profilera laiku abos gadījumos.</li>
+            <li><b>Palaid</b> spēli ar dubultu objektu skaitu un atkārto mērījumu.</li>
+            <li><b>Pieraksti</b>, vai uzlabojums saglabājas arī ar lielāku slodzi.</li>
+            <li><b>Izvēlies</b> vēl vienu vietu, ko varētu uzlabot, un pieraksti to.</li>
+            <li><b>Pieraksti</b>, kāpēc nav vērts optimizēt kodu, kas izpildās reti.</li>
+            <li><b>Veic</b> commit ar ziņu par veikto optimizāciju.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> tavā tabulā ir četri skaitļi, kas parāda uzlabojumu gan ar parasto, gan ar dubultu slodzi.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Salīdzini vector ar map meklēšanu</h3>
+        <p>Ja pamatdarbs ir gatavs, izmēri datu struktūru atšķirību.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> <code>std::vector</code> ar 10000 elementiem.</li>
+            <li><b>Izveido</b> <code>std::map</code> ar tiem pašiem datiem.</li>
+            <li><b>Izmēri</b> laiku, meklējot pēdējo elementu abās struktūrās.</li>
+            <li><b>Izdrukā</b> abus laikus.</li>
+            <li><b>Pieraksti</b>, kura struktūra bija ātrāka un par cik reizēm.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> meklēšana <code>std::map</code> ir manāmi ātrāka nekā ciklā pār <code>std::vector</code>.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PersistenceCheckpoint {
-    String lesson = "5.5 Algoritmu efektivitāte";
-    bool uses_cpp = true;
-    bool handles_missing_file = true;
-    bool validates_data = true;
-    bool documents_complexity = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti izmērīt koda izpildes laiku, atrast lēnāko vietu ar Godot profileri, to izlabot un ar skaitļiem pierādīt, ka uzlabojums tiešām notika.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Tabula ar FPS un profilera laiku pirms un pēc labojuma, arī ar dubultu slodzi.</li>
+            <li>Ekrānuzņēmums ar Godot profileri pirms labojuma un pēc tā.</li>
+            <li>Commit ziņa, kurā aprakstīts, ko tieši optimizēji.</li>
+            <li>Burtnīcā: kura funkcija bija O(n) un kura O(n kvadrātā) un kā tu to noteici.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>5.5 Algoritmu efektivitāte</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, abus profilera ekrānuzņēmumus un tabulu skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

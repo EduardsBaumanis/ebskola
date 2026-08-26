@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārvērs Dictionary par JSON · 2. uzdevums (~25 min) - nolasi JSON atpakaļ · 3. uzdevums (~20 min) - apstrādā bojātu JSON · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atceries no Programmēšanas I JSON failus. Godot to dara <code>JSON</code> klase. Priekšrocība pret 5.1 metodi: JSON failu var atvērt un izlasīt ar acīm.</p>
     </div>
 </section>
 
@@ -133,67 +134,72 @@ struct PersistenceCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>5.2 JSON serializācija un Resource sistēma</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Pārvērs Dictionary par JSON</h3>
+        <p>Beigās tavs saglabātais fails būs salasāms cilvēkam.</p>
+        <ol class="step-list">
+            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;godot_cpp/classes/json.hpp&gt;</code>.</li>
+            <li><b>Izveido</b> <code class="language-cpp">Dictionary save_data;</code>.</li>
+            <li><b>Pievieno</b> tam <code>player_name</code>, <code>level</code> un <code>score</code>.</li>
+            <li><b>Pārvērs</b> to ar <code class="language-cpp">String json_str = JSON::stringify(save_data, "    ");</code>.</li>
+            <li><b>Ieraksti</b> rezultātu failā <code>user://save.json</code>.</li>
+            <li><b>Atver</b> failu teksta redaktorā un apskati saturu.</li>
+            <li><b>Pieraksti</b>, ko dara otrais <code>stringify</code> arguments.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> fails <code>save.json</code> ir salasāms ar atkāpēm un satur visas trīs vērtības.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Nolasi JSON atpakaļ</h3>
+        <p>Beigās spēle atjaunos stāvokli no salasāma faila.</p>
+        <ol class="step-list">
+            <li><b>Nolasi</b> faila saturu ar <code>get_as_text()</code>.</li>
+            <li><b>Izveido</b> <code class="language-cpp">Ref&lt;JSON&gt; json;</code> un izsauc <code class="language-cpp">json-&gt;parse(text);</code>.</li>
+            <li><b>Paņem</b> rezultātu ar <code class="language-cpp">Dictionary d = json-&gt;get_data();</code>.</li>
+            <li><b>Izdrukā</b> visas trīs vērtības.</li>
+            <li><b>Pārbaudi</b>, vai skaitlis ielādējas kā skaitlis, nevis kā teksts.</li>
+            <li><b>Nomaini</b> failā ar roku līmeņa vērtību un palaid vēlreiz.</li>
+            <li><b>Pieraksti</b>, kāpēc tas ir gan ērti, gan bīstami.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> izdrukātās vērtības sakrīt ar failā redzamajām, arī pēc tam, kad failu izlaboji ar roku.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Apstrādā bojātu JSON</h3>
+        <p>Beigās bojāts fails vairs nenogāzīs spēli.</p>
+        <ol class="step-list">
+            <li><b>Atver</b> <code>save.json</code> un izdzēs vienu figūriekavu.</li>
+            <li><b>Palaid</b> spēli un pieraksti, kas notiek.</li>
+            <li><b>Pievieno</b> pārbaudi <code class="language-cpp">Error err = json-&gt;parse(text);</code>.</li>
+            <li><b>Pārbaudi</b> <code class="language-cpp">if (err != OK)</code> un izdrukā brīdinājumu.</li>
+            <li><b>Atgriez</b> tādā gadījumā noklusējuma vērtības.</li>
+            <li><b>Palaid</b> ar bojātu failu vēlreiz un pārliecinies, ka spēle turpina darboties.</li>
+            <li><b>Salabo</b> failu un pārbaudi, ka ielāde atkal strādā.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ar bojātu JSON spēle parāda brīdinājumu un sāk ar noklusējuma vērtībām, nevis avarē.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Saglabā sarakstu JSON failā</h3>
+        <p>Ja pamatdarbs ir gatavs, saglabā vairākus rezultātus.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> <code class="language-cpp">Array highscores;</code>.</li>
+            <li><b>Pievieno</b> tam trīs <code>Dictionary</code> ierakstus ar vārdu un punktiem.</li>
+            <li><b>Ieliec</b> masīvu galvenajā <code>Dictionary</code> un saglabā.</li>
+            <li><b>Nolasi</b> to atpakaļ un izdrukā ciklā.</li>
+            <li><b>Sakārto</b> rezultātus dilstošā secībā pirms izdrukas.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> failā ir trīs rezultāti, un ielādējot tie izdrukājas no lielākā uz mazāko.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PersistenceCheckpoint {
-    String lesson = "5.2 JSON serializācija un Resource sistēma";
-    bool uses_cpp = true;
-    bool handles_missing_file = true;
-    bool validates_data = true;
-    bool documents_complexity = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tava spēle saglabā stāvokli salasāmā JSON failā, ielādē to atpakaļ ar pareiziem datu tipiem un neapstājas, ja fails ir bojāts.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Fails <code>save.json</code> paraugs un C++ kods ar <code>JSON::stringify</code> un <code>parse</code>.</li>
+            <li>Ekrānuzņēmums ar Output paneli, kurā redzams brīdinājums par bojātu failu un noklusējuma vērtības.</li>
+            <li>Burtnīcā: kāpēc salasāms saglabāšanas fails ir gan ērts, gan bīstams.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>5.2 JSON serializācija un Resource sistēma</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - ģenerē labirintu ar Random Walk · 2. uzdevums (~25 min) - pārvērs režģi par spēles laukumu · 3. uzdevums (~20 min) - pārbaudi, vai labirints ir izejams · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atver savu projektu. Šodien līmeņus vairs nezīmēsi ar roku - tos uzģenerēs kods. Sāc ar mazu režģi 15x15, nevis milzīgu.</p>
     </div>
 </section>
 
@@ -148,67 +149,73 @@ struct PersistenceCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>5.4 Procedural generation</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Ģenerē labirintu ar Random Walk</h3>
+        <p>Beigās kods pats izraks ejas tukšā režģī.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> <code class="language-cpp">std::vector&lt;std::vector&lt;int&gt;&gt; grid;</code> izmērā 15x15.</li>
+            <li><b>Aizpildi</b> to visu ar vērtību 1 (siena).</li>
+            <li><b>Sāc</b> no centra un iestati tur vērtību 0 (eja).</li>
+            <li><b>Uzraksti</b> ciklu, kas 200 reizes paiet nejaušā virzienā.</li>
+            <li><b>Iestati</b> katrā solī jauno šūnu uz 0.</li>
+            <li><b>Pārbaudi</b>, ka gājējs nepamet režģa robežas.</li>
+            <li><b>Izdrukā</b> režģi Output panelī ar simboliem <code>#</code> un atstarpi.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> Output panelī redzams režģis ar savienotām ejām, un tās nekad neiziet ārpus malām.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Pārvērs režģi par spēles laukumu</h3>
+        <p>Beigās uzģenerēto labirintu varēs redzēt un tajā staigāt.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> scēnai <code>TileMap</code> vai izmanto <code>ColorRect</code> mezglus.</li>
+            <li><b>Uzraksti</b> divkāršu ciklu pār visu režģi.</li>
+            <li><b>Novieto</b> sienas mezglu katrā vietā, kur vērtība ir 1.</li>
+            <li><b>Reizini</b> režģa koordinātes ar šūnas izmēru, piemēram 64.</li>
+            <li><b>Novieto</b> spēlētāju vietā, kur vērtība ir 0.</li>
+            <li><b>Palaid</b> un pastaigā pa labirintu.</li>
+            <li><b>Palaid</b> vēlreiz un pārliecinies, ka labirints ir citāds.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> katrā palaišanas reizē labirints ir atšķirīgs, un spēlētājs var pa to staigāt.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Pārbaudi, vai labirints ir izejams</h3>
+        <p>Beigās tu būsi pārliecinājies, ka izeja tiešām ir sasniedzama.</p>
+        <ol class="step-list">
+            <li><b>Novieto</b> izeju tālākajā režģa stūrī, kur vērtība ir 0.</li>
+            <li><b>Uzraksti</b> metodi, kas no starta izplatās pa visām savienotajām ejām.</li>
+            <li><b>Atzīmē</b> apmeklētās šūnas otrā režģī.</li>
+            <li><b>Pārbaudi</b>, vai izejas šūna tika atzīmēta.</li>
+            <li><b>Ģenerē</b> labirintu atkārtoti, kamēr izeja ir sasniedzama.</li>
+            <li><b>Saskaiti</b>, cik reižu vidēji vajadzēja ģenerēt.</li>
+            <li><b>Pieraksti</b>, kāpēc šī pārbaude ir obligāta.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> spēle nekad nesāk ar labirintu, kurā izeja nav sasniedzama.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Pievieno sēklu atkārtojamībai</h3>
+        <p>Ja pamatdarbs ir gatavs, ļauj atkārtot to pašu labirintu.</p>
+        <ol class="step-list">
+            <li><b>Pievieno</b> lauku <code class="language-cpp">int seed;</code>.</li>
+            <li><b>Iestati</b> to ar <code class="language-cpp">UtilityFunctions::seed(seed);</code> pirms ģenerēšanas.</li>
+            <li><b>Ģenerē</b> divas reizes ar to pašu sēklu un salīdzini rezultātu.</li>
+            <li><b>Ģenerē</b> ar citu sēklu un salīdzini vēlreiz.</li>
+            <li><b>Izdrukā</b> sēklu ekrānā, lai to varētu pierakstīt.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ar vienu un to pašu sēklu labirints vienmēr sanāk identisks.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PersistenceCheckpoint {
-    String lesson = "5.4 Procedural generation";
-    bool uses_cpp = true;
-    bool handles_missing_file = true;
-    bool validates_data = true;
-    bool documents_complexity = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tava spēle pati uzģenerē labirintu ar Random Walk algoritmu, pārvērš to par spēlējamu laukumu un pirms sākuma pārbauda, ka izeja tiešām ir sasniedzama.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Fails <code>maze_generator.cpp</code> tavā GitHub krātuvē.</li>
+            <li>Trīs ekrānuzņēmumi ar trim dažādiem uzģenerētiem labirintiem.</li>
+            <li>Ekrānuzņēmums ar Output paneli, kurā redzams izdrukātais režģis.</li>
+            <li>Burtnīcā: kāpēc obligāti jāpārbauda, vai izeja ir sasniedzama.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>5.4 Procedural generation</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumus skolotāja norādītajā vietā.</p>
     </div>
 </section>
 

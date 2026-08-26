@@ -80,7 +80,8 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>Pirms sāc:</b> izmanto iepriekš apgūto un šīs lapas teorijas/koda piemērus. Ja vajadzīga jauna komanda vai rīks, vispirms atrodi tās paraugu teorijas sadaļā.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - ieraksti un nolasi failu · 2. uzdevums (~25 min) - saglabā spēles rezultātu · 3. uzdevums (~20 min) - apstrādā trūkstošu failu · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atceries no Programmēšanas I failu darbu: <code>with open("dati.txt", "w")</code>. Godot to dara <code>FileAccess</code> klase. Galvenais jaunums: ceļš <code>user://</code>, nevis parasta mape.</p>
     </div>
 </section>
 
@@ -135,67 +136,72 @@ struct PersistenceCheckpoint {
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Iesildies ar gatavu piemēru</h3>
-        <p>Šis ir īss iesildīšanās uzdevums. Nokopē sagatavi, ielīmē to pareizajā koda vietā un palaid. Šeit pietiek droši izmēģināt tēmu <b>5.1 Failu I/O Godot vidē</b>; detalizētu izpratni veidosi nākamajos uzdevumos.</p>
-        <p><b>Kopējamais piemērs vai sagatave:</b> izmanto šo bloku kā starta punktu, nevis kā gala risinājumu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
+        <h3>1. uzdevums - Ieraksti un nolasi failu</h3>
+        <p>Beigās tava spēle pratīs saglabāt tekstu diskā.</p>
+        <ol class="step-list">
+            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;godot_cpp/classes/file_access.hpp&gt;</code>.</li>
+            <li><b>Atver</b> failu ar <code class="language-cpp">Ref&lt;FileAccess&gt; f = FileAccess::open("user://save.txt", FileAccess::WRITE);</code>.</li>
+            <li><b>Pārbaudi</b> <code class="language-cpp">if (f.is_valid())</code> pirms rakstīšanas.</li>
+            <li><b>Ieraksti</b> tekstu ar <code class="language-cpp">f-&gt;store_string("Sveiks, fails!");</code>.</li>
+            <li><b>Atver</b> failu no jauna režīmā <code>READ</code> un nolasi ar <code class="language-cpp">get_as_text()</code>.</li>
+            <li><b>Izdrukā</b> nolasīto tekstu.</li>
+            <li><b>Atrodi</b> failu diskā: Godot izvēlnē <b>Project -&gt; Open User Data Folder</b>.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> Output panelī izdrukājas tas pats teksts, ko ierakstīji, un fails ir atrodams user data mapē.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>2. uzdevums - Saglabā spēles rezultātu</h3>
+        <p>Beigās rezultāts saglabāsies arī pēc spēles aizvēršanas.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> klasi <code>SaveManager</code> ar metodi <code class="language-cpp">void save_score(int score);</code>.</li>
+            <li><b>Ieraksti</b> failā rezultātu ar <code class="language-cpp">store_32(score);</code>.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-cpp">int load_score();</code>, kas to nolasa ar <code class="language-cpp">get_32();</code>.</li>
+            <li><b>Izsauc</b> saglabāšanu ar vērtību 150.</li>
+            <li><b>Aizver</b> spēli pilnībā un palaid no jauna.</li>
+            <li><b>Izdrukā</b> ielādēto rezultātu.</li>
+            <li><b>Pieraksti</b>, kāpēc <code>user://</code> ir labāks par <code>res://</code> saglabāšanai.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> pēc spēles aizvēršanas un atvēršanas ielādētais rezultāts joprojām ir 150.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>3. uzdevums - Apstrādā trūkstošu failu</h3>
+        <p>Beigās pirmā spēles palaišana vairs neradīs kļūdu.</p>
+        <ol class="step-list">
+            <li><b>Izdzēs</b> saglabāto failu no user data mapes.</li>
+            <li><b>Palaid</b> spēli un pieraksti, kas notiek ar <code>load_score()</code>.</li>
+            <li><b>Pievieno</b> pārbaudi <code class="language-cpp">if (!FileAccess::file_exists("user://save.txt"))</code>.</li>
+            <li><b>Atgriez</b> tādā gadījumā noklusējuma vērtību 0.</li>
+            <li><b>Palaid</b> vēlreiz ar izdzēstu failu un pārbaudi rezultātu.</li>
+            <li><b>Saglabā</b> jaunu rezultātu un pārbaudi, ka tas ielādējas.</li>
+            <li><b>Pieraksti</b>, ar ko šī pārbaude līdzinās Python <code>FileNotFoundError</code> apstrādei.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> ar izdzēstu failu spēle rāda rezultātu 0 un neizmet kļūdu.</p>
+    </div>
+    <div class='logic-box'>
+        <h3>Papildu uzdevums - Saglabā vairākas vērtības</h3>
+        <p>Ja pamatdarbs ir gatavs, saglabā visu spēlētāja stāvokli.</p>
+        <ol class="step-list">
+            <li><b>Papildini</b> saglabāšanu ar HP, līmeni un spēlētāja vārdu.</li>
+            <li><b>Ieraksti</b> tos noteiktā secībā ar <code>store_32</code> un <code>store_string</code>.</li>
+            <li><b>Nolasi</b> tos TIEŠI tādā pašā secībā.</li>
+            <li><b>Samaini</b> apzināti divas nolasīšanas rindas vietām un palaid.</li>
+            <li><b>Pieraksti</b>, kāpēc secība ir tik svarīga.</li>
+        </ol>
+        <p class="done-when"><b>Gatavs, kad:</b> visas vērtības ielādējas pareizi, bet, samainot nolasīšanas secību, dati sajūk.</p>
+    </div>
+</section>
 
-using namespace godot;
-
-struct PersistenceCheckpoint {
-    String lesson = "5.1 Failu I/O Godot vidē";
-    bool uses_cpp = true;
-    bool handles_missing_file = true;
-    bool validates_data = true;
-    bool documents_complexity = true;
-};</code></pre>
+<section class='section'>
+    <div class="hand-in-box">
+        <h2>Ko iesniedz skolotājam</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tava spēle saglabā rezultātu failā <code>user://</code> mapē, ielādē to pēc restarta un neizmet kļūdu, ja saglabāšanas faila vēl nav.</p>
+        <p><b>Iesniedzamais:</b></p>
         <ol class="step-list">
-            <li><b>Atver</b> darba failu vai rīku. C++ fragmentu ievieto atbilstošajā <code class="language-cpp">.cpp</code> vai <code class="language-cpp">.hpp</code> failā pie šīs stundas klases.</li>
-            <li><b>Nokopē</b> visu piemēra bloku no šī uzdevuma un ielīmē to norādītajā vietā.</li>
-            <li><b>Palaid</b> kodu tieši tādu, kāds tas ir, un pārliecinies, ka parādās rezultāts, izvade vai vismaz nav kļūdas paziņojuma.</li>
-            <li><b>Atrodi</b> vienu drošu vietu, ko drīkst mainīt: tekstu, skaitli, krāsu, mainīgā vērtību vai testa ierakstu.</li>
-            <li><b>Maini</b> tikai šo vienu vērtību un palaid kodu vēlreiz.</li>
-            <li><b>Salīdzini</b> rezultātu pirms un pēc izmaiņas. Ja parādās kļūda, atcel pēdējo izmaiņu un palaid vēlreiz.</li>
-            <li><b>Turpini</b> pie 2. uzdevuma tikai tad, kad šis mazais piemērs darbojas.</li>
+            <li>Fails <code>save_manager.cpp</code> tavā GitHub krātuvē.</li>
+            <li>Divi ekrānuzņēmumi: rezultāts pēc saglabāšanas un tas pats rezultāts pēc spēles restarta.</li>
+            <li>Burtnīcā: ar ko <code>user://</code> atšķiras no <code>res://</code> un kā tu apstrādāji trūkstošu failu.</li>
         </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievieto algoritmu spēles projektā</h3>
-        <p>Pievieno šīs stundas paņēmienu kā nelielu, strādājošu spēles mehānikas daļu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu projekta vietu: spēlētāju, pretinieku, kameru, UI, datu glabāšanu, sadursmi vai līmeņa ģenerēšanu.</li>
-            <li><b>Nosauc</b> klases, metodes un mainīgos pēc to lomas, piemēram, <code>PlayerState</code>, <code>velocity</code>, <code>score</code> vai <code>update_ui()</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas nolasa stāvokli, veic vienu skaidru darbību un atgriež vai parāda rezultātu.</li>
-            <li><b>Izsauc</b> šo metodi no piemērotas vietas: <code>_ready()</code>, <code>_process()</code>, <code>_physics_process()</code>, signāla apstrādātāja vai projekta palīgklases.</li>
-            <li><b>Pievieno</b> vienu īsu komentāru pie sarežģītākās loģikas vietas.</li>
-            <li><b>Pārkompilē</b> projektu un pārbaudi, ka editorā nav kļūdu.</li>
-            <li><b>Salabo</b> pirmo atrasto kļūdu pirms pievieno nākamo mehānikas daļu.</li>
-            <li><b>Veic</b> Git commit ar īsu tehnisku ziņu par pievienoto C++ funkcionalitāti.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Testē mehāniku un izdari secinājumu</h3>
-        <p>Pārbaudi, vai C++ algoritms darbojas paredzami spēles vidē.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> trīs testa scenārijus: parastu darbību, robežgadījumu un kļūdainu vai neērtu spēlētāja darbību.</li>
-            <li><b>Palaid</b> parasto scenāriju un pārbaudi rezultātu spēles logā vai Godot konsolē.</li>
-            <li><b>Palaid</b> robežgadījumu ar mazāko, lielāko, tukšo vai nulles vērtību, ko mehānika pieļauj.</li>
-            <li><b>Palaid</b> kļūdaino scenāriju un pārbaudi, vai projekts neavarē.</li>
-            <li><b>Izlabo</b> vienu konkrētu problēmu C++ kodā, node sasaistē vai datu inicializācijā.</li>
-            <li><b>Pārkompilē</b> un pārbaudi labojumu vēlreiz ar visiem trim scenārijiem.</li>
-            <li><b>Beigās pieraksti</b> vienu secinājumu: kura metode, klase vai algoritma solis vislabāk palīdzēja saprast tēmu <b>5.1 Failu I/O Godot vidē</b>.</li>
-        </ol>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno mazu mehāniku</h3>
-        <p>Ja pamatdarbs ir pabeigts, paplašini spēli ar vienu nelielu C++ uzlabojumu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> vienu mazu papildinājumu, kas izmanto to pašu šīs stundas paņēmienu.</li>
-            <li><b>Pievieno</b> vienu jaunu atribūtu, metodi, signāla apstrādi, datu elementu vai UI atjauninājumu.</li>
-            <li><b>Savieno</b> papildinājumu ar esošo scēnu vai klasi, nevis atstāj to atsevišķā demonstrācijā.</li>
-            <li><b>Pārkompilē</b> un pārliecinies, ka pamatmehānika joprojām darbojas.</li>
-            <li><b>Saglabā</b> izmaiņas ar Git commit tikai pēc veiksmīgas pārbaudes.</li>
-        </ol>
+        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un abus ekrānuzņēmumus skolotāja norādītajā vietā.</p>
     </div>
 </section>
 
