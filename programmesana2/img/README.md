@@ -10,3 +10,6 @@ lessoni HTML failos. Katrs attēls ir aprakstīts ar `alt` atribūtu attiecīgaj
 Piemērs: `topic1_godot_pm.png`, `topic2_player_moving.png`, ...
 
 Attēlus jāveido 1280×720 vai augstākā izšķirtspējā, PNG vai WebP formātā.
+
+Skat. `SOURCES.md` pašreizējam placeholder audita un internetā atrasto avotu
+sarakstam.
