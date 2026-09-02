@@ -127,7 +127,7 @@ Visās 72 stundās pārrakstīti visi četri uzdevumu bloki, pievienots `Gatavs,
 
 - 1. uzdevums - Uzraksti spēles pseidokodu
 - 2. uzdevums - Definē mainīgos un formulu
-- 3. uzdevums - Pārbaudi formulu uz papīra un tad kodā
+- 3. uzdevums - Pārbaudi formulu README.md failā un tad kodā
 - Papildu uzdevums - Uzzīmē blokshēmu
 
 > Salabots neaizvērts `<section>` tags.

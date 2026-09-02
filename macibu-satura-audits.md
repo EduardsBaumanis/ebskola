@@ -193,7 +193,7 @@ Visiem obligātajiem SR no `sasnRez.html` ir vismaz viena stundu piesaiste savā
 | [3.1 C++ klases pamati](programmesana2/prog2_3/prog2_31.html) | `2.4.18`, `2.4.15` | Atbilst vecumposmam |
 | [3.2 Mantošana C++ un Godot](programmesana2/prog2_3/prog2_32.html) | `2.4.18`, `2.4.15` | Atbilst vecumposmam |
 | [3.3 Signāli un objektu komunikācija](programmesana2/prog2_3/prog2_33.html) | `2.4.15`, `2.4.18` | Atbilst vecumposmam |
-| [3.4 Custom GDExtension klases editor redzamas](programmesana2/prog2_3/prog2_34.html) | `2.4.7`, `2.4.18` | Atbilst vecumposmam |
+| [3.4 Custom GDExtension klases editorā redzamas](programmesana2/prog2_3/prog2_34.html) | `2.4.7`, `2.4.18` | Atbilst vecumposmam |
 | [3.5 Statistikas sistēma un struct](programmesana2/prog2_3/prog2_35.html) | `2.4.16`, `2.4.18` | Atbilst vecumposmam |
 | [3.6 Noslēguma projekts: Klases turnīra simulators](programmesana2/prog2_3/prog2_36.html) | `2.4.1`, `2.4.7`, `2.4.15`, `2.4.18` | Atbilst vecumposmam |
 | [4.1 Vector un Array](programmesana2/prog2_4/prog2_41.html) | `2.4.16`, `2.4.13` | Atbilst vecumposmam |
