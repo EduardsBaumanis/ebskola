@@ -1,0 +1,442 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260907110328
+Username: DX11ITC203458\CodexSandboxOffline
+RunAs User: DX11ITC203458\CodexSandboxOffline
+Configuration Name: 
+Machine: DX11ITC203458 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+$lessonPath = Join-Path (Get-Location) 'datorika9/dat9_11.html'
+$lessonText = [System.IO.File]::ReadAllText($lessonPath)
+$start = $lessonText.IndexOf('<section class=''section''>' + "`r`n" + '    <div class="info-box">')
+if ($start -lt 0) { $start = $lessonText.IndexOf('<section class=''section''>' + "`n" + '    <div class="info-box">') }
+$end = $lessonText.IndexOf('<div class="stundas-navigacija">', $start)
+if ($start -lt 0 -or $end -lt 0) { throw 'Lesson boundaries not found' }
+$newContent = @'
+<section class="section">
+    <div class="info-box">
+        <h2>Šodien: 3 uzdevumi</h2>
+        <ol>
+            <li>Sagatavo projekta mapi un Git. <b>~15 min</b></li>
+            <li>Pieslēdzies GitHub un publicē failu. <b>~25 min</b></li>
+            <li>Maini failu un nosūti izmaiņas. <b>~20 min</b></li>
+        </ol>
+        <p>Skolotāja paraugs: ~10 min. <b>Dari vienu soli reizē.</b> Pēc katras daļas izlasi “Pārbaudi”.</p>
+        <h3>Pirms sāc</h3>
+        <ul>
+            <li>Datorā vajag <a href="https://code.visualstudio.com/download">VS Code</a> un <a href="https://git-scm.com/downloads">Git</a>.</li>
+            <li>Vajag GitHub kontu ar apstiprinātu e-pastu.</li>
+            <li>Ja nevari uzstādīt programmas, pasauc skolotāju.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="section">
+    <h2>Kas ir kas?</h2>
+    <div class="logic-box">
+        <ul>
+            <li><b>VS Code</b> — šeit raksti kodu.</li>
+            <li><b>Git</b> — glabā darba versijas datorā.</li>
+            <li><b>GitHub</b> — glabā darbu internetā.</li>
+            <li><b>Repository</b> jeb krātuve — projekts ar tā izmaiņu vēsturi.</li>
+            <li><b>Source Control</b> — VS Code sadaļa darbam ar Git.</li>
+        </ul>
+        <p><b>Commit</b> saglabā darba versiju datorā. <b>Push</b> nosūta to uz GitHub.</p>
+        <p>Git konts nav jāveido. Tu pieslēgsies <b>GitHub kontam</b>.</p>
+    </div>
+</section>
+
+<section class="section">
+    <h2>Praktiskie uzdevumi</h2>
+    <div class="logic-box">
+        <h3>1. uzdevums — Sagatavo projektu</h3>
+        <h4>A. Atver mapi</h4>
+        <ol class="step-list">
+            <li><b>Izveido</b> uz darbvirsmas mapi <code>spele</code>.</li>
+            <li><b>Atver</b> datorā VS Code.</li>
+            <li><b>Izvēlies</b> <b>File → Open Folder</b> un atver mapi <code>spele</code>.</li>
+            <li><b>Atver Source Control</b> kreisajā joslā. Meklē sazarojuma ikonu.</li>
+            <li><b>Nospied Initialize Repository.</b></li>
+        </ol>
+        <p class="done-when"><b>Pārbaudi:</b> VS Code ir atvērta mape <code>spele</code>, un poga Initialize Repository vairs nav redzama.</p>
+        <h4>B. Norādi darba autoru</h4>
+        <ol class="step-list">
+            <li><b>Atver Terminal → New Terminal.</b> Termināļa ceļam jābeidzas ar <code>spele</code>.</li>
+            <li><b>Ievadi pirmo komandu.</b> Pēdiņās ieraksti savu vārdu un uzvārdu. Nospied Enter.</li>
+        </ol>
+        <pre><code>git config user.name "Vārds Uzvārds"</code></pre>
+        <ol class="step-list" start="3">
+            <li><b>Ievadi otro komandu.</b> Pēdiņās ieraksti savu GitHub konta e-pastu. Nospied Enter.</li>
+        </ol>
+        <pre><code>git config user.email "tavs@pasts.lv"</code></pre>
+        <p>Šādi norādi autoru šim projektam. <b>Paroli šeit neraksti.</b> Pieslēgšanās būs 2. uzdevumā.</p>
+        <details>
+            <summary>Ja nevēlies rādīt savu e-pastu</summary>
+            <p>GitHub sadaļā <b>Settings → Emails</b> atrodi savu privāto <code>noreply</code> adresi. Otrajā komandā izmanto to.</p>
+        </details>
+        <p class="done-when"><b>Pārbaudi:</b> abas komandas izpildītas bez kļūdas. Ja nekas netiek izvadīts, tas ir normāli.</p>
+    </div>
+
+    <div class="logic-box">
+        <h3>2. uzdevums — Publicē pirmo failu</h3>
+        <h4>A. Izveido failu</h4>
+        <ol class="step-list">
+            <li><b>Izveido</b> mapē <code>spele</code> failu <code>index.html</code>.</li>
+            <li><b>Ieraksti</b> šo rindu:</li>
+        </ol>
+        <pre><code>&lt;h1&gt;Mana spēle&lt;/h1&gt;</code></pre>
+        <ol class="step-list" start="3">
+            <li><b>Saglabā</b> failu ar Ctrl+S.</li>
+            <li><b>Atver Source Control.</b> Pie <code>index.html</code> nospied <b>+</b>.</li>
+            <li><b>Ziņas laukā ieraksti</b> <code>Add game page</code>.</li>
+            <li><b>Nospied Commit.</b></li>
+        </ol>
+        <p class="done-when"><b>Pārbaudi:</b> fails vairs nav sarakstā Staged Changes. Darba versija ir saglabāta datorā.</p>
+
+        <h4 id="github-pieslegsanas">B. Pieslēdz VS Code savam GitHub kontam</h4>
+        <ol class="step-list">
+            <li><b>Atver View → Command Palette.</b></li>
+            <li><b>Ieraksti</b> <code>Publish to GitHub</code> un izvēlies šo komandu.</li>
+            <li><b>Nospied Allow vai Sign in</b>, ja VS Code to prasa.</li>
+            <li><b>Pārlūkā pieslēdzies savam GitHub kontam.</b> Pārbaudi lietotājvārdu.</li>
+            <li><b>Nospied Authorize Visual Studio Code</b>, ja šī poga parādās.</li>
+            <li><b>Atļauj atvērt Visual Studio Code</b>, ja pārlūks to prasa.</li>
+        </ol>
+        <p>Ja GitHub prasa drošības kodu, ievadi to. Ja VS Code jau ir pieslēgts, šie pieprasījumi var neparādīties.</p>
+        <p class="done-when"><b>Pārbaudi:</b> VS Code izvēlnē <b>Accounts</b> (cilvēciņa ikona) redzams tavs GitHub lietotājvārds.</p>
+
+        <h4>C. Nosūti failu uz GitHub</h4>
+        <p>Krātuvi izveidos VS Code. GitHub lapā tā iepriekš nav jāveido.</p>
+        <ol class="step-list">
+            <li><b>Atgriezies VS Code.</b> Ja publicēšana apstājās, vēlreiz izvēlies <b>Publish to GitHub</b>.</li>
+            <li><b>Nosauc krātuvi</b> <code>spele</code>.</li>
+            <li><b>Izvēlies Public</b>, ja skolotājs nav norādījis citādi. Tad darbu varēs redzēt arī citi.</li>
+            <li><b>Ja parādās failu saraksts,</b> atzīmē <code>index.html</code> un apstiprini.</li>
+            <li><b>Sagaidi</b> ziņu par veiksmīgu publicēšanu.</li>
+            <li><b>Nospied Open on GitHub.</b></li>
+        </ol>
+        <p class="done-when"><b>Pārbaudi:</b> GitHub redzi <code>index.html</code> un ziņu <code>Add game page</code>. Atver failu — tajā jābūt tavam virsrakstam.</p>
+    </div>
+
+    <div class="logic-box">
+        <h3>3. uzdevums — Maini failu un nosūti izmaiņas</h3>
+        <h4>A. Pievieno rindu</h4>
+        <ol class="step-list">
+            <li><b>VS Code atver</b> failu <code>index.html</code>.</li>
+            <li><b>Zem virsraksta pievieno</b> šo rindu:</li>
+        </ol>
+        <pre><code>&lt;p&gt;Vadi spēli ar bultiņu taustiņiem.&lt;/p&gt;</code></pre>
+        <ol class="step-list" start="3">
+            <li><b>Saglabā</b> ar Ctrl+S.</li>
+            <li><b>Atver Source Control.</b> Pie faila nospied <b>+</b>.</li>
+            <li><b>Ziņas laukā ieraksti</b> <code>Add control hint</code>.</li>
+            <li><b>Nospied Commit.</b></li>
+        </ol>
+        <h4>B. Nosūti un pārbaudi</h4>
+        <ol class="step-list">
+            <li><b>Source Control izvēlnē “…” izvēlies Push.</b></li>
+            <li><b>Sagaidi</b> darbības beigas. Ja prasa pieslēgties, izmanto <a href="#github-pieslegsanas">pieslēgšanās soļus</a>.</li>
+            <li><b>Pārlādē</b> savu GitHub krātuves lapu.</li>
+            <li><b>Atver Commits</b> un izvēlies <code>Add control hint</code>.</li>
+            <li><b>Atrodi</b> pievienoto rindu. Tai jābūt zaļā krāsā ar <b>+</b> zīmi.</li>
+            <li><b>Pasaki saviem vārdiem:</b> ko dara Commit, un ko dara Push?</li>
+        </ol>
+        <p class="done-when"><b>Pārbaudi:</b> GitHub ir abi commit, un jaunajā redzama pievienotā rinda.</p>
+    </div>
+
+    <div class="logic-box">
+        <h3>Papildu uzdevums — Apraksti projektu</h3>
+        <p>Sāc tikai tad, kad visi 3 uzdevumi ir gatavi.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> failu <code>README.md</code> mapē <code>spele</code>.</li>
+            <li><b>Ieraksti</b> virsrakstu <code># Mana spēle</code>.</li>
+            <li><b>Pievieno</b> divus teikumus par savu spēli.</li>
+            <li><b>Saglabā</b> ar Ctrl+S.</li>
+            <li><b>Source Control</b> pie faila nospied <b>+</b>.</li>
+            <li><b>Ieraksti</b> ziņu <code>Add project README</code> un nospied <b>Commit</b>.</li>
+            <li><b>Izvēlnē “…” izvēlies Push.</b></li>
+        </ol>
+        <p class="done-when"><b>Pārbaudi:</b> pārlādē GitHub lapu. Zem failiem redzams spēles apraksts.</p>
+    </div>
+</section>
+
+<section class="section">
+    <h2>Ja iestrēgsti</h2>
+    <p>Atver tikai to jautājumu, kas tev vajadzīgs.</p>
+    <div class="logic-box">
+        <details>
+            <summary>VS Code neatrod Git</summary>
+            <p>Pēc Git instalēšanas aizver un atver VS Code. Ja kļūda paliek, pasauc skolotāju.</p>
+        </details>
+        <details>
+            <summary>Commit prasa user.name vai user.email</summary>
+            <p>Izpildi abas komandas 1. uzdevuma B daļā. Pēc tam vēlreiz nospied Commit.</p>
+        </details>
+        <details>
+            <summary>Nevaru pieslēgties GitHub</summary>
+            <p>Atkārto <a href="#github-pieslegsanas">2. uzdevuma B daļu</a>. Pārlūkā atļauj atvērt VS Code.</p>
+            <p>Ja redzi <b>Authentication failed</b> vai <b>Permission denied</b>, pārbaudi savu kontu VS Code Accounts izvēlnē. Ja tur ir cits konts, pasauc skolotāju.</p>
+            <p>Ja Git prasa paroli terminālī, neievadi GitHub paroli. Pasauc skolotāju, lai atjaunotu pieslēgšanos pārlūkā.</p>
+        </details>
+        <details>
+            <summary>Nosaukums spele jau aizņemts</summary>
+            <p>Ja veido jaunu projektu, izvēlies <code>spele-2</code>. Ja gribi turpināt veco projektu, pasauc skolotāju.</p>
+        </details>
+        <details>
+            <summary>GitHub nav jaunā faila vai rindas</summary>
+            <p>Pārbaudi secību: <b>Ctrl+S → + → Commit → Push</b>. Pirmajā reizē izmanto <b>Publish to GitHub</b>.</p>
+            <p>Pēc tam pārlādē GitHub lapu. Tukšs Changes saraksts vēl nenozīmē, ka darbs ir nosūtīts.</p>
+        </details>
+        <details>
+            <summary>Neredzu Open on GitHub</summary>
+            <p>Pārlūkā atver <code>https://github.com/TAVS-LIETOTAJVARDS/spele</code>. Aizstāj lietotājvārdu ar savu. Ja krātuvei devi citu nosaukumu, aizstāj arī <code>spele</code>.</p>
+        </details>
+    </div>
+</section>
+
+<section class="section">
+    <div class="info-box">
+        <h2>Pirms stundas beigām</h2>
+        <ol class="step-list">
+            <li><b>Atver index.html GitHub lapā.</b> Redzams virsraksts un spēles vadības norāde.</li>
+            <li><b>Atver Commits.</b> Redzami <code>Add game page</code> un <code>Add control hint</code>.</li>
+            <li><b>Iesniedz skolotājam</b> savas GitHub krātuves saiti.</li>
+        </ol>
+        <p><b>Nākamreiz:</b> Ctrl+S → + → Commit → Push.</p>
+        <details>
+            <summary>Papildu pamācības angļu valodā</summary>
+            <p><a href="https://code.visualstudio.com/docs/sourcecontrol/github">Pieslēgšanās GitHub</a> · <a href="https://code.visualstudio.com/docs/sourcecontrol/quickstart">Darbs ar Source Control</a></p>
+        </details>
+    </div>
+</section>
+
+'@
+$lessonText = $lessonText.Substring(0, $start) + $newContent + "`r`n" + $lessonText.Substring($end)
+[System.IO.File]::WriteAllText($lessonPath, $lessonText, (New-Object System.Text.UTF8Encoding($false)))
+git diff --check
+Process ID: 7944
+PSVersion: 5.1.26100.9168
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9168
+BuildVersion: 10.0.26100.9168
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PS>try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+$lessonPath = Join-Path (Get-Location) 'datorika9/dat9_11.html'
+$lessonText = [System.IO.File]::ReadAllText($lessonPath)
+$start = $lessonText.IndexOf('<section class=''section''>' + "`r`n" + '    <div class="info-box">')
+if ($start -lt 0) { $start = $lessonText.IndexOf('<section class=''section''>' + "`n" + '    <div class="info-box">') }
+$end = $lessonText.IndexOf('<div class="stundas-navigacija">', $start)
+if ($start -lt 0 -or $end -lt 0) { throw 'Lesson boundaries not found' }
+$newContent = @'
+<section class="section">
+    <div class="info-box">
+        <h2>Šodien: 3 uzdevumi</h2>
+        <ol>
+            <li>Sagatavo projekta mapi un Git. <b>~15 min</b></li>
+            <li>Pieslēdzies GitHub un publicē failu. <b>~25 min</b></li>
+            <li>Maini failu un nosūti izmaiņas. <b>~20 min</b></li>
+        </ol>
+        <p>Skolotāja paraugs: ~10 min. <b>Dari vienu soli reizē.</b> Pēc katras daļas izlasi “Pārbaudi”.</p>
+        <h3>Pirms sāc</h3>
+        <ul>
+            <li>Datorā vajag <a href="https://code.visualstudio.com/download">VS Code</a> un <a href="https://git-scm.com/downloads">Git</a>.</li>
+            <li>Vajag GitHub kontu ar apstiprinātu e-pastu.</li>
+            <li>Ja nevari uzstādīt programmas, pasauc skolotāju.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="section">
+    <h2>Kas ir kas?</h2>
+    <div class="logic-box">
+        <ul>
+            <li><b>VS Code</b> — šeit raksti kodu.</li>
+            <li><b>Git</b> — glabā darba versijas datorā.</li>
+            <li><b>GitHub</b> — glabā darbu internetā.</li>
+            <li><b>Repository</b> jeb krātuve — projekts ar tā izmaiņu vēsturi.</li>
+            <li><b>Source Control</b> — VS Code sadaļa darbam ar Git.</li>
+        </ul>
+        <p><b>Commit</b> saglabā darba versiju datorā. <b>Push</b> nosūta to uz GitHub.</p>
+        <p>Git konts nav jāveido. Tu pieslēgsies <b>GitHub kontam</b>.</p>
+    </div>
+</section>
+
+<section class="section">
+    <h2>Praktiskie uzdevumi</h2>
+    <div class="logic-box">
+        <h3>1. uzdevums — Sagatavo projektu</h3>
+        <h4>A. Atver mapi</h4>
+        <ol class="step-list">
+            <li><b>Izveido</b> uz darbvirsmas mapi <code>spele</code>.</li>
+            <li><b>Atver</b> datorā VS Code.</li>
+            <li><b>Izvēlies</b> <b>File → Open Folder</b> un atver mapi <code>spele</code>.</li>
+            <li><b>Atver Source Control</b> kreisajā joslā. Meklē sazarojuma ikonu.</li>
+            <li><b>Nospied Initialize Repository.</b></li>
+        </ol>
+        <p class="done-when"><b>Pārbaudi:</b> VS Code ir atvērta mape <code>spele</code>, un poga Initialize Repository vairs nav redzama.</p>
+        <h4>B. Norādi darba autoru</h4>
+        <ol class="step-list">
+            <li><b>Atver Terminal → New Terminal.</b> Termināļa ceļam jābeidzas ar <code>spele</code>.</li>
+            <li><b>Ievadi pirmo komandu.</b> Pēdiņās ieraksti savu vārdu un uzvārdu. Nospied Enter.</li>
+        </ol>
+        <pre><code>git config user.name "Vārds Uzvārds"</code></pre>
+        <ol class="step-list" start="3">
+            <li><b>Ievadi otro komandu.</b> Pēdiņās ieraksti savu GitHub konta e-pastu. Nospied Enter.</li>
+        </ol>
+        <pre><code>git config user.email "tavs@pasts.lv"</code></pre>
+        <p>Šādi norādi autoru šim projektam. <b>Paroli šeit neraksti.</b> Pieslēgšanās būs 2. uzdevumā.</p>
+        <details>
+            <summary>Ja nevēlies rādīt savu e-pastu</summary>
+            <p>GitHub sadaļā <b>Settings → Emails</b> atrodi savu privāto <code>noreply</code> adresi. Otrajā komandā izmanto to.</p>
+        </details>
+        <p class="done-when"><b>Pārbaudi:</b> abas komandas izpildītas bez kļūdas. Ja nekas netiek izvadīts, tas ir normāli.</p>
+    </div>
+
+    <div class="logic-box">
+        <h3>2. uzdevums — Publicē pirmo failu</h3>
+        <h4>A. Izveido failu</h4>
+        <ol class="step-list">
+            <li><b>Izveido</b> mapē <code>spele</code> failu <code>index.html</code>.</li>
+            <li><b>Ieraksti</b> šo rindu:</li>
+        </ol>
+        <pre><code>&lt;h1&gt;Mana spēle&lt;/h1&gt;</code></pre>
+        <ol class="step-list" start="3">
+            <li><b>Saglabā</b> failu ar Ctrl+S.</li>
+            <li><b>Atver Source Control.</b> Pie <code>index.html</code> nospied <b>+</b>.</li>
+            <li><b>Ziņas laukā ieraksti</b> <code>Add game page</code>.</li>
+            <li><b>Nospied Commit.</b></li>
+        </ol>
+        <p class="done-when"><b>Pārbaudi:</b> fails vairs nav sarakstā Staged Changes. Darba versija ir saglabāta datorā.</p>
+
+        <h4 id="github-pieslegsanas">B. Pieslēdz VS Code savam GitHub kontam</h4>
+        <ol class="step-list">
+            <li><b>Atver View → Command Palette.</b></li>
+            <li><b>Ieraksti</b> <code>Publish to GitHub</code> un izvēlies šo komandu.</li>
+            <li><b>Nospied Allow vai Sign in</b>, ja VS Code to prasa.</li>
+            <li><b>Pārlūkā pieslēdzies savam GitHub kontam.</b> Pārbaudi lietotājvārdu.</li>
+            <li><b>Nospied Authorize Visual Studio Code</b>, ja šī poga parādās.</li>
+            <li><b>Atļauj atvērt Visual Studio Code</b>, ja pārlūks to prasa.</li>
+        </ol>
+        <p>Ja GitHub prasa drošības kodu, ievadi to. Ja VS Code jau ir pieslēgts, šie pieprasījumi var neparādīties.</p>
+        <p class="done-when"><b>Pārbaudi:</b> VS Code izvēlnē <b>Accounts</b> (cilvēciņa ikona) redzams tavs GitHub lietotājvārds.</p>
+
+        <h4>C. Nosūti failu uz GitHub</h4>
+        <p>Krātuvi izveidos VS Code. GitHub lapā tā iepriekš nav jāveido.</p>
+        <ol class="step-list">
+            <li><b>Atgriezies VS Code.</b> Ja publicēšana apstājās, vēlreiz izvēlies <b>Publish to GitHub</b>.</li>
+            <li><b>Nosauc krātuvi</b> <code>spele</code>.</li>
+            <li><b>Izvēlies Public</b>, ja skolotājs nav norādījis citādi. Tad darbu varēs redzēt arī citi.</li>
+            <li><b>Ja parādās failu saraksts,</b> atzīmē <code>index.html</code> un apstiprini.</li>
+            <li><b>Sagaidi</b> ziņu par veiksmīgu publicēšanu.</li>
+            <li><b>Nospied Open on GitHub.</b></li>
+        </ol>
+        <p class="done-when"><b>Pārbaudi:</b> GitHub redzi <code>index.html</code> un ziņu <code>Add game page</code>. Atver failu — tajā jābūt tavam virsrakstam.</p>
+    </div>
+
+    <div class="logic-box">
+        <h3>3. uzdevums — Maini failu un nosūti izmaiņas</h3>
+        <h4>A. Pievieno rindu</h4>
+        <ol class="step-list">
+            <li><b>VS Code atver</b> failu <code>index.html</code>.</li>
+            <li><b>Zem virsraksta pievieno</b> šo rindu:</li>
+        </ol>
+        <pre><code>&lt;p&gt;Vadi spēli ar bultiņu taustiņiem.&lt;/p&gt;</code></pre>
+        <ol class="step-list" start="3">
+            <li><b>Saglabā</b> ar Ctrl+S.</li>
+            <li><b>Atver Source Control.</b> Pie faila nospied <b>+</b>.</li>
+            <li><b>Ziņas laukā ieraksti</b> <code>Add control hint</code>.</li>
+            <li><b>Nospied Commit.</b></li>
+        </ol>
+        <h4>B. Nosūti un pārbaudi</h4>
+        <ol class="step-list">
+            <li><b>Source Control izvēlnē “…” izvēlies Push.</b></li>
+            <li><b>Sagaidi</b> darbības beigas. Ja prasa pieslēgties, izmanto <a href="#github-pieslegsanas">pieslēgšanās soļus</a>.</li>
+            <li><b>Pārlādē</b> savu GitHub krātuves lapu.</li>
+            <li><b>Atver Commits</b> un izvēlies <code>Add control hint</code>.</li>
+            <li><b>Atrodi</b> pievienoto rindu. Tai jābūt zaļā krāsā ar <b>+</b> zīmi.</li>
+            <li><b>Pasaki saviem vārdiem:</b> ko dara Commit, un ko dara Push?</li>
+        </ol>
+        <p class="done-when"><b>Pārbaudi:</b> GitHub ir abi commit, un jaunajā redzama pievienotā rinda.</p>
+    </div>
+
+    <div class="logic-box">
+        <h3>Papildu uzdevums — Apraksti projektu</h3>
+        <p>Sāc tikai tad, kad visi 3 uzdevumi ir gatavi.</p>
+        <ol class="step-list">
+            <li><b>Izveido</b> failu <code>README.md</code> mapē <code>spele</code>.</li>
+            <li><b>Ieraksti</b> virsrakstu <code># Mana spēle</code>.</li>
+            <li><b>Pievieno</b> divus teikumus par savu spēli.</li>
+            <li><b>Saglabā</b> ar Ctrl+S.</li>
+            <li><b>Source Control</b> pie faila nospied <b>+</b>.</li>
+            <li><b>Ieraksti</b> ziņu <code>Add project README</code> un nospied <b>Commit</b>.</li>
+            <li><b>Izvēlnē “…” izvēlies Push.</b></li>
+        </ol>
+        <p class="done-when"><b>Pārbaudi:</b> pārlādē GitHub lapu. Zem failiem redzams spēles apraksts.</p>
+    </div>
+</section>
+
+<section class="section">
+    <h2>Ja iestrēgsti</h2>
+    <p>Atver tikai to jautājumu, kas tev vajadzīgs.</p>
+    <div class="logic-box">
+        <details>
+            <summary>VS Code neatrod Git</summary>
+            <p>Pēc Git instalēšanas aizver un atver VS Code. Ja kļūda paliek, pasauc skolotāju.</p>
+        </details>
+        <details>
+            <summary>Commit prasa user.name vai user.email</summary>
+            <p>Izpildi abas komandas 1. uzdevuma B daļā. Pēc tam vēlreiz nospied Commit.</p>
+        </details>
+        <details>
+            <summary>Nevaru pieslēgties GitHub</summary>
+            <p>Atkārto <a href="#github-pieslegsanas">2. uzdevuma B daļu</a>. Pārlūkā atļauj atvērt VS Code.</p>
+            <p>Ja redzi <b>Authentication failed</b> vai <b>Permission denied</b>, pārbaudi savu kontu VS Code Accounts izvēlnē. Ja tur ir cits konts, pasauc skolotāju.</p>
+            <p>Ja Git prasa paroli terminālī, neievadi GitHub paroli. Pasauc skolotāju, lai atjaunotu pieslēgšanos pārlūkā.</p>
+        </details>
+        <details>
+            <summary>Nosaukums spele jau aizņemts</summary>
+            <p>Ja veido jaunu projektu, izvēlies <code>spele-2</code>. Ja gribi turpināt veco projektu, pasauc skolotāju.</p>
+        </details>
+        <details>
+            <summary>GitHub nav jaunā faila vai rindas</summary>
+            <p>Pārbaudi secību: <b>Ctrl+S → + → Commit → Push</b>. Pirmajā reizē izmanto <b>Publish to GitHub</b>.</p>
+            <p>Pēc tam pārlādē GitHub lapu. Tukšs Changes saraksts vēl nenozīmē, ka darbs ir nosūtīts.</p>
+        </details>
+        <details>
+            <summary>Neredzu Open on GitHub</summary>
+            <p>Pārlūkā atver <code>https://github.com/TAVS-LIETOTAJVARDS/spele</code>. Aizstāj lietotājvārdu ar savu. Ja krātuvei devi citu nosaukumu, aizstāj arī <code>spele</code>.</p>
+        </details>
+    </div>
+</section>
+
+<section class="section">
+    <div class="info-box">
+        <h2>Pirms stundas beigām</h2>
+        <ol class="step-list">
+            <li><b>Atver index.html GitHub lapā.</b> Redzams virsraksts un spēles vadības norāde.</li>
+            <li><b>Atver Commits.</b> Redzami <code>Add game page</code> un <code>Add control hint</code>.</li>
+            <li><b>Iesniedz skolotājam</b> savas GitHub krātuves saiti.</li>
+        </ol>
+        <p><b>Nākamreiz:</b> Ctrl+S → + → Commit → Push.</p>
+        <details>
+            <summary>Papildu pamācības angļu valodā</summary>
+            <p><a href="https://code.visualstudio.com/docs/sourcecontrol/github">Pieslēgšanās GitHub</a> · <a href="https://code.visualstudio.com/docs/sourcecontrol/quickstart">Darbs ar Source Control</a></p>
+        </details>
+    </div>
+</section>
+
+'@
+$lessonText = $lessonText.Substring(0, $start) + $newContent + "`r`n" + $lessonText.Substring($end)
+[System.IO.File]::WriteAllText($lessonPath, $lessonText, (New-Object System.Text.UTF8Encoding($false)))
+git diff --check
+
+PS>$global:?
+True
+**********************
+Windows PowerShell transcript end
+End time: 20260907110328
+**********************
