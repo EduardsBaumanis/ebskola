@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>4. Tēma - Datu struktūras un AI - ebSkola</title>
-<meta name="description" content="Prog II 4. tēma: Datu struktūras un AI - vector, map, A* pathfinding, state machines. Top-down shooter.">
+<meta name="description" content="Prog II 4. tēma: Datu struktūras un AI - List, Dictionary, A* pathfinding, state machines. Top-down shooter.">
 <meta name="author" content="Eduards Baumanis"><meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_4/prog2_4main">
 <meta property="og:type" content="website"><meta property="og:locale" content="lv_LV"><meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4. Tēma - Datu struktūras un AI"><meta property="og:description" content="Prog II 4. tēma: vector, map, A* pathfinding. Top-down shooter.">
+<meta property="og:title" content="4. Tēma - Datu struktūras un AI"><meta property="og:description" content="Prog II 4. tēma: List, Dictionary, A* pathfinding. Top-down shooter.">
 <meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_4/prog2_4main"><meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="4. Tēma - Datu struktūras un AI">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="manifest" href="../../manifest.json"><meta name="theme-color" content="#222831">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"4. Tēma - Datu struktūras un AI","description":"STL vector un map, AI state machines, A* pathfinding ar NavigationAgent2D. Top-down shooter.","inLanguage":"lv","url":"https://ebskola.lv/programmesana2/prog2_4/prog2_4main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"4. Tēma - Datu struktūras un AI","description":"C# List un Dictionary, AI state machines, A* pathfinding ar NavigationAgent2D. Top-down shooter.","inLanguage":"lv","url":"https://ebskola.lv/programmesana2/prog2_4/prog2_4main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 </head>
 <body class="page-home">
 <header class="topbar"><div class="wrap row">
@@ -32,25 +32,25 @@
 </div></header>
 
 <section class="hero"><div class="wrap">
-  <div class="eyebrow"><span class="dot"></span><span>Prog II · 4. tēma · 6 stundas</span><span class="ver"> - C++ · AI · šautene</span></div>
+  <div class="eyebrow"><span class="dot"></span><span>Prog II · 4. tēma · 6 stundas</span><span class="ver"> - C# · AI · šautene</span></div>
   <div class="hero-grid">
     <div>
       <h1 class="headline">Datu struktūras <span class="slash">//</span><br>un <span class="accent">AI</span></h1>
-      <p class="lede">STL <code>vector</code> un <code>map</code>, ienaidnieku AI ar <code>NavigationAgent2D</code> un <code>A*</code> algoritmu. Rezultāts - Top-down šautene ar gudru AI.</p>
+      <p class="lede">C# <code>List</code> un <code>Dictionary</code>, ienaidnieku AI ar <code>NavigationAgent2D</code> un <code>A*</code> algoritmu. Rezultāts - Top-down šautene ar gudru AI.</p>
       <div class="cta-row">
         <a class="btn primary" href="/programmesana2/prog2_4/prog2_41"><span>›</span> Sākt 4.1 stundu</a>
         <a class="btn" href="/programmesana2/prog2_4/prog2_46">Noslēguma projekts <span class="caret">→</span></a>
       </div>
       <div class="hero-meta">
         <span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
-        <span class="m"><span class="sw kw"></span> <b>STL</b> · vector · map</span>
+        <span class="m"><span class="sw kw"></span> <b>C#</b> · List · Dictionary</span>
         <span class="m"><span class="sw fn"></span> <b>A*</b> pathfinding</span>
       </div>
     </div>
     <div>
       <div class="editor" aria-hidden="true">
-        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog2_4/</em>enemy_ai.cpp</span></div>
-        <div class="tabs"><span class="tab active"><span class="ic">●</span> enemy_ai.cpp</span><span class="spacer"></span></div>
+        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog2_4/</em>EnemyAi.cs</span></div>
+        <div class="tabs"><span class="tab active"><span class="ic">●</span> EnemyAi.cs</span><span class="spacer"></span></div>
         <div class="body">
           <div class="gutter">1
 2
@@ -63,19 +63,20 @@
 9
 10
 11</div>
-          <div class="code"><span class="tok-kw">#include</span> <span class="tok-str">&lt;vector&gt;</span>
-<span class="tok-kw">#include</span> <span class="tok-str">&lt;map&gt;</span>
+          <div class="code"><span class="tok-kw">using</span> <span class="tok-typ">Godot</span>;
+<span class="tok-kw">using</span> <span class="tok-typ">System.Collections.Generic</span>;
 
-<span class="tok-kw">void</span> <span class="tok-typ">EnemyAI</span>::<span class="tok-fn">_physics_process</span>(<span class="tok-kw">double</span> d) {
-  <span class="tok-typ">Vector2</span> target <span class="tok-op">=</span> <span class="tok-fn">get_player_pos</span>();
-  <span class="tok-typ">NavigationAgent2D</span><span class="tok-op">*</span> nav <span class="tok-op">=</span>
-    <span class="tok-fn">get_node</span>&lt;<span class="tok-typ">NavigationAgent2D</span>&gt;(<span class="tok-str">"Nav"</span>);
-  nav-&gt;<span class="tok-fn">set_target_position</span>(target);
-  <span class="tok-typ">Vector2</span> next <span class="tok-op">=</span> nav-&gt;<span class="tok-fn">get_next_path_position</span>();
-  <span class="tok-fn">set_velocity</span>((next <span class="tok-op">-</span> <span class="tok-fn">get_position</span>()).<span class="tok-fn">normalized</span>() <span class="tok-op">*</span> SPEED);
-  <span class="tok-fn">move_and_slide</span>();<span class="cursor"></span></div>
+<span class="tok-kw">public partial class</span> <span class="tok-typ">EnemyAi</span> : <span class="tok-typ">CharacterBody2D</span> {
+  <span class="tok-kw">private</span> <span class="tok-typ">NavigationAgent2D</span> nav;
+  <span class="tok-kw">private</span> <span class="tok-typ">Node2D</span> player;
+  <span class="tok-kw">private readonly</span> <span class="tok-typ">List</span>&lt;<span class="tok-typ">Enemy</span>&gt; enemies <span class="tok-op">=</span> <span class="tok-kw">new</span>();
+  <span class="tok-kw">public override void</span> <span class="tok-fn">_PhysicsProcess</span>(<span class="tok-kw">double</span> d) {
+    nav.TargetPosition <span class="tok-op">=</span> player.GlobalPosition;
+    <span class="tok-typ">Vector2</span> next <span class="tok-op">=</span> nav.<span class="tok-fn">GetNextPathPosition</span>();
+    Velocity <span class="tok-op">=</span> (next <span class="tok-op">-</span> GlobalPosition).<span class="tok-fn">Normalized</span>() <span class="tok-op">*</span> Speed;
+    <span class="tok-fn">MoveAndSlide</span>();<span class="cursor"></span></div>
         </div>
-        <div class="statusbar"><span class="ok">● kompilēts</span><span>C++ · STL</span><span class="spacer"></span><span>Godot 4</span></div>
+        <div class="statusbar"><span class="ok">● būvēts</span><span>C# · .NET</span><span class="spacer"></span><span>Godot 4</span></div>
       </div>
     </div>
   </div>
@@ -85,7 +86,7 @@
   <div class="sec-head">
     <div>
       <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
-      <h2 class="sec-title">6 stundas - STL, AI un top-down šautene</h2>
+      <h2 class="sec-title">6 stundas - C# kolekcijas, AI un top-down šautene</h2>
     </div>
     <a class="sec-link" href="/programmesana2/prog2_4/prog2_46">noslēguma projekts <span>→</span></a>
   </div>
@@ -95,13 +96,13 @@
       <div class="preview">
         <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
           <rect width="320" height="200" fill="var(--bg)"/>
-          <text x="30" y="50" font-family="monospace" font-size="9" fill="var(--muted)">std::vector&lt;Bullet*&gt;</text>
+          <text x="30" y="50" font-family="monospace" font-size="9" fill="var(--muted)">List&lt;Bullet&gt;</text>
           <rect x="30" y="58" width="30" height="28" rx="2" fill="var(--surface)" stroke="var(--kw)"/><text x="45" y="77" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">0</text>
           <rect x="63" y="58" width="30" height="28" rx="2" fill="var(--surface)" stroke="var(--kw)"/><text x="78" y="77" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">1</text>
           <rect x="96" y="58" width="30" height="28" rx="2" fill="var(--surface)" stroke="var(--kw)"/><text x="111" y="77" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">2</text>
           <rect x="129" y="58" width="30" height="28" rx="2" fill="var(--surface-raised)" stroke="var(--line)" stroke-dasharray="3,2"/><text x="144" y="77" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">+</text>
-          <text x="165" y="77" font-family="monospace" font-size="9" fill="var(--str)">push_back()</text>
-          <text x="30" y="120" font-family="monospace" font-size="9" fill="var(--muted)">std::map&lt;string,int&gt;</text>
+          <text x="165" y="77" font-family="monospace" font-size="9" fill="var(--str)">Add()</text>
+          <text x="30" y="120" font-family="monospace" font-size="9" fill="var(--muted)">Dictionary&lt;string,int&gt;</text>
           <rect x="30" y="128" width="230" height="40" rx="3" fill="var(--surface)" stroke="var(--line-soft)"/>
           <text x="60" y="148" font-family="monospace" font-size="8" fill="var(--str)">"bullets"</text>
           <text x="120" y="148" font-family="monospace" font-size="8" fill="var(--muted)">→</text>
@@ -110,12 +111,12 @@
           <text x="225" y="148" font-family="monospace" font-size="8" fill="var(--muted)">→</text>
           <text x="242" y="148" font-family="monospace" font-size="8" fill="var(--num)">550</text>
         </svg>
-        <span class="label">// STL containers</span>
+        <span class="label">// C# kolekcijas</span>
       </div>
       <div class="body">
-        <div class="meta-top"><span class="lang"><span class="d kw"></span> C++ · STL</span><span>datu struktūras</span></div>
-        <h3>Vector un Array</h3>
-        <p><code>std::vector</code> dinamiskam bultām sarakstam, <code>push_back</code>/<code>erase</code>, iterācija ar range-for.</p>
+        <div class="meta-top"><span class="lang"><span class="d kw"></span> C# · List</span><span>datu struktūras</span></div>
+        <h3>List un Array</h3>
+        <p><code>List&lt;T&gt;</code> dinamiskam bultām sarakstam, <code>Add</code>/<code>RemoveAt</code>, iterācija ar <code>foreach</code>.</p>
         <div class="foot"><span>4.1 stunda</span><span class="open">atvērt ↗</span></div>
       </div>
     </a>
@@ -136,12 +137,12 @@
           <rect x="160" y="94" width="120" height="14" rx="2" fill="var(--surface)"/><text x="215" y="105" font-family="monospace" font-size="8" fill="var(--num)" text-anchor="middle">3</text>
           <text x="160" y="180" font-family="monospace" font-size="8" fill="var(--muted)">scores["score"]++;</text>
         </svg>
-        <span class="label">// std::map</span>
+        <span class="label">// Dictionary</span>
       </div>
       <div class="body">
-        <div class="meta-top"><span class="lang"><span class="d typ"></span> C++ · map</span><span>datu struktūras</span></div>
-        <h3>Map un Dictionary</h3>
-        <p><code>std::map</code> un <code>std::unordered_map</code> - atslēga→vērtība, spēles stāvokļa glabāšana.</p>
+        <div class="meta-top"><span class="lang"><span class="d typ"></span> C# · Dictionary</span><span>datu struktūras</span></div>
+        <h3>Dictionary un Godot Dictionary</h3>
+        <p><code>Dictionary&lt;TKey, TValue&gt;</code> un <code>Godot.Collections.Dictionary</code> - atslēga→vērtība, spēles stāvokļa glabāšana.</p>
         <div class="foot"><span>4.2 stunda</span><span class="open">atvērt ↗</span></div>
       </div>
     </a>
@@ -188,14 +189,14 @@
           <rect x="210" y="120" width="30" height="30" fill="var(--str)" opacity="0.7"/>
           <text x="40" y="80" font-family="monospace" font-size="8" fill="var(--kw)">S</text>
           <text x="225" y="140" font-family="monospace" font-size="8" fill="var(--str)">E</text>
-          <text x="160" y="185" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">A* - atrод īsāko ceļu pa tīklu</text>
+          <text x="160" y="185" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">A* - atrod īsāko ceļu pa tīklu</text>
         </svg>
         <span class="label">// A* pathfinding</span>
       </div>
       <div class="body">
         <div class="meta-top"><span class="lang"><span class="d typ"></span> A* · Navigation2D</span><span>pathfinding</span></div>
         <h3>Pathfinding ar A*</h3>
-        <p>Godot <code>NavigationAgent2D</code>, A* algoritms, <code>get_next_path_position()</code>, navigācijas karte.</p>
+        <p>Godot <code>NavigationAgent2D</code>, A* algoritms, <code>GetNextPathPosition()</code>, navigācijas karte.</p>
         <div class="foot"><span>4.4 stunda</span><span class="open">atvērt ↗</span></div>
       </div>
     </a>
@@ -222,9 +223,9 @@
         <span class="label">// object pooling</span>
       </div>
       <div class="body">
-        <div class="meta-top"><span class="lang"><span class="d str"></span> C++ · optimizācija</span><span>veiktspēja</span></div>
+        <div class="meta-top"><span class="lang"><span class="d str"></span> C# · optimizācija</span><span>veiktspēja</span></div>
         <h3>Šaušanas mehānika un object pooling</h3>
-        <p>Bullet object pool - pārlieto objektus nevis veido jaunus, ieroču sistēma ar <code>std::vector</code>.</p>
+        <p>Bullet object pool - pārlieto objektus nevis veido jaunus, ieroču sistēma ar <code>List&lt;Bullet&gt;</code>.</p>
         <div class="foot"><span>4.5 stunda</span><span class="open">atvērt ↗</span></div>
       </div>
     </a>
@@ -251,9 +252,9 @@
         <span class="label">// prog2_46 projekts</span>
       </div>
       <div class="body">
-        <div class="meta-top"><span class="lang"><span class="d str"></span> C++ · AI</span><span>projekts</span></div>
+        <div class="meta-top"><span class="lang"><span class="d str"></span> C# · AI</span><span>projekts</span></div>
         <h3>Noslēguma projekts: Top-down šautene</h3>
-        <p>Ienaidnieki ar A* pathfinding, ieroču sistēma, viļņu pārvaldnieks, highscore ar <code>std::map</code>.</p>
+        <p>Ienaidnieki ar A* pathfinding, ieroču sistēma, viļņu pārvaldnieks, highscore ar <code>Dictionary</code>.</p>
         <div class="foot"><span>4.6 projekts</span><span class="open">atvērt ↗</span></div>
       </div>
     </a>
@@ -268,141 +269,156 @@
     <p class="sec-sub">Saraksti, vārdnīcas, stāvokļu mašīna, pathfinding un object pooling. Katrs bloks atbilst vienai stundai.</p>
   </div></div>
   <div class="logic-box">
-    <h3>4.1 Saraksti: std::vector pret Godot Array</h3>
-    <pre><code class="language-cpp">#include &lt;vector&gt;
-// Python:  enemies = []  /  enemies.append(e)  /  len(enemies)
-std::vector&lt;Enemy*&gt; enemies;
-enemies.push_back(e);                 // pievieno beigās
-enemies.size();                       // garums
-enemies.erase(enemies.begin() + 1);   // izņem otro
-enemies.at(10);                       // DROŠI: met kļūdu, ja nav
-enemies[10];                          // BĪSTAMI: klusa atmiņas kļūda
+    <h3>4.1 Saraksti: List pret Godot Array</h3>
+    <pre><code class="language-csharp">using Godot;
+using Godot.Collections;
+using System.Collections.Generic;
 
-for (Enemy *e : enemies) { e-&gt;update(); }      // Python: for e in enemies
+// Python:  enemies = []  /  enemies.append(e)  /  len(enemies)
+List&lt;Enemy&gt; enemies = new();
+enemies.Add(enemy);                 // pievieno beigās
+enemies.Count;                      // garums
+enemies.RemoveAt(1);                // izņem otro
+enemies[10];                        // met kļūdu, ja nav
+
+foreach (Enemy enemy in enemies) { enemy.UpdateEnemy(); }  // Python: for e in enemies
 
 // NEDZĒS cikla laikā! Vispirms savāc, tad dzēs:
-std::vector&lt;Enemy*&gt; dzest;
-for (Enemy *e : enemies) if (!e-&gt;alive) dzest.push_back(e);
-for (Enemy *e : dzest)   /* izņem no enemies */ ;
+List&lt;Enemy&gt; toRemove = new();
+foreach (Enemy enemy in enemies) if (!enemy.Alive) toRemove.Add(enemy);
+foreach (Enemy enemy in toRemove) enemies.Remove(enemy);
 
 // Godot Array - dažādi tipi vienā sarakstā, vajadzīgs saziņai ar editoru
-Array bullets;  bullets.push_back(42);  bullets.push_back("teksts");</code></pre>
-    <p class="cheat-note"><code>std::vector</code> - iekšējam kodam (ātrs, tipa-drošs). <code>Array</code> - kad dati jānodod Godot.</p>
+Array bullets = new(); bullets.Add(42); bullets.Add("teksts");</code></pre>
+    <p class="cheat-note"><code>List&lt;T&gt;</code> - iekšējam C# kodam (ātrs, tipa-drošs). <code>Array</code> - kad dati jānodod Godot.</p>
   </div>
   <div class="logic-box">
-    <h3>4.2 Vārdnīcas: std::map pret Dictionary</h3>
-    <pre><code class="language-cpp">#include &lt;map&gt;
+    <h3>4.2 Vārdnīcas: Dictionary pret Godot Dictionary</h3>
+    <pre><code class="language-csharp">using Godot;
+using Godot.Collections;
+using System.Collections.Generic;
+
 // Python:  inventars = {}  /  inventars["zobens"] = 5
-std::map&lt;String, int&gt; inventory;
+Dictionary&lt;string, int&gt; inventory = new();
 inventory["Health Potion"] = 5;
 
-// BĪSTAMI: kvadrātiekavas ar neesošu atslēgu KLUSI izveido ierakstu ar 0
-int x = inventory["nav taada"];       // tagad sarakstā ir lieks ieraksts!
-
 // DROŠI:
-int get_amount(String name) {
-    if (inventory.count(name) &gt; 0) return inventory[name];
+int GetAmount(string name)
+{
+    if (inventory.TryGetValue(name, out int amount)) return amount;
     return 0;
 }
 
-for (auto &amp;p : inventory)             // Python: for k, v in d.items()
-    UtilityFunctions::print(p.first, " x", p.second);
+foreach ((string name, int count) in inventory)   // Python: for k, v in d.items()
+    GD.Print(name, " x", count);
 
-// std::map           sakārtots pēc atslēgas, meklēšana O(log n)
-// std::unordered_map nesakārtots, meklēšana O(1) - ātrāks
-// Dictionary         Godot tips: dažādi vērtību tipi, der saglabāšanai
-Dictionary save;  save["level"] = 5;  save["name"] = "Anna";</code></pre>
-    <p class="cheat-note">Ja saraksta izmērs pieaug pēc <b>lasīšanas</b>, tu esi lietojis kvadrātiekavas neesošai atslēgai.</p>
+// Dictionary&lt;TKey,TValue&gt;  statiski tipots, ātra meklēšana
+// Godot Dictionary         Godot tips: dažādi vērtību tipi, der saglabāšanai
+Godot.Collections.Dictionary save = new();
+save["level"] = 5;
+save["name"] = "Anna";</code></pre>
+    <p class="cheat-note">Ja atslēga var nebūt vārdnīcā, lieto <code>TryGetValue</code>, nevis tiešu kvadrātiekavu lasīšanu.</p>
   </div>
   <div class="logic-box">
     <h3>4.3 Stāvokļu mašīna: viens stāvoklis vienlaikus</h3>
-    <pre><code class="language-cpp">enum class EnemyState { IDLE, PATROL, CHASE, ATTACK, DEAD };
+    <pre><code class="language-csharp">public enum EnemyState { Idle, Patrol, Chase, Attack, Dead }
 
-class Enemy : public CharacterBody2D {
-    EnemyState state = EnemyState::IDLE;
-    double state_time = 0.0;
+public partial class Enemy : CharacterBody2D
+{
+    private EnemyState state = EnemyState.Idle;
+    private double stateTime = 0.0;
+    private Player player;
 
-    void change_state(EnemyState s) { state = s; state_time = 0.0; }
+    private void ChangeState(EnemyState nextState)
+    {
+        state = nextState;
+        stateTime = 0.0;
+    }
 
-    void _physics_process(double delta) {
-        state_time += delta;
-        double d = get_position().distance_to(player-&gt;get_position());
+    public override void _PhysicsProcess(double delta)
+    {
+        stateTime += delta;
+        double distance = Position.DistanceTo(player.Position);
 
-        // Slieksnis ATPAKAĻ ir LIELĀKS nekā uz priekšu -> nemirgo uz robežas
-        if (state != EnemyState::DEAD) {
-            if      (d &lt; 50)  change_state(EnemyState::ATTACK);
-            else if (d &lt; 300) change_state(EnemyState::CHASE);
-            else if (d &gt; 400) change_state(EnemyState::PATROL);
+        // Slieksnis ATPAKAĻ ir LIELĀKS nekā uz priekšu -&gt; nemirgo uz robežas
+        if (state != EnemyState.Dead)
+        {
+            if (distance &lt; 50) ChangeState(EnemyState.Attack);
+            else if (distance &lt; 300) ChangeState(EnemyState.Chase);
+            else if (distance &gt; 400) ChangeState(EnemyState.Patrol);
         }
 
-        switch (state) {
-            case EnemyState::PATROL: patrol();  break;
-            case EnemyState::CHASE:  chase();   break;
-            case EnemyState::ATTACK: attack();  break;
-            case EnemyState::DEAD:              break;   // gala stāvoklis
-            default:                            break;
+        switch (state)
+        {
+            case EnemyState.Patrol: Patrol(); break;
+            case EnemyState.Chase: Chase(); break;
+            case EnemyState.Attack: Attack(); break;
+            case EnemyState.Dead: break;   // gala stāvoklis
         }
     }
-};</code></pre>
+}</code></pre>
     <p class="cheat-note"><code>DEAD</code> ir gala stāvoklis - no tā nav nevienas izejošas pārejas.</p>
   </div>
   <div class="logic-box">
     <h3>4.4 Pathfinding: apiet sienu, nevis spiesties tajā</h3>
-    <pre><code class="language-cpp">#include &lt;godot_cpp/classes/navigation_agent2d.hpp&gt;
-
-// Scēnā: NavigationRegion2D -> NavigationPolygon -> Bake
+    <pre><code class="language-csharp">// Scēnā: NavigationRegion2D -&gt; NavigationPolygon -&gt; Bake
 //        Ienaidniekam bērns: NavigationAgent2D
 
-void Enemy::chase() {
-    NavigationAgent2D *agent = get_node&lt;NavigationAgent2D&gt;("NavigationAgent2D");
-    agent-&gt;set_target_position(player-&gt;get_position());
+private void Chase()
+{
+    NavigationAgent2D agent = GetNode&lt;NavigationAgent2D&gt;("NavigationAgent2D");
+    agent.TargetPosition = player.Position;
 
-    Vector2 next = agent-&gt;get_next_path_position();
-    Vector2 dir  = (next - get_position()).normalized();
+    Vector2 next = agent.GetNextPathPosition();
+    Vector2 dir = (next - Position).Normalized();
 
-    set_velocity(dir * speed);
-    move_and_slide();
+    Velocity = dir * speed;
+    MoveAndSlide();
 }
 
 // A* algoritms, ko Godot izmanto iekšēji:
 //   g = cik tālu jau esmu gājis
 //   h = taisnais attālums līdz mērķim (novērtējums)
-//   f = g + h  -> vienmēr izvēlas soli ar mazāko f</code></pre>
+//   f = g + h  -&gt; vienmēr izvēlas soli ar mazāko f</code></pre>
     <p class="cheat-note">Bez navigācijas zonas ienaidnieks spiežas sienā. Ar to - apiet apkārt.</p>
   </div>
   <div class="logic-box">
     <h3>4.5 Object pooling: neveido un nedzēs, bet lieto atkārtoti</h3>
-    <pre><code class="language-cpp">class BulletPool {
-    std::vector&lt;Bullet*&gt; pool;
-    static const int POOL_SIZE = 50;
+    <pre><code class="language-csharp">public class BulletPool
+{
+    private readonly List&lt;Bullet&gt; pool = new();
+    private const int PoolSize = 50;
 
-public:
-    void initialize(Node *parent) {
-        for (int i = 0; i &lt; POOL_SIZE; i++) {
-            Bullet *b = memnew(Bullet);
-            b-&gt;set_visible(false);
-            b-&gt;set_process(false);
-            parent-&gt;add_child(b);
-            pool.push_back(b);
+    public void Initialize(Node parent)
+    {
+        for (int i = 0; i &lt; PoolSize; i++)
+        {
+            Bullet bullet = new Bullet();
+            bullet.Visible = false;
+            bullet.SetProcess(false);
+            parent.AddChild(bullet);
+            pool.Add(bullet);
         }
     }
-    Bullet *get_bullet() {
-        for (Bullet *b : pool)
-            if (!b-&gt;is_visible()) return b;    // atkārtoti lieto neaktīvo
-        return nullptr;                        // visi aizņemti
-    }
-};
 
-// Bez pooling: 200 šāvieni = 200 memnew + 200 queue_free -> FPS krīt
+    public Bullet GetBullet()
+    {
+        foreach (Bullet bullet in pool)
+            if (!bullet.Visible) return bullet;    // atkārtoti lieto neaktīvo
+        return null;                               // visi aizņemti
+    }
+}
+
+// Bez pooling: 200 šāvieni = 200 Instantiate + 200 QueueFree -&gt; FPS krīt
 // Ar pooling:  mezglu skaits scēnā paliek nemainīgs</code></pre>
-    <p class="cheat-note">Ja <code>get_bullet()</code> atgriež <code>nullptr</code>, pārbaudi to - citādi programma avarēs.</p>
+    <p class="cheat-note">Ja <code>GetBullet()</code> atgriež <code>null</code>, pārbaudi to - citādi programma avarēs.</p>
   </div>
 </div></section>
 
 <section class="cta-strip"><div class="wrap"><div class="cta-panel">
   <div class="cta-code">
-    <span><span class="prompt">C++</span> nav-&gt;get_next_path_position(); <span class="muted">// A* aprēķina ceļu automātiski</span></span>
-    <span class="muted"># NavigationAgent2D + std::vector&lt;Enemy*&gt; = gudra, efektīva AI sistēma</span>
+    <span><span class="prompt">C#</span> nav.GetNextPathPosition(); <span class="muted">// A* aprēķina ceļu automātiski</span></span>
+    <span class="muted"># NavigationAgent2D + List&lt;Enemy&gt; = gudra, efektīva AI sistēma</span>
   </div>
   <div class="cta-actions">
     <a class="btn primary large" href="/programmesana2/prog2_3/prog2_3main"><span>←</span> 3. Tēma</a>

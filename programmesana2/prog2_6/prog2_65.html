@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>6.5 Eksports un publicēšana - ebSkola</title>
-<meta name="description" content="Eksportēt Godot spēli vairākām platformām, sagatavot web versiju un publicēt projektu internetā ar pārbaudāmu saiti.">
+<meta name="description" content="Eksportēt Godot C# spēli desktop platformām, pārbaudīt to ārpus editora un publicēt lejupielādējamu versiju internetā.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_6/prog2_65">
@@ -12,22 +12,22 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="6.5 Eksports un publicēšana">
-<meta property="og:description" content="Eksportēt Godot spēli vairākām platformām, sagatavot web versiju un publicēt projektu internetā ar pārbaudāmu saiti.">
+<meta property="og:description" content="Eksportēt Godot C# spēli desktop platformām, pārbaudīt to ārpus editora un publicēt lejupielādējamu versiju internetā.">
 <meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_6/prog2_65">
 <meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="6.5 Eksports un publicēšana">
-<meta name="twitter:description" content="Eksportēt Godot spēli vairākām platformām, sagatavot web versiju un publicēt projektu internetā ar pārbaudāmu saiti.">
+<meta name="twitter:description" content="Eksportēt Godot C# spēli desktop platformām, pārbaudīt to ārpus editora un publicēt lejupielādējamu versiju internetā.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org","@type": "LearningResource","name": "6.5 Eksports un publicēšana","description": "Eksportēt Godot spēli vairākām platformām, sagatavot web versiju un publicēt projektu internetā ar pārbaudāmu saiti.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_6/prog2_65","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "6.5 Eksports un publicēšana","description": "Eksportēt Godot C# spēli desktop platformām, pārbaudīt to ārpus editora un publicēt lejupielādējamu versiju internetā.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_6/prog2_65","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -71,7 +71,7 @@
 </aside>
 <section class='section'>
     <h1>6.5 Eksports un publicēšana</h1>
-    <p><b>Stundas uzdevums:</b> Eksportēt spēli uz vairākām platformām un publicēt internetā.</p>
+    <p><b>Stundas uzdevums:</b> Eksportēt Godot C# spēli desktop platformai un publicēt lejupielādējamu versiju internetā.</p>
     <div class="lesson-meta">
         <a href="/sasnRez">SR 2.4.6. Plāno izstrādes procesu</a>
         <a href="/sasnRez">SR 3.1.4. IP tiesības</a>
@@ -83,7 +83,7 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - eksportē spēli uz datoru · 2. uzdevums (~25 min) - eksportē uz tīmekli un palaid lokāli · 3. uzdevums (~20 min) - publicē spēli internetā · Iesniegšana (~5 min).</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - eksportē spēli uz datoru · 2. uzdevums (~25 min) - pārbaudi build ārpus editora · 3. uzdevums (~20 min) - publicē lejupielādējamu versiju internetā · Iesniegšana (~5 min).</p>
         <p><b>Pirms sāc:</b> atver savu spēli. Šodien no projekta taisīsi failu, ko var iedot citam cilvēkam. Pirms sāc, lejupielādē export templates: <b>Editor -&gt; Manage Export Templates</b>.</p>
     </div>
 </section>
@@ -91,18 +91,16 @@
 <section class='section'>
     <h2>Teorija: Export presets</h2>
     <div class='logic-box'>
-<p>Godot atbalsta eksportu uz: Windows, Linux, macOS, Web (HTML5), Android, iOS un konsolēm.</p>
-<pre><code class="language-bash"># Web eksporta soļi
-# 1. Project → Export → Add → Web
+<p>Godot atbalsta eksportu uz vairākām platformām. C# projektam Godot 4 izvēlies desktop eksportu: Windows, Linux vai macOS. Web eksportu Godot 4 C# projektiem šobrīd nelieto; ja mērķis ir pārlūks, projektu plāno bez C# vai ar citu Godot versiju.</p>
+<pre><code class="language-bash"># Desktop eksporta soļi C# projektam
+# 1. Project → Export → Add → Windows Desktop / Linux / macOS
 # 2. Lejupielādē export templates: Editor → Manage Export Templates
-# 3. Custom HTML - par default labi
-# 4. Export Project → save as index.html mapē web_build/
-# 5. web_build/ satur: index.html, .pck, .wasm, .js
+# 3. Pārliecinies, ka C# projekts būvējas
+dotnet build
 
-# Lokāli testē:
-python3 -m http.server 8000
-# Atver http://localhost:8000</code></pre>
-<p><b>GitHub Pages publicēšana:</b> ielādē web_build saturu uz <code>gh-pages</code> branch un GitHub automātiski hosto.</p>
+# 4. Export Project → build/MyGame.exe vai build/MyGame.x86_64
+# 5. Aizver Godot un palaid eksportēto failu no build/ mapes</code></pre>
+<p><b>Publicēšana:</b> ieliec eksportēto spēli ZIP arhīvā un publicē to kā lejupielādējamu projektu, piemēram itch.io lapā.</p>
     </div>
 </section>
 
@@ -110,19 +108,16 @@ python3 -m http.server 8000
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> UI signāli, audio darbības, debug izvade un publicēšanas sagatave ir sasaistīta ar C++ spēles stāvokli.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct PolishCheckpoint {
-    String lesson = "6.5 Eksports un publicēšana";
-    bool uses_cpp = true;
-    bool connects_ui_signals = true;
-    bool routes_audio_events = true;
-    bool verifies_export_build = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> UI signāli, audio darbības, debug izvade un publicēšanas sagatave ir sasaistīta ar C# spēles stāvokli.</p>
+<pre><code class="language-csharp">public class PolishCheckpoint
+{
+    public string Lesson = "6.5 Eksports un publicēšana";
+    public bool UsesCSharp = true;
+    public bool ConnectsUiSignals = true;
+    public bool RoutesAudioEvents = true;
+    public bool VerifiesExportBuild = true;
+}</code></pre>
     </div>
 </section>
 
@@ -143,32 +138,32 @@ struct PolishCheckpoint {
         <p class="done-when"><b>Gatavs, kad:</b> eksportētā spēle palaižas bez Godot editora, un mape <code>build/</code> nenonāk GitHub.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Eksportē uz tīmekli un palaid lokāli</h3>
-        <p>Beigās tavu spēli varēs spēlēt pārlūkā.</p>
+        <h3>2. uzdevums - Pārbaudi build ārpus editora</h3>
+        <p>Beigās tu zināsi, ka spēle darbojas arī bez Godot editora.</p>
         <ol class="step-list">
-            <li><b>Pievieno</b> eksporta profilu <b>Web</b>.</li>
-            <li><b>Eksportē</b> projektu mapē <code>web_build/</code> ar nosaukumu <code>index.html</code>.</li>
-            <li><b>Pārbaudi</b>, ka mapē ir faili ar paplašinājumiem <code>.wasm</code>, <code>.pck</code> un <code>.js</code>.</li>
-            <li><b>Mēģini</b> atvērt <code>index.html</code> tieši no diska un pieraksti, kas notiek.</li>
-            <li><b>Palaid</b> mapē <code class="language-bash">python -m http.server 8000</code>.</li>
-            <li><b>Atver</b> pārlūkā <code>localhost:8000</code> un izspēlē spēli.</li>
-            <li><b>Pieraksti</b>, kāpēc vajadzēja serveri, nevis pietika ar faila atvēršanu.</li>
+            <li><b>Aizver</b> Godot pilnībā, lai nepārbaudītu spēli editorā.</li>
+            <li><b>Palaid</b> eksportēto failu no <code>build/</code> mapes.</li>
+            <li><b>Izspēlē</b> vismaz vienu līmeni un pārbaudi UI, audio un saglabāšanu.</li>
+            <li><b>Pārbaudi</b>, ka blakus eksportam atrodas nepieciešamie dati, piemēram <code>.pck</code> vai platformai vajadzīgās bibliotēkas.</li>
+            <li><b>Saspied</b> visu build mapes saturu ZIP arhīvā.</li>
+            <li><b>Izpako</b> ZIP citā mapē un palaid spēli vēlreiz.</li>
+            <li><b>Pieraksti</b>, kāpēc jāpārbauda tieši izpakots arhīvs, ne tikai Godot projekts.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> spēle darbojas pārlūkā caur <code>localhost:8000</code>, bet, atverot failu tieši, tā nestrādā.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> izpakotais arhīvs palaiž spēli ārpus Godot editora, un spēles pamatfunkcijas joprojām darbojas.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Publicē spēli internetā</h3>
-        <p>Beigās tavu spēli varēs atvērt jebkurš pēc saites.</p>
+        <h3>3. uzdevums - Publicē lejupielādējamu spēli internetā</h3>
+        <p>Beigās cits cilvēks varēs lejupielādēt un palaist tavu spēli.</p>
         <ol class="step-list">
             <li><b>Izveido</b> kontu vietnē <code>itch.io</code>.</li>
-            <li><b>Nospied</b> <b>Upload new project</b> un izvēlies <b>HTML</b> tipu.</li>
-            <li><b>Saspied</b> mapes <code>web_build/</code> saturu ZIP arhīvā.</li>
-            <li><b>Augšupielādē</b> arhīvu un ieķeksē <b>This file will be played in the browser</b>.</li>
-            <li><b>Iestati</b> loga izmēru atbilstoši savam projektam.</li>
-            <li><b>Saglabā</b> un atver spēles publisko saiti telefonā vai citā datorā.</li>
-            <li><b>Pieraksti</b>, vai spēle strādāja tāpat kā tavā datorā.</li>
+            <li><b>Nospied</b> <b>Upload new project</b> un izvēlies <b>Downloadable</b> tipu.</li>
+            <li><b>Augšupielādē</b> ZIP arhīvu ar eksportēto desktop build.</li>
+            <li><b>Norādi</b>, kurai platformai tas paredzēts: Windows, Linux vai macOS.</li>
+            <li><b>Pievieno</b> īsu aprakstu, vadību un divus ekrānuzņēmumus.</li>
+            <li><b>Saglabā</b> un atver publisko saiti citā datorā vai pārlūkā.</li>
+            <li><b>Pieraksti</b>, vai lejupielāde un palaišana strādāja tāpat kā tavā datorā.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> spēle atveras un ir spēlējama no citas ierīces pa publisko saiti.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> spēli var lejupielādēt no publiskās saites, izpakot un palaist bez Godot editora.</p>
     </div>
     <div class='logic-box'>
         <h3>Papildu uzdevums - Uzraksti spēles aprakstu</h3>
@@ -186,16 +181,16 @@ struct PolishCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tava spēle ir eksportēta gan kā datora programma, gan kā tīmekļa versija, un tā ir publicēta internetā ar publisku saiti, kas strādā arī citās ierīcēs.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <h2>Ko sagatavo</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tava Godot C# spēle ir eksportēta kā desktop programma, pārbaudīta ārpus editora un publicēta internetā kā lejupielādējams ZIP arhīvs.</p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>Publiskā saite uz tavu spēli itch.io vietnē.</li>
-            <li>Ekrānuzņēmums ar spēli, kas darbojas pārlūkā citā ierīcē.</li>
-            <li>Ekrānuzņēmums ar Godot eksporta logu, kurā redzami abi profili.</li>
-            <li>README.md: kāpēc web eksportu nevar palaist, vienkārši atverot <code>index.html</code>.</li>
+            <li>README.md ievietota publiskā saite uz tavu spēli itch.io vietnē.</li>
+            <li>Ekrānuzņēmums ar eksportēto spēli, kas darbojas ārpus Godot editora.</li>
+            <li>Ekrānuzņēmums ar Godot eksporta logu, kurā redzams desktop profils.</li>
+            <li>README.md: kāpēc Godot 4 C# projektam šajā kursā publicējam lejupielādējamu desktop build, nevis Web build.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Iesniedz publisko spēles saiti un abus ekrānuzņēmumus skolotāja norādītajā vietā. Saitei jāstrādā arī skolotāja datorā.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -206,8 +201,8 @@ struct PolishCheckpoint {
     <h2>Biežākās kļūdas</h2>
     <div class='logic-box'>
         <ul>
-        <li><b>Web build crashes browser:</b> Threading issue - disable threading export setting.</li>
-        <li><b>EXE not running:</b> Antivirus block - sign executable.</li>
+        <li><b>C# assembly nav build:</b> Pirms eksportēšanas nospied Godot <b>Build</b> vai palaid <code>dotnet build</code>.</li>
+        <li><b>EXE not running:</b> Pārliecinies, ka ZIP arhīvā ir visi eksportētie faili, ne tikai <code>.exe</code>.</li>
         <li><b>Large export size:</b> Optimize textures (PNG → WebP), audio (compress).</li>
         </ul>
     </div>
@@ -217,16 +212,16 @@ struct PolishCheckpoint {
     <h2>Godot ekrānuzņēmumi</h2>
     <div class='logic-box'>
         <figure class="screenshot">
-            <img src="../img/topic6_export_dialog.png" alt="Godot Export dialog ar 'Web' platform iestatīts, opcijas Custom HTML, Threading checkbox, Export poga." loading="lazy">
-            <figcaption>Godot Export dialog ar 'Web' platform iestatīts, opcijas Custom HTML, Threading checkbox, Export poga.</figcaption>
+            <img src="../img/topic6_export_dialog.png" alt="Godot Export dialog ar Windows Desktop profilu, export templates statusu un Export Project pogu." loading="lazy">
+            <figcaption>Godot Export dialog ar Windows Desktop profilu, export templates statusu un Export Project pogu.</figcaption>
         </figure>
         <figure class="screenshot">
-            <img src="../img/topic6_github_pages.png" alt="GitHub repository Pages settings ar 'Your site is published at https://...' zaļu paziņojumu." loading="lazy">
-            <figcaption>GitHub repository Pages settings ar 'Your site is published at https://...' zaļu paziņojumu.</figcaption>
+            <img src="../img/topic6_github_pages.png" alt="itch.io projekta lapa ar lejupielādējamu ZIP failu un publisku spēles aprakstu." loading="lazy">
+            <figcaption>itch.io projekta lapa ar lejupielādējamu ZIP failu un publisku spēles aprakstu.</figcaption>
         </figure>
         <figure class="screenshot">
-            <img src="../img/topic6_web_game_running.png" alt="Pārlūka aina ar spēli pilnekrāna režīmā - puzzle game ar krāsainiem blokiem un controls." loading="lazy">
-            <figcaption>Pārlūka aina ar spēli pilnekrāna režīmā - puzzle game ar krāsainiem blokiem un controls.</figcaption>
+            <img src="../img/topic6_web_game_running.png" alt="Eksportētā puzzle spēle darbojas atsevišķā logā ārpus Godot editora." loading="lazy">
+            <figcaption>Eksportētā puzzle spēle darbojas atsevišķā logā ārpus Godot editora.</figcaption>
         </figure>
     </div>
 </section>
@@ -234,33 +229,35 @@ struct PolishCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/os.hpp&gt;
-#include &lt;godot_cpp/variant/string.hpp&gt;
-#include &lt;godot_cpp/variant/utility_functions.hpp&gt;
+        <pre><code class="language-csharp">using Godot;
 
-using namespace godot;
+public struct ExportChecklist
+{
+    public bool HasExportTemplate;
+    public bool HasDotnetBuild;
+    public bool HasDesktopExecutable;
+    public bool TestedOutsideEditor;
+    public bool WebLimitationDocumented;
 
-struct ExportChecklist {
-    bool has_export_template = false;
-    bool has_cpp_library_for_target = false;
-    bool has_index_html = false;
-    bool tested_outside_editor = false;
-
-    bool is_ready_to_publish() const {
-        return has_export_template
-            && has_cpp_library_for_target
-            && has_index_html
-            && tested_outside_editor;
+    public bool IsReadyToPublish()
+    {
+        return HasExportTemplate
+            &amp;&amp; HasDotnetBuild
+            &amp;&amp; HasDesktopExecutable
+            &amp;&amp; TestedOutsideEditor
+            &amp;&amp; WebLimitationDocumented;
     }
-};
+}
 
-void ExportReporter::print_status(const ExportChecklist &checklist) {
-    UtilityFunctions::print("Platform: ",
-        OS::get_singleton()-&gt;get_name());
-    UtilityFunctions::print("Ready to publish: ",
-        checklist.is_ready_to_publish());
+public partial class ExportReporter : Node
+{
+    public void PrintStatus(ExportChecklist checklist)
+    {
+        GD.Print("Platform: ", OS.GetName());
+        GD.Print("Ready to publish: ", checklist.IsReadyToPublish());
+    }
 }</code></pre>
-        <div class='result'>Publicēšanas pārbaude paliek C++ pusē: pirms augšupielādes ir pārbaudītas veidnes, GDExtension bibliotēka, Web fails un palaišana ārpus editora.</div>
+        <div class='result'>Publicēšanas pārbaude paliek C# pusē: pirms augšupielādes ir pārbaudītas veidnes, .NET build, desktop fails un palaišana ārpus editora.</div>
     </div>
 </div>
 

@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -58,13 +58,13 @@
 
 <aside class="sidebar-nav" aria-label="Tēmas navigācija">
   <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>1. Tēma - Ievads Godot un C++</h3>
+  <h3>1. Tēma - Ievads Godot un C#</h3>
   <div class="sidebar-links">
     <a class="topic-main" href="/programmesana2/prog2_1/prog2_1main">Tēmas sākums</a>
     <a href="/programmesana2/prog2_1/prog2_11">1.1 Godot instalācija un projekta sagatavošana</a>
     <a href="/programmesana2/prog2_1/prog2_12">1.2 Scene Tree un Node sistēma</a>
-    <a href="/programmesana2/prog2_1/prog2_13">1.3 C++ un GDExtension sagatavošana</a>
-    <a href="/programmesana2/prog2_1/prog2_14">1.4 Pirmais C++ skripts: mainīgie un izvade</a>
+    <a href="/programmesana2/prog2_1/prog2_13">1.3 C# un .NET sagatavošana</a>
+    <a href="/programmesana2/prog2_1/prog2_14">1.4 Pirmais C# skripts: mainīgie un izvade</a>
     <a class="active" aria-current="page" href="/programmesana2/prog2_1/prog2_15">1.5 Spēles laukuma izveide</a>
     <a href="/programmesana2/prog2_1/prog2_16">1.6 Noslēguma projekts: Pong</a>
   </div>
@@ -89,24 +89,25 @@
     <h2>Teorija: Coordinates (Koordinātes) un transformācijas</h2>
     <div class='logic-box'>
 <p>Godot 2D koordinātes sākas <b>kreisajā augšējā stūrī</b>: (0, 0). X pieaug pa labi, Y uz leju. Tas nozīmē, ka Pong laukuma centrs 1280×720 logā ir <code>(640, 360)</code>, augšējā siena ir pie mazas Y vērtības, bet apakšējā siena ir pie lielas Y vērtības.</p>
-<p>Spēles laukuma izveidē svarīgi nodalīt <b>vizuālo slāni</b>, <b>sadursmju slāni</b> un <b>UI slāni</b>. Vizuālie objekti parāda spēli, sadursmju objekti nosaka fizikas robežas, bet UI elementi, piemēram, <code>Label</code>, rāda punktus. Vēlāk C++ kods atsauksies uz šiem elementiem pēc nosaukuma.</p>
-<pre><code class="language-cpp">// Pozīciju manipulācija C++
-Vector2 pos = get_position();
-pos.x += 10;             // pa labi par 10 pikseļiem
-pos.y -= 5;              // uz augšu par 5 pikseļiem
-set_position(pos);
+<p>Spēles laukuma izveidē svarīgi nodalīt <b>vizuālo slāni</b>, <b>sadursmju slāni</b> un <b>UI slāni</b>. Vizuālie objekti parāda spēli, sadursmju objekti nosaka fizikas robežas, bet UI elementi, piemēram, <code>Label</code>, rāda punktus. Vēlāk C# kods atsauksies uz šiem elementiem pēc nosaukuma.</p>
+<pre><code class="language-csharp">// Pozīciju manipulācija C#
+Vector2 pos = Position;
+pos.X += 10;             // pa labi par 10 pikseļiem
+pos.Y -= 5;              // uz augšu par 5 pikseļiem
+Position = pos;
 
-set_position(Vector2(640, 360));  // ekrāna centrs 1280x720</code></pre>
+Position = new Vector2(640, 360);  // ekrāna centrs 1280x720</code></pre>
 <p><b>Transform = Position + Rotation + Scale.</b> Bērnu nodes pārmanto vecāku transform.</p>
 <p><b>Viewport (Skatlogs)</b> ir loga apgabals, kurā renderē scēnu. Standarta Pong izmērs šajā tēmā ir 1280×720. Lai spēle uz dažādiem ekrāniem uzvestos paredzami, Project Settings sadaļā jāiestata gan loga izmērs, gan stretch režīms.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/classes/label.hpp&gt;
-#include &lt;godot_cpp/variant/string.hpp&gt;
+<pre><code class="language-csharp">using Godot;
 
-using namespace godot;
-
-void GameHud::set_score(int left, int right) {
-    get_node&lt;Label&gt;("ScoreLeft")-&gt;set_text(String::num_int64(left));
-    get_node&lt;Label&gt;("ScoreRight")-&gt;set_text(String::num_int64(right));
+public partial class GameHud : CanvasLayer
+{
+    public void SetScore(int left, int right)
+    {
+        GetNode&lt;Label&gt;("ScoreLeft").Text = left.ToString();
+        GetNode&lt;Label&gt;("ScoreRight").Text = right.ToString();
+    }
 }</code></pre>
     </div>
 </section>
@@ -171,16 +172,16 @@ void GameHud::set_score(int left, int right) {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
+        <h2>Ko sagatavo</h2>
         <p class="merkis"><b>Stundas mērķis:</b> Tavā <code>main.tscn</code> scēnā ir gatavs Pong laukums: abi paddle malās, bumba centrā, divas sienas ar sadursmes formām, vidus līnija, rezultāta uzraksts un kamera.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
             <li>Ekrānuzņēmums ar palaistu spēli, kurā redzams viss laukums.</li>
             <li>Ekrānuzņēmums ar Scene paneli, kurā redzams pilns mezglu koks.</li>
-            <li>Fails <code>main.tscn</code> tavā GitHub krātuvē.</li>
+            <li>Fails <code>main.tscn</code>.</li>
             <li>README.md: kāda ir laukuma centra pozīcija un kā tu to izrēķināji.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un abus ekrānuzņēmumus skolotāja norādītajā vietā.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 <section class='section'>
@@ -223,31 +224,29 @@ void GameHud::set_score(int left, int right) {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/camera2d.hpp&gt;
-#include &lt;godot_cpp/classes/label.hpp&gt;
-#include &lt;godot_cpp/classes/line2d.hpp&gt;
-#include &lt;godot_cpp/variant/packed_vector2_array.hpp&gt;
-#include &lt;godot_cpp/variant/string.hpp&gt;
-#include &lt;godot_cpp/variant/vector2.hpp&gt;
+        <pre><code class="language-csharp">using Godot;
 
-using namespace godot;
+public partial class CourtSetup : Node2D
+{
+    public override void _Ready()
+    {
+        GetNode&lt;Label&gt;("ScoreLeft").Text = "0";
+        GetNode&lt;Label&gt;("ScoreRight").Text = "0";
 
-void CourtSetup::_ready() {
-    get_node&lt;Label&gt;("ScoreLeft")-&gt;set_text(String::num_int64(0));
-    get_node&lt;Label&gt;("ScoreRight")-&gt;set_text(String::num_int64(0));
+        Line2D centerLine = GetNode&lt;Line2D&gt;("CenterLine");
+        centerLine.Points = new[]
+        {
+            new Vector2(640, 0),
+            new Vector2(640, 720)
+        };
+        centerLine.Width = 4.0f;
 
-    Line2D *center_line = get_node&lt;Line2D&gt;("CenterLine");
-    PackedVector2Array points;
-    points.push_back(Vector2(640, 0));
-    points.push_back(Vector2(640, 720));
-    center_line-&gt;set_points(points);
-    center_line-&gt;set_width(4.0);
-
-    Camera2D *camera = get_node&lt;Camera2D&gt;("Camera2D");
-    camera-&gt;set_position(Vector2(640, 360));
-    camera-&gt;make_current();
+        Camera2D camera = GetNode&lt;Camera2D&gt;("Camera2D");
+        camera.Position = new Vector2(640, 360);
+        camera.MakeCurrent();
+    }
 }</code></pre>
-        <div class='result'>C++ kods sagatavo redzamos laukuma elementus un UI sākumstāvokli.</div>
+        <div class='result'>C# kods sagatavo redzamos laukuma elementus un UI sākumstāvokli.</div>
     </div>
 </div>
 

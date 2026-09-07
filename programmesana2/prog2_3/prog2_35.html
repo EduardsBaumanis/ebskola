@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -61,10 +61,10 @@
   <h3>3. Tēma - Objektorientētā programmēšana</h3>
   <div class="sidebar-links">
     <a class="topic-main" href="/programmesana2/prog2_3/prog2_3main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_3/prog2_31">3.1 C++ klases pamati</a>
-    <a href="/programmesana2/prog2_3/prog2_32">3.2 Mantošana C++ un Godot</a>
+    <a href="/programmesana2/prog2_3/prog2_31">3.1 C# klases pamati</a>
+    <a href="/programmesana2/prog2_3/prog2_32">3.2 Mantošana C# un Godot</a>
     <a href="/programmesana2/prog2_3/prog2_33">3.3 Signāli un objektu komunikācija</a>
-    <a href="/programmesana2/prog2_3/prog2_34">3.4 Custom GDExtension klases editorā redzamas</a>
+    <a href="/programmesana2/prog2_3/prog2_34">3.4 Custom C# klases editorā redzamas</a>
     <a class="active" aria-current="page" href="/programmesana2/prog2_3/prog2_35">3.5 Statistikas sistēma un struct</a>
     <a href="/programmesana2/prog2_3/prog2_36">3.6 Noslēguma projekts: Klases turnīra simulators</a>
   </div>
@@ -89,27 +89,43 @@
     <h2>Teorija: struct un kompozīcija</h2>
     <div class='logic-box'>
 <p><b>struct</b> ir vienkāršāka klase - visi lauki ir <code>public</code> pēc noklusējuma. Lietojama datu grupēšanai.</p>
-<pre><code class="language-cpp">struct Stats {
-    int energy = 100;
-    int max_energy = 100;
-    int focus = 10;
-    int calm = 5;
-    int speed = 5;
+<pre><code class="language-csharp">using System;
 
-    void heal(int amount) {
-        energy = std::min(max_energy, energy + amount);
+public struct Stats
+{
+    public int Energy;
+    public int MaxEnergy;
+    public int Focus;
+    public int Calm;
+    public int Speed;
+
+    public Stats(int energy = 100, int focus = 10, int calm = 5, int speed = 5)
+    {
+        Energy = energy;
+        MaxEnergy = energy;
+        Focus = focus;
+        Calm = calm;
+        Speed = speed;
     }
-};
 
-class Participant {
-private:
-    Stats stats;        // kompozīcija!
-    String name;
-public:
-    Participant(String n) : name(n) {}
+    public void Heal(int amount)
+    {
+        Energy = Math.Min(MaxEnergy, Energy + amount);
+    }
+}
 
-    Stats&amp; get_stats() { return stats; }  // atgriež references
-};</code></pre>
+public class Participant
+{
+    private Stats stats = new Stats();        // kompozīcija!
+    private string name;
+
+    public Participant(string name)
+    {
+        this.name = name;
+    }
+
+    public ref Stats GetStats() =&gt; ref stats;  // atgriež references
+}</code></pre>
 <p><b>Kompozīcija</b> (klase satur citu klasi) bieži ir labāka par mantošanu - fleksiblāka un mazāk saistīta.</p>
     </div>
 </section>
@@ -118,19 +134,16 @@ public:
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> katrai būtiskai turnīra lomai ir C++ klase ar header/implementation dalījumu, konstruktoriem, metodēm, signāliem vai mantošanu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct OopCheckpoint {
-    String lesson = "3.5 Statistikas sistēma un struct";
-    bool uses_cpp = true;
-    bool has_header_file = true;
-    bool has_single_responsibility = true;
-    bool uses_godot_registration = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> katrai būtiskai turnīra lomai ir C# klase vienā <code>.cs</code> failā, ar konstruktoriem, metodēm, signāliem vai mantošanu.</p>
+<pre><code class="language-csharp">public class OopCheckpoint
+{
+    public string Lesson = "3.5 Statistikas sistēma un struct";
+    public bool UsesCSharp = true;
+    public bool HasScriptFile = true;
+    public bool HasSingleResponsibility = true;
+    public bool UsesGodotInspector = true;
+}</code></pre>
     </div>
 </section>
 
@@ -140,11 +153,11 @@ struct OopCheckpoint {
         <h3>1. uzdevums - Izveido struct statistikai</h3>
         <p>Beigās visi dalībnieka skaitļi būs vienuviet.</p>
         <ol class="step-list">
-            <li><b>Uzraksti</b> failā <code>stats.hpp</code> <code class="language-cpp">struct Stats {</code>.</li>
-            <li><b>Pievieno</b> laukus <code class="language-cpp">int energy = 100;</code> un <code class="language-cpp">int max_energy = 100;</code>.</li>
-            <li><b>Pievieno</b> arī <code class="language-cpp">int focus = 10;</code>, <code class="language-cpp">int calm = 5;</code> un <code class="language-cpp">int speed = 5;</code>.</li>
-            <li><b>Ievēro</b>, ka <code>struct</code> laukiem nav jāraksta <code>public:</code> - tie tādi ir jau paši par sevi.</li>
-            <li><b>Izveido</b> objektu <code class="language-cpp">Stats s;</code> un izdrukā visus laukus.</li>
+            <li><b>Uzraksti</b> failā <code>Stats.cs</code> <code class="language-csharp">public struct Stats {</code>.</li>
+            <li><b>Pievieno</b> laukus <code class="language-csharp">public int Energy;</code> un <code class="language-csharp">public int MaxEnergy;</code>.</li>
+            <li><b>Pievieno</b> arī <code class="language-csharp">public int Focus;</code>, <code class="language-csharp">public int Calm;</code> un <code class="language-csharp">public int Speed;</code>.</li>
+            <li><b>Ievēro</b>, ka C# <code>struct</code> laukiem jāraksta <code>public</code>, ja tos vajag lietot ārpus struktūras.</li>
+            <li><b>Izveido</b> objektu <code class="language-csharp">Stats s = new Stats();</code> un izdrukā visus laukus.</li>
             <li><b>Nomaini</b> vienu lauku un izdrukā vēlreiz.</li>
             <li><b>Pieraksti</b>, ar ko <code>struct</code> atšķiras no <code>class</code>.</li>
         </ol>
@@ -154,12 +167,12 @@ struct OopCheckpoint {
         <h3>2. uzdevums - Ieliec struct klasē un pievieno metodes</h3>
         <p>Beigās klase glabās statistiku vienā laukā, nevis piecos.</p>
         <ol class="step-list">
-            <li><b>Pievieno</b> <code>Participant</code> klasei privātu lauku <code class="language-cpp">Stats stats;</code>.</li>
+            <li><b>Pievieno</b> <code>Participant</code> klasei privātu lauku <code class="language-csharp">private Stats stats = new Stats();</code>.</li>
             <li><b>Izdzēs</b> vecos atsevišķos skaitļu laukus.</li>
-            <li><b>Pievieno</b> <code>Stats</code> struktūrai metodi <code class="language-cpp">void heal(int amount);</code>.</li>
-            <li><b>Ieraksti</b> tajā <code class="language-cpp">energy = std::min(max_energy, energy + amount);</code>.</li>
-            <li><b>Pievieno</b> klasei publisku metodi <code class="language-cpp">Stats&amp; get_stats();</code>.</li>
-            <li><b>Izsauc</b> <code class="language-cpp">p.get_stats().heal(30);</code> un izdrukā enerģiju.</li>
+            <li><b>Pievieno</b> <code>Stats</code> struktūrai metodi <code class="language-csharp">public void Heal(int amount)</code>.</li>
+            <li><b>Ieraksti</b> tajā <code class="language-csharp">Energy = Math.Min(MaxEnergy, Energy + amount);</code>.</li>
+            <li><b>Pievieno</b> klasei publisku metodi <code class="language-csharp">public ref Stats GetStats() =&gt; ref stats;</code>.</li>
+            <li><b>Izsauc</b> <code class="language-csharp">p.GetStats().Heal(30);</code> un izdrukā enerģiju.</li>
             <li><b>Pārbaudi</b>, ka enerģija nepārsniedz maksimumu.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> pēc lielas dziedināšanas enerģija apstājas tieši uz <code>max_energy</code>, nevis to pārsniedz.</p>
@@ -168,10 +181,10 @@ struct OopCheckpoint {
         <h3>3. uzdevums - Pievieno pagaidu bonusus sarakstā</h3>
         <p>Beigās dalībniekam varēs uzlikt bonusus, kas summējas.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> <code class="language-cpp">struct Buff { String name; int focus_bonus; };</code>.</li>
-            <li><b>Pievieno</b> <code>Stats</code> struktūrai lauku <code class="language-cpp">std::vector&lt;Buff&gt; buffs;</code>.</li>
-            <li><b>Uzraksti</b> metodi <code class="language-cpp">int get_total_focus() const;</code>.</li>
-            <li><b>Saskaiti</b> tajā ciklā pamata <code>focus</code> plus visu bonusu summu.</li>
+            <li><b>Izveido</b> <code class="language-csharp">public struct Buff { public string Name; public int FocusBonus; }</code>.</li>
+            <li><b>Pievieno</b> <code>Stats</code> klasei lauku <code class="language-csharp">public List&lt;Buff&gt; Buffs = new();</code>.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-csharp">public int GetTotalFocus()</code>.</li>
+            <li><b>Saskaiti</b> tajā ciklā pamata <code>Focus</code> plus visu bonusu summu.</li>
             <li><b>Pievieno</b> divus bonusus un izdrukā kopējo fokusu.</li>
             <li><b>Izdzēs</b> vienu bonusu un izdrukā vēlreiz.</li>
             <li><b>Pieraksti</b>, kāpēc kopējo vērtību labāk rēķināt, nevis glabāt atsevišķā laukā.</li>
@@ -182,8 +195,8 @@ struct OopCheckpoint {
         <h3>Papildu uzdevums - Pievieno bonusiem ilgumu</h3>
         <p>Ja pamatdarbs ir gatavs, liec bonusiem beigties pēc dažām kārtām.</p>
         <ol class="step-list">
-            <li><b>Pievieno</b> <code>Buff</code> struktūrai lauku <code class="language-cpp">int turns_left;</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas samazina visiem bonusiem <code>turns_left</code> par vienu.</li>
+            <li><b>Pievieno</b> <code>Buff</code> struktūrai lauku <code class="language-csharp">public int TurnsLeft;</code>.</li>
+            <li><b>Uzraksti</b> metodi, kas samazina visiem bonusiem <code>TurnsLeft</code> par vienu.</li>
             <li><b>Izdzēs</b> no saraksta tos, kuriem tas sasniedzis nulli.</li>
             <li><b>Izsauc</b> šo metodi trīs reizes pēc kārtas.</li>
             <li><b>Izdrukā</b> pēc katras reizes kopējo fokusu.</li>
@@ -194,15 +207,15 @@ struct OopCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
+        <h2>Ko sagatavo</h2>
         <p class="merkis"><b>Stundas mērķis:</b> Tu proti izveidot <code>struct</code> datu grupēšanai, ielikt to klasē kā lauku (kompozīcija) un rēķināt kopējo vērtību no saraksta, nevis glabāt to atsevišķi.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>Faili <code>stats.hpp</code> un atjauninātais <code>participant.hpp</code> GitHub krātuvē.</li>
+            <li>Faili <code>Stats.cs</code> un atjauninātais <code>Participant.cs</code>.</li>
             <li>Ekrānuzņēmums ar Output paneli, kurā redzams kopējais fokuss pirms un pēc bonusa noņemšanas.</li>
             <li>README.md: ar ko <code>struct</code> atšķiras no <code>class</code> un kāpēc kopējo fokusu labāk rēķināt.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā; README.md failā jābūt prasītajiem pierakstiem.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -213,9 +226,9 @@ struct OopCheckpoint {
     <h2>Biežākās kļūdas</h2>
     <div class='logic-box'>
         <ul>
-        <li><b>Stats default values neuzstādās:</b> C++ struct lauki bez init = nedef vērtība. Vienmēr inicializē.</li>
-        <li><b>Vector iteration crash:</b> Mainot vektoru cikla laikā, neizvairies no UB.</li>
-        <li><b>Slow buff lookup:</b> Lielam vector lieto std::map vai std::unordered_map.</li>
+        <li><b>Stats noklusējuma vērtības neuzstādās:</b> C# struct bez konstruktora dod 0 vērtības. Inicializē ar konstruktoru.</li>
+        <li><b>List iteration kļūda:</b> nemaini <code>List&lt;Buff&gt;</code> tajā pašā <code>foreach</code>; lieto <code>for</code> vai <code>RemoveAll</code>.</li>
+        <li><b>Slow buff lookup:</b> lielam bonusu skaitam lieto <code>Dictionary&lt;string, Buff&gt;</code> vai atsevišķu indeksu.</li>
         </ul>
     </div>
 </section>
@@ -233,31 +246,52 @@ struct OopCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">struct Stats {
-    int energy = 100, max_energy = 100;
-    int focus = 10, calm = 5, speed = 5;
-    std::vector&lt;Buff&gt; buffs;
+        <pre><code class="language-csharp">using System;
+using System.Collections.Generic;
 
-    int get_total_focus() const {
-        int total = focus;
-        for (const auto&amp; b : buffs) {
-            if (b.target == "focus") total += b.amount;
+public struct Buff
+{
+    public string Target;
+    public int Amount;
+    public float Duration;
+}
+
+public class Stats
+{
+    public int Energy = 100;
+    public int MaxEnergy = 100;
+    public int Focus = 10;
+    public int Calm = 5;
+    public int Speed = 5;
+    public List&lt;Buff&gt; Buffs = new();
+
+    public int GetTotalFocus()
+    {
+        int total = Focus;
+        foreach (Buff buff in Buffs)
+        {
+            if (buff.Target == "focus") total += buff.Amount;
         }
         return total;
     }
 
-    void apply_penalty(int amount) {
-        int actual = std::max(1, amount - calm);
-        energy = std::max(0, energy - actual);
+    public void ApplyPenalty(int amount)
+    {
+        int actual = Math.Max(1, amount - Calm);
+        Energy = Math.Max(0, Energy - actual);
     }
 
-    void update(float delta) {
-        for (auto&amp; b : buffs) b.duration -= delta;
-        buffs.erase(std::remove_if(buffs.begin(), buffs.end(),
-            [](const Buff&amp; b) { return b.duration &lt;= 0; }),
-            buffs.end());
+    public void Update(float delta)
+    {
+        for (int i = 0; i &lt; Buffs.Count; i++)
+        {
+            Buff buff = Buffs[i];
+            buff.Duration -= delta;
+            Buffs[i] = buff;
+        }
+        Buffs.RemoveAll(buff =&gt; buff.Duration &lt;= 0);
     }
-};</code></pre>
+}</code></pre>
         <div class='result'>Participant get_total_focus atgriež 15 (10 base + 5 buff), pēc 30 sec - atkal 10.</div>
     </div>
 </div>

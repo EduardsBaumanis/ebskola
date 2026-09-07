@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -95,22 +95,28 @@
 <li><b>Save slots</b> - vairāki saglabāšanas faili (slot1.json, slot2.json, ...).</li>
 <li><b>Autosave</b> - automātiska saglabāšana ik pa N minūtēm vai pie checkpoint.</li>
 </ul>
-<pre><code class="language-cpp">// Saveable interface
-class Saveable {
-public:
-    virtual Dictionary save_state() const = 0;
-    virtual void load_state(const Dictionary&amp; state) = 0;
-};
+<pre><code class="language-csharp">using Godot;
+using Godot.Collections;
+using System.Collections.Generic;
 
-class SaveManager : public Node {
-    std::vector&lt;Saveable*&gt; saveables;
-public:
-    void register_saveable(Saveable* s) {
-        saveables.push_back(s);
+public interface ISaveable
+{
+    Dictionary SaveState();
+    void LoadState(Dictionary state);
+}
+
+public partial class SaveManager : Node
+{
+    private readonly List&lt;ISaveable&gt; saveables = new();
+
+    public void RegisterSaveable(ISaveable saveable)
+    {
+        saveables.Add(saveable);
     }
-    void save_to_slot(int slot);
-    void load_from_slot(int slot);
-};</code></pre>
+
+    public void SaveToSlot(int slot) { }
+    public void LoadFromSlot(int slot) { }
+}</code></pre>
     </div>
 </section>
 
@@ -118,19 +124,16 @@ public:
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> C++ kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct PersistenceCheckpoint {
-    String lesson = "5.3 Save/Load arhitektūra";
-    bool uses_cpp = true;
-    bool handles_missing_file = true;
-    bool validates_data = true;
-    bool documents_complexity = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> C# kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
+<pre><code class="language-csharp">public class PersistenceCheckpoint
+{
+    public string Lesson = "5.3 Save/Load arhitektūra";
+    public bool UsesCSharp = true;
+    public bool HandlesMissingFile = true;
+    public bool ValidatesData = true;
+    public bool DocumentsComplexity = true;
+}</code></pre>
     </div>
 </section>
 
@@ -140,9 +143,9 @@ struct PersistenceCheckpoint {
         <h3>1. uzdevums - Izveido SaveManager ar slotiem</h3>
         <p>Beigās spēlētājs varēs izvēlēties, kurā vietā saglabāt.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> klasi <code>SaveManager</code> ar metodi <code class="language-cpp">String slot_path(int slot);</code>.</li>
+            <li><b>Izveido</b> klasi <code>SaveManager</code> ar metodi <code class="language-csharp">private string SlotPath(int slot)</code>.</li>
             <li><b>Atgriez</b> tajā ceļu <code>user://slot1.json</code> atbilstoši numuram.</li>
-            <li><b>Uzraksti</b> metodes <code class="language-cpp">void save(int slot);</code> un <code class="language-cpp">bool load(int slot);</code>.</li>
+            <li><b>Uzraksti</b> metodes <code class="language-csharp">public void Save(int slot)</code> un <code class="language-csharp">public bool Load(int slot)</code>.</li>
             <li><b>Saglabā</b> dažādus datus slotos 1 un 2.</li>
             <li><b>Ielādē</b> slotu 1 un pārbaudi, ka dati ir pareizie.</li>
             <li><b>Ielādē</b> slotu 2 un salīdzini.</li>
@@ -154,15 +157,15 @@ struct PersistenceCheckpoint {
         <h3>2. uzdevums - Liec objektiem saglabāt sevi pašiem</h3>
         <p>Beigās katrs objekts pats zinās, ko par sevi saglabāt.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> bāzes klasi <code class="language-cpp">class Saveable</code> ar divām virtuālām metodēm.</li>
-            <li><b>Pieteic</b> tajā <code class="language-cpp">virtual Dictionary save_data() = 0;</code>.</li>
-            <li><b>Pieteic</b> arī <code class="language-cpp">virtual void load_data(Dictionary d) = 0;</code>.</li>
-            <li><b>Liec</b> spēlētāja klasei mantot arī no <code>Saveable</code> un implementēt abas metodes.</li>
+            <li><b>Izveido</b> interfeisu <code class="language-csharp">public interface ISaveable</code> ar divām metodēm.</li>
+            <li><b>Pieteic</b> tajā <code class="language-csharp">Dictionary SaveState();</code>.</li>
+            <li><b>Pieteic</b> arī <code class="language-csharp">void LoadState(Dictionary state);</code>.</li>
+            <li><b>Liec</b> spēlētāja klasei implementēt <code>ISaveable</code> un abas metodes.</li>
             <li><b>Liec</b> arī inventāra klasei to pašu.</li>
-            <li><b>Savāc</b> <code>SaveManager</code> visus <code>Saveable</code> objektus vienā sarakstā.</li>
-            <li><b>Izsauc</b> ciklā katram <code>save_data()</code> un saliec rezultātus vienā <code>Dictionary</code>.</li>
+            <li><b>Savāc</b> <code>SaveManager</code> visus <code>ISaveable</code> objektus vienā sarakstā.</li>
+            <li><b>Izsauc</b> ciklā katram <code>SaveState()</code> un saliec rezultātus vienā <code>Dictionary</code>.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> viens <code>save()</code> izsaukums saglabā gan spēlētāju, gan inventāru, un <code>SaveManager</code> nezina to iekšējo uzbūvi.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> viens <code>Save()</code> izsaukums saglabā gan spēlētāju, gan inventāru, un <code>SaveManager</code> nezina to iekšējo uzbūvi.</p>
     </div>
     <div class='logic-box'>
         <h3>3. uzdevums - Pievieno autosave un versiju</h3>
@@ -194,16 +197,16 @@ struct PersistenceCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē ir <code>SaveManager</code> ar vairākiem slotiem, objekti paši saglabā savus datus caur <code>Saveable</code> interfeisu, darbojas autosave, un saglabātajam failam ir versijas pārbaude.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <h2>Ko sagatavo</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē ir <code>SaveManager</code> ar vairākiem slotiem, objekti paši saglabā savus datus caur <code>ISaveable</code> interfeisu, darbojas autosave, un saglabātajam failam ir versijas pārbaude.</p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>Faili <code>save_manager.cpp</code> un <code>saveable.hpp</code> GitHub krātuvē.</li>
+            <li>Faili <code>SaveManager.cs</code> un <code>ISaveable.cs</code>.</li>
             <li>Divi paraugi saglabāto JSON failu no dažādiem slotiem.</li>
             <li>Ekrānuzņēmums ar brīdinājumu par nepareizu versiju.</li>
             <li>README.md: kāpēc <code>SaveManager</code> nav jāzina, kas tieši ir spēlētāja iekšienē.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, JSON paraugus un ekrānuzņēmumu skolotāja norādītajā vietā.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -234,37 +237,43 @@ struct PersistenceCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">class SaveManager : public Node {
-    GDCLASS(SaveManager, Node)
-private:
-    std::vector&lt;Node*&gt; saveables;
-    float autosave_timer = 0;
+        <pre><code class="language-csharp">using Godot;
+using Godot.Collections;
+using System.Collections.Generic;
 
-public:
-    void _process(double delta) override {
-        autosave_timer += delta;
-        if (autosave_timer &gt;= 300.0f) {  // 5 min
-            save_to_slot(0);  // 0 = autosave
-            autosave_timer = 0;
+public partial class SaveManager : Node
+{
+    private readonly List&lt;Node&gt; saveables = new();
+    private float autosaveTimer = 0.0f;
+
+    public override void _Process(double delta)
+    {
+        autosaveTimer += (float)delta;
+        if (autosaveTimer &gt;= 300.0f)  // 5 min
+        {
+            SaveToSlot(0);  // 0 = autosave
+            autosaveTimer = 0.0f;
         }
     }
 
-    void save_to_slot(int slot) {
-        Dictionary all_data;
-        for (Node* n : saveables) {
-            if (n-&gt;has_method("save_state")) {
-                all_data[n-&gt;get_path()] = n-&gt;call("save_state");
+    public void SaveToSlot(int slot)
+    {
+        Dictionary allData = new();
+        foreach (Node node in saveables)
+        {
+            if (node.HasMethod("SaveState"))
+            {
+                allData[node.GetPath().ToString()] = node.Call("SaveState");
             }
         }
-        all_data["timestamp"] = Time::get_singleton()-&gt;get_unix_time_from_system();
-        all_data["version"] = 1;
+        allData["timestamp"] = Time.GetUnixTimeFromSystem();
+        allData["version"] = 1;
 
-        String path = "user://save_" + String::num_int64(slot) + ".json";
-        Ref&lt;FileAccess&gt; f = FileAccess::open(path, FileAccess::WRITE);
-        f-&gt;store_string(JSON::stringify(all_data, "  "));
-        f-&gt;close();
+        string path = $"user://save_{slot}.json";
+        using FileAccess file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+        file?.StoreString(Json.Stringify(allData, "  "));
     }
-};</code></pre>
+}</code></pre>
         <div class='result'>3 save slot ar metadatu (level, time played, last save), autosave ik 5 min, korekta load.</div>
     </div>
 </div>

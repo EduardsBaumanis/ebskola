@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -102,12 +102,13 @@
 <tr><td><code>PanelContainer</code></td><td>Background ar borderiem</td></tr>
 </tbody>
 </table>
-<pre><code class="language-cpp">// Button signal
-Button* btn = get_node&lt;Button&gt;("StartButton");
-btn-&gt;connect("pressed", Callable(this, "on_start_pressed"));
+<pre><code class="language-csharp">// Button signal
+Button button = GetNode&lt;Button&gt;("StartButton");
+button.Pressed += OnStartPressed;
 
-void Menu::on_start_pressed() {
-    get_tree()-&gt;change_scene_to_file("res://game.tscn");
+private void OnStartPressed()
+{
+    GetTree().ChangeSceneToFile("res://game.tscn");
 }</code></pre>
     </div>
 </section>
@@ -116,19 +117,16 @@ void Menu::on_start_pressed() {
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> UI signāli, audio darbības, debug izvade un publicēšanas sagatave ir sasaistīta ar C++ spēles stāvokli.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct PolishCheckpoint {
-    String lesson = "6.1 UI elementi un Control nodes";
-    bool uses_cpp = true;
-    bool connects_ui_signals = true;
-    bool routes_audio_events = true;
-    bool verifies_export_build = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> UI signāli, audio darbības, debug izvade un publicēšanas sagatave ir sasaistīta ar C# spēles stāvokli.</p>
+<pre><code class="language-csharp">public class PolishCheckpoint
+{
+    public string Lesson = "6.1 UI elementi un Control nodes";
+    public bool UsesCSharp = true;
+    public bool ConnectsUiSignals = true;
+    public bool RoutesAudioEvents = true;
+    public bool VerifiesExportBuild = true;
+}</code></pre>
     </div>
 </section>
 
@@ -152,13 +150,13 @@ struct PolishCheckpoint {
         <h3>2. uzdevums - Savieno pogas ar kodu</h3>
         <p>Beigās pogas tiešām kaut ko darīs.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> C++ klasi <code>MainMenu</code>, kas manto no <code>Control</code>.</li>
-            <li><b>Pievieno</b> metodi <code class="language-cpp">void on_start_pressed();</code>.</li>
-            <li><b>Reģistrē</b> to <code>_bind_methods</code> ar <code>ClassDB::bind_method</code>.</li>
-            <li><b>Savieno</b> <code>_ready</code> metodē pogas signālu <code>pressed</code> ar <code class="language-cpp">Callable(this, "on_start_pressed")</code>.</li>
-            <li><b>Ielādē</b> apstrādātājā spēles scēnu ar <code class="language-cpp">get_tree()-&gt;change_scene_to_file(...)</code>.</li>
-            <li><b>Savieno</b> arī Iziet pogu ar <code class="language-cpp">get_tree()-&gt;quit();</code>.</li>
-            <li><b>Kompilē</b> un pārbaudi abas pogas.</li>
+            <li><b>Izveido</b> C# klasi <code>MainMenu</code>, kas manto no <code>Control</code>.</li>
+            <li><b>Pievieno</b> metodi <code class="language-csharp">private void OnStartPressed()</code>.</li>
+            <li><b>Paņem</b> pogu ar <code class="language-csharp">Button startButton = GetNode&lt;Button&gt;("VBox/StartButton");</code>.</li>
+            <li><b>Savieno</b> <code>_Ready</code> metodē pogas signālu ar <code class="language-csharp">startButton.Pressed += OnStartPressed;</code>.</li>
+            <li><b>Ielādē</b> apstrādātājā spēles scēnu ar <code class="language-csharp">GetTree().ChangeSceneToFile("res://game.tscn");</code>.</li>
+            <li><b>Savieno</b> arī Iziet pogu ar <code class="language-csharp">GetTree().Quit();</code>.</li>
+            <li><b>Būvē</b> un pārbaudi abas pogas.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> Sākt poga atver spēles scēnu, un Iziet poga aizver spēli.</p>
     </div>
@@ -182,7 +180,7 @@ struct PolishCheckpoint {
         <ol class="step-list">
             <li><b>Izveido</b> <code>PanelContainer</code> ar nosaukumu <code>Settings</code>.</li>
             <li><b>Pievieno</b> tam skaļuma slīdni <code>HSlider</code>.</li>
-            <li><b>Paslēp</b> to sākumā ar <code class="language-cpp">set_visible(false);</code>.</li>
+            <li><b>Paslēp</b> to sākumā ar <code class="language-csharp">settings.Visible = false;</code>.</li>
             <li><b>Parādi</b> to, nospiežot Iestatījumu pogu.</li>
             <li><b>Pievieno</b> Atpakaļ pogu, kas to atkal paslēpj.</li>
         </ol>
@@ -192,16 +190,16 @@ struct PolishCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tavai spēlei ir sākuma izvēlne ar trim pogām <code>Control</code> mezglos, pogas ir savienotas ar C++ kodu caur signāliem, un izvēlne paliek centrā, mainot loga izmēru.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <h2>Ko sagatavo</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavai spēlei ir sākuma izvēlne ar trim pogām <code>Control</code> mezglos, pogas ir savienotas ar C# kodu caur signāliem, un izvēlne paliek centrā, mainot loga izmēru.</p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>Fails <code>main_menu.cpp</code> ar pogu signālu savienojumiem.</li>
-            <li>Video vai divi ekrānuzņēmumi: izvēlne un tas, kas notiek, nospiežot Sākt.</li>
+            <li>Fails <code>MainMenu.cs</code> ar pogu signālu savienojumiem.</li>
+            <li>README.md ievietota video saite vai divi ekrānuzņēmumi krātuvē: izvēlne un tas, kas notiek, nospiežot Sākt.</li>
             <li>Ekrānuzņēmums ar izvēlni pēc loga izmēra maiņas.</li>
             <li>README.md: ar ko <code>Control</code> mezgli atšķiras no <code>Node2D</code>.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un attēlus skolotāja norādītajā vietā.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -212,7 +210,7 @@ struct PolishCheckpoint {
     <h2>Biežākās kļūdas</h2>
     <div class='logic-box'>
         <ul>
-        <li><b>Button signal nestrādā:</b> Connect not called vai metode nereģistrēta.</li>
+        <li><b>Button signal nestrādā:</b> Pārbaudi, vai <code>Pressed +=</code> izsaukums notiek <code>_Ready</code> metodē un mezgla ceļš ir pareizs.</li>
         <li><b>UI elementi pārklājas:</b> Lieto Container nodes layout management.</li>
         <li><b>Anchors confusing:</b> <i>Layout → Set Anchors and Offsets to Preset → Top Wide</i> vai Center.</li>
         </ul>
@@ -240,29 +238,35 @@ struct PolishCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/button.hpp&gt;
-#include &lt;godot_cpp/classes/scene_tree.hpp&gt;
+        <pre><code class="language-csharp">using Godot;
 
-void Menu::_ready() {
-    Button* start_btn = get_node&lt;Button&gt;("VBox/StartButton");
-    Button* settings_btn = get_node&lt;Button&gt;("VBox/SettingsButton");
-    Button* quit_btn = get_node&lt;Button&gt;("VBox/QuitButton");
+public partial class Menu : Control
+{
+    public override void _Ready()
+    {
+        Button startBtn = GetNode&lt;Button&gt;("VBox/StartButton");
+        Button settingsBtn = GetNode&lt;Button&gt;("VBox/SettingsButton");
+        Button quitBtn = GetNode&lt;Button&gt;("VBox/QuitButton");
 
-    start_btn-&gt;connect("pressed", Callable(this, "on_start"));
-    settings_btn-&gt;connect("pressed", Callable(this, "on_settings"));
-    quit_btn-&gt;connect("pressed", Callable(this, "on_quit"));
-}
+        startBtn.Pressed += OnStart;
+        settingsBtn.Pressed += OnSettings;
+        quitBtn.Pressed += OnQuit;
+    }
 
-void Menu::on_start() {
-    get_tree()-&gt;change_scene_to_file("res://game.tscn");
-}
+    private void OnStart()
+    {
+        GetTree().ChangeSceneToFile("res://game.tscn");
+    }
 
-void Menu::on_settings() {
-    get_tree()-&gt;change_scene_to_file("res://settings.tscn");
-}
+    private void OnSettings()
+    {
+        GetTree().ChangeSceneToFile("res://settings.tscn");
+    }
 
-void Menu::on_quit() {
-    get_tree()-&gt;quit();
+    private void OnQuit()
+    {
+        GetTree().Quit();
+    }
 }</code></pre>
         <div class='result'>Sākuma menu ar 4 stilizētām pogām, hover efekti, navigācija starp ekrāniem.</div>
     </div>

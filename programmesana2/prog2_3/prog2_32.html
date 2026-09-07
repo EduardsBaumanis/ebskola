@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3.2 Mantošana C++ un Godot - ebSkola</title>
+<title>3.2 Mantošana C# un Godot - ebSkola</title>
 <meta name="description" content="Izveidot specializētas dalībnieku klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
@@ -11,23 +11,23 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="3.2 Mantošana C++ un Godot">
+<meta property="og:title" content="3.2 Mantošana C# un Godot">
 <meta property="og:description" content="Izveidot specializētas dalībnieku klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.">
 <meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_3/prog2_32">
 <meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="3.2 Mantošana C++ un Godot">
+<meta name="twitter:title" content="3.2 Mantošana C# un Godot">
 <meta name="twitter:description" content="Izveidot specializētas dalībnieku klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org","@type": "LearningResource","name": "3.2 Mantošana C++ un Godot","description": "Izveidot specializētas dalībnieku klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_3/prog2_32","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "3.2 Mantošana C# un Godot","description": "Izveidot specializētas dalībnieku klases ar mantošanu, lai kopīgā loģika paliktu bāzes klasē, bet atšķirības būtu apakšklasēs.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_3/prog2_32","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -61,16 +61,16 @@
   <h3>3. Tēma - Objektorientētā programmēšana</h3>
   <div class="sidebar-links">
     <a class="topic-main" href="/programmesana2/prog2_3/prog2_3main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_3/prog2_31">3.1 C++ klases pamati</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_3/prog2_32">3.2 Mantošana C++ un Godot</a>
+    <a href="/programmesana2/prog2_3/prog2_31">3.1 C# klases pamati</a>
+    <a class="active" aria-current="page" href="/programmesana2/prog2_3/prog2_32">3.2 Mantošana C# un Godot</a>
     <a href="/programmesana2/prog2_3/prog2_33">3.3 Signāli un objektu komunikācija</a>
-    <a href="/programmesana2/prog2_3/prog2_34">3.4 Custom GDExtension klases editorā redzamas</a>
+    <a href="/programmesana2/prog2_3/prog2_34">3.4 Custom C# klases editorā redzamas</a>
     <a href="/programmesana2/prog2_3/prog2_35">3.5 Statistikas sistēma un struct</a>
     <a href="/programmesana2/prog2_3/prog2_36">3.6 Noslēguma projekts: Klases turnīra simulators</a>
   </div>
 </aside>
 <section class='section'>
-    <h1>3.2 Mantošana C++ un Godot</h1>
+    <h1>3.2 Mantošana C# un Godot</h1>
     <p><b>Stundas uzdevums:</b> Izveidot specializētas dalībnieku klases, izmantojot inheritance (mantošanu).</p>
     <div class="lesson-meta">
         <a href="/sasnRez">SR 2.4.18. OOP</a>
@@ -89,33 +89,40 @@
     <h2>Teorija: Inheritance un virtuālas funkcijas</h2>
     <div class='logic-box'>
 <p><b>Mantošana</b> ļauj bērna klasei pārmantot vecāka atribūtus un metodes, pievienojot vai pārrakstot.</p>
-<pre><code class="language-cpp">class Participant { /* base klase */ };
+<pre><code class="language-csharp">public class Participant { /* base klase */ }
 
-class Captain : public Participant {
-public:
-    int stability;
-    Captain(String n) : Participant(n, 150, 18, 12) {  // izsauc vecāku konstruktoru
-        stability = 10;
+public class Captain : Participant
+{
+    public int Stability;
+
+    public Captain(string name) : base(name, 150, 18, 12)  // izsauc vecāku konstruktoru
+    {
+        Stability = 10;
     }
+
     // Pārraksta (override) vecāka metodi
-    void apply_penalty(int amount) override {
-        amount -= stability;  // stabilitāte samazina soda punktus
-        Participant::apply_penalty(amount);
+    public override void ApplyPenalty(int amount)
+    {
+        amount -= Stability;  // stabilitāte samazina soda punktus
+        base.ApplyPenalty(amount);
     }
-};
+}
 
-class Presenter : public Participant {
-public:
-    int ideas;
-    Presenter(String n) : Participant(n, 80, 25, 3), ideas(100) {}
+public class Presenter : Participant
+{
+    public int Ideas = 100;
 
-    void present_bonus(Participant& target) {
-        if (ideas &gt;= 20) {
-            ideas -= 20;
-            target.apply_penalty(40);
+    public Presenter(string name) : base(name, 80, 25, 3) { }
+
+    public void PresentBonus(Participant target)
+    {
+        if (Ideas &gt;= 20)
+        {
+            Ideas -= 20;
+            target.ApplyPenalty(40);
         }
     }
-};</code></pre>
+}</code></pre>
 <p><code>virtual</code> atslēgvārds ļauj izsaukt bērna metodi caur vecāka pointer (polimorfisms).</p>
     </div>
 </section>
@@ -124,19 +131,16 @@ public:
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> katrai būtiskai turnīra lomai ir C++ klase ar header/implementation dalījumu, konstruktoriem, metodēm, signāliem vai mantošanu.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct OopCheckpoint {
-    String lesson = "3.2 Mantošana C++ un Godot";
-    bool uses_cpp = true;
-    bool has_header_file = true;
-    bool has_single_responsibility = true;
-    bool uses_godot_registration = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> katrai būtiskai turnīra lomai ir C# klase vienā <code>.cs</code> failā, ar konstruktoriem, metodēm, signāliem vai mantošanu.</p>
+<pre><code class="language-csharp">public class OopCheckpoint
+{
+    public string Lesson = "3.2 Mantošana C# un Godot";
+    public bool UsesCSharp = true;
+    public bool HasScriptFile = true;
+    public bool HasSingleResponsibility = true;
+    public bool UsesGodotInspector = true;
+}</code></pre>
     </div>
 </section>
 
@@ -146,13 +150,13 @@ struct OopCheckpoint {
         <h3>1. uzdevums - Izveido bērna klasi</h3>
         <p>Beigās jaunā klase mantos visu no vecāku klases.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> failu <code>captain.hpp</code>.</li>
-            <li><b>Ieraksti</b> <code class="language-cpp">class Captain : public Participant {</code>.</li>
-            <li><b>Pievieno</b> konstruktoru <code class="language-cpp">Captain(String n) : Participant(n, 150) {}</code>.</li>
-            <li><b>Pievieno</b> privātu lauku <code class="language-cpp">int stability = 10;</code>.</li>
-            <li><b>Izveido</b> objektu <code class="language-cpp">Captain c("Anna");</code> un izsauc tam <code>is_active()</code>.</li>
+            <li><b>Izveido</b> failu <code>Captain.cs</code>.</li>
+            <li><b>Ieraksti</b> <code class="language-csharp">public class Captain : Participant { }</code>.</li>
+            <li><b>Pievieno</b> konstruktoru <code class="language-csharp">public Captain(string name) : base(name, 150) { }</code>.</li>
+            <li><b>Pievieno</b> privātu lauku <code class="language-csharp">private int stability = 10;</code>.</li>
+            <li><b>Izveido</b> objektu <code class="language-csharp">Captain c = new Captain("Anna");</code> un izsauc tam <code>IsActive()</code>.</li>
             <li><b>Pieraksti</b>, no kurienes šī metode radās, ja tu to <code>Captain</code> klasē nerakstīji.</li>
-            <li><b>Izdzēs</b> <code>: Participant(n, 150)</code> daļu, kompilē un izlasi kļūdu.</li>
+            <li><b>Izdzēs</b> <code>: base(name, 150)</code> daļu, būvē projektu un izlasi kļūdu.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> bērna objektam strādā vecāka metodes, bet bez vecāka konstruktora izsaukuma kods nekompilējas.</p>
     </div>
@@ -160,13 +164,13 @@ struct OopCheckpoint {
         <h3>2. uzdevums - Pārraksti metodi ar override</h3>
         <p>Beigās kapteinis sodu izturēs labāk nekā parasts dalībnieks.</p>
         <ol class="step-list">
-            <li><b>Pievieno</b> vecāka klasē atslēgvārdu <code class="language-cpp">virtual</code> pirms <code>apply_penalty</code>.</li>
-            <li><b>Pievieno</b> <code>Captain</code> klasē <code class="language-cpp">void apply_penalty(int amount) override;</code>.</li>
-            <li><b>Ieraksti</b> tajā <code class="language-cpp">amount = std::max(1, amount - stability);</code>.</li>
-            <li><b>Izsauc</b> pēc tam vecāka versiju ar <code class="language-cpp">Participant::apply_penalty(amount);</code>.</li>
+            <li><b>Pievieno</b> vecāka klasē atslēgvārdu <code class="language-csharp">virtual</code> pirms <code>ApplyPenalty</code>.</li>
+            <li><b>Pievieno</b> <code>Captain</code> klasē <code class="language-csharp">public override void ApplyPenalty(int amount)</code>.</li>
+            <li><b>Ieraksti</b> tajā <code class="language-csharp">amount = Math.Max(1, amount - stability);</code>.</li>
+            <li><b>Izsauc</b> pēc tam vecāka versiju ar <code class="language-csharp">base.ApplyPenalty(amount);</code>.</li>
             <li><b>Izmēģini</b> vienādu sodu abiem: parastam dalībniekam un kapteinim.</li>
             <li><b>Pieraksti</b>, cik enerģijas katrs zaudēja.</li>
-            <li><b>Izdzēs</b> <code>virtual</code> vārdu, kompilē un pieraksti, kas mainās.</li>
+            <li><b>Izdzēs</b> <code>virtual</code> vārdu, būvē projektu un pieraksti, kas mainās.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> ar vienādu sodu kapteinis zaudē mazāk enerģijas nekā parasts dalībnieks.</p>
     </div>
@@ -175,10 +179,10 @@ struct OopCheckpoint {
         <p>Beigās viens cikls apkalpos jebkuru lomu skaitu.</p>
         <ol class="step-list">
             <li><b>Izveido</b> vēl vienu bērna klasi <code>Presenter</code> ar citu enerģiju.</li>
-            <li><b>Pārraksti</b> arī tai <code>apply_penalty</code> savā veidā.</li>
-            <li><b>Izveido</b> <code class="language-cpp">std::vector&lt;Participant*&gt; party;</code>.</li>
+            <li><b>Pārraksti</b> arī tai <code>ApplyPenalty</code> savā veidā.</li>
+            <li><b>Izveido</b> <code class="language-csharp">List&lt;Participant&gt; party = new();</code>.</li>
             <li><b>Pievieno</b> tam pa vienam objektam no katras klases.</li>
-            <li><b>Uzraksti</b> ciklu, kas katram izsauc <code>apply_penalty(20)</code>.</li>
+            <li><b>Uzraksti</b> ciklu, kas katram izsauc <code>ApplyPenalty(20)</code>.</li>
             <li><b>Izdrukā</b> pēc cikla katra vārdu un atlikušo enerģiju.</li>
             <li><b>Pieraksti</b>, kāpēc cikls nezina, kura loma tam tiek padota.</li>
         </ol>
@@ -189,7 +193,7 @@ struct OopCheckpoint {
         <p>Ja pamatdarbs ir gatavs, paplašini hierarhiju.</p>
         <ol class="step-list">
             <li><b>Izveido</b> klasi <code>TimeKeeper</code> ar mazāku enerģiju, bet lielāku ātrumu.</li>
-            <li><b>Pārraksti</b> tai <code>apply_penalty</code> tā, lai tā zaudētu vairāk.</li>
+            <li><b>Pārraksti</b> tai <code>ApplyPenalty</code> tā, lai tā zaudētu vairāk.</li>
             <li><b>Pievieno</b> to sarakstam.</li>
             <li><b>Palaid</b> ciklu vēlreiz un pārbaudi, vai kods bija jāmaina.</li>
             <li><b>Pieraksti</b>, cik rindu bija jāpieraksta ciklā.</li>
@@ -200,15 +204,15 @@ struct OopCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tu proti izveidot bērna klasi ar <code>public</code> mantošanu, izsaukt vecāka konstruktoru, pārrakstīt metodi ar <code>virtual</code> un <code>override</code> un apstrādāt visas lomas vienā ciklā.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <h2>Ko sagatavo</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti izveidot bērna klasi ar C# mantošanu, izsaukt vecāka konstruktoru, pārrakstīt metodi ar <code>virtual</code> un <code>override</code> un apstrādāt visas lomas vienā ciklā.</p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>Faili <code>captain.hpp</code> un <code>presenter.hpp</code> tavā GitHub krātuvē.</li>
+            <li>Faili <code>Captain.cs</code> un <code>Presenter.cs</code>.</li>
             <li>Ekrānuzņēmums ar Output paneli, kurā redzams, ka pēc vienāda soda lomām palikusi atšķirīga enerģija.</li>
             <li>README.md: kas notiek, ja no vecāka metodes noņem <code>virtual</code>.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -220,7 +224,7 @@ struct OopCheckpoint {
     <div class='logic-box'>
         <ul>
         <li><b>Cannot call base constructor:</b> Trūkst initializer list ar <code>: Participant(...)</code>.</li>
-        <li><b>'override' was not declared:</b> C++11+ vajadzīgs (Godot prasa C++17).</li>
+        <li><b>'override' was not declared:</b> C#11+ vajadzīgs (Godot prasa C#17).</li>
         <li><b>Slicing problem:</b> Pieliecot Participant objektu, ne Participant*, polimorfisms nedarbojas.</li>
         </ul>
     </div>
@@ -239,32 +243,38 @@ struct OopCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">class Captain : public Participant {
-private:
-    int stability;
-public:
-    Captain(String n) : Participant(n, 150, 18, 12), stability(10) {}
+        <pre><code class="language-csharp">using Godot;
+using System;
 
-    void apply_penalty(int amount) override {
-        amount = std::max(1, amount - stability);
-        Participant::apply_penalty(amount);
+public class Captain : Participant
+{
+    private int stability = 10;
+
+    public Captain(string name) : base(name, 150, 18, 12) { }
+
+    public override void ApplyPenalty(int amount)
+    {
+        amount = Math.Max(1, amount - stability);
+        base.ApplyPenalty(amount);
     }
-};
+}
 
-class Presenter : public Participant {
-private:
-    int ideas;
-public:
-    Presenter(String n) : Participant(n, 80, 25, 3), ideas(100) {}
+public class Presenter : Participant
+{
+    private int ideas = 100;
 
-    void present_bonus(Participant* target) {
-        if (ideas &gt;= 20) {
+    public Presenter(string name) : base(name, 80, 25, 3) { }
+
+    public void PresentBonus(Participant target)
+    {
+        if (ideas &gt;= 20)
+        {
             ideas -= 20;
-            UtilityFunctions::print(name, " izmanto prezentācijas bonusu pret ", target-&gt;get_name());
-            target-&gt;apply_penalty(40);
+            GD.Print(Name, " izmanto prezentācijas bonusu pret ", target.Name);
+            target.ApplyPenalty(40);
         }
     }
-};</code></pre>
+}</code></pre>
         <div class='result'>Captain zaudē par 10 punktiem mazāk enerģijas, Presenter izmanto prezentācijas bonusu, kas samazina šķēršļa enerģiju par 40 punktiem.</div>
     </div>
 </div>

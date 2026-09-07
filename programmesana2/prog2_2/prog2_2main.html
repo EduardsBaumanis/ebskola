@@ -22,12 +22,12 @@
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Course", "name": "2. Tēma - Kustība un sadursmes", "description": "Otrā tēma apgūst CharacterBody2D fizikas sistēmu, gravitāciju un platformer mehāniku C++ ar GDExtension. Projekts: 2D platformas spēle.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_2/prog2_2main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
+{"@context": "https://schema.org", "@type": "Course", "name": "2. Tēma - Kustība un sadursmes", "description": "Otrā tēma apgūst CharacterBody2D fizikas sistēmu, gravitāciju un platformer mehāniku Godot C# skriptos. Projekts: 2D platformas spēle.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_2/prog2_2main", "provider": {"@type": "EducationalOrganization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 </head>
 <body class="page-home">
 
@@ -67,7 +67,7 @@
         </h1>
         <p class="lede">
           Apgūsti <code>CharacterBody2D</code> fizikas sistēmu, gravitāciju un lēkšanu.
-          Tēma noslēdzas ar <code>2D platformas spēles</code> izveidi C++ ar GDExtension.
+          Tēma noslēdzas ar <code>2D platformas spēles</code> izveidi Godot C# skriptos.
         </p>
 
         <div class="cta-row">
@@ -87,12 +87,12 @@
         <div class="editor" aria-hidden="true">
           <div class="titlebar">
             <span class="dots"><i></i><i></i><i></i></span>
-            <span class="crumb"><em>prog2_2/</em>player.cpp</span>
+            <span class="crumb"><em>prog2_2/</em>Player.cs</span>
           </div>
           <div class="tabs">
-            <span class="tab active"><span class="ic">●</span> player.cpp</span>
-            <span class="tab">player.h</span>
-            <span class="tab">SConstruct</span>
+            <span class="tab active"><span class="ic">●</span> Player.cs</span>
+            <span class="tab">Level1.tscn</span>
+            <span class="tab">Platformer.csproj</span>
             <span class="spacer"></span>
           </div>
           <div class="body">
@@ -111,23 +111,21 @@
 13
 14
 15</div>
-<div class="code"><span class="tok-com">// player.cpp - kustība</span>
-<span class="tok-kw">void</span> <span class="tok-fn">Player::_physics_process</span>(<span class="tok-typ">double</span> d) {
-    <span class="tok-typ">Vector2</span> vel = <span class="tok-fn">get_velocity</span>();
-    <span class="tok-kw">if</span> (!<span class="tok-fn">is_on_floor</span>())
-        vel.y += GRAVITY * d;
-    <span class="tok-kw">if</span> (<span class="tok-typ">Input</span>::<span class="tok-fn">get_singleton</span>()-&gt;
-            <span class="tok-fn">is_action_pressed</span>(<span class="tok-str">"ui_left"</span>))
-        vel.x = -SPEED;
-    <span class="tok-kw">else if</span> (<span class="tok-typ">Input</span>::<span class="tok-fn">get_singleton</span>()-&gt;
-            <span class="tok-fn">is_action_pressed</span>(<span class="tok-str">"ui_right"</span>))
-        vel.x = SPEED;
-    <span class="tok-fn">set_velocity</span>(vel);
-    <span class="tok-fn">move_and_slide</span>();
+<div class="code"><span class="tok-com">// Player.cs - kustība</span>
+<span class="tok-kw">public override void</span> <span class="tok-fn">_PhysicsProcess</span>(<span class="tok-typ">double</span> d) {
+    <span class="tok-typ">Vector2</span> vel = Velocity;
+    <span class="tok-kw">if</span> (!<span class="tok-fn">IsOnFloor</span>())
+        vel.Y += Gravity * (<span class="tok-typ">float</span>)d;
+    <span class="tok-kw">if</span> (<span class="tok-typ">Input</span>.<span class="tok-fn">IsActionPressed</span>(<span class="tok-str">"ui_left"</span>))
+        vel.X = -Speed;
+    <span class="tok-kw">else if</span> (<span class="tok-typ">Input</span>.<span class="tok-fn">IsActionPressed</span>(<span class="tok-str">"ui_right"</span>))
+        vel.X = Speed;
+    Velocity = vel;
+    <span class="tok-fn">MoveAndSlide</span>();
 }<span class="cursor"></span></div>
           </div>
           <div class="statusbar">
-            <span class="ok">● C++ · Godot 4</span>
+            <span class="ok">● C# · Godot 4</span>
             <span>UTF-8</span>
             <span class="spacer"></span>
             <span>Ln 14, Col 1</span>
@@ -137,7 +135,7 @@
         <div class="hero-badges">
           <span class="badge"><span class="d str"></span> CharacterBody2D</span>
           <span class="badge"><span class="d kw"></span> gravitācija · lēkšana</span>
-          <span class="badge"><span class="d typ"></span> move_and_slide()</span>
+          <span class="badge"><span class="d typ"></span> MoveAndSlide()</span>
         </div>
       </div>
     </div>
@@ -160,7 +158,7 @@
 
       <a class="project" href="/programmesana2/prog2_2/prog2_21">
         <div class="preview">
-          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Laika joslas ar _process un _physics_process un delta laika atzīmēm">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Laika joslas ar _Process un _PhysicsProcess un delta laika atzīmēm">
             <rect width="320" height="200" fill="var(--bg)"/>
             <!-- axis -->
             <line x1="24" y1="160" x2="296" y2="160" stroke="var(--line)" stroke-width="1.5"/>
@@ -191,7 +189,7 @@
         <div class="body">
           <div class="meta-top"><span class="lang"><span class="d kw"></span> delta · FPS</span><span>fizika</span></div>
           <h3>Process un fizikas cikli</h3>
-          <p>Iepazīsti _process un _physics_process atšķirības, delta laiku un kadru ātrumu.</p>
+          <p>Iepazīsti _Process un _PhysicsProcess atšķirības, delta laiku un kadru ātrumu.</p>
           <div class="foot"><span>2.1 stunda</span><span class="open">atvērt ↗</span></div>
         </div>
       </a>
@@ -235,7 +233,7 @@
         <div class="body">
           <div class="meta-top"><span class="lang"><span class="d str"></span> Input · actions</span><span>ievade</span></div>
           <h3>Input apstrāde un Input Map</h3>
-          <p>Apgūsti Input singleton un Input Map - piesaisti darbības taustiņiem C++ kodā.</p>
+          <p>Apgūsti Input singleton un Input Map - piesaisti darbības taustiņiem C# kodā.</p>
           <div class="foot"><span>2.2 stunda</span><span class="open">atvērt ↗</span></div>
         </div>
       </a>
@@ -306,7 +304,7 @@
         <div class="body">
           <div class="meta-top"><span class="lang"><span class="d num"></span> CollisionShape2D</span><span>sadursmes</span></div>
           <h3>Sadursmju noteikšana</h3>
-          <p>Iepazīsti CollisionShape2D, sadursmes slāņus un is_on_floor() / is_on_wall().</p>
+          <p>Iepazīsti CollisionShape2D, sadursmes slāņus un <code>IsOnFloor()</code> / <code>IsOnWall()</code>.</p>
           <div class="foot"><span>2.4 stunda</span><span class="open">atvērt ↗</span></div>
         </div>
       </a>
@@ -357,10 +355,10 @@
             <line x1="272" y1="52" x2="272" y2="82" stroke="var(--muted)" stroke-width="2"/>
             <polygon points="272,52 294,60 272,68" fill="var(--str)"/>
           </svg>
-          <span class="label">// C++ · Godot</span>
+          <span class="label">// C# · Godot</span>
         </div>
         <div class="body">
-          <div class="meta-top"><span class="lang"><span class="d fn"></span> C++ · Godot</span><span>projekts</span></div>
+          <div class="meta-top"><span class="lang"><span class="d fn"></span> C# · Godot</span><span>projekts</span></div>
           <h3>Noslēguma projekts: Platformas spēle</h3>
           <p>Izveido pilnu 2D platformas spēli ar gravitāciju, ienaidniekiem un žetoniem.</p>
           <div class="foot"><span>2.6 projekts</span><span class="open">atvērt ↗</span></div>
@@ -380,88 +378,94 @@
   </div></div>
   <div class="logic-box">
     <h3>2.1 delta - kāpēc bez tā spēle uz cita datora ir citāda</h3>
-    <pre><code class="language-cpp">void Mover::_physics_process(double delta) {
+    <pre><code class="language-csharp">public override void _PhysicsProcess(double delta)
+{
     // PAREIZI: ātrums pikseļos SEKUNDĒ
-    set_position(get_position() + velocity * delta);
+    Position += velocity * (float)delta;
 
     // NEPAREIZI: ātrums pikseļos KADRĀ
-    // set_position(get_position() + velocity);
-    //   -> uz 144 Hz datora objekts kustas 2.4x ātrāk nekā uz 60 Hz
+    // Position += velocity;
+    //   -&gt; uz 144 Hz datora objekts kustas 2.4x ātrāk nekā uz 60 Hz
 }
 
 // Kuru metodi lietot?
-void _process(double delta)           // katrā zīmētajā kadrā, delta SVĀRSTĀS
-                                      // -> vizuāli efekti, UI
-void _physics_process(double delta)   // fiksēti 60 reizes/s, delta STABILS
-                                      // -> kustība, fizika, sadursmes</code></pre>
-    <p class="cheat-note">Īkšķa likums: ja objekts kustas vai saduras - <code>_physics_process</code>. Viss pārējais - <code>_process</code>.</p>
+public override void _Process(double delta)         // katrā zīmētajā kadrā, delta SVĀRSTĀS
+                                                    // -&gt; vizuāli efekti, UI
+public override void _PhysicsProcess(double delta)  // fiksēti 60 reizes/s, delta STABILS
+                                                    // -&gt; kustība, fizika, sadursmes</code></pre>
+    <p class="cheat-note">Īkšķa likums: ja objekts kustas vai saduras - <code>_PhysicsProcess</code>. Viss pārējais - <code>_Process</code>.</p>
   </div>
   <div class="logic-box">
     <h3>2.2 Ievade un normalizēta kustība</h3>
-    <pre><code class="language-cpp">#include &lt;godot_cpp/classes/input.hpp&gt;
+    <pre><code class="language-csharp">public override void _PhysicsProcess(double delta)
+{
+    Vector2 dir = Vector2.Zero;
 
-void Player::_physics_process(double delta) {
-    Input *input = Input::get_singleton();
-    Vector2 dir(0, 0);
+    if (Input.IsActionPressed("move_right")) dir.X += 1;
+    if (Input.IsActionPressed("move_left")) dir.X -= 1;
+    if (Input.IsActionPressed("move_down")) dir.Y += 1;
+    if (Input.IsActionPressed("move_up")) dir.Y -= 1;
 
-    if (input-&gt;is_action_pressed("move_right")) dir.x += 1;
-    if (input-&gt;is_action_pressed("move_left"))  dir.x -= 1;
-    if (input-&gt;is_action_pressed("move_down"))  dir.y += 1;
-    if (input-&gt;is_action_pressed("move_up"))    dir.y -= 1;
-
-    dir = dir.normalized();     // BEZ ŠĪ diagonāle ir 1.41x ātrāka!
-    set_velocity(dir * speed);
-    move_and_slide();
+    dir = dir.Normalized();     // BEZ ŠĪ diagonāle ir 1.41x ātrāka!
+    Velocity = dir * speed;
+    MoveAndSlide();
 }
 
-// is_action_pressed()      - kamēr TUR taustiņu   -> kustība
-// is_action_just_pressed() - vienu reizi nospiežot -> lēciens, šāviens</code></pre>
+// IsActionPressed()      - kamēr TUR taustiņu   -&gt; kustība
+// IsActionJustPressed()  - vienu reizi nospiežot -&gt; lēciens, šāviens</code></pre>
     <p class="cheat-note">Darbību nosaukumus (<code>move_right</code>) veido <b>Project Settings -&gt; Input Map</b>, nevis raksti taustiņu kodus.</p>
   </div>
   <div class="logic-box">
-    <h3>2.3 C++ vadības struktūras pret Python</h3>
-    <pre><code class="language-cpp">// Python:  if x <= 0:      /  elif x < 30:  /  else:
-if (health &lt;= 0) {
-    die();
-} else if (health &lt; 30) {          // divi vārdi, nevis "elif"
-    play_warning();
-} else {
-    show_normal();
+    <h3>2.3 C# vadības struktūras pret Python</h3>
+    <pre><code class="language-csharp">// Python:  if x &lt;= 0:      /  elif x &lt; 30:  /  else:
+if (health &lt;= 0)
+{
+    Die();
+}
+else if (health &lt; 30)              // divi vārdi, nevis "elif"
+{
+    PlayWarning();
+}
+else
+{
+    ShowNormal();
 }                                   // figūriekavas, nevis atkāpe
 
 // enum + switch = saprotami nosaukumi skaitļu vietā
-enum class PickupType { COIN, GEM, KEY };
+public enum PickupType { Coin, Gem, Key }
 
-switch (type) {
-    case PickupType::COIN: score += 1;  break;   // BEZ break izpildās
-    case PickupType::GEM:  score += 10; break;   // arī nākamais case!
-    default:               score += 5;  break;
+switch (type)
+{
+    case PickupType.Coin: score += 1; break;
+    case PickupType.Gem:  score += 10; break;
+    default:              score += 5; break;
 }
 
 // Python:  for t in items:
-#include &lt;vector&gt;
-for (PickupType t : items) { on_pickup(t); }</code></pre>
+foreach (PickupType t in items) { OnPickup(t); }</code></pre>
     <p class="cheat-note">Trīs biežākās kļūdas: aizmirsts semikols, aizmirsts <code>break</code> un <code>=</code> vietā, kur vajag <code>==</code>.</p>
   </div>
   <div class="logic-box">
     <h3>2.4 Sadursmju mezgli un slāņi</h3>
-    <pre><code class="language-cpp">// Kurš mezgls kam:
+    <pre><code class="language-csharp">// Kurš mezgls kam:
 //   StaticBody2D      siena, grīda - nekustas, aptur citus
 //   CharacterBody2D   spēlētājs, ienaidnieks - kustību raksti pats
 //   RigidBody2D       pilna fizika: gravitācija, masa, spēks
 //   Area2D            monēta, finišs - PAMANA, bet neaptur
 //   CollisionShape2D  BEZ ŠĪ neviens no augšējiem nesaduras
 
-// Area2D signāls C++ pusē
-void Coin::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("on_body_entered", "body"),
-                         &amp;Coin::on_body_entered);
-}
-void Coin::_ready() {
-    connect("body_entered", Callable(this, "on_body_entered"));
-}
-void Coin::on_body_entered(Node2D *body) {
-    queue_free();          // izdzēš monētu
+// Area2D signāls C# pusē
+public partial class Coin : Area2D
+{
+    public override void _Ready()
+    {
+        BodyEntered += OnBodyEntered;
+    }
+
+    private void OnBodyEntered(Node2D body)
+    {
+        QueueFree();          // izdzēš monētu
+    }
 }
 
 // Layer = "kas es esmu"      Mask = "ar ko es sadursimies"
@@ -472,31 +476,34 @@ void Coin::on_body_entered(Node2D *body) {
   </div>
   <div class="logic-box">
     <h3>2.5 Gravitācija, lēciens, coyote time</h3>
-    <pre><code class="language-cpp">const float GRAVITY = 1200.0f;
-const float JUMP_FORCE = -550.0f;   // NEGATĪVS, jo Y iet uz leju
+    <pre><code class="language-csharp">private const float Gravity = 1200.0f;
+private const float JumpForce = -550.0f;   // NEGATĪVS, jo Y iet uz leju
+private double coyote = 0.0;
 
-void Player::_physics_process(double delta) {
-    Input *input = Input::get_singleton();
+public override void _PhysicsProcess(double delta)
+{
+    Vector2 velocity = Velocity;
 
-    if (!is_on_floor()) velocity_internal.y += GRAVITY * delta;
+    if (!IsOnFloor()) velocity.Y += Gravity * (float)delta;
 
     // coyote time: īsa tolerance pēc nokāpšanas no malas
-    if (is_on_floor()) coyote = 0.1;
-    else               coyote -= delta;
+    if (IsOnFloor()) coyote = 0.1;
+    else coyote -= delta;
 
-    if (input-&gt;is_action_just_pressed("jump") &amp;&amp; coyote &gt; 0.0) {
-        velocity_internal.y = JUMP_FORCE;
+    if (Input.IsActionJustPressed("jump") &amp;&amp; coyote &gt; 0.0)
+    {
+        velocity.Y = JumpForce;
         coyote = 0.0;
     }
-    // mainīgs lēciena augstums: atlaid ātrāk = zemāks lēciens
-    if (input-&gt;is_action_just_released("jump") &amp;&amp; velocity_internal.y &lt; 0)
-        velocity_internal.y *= 0.5;
 
-    set_velocity(velocity_internal);
-    move_and_slide();
-    velocity_internal = get_velocity();
+    // mainīgs lēciena augstums: atlaid ātrāk = zemāks lēciens
+    if (Input.IsActionJustReleased("jump") &amp;&amp; velocity.Y &lt; 0)
+        velocity.Y *= 0.5f;
+
+    Velocity = velocity;
+    MoveAndSlide();
 }</code></pre>
-    <p class="cheat-note">Bez <code>is_on_floor()</code> vai <code>coyote</code> pārbaudes varonis var lēkt bezgalīgi gaisā.</p>
+    <p class="cheat-note">Bez <code>IsOnFloor()</code> vai <code>coyote</code> pārbaudes varonis var lēkt bezgalīgi gaisā.</p>
   </div>
 </div></section>
 
@@ -505,8 +512,8 @@ void Player::_physics_process(double delta) {
   <div class="wrap">
     <div class="cta-panel">
       <div class="cta-code">
-        <span><span class="tok-fn">move_and_slide</span>(); <span class="tok-com">// Godot apstrādā sadursmes automātiski</span></span>
-        <span class="muted">// CharacterBody2D - platformas fizika C++ GDExtension</span>
+        <span><span class="tok-fn">MoveAndSlide</span>(); <span class="tok-com">// Godot apstrādā sadursmes automātiski</span></span>
+        <span class="muted">// CharacterBody2D - platformas fizika Godot C# skriptos</span>
       </div>
       <div class="cta-actions">
         <a class="btn primary large" href="/programmesana2/prog2_1/prog2_1main">← 1. Tēma</a>

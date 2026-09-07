@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -100,22 +100,28 @@
 <tr><td>O(2^n)</td><td>Eksponenciāls</td><td>Brute force search</td></tr>
 </tbody>
 </table>
-<pre><code class="language-cpp">// O(n) - lineārs
-for (int i = 0; i &lt; n; i++) {
-    cout &lt;&lt; arr[i];
+<pre><code class="language-csharp">// O(n) - lineārs
+for (int i = 0; i &lt; n; i++)
+{
+    GD.Print(arr[i]);
 }
 
 // O(n²) - kvadrātisks (slikti lielam n)
-for (int i = 0; i &lt; n; i++) {
-    for (int j = 0; j &lt; n; j++) {
-        if (arr[i] == arr[j]) ...
+for (int i = 0; i &lt; n; i++)
+{
+    for (int j = 0; j &lt; n; j++)
+    {
+        if (arr[i] == arr[j]) { /* ... */ }
     }
 }
 
 // O(log n) - bināra meklēšana
-int binary_search(vector&lt;int&gt;&amp; arr, int target) {
-    int lo = 0, hi = arr.size() - 1;
-    while (lo &lt;= hi) {
+int BinarySearch(List&lt;int&gt; arr, int target)
+{
+    int lo = 0;
+    int hi = arr.Count - 1;
+    while (lo &lt;= hi)
+    {
         int mid = (lo + hi) / 2;
         if (arr[mid] == target) return mid;
         if (arr[mid] &lt; target) lo = mid + 1;
@@ -130,19 +136,16 @@ int binary_search(vector&lt;int&gt;&amp; arr, int target) {
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> C++ kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct PersistenceCheckpoint {
-    String lesson = "5.5 Algoritmu efektivitāte";
-    bool uses_cpp = true;
-    bool handles_missing_file = true;
-    bool validates_data = true;
-    bool documents_complexity = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> C# kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
+<pre><code class="language-csharp">public class PersistenceCheckpoint
+{
+    public string Lesson = "5.5 Algoritmu efektivitāte";
+    public bool UsesCSharp = true;
+    public bool HandlesMissingFile = true;
+    public bool ValidatesData = true;
+    public bool DocumentsComplexity = true;
+}</code></pre>
     </div>
 </section>
 
@@ -154,7 +157,7 @@ struct PersistenceCheckpoint {
         <ol class="step-list">
             <li><b>Uzraksti</b> funkciju ar vienu ciklu pār 1000 elementiem.</li>
             <li><b>Uzraksti</b> otru funkciju ar diviem ligzdotiem cikliem pār to pašu sarakstu.</li>
-            <li><b>Izmēri</b> abas ar <code class="language-cpp">Time::get_singleton()-&gt;get_ticks_usec();</code> pirms un pēc.</li>
+            <li><b>Izmēri</b> abas ar <code class="language-csharp">ulong t0 = Time.GetTicksUsec();</code> pirms un pēc.</li>
             <li><b>Izdrukā</b> abus laikus mikrosekundēs.</li>
             <li><b>Atkārto</b> mērījumu ar 100 elementiem un pieraksti abus rezultātus.</li>
             <li><b>Izrēķini</b>, cik reižu pieauga katras funkcijas laiks.</li>
@@ -172,7 +175,7 @@ struct PersistenceCheckpoint {
             <li><b>Pieraksti</b> tās nosaukumu un laiku.</li>
             <li><b>Atrodi</b> kodā vietu, kur tā tiek izsaukta katrā kadrā bez vajadzības.</li>
             <li><b>Pārvieto</b> to ārpus cikla vai izsauc retāk.</li>
-            <li><b>Kompilē</b> un palaid profileri vēlreiz.</li>
+            <li><b>Būvē</b> un palaid profileri vēlreiz.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> profilerī tavas izlabotās funkcijas laiks ir manāmi mazāks nekā pirms labojuma.</p>
     </div>
@@ -191,31 +194,31 @@ struct PersistenceCheckpoint {
         <p class="done-when"><b>Gatavs, kad:</b> tavā tabulā ir četri skaitļi, kas parāda uzlabojumu gan ar parasto, gan ar dubultu slodzi.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Salīdzini vector ar map meklēšanu</h3>
+        <h3>Papildu uzdevums - Salīdzini List ar Dictionary meklēšanu</h3>
         <p>Ja pamatdarbs ir gatavs, izmēri datu struktūru atšķirību.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> <code>std::vector</code> ar 10000 elementiem.</li>
-            <li><b>Izveido</b> <code>std::map</code> ar tiem pašiem datiem.</li>
+            <li><b>Izveido</b> <code class="language-csharp">List&lt;int&gt;</code> ar 10000 elementiem.</li>
+            <li><b>Izveido</b> <code class="language-csharp">Dictionary&lt;int, int&gt;</code> ar tiem pašiem datiem.</li>
             <li><b>Izmēri</b> laiku, meklējot pēdējo elementu abās struktūrās.</li>
             <li><b>Izdrukā</b> abus laikus.</li>
             <li><b>Pieraksti</b>, kura struktūra bija ātrāka un par cik reizēm.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> meklēšana <code>std::map</code> ir manāmi ātrāka nekā ciklā pār <code>std::vector</code>.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> meklēšana <code>Dictionary</code> ir manāmi ātrāka nekā ciklā pār <code>List</code>.</p>
     </div>
 </section>
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
+        <h2>Ko sagatavo</h2>
         <p class="merkis"><b>Stundas mērķis:</b> Tu proti izmērīt koda izpildes laiku, atrast lēnāko vietu ar Godot profileri, to izlabot un ar skaitļiem pierādīt, ka uzlabojums tiešām notika.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
             <li>Tabula ar FPS un profilera laiku pirms un pēc labojuma, arī ar dubultu slodzi.</li>
             <li>Ekrānuzņēmums ar Godot profileri pirms labojuma un pēc tā.</li>
             <li>Commit ziņa, kurā aprakstīts, ko tieši optimizēji.</li>
             <li>README.md: kura funkcija bija O(n) un kura O(n kvadrātā) un kā tu to noteici.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti, abus profilera ekrānuzņēmumus un tabulu skolotāja norādītajā vietā.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -250,43 +253,52 @@ struct PersistenceCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">// Spatial hash priekš ātras kolīzijas
-class SpatialHash {
-private:
-    static const int CELL_SIZE = 64;
-    std::unordered_map&lt;int64_t, std::vector&lt;Node2D*&gt;&gt; grid;
+        <pre><code class="language-csharp">using Godot;
+using System.Collections.Generic;
 
-    int64_t cell_key(int cx, int cy) {
-        return ((int64_t)cx &lt;&lt; 32) | (uint32_t)cy;
+// Spatial hash priekš ātras kolīzijas
+public class SpatialHash
+{
+    private const int CellSize = 64;
+    private readonly Dictionary&lt;long, List&lt;Node2D&gt;&gt; grid = new();
+
+    private long CellKey(int cx, int cy)
+    {
+        return ((long)cx &lt;&lt; 32) | (uint)cy;
     }
 
-public:
-    void rebuild(const std::vector&lt;Node2D*&gt;&amp; objects) {
-        grid.clear();
-        for (Node2D* obj : objects) {
-            Vector2 pos = obj-&gt;get_position();
-            int cx = pos.x / CELL_SIZE;
-            int cy = pos.y / CELL_SIZE;
-            grid[cell_key(cx, cy)].push_back(obj);
+    public void Rebuild(IEnumerable&lt;Node2D&gt; objects)
+    {
+        grid.Clear();
+        foreach (Node2D obj in objects)
+        {
+            Vector2 pos = obj.Position;
+            int cx = (int)(pos.X / CellSize);
+            int cy = (int)(pos.Y / CellSize);
+            long key = CellKey(cx, cy);
+            if (!grid.ContainsKey(key)) grid[key] = new List&lt;Node2D&gt;();
+            grid[key].Add(obj);
         }
     }
 
-    std::vector&lt;Node2D*&gt; get_nearby(Vector2 pos) {
-        int cx = pos.x / CELL_SIZE;
-        int cy = pos.y / CELL_SIZE;
-        std::vector&lt;Node2D*&gt; result;
-        for (int dx = -1; dx &lt;= 1; dx++) {
-            for (int dy = -1; dy &lt;= 1; dy++) {
-                auto it = grid.find(cell_key(cx + dx, cy + dy));
-                if (it != grid.end()) {
-                    result.insert(result.end(),
-                        it-&gt;second.begin(), it-&gt;second.end());
+    public List&lt;Node2D&gt; GetNearby(Vector2 pos)
+    {
+        int cx = (int)(pos.X / CellSize);
+        int cy = (int)(pos.Y / CellSize);
+        List&lt;Node2D&gt; result = new();
+        for (int dx = -1; dx &lt;= 1; dx++)
+        {
+            for (int dy = -1; dy &lt;= 1; dy++)
+            {
+                if (grid.TryGetValue(CellKey(cx + dx, cy + dy), out List&lt;Node2D&gt; cell))
+                {
+                    result.AddRange(cell);
                 }
             }
         }
         return result;
     }
-};</code></pre>
+}</code></pre>
         <div class='result'>1000 objektu kolīzijas pārbaude: bez optimizācijas - 5 ms, ar spatial hash - 0.3 ms.</div>
     </div>
 </div>

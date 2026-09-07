@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -61,8 +61,8 @@
   <h3>4. Tēma - Datu struktūras un AI</h3>
   <div class="sidebar-links">
     <a class="topic-main" href="/programmesana2/prog2_4/prog2_4main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_4/prog2_41">4.1 Vector un Array</a>
-    <a href="/programmesana2/prog2_4/prog2_42">4.2 Map un Dictionary</a>
+    <a href="/programmesana2/prog2_4/prog2_41">4.1 List un Array</a>
+    <a href="/programmesana2/prog2_4/prog2_42">4.2 Dictionary un Godot Dictionary</a>
     <a class="active" aria-current="page" href="/programmesana2/prog2_4/prog2_43">4.3 State machines AI uzvedībai</a>
     <a href="/programmesana2/prog2_4/prog2_44">4.4 Pathfinding ar A*</a>
     <a href="/programmesana2/prog2_4/prog2_45">4.5 Šaušanas mehānika un object pooling</a>
@@ -89,43 +89,47 @@
     <h2>Teorija: State machine konceptu</h2>
     <div class='logic-box'>
 <p><b>State machine</b> (stāvokļu mašīna) ir AI dizaina paraugs, kur objekts vienlaikus ir vienā no diskrētiem stāvokļiem un pāriet starp tiem pēc noteikumiem.</p>
-<pre><code class="language-cpp">enum class EnemyState {
-    IDLE,       // gaida
-    PATROL,     // staigā
-    CHASE,      // dzenas
-    ATTACK,     // uzbrūk
-    DEAD
-};
+<pre><code class="language-csharp">using Godot;
 
-class Enemy : public CharacterBody2D {
-private:
-    EnemyState state = EnemyState::IDLE;
-    Vector2 patrol_target;
-    Player* player = nullptr;
+public enum EnemyState
+{
+    Idle,       // gaida
+    Patrol,     // staigā
+    Chase,      // dzenas
+    Attack,     // uzbrūk
+    Dead
+}
 
-public:
-    void _physics_process(double delta) override {
-        switch (state) {
-            case EnemyState::IDLE:
-                if (player_visible()) state = EnemyState::CHASE;
-                else if (idle_too_long()) state = EnemyState::PATROL;
+public partial class Enemy : CharacterBody2D
+{
+    private EnemyState state = EnemyState.Idle;
+    private Vector2 patrolTarget;
+    private Player player;
+
+    public override void _PhysicsProcess(double delta)
+    {
+        switch (state)
+        {
+            case EnemyState.Idle:
+                if (PlayerVisible()) state = EnemyState.Chase;
+                else if (IdleTooLong()) state = EnemyState.Patrol;
                 break;
-            case EnemyState::PATROL:
-                move_to_patrol_target();
-                if (player_visible()) state = EnemyState::CHASE;
+            case EnemyState.Patrol:
+                MoveToPatrolTarget();
+                if (PlayerVisible()) state = EnemyState.Chase;
                 break;
-            case EnemyState::CHASE:
-                move_toward(player-&gt;get_position());
-                if (in_attack_range()) state = EnemyState::ATTACK;
-                else if (!player_visible()) state = EnemyState::IDLE;
+            case EnemyState.Chase:
+                MoveToward(player.Position);
+                if (InAttackRange()) state = EnemyState.Attack;
+                else if (!PlayerVisible()) state = EnemyState.Idle;
                 break;
-            case EnemyState::ATTACK:
-                attack_player();
-                if (!in_attack_range()) state = EnemyState::CHASE;
+            case EnemyState.Attack:
+                AttackPlayer();
+                if (!InAttackRange()) state = EnemyState.Chase;
                 break;
         }
     }
-};</code></pre>
+}</code></pre>
     </div>
 </section>
 
@@ -133,19 +137,16 @@ public:
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> C++ kodā pamatoti izvēlēti vector/map/set, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct AiDataCheckpoint {
-    String lesson = "4.3 State machines AI uzvedībai";
-    bool uses_cpp = true;
-    bool chooses_container = true;
-    bool separates_ai_state = true;
-    bool handles_removal_safely = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> C# kodā pamatoti izvēlēti <code>List</code>, <code>Dictionary</code> vai <code>HashSet</code>, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
+<pre><code class="language-csharp">public class AiDataCheckpoint
+{
+    public string Lesson = "4.3 State machines AI uzvedībai";
+    public bool UsesCSharp = true;
+    public bool ChoosesContainer = true;
+    public bool SeparatesAiState = true;
+    public bool HandlesRemovalSafely = true;
+}</code></pre>
     </div>
 </section>
 
@@ -155,12 +156,12 @@ struct AiDataCheckpoint {
         <h3>1. uzdevums - Izveido stāvokļu enum un pārslēgšanu</h3>
         <p>Beigās ienaidnieks zinās, kurā stāvoklī tas atrodas.</p>
         <ol class="step-list">
-            <li><b>Ieraksti</b> <code class="language-cpp">enum class EnemyState { IDLE, PATROL, CHASE, ATTACK, DEAD };</code>.</li>
-            <li><b>Pievieno</b> klasei lauku <code class="language-cpp">EnemyState state = EnemyState::IDLE;</code>.</li>
-            <li><b>Uzraksti</b> <code>_physics_process</code> metodē <code class="language-cpp">switch (state) { ... }</code>.</li>
+            <li><b>Ieraksti</b> <code class="language-csharp">private enum EnemyState { Idle, Patrol, Chase, Attack, Dead }</code>.</li>
+            <li><b>Pievieno</b> klasei lauku <code class="language-csharp">private EnemyState state = EnemyState.Idle;</code>.</li>
+            <li><b>Uzraksti</b> <code>_PhysicsProcess</code> metodē <code class="language-csharp">switch (state) { ... }</code>.</li>
             <li><b>Pievieno</b> katram stāvoklim savu <code>case</code> ar izdruku un <code>break;</code>.</li>
-            <li><b>Kompilē</b> un palaid - jāizdrukājas tikai <code>IDLE</code>.</li>
-            <li><b>Nomaini</b> sākuma stāvokli uz <code>PATROL</code> un palaid vēlreiz.</li>
+            <li><b>Būvē</b> un palaid - jāizdrukājas tikai <code>Idle</code>.</li>
+            <li><b>Nomaini</b> sākuma stāvokli uz <code>Patrol</code> un palaid vēlreiz.</li>
             <li><b>Pieraksti</b>, kāpēc vienlaikus izdrukājas tikai viens stāvoklis.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> Output panelī atkārtojas tikai viena stāvokļa nosaukums, nevis visi pieci.</p>
@@ -169,12 +170,12 @@ struct AiDataCheckpoint {
         <h3>2. uzdevums - Pievieno pārejas noteikumus</h3>
         <p>Beigās ienaidnieks pats pārslēgsies starp stāvokļiem.</p>
         <ol class="step-list">
-            <li><b>Uzraksti</b> metodi <code class="language-cpp">void change_state(EnemyState new_state);</code>, kas izdrukā pāreju.</li>
-            <li><b>Izrēķini</b> katrā kadrā attālumu līdz spēlētājam ar <code>distance_to</code>.</li>
-            <li><b>Pārslēdz</b> uz <code>CHASE</code>, ja attālums ir mazāks par 300.</li>
-            <li><b>Pārslēdz</b> uz <code>ATTACK</code>, ja attālums ir mazāks par 50.</li>
-            <li><b>Pārslēdz</b> atpakaļ uz <code>PATROL</code>, ja attālums pārsniedz 400.</li>
-            <li><b>Kompilē</b> un pastaigā ar spēlētāju tuvāk un tālāk.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-csharp">private void ChangeState(EnemyState newState)</code>, kas izdrukā pāreju.</li>
+            <li><b>Izrēķini</b> katrā kadrā attālumu līdz spēlētājam ar <code>Position.DistanceTo(player.Position)</code>.</li>
+            <li><b>Pārslēdz</b> uz <code>Chase</code>, ja attālums ir mazāks par 300.</li>
+            <li><b>Pārslēdz</b> uz <code>Attack</code>, ja attālums ir mazāks par 50.</li>
+            <li><b>Pārslēdz</b> atpakaļ uz <code>Patrol</code>, ja attālums pārsniedz 400.</li>
+            <li><b>Būvē</b> un pastaigā ar spēlētāju tuvāk un tālāk.</li>
             <li><b>Pieraksti</b>, kāpēc atgriešanās slieksnis (400) ir lielāks par dzīšanās slieksni (300).</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> pieejot tuvāk, ienaidnieks pāriet CHASE un ATTACK, bet aizejot - atgriežas PATROL.</p>
@@ -188,18 +189,18 @@ struct AiDataCheckpoint {
             <li><b>Pārbaudi</b> spēlē katru pāreju un atzīmē tabulā, vai tā notika.</li>
             <li><b>Atrodi</b> stāvokli, no kura nevar izkļūt, ja tāds ir.</li>
             <li><b>Pārbaudi</b>, kas notiek, kad ienaidnieka HP nokrīt līdz nullei.</li>
-            <li><b>Pievieno</b> pāreju uz <code>DEAD</code> un pārliecinies, ka no tā vairs neizkļūst.</li>
+            <li><b>Pievieno</b> pāreju uz <code>Dead</code> un pārliecinies, ka no tā vairs neizkļūst.</li>
             <li><b>Pieraksti</b>, kurš stāvoklis ir gala stāvoklis.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> tabulā katrai pārejai ir atzīme, un no <code>DEAD</code> stāvokļa ienaidnieks vairs neatgriežas.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> tabulā katrai pārejai ir atzīme, un no <code>Dead</code> stāvokļa ienaidnieks vairs neatgriežas.</p>
     </div>
     <div class='logic-box'>
         <h3>Papildu uzdevums - Pievieno stāvokļa taimeri</h3>
         <p>Ja pamatdarbs ir gatavs, neļauj stāvokļiem mainīties pārāk bieži.</p>
         <ol class="step-list">
-            <li><b>Pievieno</b> lauku <code class="language-cpp">double state_time = 0.0;</code>.</li>
+            <li><b>Pievieno</b> lauku <code class="language-csharp">double state_time = 0.0;</code>.</li>
             <li><b>Palielini</b> to katrā kadrā ar <code>delta</code>.</li>
-            <li><b>Atiestati</b> to uz nulli katrā <code>change_state</code> izsaukumā.</li>
+            <li><b>Atiestati</b> to uz nulli katrā <code>ChangeState</code> izsaukumā.</li>
             <li><b>Neļauj</b> mainīt stāvokli, ja <code>state_time</code> ir mazāks par 0.3.</li>
             <li><b>Pārbaudi</b>, ka ienaidnieks vairs nemirgo starp diviem stāvokļiem.</li>
         </ol>
@@ -209,16 +210,16 @@ struct AiDataCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tavam ienaidniekam ir strādājoša stāvokļu mašīna ar pieciem stāvokļiem, pārejas notiek pēc attāluma līdz spēlētājam, un <code>DEAD</code> ir gala stāvoklis, no kura nevar izkļūt.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <h2>Ko sagatavo</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavam ienaidniekam ir strādājoša stāvokļu mašīna ar pieciem stāvokļiem, pārejas notiek pēc attāluma līdz spēlētājam, un <code>Dead</code> ir gala stāvoklis, no kura nevar izkļūt.</p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>Fails <code>enemy.cpp</code> ar <code>enum class</code> un <code>switch</code> GitHub krātuvē.</li>
-            <li>Video vai ekrānuzņēmumu sērija, kurā redzamas pārejas PATROL -> CHASE -> ATTACK.</li>
+            <li>Fails <code>Enemy.cs</code> ar <code>enum</code> un <code>switch</code>.</li>
+            <li>README.md ievietota video saite vai ekrānuzņēmumu sērija krātuvē, kurā redzamas pārejas PATROL -> CHASE -> ATTACK.</li>
             <li>README.md tabula ar atzīmētām pārbaudītajām stāvokļu pārejām.</li>
             <li>README.md: kāpēc atgriešanās slieksnis ir lielāks par dzīšanās slieksni.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un video skolotāja norādītajā vietā; README.md failā jābūt stāvokļu tabulai.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -230,7 +231,7 @@ struct AiDataCheckpoint {
     <div class='logic-box'>
         <ul>
         <li><b>Stāvoklis paliek IDLE:</b> Pārbaudi, vai pārejas nosacījumi tiek izpildīti.</li>
-        <li><b>Crash, kad player == nullptr:</b> Lieto null check pirms piekļūšanas.</li>
+        <li><b>Crash, kad player == null:</b> Lieto null check pirms piekļūšanas.</li>
         <li><b>Animation neattēlojas:</b> AnimationPlayer ne pareizi pievienots vai animation name nepareizs.</li>
         </ul>
     </div>
@@ -253,48 +254,48 @@ struct AiDataCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">enum class EnemyState { IDLE, PATROL, CHASE, ATTACK, DEAD };
+        <pre><code class="language-csharp">public enum EnemyState { Idle, Patrol, Chase, Attack, Dead }
 
-void Enemy::_physics_process(double delta) {
-    state_timer += delta;
+public override void _PhysicsProcess(double delta)
+{
+    stateTimer += delta;
 
-    switch (state) {
-        case EnemyState::IDLE:
-            if (player_in_vision) change_state(EnemyState::CHASE);
-            else if (state_timer &gt; 3.0) change_state(EnemyState::PATROL);
+    switch (state)
+    {
+        case EnemyState.Idle:
+            if (playerInVision) ChangeState(EnemyState.Chase);
+            else if (stateTimer &gt; 3.0) ChangeState(EnemyState.Patrol);
             break;
 
-        case EnemyState::PATROL: {
-            Vector2 dir = (patrol_target - get_position()).normalized();
-            velocity = dir * 100.0f;
-            move_and_slide();
-            if (get_position().distance_to(patrol_target) &lt; 10) {
-                swap_patrol_target();
-            }
-            if (player_in_vision) change_state(EnemyState::CHASE);
-        } break;
+        case EnemyState.Patrol:
+            Vector2 patrolDir = (patrolTarget - Position).Normalized();
+            Velocity = patrolDir * 100.0f;
+            MoveAndSlide();
+            if (Position.DistanceTo(patrolTarget) &lt; 10) SwapPatrolTarget();
+            if (playerInVision) ChangeState(EnemyState.Chase);
+            break;
 
-        case EnemyState::CHASE: {
-            Vector2 dir = (player_pos - get_position()).normalized();
-            velocity = dir * 200.0f;
-            move_and_slide();
-            if (get_position().distance_to(player_pos) &lt; 50) {
-                change_state(EnemyState::ATTACK);
-            }
-        } break;
+        case EnemyState.Chase:
+            Vector2 chaseDir = (playerPos - Position).Normalized();
+            Velocity = chaseDir * 200.0f;
+            MoveAndSlide();
+            if (Position.DistanceTo(playerPos) &lt; 50) ChangeState(EnemyState.Attack);
+            break;
 
-        case EnemyState::ATTACK:
-            if (state_timer &gt;= 1.0) {
-                player-&gt;take_damage(10);
-                state_timer = 0;
+        case EnemyState.Attack:
+            if (stateTimer &gt;= 1.0)
+            {
+                player.TakeDamage(10);
+                stateTimer = 0.0;
             }
             break;
     }
 }
 
-void Enemy::change_state(EnemyState new_state) {
-    state = new_state;
-    state_timer = 0;
+private void ChangeState(EnemyState newState)
+{
+    state = newState;
+    stateTimer = 0.0;
 }</code></pre>
         <div class='result'>Ienaidnieks staigā patrol līdz pamana spēlētāju, dzenas un uzbrūk; izvairoties - atgriežas patrol režīmā.</div>
     </div>

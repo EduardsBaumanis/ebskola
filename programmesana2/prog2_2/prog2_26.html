@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -98,12 +98,12 @@
 <li>Finiša bandieris katrā līmenī - pārejas uz nākamo.</li>
 <li>HUD ar HP, score, atlikušo laiku.</li>
 </ul>
-<pre><code class="language-cpp">// Klašu hierarhija
-class Player : public CharacterBody2D { ... };
-class Enemy : public CharacterBody2D { /* patrol AI */ };
-class Pickup : public Area2D { /* coin/gem/key */ };
-class Level : public Node2D { /* satur visas iepriekšminētās */ };
-class Game : public Node { /* level pārvaldība */ };</code></pre>
+<pre><code class="language-csharp">// Klašu hierarhija
+public partial class Player : CharacterBody2D { /* WASD + jump */ }
+public partial class Enemy : CharacterBody2D { /* patrol AI */ }
+public partial class Pickup : Area2D { /* coin/gem/key */ }
+public partial class Level : Node2D { /* satur visas iepriekšminētās */ }
+public partial class Game : Node { /* level pārvaldība */ }</code></pre>
     </div>
 </section>
 
@@ -111,19 +111,16 @@ class Game : public Node { /* level pārvaldība */ };</code></pre>
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C++ klasēm, kas lieto _physics_process, Input, CharacterBody2D, Area2D vai move_and_slide.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct PhysicsCheckpoint {
-    String lesson = "2.6 Noslēguma projekts: Platformas spēle";
-    bool uses_cpp = true;
-    bool uses_physics_process = true;
-    bool uses_delta_time = true;
-    bool checks_collisions = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C# klasēm, kas lieto _PhysicsProcess, Input, CharacterBody2D, Area2D vai MoveAndSlide.</p>
+<pre><code class="language-csharp">public class PhysicsCheckpoint
+{
+    public string Lesson = "2.6 Noslēguma projekts: Platformas spēle";
+    public bool UsesCSharp = true;
+    public bool UsesPhysicsProcess = true;
+    public bool UsesDeltaTime = true;
+    public bool ChecksCollisions = true;
+}</code></pre>
     </div>
 </section>
 
@@ -147,12 +144,12 @@ struct PhysicsCheckpoint {
         <h3>2. uzdevums - Pievieno ienaidnieku un savācamos</h3>
         <p>Beigās līmenī būs gan draudi, gan atlīdzība.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> C++ klasi <code>Enemy</code>, kas manto no <code>CharacterBody2D</code>.</li>
+            <li><b>Izveido</b> C# klasi <code>Enemy</code>, kas manto no <code>CharacterBody2D</code>.</li>
             <li><b>Uzraksti</b> patruļas kustību: kad sasniedz robežu, apgriez virzienu.</li>
             <li><b>Pievieno</b> ienaidniekam <code>Area2D</code>, kas atņem varonim dzīvību.</li>
             <li><b>Ievelc</b> līmenī vismaz piecas monētas no 2.4 stundas.</li>
-            <li><b>Pievieno</b> spēlētāja klasei laukus <code class="language-cpp">int hp = 3;</code> un <code class="language-cpp">int score = 0;</code>.</li>
-            <li><b>Kompilē</b> un pārbaudi, ka ienaidnieks patrulē un atņem HP.</li>
+            <li><b>Pievieno</b> spēlētāja klasei laukus <code class="language-csharp">int hp = 3;</code> un <code class="language-csharp">int score = 0;</code>.</li>
+            <li><b>Būvē</b> un pārbaudi, ka ienaidnieks patrulē un atņem HP.</li>
             <li><b>Pārbaudi</b>, ka monētas palielina rezultātu.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> ienaidnieks patrulē starp divām robežām, pieskaroties atņem HP, un monētas palielina rezultātu.</p>
@@ -164,7 +161,7 @@ struct PhysicsCheckpoint {
             <li><b>Pievieno</b> līmeņa galā <code>Area2D</code> ar nosaukumu <code>Finiss</code>.</li>
             <li><b>Pievieno</b> ekrāna augšā <code>Label</code> mezglus HP un rezultātam.</li>
             <li><b>Atjaunini</b> tos katrā kadrā ar aktuālajām vērtībām.</li>
-            <li><b>Izveido</b> C++ klasi <code>Game</code> ar lauku <code class="language-cpp">int current_level = 1;</code>.</li>
+            <li><b>Izveido</b> C# klasi <code>Game</code> ar lauku <code class="language-csharp">private int currentLevel = 1;</code>.</li>
             <li><b>Uzraksti</b> metodi, kas pārslēdz uz nākamo līmeni, kad sasniegts finišs.</li>
             <li><b>Parādi</b> uzvaras paziņojumu, kad izieti visi tavi līmeņi.</li>
             <li><b>Veic</b> commit un push.</li>
@@ -187,16 +184,16 @@ struct PhysicsCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
+        <h2>Ko sagatavo</h2>
         <p class="merkis"><b>Stundas mērķis:</b> Tev ir izspēlējama platformas spēle: varonis ar gravitāciju un lēcienu, vismaz viens līmenis ar platformām, patrulējošs ienaidnieks, savācamas monētas, HUD ar HP un rezultātu, un finišs, kas noved pie uzvaras vai nākamā līmeņa.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>Saite uz GitHub krātuvi ar visu projektu.</li>
-            <li>Video, kurā izspēlē līmeni no sākuma līdz finišam, savācot vismaz vienu monētu un saskaroties ar ienaidnieku.</li>
-            <li>Faili <code>player.cpp</code>, <code>enemy.cpp</code> un <code>game.cpp</code>.</li>
+            <li>Viss projekts ar C# skriptiem, scēnām un projekta failiem.</li>
+            <li>README.md ievietota video saite, kurā izspēlē līmeni no sākuma līdz finišam, savācot vismaz vienu monētu un saskaroties ar ienaidnieku.</li>
+            <li>Faili <code>Player.cs</code>, <code>Enemy.cs</code> un <code>Game.cs</code>.</li>
             <li>README.md: kas tavā spēlē bija visgrūtāk uztaisāms un kā tu to atrisināji.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un video skolotāja norādītajā vietā. Spēlei jābūt palaižamai no tavas krātuves.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -235,24 +232,32 @@ struct PhysicsCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">class Game : public Node {
-    GDCLASS(Game, Node)
-private:
-    int score = 0;
-    int current_level = 1;
-public:
-    void load_next_level() {
-        current_level++;
-        if (current_level &gt; 3) {
-            UtilityFunctions::print("Game complete! Score: ", score);
-            get_tree()-&gt;quit();
+        <pre><code class="language-csharp">using Godot;
+
+public partial class Game : Node
+{
+    private int score = 0;
+    private int currentLevel = 1;
+
+    public void LoadNextLevel()
+    {
+        currentLevel++;
+        if (currentLevel &gt; 3)
+        {
+            GD.Print("Game complete! Score: ", score);
+            GetTree().Quit();
             return;
         }
-        String scene_path = "res://levels/Level" + String::num(current_level) + ".tscn";
-        get_tree()-&gt;change_scene_to_file(scene_path);
+
+        string scenePath = $"res://levels/Level{currentLevel}.tscn";
+        GetTree().ChangeSceneToFile(scenePath);
     }
-    void add_score(int amount) { score += amount; }
-};</code></pre>
+
+    public void AddScore(int amount)
+    {
+        score += amount;
+    }
+}</code></pre>
         <div class='result'>Pilnvērtīgi spēlējama platformer ar 3 līmeņiem, savācamiem, ienaidniekiem un finiša mehāniku.</div>
     </div>
 </div>

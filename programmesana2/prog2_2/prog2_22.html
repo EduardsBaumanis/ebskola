@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2.2 Input apstrāde un Input Map - ebSkola</title>
-<meta name="description" content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C++ kodā.">
+<meta name="description" content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C# kodā.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_2/prog2_22">
@@ -12,22 +12,22 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="2.2 Input apstrāde un Input Map">
-<meta property="og:description" content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C++ kodā.">
+<meta property="og:description" content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C# kodā.">
 <meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_2/prog2_22">
 <meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2.2 Input apstrāde un Input Map">
-<meta name="twitter:description" content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C++ kodā.">
+<meta name="twitter:description" content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C# kodā.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org","@type": "LearningResource","name": "2.2 Input apstrāde un Input Map","description": "Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C++ kodā.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_2/prog2_22","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "2.2 Input apstrāde un Input Map","description": "Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C# kodā.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_2/prog2_22","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -90,24 +90,28 @@
     <div class='logic-box'>
 <p>Godot piedāvā divus veidus apstrādāt input:</p>
 <ul>
-<li><b>Polling</b> (aptauja) - <code>Input::is_action_pressed("move_right")</code> katrā kadrā pārbauda stāvokli.</li>
-<li><b>Events</b> (notikumi) - <code>_input(Ref&lt;InputEvent&gt; event)</code> reaģē uz konkrētu notikumu.</li>
+<li><b>Polling</b> (aptauja) - <code>Input.IsActionPressed("move_right")</code> katrā kadrā pārbauda stāvokli.</li>
+<li><b>Events</b> (notikumi) - <code>public override void _Input(InputEvent @event)</code> reaģē uz konkrētu notikumu.</li>
 </ul>
 <p>Spēļu kustībai parasti lieto <b>polling</b> (jo notiek katrā kadrā).</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/classes/input.hpp&gt;
+<pre><code class="language-csharp">using Godot;
 
-void Player::_physics_process(double delta) {
-    Input *input = Input::get_singleton();
-    Vector2 movement = Vector2(0, 0);
+public partial class Player : CharacterBody2D
+{
+    [Export] public float Speed = 300.0f;
 
-    if (input-&gt;is_action_pressed("move_right")) movement.x += 1;
-    if (input-&gt;is_action_pressed("move_left"))  movement.x -= 1;
-    if (input-&gt;is_action_pressed("move_up"))    movement.y -= 1;
-    if (input-&gt;is_action_pressed("move_down"))  movement.y += 1;
+    public override void _PhysicsProcess(double delta)
+    {
+        Vector2 movement = Vector2.Zero;
 
-    movement = movement.normalized();  // diagonāles ātrums = taisns ātrums
-    velocity = movement * speed;
-    move_and_slide();
+        if (Input.IsActionPressed("move_right")) movement.X += 1;
+        if (Input.IsActionPressed("move_left")) movement.X -= 1;
+        if (Input.IsActionPressed("move_up")) movement.Y -= 1;
+        if (Input.IsActionPressed("move_down")) movement.Y += 1;
+
+        Velocity = movement.Normalized() * Speed;  // diagonāles ātrums = taisns ātrums
+        MoveAndSlide();
+    }
 }</code></pre>
 <p><b>Input Map</b> definē abstraktas darbības (move_right) un saista tās ar konkrētiem taustiņiem. <i>Project Settings → Input Map</i>.</p>
     </div>
@@ -117,19 +121,16 @@ void Player::_physics_process(double delta) {
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C++ klasēm, kas lieto _physics_process, Input, CharacterBody2D, Area2D vai move_and_slide.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct PhysicsCheckpoint {
-    String lesson = "2.2 Input apstrāde un Input Map";
-    bool uses_cpp = true;
-    bool uses_physics_process = true;
-    bool uses_delta_time = true;
-    bool checks_collisions = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C# klasēm, kas lieto _PhysicsProcess, Input, CharacterBody2D, Area2D vai MoveAndSlide.</p>
+<pre><code class="language-csharp">public class PhysicsCheckpoint
+{
+    public string Lesson = "2.2 Input apstrāde un Input Map";
+    public bool UsesCSharp = true;
+    public bool UsesPhysicsProcess = true;
+    public bool UsesDeltaTime = true;
+    public bool ChecksCollisions = true;
+}</code></pre>
     </div>
 </section>
 
@@ -153,13 +154,12 @@ struct PhysicsCheckpoint {
         <h3>2. uzdevums - Vadi objektu ar taustiņiem</h3>
         <p>Beigās objekts kustēsies tikai tad, kad tu turi taustiņu.</p>
         <ol class="step-list">
-            <li><b>Iekļauj</b> C++ failā <code class="language-cpp">#include &lt;godot_cpp/classes/input.hpp&gt;</code>.</li>
-            <li><b>Paņem</b> metodē <code class="language-cpp">Input *input = Input::get_singleton();</code>.</li>
-            <li><b>Izveido</b> vektoru <code class="language-cpp">Vector2 dir(0, 0);</code>.</li>
-            <li><b>Pievieno</b> <code class="language-cpp">if (input-&gt;is_action_pressed("move_right")) dir.x += 1;</code>.</li>
+            <li><b>Pārbaudi</b>, ka C# faila augšā ir <code class="language-csharp">using Godot;</code>.</li>
+            <li><b>Izveido</b> metodē vektoru <code class="language-csharp">Vector2 dir = Vector2.Zero;</code>.</li>
+            <li><b>Pievieno</b> <code class="language-csharp">if (Input.IsActionPressed("move_right")) dir.X += 1;</code>.</li>
             <li><b>Pievieno</b> tādas pašas rindas pārējiem trim virzieniem.</li>
-            <li><b>Pārvieto</b> objektu ar <code class="language-cpp">set_position(get_position() + dir * speed * delta);</code>.</li>
-            <li><b>Kompilē</b>, palaid un izmēģini visus četrus virzienus.</li>
+            <li><b>Pārvieto</b> objektu ar <code class="language-csharp">Position += dir * Speed * (float)delta;</code> vai <code>CharacterBody2D</code> gadījumā ar <code>Velocity</code> un <code>MoveAndSlide()</code>.</li>
+            <li><b>Būvē</b>, palaid un izmēģini visus četrus virzienus.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> objekts kustas visos četros virzienos un apstājas, tiklīdz atlaid taustiņu.</p>
     </div>
@@ -170,10 +170,10 @@ struct PhysicsCheckpoint {
             <li><b>Nospied</b> vienlaikus divus taustiņus, piemēram D un S.</li>
             <li><b>Pieraksti</b> README.md failā, vai objekts pa diagonāli kustas ātrāk.</li>
             <li><b>Izrēķini</b> README.md failā vektora <code>(1, 1)</code> garumu.</li>
-            <li><b>Pievieno</b> kodā rindu <code class="language-cpp">dir = dir.normalized();</code> pirms pārvietošanas.</li>
+            <li><b>Pievieno</b> kodā rindu <code class="language-csharp">dir = dir.Normalized();</code> pirms pārvietošanas.</li>
             <li><b>Kompilē</b> un pārbaudi diagonālo kustību vēlreiz.</li>
             <li><b>Pārbaudi</b>, ka objekts joprojām stāv uz vietas, ja neviens taustiņš nav nospiests.</li>
-            <li><b>Pieraksti</b> README.md failā, ko dara <code>normalized()</code>.</li>
+            <li><b>Pieraksti</b> README.md failā, ko dara <code>Normalized()</code>.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> pirms labojuma diagonālā kustība ir ~1.4 reizes ātrāka, pēc tā - vienāda ar taisno.</p>
     </div>
@@ -182,7 +182,7 @@ struct PhysicsCheckpoint {
         <p>Ja pamatdarbs ir gatavs, ļauj objektam paātrināties.</p>
         <ol class="step-list">
             <li><b>Izveido</b> Input Map darbību <code>run</code> ar taustiņu Shift.</li>
-            <li><b>Pievieno</b> kodā mainīgo <code class="language-cpp">double current_speed = speed;</code>.</li>
+            <li><b>Pievieno</b> kodā mainīgo <code class="language-csharp">float currentSpeed = Speed;</code>.</li>
             <li><b>Reizini</b> to ar 2, ja <code>run</code> ir nospiests.</li>
             <li><b>Kompilē</b> un pārbaudi abus ātrumus.</li>
             <li><b>Pārliecinies</b>, ka diagonālā kustība joprojām ir normalizēta.</li>
@@ -193,15 +193,15 @@ struct PhysicsCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tev ir izveidotas četras Input Map darbības, un C++ klase pārvieto objektu pēc taustiņiem tā, ka diagonālā kustība nav ātrāka par taisno.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <h2>Ko sagatavo</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tev ir izveidotas četras Input Map darbības, un C# klase pārvieto objektu pēc taustiņiem tā, ka diagonālā kustība nav ātrāka par taisno.</p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
             <li>Ekrānuzņēmums ar Input Map sarakstu, kurā redzamas visas darbības.</li>
-            <li>Fails ar tavu kustības kodu GitHub krātuvē.</li>
-            <li>README.md: vektora <code>(1, 1)</code> garuma aprēķins un viens teikums, ko dara <code>normalized()</code>.</li>
+            <li>Fails ar tavu kustības kodu.</li>
+            <li>README.md: vektora <code>(1, 1)</code> garuma aprēķins un viens teikums, ko dara <code>Normalized()</code>.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -213,8 +213,8 @@ struct PhysicsCheckpoint {
     <div class='logic-box'>
         <ul>
         <li><b>Spēlētājs nekustas:</b> Input Map nav saglabāta vai darbība nepareizi nosaukta.</li>
-        <li><b>Diagonālais ātrums dubults:</b> Aizmirsts <code>.normalized()</code>.</li>
-        <li><b>Spēlētājs iet cauri sienām:</b> Lieto <code>move_and_slide()</code>, ne <code>set_position</code>.</li>
+        <li><b>Diagonālais ātrums dubults:</b> Aizmirsts <code>.Normalized()</code>.</li>
+        <li><b>Spēlētājs iet cauri sienām:</b> lieto <code>MoveAndSlide()</code>, ne tiešu <code>Position</code> pārbīdi.</li>
         </ul>
     </div>
 </section>
@@ -236,19 +236,24 @@ struct PhysicsCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/input.hpp&gt;
+        <pre><code class="language-csharp">using Godot;
 
-void Player::_physics_process(double delta) {
-    Input *input = Input::get_singleton();
-    Vector2 dir(0, 0);
+public partial class Player : CharacterBody2D
+{
+    [Export] public float Speed = 300.0f;
 
-    if (input-&gt;is_action_pressed("move_right")) dir.x += 1;
-    if (input-&gt;is_action_pressed("move_left"))  dir.x -= 1;
-    if (input-&gt;is_action_pressed("move_up"))    dir.y -= 1;
-    if (input-&gt;is_action_pressed("move_down"))  dir.y += 1;
+    public override void _PhysicsProcess(double delta)
+    {
+        Vector2 movement = Vector2.Zero;
 
-    velocity = dir.normalized() * speed;
-    move_and_slide();
+        if (Input.IsActionPressed("move_right")) movement.X += 1;
+        if (Input.IsActionPressed("move_left")) movement.X -= 1;
+        if (Input.IsActionPressed("move_up")) movement.Y -= 1;
+        if (Input.IsActionPressed("move_down")) movement.Y += 1;
+
+        Velocity = movement.Normalized() * Speed;  // diagonāles ātrums = taisns ātrums
+        MoveAndSlide();
+    }
 }</code></pre>
         <div class='result'>Player kustās pa ekrānu ar WASD vai bultiņām, sadursmes apstrādātas automātiski.</div>
     </div>

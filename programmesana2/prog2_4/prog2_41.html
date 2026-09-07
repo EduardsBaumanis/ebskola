@@ -3,31 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4.1 Vector un Array - ebSkola</title>
-<meta name="description" content="Saprast atšķirību starp std::vector un Godot Array, izvēlēties piemēroto datu struktūru.">
+<title>4.1 List un Array - ebSkola</title>
+<meta name="description" content="Saprast atšķirību starp C# List un Godot Array, izvēlēties piemēroto datu struktūru.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_4/prog2_41">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4.1 Vector un Array">
-<meta property="og:description" content="Saprast atšķirību starp std::vector un Godot Array, izvēlēties piemēroto datu struktūru.">
+<meta property="og:title" content="4.1 List un Array">
+<meta property="og:description" content="Saprast atšķirību starp C# List un Godot Array, izvēlēties piemēroto datu struktūru.">
 <meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_4/prog2_41">
 <meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4.1 Vector un Array">
-<meta name="twitter:description" content="Saprast atšķirību starp std::vector un Godot Array, izvēlēties piemēroto datu struktūru.">
+<meta name="twitter:title" content="4.1 List un Array">
+<meta name="twitter:description" content="Saprast atšķirību starp C# List un Godot Array, izvēlēties piemēroto datu struktūru.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.1 Vector un Array", "description": "Saprast atšķirību starp std::vector un Godot Array, izvēlēties piemēroto datu struktūru.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_4/prog2_41", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.1 List un Array", "description": "Saprast atšķirību starp C# List un Godot Array, izvēlēties piemēroto datu struktūru.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_4/prog2_41", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -61,8 +61,8 @@
   <h3>4. Tēma - Datu struktūras un AI</h3>
   <div class="sidebar-links">
     <a class="topic-main" href="/programmesana2/prog2_4/prog2_4main">Tēmas sākums</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_4/prog2_41">4.1 Vector un Array</a>
-    <a href="/programmesana2/prog2_4/prog2_42">4.2 Map un Dictionary</a>
+    <a class="active" aria-current="page" href="/programmesana2/prog2_4/prog2_41">4.1 List un Array</a>
+    <a href="/programmesana2/prog2_4/prog2_42">4.2 Dictionary un Godot Dictionary</a>
     <a href="/programmesana2/prog2_4/prog2_43">4.3 State machines AI uzvedībai</a>
     <a href="/programmesana2/prog2_4/prog2_44">4.4 Pathfinding ar A*</a>
     <a href="/programmesana2/prog2_4/prog2_45">4.5 Šaušanas mehānika un object pooling</a>
@@ -70,8 +70,8 @@
   </div>
 </aside>
 <section class='section'>
-    <h1>4.1 Vector un Array</h1>
-    <p><b>Stundas uzdevums:</b> Saprast atšķirību starp std::vector un Godot Array, izvēlēties piemēroto datu struktūru.</p>
+    <h1>4.1 List un Array</h1>
+    <p><b>Stundas uzdevums:</b> Saprast atšķirību starp C# <code>List&lt;T&gt;</code> un Godot <code>Array</code>, izvēlēties piemēroto datu struktūru.</p>
     <div class="lesson-meta">
         <a href="/sasnRez">SR 2.4.16. Saliktas datu struktūras</a>
         <a href="/sasnRez">SR 2.4.13. Datu tipi</a>
@@ -80,35 +80,38 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido ienaidnieku sarakstu ar vector · 2. uzdevums (~25 min) - pievieno un izņem elementus droši · 3. uzdevums (~20 min) - salīdzini vector ar Godot Array · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atceries no Programmēšanas I sarakstus: <code>materiali.append("x")</code> un <code>materiali.pop(0)</code>. C++ tas pats saucas <code>std::vector</code>, ar <code>push_back</code> un <code>erase</code>.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido ienaidnieku sarakstu ar <code>List&lt;T&gt;</code> · 2. uzdevums (~25 min) - pievieno un izņem elementus droši · 3. uzdevums (~20 min) - salīdzini <code>List&lt;T&gt;</code> ar Godot <code>Array</code> · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atceries no Programmēšanas I sarakstus: <code>materiali.append("x")</code> un <code>materiali.pop(0)</code>. C# tas pats parasti ir <code>List&lt;T&gt;</code>, ar <code>Add()</code> un <code>RemoveAt()</code>.</p>
     </div>
 </section>
 
 <section class='section'>
     <h2>Teorija: Sarakstu datu struktūras</h2>
     <div class='logic-box'>
-<p>Godot C++ kontekstā ir divas saraksta opcijas:</p>
+<p>Godot C# kontekstā ir divas saraksta opcijas:</p>
 <table>
 <thead><tr><th>Tips</th><th>Lietojums</th><th>Piemērs</th></tr></thead>
 <tbody>
-<tr><td><code>std::vector&lt;T&gt;</code></td><td>Iekšējais C++ kods, ātrs</td><td>std::vector&lt;Enemy*&gt; enemies;</td></tr>
-<tr><td><code>Array</code></td><td>Komunikācijai ar Godot</td><td>Array bullets;</td></tr>
-<tr><td><code>TypedArray&lt;T&gt;</code></td><td>Tipa-droša Godot Array</td><td>TypedArray&lt;Bullet&gt; bullets;</td></tr>
+<tr><td><code>List&lt;T&gt;</code></td><td>Iekšējais C# kods, tipa-drošs</td><td>List&lt;Enemy&gt; enemies = new();</td></tr>
+<tr><td><code>Godot.Collections.Array</code></td><td>Komunikācijai ar Godot</td><td>Array bullets = new();</td></tr>
+<tr><td><code>Godot.Collections.Array&lt;T&gt;</code></td><td>Tipa-droša Godot Array</td><td>Godot.Collections.Array&lt;Bullet&gt; bullets = new();</td></tr>
 </tbody>
 </table>
-<pre><code class="language-cpp">#include &lt;vector&gt;
-std::vector&lt;Enemy*&gt; enemies;
+<pre><code class="language-csharp">using Godot;
+using Godot.Collections;
+using System.Collections.Generic;
 
-enemies.push_back(new Enemy());
-for (auto e : enemies) e-&gt;update();
-enemies.erase(enemies.begin() + 2);  // dzēš 3.
+List&lt;Enemy&gt; enemies = new();
+
+enemies.Add(new Enemy());
+foreach (Enemy enemy in enemies) enemy.UpdateEnemy();
+enemies.RemoveAt(2);  // dzēš 3.
 
 // Godot Array
-Array bullets;
-bullets.append(new_bullet);
-bullets.size();
-bullets.pop_back();</code></pre>
+Array bullets = new();
+bullets.Add(newBullet);
+bullets.Count;
+bullets.RemoveAt(bullets.Count - 1);</code></pre>
     </div>
 </section>
 
@@ -116,33 +119,30 @@ bullets.pop_back();</code></pre>
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> C++ kodā pamatoti izvēlēti vector/map/set, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct AiDataCheckpoint {
-    String lesson = "4.1 Vector un Array";
-    bool uses_cpp = true;
-    bool chooses_container = true;
-    bool separates_ai_state = true;
-    bool handles_removal_safely = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> C# kodā pamatoti izvēlēti <code>List</code>, <code>Dictionary</code> vai <code>HashSet</code>, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
+<pre><code class="language-csharp">public class AiDataCheckpoint
+{
+    public string Lesson = "4.1 List un Array";
+    public bool UsesCSharp = true;
+    public bool ChoosesContainer = true;
+    public bool SeparatesAiState = true;
+    public bool HandlesRemovalSafely = true;
+}</code></pre>
     </div>
 </section>
 
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Izveido ienaidnieku sarakstu ar vector</h3>
+        <h3>1. uzdevums - Izveido ienaidnieku sarakstu ar List</h3>
         <p>Beigās viens mainīgais glabās visus ienaidniekus.</p>
         <ol class="step-list">
-            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;vector&gt;</code>.</li>
-            <li><b>Pievieno</b> klasei lauku <code class="language-cpp">std::vector&lt;Enemy*&gt; enemies;</code>.</li>
-            <li><b>Pievieno</b> trīs ienaidniekus ar <code class="language-cpp">enemies.push_back(...);</code>.</li>
-            <li><b>Izdrukā</b> to skaitu ar <code class="language-cpp">enemies.size();</code>.</li>
-            <li><b>Uzraksti</b> ciklu <code class="language-cpp">for (Enemy* e : enemies) { ... }</code>, kas izdrukā katra nosaukumu.</li>
+            <li><b>Pievieno</b> faila sākumā <code class="language-csharp">using System.Collections.Generic;</code>.</li>
+            <li><b>Pievieno</b> klasei lauku <code class="language-csharp">private List&lt;Enemy&gt; enemies = new();</code>.</li>
+            <li><b>Pievieno</b> trīs ienaidniekus ar <code class="language-csharp">enemies.Add(enemy);</code>.</li>
+            <li><b>Izdrukā</b> to skaitu ar <code class="language-csharp">enemies.Count</code>.</li>
+            <li><b>Uzraksti</b> ciklu <code class="language-csharp">foreach (Enemy enemy in enemies) { ... }</code>, kas izdrukā katra nosaukumu.</li>
             <li><b>Pievieno</b> ceturto ienaidnieku un palaid vēlreiz.</li>
             <li><b>Pārbaudi</b>, vai cikls bija jāmaina.</li>
         </ol>
@@ -152,10 +152,10 @@ struct AiDataCheckpoint {
         <h3>2. uzdevums - Pievieno un izņem elementus droši</h3>
         <p>Beigās tu zināsi, kāpēc sarakstu nedrīkst mainīt cikla laikā.</p>
         <ol class="step-list">
-            <li><b>Izņem</b> otro elementu ar <code class="language-cpp">enemies.erase(enemies.begin() + 1);</code>.</li>
+            <li><b>Izņem</b> otro elementu ar <code class="language-csharp">enemies.RemoveAt(1);</code>.</li>
             <li><b>Izdrukā</b> saraksta izmēru pirms un pēc izņemšanas.</li>
-            <li><b>Mēģini</b> piekļūt elementam <code class="language-cpp">enemies[10]</code> un pieraksti, kas notiek.</li>
-            <li><b>Nomaini</b> to uz <code class="language-cpp">enemies.at(10)</code> un salīdzini rezultātu.</li>
+            <li><b>Mēģini</b> piekļūt elementam <code class="language-csharp">enemies[10]</code> un pieraksti, kas notiek.</li>
+            <li><b>Nomaini</b> to uz <code class="language-csharp">if (index &gt;= 0 &amp;&amp; index &lt; enemies.Count)</code> pārbaudi un salīdzini rezultātu.</li>
             <li><b>Uzraksti</b> ciklu, kas cikla iekšpusē mēģina izdzēst elementu, un palaid to.</li>
             <li><b>Pārraksti</b> to tā, lai dzēšamos vispirms savāktu otrā sarakstā.</li>
             <li><b>Pieraksti</b>, kāpēc pirmais variants ir bīstams.</li>
@@ -163,18 +163,18 @@ struct AiDataCheckpoint {
         <p class="done-when"><b>Gatavs, kad:</b> saraksta izmērs pēc dzēšanas ir par vienu mazāks, un droši dzēst izdodas tikai pēc cikla.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Salīdzini vector ar Godot Array</h3>
+        <h3>3. uzdevums - Salīdzini List ar Godot Array</h3>
         <p>Beigās tu zināsi, kuru sarakstu kurā vietā lietot.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> <code class="language-cpp">Array bullets;</code> un pievieno tam dažas vērtības.</li>
-            <li><b>Izdrukā</b> tā izmēru ar <code class="language-cpp">bullets.size();</code>.</li>
+            <li><b>Izveido</b> <code class="language-csharp">Godot.Collections.Array bullets = new();</code> un pievieno tam dažas vērtības.</li>
+            <li><b>Izdrukā</b> tā izmēru ar <code class="language-csharp">bullets.Count</code>.</li>
             <li><b>Mēģini</b> ielikt <code>Array</code> sarakstā gan skaitli, gan tekstu.</li>
-            <li><b>Mēģini</b> to pašu ar <code class="language-cpp">std::vector&lt;int&gt;</code> un izlasi kompilatora kļūdu.</li>
+            <li><b>Mēģini</b> to pašu ar <code class="language-csharp">List&lt;int&gt;</code> un izlasi kompilatora kļūdu.</li>
             <li><b>Pieraksti</b>, kurš saraksts pieļauj dažādus tipus.</li>
             <li><b>Pieraksti</b>, kurš saraksts ir vajadzīgs, lai datus nodotu Godot editoram.</li>
             <li><b>Izvēlies</b> savam ienaidnieku sarakstam pareizo variantu un pamato izvēli.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> tu vari pateikt, ka <code>std::vector</code> ir tipa-drošs un ātrs iekšējam kodam, bet <code>Array</code> vajadzīgs saziņai ar Godot.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> tu vari pateikt, ka <code>List&lt;T&gt;</code> ir tipa-drošs un ērts iekšējam C# kodam, bet <code>Array</code> vajadzīgs saziņai ar Godot datiem.</p>
     </div>
     <div class='logic-box'>
         <h3>Papildu uzdevums - Atrodi tuvāko ienaidnieku</h3>
@@ -182,7 +182,7 @@ struct AiDataCheckpoint {
         <ol class="step-list">
             <li><b>Uzraksti</b> metodi, kas saņem spēlētāja pozīciju.</li>
             <li><b>Izej</b> ciklā cauri visiem ienaidniekiem.</li>
-            <li><b>Izrēķini</b> katram attālumu ar <code class="language-cpp">position.distance_to(...)</code>.</li>
+            <li><b>Izrēķini</b> katram attālumu ar <code class="language-csharp">Position.DistanceTo(...)</code>.</li>
             <li><b>Saglabā</b> mainīgajā to, kuram attālums ir mazākais.</li>
             <li><b>Izdrukā</b> tuvākā ienaidnieka nosaukumu un attālumu.</li>
         </ol>
@@ -192,15 +192,15 @@ struct AiDataCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C++ izveidot <code>std::vector</code> sarakstu, droši pievienot un izņemt elementus un izskaidrot, ar ko tas atšķiras no Godot <code>Array</code>.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <h2>Ko sagatavo</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C# izveidot <code>List&lt;T&gt;</code> sarakstu, droši pievienot un izņemt elementus un izskaidrot, ar ko tas atšķiras no Godot <code>Array</code>.</p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>C++ fails ar ienaidnieku sarakstu un ciklu GitHub krātuvē.</li>
+            <li>C# fails ar ienaidnieku sarakstu un ciklu.</li>
             <li>Ekrānuzņēmums ar Output paneli, kurā redzams saraksta izmērs pirms un pēc dzēšanas.</li>
-            <li>README.md: kāpēc sarakstu nedrīkst mainīt cikla laikā un kad lieto <code>Array</code>, nevis <code>std::vector</code>.</li>
+            <li>README.md: kāpēc sarakstu nedrīkst mainīt cikla laikā un kad lieto <code>Array</code>, nevis <code>List&lt;T&gt;</code>.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā; README.md failā jābūt prasītajiem pierakstiem.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -211,9 +211,9 @@ struct AiDataCheckpoint {
     <h2>Biežākās kļūdas</h2>
     <div class='logic-box'>
         <ul>
-        <li><b>Crash with begin():</b> Vector tukšs, bet mēģini iegūt elements.</li>
-        <li><b>Memory leak:</b> 'new Enemy' bez delete. Lieto unique_ptr vai add_child.</li>
-        <li><b>Iterator invalidation:</b> Pievienojot/dzēšot vektoru cikla laikā, iterator var kļūt nederīgs.</li>
+        <li><b>ArgumentOutOfRangeException:</b> sarakstā nav elementa ar tādu indeksu - pārbaudi <code>index &lt; enemies.Count</code>.</li>
+        <li><b>NullReferenceException:</b> sarakstā ielikta tukša reference vai mezgls nav atrasts.</li>
+        <li><b>Collection was modified:</b> pievienojot vai dzēšot no <code>List&lt;T&gt;</code> <code>foreach</code> laikā, cikls apstājas ar kļūdu.</li>
         </ul>
     </div>
 </section>
@@ -231,28 +231,35 @@ struct AiDataCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">#include &lt;godot_cpp/variant/utility_functions.hpp&gt;
+        <pre><code class="language-csharp">using Godot;
+using System.Collections.Generic;
 
-std::vector&lt;Enemy*&gt; enemies;
+public partial class Game : Node2D
+{
+    [Export] public PackedScene EnemyScene;
+    private readonly List&lt;Enemy&gt; enemies = new();
+    private double spawnTimer = 0.0;
 
-void spawn_enemy() {
-    Enemy* e = memnew(Enemy);
-    add_child(e);
-    e-&gt;set_position(Vector2(UtilityFunctions::randf_range(0.0, 1280.0), 0));
-    enemies.push_back(e);
-}
-
-void Game::_physics_process(double delta) {
-    spawn_timer += delta;
-    if (spawn_timer &gt;= 2.0) {
-        spawn_enemy();
-        spawn_timer = 0;
+    private void SpawnEnemy()
+    {
+        Enemy enemy = EnemyScene.Instantiate&lt;Enemy&gt;();
+        AddChild(enemy);
+        enemy.Position = new Vector2((float)GD.RandRange(0.0, 1280.0), 0);
+        enemies.Add(enemy);
     }
-    // Noņem mirušos
-    enemies.erase(
-        std::remove_if(enemies.begin(), enemies.end(),
-            [](Enemy* e) { return !e-&gt;is_alive(); }),
-        enemies.end());
+
+    public override void _PhysicsProcess(double delta)
+    {
+        spawnTimer += delta;
+        if (spawnTimer &gt;= 2.0)
+        {
+            SpawnEnemy();
+            spawnTimer = 0.0;
+        }
+
+        // Noņem mirušos
+        enemies.RemoveAll(enemy =&gt; !enemy.IsAlive());
+    }
 }</code></pre>
         <div class='result'>Spēle spawno 1 ienaidnieku ik pa 2 sec, mirstīgi tiek noņemti no vektora un scēnas.</div>
     </div>

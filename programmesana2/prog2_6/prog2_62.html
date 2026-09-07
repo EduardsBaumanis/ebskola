@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -93,22 +93,22 @@
 <li><b>AnimationPlayer</b> - vizuāli (timeline editor) izveidotas animācijas.</li>
 <li><b>Tween</b> - programmatiski izveidotas vienkāršas animācijas.</li>
 </ul>
-<pre><code class="language-cpp">#include &lt;godot_cpp/classes/tween.hpp&gt;
-
-// Tween - fade in
-void show_button() {
-    Tween* tween = create_tween();
-    button-&gt;set_modulate(Color(1, 1, 1, 0));  // sākotnēji caurspīdīgs
-    tween-&gt;tween_property(button, "modulate", Color(1, 1, 1, 1), 0.5);
+<pre><code class="language-csharp">// Tween - fade in
+private void ShowButton()
+{
+    Tween tween = CreateTween();
+    button.Modulate = new Color(1, 1, 1, 0);  // sākotnēji caurspīdīgs
+    tween.TweenProperty(button, "modulate", new Color(1, 1, 1, 1), 0.5);
 }
 
 // Tween - kustība ar bounce
-void shake_button() {
-    Tween* tween = create_tween();
-    Vector2 orig = button-&gt;get_position();
-    tween-&gt;tween_property(button, "position", orig + Vector2(10, 0), 0.05);
-    tween-&gt;tween_property(button, "position", orig - Vector2(10, 0), 0.05);
-    tween-&gt;tween_property(button, "position", orig, 0.05);
+private void ShakeButton()
+{
+    Tween tween = CreateTween();
+    Vector2 original = button.Position;
+    tween.TweenProperty(button, "position", original + new Vector2(10, 0), 0.05);
+    tween.TweenProperty(button, "position", original - new Vector2(10, 0), 0.05);
+    tween.TweenProperty(button, "position", original, 0.05);
 }</code></pre>
     </div>
 </section>
@@ -117,19 +117,16 @@ void shake_button() {
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> UI signāli, audio darbības, debug izvade un publicēšanas sagatave ir sasaistīta ar C++ spēles stāvokli.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct PolishCheckpoint {
-    String lesson = "6.2 Animācijas un Tween";
-    bool uses_cpp = true;
-    bool connects_ui_signals = true;
-    bool routes_audio_events = true;
-    bool verifies_export_build = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> UI signāli, audio darbības, debug izvade un publicēšanas sagatave ir sasaistīta ar C# spēles stāvokli.</p>
+<pre><code class="language-csharp">public class PolishCheckpoint
+{
+    public string Lesson = "6.2 Animācijas un Tween";
+    public bool UsesCSharp = true;
+    public bool ConnectsUiSignals = true;
+    public bool RoutesAudioEvents = true;
+    public bool VerifiesExportBuild = true;
+}</code></pre>
     </div>
 </section>
 
@@ -139,26 +136,26 @@ struct PolishCheckpoint {
         <h3>1. uzdevums - Uztaisi pirmo Tween animāciju</h3>
         <p>Beigās objekts vienmērīgi pārvietosies no vienas vietas uz otru.</p>
         <ol class="step-list">
-            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;godot_cpp/classes/tween.hpp&gt;</code>.</li>
-            <li><b>Izveido</b> kodā <code class="language-cpp">Ref&lt;Tween&gt; tween = create_tween();</code>.</li>
-            <li><b>Pievieno</b> <code class="language-cpp">tween-&gt;tween_property(objekts, "position", Vector2(600, 300), 1.0);</code>.</li>
-            <li><b>Kompilē</b> un palaid - objektam vienmērīgi jāaizslīd.</li>
+            <li><b>Pārliecinies</b>, ka faila sākumā ir <code class="language-csharp">using Godot;</code>.</li>
+            <li><b>Izveido</b> kodā <code class="language-csharp">Tween tween = CreateTween();</code>.</li>
+            <li><b>Pievieno</b> <code class="language-csharp">tween.TweenProperty(objekts, "position", new Vector2(600, 300), 1.0);</code>.</li>
+            <li><b>Būvē</b> un palaid - objektam vienmērīgi jāaizslīd.</li>
             <li><b>Nomaini</b> ilgumu uz 0.2 un palaid vēlreiz.</li>
-            <li><b>Pievieno</b> <code class="language-cpp">-&gt;set_trans(Tween::TRANS_ELASTIC);</code>.</li>
+            <li><b>Pievieno</b> <code class="language-csharp">.SetTrans(Tween.TransitionType.Elastic);</code>.</li>
             <li><b>Pieraksti</b>, kā mainījās kustības raksturs.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> objekts pārvietojas vienmērīgi, un ar <code>TRANS_ELASTIC</code> tas mērķī nedaudz atlec.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> objekts pārvietojas vienmērīgi, un ar <code>TransitionType.Elastic</code> tas mērķī nedaudz atlec.</p>
     </div>
     <div class='logic-box'>
         <h3>2. uzdevums - Animē izvēlnes parādīšanos</h3>
         <p>Beigās izvēlne parādīsies mīksti, nevis uzreiz.</p>
         <ol class="step-list">
-            <li><b>Iestati</b> izvēlnei sākumā <code class="language-cpp">set_modulate(Color(1, 1, 1, 0));</code>.</li>
-            <li><b>Izveido</b> <code>_ready</code> metodē Tween.</li>
+            <li><b>Iestati</b> izvēlnei sākumā <code class="language-csharp">Modulate = new Color(1, 1, 1, 0);</code>.</li>
+            <li><b>Izveido</b> <code>_Ready</code> metodē Tween.</li>
             <li><b>Animē</b> īpašību <code>modulate:a</code> no 0 uz 1 vienā sekundē.</li>
             <li><b>Palaid</b> un vēro, kā izvēlne parādās.</li>
             <li><b>Pievieno</b> arī nelielu nobīdi no augšas uz vietu.</li>
-            <li><b>Savieno</b> abas animācijas ar <code class="language-cpp">set_parallel(true);</code>.</li>
+            <li><b>Savieno</b> abas animācijas ar <code class="language-csharp">tween.SetParallel(true);</code>.</li>
             <li><b>Pieraksti</b>, ar ko paralēla animācija atšķiras no secīgas.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> izvēlne vienlaikus izgaismojas un noslīd vietā, nevis dara to pa vienam.</p>
@@ -172,7 +169,7 @@ struct PolishCheckpoint {
             <li><b>Pievieno</b> arī krāsas mirgojumu, kad spēlētājs saņem triecienu.</li>
             <li><b>Pārliecinies</b>, ka animācija netraucē spēles gaitu.</li>
             <li><b>Pārbaudi</b>, kas notiek, ja notikums atkārtojas ļoti ātri.</li>
-            <li><b>Apturi</b> iepriekšējo Tween ar <code class="language-cpp">kill()</code>, ja tas vēl darbojas.</li>
+            <li><b>Apturi</b> iepriekšējo Tween ar <code class="language-csharp">Kill()</code>, ja tas vēl darbojas.</li>
             <li><b>Pieraksti</b>, kāpēc animācija palīdz saprast spēli.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> savācot monētu, tā uz mirkli palielinās, un ātri atkārtojot notikumu, animācijas nesajūk.</p>
@@ -183,7 +180,7 @@ struct PolishCheckpoint {
         <ol class="step-list">
             <li><b>Pievieno</b> scēnai <code>AnimationPlayer</code> mezglu.</li>
             <li><b>Izveido</b> tajā animāciju ar diviem atslēgkadriem.</li>
-            <li><b>Palaid</b> to no koda ar <code class="language-cpp">play("nosaukums");</code>.</li>
+            <li><b>Palaid</b> to no koda ar <code class="language-csharp">animationPlayer.Play("nosaukums");</code>.</li>
             <li><b>Pieraksti</b>, kura pieeja bija ātrāk izveidojama.</li>
             <li><b>Pieraksti</b>, kurā gadījumā labāk lietot katru no tām.</li>
         </ol>
@@ -193,15 +190,15 @@ struct PolishCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
+        <h2>Ko sagatavo</h2>
         <p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē darbojas Tween animācijas: izvēlne parādās mīksti, un vismaz viens spēles notikums dod spēlētājam vizuālu atsauksmi, kas nesajūk pie ātras atkārtošanas.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>Video, kurā redzama izvēlnes parādīšanās un spēles notikuma animācija.</li>
-            <li>C++ fails ar <code>create_tween</code> un <code>tween_property</code> izsaukumiem.</li>
-            <li>README.md: ar ko paralēla animācija atšķiras no secīgas un kāpēc vajag <code>kill()</code>.</li>
+            <li>README.md ievietota video saite, kurā redzama izvēlnes parādīšanās un spēles notikuma animācija.</li>
+            <li>C# fails ar <code>CreateTween</code> un <code>TweenProperty</code> izsaukumiem.</li>
+            <li>README.md: ar ko paralēla animācija atšķiras no secīgas un kāpēc vajag <code>Kill()</code>.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un video skolotāja norādītajā vietā.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -212,8 +209,8 @@ struct PolishCheckpoint {
     <h2>Biežākās kļūdas</h2>
     <div class='logic-box'>
         <ul>
-        <li><b>Tween nedarbojas:</b> create_tween() kāzas Tween objektu, kas tiek dzēsts; turi referenci.</li>
-        <li><b>AnimationPlayer skip frames:</b> Animation length pārāk īss vai play() izsaukts vairākkārt.</li>
+        <li><b>Tween nedarbojas:</b> <code>CreateTween()</code> izveido Tween objektu; ja vēlāk tas jāaptur, saglabā to laukā.</li>
+        <li><b>AnimationPlayer skip frames:</b> Animation length pārāk īss vai <code>Play()</code> izsaukts vairākkārt.</li>
         <li><b>Particles invisible:</b> CollisionShape2D vai Sprite2D parent var ietekmēt visibility.</li>
         </ul>
     </div>
@@ -236,28 +233,31 @@ struct PolishCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/tween.hpp&gt;
+        <pre><code class="language-csharp">using Godot;
 
-void Player::on_take_damage(int amount) {
-    // Damage number popup
-    Label* dmg = memnew(Label);
-    dmg-&gt;set_text("-" + String::num_int64(amount));
-    dmg-&gt;set_position(get_position() + Vector2(0, -30));
-    dmg-&gt;add_theme_color_override("font_color", Color(1, 0, 0));
-    get_parent()-&gt;add_child(dmg);
+public partial class Player : CharacterBody2D
+{
+    public void OnTakeDamage(int amount)
+    {
+        // Damage number popup
+        Label damageLabel = new Label();
+        damageLabel.Text = "-" + amount;
+        damageLabel.Position = Position + new Vector2(0, -30);
+        damageLabel.AddThemeColorOverride("font_color", new Color(1, 0, 0));
+        GetParent().AddChild(damageLabel);
 
-    // Tween: peld augšup un izgaist
-    Tween* tween = dmg-&gt;create_tween();
-    tween-&gt;set_parallel();  // abas animācijas paralēli
-    tween-&gt;tween_property(dmg, "position",
-                          dmg-&gt;get_position() + Vector2(0, -50), 0.8);
-    tween-&gt;tween_property(dmg, "modulate:a", 0.0, 0.8);
-    tween-&gt;chain()-&gt;tween_callback(Callable(dmg, "queue_free"));
+        // Tween: peld augšup un izgaist
+        Tween tween = damageLabel.CreateTween();
+        tween.SetParallel(true);  // abas animācijas paralēli
+        tween.TweenProperty(damageLabel, "position", damageLabel.Position + new Vector2(0, -50), 0.8);
+        tween.TweenProperty(damageLabel, "modulate:a", 0.0, 0.8);
+        tween.Chain().TweenCallback(Callable.From(damageLabel.QueueFree));
 
-    // Player flash red
-    Tween* flash = create_tween();
-    set_modulate(Color(1, 0, 0));
-    flash-&gt;tween_property(this, "modulate", Color(1, 1, 1), 0.3);
+        // Player flash red
+        Tween flash = CreateTween();
+        Modulate = new Color(1, 0, 0);
+        flash.TweenProperty(this, "modulate", new Color(1, 1, 1), 0.3);
+    }
 }</code></pre>
         <div class='result'>Bojājot ienaidnieku, parādās '-25' sarkanā tekstā, peld augšup un izgaist; player sarkans flash 0.3 sec.</div>
     </div>

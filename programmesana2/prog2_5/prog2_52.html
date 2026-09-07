@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -89,23 +89,24 @@
     <h2>Teorija: JSON un Resources</h2>
     <div class='logic-box'>
 <p><b>JSON</b> (JavaScript Object Notation) ir cilvēkam un mašīnai lasāms datu formāts. Godot piedāvā <code>JSON</code> klasi tā parsēšanai.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/classes/json.hpp&gt;
+<pre><code class="language-csharp">using Godot;
+using Godot.Collections;
 
 // Dictionary -&gt; JSON string
-Dictionary save_data;
-save_data["player_name"] = "Anna";
-save_data["level"] = 5;
-save_data["inventory"] = Array(); // var saturēt vēl Dictionary
+Dictionary saveData = new();
+saveData["player_name"] = "Anna";
+saveData["level"] = 5;
+saveData["inventory"] = new Array(); // var saturēt vēl Dictionary
 
-String json_str = JSON::stringify(save_data, "  ");  // 2-space indent
+string jsonStr = Json.Stringify(saveData, "  ");  // 2-space indent
 
 // JSON string -&gt; Dictionary
-Ref&lt;JSON&gt; json = memnew(JSON);
-Error err = json-&gt;parse(json_str);
-if (err == OK) {
-    Variant data = json-&gt;get_data();
-    Dictionary loaded = data;
-    String name = loaded["player_name"];
+Json json = new Json();
+Error err = json.Parse(jsonStr);
+if (err == Error.Ok)
+{
+    Dictionary loaded = json.Data.AsGodotDictionary();
+    string name = loaded["player_name"].AsString();
 }</code></pre>
 <p><b>Resource</b> ir Godot iebūvēta klase resursu (audio, attēli, custom data) saglabāšanai .tres failos.</p>
     </div>
@@ -115,19 +116,16 @@ if (err == OK) {
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> C++ kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct PersistenceCheckpoint {
-    String lesson = "5.2 JSON serializācija un Resource sistēma";
-    bool uses_cpp = true;
-    bool handles_missing_file = true;
-    bool validates_data = true;
-    bool documents_complexity = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> C# kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
+<pre><code class="language-csharp">public class PersistenceCheckpoint
+{
+    public string Lesson = "5.2 JSON serializācija un Resource sistēma";
+    public bool UsesCSharp = true;
+    public bool HandlesMissingFile = true;
+    public bool ValidatesData = true;
+    public bool DocumentsComplexity = true;
+}</code></pre>
     </div>
 </section>
 
@@ -137,10 +135,10 @@ struct PersistenceCheckpoint {
         <h3>1. uzdevums - Pārvērs Dictionary par JSON</h3>
         <p>Beigās tavs saglabātais fails būs salasāms cilvēkam.</p>
         <ol class="step-list">
-            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;godot_cpp/classes/json.hpp&gt;</code>.</li>
-            <li><b>Izveido</b> <code class="language-cpp">Dictionary save_data;</code>.</li>
+            <li><b>Pārliecinies</b>, ka faila sākumā ir <code class="language-csharp">using Godot.Collections;</code>.</li>
+            <li><b>Izveido</b> <code class="language-csharp">Godot.Collections.Dictionary saveData = new();</code>.</li>
             <li><b>Pievieno</b> tam <code>player_name</code>, <code>level</code> un <code>score</code>.</li>
-            <li><b>Pārvērs</b> to ar <code class="language-cpp">String json_str = JSON::stringify(save_data, "    ");</code>.</li>
+            <li><b>Pārvērs</b> to ar <code class="language-csharp">string jsonStr = Json.Stringify(saveData, "    ");</code>.</li>
             <li><b>Ieraksti</b> rezultātu failā <code>user://save.json</code>.</li>
             <li><b>Atver</b> failu teksta redaktorā un apskati saturu.</li>
             <li><b>Pieraksti</b>, ko dara otrais <code>stringify</code> arguments.</li>
@@ -151,9 +149,9 @@ struct PersistenceCheckpoint {
         <h3>2. uzdevums - Nolasi JSON atpakaļ</h3>
         <p>Beigās spēle atjaunos stāvokli no salasāma faila.</p>
         <ol class="step-list">
-            <li><b>Nolasi</b> faila saturu ar <code>get_as_text()</code>.</li>
-            <li><b>Izveido</b> <code class="language-cpp">Ref&lt;JSON&gt; json;</code> un izsauc <code class="language-cpp">json-&gt;parse(text);</code>.</li>
-            <li><b>Paņem</b> rezultātu ar <code class="language-cpp">Dictionary d = json-&gt;get_data();</code>.</li>
+            <li><b>Nolasi</b> faila saturu ar <code>GetAsText()</code>.</li>
+            <li><b>Izveido</b> <code class="language-csharp">Json json = new();</code> un izsauc <code class="language-csharp">json.Parse(text);</code>.</li>
+            <li><b>Paņem</b> rezultātu ar <code class="language-csharp">Dictionary d = json.Data.AsGodotDictionary();</code>.</li>
             <li><b>Izdrukā</b> visas trīs vērtības.</li>
             <li><b>Pārbaudi</b>, vai skaitlis ielādējas kā skaitlis, nevis kā teksts.</li>
             <li><b>Nomaini</b> failā ar roku līmeņa vērtību un palaid vēlreiz.</li>
@@ -167,8 +165,8 @@ struct PersistenceCheckpoint {
         <ol class="step-list">
             <li><b>Atver</b> <code>save.json</code> un izdzēs vienu figūriekavu.</li>
             <li><b>Palaid</b> spēli un pieraksti, kas notiek.</li>
-            <li><b>Pievieno</b> pārbaudi <code class="language-cpp">Error err = json-&gt;parse(text);</code>.</li>
-            <li><b>Pārbaudi</b> <code class="language-cpp">if (err != OK)</code> un izdrukā brīdinājumu.</li>
+            <li><b>Pievieno</b> pārbaudi <code class="language-csharp">Error err = json.Parse(text);</code>.</li>
+            <li><b>Pārbaudi</b> <code class="language-csharp">if (err != Error.Ok)</code> un izdrukā brīdinājumu.</li>
             <li><b>Atgriez</b> tādā gadījumā noklusējuma vērtības.</li>
             <li><b>Palaid</b> ar bojātu failu vēlreiz un pārliecinies, ka spēle turpina darboties.</li>
             <li><b>Salabo</b> failu un pārbaudi, ka ielāde atkal strādā.</li>
@@ -179,7 +177,7 @@ struct PersistenceCheckpoint {
         <h3>Papildu uzdevums - Saglabā sarakstu JSON failā</h3>
         <p>Ja pamatdarbs ir gatavs, saglabā vairākus rezultātus.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> <code class="language-cpp">Array highscores;</code>.</li>
+            <li><b>Izveido</b> <code class="language-csharp">Godot.Collections.Array highscores = new();</code>.</li>
             <li><b>Pievieno</b> tam trīs <code>Dictionary</code> ierakstus ar vārdu un punktiem.</li>
             <li><b>Ieliec</b> masīvu galvenajā <code>Dictionary</code> un saglabā.</li>
             <li><b>Nolasi</b> to atpakaļ un izdrukā ciklā.</li>
@@ -191,15 +189,15 @@ struct PersistenceCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
+        <h2>Ko sagatavo</h2>
         <p class="merkis"><b>Stundas mērķis:</b> Tava spēle saglabā stāvokli salasāmā JSON failā, ielādē to atpakaļ ar pareiziem datu tipiem un neapstājas, ja fails ir bojāts.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>Fails <code>save.json</code> paraugs un C++ kods ar <code>JSON::stringify</code> un <code>parse</code>.</li>
+            <li>Fails <code>save.json</code> paraugs un C# kods ar <code>Json.Stringify</code> un <code>Parse</code>.</li>
             <li>Ekrānuzņēmums ar Output paneli, kurā redzams brīdinājums par bojātu failu un noklusējuma vērtības.</li>
             <li>README.md: kāpēc salasāms saglabāšanas fails ir gan ērts, gan bīstams.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -234,40 +232,50 @@ struct PersistenceCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">Dictionary Player::to_dict() const {
-    Dictionary d;
-    d["name"] = name;
-    d["hp"] = hp;
-    d["max_hp"] = max_hp;
-    d["level"] = level;
-    d["xp"] = xp;
-    d["position_x"] = get_position().x;
-    d["position_y"] = get_position().y;
+        <pre><code class="language-csharp">using Godot;
+using Godot.Collections;
+using System.Collections.Generic;
 
-    Array inv;
-    for (const auto&amp; [item, count] : inventory) {
-        Dictionary entry;
-        entry["item"] = item;
-        entry["count"] = count;
-        inv.append(entry);
+public partial class Player : CharacterBody2D
+{
+    private string playerName;
+    private int hp;
+    private int maxHp;
+    private int level;
+    private int xp;
+    private Dictionary&lt;string, int&gt; inventory = new();
+
+    public Godot.Collections.Dictionary ToDict()
+    {
+        Godot.Collections.Dictionary data = new();
+        data["name"] = playerName;
+        data["hp"] = hp;
+        data["max_hp"] = maxHp;
+        data["level"] = level;
+        data["xp"] = xp;
+        data["position_x"] = Position.X;
+        data["position_y"] = Position.Y;
+
+        Array inv = new();
+        foreach ((string item, int count) in inventory)
+        {
+            Godot.Collections.Dictionary entry = new();
+            entry["item"] = item;
+            entry["count"] = count;
+            inv.Add(entry);
+        }
+        data["inventory"] = inv;
+        return data;
     }
-    d["inventory"] = inv;
-    return d;
-}
 
-void Player::from_dict(const Dictionary&amp; d) {
-    name = d["name"];
-    hp = d["hp"];
-    max_hp = d["max_hp"];
-    level = d["level"];
-    xp = d["xp"];
-    set_position(Vector2(d["position_x"], d["position_y"]));
-
-    inventory.clear();
-    Array inv = d["inventory"];
-    for (int i = 0; i &lt; inv.size(); i++) {
-        Dictionary e = inv[i];
-        inventory[e["item"]] = e["count"];
+    public void FromDict(Godot.Collections.Dictionary data)
+    {
+        playerName = data["name"].AsString();
+        hp = data["hp"].AsInt32();
+        maxHp = data["max_hp"].AsInt32();
+        level = data["level"].AsInt32();
+        xp = data["xp"].AsInt32();
+        Position = new Vector2(data["position_x"].AsSingle(), data["position_y"].AsSingle());
     }
 }</code></pre>
         <div class='result'>Save fails saturēs JSON ar player datiem; pēc load - viss state atjaunots korekti.</div>

@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -58,13 +58,13 @@
 
 <aside class="sidebar-nav" aria-label="Tēmas navigācija">
   <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>1. Tēma - Ievads Godot un C++</h3>
+  <h3>1. Tēma - Ievads Godot un C#</h3>
   <div class="sidebar-links">
     <a class="topic-main" href="/programmesana2/prog2_1/prog2_1main">Tēmas sākums</a>
     <a href="/programmesana2/prog2_1/prog2_11">1.1 Godot instalācija un projekta sagatavošana</a>
     <a class="active" aria-current="page" href="/programmesana2/prog2_1/prog2_12">1.2 Scene Tree un Node sistēma</a>
-    <a href="/programmesana2/prog2_1/prog2_13">1.3 C++ un GDExtension sagatavošana</a>
-    <a href="/programmesana2/prog2_1/prog2_14">1.4 Pirmais C++ skripts: mainīgie un izvade</a>
+    <a href="/programmesana2/prog2_1/prog2_13">1.3 C# un .NET sagatavošana</a>
+    <a href="/programmesana2/prog2_1/prog2_14">1.4 Pirmais C# skripts: mainīgie un izvade</a>
     <a href="/programmesana2/prog2_1/prog2_15">1.5 Spēles laukuma izveide</a>
     <a href="/programmesana2/prog2_1/prog2_16">1.6 Noslēguma projekts: Pong</a>
   </div>
@@ -81,7 +81,7 @@
 <section class='section'>
     <div class="info-box">
         <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido pirmo scēnu ar trim mezgliem · 2. uzdevums (~25 min) - saliec Pong laukuma koku · 3. uzdevums (~20 min) - saglabā paddle kā atsevišķu scēnu · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu Pong projektu no 1.1 stundas. Šodien vēl nerakstīsi kodu - tikai saliksi objektu koku, uz kuru vēlāk atsauksies C++ kods.</p>
+        <p><b>Pirms sāc:</b> atver savu Pong projektu no 1.1 stundas. Šodien vēl nerakstīsi kodu - tikai saliksi objektu koku, uz kuru vēlāk atsauksies C# kods.</p>
     </div>
 </section>
 
@@ -89,7 +89,7 @@
     <h2>Teorija: Node un Scene konceptu</h2>
     <div class='logic-box'>
 <p>Godot fundamentālais princips: <b>viss ir Node</b> (Mezgls). Spēles laukums, varonis, poga, skaņa un kamera ir mezgli, kas savienoti hierarhiskā kokā jeb <b>Scene</b> (Skatā). Scēna nav tikai vizuāls izkārtojums; tā ir arī objektu īpašumtiesību un komunikācijas struktūra.</p>
-<p>Labs Scene Tree ir kā skaidrs programmas modelis: katram node ir viena atbildība, bērni papildina vecāku, un atkārtoti lietojami objekti tiek saglabāti kā atsevišķas scēnas. Slikts Scene Tree parasti ir milzīgs <code>Main</code> ar nejaušiem bērniem, kur C++ kodā grūti atrast vajadzīgos objektus.</p>
+<p>Labs Scene Tree ir kā skaidrs programmas modelis: katram node ir viena atbildība, bērni papildina vecāku, un atkārtoti lietojami objekti tiek saglabāti kā atsevišķas scēnas. Slikts Scene Tree parasti ir milzīgs <code>Main</code> ar nejaušiem bērniem, kur C# kodā grūti atrast vajadzīgos objektus.</p>
 <p><b>Galvenie Node tipi 2D spēlēs:</b></p>
 <ul>
 <li><b>Node2D</b> - bāzes klase 2D objektiem ar pozīciju, rotāciju, mērogu.</li>
@@ -99,7 +99,7 @@
 <li><b>Area2D</b> - detektē objektus, kas šķērso zonu.</li>
 <li><b>Camera2D</b> - kameras skats.</li>
 </ul>
-<pre><code class="language-cpp">// Pong scēnas struktūra:
+<pre><code class="language-csharp">// Pong scēnas struktūra:
 // Main (Node2D)
 // ├── Background (ColorRect)
 // ├── PaddleLeft (CharacterBody2D)
@@ -109,20 +109,19 @@
 // └── Ball (CharacterBody2D)
 //     ├── Sprite2D
 //     └── CollisionShape2D</code></pre>
-<p>Bērnu nodes pārmanto vecāku transformāciju. Ja <code>Sprite2D</code> ir bērns zem <code>PaddleLeft</code>, tad paddle pārvietošana pārvieto arī sprite. Tas ļauj C++ kodā vadīt vienu galveno mezglu, nevis katru vizuālo detaļu atsevišķi.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/classes/character_body2d.hpp&gt;
-#include &lt;godot_cpp/classes/node2d.hpp&gt;
-#include &lt;godot_cpp/variant/utility_functions.hpp&gt;
+<p>Bērnu nodes pārmanto vecāku transformāciju. Ja <code>Sprite2D</code> ir bērns zem <code>PaddleLeft</code>, tad paddle pārvietošana pārvieto arī sprite. Tas ļauj C# kodā vadīt vienu galveno mezglu, nevis katru vizuālo detaļu atsevišķi.</p>
+<pre><code class="language-csharp">using Godot;
 
-using namespace godot;
+public partial class Main : Node2D
+{
+    public override void _Ready()
+    {
+        CharacterBody2D left = GetNode&lt;CharacterBody2D&gt;("PaddleLeft");
+        CharacterBody2D right = GetNode&lt;CharacterBody2D&gt;("PaddleRight");
+        Node2D ball = GetNode&lt;Node2D&gt;("Ball");
 
-void Main::_ready() {
-    CharacterBody2D *left = get_node&lt;CharacterBody2D&gt;("PaddleLeft");
-    CharacterBody2D *right = get_node&lt;CharacterBody2D&gt;("PaddleRight");
-    Node2D *ball = get_node&lt;Node2D&gt;("Ball");
-
-    UtilityFunctions::print("Scene ready: ", left-&gt;get_name(), ", ",
-                            right-&gt;get_name(), ", ", ball-&gt;get_name());
+        GD.Print("Scene ready: ", left.Name, ", ", right.Name, ", ", ball.Name);
+    }
 }</code></pre>
     </div>
 </section>
@@ -187,15 +186,15 @@ void Main::_ready() {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
+        <h2>Ko sagatavo</h2>
         <p class="merkis"><b>Stundas mērķis:</b> Tev ir saglabāta Pong scēna <code>main.tscn</code>, kurā objekti sakārtoti saprotamā Node kokā, un viens paddle ir izveidots kā atkārtoti lietojama scēna <code>paddle.tscn</code>.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
             <li>Ekrānuzņēmums ar Scene paneli, kurā redzams viss tavs mezglu koks ar nosaukumiem.</li>
-            <li>Faili <code>main.tscn</code> un <code>paddle.tscn</code> tavā GitHub krātuvē (veic commit un push).</li>
+            <li>Faili <code>main.tscn</code> un <code>paddle.tscn</code> (veic commit un push).</li>
             <li>Viens teikums README.md failā: ar ko scēna atšķiras no mezgla.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 <section class='section'>
@@ -238,22 +237,22 @@ void Main::_ready() {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">#include &lt;godot_cpp/classes/character_body2d.hpp&gt;
-#include &lt;godot_cpp/classes/node2d.hpp&gt;
-#include &lt;godot_cpp/variant/vector2.hpp&gt;
+        <pre><code class="language-csharp">using Godot;
 
-using namespace godot;
+public partial class Main : Node2D
+{
+    public override void _Ready()
+    {
+        CharacterBody2D left = GetNode&lt;CharacterBody2D&gt;("PaddleLeft");
+        CharacterBody2D right = GetNode&lt;CharacterBody2D&gt;("PaddleRight");
+        Node2D ball = GetNode&lt;Node2D&gt;("Ball");
 
-void Main::_ready() {
-    CharacterBody2D *left = get_node&lt;CharacterBody2D&gt;("PaddleLeft");
-    CharacterBody2D *right = get_node&lt;CharacterBody2D&gt;("PaddleRight");
-    Node2D *ball = get_node&lt;Node2D&gt;("Ball");
-
-    left-&gt;set_position(Vector2(40, 360));
-    right-&gt;set_position(Vector2(1240, 360));
-    ball-&gt;set_position(Vector2(640, 360));
+        left.Position = new Vector2(40, 360);
+        right.Position = new Vector2(1240, 360);
+        ball.Position = new Vector2(640, 360);
+    }
 }</code></pre>
-        <div class='result'>C++ kods atrod Pong scēnas galvenos mezglus un novieto tos sākuma pozīcijās.</div>
+        <div class='result'>C# kods atrod Pong scēnas galvenos mezglus un novieto tos sākuma pozīcijās.</div>
     </div>
 </div>
 

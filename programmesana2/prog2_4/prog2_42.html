@@ -3,31 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4.2 Map un Dictionary - ebSkola</title>
-<meta name="description" content="Apgūt Map un Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.">
+<title>4.2 Dictionary un Godot Dictionary - ebSkola</title>
+<meta name="description" content="Apgūt Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_4/prog2_42">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4.2 Map un Dictionary">
-<meta property="og:description" content="Apgūt Map un Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.">
+<meta property="og:title" content="4.2 Dictionary un Godot Dictionary">
+<meta property="og:description" content="Apgūt Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.">
 <meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_4/prog2_42">
 <meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4.2 Map un Dictionary">
-<meta name="twitter:description" content="Apgūt Map un Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.">
+<meta name="twitter:title" content="4.2 Dictionary un Godot Dictionary">
+<meta name="twitter:description" content="Apgūt Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
 <link rel="manifest" href="../../manifest.json">
 <meta name="theme-color" content="#222831">
 <script type="application/ld+json">
-{"@context": "https://schema.org","@type": "LearningResource","name": "4.2 Map un Dictionary","description": "Apgūt Map un Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_4/prog2_42","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "4.2 Dictionary un Godot Dictionary","description": "Apgūt Dictionary datu struktūras inventāram, konfigurācijai un ātrai piekļuvei spēles objektu datiem.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_4/prog2_42","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -61,8 +61,8 @@
   <h3>4. Tēma - Datu struktūras un AI</h3>
   <div class="sidebar-links">
     <a class="topic-main" href="/programmesana2/prog2_4/prog2_4main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_4/prog2_41">4.1 Vector un Array</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_4/prog2_42">4.2 Map un Dictionary</a>
+    <a href="/programmesana2/prog2_4/prog2_41">4.1 List un Array</a>
+    <a class="active" aria-current="page" href="/programmesana2/prog2_4/prog2_42">4.2 Dictionary un Godot Dictionary</a>
     <a href="/programmesana2/prog2_4/prog2_43">4.3 State machines AI uzvedībai</a>
     <a href="/programmesana2/prog2_4/prog2_44">4.4 Pathfinding ar A*</a>
     <a href="/programmesana2/prog2_4/prog2_45">4.5 Šaušanas mehānika un object pooling</a>
@@ -70,7 +70,7 @@
   </div>
 </aside>
 <section class='section'>
-    <h1>4.2 Map un Dictionary</h1>
+    <h1>4.2 Dictionary un Godot Dictionary</h1>
     <p><b>Stundas uzdevums:</b> Apgūt asociatīvās datu struktūras inventāram un konfigurācijai.</p>
     <div class="lesson-meta">
         <a href="/sasnRez">SR 2.4.16. Saliktas datu struktūras</a>
@@ -80,34 +80,37 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido inventāru ar std::map · 2. uzdevums (~25 min) - pievieno drošu meklēšanu · 3. uzdevums (~20 min) - salīdzini map ar Godot Dictionary · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atceries no Programmēšanas I vārdnīcas: <code>inventars["zobens"] = 1</code>. C++ tas pats saucas <code>std::map</code>, un Godot pusē - <code>Dictionary</code>.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido inventāru ar <code>Dictionary</code> · 2. uzdevums (~25 min) - pievieno drošu meklēšanu · 3. uzdevums (~20 min) - salīdzini C# un Godot vārdnīcas · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atceries no Programmēšanas I vārdnīcas: <code>inventars["zobens"] = 1</code>. C# tam lieto <code>Dictionary&lt;TKey, TValue&gt;</code>, bet Godot pusē - <code>Godot.Collections.Dictionary</code>.</p>
     </div>
 </section>
 
 <section class='section'>
-    <h2>Teorija: std::map un Godot Dictionary</h2>
+    <h2>Teorija: Dictionary un Godot Dictionary</h2>
     <div class='logic-box'>
 <p>Asociatīvā datu struktūra glabā <b>atslēga → vērtība</b> pārus.</p>
-<pre><code class="language-cpp">// std::map (sakārtots, log n)
-#include &lt;map&gt;
-std::map&lt;String, int&gt; inventory;
+<pre><code class="language-csharp">using Godot;
+using Godot.Collections;
+using System.Collections.Generic;
+
+// Dictionary&lt;TKey, TValue&gt; - ātra meklēšana pēc atslēgas
+Dictionary&lt;string, int&gt; inventory = new();
 inventory["Health Potion"] = 5;
 inventory["Mana Potion"] = 3;
 
-if (inventory.count("Health Potion") &gt; 0) {
-    int amount = inventory["Health Potion"];
+if (inventory.TryGetValue("Health Potion", out int amount))
+{
+    GD.Print(amount);
 }
 
-// std::unordered_map (hash, O(1))
-#include &lt;unordered_map&gt;
-std::unordered_map&lt;int, Enemy*&gt; enemy_by_id;
+// Dictionary ar objektiem pēc ID
+Dictionary&lt;int, Enemy&gt; enemyById = new();
 
-// Godot Dictionary
-Dictionary inv;
+// Godot Dictionary - der saziņai ar editoru un JSON saglabāšanai
+Godot.Collections.Dictionary inv = new();
 inv["coins"] = 100;
 inv["arrows"] = 25;
-if (inv.has("coins")) print(inv["coins"]);</code></pre>
+if (inv.ContainsKey("coins")) GD.Print(inv["coins"]);</code></pre>
     </div>
 </section>
 
@@ -115,91 +118,87 @@ if (inv.has("coins")) print(inv["coins"]);</code></pre>
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> C++ kodā pamatoti izvēlēti vector/map/set, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct AiDataCheckpoint {
-    String lesson = "4.2 Map un Dictionary";
-    bool uses_cpp = true;
-    bool chooses_container = true;
-    bool separates_ai_state = true;
-    bool handles_removal_safely = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> C# kodā pamatoti izvēlēti <code>List</code>, <code>Dictionary</code> vai <code>HashSet</code>, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
+<pre><code class="language-csharp">public class AiDataCheckpoint
+{
+    public string Lesson = "4.2 Dictionary un Godot Dictionary";
+    public bool UsesCSharp = true;
+    public bool ChoosesContainer = true;
+    public bool SeparatesAiState = true;
+    public bool HandlesRemovalSafely = true;
+}</code></pre>
     </div>
 </section>
 
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Izveido inventāru ar std::map</h3>
+        <h3>1. uzdevums - Izveido inventāru ar Dictionary</h3>
         <p>Beigās priekšmetus varēs atrast pēc nosaukuma, nevis pēc numura.</p>
         <ol class="step-list">
-            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;map&gt;</code>.</li>
-            <li><b>Izveido</b> <code class="language-cpp">std::map&lt;String, int&gt; inventory;</code>.</li>
-            <li><b>Pievieno</b> <code class="language-cpp">inventory["Health Potion"] = 5;</code>.</li>
+            <li><b>Pievieno</b> faila sākumā <code class="language-csharp">using System.Collections.Generic;</code>.</li>
+            <li><b>Izveido</b> <code class="language-csharp">Dictionary&lt;string, int&gt; inventory = new();</code>.</li>
+            <li><b>Pievieno</b> <code class="language-csharp">inventory["Health Potion"] = 5;</code>.</li>
             <li><b>Pievieno</b> vēl divus priekšmetus ar dažādiem daudzumiem.</li>
             <li><b>Izdrukā</b> viena priekšmeta daudzumu pēc nosaukuma.</li>
-            <li><b>Uzraksti</b> ciklu <code class="language-cpp">for (auto&amp; p : inventory) { ... }</code>, kas izdrukā visu.</li>
-            <li><b>Pieraksti</b>, kādā secībā priekšmeti izdrukājās.</li>
+            <li><b>Uzraksti</b> ciklu <code class="language-csharp">foreach (var pair in inventory) { ... }</code>, kas izdrukā visu.</li>
+            <li><b>Pieraksti</b>, kāpēc uz izdrukas secību nevajag paļauties.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> izdrukā redzami visi trīs priekšmeti, un tie ir sakārtoti pēc nosaukuma alfabētiski.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> izdrukā redzami visi trīs priekšmeti, un tu vari paskaidrot, ka <code>Dictionary</code> ir paredzēts ātrai meklēšanai pēc atslēgas.</p>
     </div>
     <div class='logic-box'>
         <h3>2. uzdevums - Pievieno drošu meklēšanu</h3>
         <p>Beigās neesoša priekšmeta pieprasījums vairs neradīs pārsteigumus.</p>
         <ol class="step-list">
-            <li><b>Izdrukā</b> <code class="language-cpp">inventory["Nav taada"]</code> un pieraksti rezultātu.</li>
-            <li><b>Izdrukā</b> pēc tam saraksta izmēru un pieraksti, vai tas mainījās.</li>
-            <li><b>Pieraksti</b>, kāpēc tas ir bīstami.</li>
-            <li><b>Nomaini</b> pārbaudi uz <code class="language-cpp">if (inventory.count("Health Potion") &gt; 0) { ... }</code>.</li>
-            <li><b>Uzraksti</b> metodi <code class="language-cpp">int get_amount(String name);</code>, kas atgriež 0, ja priekšmeta nav.</li>
+            <li><b>Izdrukā</b> <code class="language-csharp">inventory["Nav taada"]</code> un pieraksti kļūdas ziņojumu.</li>
+            <li><b>Izdrukā</b> pēc tam <code class="language-csharp">inventory.Count</code> un pieraksti, vai tas mainījās.</li>
+            <li><b>Pieraksti</b>, kāpēc tieša kvadrātiekavu lietošana bez pārbaudes ir bīstama.</li>
+            <li><b>Nomaini</b> pārbaudi uz <code class="language-csharp">if (inventory.TryGetValue("Health Potion", out int amount)) { ... }</code>.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-csharp">int GetAmount(string name)</code>, kas atgriež 0, ja priekšmeta nav.</li>
             <li><b>Izsauc</b> to ar esošu un neesošu nosaukumu.</li>
-            <li><b>Pārbaudi</b>, ka saraksta izmērs vairs nemainās.</li>
+            <li><b>Pārbaudi</b>, ka vārdnīcas izmērs vairs nemainās.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> kvadrātiekavas ar neesošu atslēgu klusi pievieno jaunu ierakstu, bet tava metode to nedara.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> neesoša atslēga vairs neaptur programmu, bet tava metode korekti atgriež 0.</p>
     </div>
     <div class='logic-box'>
-        <h3>3. uzdevums - Salīdzini map ar Godot Dictionary</h3>
+        <h3>3. uzdevums - Salīdzini Dictionary ar Godot Dictionary</h3>
         <p>Beigās tu zināsi, kuru struktūru lietot saziņai ar Godot.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> <code class="language-cpp">Dictionary save_data;</code>.</li>
-            <li><b>Pievieno</b> tam <code class="language-cpp">save_data["player_name"] = "Anna";</code> un <code class="language-cpp">save_data["level"] = 5;</code>.</li>
+            <li><b>Izveido</b> <code class="language-csharp">Godot.Collections.Dictionary saveData = new();</code>.</li>
+            <li><b>Pievieno</b> tam <code class="language-csharp">saveData["player_name"] = "Anna";</code> un <code class="language-csharp">saveData["level"] = 5;</code>.</li>
             <li><b>Izdrukā</b> abas vērtības.</li>
-            <li><b>Pieraksti</b>, vai <code>Dictionary</code> pieļauj dažādu tipu vērtības vienā struktūrā.</li>
-            <li><b>Mēģini</b> to pašu ar <code class="language-cpp">std::map&lt;String, int&gt;</code> un izlasi kļūdu.</li>
+            <li><b>Pieraksti</b>, vai <code>Godot.Collections.Dictionary</code> pieļauj dažādu tipu vērtības vienā struktūrā.</li>
+            <li><b>Mēģini</b> līdzīgus datus ielikt <code class="language-csharp">Dictionary&lt;string, int&gt;</code> un izlasi kļūdu.</li>
             <li><b>Pieraksti</b>, kura struktūra derēs saglabāšanai failā.</li>
             <li><b>Izvēlies</b> savam inventāram pareizo variantu un pamato.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> <code>Dictionary</code> pieņem dažādus tipus vienā struktūrā, bet <code>std::map</code> - tikai vienu.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> <code>Godot.Collections.Dictionary</code> pieņem dažādus tipus vienā struktūrā, bet <code>Dictionary&lt;string, int&gt;</code> prasa vienu vērtības tipu.</p>
     </div>
     <div class='logic-box'>
-        <h3>Papildu uzdevums - Izmēģini unordered_map</h3>
-        <p>Ja pamatdarbs ir gatavs, salīdzini divas C++ vārdnīcas.</p>
+        <h3>Papildu uzdevums - Izmēģini SortedDictionary</h3>
+        <p>Ja pamatdarbs ir gatavs, salīdzini ātru meklēšanu ar sakārtotu izdruku.</p>
         <ol class="step-list">
-            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;unordered_map&gt;</code>.</li>
-            <li><b>Izveido</b> to pašu inventāru ar <code>std::unordered_map</code>.</li>
-            <li><b>Izdrukā</b> to ciklā un salīdzini secību ar <code>std::map</code>.</li>
-            <li><b>Pieraksti</b>, kura no tām saglabā kārtību.</li>
-            <li><b>Pieraksti</b>, kura ir ātrāka meklēšanai.</li>
+            <li><b>Izveido</b> to pašu inventāru ar <code class="language-csharp">SortedDictionary&lt;string, int&gt;</code>.</li>
+            <li><b>Izdrukā</b> to ciklā un salīdzini secību ar <code>Dictionary&lt;string, int&gt;</code>.</li>
+            <li><b>Pieraksti</b>, kura struktūra izdrukā atslēgas sakārtoti.</li>
+            <li><b>Pieraksti</b>, kura struktūra parasti ir piemērotāka vienkāršai ātrai meklēšanai.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> <code>std::map</code> izdrukā alfabētiski, bet <code>unordered_map</code> - nesakārtoti.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> <code>SortedDictionary</code> izdrukā atslēgas alfabētiski, bet parastais <code>Dictionary</code> tiek lietots ikdienas ātrai piekļuvei.</p>
     </div>
 </section>
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C++ izveidot <code>std::map</code> inventāru, droši meklēt tajā priekšmetus, nepievienojot tukšus ierakstus, un izskaidrot, kad jālieto Godot <code>Dictionary</code>.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <h2>Ko sagatavo</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C# izveidot <code>Dictionary</code> inventāru, droši meklēt tajā priekšmetus un izskaidrot, kad jālieto Godot <code>Dictionary</code>.</p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>C++ fails ar inventāru un <code>get_amount</code> metodi GitHub krātuvē.</li>
-            <li>Ekrānuzņēmums, kurā redzams, ka pēc neesoša priekšmeta pieprasījuma saraksta izmērs nemainās.</li>
-            <li>README.md: kāpēc kvadrātiekavas ar neesošu atslēgu ir bīstamas un kad lieto <code>Dictionary</code>.</li>
+            <li>C# fails ar inventāru un <code>GetAmount</code> metodi.</li>
+            <li>Ekrānuzņēmums, kurā redzams, ka pēc neesoša priekšmeta pieprasījuma vārdnīcas izmērs nemainās.</li>
+            <li>README.md: kāpēc kvadrātiekavas ar neesošu atslēgu ir bīstamas un kad lieto <code>Godot.Collections.Dictionary</code>.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā; README.md failā jābūt prasītajiem pierakstiem.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -210,9 +209,9 @@ struct AiDataCheckpoint {
     <h2>Biežākās kļūdas</h2>
     <div class='logic-box'>
         <ul>
-        <li><b>Map operator[] uz neeksistējošu key:</b> Izveido jaunu ar default. Lieto <code>find()</code> pārbaudei.</li>
-        <li><b>String key sajaucies:</b> C++ String ir Godot Variant - atšķiras no std::string.</li>
-        <li><b>unordered_map ar custom key:</b> Vajag operator== un std::hash specializāciju.</li>
+        <li><b>KeyNotFoundException:</b> Kvadrātiekavas lasa tikai esošas atslēgas. Lieto <code>TryGetValue</code> vai <code>ContainsKey</code>.</li>
+        <li><b>Sajauktas vārdnīcas:</b> <code>Dictionary&lt;string, int&gt;</code> ir tipa-droša C# struktūra, bet <code>Godot.Collections.Dictionary</code> glabā Variant datus.</li>
+        <li><b>Negaidīta secība:</b> parasts <code>Dictionary</code> nav paredzēts sakārtotai izdrukai. Ja vajag sakārtotas atslēgas, lieto <code>SortedDictionary</code>.</li>
         </ul>
     </div>
 </section>
@@ -230,33 +229,40 @@ struct AiDataCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">#include &lt;map&gt;
+        <pre><code class="language-csharp">using Godot;
+using System.Collections.Generic;
 
-class Player {
-private:
-    std::map&lt;String, int&gt; inventory;
-public:
-    void add_item(String name, int amount = 1) {
-        inventory[name] += amount;
-        UtilityFunctions::print("+", amount, " ", name);
+public class PlayerInventory
+{
+    private readonly Dictionary&lt;string, int&gt; inventory = new();
+
+    public void AddItem(string name, int amount = 1)
+    {
+        inventory.TryGetValue(name, out int current);
+        inventory[name] = current + amount;
+        GD.Print("+", amount, " ", name);
     }
 
-    bool use_item(String name) {
-        auto it = inventory.find(name);
-        if (it == inventory.end() || it-&gt;second &lt;= 0) {
-            UtilityFunctions::print("Nav ", name);
+    public bool UseItem(string name)
+    {
+        if (!inventory.TryGetValue(name, out int count) || count &lt;= 0)
+        {
+            GD.Print("Nav ", name);
             return false;
         }
-        it-&gt;second--;
+
+        inventory[name] = count - 1;
         return true;
     }
 
-    void print_inventory() {
-        for (const auto&amp; [name, count] : inventory) {
-            UtilityFunctions::print(name, ": ", count);
+    public void PrintInventory()
+    {
+        foreach ((string name, int count) in inventory)
+        {
+            GD.Print(name, ": ", count);
         }
     }
-};</code></pre>
+}</code></pre>
         <div class='result'>Inventārs rāda: Health Potion: 5, Mana Potion: 3, Sword: 1; pēc lietošanas Health Potion: 4.</div>
     </div>
 </div>

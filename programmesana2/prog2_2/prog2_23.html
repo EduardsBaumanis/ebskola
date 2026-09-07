@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -80,45 +80,54 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārraksti Python if C++ sintaksē · 2. uzdevums (~25 min) - izveido enum un switch priekšmetu veidiem · 3. uzdevums (~20 min) - pievieno ciklu, kas pārbauda visus priekšmetus · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atceries no Programmēšanas I: <code>if</code>, <code>elif</code>, <code>else</code> un <code>for</code> cikls. C++ dara to pašu, bet ar figūriekavām un semikoliem. Šodien pārtulkosi jau zināmo.</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārraksti Python if C# sintaksē · 2. uzdevums (~25 min) - izveido enum un switch priekšmetu veidiem · 3. uzdevums (~20 min) - pievieno ciklu, kas pārbauda visus priekšmetus · Iesniegšana (~5 min).</p>
+        <p><b>Pirms sāc:</b> atceries no Programmēšanas I: <code>if</code>, <code>elif</code>, <code>else</code> un <code>for</code> cikls. C# dara to pašu, bet ar figūriekavām un semikoliem. Šodien pārtulkosi jau zināmo.</p>
     </div>
 </section>
 
 <section class='section'>
-    <h2>Teorija: C++ vadības struktūras</h2>
+    <h2>Teorija: C# vadības struktūras</h2>
     <div class='logic-box'>
-<p>C++ vadības struktūras ir gandrīz identiskas Python ekvivalentiem, bet ar atšķirīgu sintaksi:</p>
-<pre><code class="language-cpp">// If / else if / else
-if (player-&gt;health &lt;= 0) {
-    player-&gt;die();
-} else if (player-&gt;health &lt; 30) {
-    play_warning_sound();
-} else {
-    show_normal_status();
+<p>C# vadības struktūras ir gandrīz identiskas Python ekvivalentiem, bet ar atšķirīgu sintaksi:</p>
+<pre><code class="language-csharp">// If / else if / else
+if (player.Health &lt;= 0)
+{
+    player.Die();
+}
+else if (player.Health &lt; 30)
+{
+    PlayWarningSound();
+}
+else
+{
+    ShowNormalStatus();
 }
 
 // Switch (kā Python match-case)
-switch (state) {
-    case PlayerState::IDLE:    play_idle();    break;
-    case PlayerState::RUNNING: play_run();     break;
-    case PlayerState::JUMPING: play_jump();    break;
-    default:                   break;
+switch (state)
+{
+    case PlayerState.Idle:    PlayIdle(); break;
+    case PlayerState.Running: PlayRun();  break;
+    case PlayerState.Jumping: PlayJump(); break;
+    default: break;
 }
 
 // For cikls
-for (int i = 0; i &lt; enemies.size(); i++) {
-    enemies[i]-&gt;update();
+for (int i = 0; i &lt; enemies.Count; i++)
+{
+    enemies[i].UpdateEnemy();
 }
 
-// Range-based for (C++11+)
-for (Enemy* e : enemies) {
-    e-&gt;update();
+// Foreach cikls
+foreach (Enemy enemy in enemies)
+{
+    enemy.UpdateEnemy();
 }
 
 // While
-while (health &gt; 0 && level_active) {
-    process_combat();
+while (health &gt; 0 &amp;&amp; levelActive)
+{
+    ProcessCombat();
 }</code></pre>
     </div>
 </section>
@@ -127,35 +136,32 @@ while (health &gt; 0 && level_active) {
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C++ klasēm, kas lieto _physics_process, Input, CharacterBody2D, Area2D vai move_and_slide.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct PhysicsCheckpoint {
-    String lesson = "2.3 Vadības struktūras spēles loģikā";
-    bool uses_cpp = true;
-    bool uses_physics_process = true;
-    bool uses_delta_time = true;
-    bool checks_collisions = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C# klasēm, kas lieto _PhysicsProcess, Input, CharacterBody2D, Area2D vai MoveAndSlide.</p>
+<pre><code class="language-csharp">public class PhysicsCheckpoint
+{
+    public string Lesson = "2.3 Vadības struktūras spēles loģikā";
+    public bool UsesCSharp = true;
+    public bool UsesPhysicsProcess = true;
+    public bool UsesDeltaTime = true;
+    public bool ChecksCollisions = true;
+}</code></pre>
     </div>
 </section>
 
 <section class='section'>
     <h2>Praktiskie uzdevumi</h2>
     <div class='logic-box'>
-        <h3>1. uzdevums - Pārraksti Python if C++ sintaksē</h3>
+        <h3>1. uzdevums - Pārraksti Python if C# sintaksē</h3>
         <p>Beigās tu redzēsi, ka loģika ir tā pati, tikai pieraksts cits.</p>
         <ol class="step-list">
             <li><b>Uzraksti</b> README.md failā Python nosacījumu: ja enerģija zem 0, varonis mirst; ja zem 30, brīdinājums; citādi viss labi.</li>
-            <li><b>Izveido</b> C++ klasē lauku <code class="language-cpp">int health = 100;</code>.</li>
-            <li><b>Ieraksti</b> <code class="language-cpp">if (health &lt;= 0) { ... }</code> ar figūriekavām.</li>
-            <li><b>Pievieno</b> <code class="language-cpp">else if (health &lt; 30) { ... }</code> - ievēro, ka tas ir divi vārdi, nevis <code>elif</code>.</li>
-            <li><b>Pievieno</b> <code class="language-cpp">else { ... }</code> un katrā zarā izdruku.</li>
+            <li><b>Izveido</b> C# klasē lauku <code class="language-csharp">int health = 100;</code>.</li>
+            <li><b>Ieraksti</b> <code class="language-csharp">if (health &lt;= 0) { ... }</code> ar figūriekavām.</li>
+            <li><b>Pievieno</b> <code class="language-csharp">else if (health &lt; 30) { ... }</code> - ievēro, ka tas ir divi vārdi, nevis <code>elif</code>.</li>
+            <li><b>Pievieno</b> <code class="language-csharp">else { ... }</code> un katrā zarā izdruku.</li>
             <li><b>Kompilē</b> un pārbaudi ar trim dažādām <code>health</code> vērtībām.</li>
-            <li><b>Pieraksti</b> trīs atšķirības starp Python un C++ pierakstu.</li>
+            <li><b>Pieraksti</b> trīs atšķirības starp Python un C# pierakstu.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> visi trīs zari nostrādā pareizi, un README.md failā ir trīs pierakstītas atšķirības.</p>
     </div>
@@ -163,11 +169,11 @@ struct PhysicsCheckpoint {
         <h3>2. uzdevums - Izveido enum un switch priekšmetu veidiem</h3>
         <p>Beigās priekšmetu veidi būs nosaukumi, nevis nesaprotami skaitļi.</p>
         <ol class="step-list">
-            <li><b>Ieraksti</b> virs klases <code class="language-cpp">enum class PickupType { COIN, GEM, KEY };</code>.</li>
-            <li><b>Uzraksti</b> metodi <code class="language-cpp">void on_pickup(PickupType type);</code>.</li>
-            <li><b>Ieraksti</b> tajā <code class="language-cpp">switch (type) {</code>.</li>
-            <li><b>Pievieno</b> katram veidam <code class="language-cpp">case PickupType::COIN:</code> ar savu darbību.</li>
-            <li><b>Pievieno</b> katram <code>case</code> beigās <code class="language-cpp">break;</code>.</li>
+            <li><b>Ieraksti</b> virs klases <code class="language-csharp">public enum PickupType { Coin, Gem, Key }</code>.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-csharp">private void OnPickup(PickupType type)</code>.</li>
+            <li><b>Ieraksti</b> tajā <code class="language-csharp">switch (type) {</code>.</li>
+            <li><b>Pievieno</b> katram veidam <code class="language-csharp">case PickupType.Coin:</code> ar savu darbību.</li>
+            <li><b>Pievieno</b> katram <code>case</code> beigās <code class="language-csharp">break;</code>.</li>
             <li><b>Izdzēs</b> vienu <code>break;</code>, kompilē un pieraksti, kas notiek.</li>
             <li><b>Ieliec</b> <code>break;</code> atpakaļ un pārbaudi visus trīs veidus.</li>
         </ol>
@@ -177,9 +183,9 @@ struct PhysicsCheckpoint {
         <h3>3. uzdevums - Pievieno ciklu, kas pārbauda visus priekšmetus</h3>
         <p>Beigās viena cilpa apstrādās visu priekšmetu sarakstu.</p>
         <ol class="step-list">
-            <li><b>Iekļauj</b> <code class="language-cpp">#include &lt;vector&gt;</code>.</li>
-            <li><b>Izveido</b> <code class="language-cpp">std::vector&lt;PickupType&gt; items = { PickupType::COIN, PickupType::GEM, PickupType::COIN };</code>.</li>
-            <li><b>Uzraksti</b> ciklu <code class="language-cpp">for (PickupType t : items) { on_pickup(t); }</code>.</li>
+            <li><b>Pievieno</b> faila sākumā <code class="language-csharp">using System.Collections.Generic;</code>.</li>
+            <li><b>Izveido</b> <code class="language-csharp">List&lt;PickupType&gt; items = new() { PickupType.Coin, PickupType.Gem, PickupType.Coin };</code>.</li>
+            <li><b>Uzraksti</b> ciklu <code class="language-csharp">foreach (PickupType item in items) { OnPickup(item); }</code>.</li>
             <li><b>Kompilē</b> un pārbaudi, ka izdrukājas trīs rindas.</li>
             <li><b>Pievieno</b> sarakstam vēl vienu priekšmetu un palaid vēlreiz.</li>
             <li><b>Pārbaudi</b>, vai cikls bija jāmaina.</li>
@@ -203,15 +209,15 @@ struct PhysicsCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C++ sintaksē uzrakstīt <code>if/else if/else</code>, izveidot <code>enum class</code> ar <code>switch</code> un apstrādāt priekšmetu sarakstu ar ciklu, un vari nosaukt galvenās atšķirības no Python.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <h2>Ko sagatavo</h2>
+        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C# sintaksē uzrakstīt <code>if/else if/else</code>, izveidot <code>enum</code> ar <code>switch</code> un apstrādāt priekšmetu sarakstu ar <code>foreach</code>, un vari nosaukt galvenās atšķirības no Python.</p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
-            <li>C++ fails ar visiem trim uzdevumiem tavā GitHub krātuvē.</li>
+            <li>C# fails ar visiem trim uzdevumiem.</li>
             <li>Ekrānuzņēmums ar Output paneli, kurā redzamas cikla izdrukas.</li>
-            <li>README.md: trīs atšķirības starp Python un C++ pierakstu un viens teikums, kas notiek bez <code>break</code>.</li>
+            <li>README.md: trīs atšķirības starp Python un C# pierakstu un viens teikums, kas notiek bez <code>break</code>.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un ekrānuzņēmumu skolotāja norādītajā vietā; README.md failā jābūt prasītajiem pierakstiem.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -222,8 +228,8 @@ struct PhysicsCheckpoint {
     <h2>Biežākās kļūdas</h2>
     <div class='logic-box'>
         <ul>
-        <li><b>'enemies' was not declared:</b> Trūkst <code>#include &lt;vector&gt;</code> un namespace.</li>
-        <li><b>Crash, mēģinot dzēst no vektora cikla laikā:</b> Lieto pareizu iterator pieeju vai dzēš pēc cikla.</li>
+        <li><b>The name 'items' does not exist:</b> saraksts izveidots citā metodē vai ārpus redzamības zonas.</li>
+        <li><b>Collection was modified:</b> nedzēs elementus no <code>List&lt;T&gt;</code> tajā pašā <code>foreach</code> ciklā; dzēs pēc cikla vai lieto parastu <code>for</code>.</li>
         <li><b>switch case nestrādā:</b> Aizmirsts <code>break;</code> - kods iet uz nākamo case.</li>
         </ul>
     </div>
@@ -246,26 +252,37 @@ struct PhysicsCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">enum class PickupType { COIN, GEM, KEY };
+        <pre><code class="language-csharp">using Godot;
 
-void Player::on_pickup(PickupType type) {
-    switch (type) {
-        case PickupType::COIN:
-            score += 1;
-            UtilityFunctions::print("Coin! Score: ", score);
-            break;
-        case PickupType::GEM:
-            score += 5;
-            UtilityFunctions::print("Gem! Score: ", score);
-            break;
-        case PickupType::KEY:
-            has_key = true;
-            UtilityFunctions::print("Got the key!");
-            break;
-    }
+public enum PickupType { Coin, Gem, Key }
 
-    if (score &gt;= 100) {
-        UtilityFunctions::print("Level complete!");
+public partial class Player : CharacterBody2D
+{
+    private int score = 0;
+    private bool hasKey = false;
+
+    public void OnPickup(PickupType type)
+    {
+        switch (type)
+        {
+            case PickupType.Coin:
+                score += 1;
+                GD.Print("Coin! Score: ", score);
+                break;
+            case PickupType.Gem:
+                score += 5;
+                GD.Print("Gem! Score: ", score);
+                break;
+            case PickupType.Key:
+                hasKey = true;
+                GD.Print("Got the key!");
+                break;
+        }
+
+        if (score &gt;= 100)
+        {
+            GD.Print("Level complete!");
+        }
     }
 }</code></pre>
         <div class='result'>Spēlētājs savāc 3 dažādus tipus pickup objektus, score atjauninās terminālī.</div>

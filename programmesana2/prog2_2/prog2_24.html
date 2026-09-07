@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
@@ -99,16 +99,22 @@
 </tbody>
 </table>
 <p><b>Collision Layers un Masks:</b> nosaka, kas var sadurties ar ko.</p>
-<pre><code class="language-cpp">// Area2D signāls C++
-void Pickup::_ready() {
-    connect("body_entered", Callable(this, "on_body_entered"));
-}
+<pre><code class="language-csharp">// Area2D signāls C#
+public partial class Pickup : Area2D
+{
+    public override void _Ready()
+    {
+        BodyEntered += OnBodyEntered;
+    }
 
-void Pickup::on_body_entered(Node2D *body) {
-    if (body-&gt;is_in_group("player")) {
-        // savākt pickup
-        get_parent()-&gt;call("score_up", 1);
-        queue_free();  // dzēst sevi
+    private void OnBodyEntered(Node2D body)
+    {
+        if (body.IsInGroup("player"))
+        {
+            // savākt pickup
+            GetParent().Call("ScoreUp", 1);
+            QueueFree();  // dzēst sevi
+        }
     }
 }</code></pre>
     </div>
@@ -118,19 +124,16 @@ void Pickup::on_body_entered(Node2D *body) {
 <section class='section'>
     <h2>Kā šo izmantot projektā</h2>
     <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C++ klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C++ klasēm, kas lieto _physics_process, Input, CharacterBody2D, Area2D vai move_and_slide.</p>
-<pre><code class="language-cpp">#include &lt;godot_cpp/variant/string.hpp&gt;
-
-using namespace godot;
-
-struct PhysicsCheckpoint {
-    String lesson = "2.4 Sadursmju noteikšana";
-    bool uses_cpp = true;
-    bool uses_physics_process = true;
-    bool uses_delta_time = true;
-    bool checks_collisions = true;
-};</code></pre>
+        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+        <p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C# klasēm, kas lieto _PhysicsProcess, Input, CharacterBody2D, Area2D vai MoveAndSlide.</p>
+<pre><code class="language-csharp">public class PhysicsCheckpoint
+{
+    public string Lesson = "2.4 Sadursmju noteikšana";
+    public bool UsesCSharp = true;
+    public bool UsesPhysicsProcess = true;
+    public bool UsesDeltaTime = true;
+    public bool ChecksCollisions = true;
+}</code></pre>
     </div>
 </section>
 
@@ -143,7 +146,7 @@ struct PhysicsCheckpoint {
             <li><b>Nomaini</b> sava vadāmā objekta tipu uz <code>CharacterBody2D</code>.</li>
             <li><b>Pievieno</b> tam bērnu <code>CollisionShape2D</code> ar taisnstūra formu.</li>
             <li><b>Pievieno</b> scēnai <code>StaticBody2D</code> ar nosaukumu <code>Siena</code> un tās sadursmes formu.</li>
-            <li><b>Nomaini</b> kodā kustību uz <code class="language-cpp">set_velocity(dir * speed);</code> un <code class="language-cpp">move_and_slide();</code>.</li>
+            <li><b>Nomaini</b> kodā kustību uz <code class="language-csharp">Velocity = dir * Speed;</code> un <code class="language-csharp">MoveAndSlide();</code>.</li>
             <li><b>Kompilē</b> un mēģini iebraukt sienā.</li>
             <li><b>Izdzēs</b> sienas <code>CollisionShape2D</code> un pamēģini vēlreiz.</li>
             <li><b>Ieliec</b> to atpakaļ un pieraksti, kāpēc bez formas sadursmes nav.</li>
@@ -155,11 +158,11 @@ struct PhysicsCheckpoint {
         <p>Beigās monēta pazudīs, kad tai pieskarsies.</p>
         <ol class="step-list">
             <li><b>Pievieno</b> scēnai <code>Area2D</code> ar nosaukumu <code>Monēta</code> un tās sadursmes formu.</li>
-            <li><b>Izveido</b> C++ klasi <code>Coin</code>, kas manto no <code>Area2D</code>.</li>
-            <li><b>Reģistrē</b> <code>_bind_methods</code> metodē <code class="language-cpp">ClassDB::bind_method(D_METHOD("on_body_entered", "body"), &amp;Coin::on_body_entered);</code>.</li>
-            <li><b>Savieno</b> <code>_ready</code> metodē signālu ar <code class="language-cpp">connect("body_entered", Callable(this, "on_body_entered"));</code>.</li>
-            <li><b>Ieraksti</b> apstrādātājā izdruku un <code class="language-cpp">queue_free();</code>.</li>
-            <li><b>Kompilē</b> un uzbrauc monētai virsū.</li>
+            <li><b>Izveido</b> C# klasi <code>Coin</code>, kas manto no <code>Area2D</code>.</li>
+            <li><b>Uzraksti</b> apstrādātāju <code class="language-csharp">private void OnBodyEntered(Node2D body)</code>.</li>
+            <li><b>Savieno</b> <code>_Ready()</code> metodē signālu ar <code class="language-csharp">BodyEntered += OnBodyEntered;</code>.</li>
+            <li><b>Ieraksti</b> apstrādātājā izdruku un <code class="language-csharp">QueueFree();</code>.</li>
+            <li><b>Būvē</b> projektu un uzbrauc monētai virsū.</li>
             <li><b>Pieraksti</b>, ar ko <code>Area2D</code> atšķiras no <code>StaticBody2D</code>.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> uzbraucot monētai, tā pazūd un Output panelī parādās izdruka, bet objekts neapstājas.</p>
@@ -183,7 +186,7 @@ struct PhysicsCheckpoint {
         <p>Ja pamatdarbs ir gatavs, pievieno rezultāta skaitītāju.</p>
         <ol class="step-list">
             <li><b>Nokopē</b> monētu vēl trīs reizes dažādās vietās.</li>
-            <li><b>Pievieno</b> spēlētāja klasei lauku <code class="language-cpp">int score = 0;</code>.</li>
+            <li><b>Pievieno</b> spēlētāja klasei lauku <code class="language-csharp">int score = 0;</code>.</li>
             <li><b>Palielini</b> to, kad monēta tiek savākta.</li>
             <li><b>Izdrukā</b> rezultātu pēc katras savāktās monētas.</li>
             <li><b>Savāc</b> visas monētas un pārbaudi gala skaitli.</li>
@@ -194,15 +197,15 @@ struct PhysicsCheckpoint {
 
 <section class='section'>
     <div class="hand-in-box">
-        <h2>Ko iesniedz skolotājam</h2>
+        <h2>Ko sagatavo</h2>
         <p class="merkis"><b>Stundas mērķis:</b> Tavā projektā spēlētājs apstājas pie <code>StaticBody2D</code> sienas, savāc <code>Area2D</code> monētu, kas pazūd, un tu proti ar Collision Layers un Masks noteikt, kurš objekts ar kuru sadursies.</p>
-        <p><b>Iesniedzamais:</b></p>
+        <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
             <li>Īss video vai divi ekrānuzņēmumi: objekts pie sienas un monētas savākšanas brīdis.</li>
-            <li>Fails <code>coin.cpp</code> ar signāla savienojumu GitHub krātuvē.</li>
+            <li>Fails <code>Coin.cs</code> ar signāla savienojumu.</li>
             <li>README.md: ar ko <code>Area2D</code> atšķiras no <code>StaticBody2D</code> un ko nozīmē Layer un Mask.</li>
         </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push, tad iesniedz krātuves saiti un attēlus skolotāja norādītajā vietā.</p>
+        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 
@@ -214,7 +217,7 @@ struct PhysicsCheckpoint {
     <div class='logic-box'>
         <ul>
         <li><b>Spēlētājs iziet cauri grīdai:</b> CollisionShape2D nav vai forma 0 izmērā.</li>
-        <li><b>Area2D signal nestrādā:</b> Aizmirsts connect() vai signal nepareizi nosaukts.</li>
+        <li><b>Area2D signāls nestrādā:</b> aizmirsts <code>BodyEntered += OnBodyEntered;</code> vai apstrādātāja parametra tips nav <code>Node2D</code>.</li>
         <li><b>RigidBody2D negravitē:</b> Gravity Scale = 0 vai <i>Project Settings → Physics → 2D → Default Gravity</i> = 0.</li>
         </ul>
     </div>
@@ -237,26 +240,23 @@ struct PhysicsCheckpoint {
 <div class='section'>
     <h2>Koda piemērs (paplašināts)</h2>
     <div class='code-example'>
-        <pre><code class="language-cpp">#include "coin.hpp"
-#include &lt;godot_cpp/core/class_db.hpp&gt;
-#include &lt;godot_cpp/variant/callable.hpp&gt;
+        <pre><code class="language-csharp">using Godot;
 
-using namespace godot;
+public partial class Coin : Area2D
+{
+    public override void _Ready()
+    {
+        BodyEntered += OnBodyEntered;
+    }
 
-void Coin::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("on_body_entered", "body"),
-                         &amp;Coin::on_body_entered);
-}
-
-void Coin::_ready() {
-    connect("body_entered", Callable(this, "on_body_entered"));
-}
-
-void Coin::on_body_entered(Node2D *body) {
-    if (body-&gt;is_in_group("player")) {
-        // Pavadi ziņu vecākam ar score
-        get_tree()-&gt;call_group("game", "add_score", 1);
-        queue_free();
+    private void OnBodyEntered(Node2D body)
+    {
+        if (body.IsInGroup("player"))
+        {
+            // Pavadi ziņu vecākam ar score
+            GetTree().CallGroup("game", "AddScore", 1);
+            QueueFree();
+        }
     }
 }</code></pre>
         <div class='result'>Spēlētājs pārvietojas pa platformām, savācot punktu žetonus, kuri pazūd pēc savākšanas.</div>

@@ -9,11 +9,11 @@
 <meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_6/prog2_6main"><meta property="og:image" content="https://ebskola.lv/og-image.svg">
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="manifest" href="../../manifest.json"><meta name="theme-color" content="#222831">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"6. Tēma - UI un publicēšana","description":"Godot Control nodes, Tween animācijas, audio sistēma, Profiler un eksportēšana uz itch.io.","inLanguage":"lv","url":"https://ebskola.lv/programmesana2/prog2_6/prog2_6main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"6. Tēma - UI un publicēšana","description":"Godot Control nodes, Tween animācijas, audio sistēma, Profiler un desktop eksportēšana uz itch.io.","inLanguage":"lv","url":"https://ebskola.lv/programmesana2/prog2_6/prog2_6main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 </head><body class="page-home">
 <header class="topbar"><div class="wrap row">
@@ -29,11 +29,11 @@
 </div></header>
 
 <section class="hero"><div class="wrap">
-  <div class="eyebrow"><span class="dot"></span><span>Prog II · 6. tēma · 6 stundas</span><span class="ver"> - C++ · UI · Audio · itch.io</span></div>
+  <div class="eyebrow"><span class="dot"></span><span>Prog II · 6. tēma · 6 stundas</span><span class="ver"> - C# · UI · Audio · itch.io</span></div>
   <div class="hero-grid">
     <div>
       <h1 class="headline">UI, <span class="accent">audio</span> <span class="slash">//</span><br>un publicēšana</h1>
-      <p class="lede">Polished <code>Control</code> nodes UI, <code>Tween</code> animācijas, audio bus sistēma un eksports uz <code>itch.io</code>. Kursa noslēgums.</p>
+      <p class="lede">Polished <code>Control</code> nodes UI, <code>Tween</code> animācijas, audio bus sistēma un desktop eksports uz <code>itch.io</code>. Kursa noslēgums.</p>
       <div class="cta-row">
         <a class="btn primary" href="/programmesana2/prog2_6/prog2_61"><span>›</span> Sākt 6.1 stundu</a>
         <a class="btn" href="/programmesana2/prog2_6/prog2_66">Noslēguma projekts <span class="caret">→</span></a>
@@ -46,8 +46,8 @@
     </div>
     <div>
       <div class="editor" aria-hidden="true">
-        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog2_6/</em>ui_manager.cpp</span></div>
-        <div class="tabs"><span class="tab active"><span class="ic">●</span> ui_manager.cpp</span><span class="spacer"></span></div>
+        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog2_6/</em>UIManager.cs</span></div>
+        <div class="tabs"><span class="tab active"><span class="ic">●</span> UIManager.cs</span><span class="spacer"></span></div>
         <div class="body">
           <div class="gutter">1
 2
@@ -60,18 +60,17 @@
 9
 10
 11</div>
-          <div class="code"><span class="tok-kw">void</span> <span class="tok-typ">UIManager</span>::<span class="tok-fn">_ready</span>() {
-  <span class="tok-typ">Button</span><span class="tok-op">*</span> play <span class="tok-op">=</span> <span class="tok-fn">get_node</span>&lt;<span class="tok-typ">Button</span>&gt;(
+          <div class="code"><span class="tok-kw">public partial class</span> <span class="tok-typ">UIManager</span> : <span class="tok-typ">Control</span> {
+  <span class="tok-kw">public override void</span> <span class="tok-fn">_Ready</span>() {
+  <span class="tok-typ">Button</span> play <span class="tok-op">=</span> <span class="tok-fn">GetNode</span>&lt;<span class="tok-typ">Button</span>&gt;(
     <span class="tok-str">"VBox/PlayButton"</span>);
-  play-&gt;<span class="tok-fn">connect</span>(<span class="tok-str">"pressed"</span>,
-    <span class="tok-fn">callable_mp</span>(<span class="tok-kw">this</span>,
-      <span class="tok-op">&amp;</span><span class="tok-typ">UIManager</span>::<span class="tok-fn">_on_play</span>));
+  play.Pressed <span class="tok-op">+=</span> OnPlay;
 }
-<span class="tok-kw">void</span> <span class="tok-typ">UIManager</span>::<span class="tok-fn">_on_play</span>() {
-  <span class="tok-fn">get_tree</span>()-&gt;<span class="tok-fn">change_scene_to_file</span>(
+<span class="tok-kw">private void</span> <span class="tok-fn">OnPlay</span>() {
+  <span class="tok-fn">GetTree</span>().<span class="tok-fn">ChangeSceneToFile</span>(
     <span class="tok-str">"res://level_1.tscn"</span>);<span class="cursor"></span></div>
         </div>
-        <div class="statusbar"><span class="ok">● kompilēts</span><span>C++ · Godot UI</span><span class="spacer"></span><span>Control</span></div>
+        <div class="statusbar"><span class="ok">● būvēts</span><span>C# · Godot UI</span><span class="spacer"></span><span>Control</span></div>
       </div>
     </div>
   </div>
@@ -90,28 +89,28 @@
     </a>
 
     <a class="project" href="/programmesana2/prog2_6/prog2_62">
-      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="30" y="30" width="260" height="120" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="55" y="52" font-family="monospace" font-size="8" fill="var(--muted)">scale</text><rect x="55" y="58" width="200" height="6" rx="2" fill="var(--line)"/><rect x="55" y="58" width="50" height="6" rx="2" fill="var(--kw)"/><text x="265" y="68" font-family="monospace" font-size="7" fill="var(--muted)">0.0</text><rect x="55" y="58" width="50" height="6" rx="2" fill="var(--str)" style="animation:none"/><text x="55" y="90" font-family="monospace" font-size="8" fill="var(--muted)">alpha</text><rect x="55" y="96" width="200" height="6" rx="2" fill="var(--line)"/><rect x="55" y="96" width="130" height="6" rx="2" fill="var(--str)"/><text x="55" y="128" font-family="monospace" font-size="8" fill="var(--fn)">Tween::tween_property</text><text x="55" y="142" font-family="monospace" font-size="8" fill="var(--muted)">(node, "scale", target, 0.3)</text></svg><span class="label">// Tween</span></div>
-      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> Tween · animācija</span><span>animācijas</span></div><h3>Animācijas un Tween</h3><p><code>create_tween()</code>, <code>tween_property()</code>, easing curves, <code>AnimationPlayer</code> spēles stāvokļiem.</p><div class="foot"><span>6.2 stunda</span><span class="open">atvērt ↗</span></div></div>
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="30" y="30" width="260" height="120" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="55" y="52" font-family="monospace" font-size="8" fill="var(--muted)">scale</text><rect x="55" y="58" width="200" height="6" rx="2" fill="var(--line)"/><rect x="55" y="58" width="50" height="6" rx="2" fill="var(--kw)"/><text x="265" y="68" font-family="monospace" font-size="7" fill="var(--muted)">0.0</text><rect x="55" y="58" width="50" height="6" rx="2" fill="var(--str)" style="animation:none"/><text x="55" y="90" font-family="monospace" font-size="8" fill="var(--muted)">alpha</text><rect x="55" y="96" width="200" height="6" rx="2" fill="var(--line)"/><rect x="55" y="96" width="130" height="6" rx="2" fill="var(--str)"/><text x="55" y="128" font-family="monospace" font-size="8" fill="var(--fn)">tween.TweenProperty</text><text x="55" y="142" font-family="monospace" font-size="8" fill="var(--muted)">(node, "scale", target, 0.3)</text></svg><span class="label">// Tween</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> Tween · animācija</span><span>animācijas</span></div><h3>Animācijas un Tween</h3><p><code>CreateTween()</code>, <code>TweenProperty()</code>, easing curves, <code>AnimationPlayer</code> spēles stāvokļiem.</p><div class="foot"><span>6.2 stunda</span><span class="open">atvērt ↗</span></div></div>
     </a>
 
     <a class="project" href="/programmesana2/prog2_6/prog2_63">
       <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="30" width="280" height="130" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="40" y="55" font-family="monospace" font-size="9" fill="var(--muted)">Master</text><rect x="90" y="44" width="180" height="14" rx="2" fill="var(--line)"/><rect x="90" y="44" width="150" height="14" rx="2" fill="var(--muted)"/><text x="40" y="85" font-family="monospace" font-size="9" fill="var(--kw)">Music</text><rect x="90" y="74" width="180" height="14" rx="2" fill="var(--line)"/><rect x="90" y="74" width="120" height="14" rx="2" fill="var(--kw)"/><text x="40" y="115" font-family="monospace" font-size="9" fill="var(--str)">SFX</text><rect x="90" y="104" width="180" height="14" rx="2" fill="var(--line)"/><rect x="90" y="104" width="160" height="14" rx="2" fill="var(--str)"/><text x="160" y="165" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">AudioStreamPlayer · AudioBus · AudioServer</text></svg><span class="label">// audio buses</span></div>
-      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> Audio · buses</span><span>audio</span></div><h3>Audio sistēma</h3><p>Audio buses (Master/Music/SFX), <code>AudioStreamPlayer</code>, skaņas efekti un mūzika C++ no.</p><div class="foot"><span>6.3 stunda</span><span class="open">atvērt ↗</span></div></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> Audio · buses</span><span>audio</span></div><h3>Audio sistēma</h3><p>Audio buses (Master/Music/SFX), <code>AudioStreamPlayer</code>, skaņas efekti un mūzika C# kodā.</p><div class="foot"><span>6.3 stunda</span><span class="open">atvērt ↗</span></div></div>
     </a>
 
     <a class="project" href="/programmesana2/prog2_6/prog2_64">
-      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="150" rx="4" fill="var(--surface)" stroke="var(--line)"/><rect x="20" y="20" width="280" height="22" rx="4" fill="var(--surface)"/><text x="160" y="36" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Godot Profiler</text><text x="36" y="58" font-family="monospace" font-size="8" fill="var(--muted)">FPS:</text><text x="76" y="58" font-family="monospace" font-size="9" fill="var(--kw)">60</text><text x="120" y="58" font-family="monospace" font-size="8" fill="var(--muted)">CPU:</text><text x="160" y="58" font-family="monospace" font-size="9" fill="var(--str)">4.2ms</text><text x="36" y="80" font-family="monospace" font-size="8" fill="var(--muted)">_physics_process</text><rect x="180" y="70" width="100" height="10" rx="2" fill="var(--kw)"/><text x="36" y="100" font-family="monospace" font-size="8" fill="var(--muted)">_process</text><rect x="180" y="90" width="60" height="10" rx="2" fill="var(--fn)"/><text x="36" y="120" font-family="monospace" font-size="8" fill="var(--muted)">draw calls</text><rect x="180" y="110" width="40" height="10" rx="2" fill="var(--str)"/><text x="160" y="155" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">Debugger · Profiler · Remote tab</text></svg><span class="label">// Profiler</span></div>
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="150" rx="4" fill="var(--surface)" stroke="var(--line)"/><rect x="20" y="20" width="280" height="22" rx="4" fill="var(--surface)"/><text x="160" y="36" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Godot Profiler</text><text x="36" y="58" font-family="monospace" font-size="8" fill="var(--muted)">FPS:</text><text x="76" y="58" font-family="monospace" font-size="9" fill="var(--kw)">60</text><text x="120" y="58" font-family="monospace" font-size="8" fill="var(--muted)">CPU:</text><text x="160" y="58" font-family="monospace" font-size="9" fill="var(--str)">4.2ms</text><text x="36" y="80" font-family="monospace" font-size="8" fill="var(--muted)">_PhysicsProcess</text><rect x="180" y="70" width="100" height="10" rx="2" fill="var(--kw)"/><text x="36" y="100" font-family="monospace" font-size="8" fill="var(--muted)">_Process</text><rect x="180" y="90" width="60" height="10" rx="2" fill="var(--fn)"/><text x="36" y="120" font-family="monospace" font-size="8" fill="var(--muted)">draw calls</text><rect x="180" y="110" width="40" height="10" rx="2" fill="var(--str)"/><text x="160" y="155" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">Debugger · Profiler · Remote tab</text></svg><span class="label">// Profiler</span></div>
       <div class="body"><div class="meta-top"><span class="lang"><span class="d typ"></span> Debugger · Profiler</span><span>atkļūdošana</span></div><h3>Atkļūdošana un profilēšana</h3><p>Godot Debugger, Profiler FPS/CPU laiki, Remote Inspector, atmiņas noplūžu meklēšana.</p><div class="foot"><span>6.4 stunda</span><span class="open">atvērt ↗</span></div></div>
     </a>
 
     <a class="project" href="/programmesana2/prog2_6/prog2_65">
-      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="140" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="160" y="42" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Export Template</text><rect x="40" y="55" width="60" height="40" rx="3" fill="var(--surface)" stroke="var(--kw)"/><text x="70" y="70" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">Windows</text><text x="70" y="84" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">.exe</text><rect x="130" y="55" width="60" height="40" rx="3" fill="var(--surface)" stroke="var(--typ)"/><text x="160" y="70" font-family="monospace" font-size="8" fill="var(--typ)" text-anchor="middle">Linux</text><text x="160" y="84" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">.x86_64</text><rect x="220" y="55" width="60" height="40" rx="3" fill="var(--surface)" stroke="var(--str)"/><text x="250" y="70" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">Web</text><text x="250" y="84" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">.html</text><text x="160" y="125" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">→ itch.io upload</text><text x="160" y="142" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">HTML5 eksports → pārlūkā spēlējams</text></svg><span class="label">// eksports</span></div>
-      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> Export · itch.io</span><span>publicēšana</span></div><h3>Eksports un publicēšana</h3><p>Export templates, Windows/Linux/Web eksports, HTML5 augšupielāde itch.io, spēles lapa.</p><div class="foot"><span>6.5 stunda</span><span class="open">atvērt ↗</span></div></div>
+      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="140" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="160" y="42" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Export Template</text><rect x="40" y="55" width="60" height="40" rx="3" fill="var(--surface)" stroke="var(--kw)"/><text x="70" y="70" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">Windows</text><text x="70" y="84" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">.exe</text><rect x="130" y="55" width="60" height="40" rx="3" fill="var(--surface)" stroke="var(--typ)"/><text x="160" y="70" font-family="monospace" font-size="8" fill="var(--typ)" text-anchor="middle">Linux</text><text x="160" y="84" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">.x86_64</text><rect x="220" y="55" width="60" height="40" rx="3" fill="var(--surface)" stroke="var(--str)"/><text x="250" y="70" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">macOS</text><text x="250" y="84" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">.app</text><text x="160" y="125" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">→ itch.io upload</text><text x="160" y="142" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">desktop ZIP → lejupielāde</text></svg><span class="label">// eksports</span></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> Export · itch.io</span><span>publicēšana</span></div><h3>Eksports un publicēšana</h3><p>Export templates, Windows/Linux/macOS eksports, ZIP augšupielāde itch.io un spēles lapa.</p><div class="foot"><span>6.5 stunda</span><span class="open">atvērt ↗</span></div></div>
     </a>
 
     <a class="project" href="/programmesana2/prog2_6/prog2_66">
       <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="150" rx="4" fill="var(--surface)" stroke="var(--line)"/><rect x="20" y="20" width="280" height="22" rx="4" fill="var(--surface)"/><text x="160" y="36" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Puzzle Spēle · Līmenis 3</text><rect x="40" y="55" width="240" height="100" rx="4" fill="var(--surface)"/><rect x="50" y="65" width="50" height="50" rx="3" fill="var(--kw)"/><rect x="110" y="65" width="50" height="50" rx="3" fill="var(--str)"/><rect x="170" y="65" width="50" height="50" rx="3" fill="var(--typ)"/><rect x="230" y="65" width="40" height="50" rx="3" fill="var(--fn)"/><text x="150" y="170" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">Gājieni: 23 · ★★★</text></svg><span class="label">// kursa noslēgums</span></div>
-      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> C++ · Godot</span><span>projekts</span></div><h3>Noslēguma projekts: Puzzle spēle</h3><p>Polished puzzle spēle ar UI, audio, animācijām, save/load un publicēta itch.io. Kursa noslēgums.</p><div class="foot"><span>6.6 noslēguma projekts</span><span class="open">atvērt ↗</span></div></div>
+      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> C# · Godot</span><span>projekts</span></div><h3>Noslēguma projekts: Puzzle spēle</h3><p>Polished puzzle spēle ar UI, audio, animācijām, save/load un publicēta itch.io. Kursa noslēgums.</p><div class="foot"><span>6.6 noslēguma projekts</span><span class="open">atvērt ↗</span></div></div>
     </a>
 
   </div>
@@ -125,116 +124,115 @@
   </div></div>
   <div class="logic-box">
     <h3>6.1 UI: Control mezgli un konteineri</h3>
-    <pre><code class="language-cpp">// Control mezgli NAV Node2D - tiem ir enkuri, konteineri un tēma.
+    <pre><code class="language-csharp">// Control mezgli NAV Node2D - tiem ir enkuri, konteineri un tēma.
 //   Label            teksts            Button       poga
 //   LineEdit         viena rinda       TextEdit     vairākas rindas
 //   VBoxContainer    kārto vertikāli   HBoxContainer  horizontāli
 //   GridContainer    režģis            PanelContainer fons un rāmis
 // Konteiners kārto bērnus PATS - nelieto rokas pozīcijas tajā.
 
-void MainMenu::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("on_start_pressed"),
-                         &amp;MainMenu::on_start_pressed);
-}
-void MainMenu::_ready() {
-    Button *b = get_node&lt;Button&gt;("VBoxContainer/StartButton");
-    b-&gt;connect("pressed", Callable(this, "on_start_pressed"));
-}
-void MainMenu::on_start_pressed() {
-    get_tree()-&gt;change_scene_to_file("res://level1.tscn");
+using Godot;
+
+public partial class MainMenu : Control
+{
+    public override void _Ready()
+    {
+        Button button = GetNode&lt;Button&gt;("VBoxContainer/StartButton");
+        button.Pressed += OnStartPressed;
+    }
+
+    private void OnStartPressed()
+    {
+        GetTree().ChangeSceneToFile("res://level1.tscn");
+    }
 }</code></pre>
     <p class="cheat-note">Enkurs (<b>Layout -&gt; Anchors Preset -&gt; Center</b>) notur izvēlni vidū, mainot loga izmēru.</p>
   </div>
   <div class="logic-box">
     <h3>6.2 Tween - animācija ar kodu</h3>
-    <pre><code class="language-cpp">#include &lt;godot_cpp/classes/tween.hpp&gt;
-
-Ref&lt;Tween&gt; tween = create_tween();
+    <pre><code class="language-csharp">Tween tween = CreateTween();
 
 // no pašreizējās vērtības uz (600, 300) vienā sekundē
-tween-&gt;tween_property(node, "position", Vector2(600, 300), 1.0);
+tween.TweenProperty(node, "position", new Vector2(600, 300), 1.0);
 
 // izgaismošanās
-node-&gt;set_modulate(Color(1, 1, 1, 0));
-tween-&gt;tween_property(node, "modulate:a", 1.0, 0.5);
+node.Modulate = new Color(1, 1, 1, 0);
+tween.TweenProperty(node, "modulate:a", 1.0, 0.5);
 
-tween-&gt;set_parallel(true);                  // visas reizē, nevis pēc kārtas
-tween-&gt;set_trans(Tween::TRANS_ELASTIC);     // atlec mērķī
+tween.SetParallel(true);                              // visas reizē, nevis pēc kārtas
+tween.SetTrans(Tween.TransitionType.Elastic);        // atlec mērķī
 
 // Ja notikums var atkārtoties ātri - apturi veco:
-if (active_tween.is_valid()) active_tween-&gt;kill();
+if (activeTween != null &amp;&amp; activeTween.IsRunning()) activeTween.Kill();
 
 // AnimationPlayer = vizuāli veidota animācija ar atslēgkadriem
-//   player-&gt;play("uzvara");</code></pre>
+//   player.Play("uzvara");</code></pre>
     <p class="cheat-note">Animācija nav tikai skaistums - tā pasaka spēlētājam, ka darbība tika pamanīta.</p>
   </div>
   <div class="logic-box">
     <h3>6.3 Audio: efekti, mūzika un bus</h3>
-    <pre><code class="language-cpp">#include &lt;godot_cpp/classes/audio_stream_player.hpp&gt;
-
-AudioStreamPlayer *sfx = get_node&lt;AudioStreamPlayer&gt;("SFX");
-sfx-&gt;play();
+    <pre><code class="language-csharp">AudioStreamPlayer sfx = GetNode&lt;AudioStreamPlayer&gt;("SFX");
+sfx.Play();
 
 // Mūzikas mīksta ienākšana
-AudioStreamPlayer *music = get_node&lt;AudioStreamPlayer&gt;("Music");
-music-&gt;set_volume_db(-40);
-music-&gt;play();
-create_tween()-&gt;tween_property(music, "volume_db", 0.0, 1.0);
+AudioStreamPlayer music = GetNode&lt;AudioStreamPlayer&gt;("Music");
+music.VolumeDb = -40;
+music.Play();
+CreateTween().TweenProperty(music, "volume_db", 0.0, 1.0);
 
-// Atsevišķi bus (apakšā cilne Audio): Master -> Music , SFX
-AudioServer *srv = AudioServer::get_singleton();
-int idx = srv-&gt;get_bus_index("Music");
-srv-&gt;set_bus_volume_db(idx, -10.0);
+// Atsevišķi bus (apakšā cilne Audio): Master -&gt; Music , SFX
+int index = AudioServer.GetBusIndex("Music");
+AudioServer.SetBusVolumeDb(index, -10.0f);
 
 // Skaļumu mēra decibelos:  0 dB = pilns , -80 dB = kluss</code></pre>
     <p class="cheat-note">Mūziku un efektus liec atsevišķos bus - tad spēlētājs var izslēgt mūziku, saglabājot skaņas.</p>
   </div>
   <div class="logic-box">
     <h3>6.4 Atkļūdošana: trīs veidi atrast kļūdu</h3>
-    <pre><code class="language-cpp">// 1. Izdrukas - ātrākais veids saprast, KUR vērtība kļūst nepareiza
-UtilityFunctions::print("pirms: ", get_position());
-UtilityFunctions::printerr("KĻŪDA: mezgls nav atrasts");   // sarkans
+    <pre><code class="language-csharp">// 1. Izdrukas - ātrākais veids saprast, KUR vērtība kļūst nepareiza
+GD.Print("pirms: ", Position);
+GD.PrintErr("KĻŪDA: mezgls nav atrasts");   // sarkans
 
 // Pašpārbaude - labāk brīdinājums nekā klusa avārija
-Node *n = get_node_or_null&lt;Node&gt;("Player");
-if (n == nullptr) UtilityFunctions::printerr("Nav mezgla Player!");
+Node node = GetNodeOrNull&lt;Node&gt;("Player");
+if (node == null) GD.PrintErr("Nav mezgla Player!");
 
 // 2. Breakpoint - Debugger cilne
-//    uzklikšķini rindas numura kreisajā malā -> spēle apstājas
+//    uzklikšķini rindas numura kreisajā malā -&gt; spēle apstājas
 //    Stack Variables rāda VISUS mainīgos uzreiz, neko neizdrukājot
 //    Step Into / Step Over - iet pa vienai rindai
 
-// 3. Profiler - Debugger -> Profiler -> Start
-//    kārto pēc laika -> augšā ir funkcija, kas ēd visvairāk</code></pre>
+// 3. Profiler - Debugger -&gt; Profiler -&gt; Start
+//    kārto pēc laika -&gt; augšā ir funkcija, kas ēd visvairāk</code></pre>
     <p class="cheat-note">Izdrukas ir ātrākas vienai vērtībai. Breakpoint ir labāks, kad jāredz daudz mainīgo reizē.</p>
   </div>
   <div class="logic-box">
     <h3>6.5 Eksports un publicēšana</h3>
     <pre><code class="language-bash"># 0. Editor -> Manage Export Templates -> Download (vienreiz)
 
-# Datora versija
+# Pirms eksporta C# projektam
+dotnet build
+
+# Desktop versija
 # Project -> Export -> Add -> Windows/Linux/macOS -> Export Project
+# build/ mapē jābūt visiem eksportētajiem failiem
 
-# Tīmekļa versija
-# Project -> Export -> Add -> Web -> saglabā kā web_build/index.html
-# web_build/ satur: index.html, .pck, .wasm, .js
+# Pārbaude
+# 1. Aizver Godot
+# 2. Palaid eksportēto failu no build/ mapes
+# 3. Saspied visu build/ saturu ZIP arhīvā
+# 4. Izpako ZIP citā mapē un palaid vēlreiz
 
-# index.html NEVAR atvērt tieši no diska - vajag serveri:
-cd web_build
-python -m http.server 8000
-# atver http://localhost:8000
+# Publicēšana: itch.io -> Upload new project -> Downloadable
+#   augšupielādē ZIP un norādi platformu
 
-# Publicēšana: itch.io -> Upload new project -> HTML
-#   saspied web_build/ saturu ZIP arhīvā
-#   ieķeksē "This file will be played in the browser"
-
-# Pirms eksporta: app.run debug izslēgts, .gitignore satur build/</code></pre>
-    <p class="cheat-note">Pēc publicēšanas obligāti atver saiti <b>citā ierīcē</b> - uz sava datora tā strādā arī tad, ja kaut kas trūkst.</p>
+# Godot 4 C# šajā kursā nepublicējam kā Web build.</code></pre>
+    <p class="cheat-note">Pēc publicēšanas obligāti pārbaudi lejupielādi un izpakošanu citā mapē - tā noķersi trūkstošus eksportētus failus.</p>
   </div>
 </div></section>
 
 <section class="cta-strip"><div class="wrap"><div class="cta-panel">
-  <div class="cta-code"><span><span class="prompt">C++</span> get_tree()-&gt;change_scene_to_file(<span class="muted">"res://menu.tscn"</span>); <span class="muted">// navigācija</span></span></div>
+  <div class="cta-code"><span><span class="prompt">C#</span> GetTree().ChangeSceneToFile(<span class="muted">"res://menu.tscn"</span>); <span class="muted">// navigācija</span></span></div>
   <div class="cta-actions">
     <a class="btn primary large" href="/programmesana2/prog2_5/prog2_5main"><span>←</span> 5. Tēma</a>
     <a class="btn large" href="/programmesana2/programmesana2">Kursa pārskats <span class="caret">→</span></a>
