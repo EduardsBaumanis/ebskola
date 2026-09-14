@@ -18,6 +18,8 @@ Visām lapām ir vienāda secība: mērķis, īsā teorija, pilns sākuma kods, 
 
 Katrs no trim galvenajiem uzdevumiem atrodas atsevišķā `logic-box` blokā. Nodarbības daļu ātro saišu josla nav izmantota. 1.2. nodarbības teorijā ir galveno HTML tagu atgādne sešās atveramās grupās.
 
+Nodarbību un tēmu lapu sānjoslā ir attiecīgās tēmas sešu nodarbību saraksts un saite uz tēmas sākumu. Pašreizējā lapa ir izcelta. Šaurā ekrānā saraksts atrodas virs satura un ir ritināms horizontāli.
+
 Skolēnam nav jāmeklē iepriekšējās nodarbības kods. Projekta otrajā daļā paredzēta sava darba turpināšana, bet dots arī pilns rezerves paraugs. Vēlākās nodarbībās skolēns pārnes izvēlētās savas izmaiņas uz jauno pilno paraugu. Gatavās palīgfunkcijas nav jāpārraksta vai jāapgūst visas vienlaikus: uzdevums nosauc konkrēti maināmo vietu un tās rezultātu.
 
 Skolotājs sākumā parāda vienu jaunās teorijas izmantošanas piemēru. Individuālās palīdzības laikā skolēns rāda pirmo nepabeigto soli un savu failu. Īsie soļi, redzams mērķis un izvēles veidā atveramais pilnais kods paredzēti, lai būtu vieglāk sekot darbam, arī skolēniem ar UDHS. Piemērotība un laika aplēses vēl jāpārbauda reālā klasē; šī pārstrāde nav skolēnu izmēģinājuma rezultāts.
