@@ -153,6 +153,11 @@
       <a class="sec-link" href="/programmesana2/programmesana2">kursa pārskats <span>→</span></a>
     </div>
 
+    <div class="info-box">
+      <p><b>Kā strādāt ar šo tēmu:</b> katrā stundā vispirms ir īsa teorija, pēc tam uzreiz viena redzama darbība Godot projektā. Nevajag turēt galvā visu projektu - pietiek pabeigt nākamo mazo kontrolpunktu.</p>
+      <p><b>Fokusa kārtība:</b> uzstādi vidi → atpazīsti editoru → saliec mezglus → uzraksti mazu C# skriptu → novieto objektus → apvieno visu Pong spēlē. Ja kaut kas nobrūk, atgriezies pie pēdējā <b>Gatavs, kad</b> punkta.</p>
+    </div>
+
     <div class="projects">
 
       <a class="project" href="/programmesana2/prog2_1/prog2_11">
@@ -288,7 +293,7 @@
         <div class="body">
           <div class="meta-top"><span class="lang"><span class="d str"></span> C# · .NET</span><span>build</span></div>
           <h3>C# un .NET sagatavošana</h3>
-          <p>Uzstādi .NET SDK, izveido pirmo C# skriptu un pārbaudi Godot Build pogu.</p>
+          <p>Uzstādi .NET SDK, izveido diagnostikas C# skriptu un pārbaudi Godot Build pogu.</p>
           <div class="foot"><span>1.3 stunda</span><span class="open">atvērt ↗</span></div>
         </div>
       </a>
@@ -431,14 +436,13 @@ dotnet build</code></pre>
   <div class="logic-box">
     <h3>1.2 Scene Tree - biežāk lietotie mezgli</h3>
     <pre><code>Main (Node2D)              <- scēnas sakne, tur visu kopā
-├── Speles (Node2D)         <- grupē spēles objektus
-│   ├── PaddleLeft          (CharacterBody2D) + CollisionShape2D
-│   ├── PaddleRight         (CharacterBody2D) + CollisionShape2D
-│   ├── Bumba               (CharacterBody2D) + CollisionShape2D
-│   ├── SienaAugsa          (StaticBody2D)    + CollisionShape2D
-│   └── SienaApaksa         (StaticBody2D)    + CollisionShape2D
-├── UI (Node2D)             <- grupē saskarni
-│   └── Punkti              (Label)
+├── PaddleLeft              (CharacterBody2D) + CollisionShape2D
+├── PaddleRight             (CharacterBody2D) + CollisionShape2D
+├── Ball                    (CharacterBody2D) + CollisionShape2D
+├── SienaAugsa              (StaticBody2D)    + CollisionShape2D
+├── SienaApaksa             (StaticBody2D)    + CollisionShape2D
+├── VidusLinija             (Line2D)
+├── Punkti                  (Label)
 └── Camera2D
 
 Mezglu tipi:
@@ -484,7 +488,7 @@ public partial class Hello : Node
   │        SienaAugsa      y = 10
   │
   │   PaddleLeft                        PaddleRight
-  │   (60, 360)          Bumba          (1220, 360)
+  │   (60, 360)          Ball           (1220, 360)
   │                     (640, 360)  <- laukuma centrs
   │
   │        SienaApaksa     y = 710
@@ -507,8 +511,8 @@ using Godot;
 
 public partial class Paddle : CharacterBody2D
 {
-    [Export] public string InputUp = "kreisais_augsup";
-    [Export] public string InputDown = "kreisais_lejup";
+    [Export] public string InputUp = "p1_up";
+    [Export] public string InputDown = "p1_down";
     [Export] public float Speed = 420.0f;
 
     public override void _PhysicsProcess(double delta)
@@ -527,6 +531,11 @@ public partial class Ball : CharacterBody2D
     [Export] public float BaseSpeed = 420.0f;
     private Vector2 velocity;
 
+    public override void _Ready()
+    {
+        ResetBall();
+    }
+
     public void ResetBall()
     {
         Position = new Vector2(640, 360);
@@ -539,7 +548,7 @@ public partial class Ball : CharacterBody2D
         if (col != null) velocity = velocity.Bounce(col.GetNormal());
     }
 }</code></pre>
-    <p class="cheat-note">Taustiņu nosaukumus (<code>kreisais_augsup</code>) definē <b>Project Settings -&gt; Input Map</b>, nevis kodā.</p>
+    <p class="cheat-note">Taustiņu nosaukumus (<code>p1_up</code>, <code>p1_down</code>, <code>p2_up</code>, <code>p2_down</code>) definē <b>Project Settings -&gt; Input Map</b>, nevis kodā.</p>
   </div>
 </div></section>
 

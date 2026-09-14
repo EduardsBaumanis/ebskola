@@ -84,8 +84,9 @@
 
 <section class='section'>
     <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārbaudi Godot .NET un .NET SDK · 2. uzdevums (~25 min) - izveido pirmo <code>Hello.cs</code> skriptu · 3. uzdevums (~20 min) - pieslēdz VS Code un Git · Iesniegšana (~5 min).</p>
+        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārbaudi Godot .NET un .NET SDK · 2. uzdevums (~25 min) - izveido diagnostikas <code>BuildCheck.cs</code> skriptu · 3. uzdevums (~20 min) - pieslēdz VS Code un Git · Iesniegšana (~5 min).</p>
         <p><b>Pirms sāc:</b> šī ir darba vides stunda. Ja kāds solis neizdodas, pieraksti precīzu kļūdas tekstu - C# kļūdas parasti pasaka, kura programma vai fails vēl trūkst.</p>
+        <p><b>Fokuss:</b> šodien nav jāveido spēles loģika. Mērķis ir viens: pierādīt, ka Godot .NET, .NET SDK, VS Code un Git strādā vienā projektā.</p>
     </div>
 </section>
 
@@ -123,6 +124,7 @@ public partial class DotnetSetupCheck : Node
     <div class='logic-box'>
         <h3>1. uzdevums - Pārbaudi Godot .NET un .NET SDK</h3>
         <p>Beigās tavs dators pratīs būvēt Godot C# skriptus.</p>
+        <p><b>Ko šis māca:</b> saprast, ka C# Godot projektam vajag gan Godot .NET editoru, gan atsevišķu .NET SDK būvēšanai.</p>
         <ol class="step-list">
             <li><b>Pārliecinies</b>, ka lejupielādēta un palaista Godot versija ar nosaukumu <b>.NET</b>.</li>
             <li><b>Uzstādi</b> .NET SDK, ja tas vēl nav uzstādīts.</li>
@@ -134,29 +136,31 @@ public partial class DotnetSetupCheck : Node
         <p class="done-when"><b>Gatavs, kad:</b> <code>dotnet --version</code> atbild ar versijas numuru un Godot projektā ir pieejama C# Build poga.</p>
     </div>
     <div class='logic-box'>
-        <h3>2. uzdevums - Izveido pirmo C# skriptu</h3>
-        <p>Beigās Godot būs izveidojis C# projekta failus un palaidis tavu pirmo skriptu.</p>
+        <h3>2. uzdevums - Izveido diagnostikas C# skriptu</h3>
+        <p>Beigās Godot būs izveidojis C# projekta failus un palaidis īsu pārbaudes skriptu.</p>
+        <p><b>Ko šis māca:</b> redzēt pilnu C# ceļu: skripts tiek piesaistīts mezglam, projekts tiek būvēts, un izvade parādās Godot <b>Output</b> panelī.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> scēnā mezglu <code>Node</code> un nosauc to <code>Hello</code>.</li>
+            <li><b>Izveido</b> scēnā mezglu <code>Node</code> un nosauc to <code>BuildCheck</code>.</li>
             <li><b>Nospied</b> <b>Attach Script</b>.</li>
-            <li><b>Izvēlies</b> valodu <b>C#</b> un faila nosaukumu <code>Hello.cs</code>.</li>
-            <li><b>Ieraksti</b> <code>_Ready()</code> metodē <code class="language-csharp">GD.Print("Sveiks no C#!");</code>.</li>
+            <li><b>Izvēlies</b> valodu <b>C#</b> un faila nosaukumu <code>BuildCheck.cs</code>.</li>
+            <li><b>Ieraksti</b> <code>_Ready()</code> metodē <code class="language-csharp">GD.Print("C# build darbojas.");</code>.</li>
             <li><b>Nospied</b> Godot pogu <b>Build</b>.</li>
             <li><b>Palaid</b> projektu ar <code>F5</code> un paskaties <b>Output</b> paneli.</li>
             <li><b>Pārbaudi</b>, ka projekta mapē parādījās <code>.sln</code> un <code>.csproj</code> faili.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> spēles palaišanas brīdī Output panelī parādās teksts no <code>Hello.cs</code>, un projekta mapē ir C# projekta faili.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> spēles palaišanas brīdī Output panelī parādās teksts no <code>BuildCheck.cs</code>, un projekta mapē ir C# projekta faili.</p>
     </div>
     <div class='logic-box'>
         <h3>3. uzdevums - Pieslēdz VS Code un Git</h3>
         <p>Beigās C# kodu varēsi ērti rediģēt VS Code un droši saglabāt GitHub.</p>
+        <p><b>Ko šis māca:</b> nošķirt editoru, build sistēmu un versiju kontroli: VS Code raksta kodu, Godot/.NET būvē, Git saglabā izmaiņas.</p>
         <ol class="step-list">
             <li><b>Atver</b> Godot izvēlni <b>Editor -&gt; Editor Settings</b>.</li>
             <li><b>Atrodi</b> sadaļu <b>Dotnet -&gt; Editor</b> un kā ārējo editoru izvēlies <b>Visual Studio Code</b>.</li>
             <li><b>Atver</b> projektu VS Code ar pogu Godot editorā vai terminālī ar <code class="language-bash">code .</code>.</li>
             <li><b>Instalē</b> VS Code paplašinājumu <b>C#</b> vai <b>C# Dev Kit</b>, ja tas vēl nav uzstādīts.</li>
             <li><b>Pievieno</b> <code>.gitignore</code> failam rindas <code>.godot/</code>, <code>bin/</code> un <code>obj/</code>.</li>
-            <li><b>Pārliecinies</b>, ka Git redz <code>Hello.cs</code>, <code>.sln</code>, <code>.csproj</code> un <code>project.godot</code>.</li>
+            <li><b>Pārliecinies</b>, ka Git redz <code>BuildCheck.cs</code>, <code>.sln</code>, <code>.csproj</code> un <code>project.godot</code>.</li>
             <li><b>Veic</b> commit un push.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> VS Code atver C# failu ar izcelšanu, Godot Build darbojas, un ir C# projekta faili bez <code>.godot/</code>, <code>bin/</code> un <code>obj/</code> mapēm.</p>
@@ -164,6 +168,7 @@ public partial class DotnetSetupCheck : Node
     <div class='logic-box'>
         <h3>Papildu uzdevums - Saprot, ko dara katrs solis</h3>
         <p>Ja pamatdarbs ir gatavs, pieraksti sev atgādni turpmākajām reizēm.</p>
+        <p><b>Ko šis māca:</b> veidot īsu problēmu risināšanas pierakstu, kas palīdzēs, ja būvēšana kādreiz apstāsies.</p>
         <ol class="step-list">
             <li><b>Uzraksti</b> failu <code>BUILD.md</code> projekta mapē.</li>
             <li><b>Pieraksti</b> tajā komandas <code>dotnet --version</code> un <code>dotnet build</code>.</li>
@@ -179,25 +184,25 @@ public partial class DotnetSetupCheck : Node
 <section class='section'>
     <div class="hand-in-box">
         <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tavā datorā ir Godot .NET projekts ar strādājošu <code>Hello.cs</code> skriptu, .NET SDK ir pārbaudīts, un C# projekta faili ir saglabāti GitHub.</p>
+        <p class="merkis"><b>Stundas mērķis:</b> Tavā datorā ir Godot .NET projekts ar strādājošu <code>BuildCheck.cs</code> diagnostikas skriptu, .NET SDK ir pārbaudīts, un C# projekta faili ir saglabāti GitHub.</p>
         <p><b>GitHub krātuvē jābūt:</b></p>
         <ol class="step-list">
             <li>Ekrānuzņēmums ar termināli, kurā redzams <code>dotnet --version</code> rezultāts.</li>
-            <li>Ekrānuzņēmums ar Godot cilni <b>Output</b>, kurā redzama <code>Hello.cs</code> izdruka.</li>
-            <li>GitHub krātuvē redzami <code>Hello.cs</code>, <code>.sln</code>, <code>.csproj</code> un <code>project.godot</code>.</li>
+            <li>Ekrānuzņēmums ar Godot cilni <b>Output</b>, kurā redzama <code>BuildCheck.cs</code> izdruka.</li>
+            <li>GitHub krātuvē redzami <code>BuildCheck.cs</code>, <code>.sln</code>, <code>.csproj</code> un <code>project.godot</code>.</li>
             <li>Ja kaut kas neizdevās - precīzs kļūdas teksts, nokopēts no Godot vai termināļa.</li>
         </ol>
         <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
     </div>
 </section>
 <section class='section'>
-    <h2>Papildu izaicinājumi</h2>
-    <p>Iestati ērtāku C# rediģēšanu.</p>
+    <h2>Pašpārbaude pirms iesniegšanas</h2>
+    <p>Pārbaudi, vai C# vide tiešām strādā no sākuma līdz beigām.</p>
     <div class='logic-box'>
         <ul>
-            <li><b>Atver</b> projektu VS Code ar <code>code .</code>.</li>
-            <li><b>Instalē</b> C# paplašinājumu, lai redzētu autocompletion un kļūdas pirms palaišanas.</li>
-            <li><b>Pievieno</b> VS Code task, kas palaiž <code>dotnet build</code>.</li>
+            <li><b>Terminālī</b> <code>dotnet --version</code> rāda versijas numuru, nevis kļūdu.</li>
+            <li><b>Godot Output</b> panelī redzama tava <code>BuildCheck.cs</code> izdruka.</li>
+            <li><b>GitHub</b> nav redzamas <code>.godot/</code>, <code>bin/</code> un <code>obj/</code> mapes.</li>
         </ul>
     </div>
 </section>
@@ -208,7 +213,7 @@ public partial class DotnetSetupCheck : Node
         <ul>
         <li><b>C# izvēle neparādās:</b> palaista parastā Godot versija, nevis Godot .NET.</li>
         <li><b>dotnet: command not found:</b> .NET SDK nav uzstādīts vai terminālis vēl nav atvērts no jauna.</li>
-        <li><b>Cannot find class:</b> <code>Hello.cs</code> faila nosaukumam jāsakrīt ar klases nosaukumu <code>Hello</code>.</li>
+        <li><b>Cannot find class:</b> <code>BuildCheck.cs</code> faila nosaukumam jāsakrīt ar klases nosaukumu <code>BuildCheck</code>.</li>
         <li><b>Inspector neredz jaunu īpašību:</b> pēc C# koda maiņas nospied Godot <b>Build</b>.</li>
         </ul>
     </div>
@@ -229,14 +234,14 @@ public partial class DotnetSetupCheck : Node
     <div class='code-example'>
         <pre><code class="language-csharp">using Godot;
 
-public partial class Hello : Node
+public partial class BuildCheck : Node
 {
     public override void _Ready()
     {
-        GD.Print("C# skripts ielādēts: ", GetType().Name);
+        GD.Print("C# build darbojas: ", GetType().Name);
     }
 }</code></pre>
-        <div class='result'>Godot var ielādēt C# bibliotēku un nākamajā stundā reģistrēt pirmo pielāgoto klasi.</div>
+        <div class='result'>Godot var ielādēt C# bibliotēku, un nākamajā stundā vari droši rakstīt pirmo mācību skriptu ar mainīgajiem.</div>
     </div>
 </div>
 

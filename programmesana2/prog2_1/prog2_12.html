@@ -82,11 +82,12 @@
     <div class="info-box">
         <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido pirmo scēnu ar trim mezgliem · 2. uzdevums (~25 min) - saliec Pong laukuma koku · 3. uzdevums (~20 min) - saglabā paddle kā atsevišķu scēnu · Iesniegšana (~5 min).</p>
         <p><b>Pirms sāc:</b> atver savu Pong projektu no 1.1 stundas. Šodien vēl nerakstīsi kodu - tikai saliksi objektu koku, uz kuru vēlāk atsauksies C# kods.</p>
+        <p><b>Fokuss:</b> šodien katrs objekts iegūst vietu kokā un skaidru nosaukumu. Ja apjūc, paskaties tikai uz Scene paneli un pārbaudi, kurš mezgls ir vecāks un kurš ir bērns.</p>
     </div>
 </section>
 
 <section class='section'>
-    <h2>Teorija: Node un Scene konceptu</h2>
+    <h2>Teorija: Node un Scene koncepti</h2>
     <div class='logic-box'>
 <p>Godot fundamentālais princips: <b>viss ir Node</b> (Mezgls). Spēles laukums, varonis, poga, skaņa un kamera ir mezgli, kas savienoti hierarhiskā kokā jeb <b>Scene</b> (Skatā). Scēna nav tikai vizuāls izkārtojums; tā ir arī objektu īpašumtiesību un komunikācijas struktūra.</p>
 <p>Labs Scene Tree ir kā skaidrs programmas modelis: katram node ir viena atbildība, bērni papildina vecāku, un atkārtoti lietojami objekti tiek saglabāti kā atsevišķas scēnas. Slikts Scene Tree parasti ir milzīgs <code>Main</code> ar nejaušiem bērniem, kur C# kodā grūti atrast vajadzīgos objektus.</p>
@@ -131,34 +132,41 @@ public partial class Main : Node2D
     <div class='logic-box'>
         <h3>1. uzdevums - Izveido pirmo scēnu ar trim mezgliem</h3>
         <p>Beigās tev būs scēna ar vecāku mezglu un diviem bērniem.</p>
+        <p><b>Ko šis māca:</b> redzēt, ka scēna ir koks, kur bērni pieder vecākam un pārmanto tā novietojumu.</p>
         <ol class="step-list">
             <li><b>Nospied</b> Scene panelī <b>+ Other Node</b>.</li>
             <li><b>Izvēlies</b> tipu <code>Node2D</code> un pārsauc to par <code>Main</code>.</li>
             <li><b>Nospied</b> uz <code>Main</code> ar labo pogu un izvēlies <b>Add Child Node</b>.</li>
-            <li><b>Pievieno</b> bērnu <code>Sprite2D</code> un pārsauc to par <code>Bumba</code>.</li>
+            <li><b>Pievieno</b> bērnu <code>CharacterBody2D</code> un pārsauc to par <code>Ball</code>.</li>
             <li><b>Pievieno</b> vēl vienu bērnu <code>Label</code> un pārsauc to par <code>Punkti</code>.</li>
             <li><b>Saglabā</b> scēnu ar <code>Ctrl+S</code> kā <code>main.tscn</code>.</li>
-            <li><b>Pārbaudi</b>, ka Scene panelī <code>Bumba</code> un <code>Punkti</code> ir nobīdīti pa labi zem <code>Main</code>.</li>
+            <li><b>Pārbaudi</b>, ka Scene panelī <code>Ball</code> un <code>Punkti</code> ir nobīdīti pa labi zem <code>Main</code>.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> Scene panelī ir koks ar <code>Main</code> augšā un diviem bērniem zem tā, un fails <code>main.tscn</code> ir saglabāts.</p>
     </div>
     <div class='logic-box'>
         <h3>2. uzdevums - Saliec Pong laukuma koku</h3>
         <p>Beigās tavā scēnā būs visi Pong objekti ar saprotamiem nosaukumiem.</p>
+        <p><b>Ko šis māca:</b> izvēlēties mezglu tipus pēc atbildības: kustīgs ķermenis, sadursmes forma un vizuāls elements nav viens un tas pats.</p>
         <ol class="step-list">
             <li><b>Pievieno</b> zem <code>Main</code> mezglu <code>CharacterBody2D</code> un pārsauc to par <code>PaddleLeft</code>.</li>
             <li><b>Pievieno</b> otru <code>CharacterBody2D</code> un pārsauc to par <code>PaddleRight</code>.</li>
-            <li><b>Pievieno</b> katram paddle bērnu <code>CollisionShape2D</code>.</li>
-            <li><b>Izvēlies</b> Inspector panelī <code>Shape</code> -&gt; <b>New RectangleShape2D</b>.</li>
+            <li><b>Pievieno</b> <code>PaddleLeft</code> bērnu <code>CollisionShape2D</code>.</li>
+            <li><b>Pievieno</b> <code>PaddleRight</code> bērnu <code>CollisionShape2D</code>.</li>
+            <li><b>Pievieno</b> <code>Ball</code> bērnu <code>CollisionShape2D</code>.</li>
+            <li><b>Izvēlies</b> paddle sadursmēm Inspector panelī <code>Shape</code> -&gt; <b>New RectangleShape2D</b>.</li>
+            <li><b>Izvēlies</b> <code>Ball</code> sadursmei <code>Shape</code> -&gt; <b>New CircleShape2D</b>.</li>
             <li><b>Pievieno</b> katram paddle arī bērnu <code>ColorRect</code>, lai to redzētu.</li>
-            <li><b>Pārbaudi</b>, ka neviens mezgls nesaucas <code>Node2D2</code> vai <code>Sprite2D3</code>.</li>
+            <li><b>Pievieno</b> <code>Ball</code> bērnu <code>ColorRect</code>, lai bumbu redzētu kā mazu kvadrātu.</li>
+            <li><b>Pārbaudi</b>, ka neviens mezgls nesaucas <code>Node2D2</code>, <code>CharacterBody2D2</code> vai <code>ColorRect3</code>.</li>
             <li><b>Saglabā</b> scēnu.</li>
         </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> Scene kokā katram mezglam ir nosaukums, no kura var saprast, kas tas ir, un abiem paddle ir sadursmes forma.</p>
+        <p class="done-when"><b>Gatavs, kad:</b> Scene kokā katram mezglam ir nosaukums, no kura var saprast, kas tas ir, un abiem paddle un <code>Ball</code> ir sadursmes forma.</p>
     </div>
     <div class='logic-box'>
         <h3>3. uzdevums - Saglabā paddle kā atsevišķu scēnu</h3>
         <p>Beigās vienu paddle varēsi lietot atkārtoti, nekopējot mezglus.</p>
+        <p><b>Ko šis māca:</b> saprast atkārtoti lietojamu scēnu principu - vienu objektu labo vienā failā, bet izmanto vairākās vietās.</p>
         <ol class="step-list">
             <li><b>Nospied</b> uz <code>PaddleLeft</code> ar labo pogu.</li>
             <li><b>Izvēlies</b> <b>Save Branch as Scene</b> un saglabā kā <code>paddle.tscn</code>.</li>
@@ -173,11 +181,13 @@ public partial class Main : Node2D
     <div class='logic-box'>
         <h3>Papildu uzdevums - Sakārto koku pēc atbildības</h3>
         <p>Ja pamatdarbs ir gatavs, sadali scēnu loģiskās grupās.</p>
+        <p><b>Ko šis māca:</b> dalīt projektu mazākās grupās, lai C# kodā vēlāk nav jāmeklē objekti lielā, nejaušā sarakstā.</p>
         <ol class="step-list">
             <li><b>Pievieno</b> zem <code>Main</code> tukšu <code>Node2D</code> ar nosaukumu <code>Speles</code>.</li>
             <li><b>Pievieno</b> otru tukšu <code>Node2D</code> ar nosaukumu <code>UI</code>.</li>
-            <li><b>Pārvelc</b> abus paddle un bumbu zem <code>Speles</code>.</li>
+            <li><b>Pārvelc</b> abus paddle un <code>Ball</code> zem <code>Speles</code>.</li>
             <li><b>Pārvelc</b> <code>Punkti</code> zem <code>UI</code>.</li>
+            <li><b>Pieraksti</b>, ka pēc grupēšanas C# ceļi būs, piemēram, <code>Speles/Ball</code> un <code>UI/Punkti</code>.</li>
             <li><b>Pieraksti</b>, kāpēc šāds dalījums vēlāk atvieglos koda rakstīšanu.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> koks ir sadalīts divās grupās, un zem <code>Main</code> ir tikai divi tiešie bērni.</p>
@@ -198,13 +208,13 @@ public partial class Main : Node2D
     </div>
 </section>
 <section class='section'>
-    <h2>Papildu izaicinājumi</h2>
-    <p>Pārbaudi, vai scēnas struktūra ir atkārtoti lietojama.</p>
+    <h2>Pašpārbaude pirms iesniegšanas</h2>
+    <p>Pārbaudi, vai scēnas koku var saprast arī cilvēks, kurš to redz pirmo reizi.</p>
     <div class='logic-box'>
         <ul>
-            <li><b>Izdzēs</b> <code>PaddleRight</code> un izveido to no <code>scenes/Paddle.tscn</code> kā jaunu instanci.</li>
-            <li><b>Pārsauc</b> instanci atpakaļ par <code>PaddleRight</code> un pārbaudi, vai nav pazuduši bērnu nodes.</li>
-            <li><b>Pieraksti</b> README failā, kāpēc atkārtoti lietojamas scēnas ir drošākas par manuālu kopēšanu.</li>
+            <li><b>Pārskati nosaukumus:</b> kokā nedrīkst palikt <code>Node2D2</code>, <code>CharacterBody2D2</code>, <code>ColorRect3</code> vai citi nejauši nosaukumi.</li>
+            <li><b>Atver</b> <code>paddle.tscn</code> atsevišķi un pārliecinies, ka tajā ir vizuālais mezgls un <code>CollisionShape2D</code>.</li>
+            <li><b>README.md</b> vienā teikumā paskaidro, ar ko scēna atšķiras no mezgla.</li>
         </ul>
     </div>
 </section>

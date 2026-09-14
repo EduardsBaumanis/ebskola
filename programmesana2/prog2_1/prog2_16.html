@@ -83,6 +83,7 @@
     <div class="info-box">
         <p><b>80 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~20 min) - liec paddle kustēties · 2. uzdevums (~25 min) - liec bumbai lidot un atlekt · 3. uzdevums (~20 min) - pievieno punktus un uzvaru · Iesniegšana (~5 min).</p>
         <p><b>Pirms sāc:</b> šis ir 1. tēmas noslēguma projekts. Laukums jau ir gatavs no 1.5 stundas - šodien pievienosi kustību. Strādā pa vienam objektam: vispirms paddle, tad bumba, tad punkti.</p>
+        <p><b>Fokuss:</b> pēc katra uzdevuma palaid spēli un pārbaudi tikai vienu lietu. Ja reizē labo paddle, bumbu un punktus, kļūdu būs grūtāk atrast.</p>
     </div>
 </section>
 
@@ -94,7 +95,7 @@
 <p>Spēles loģika tiek rakstīta <b>C#</b>. Godot editorā drīkst salikt scēnas un iestatīt resursus, bet paddle kustība, bumbas atlēkšana, punktu pieskaitīšana un uzvaras pārbaude jārealizē <code>.cs</code> skriptos.</p>
 <p><b>C# klases:</b></p>
 <ul>
-<li><code>Paddle</code> - spēlētāja vadītā raķete ar ievades darbībām <code>input_up</code> un <code>input_down</code>.</li>
+<li><code>Paddle</code> - spēlētāja vadītā raķete ar Input Map darbībām <code>p1_up</code>, <code>p1_down</code>, <code>p2_up</code> un <code>p2_down</code>.</li>
 <li><code>Ball</code> - bumba ar ātrumu, sadursmju apstrādi un reset mehāniku.</li>
 <li><code>Game</code> - punktu uzskaite, UI atjaunināšana, uzvaras noteikšana un raunda restartēšana.</li>
 </ul>
@@ -122,8 +123,7 @@ public partial class Game : Node
 
     private void UpdateScoreLabels()
     {
-        GetNode&lt;Label&gt;("ScoreLeft").Text = scoreLeft.ToString();
-        GetNode&lt;Label&gt;("ScoreRight").Text = scoreRight.ToString();
+        GetNode&lt;Label&gt;("Punkti").Text = scoreLeft + " : " + scoreRight;
     }
 }</code></pre>
     </div>
@@ -134,24 +134,29 @@ public partial class Game : Node
     <div class='logic-box'>
         <h3>1. uzdevums - Liec paddle kustēties</h3>
         <p>Beigās abi spēlētāji varēs vadīt savu paddle ar taustiņiem.</p>
+        <p><b>Ko šis māca:</b> sasaistīt Input Map darbības ar C# kodu, lai taustiņus var mainīt editorā, nevis meklēt kodā.</p>
         <ol class="step-list">
             <li><b>Atver</b> <b>Project -&gt; Project Settings -&gt; Input Map</b>.</li>
-            <li><b>Izveido</b> darbības <code>kreisais_augsup</code>, <code>kreisais_lejup</code>, <code>labais_augsup</code>, <code>labais_lejup</code>.</li>
+            <li><b>Izveido</b> darbības <code>p1_up</code>, <code>p1_down</code>, <code>p2_up</code>, <code>p2_down</code>.</li>
             <li><b>Piesaisti</b> tām taustiņus W, S, augšupbulta un lejupbulta.</li>
-            <li><b>Izveido</b> C# klasi <code>Paddle</code>, kas manto no <code>CharacterBody2D</code>.</li>
-            <li><b>Uzraksti</b> metodē <code class="language-csharp">_PhysicsProcess(double delta)</code> ātruma aprēķinu pēc <code class="language-csharp">Input.IsActionPressed(...)</code>.</li>
-            <li><b>Izsauc</b> <code class="language-csharp">MoveAndSlide()</code> un būvē projektu ar Godot <b>Build</b> pogu.</li>
-            <li><b>Palaid</b> spēli un pārbaudi abus paddle.</li>
+            <li><b>Izvēlies</b> <code>PaddleLeft</code> un piesaisti tam jaunu C# skriptu <code>Paddle.cs</code>, kas manto no <code>CharacterBody2D</code>.</li>
+            <li><b>Pievieno</b> klasē laukus <code class="language-csharp">[Export] public string InputUp = "p1_up";</code>, <code class="language-csharp">[Export] public string InputDown = "p1_down";</code> un <code class="language-csharp">[Export] public float Speed = 420.0f;</code>.</li>
+            <li><b>Piesaisti</b> to pašu <code>Paddle.cs</code> skriptu arī <code>PaddleRight</code>.</li>
+            <li><b>Inspector</b> panelī <code>PaddleRight</code> laukiem ieraksti <code>InputUp = p2_up</code> un <code>InputDown = p2_down</code>.</li>
+            <li><b>Uzraksti</b> metodē <code class="language-csharp">_PhysicsProcess(double delta)</code> ātruma aprēķinu pēc <code class="language-csharp">Input.IsActionPressed(InputUp)</code> un <code class="language-csharp">Input.IsActionPressed(InputDown)</code>.</li>
+            <li><b>Izsauc</b> <code class="language-csharp">MoveAndSlide()</code>, būvē projektu ar Godot <b>Build</b> pogu un pārbaudi abus paddle.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> abi paddle kustas augšup un lejup ar saviem taustiņiem un neiziet ārpus sienām.</p>
     </div>
     <div class='logic-box'>
         <h3>2. uzdevums - Liec bumbai lidot un atlekt</h3>
         <p>Beigās bumba lidos pa laukumu un atlēks no sienām un paddle.</p>
+        <p><b>Ko šis māca:</b> izmantot <code>delta</code> un sadursmes rezultātu, lai kustība būtu stabila, nevis atkarīga no datora ātruma.</p>
         <ol class="step-list">
-            <li><b>Izveido</b> C# klasi <code>Ball</code>, kas manto no <code>CharacterBody2D</code>.</li>
+            <li><b>Izvēlies</b> <code>Ball</code> un piesaisti tam jaunu C# skriptu <code>Ball.cs</code>, kas manto no <code>CharacterBody2D</code>.</li>
             <li><b>Pievieno</b> lauku <code class="language-csharp">private Vector2 velocity;</code> un <code class="language-csharp">[Export] public float BaseSpeed = 420.0f;</code>.</li>
             <li><b>Uzraksti</b> metodi <code class="language-csharp">ResetBall()</code>, kas noliek bumbu centrā un dod nejaušu <code>Y</code> ātrumu.</li>
+            <li><b>Izsauc</b> <code class="language-csharp">ResetBall()</code> metodē <code class="language-csharp">_Ready()</code>, lai bumba sāktu kustēties spēles sākumā.</li>
             <li><b>Izsauc</b> <code class="language-csharp">_PhysicsProcess</code> metodē <code class="language-csharp">MoveAndCollide(velocity * (float)delta)</code>.</li>
             <li><b>Pārbaudi</b>, vai atgrieztā sadursme nav <code>null</code>, un atspoguļo ātrumu ar <code class="language-csharp">velocity.Bounce(...)</code>.</li>
             <li><b>Būvē</b> projektu un palaid spēli.</li>
@@ -162,20 +167,23 @@ public partial class Game : Node
     <div class='logic-box'>
         <h3>3. uzdevums - Pievieno punktus un uzvaru</h3>
         <p>Beigās spēle skaitīs punktus un paziņos uzvarētāju.</p>
+        <p><b>Ko šis māca:</b> glabāt spēles stāvokli C# laukos un pēc katras izmaiņas atjaunināt redzamo UI tekstu.</p>
         <ol class="step-list">
-            <li><b>Pievieno</b> pārbaudi: ja bumbas <code>x</code> ir mazāks par 0, punktu saņem labais spēlētājs.</li>
-            <li><b>Pievieno</b> otru pārbaudi: ja <code>x</code> ir lielāks par 1280, punktu saņem kreisais.</li>
-            <li><b>Atjaunini</b> <code>Punkti</code> mezgla tekstu pēc katra punkta.</li>
+            <li><b>Izvēlies</b> <code>Main</code> un piesaisti tam jaunu C# skriptu <code>Game.cs</code>.</li>
+            <li><b>Pievieno</b> <code>Game.cs</code> laukus <code class="language-csharp">scoreLeft</code>, <code class="language-csharp">scoreRight</code> un atsauci uz <code>Ball</code>.</li>
+            <li><b>Uzraksti</b> metodi <code class="language-csharp">OnScore(bool leftPlayer)</code>, kas palielina pareizo punktu skaitu.</li>
+            <li><b>Atjaunini</b> <code>Punkti</code> mezgla tekstu pēc katra punkta formā <code>0 : 0</code>.</li>
             <li><b>Izsauc</b> pēc punkta <code>ResetBall()</code>.</li>
+            <li><b>Ball.cs</b> pārbaudi: ja bumbas <code>x</code> ir mazāks par 0, punktu saņem labais spēlētājs; ja <code>x</code> ir lielāks par 1280, punktu saņem kreisais.</li>
             <li><b>Pievieno</b> pārbaudi: kad kāds sasniedz 5 punktus, parādi uzvarētāju un aptur bumbu.</li>
-            <li><b>Izspēlē</b> vienu pilnu partiju līdz 5 punktiem.</li>
-            <li><b>Veic</b> commit un push.</li>
+            <li><b>Izspēlē</b> vienu pilnu partiju līdz 5 punktiem, tad veic commit un push.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> spēle pareizi skaita punktus abiem spēlētājiem un beidzas, kad kāds sasniedz 5.</p>
     </div>
     <div class='logic-box'>
         <h3>Papildu uzdevums - Paātrini bumbu pēc katra sitiena</h3>
         <p>Ja pamatdarbs ir gatavs, padari spēli grūtāku ar laiku.</p>
+        <p><b>Ko šis māca:</b> mainīt spēles grūtību kontrolēti: palielini ātrumu, bet saglabā augšējo robežu un reset sākumstāvokli.</p>
         <ol class="step-list">
             <li><b>Pievieno</b> klasei <code>Ball</code> lauku ar paātrinājuma koeficientu.</li>
             <li><b>Palielini</b> ātrumu par dažiem procentiem pēc katras sadursmes ar paddle.</li>
@@ -202,13 +210,13 @@ public partial class Game : Node
     </div>
 </section>
 <section class='section'>
-    <h2>Papildu izaicinājumi</h2>
-    <p>Pievieno vienu uzlabojumu, kas neizjauc pamata spēli.</p>
+    <h2>Pašpārbaude pirms iesniegšanas</h2>
+    <p>Izspēlē īsu testu un pārbaudi, vai katra sistēma strādā atsevišķi.</p>
     <div class='logic-box'>
         <ul>
-            <li><b>Izveido</b> <code>AIPaddle : Paddle</code>, kas seko bumbai tikai tad, kad bumba kustas tā virzienā.</li>
-            <li><b>Pievieno</b> skaņas efektu paddle sadursmei un punktam, bet skaņas palaišanu izsauc no C#.</li>
-            <li><b>Pievieno</b> pauzes režīmu ar <code>bool paused</code>, kas aptur bumbas un paddle kustību.</li>
+            <li><b>Vadība:</b> W/S kustina kreiso paddle, bultas kustina labo paddle.</li>
+            <li><b><code>Ball</code>:</b> pēc palaišanas tā kustas un atlec no sienām un paddle.</li>
+            <li><b>Punkti:</b> kad bumba iziet ārpus malas, <code>Punkti</code> mainās, un pie 5 punktiem redzams uzvarētājs.</li>
         </ul>
     </div>
 </section>
@@ -217,8 +225,8 @@ public partial class Game : Node
     <h2>Biežākās kļūdas</h2>
     <div class='logic-box'>
         <ul>
-        <li><b>Bumba iziet cauri paddle:</b> ātrums pārāk augsts; lieto <code>MoveAndCollide()</code>, nevis tiešu <code>Position</code> pārbīdi.</li>
-        <li><b>Punkti netiek atjaunināti:</b> pārliecinies par <code>GetNode&lt;Label&gt;("ScoreLeft")</code> references ceļu.</li>
+        <li><b><code>Ball</code> iziet cauri paddle:</b> ātrums pārāk augsts; lieto <code>MoveAndCollide()</code>, nevis tiešu <code>Position</code> pārbīdi.</li>
+        <li><b>Punkti netiek atjaunināti:</b> pārliecinies par <code>GetNode&lt;Label&gt;("Punkti")</code> references ceļu. Ja liki punktus zem <code>UI</code>, ceļš ir <code>UI/Punkti</code>.</li>
         <li><b>Build neizmainās:</b> nospied Godot <b>Build</b> pogu vai palaid <code>dotnet build</code> no projekta mapes.</li>
         </ul>
     </div>
@@ -247,6 +255,11 @@ public partial class Ball : CharacterBody2D
 {
     [Export] public float BaseSpeed = 420.0f;
     private Vector2 velocity;
+
+    public override void _Ready()
+    {
+        ResetBall();
+    }
 
     public void ResetBall()
     {

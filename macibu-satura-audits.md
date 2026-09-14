@@ -180,8 +180,8 @@ Visiem obligātajiem SR no `sasnRez.html` ir vismaz viena stundu piesaiste savā
 |---|---|---|
 | [1.1 Godot instalācija un projekta sagatavošana](programmesana2/prog2_1/prog2_11.html) | `2.4.12`, `3.1.2`, `2.3.1` | Atbilst vecumposmam |
 | [1.2 Scene Tree un Node sistēma](programmesana2/prog2_1/prog2_12.html) | `2.4.13`, `2.4.15` | Atbilst vecumposmam |
-| [1.3 C++ un GDExtension sagatavošana](programmesana2/prog2_1/prog2_13.html) | `2.4.12`, `2.4.2`, `2.3.2`, `2.4.8`, `2.4.9`, `2.4.11` | Atbilst vecumposmam |
-| [1.4 Pirmais C++ skripts: mainīgie un izvade](programmesana2/prog2_1/prog2_14.html) | `2.4.13`, `2.4.15` | Atbilst vecumposmam |
+| [1.3 C# un .NET sagatavošana](programmesana2/prog2_1/prog2_13.html) | `2.4.12`, `2.4.2`, `2.3.2`, `2.4.8`, `2.4.9`, `2.4.11` | Atbilst vecumposmam |
+| [1.4 Pirmais C# skripts: mainīgie un izvade](programmesana2/prog2_1/prog2_14.html) | `2.4.13`, `2.4.15` | Atbilst vecumposmam |
 | [1.5 Spēles laukuma izveide](programmesana2/prog2_1/prog2_15.html) | `2.4.7`, `2.4.13` | Atbilst vecumposmam |
 | [1.6 Noslēguma projekts: Pong](programmesana2/prog2_1/prog2_16.html) | `2.4.1`, `2.4.7`, `2.4.15`, `2.4.3` | Atbilst vecumposmam |
 | [2.1 Process un fizikas cikli](programmesana2/prog2_2/prog2_21.html) | `2.4.14`, `2.4.15` | Atbilst vecumposmam |

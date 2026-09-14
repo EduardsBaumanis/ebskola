@@ -82,6 +82,7 @@
     <div class="info-box">
         <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - novieto objektus pēc koordinātēm · 2. uzdevums (~25 min) - pievieno sienas un vidus līniju · 3. uzdevums (~20 min) - pievieno punktu skaitītāju un kameru · Iesniegšana (~5 min).</p>
         <p><b>Pirms sāc:</b> atver savu <code>main.tscn</code>. Atceries galveno: Godot koordinātes sākas kreisajā AUGŠĒJĀ stūrī, un Y pieaug uz LEJU, nevis uz augšu kā matemātikā.</p>
+        <p><b>Fokuss:</b> katru pozīciju pārbaudi ar acīm, ne tikai ar skaitļiem. Ja objekts nav tur, kur gaidīji, pieraksti, kura koordināte mainīja virzienu.</p>
     </div>
 </section>
 
@@ -105,8 +106,7 @@ public partial class GameHud : CanvasLayer
 {
     public void SetScore(int left, int right)
     {
-        GetNode&lt;Label&gt;("ScoreLeft").Text = left.ToString();
-        GetNode&lt;Label&gt;("ScoreRight").Text = right.ToString();
+        GetNode&lt;Label&gt;("Punkti").Text = left + " : " + right;
     }
 }</code></pre>
     </div>
@@ -117,11 +117,12 @@ public partial class GameHud : CanvasLayer
     <div class='logic-box'>
         <h3>1. uzdevums - Novieto objektus pēc koordinātēm</h3>
         <p>Beigās abi paddle stāvēs precīzi laukuma malās, nevis nejaušās vietās.</p>
+        <p><b>Ko šis māca:</b> praktiski pārbaudīt Godot koordināšu sistēmu: X iet pa labi, bet Y iet uz leju.</p>
         <ol class="step-list">
             <li><b>Izvēlies</b> <code>PaddleLeft</code> un atver Inspector paneli.</li>
             <li><b>Ieraksti</b> <code>Transform -&gt; Position</code> vērtības <code>x = 60</code>, <code>y = 360</code>.</li>
             <li><b>Ieraksti</b> <code>PaddleRight</code> pozīciju <code>x = 1220</code>, <code>y = 360</code>.</li>
-            <li><b>Novieto</b> bumbu pašā centrā: <code>x = 640</code>, <code>y = 360</code>.</li>
+            <li><b>Novieto</b> <code>Ball</code> pašā centrā: <code>x = 640</code>, <code>y = 360</code>.</li>
             <li><b>Palaid</b> spēli ar <code>F5</code> un pārbaudi, vai visi trīs objekti ir redzami.</li>
             <li><b>Nomaini</b> viena paddle <code>y</code> uz <code>0</code> un palaid vēlreiz.</li>
             <li><b>Pieraksti</b>, uz kuru pusi objekts pārvietojās, un ieliec vērtību atpakaļ.</li>
@@ -131,6 +132,7 @@ public partial class GameHud : CanvasLayer
     <div class='logic-box'>
         <h3>2. uzdevums - Pievieno sienas un vidus līniju</h3>
         <p>Beigās bumbai būs no kā atlēkt, un laukums izskatīsies kā īsts Pong.</p>
+        <p><b>Ko šis māca:</b> atšķirt redzamu līniju no sadursmes objekta: vizuālais elements pats par sevi bumbu neaptur.</p>
         <ol class="step-list">
             <li><b>Pievieno</b> <code>StaticBody2D</code> ar nosaukumu <code>SienaAugsa</code>.</li>
             <li><b>Pievieno</b> tai bērnu <code>CollisionShape2D</code> ar <code>RectangleShape2D</code> formu.</li>
@@ -145,6 +147,7 @@ public partial class GameHud : CanvasLayer
     <div class='logic-box'>
         <h3>3. uzdevums - Pievieno punktu skaitītāju un kameru</h3>
         <p>Beigās laukumā būs vieta, kur vēlāk parādīsies rezultāts.</p>
+        <p><b>Ko šis māca:</b> nodalīt UI slāni no spēles objektiem, lai rezultāts nekustas kopā ar paddle vai bumbu.</p>
         <ol class="step-list">
             <li><b>Izvēlies</b> mezglu <code>Punkti</code> un iestati tā tekstu uz <code>0 : 0</code>.</li>
             <li><b>Novieto</b> to pozīcijā <code>x = 600</code>, <code>y = 40</code>.</li>
@@ -159,11 +162,12 @@ public partial class GameHud : CanvasLayer
     <div class='logic-box'>
         <h3>Papildu uzdevums - Izrēķini pozīcijas pats</h3>
         <p>Ja pamatdarbs ir gatavs, pārbaudi, vai proti strādāt ar koordinātēm.</p>
+        <p><b>Ko šis māca:</b> lietot formulu <code>centrs = platums / 2, augstums / 2</code> jaunam loga izmēram, nevis minēt ar aci.</p>
         <ol class="step-list">
             <li><b>Izrēķini</b>, kāda būtu centra pozīcija logā <code>1920 x 1080</code>.</li>
             <li><b>Pieraksti</b> atbildi README.md failā pirms pārbaudes.</li>
             <li><b>Nomaini</b> projekta loga izmēru uz <code>1920 x 1080</code>.</li>
-            <li><b>Pārvieto</b> bumbu uz savu izrēķināto pozīciju un palaid.</li>
+            <li><b>Pārvieto</b> <code>Ball</code> uz savu izrēķināto pozīciju un palaid.</li>
             <li><b>Atgriez</b> loga izmēru atpakaļ uz <code>1280 x 720</code>.</li>
         </ol>
         <p class="done-when"><b>Gatavs, kad:</b> tava izrēķinātā centra pozīcija bija pareiza, un bumba tiešām bija ekrāna vidū.</p>
@@ -185,13 +189,13 @@ public partial class GameHud : CanvasLayer
     </div>
 </section>
 <section class='section'>
-    <h2>Papildu izaicinājumi</h2>
-    <p>Noslīpē laukuma lasāmību.</p>
+    <h2>Pašpārbaude pirms iesniegšanas</h2>
+    <p>Pārbaudi, vai laukums ir saprotams gan vizuāli, gan pēc mezglu koka.</p>
     <div class='logic-box'>
         <ul>
-            <li>Pievieno smalku fonu vai krāsu kontrastu, bet saglabā Pong minimālo lasāmību.</li>
-            <li>Pārliecinies, ka <code>ScoreLeft</code> un <code>ScoreRight</code> nav bērni zem kustīgiem objektiem.</li>
-            <li>Izveido īsu skici README failā, kur parādi 1280×720 koordinātu sistēmu.</li>
+            <li><b>Palaid spēli:</b> redzami abi paddle, <code>Ball</code>, sienas, vidus līnija un <code>Punkti</code>.</li>
+            <li><b>Pārbaudi koku:</b> <code>Punkti</code> nav bērns zem kustīga objekta.</li>
+            <li><b>README.md</b> ir īsa skice vai teikums, kāpēc 1280x720 laukuma centrs ir <code>(640, 360)</code>.</li>
         </ul>
     </div>
 </section>
@@ -230,10 +234,9 @@ public partial class CourtSetup : Node2D
 {
     public override void _Ready()
     {
-        GetNode&lt;Label&gt;("ScoreLeft").Text = "0";
-        GetNode&lt;Label&gt;("ScoreRight").Text = "0";
+        GetNode&lt;Label&gt;("Punkti").Text = "0 : 0";
 
-        Line2D centerLine = GetNode&lt;Line2D&gt;("CenterLine");
+        Line2D centerLine = GetNode&lt;Line2D&gt;("VidusLinija");
         centerLine.Points = new[]
         {
             new Vector2(640, 0),

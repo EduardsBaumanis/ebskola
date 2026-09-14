@@ -780,17 +780,17 @@ Drošības zars pirms apvienošanas: `backup/vienkarsosana-pirms-merge`.
 | Prasība | Kā risināts |
 |---|---|
 | **80 min stundas**, nevis 70 | Katrā stundā plāns 10 + 20 + 25 + 20 + 5 min. Pēdējās 5 minūtes atvēlētas darba iesniegšanai. |
-| Skolēni atceras **Programmēšanas I 1.-6. tēmu** | Uzdevumi tieši atsaucas uz Python sarakstiem, vārdnīcām, cikliem un failu darbu un rāda C++ variantu kā to pašu citā pierakstā. |
+| Skolēni atceras **Programmēšanas I 1.-6. tēmu** | Uzdevumi tieši atsaucas uz Python mainīgajiem, cikliem, sarakstiem un failu darbu un rāda C# variantu kā to pašu citā pierakstā. |
 | **Nekādu Godot priekšzināšanu** | 1.1 sākas ar lejupielādi un editora piecu daļu apskatu. Soļos nosaukta katra izvēlne un poga. |
 | Valoda **piemērota, bet pārvaldāma skolēnam ar UDS** | Viens solis - viena darbība. Katram uzdevumam viens nosaukts rezultāts un pārbaudāms `Gatavs, kad:`. Nav izvēlņu tipa uzdevumu. |
 | **Skaidrs stundas gala mērķis, ko iesniedz skolotājam** | Katras stundas beigās jauna sadaļa **Ko iesniedz skolotājam**: stundas mērķis vienā teikumā, numurēts iesniedzamo darbu saraksts un iesniegšanas veids. |
 
-> **Piezīme par priekšzināšanām.** Kursa 3. tēma māca objektorientēto programmēšanu. Programmēšanas I OOP ir 11. tēmā, tātad **ārpus** tā, ko šie skolēni atceras. Tāpēc 3.1 nesāk ar pieņēmumu, ka klases ir pazīstamas: pirmais solis ir uzrakstīt Python vārdnīcu un tai blakus to pašu kā C++ klasi.
+> **Piezīme par priekšzināšanām.** Kursa 3. tēma māca objektorientēto programmēšanu. Programmēšanas I OOP ir 11. tēmā, tātad **ārpus** tā, ko šie skolēni atceras. Tāpēc 3.1 nesāk ar pieņēmumu, ka klases ir pazīstamas: pirmais solis ir uzrakstīt Python vārdnīcu un tai blakus to pašu kā C# klasi.
 
-> **Piezīme par kursa grūtumu.** Kurss lieto Godot 4 ar C++ GDExtension, kas prasa kompilatoru un SCons build vidi. Tas ir ievērojami stāvāks slīpums nekā Python. Uzdevumos tas ņemts vērā: 1.3 (build vides uzstādīšana) ir atzīmēta kā tēmas tehniski grūtākā stunda, tajā norādīts, ka ilga kompilēšana ir normāla, un **pats kļūdas teksts ir iesniedzams darbs**, lai stunda nebeigtos ar tukšu rezultātu, ja uzstādīšana neizdodas.
+> **Piezīme par kursa grūtumu.** Kurss lieto Godot 4 .NET ar C#, kas prasa atsevišķu .NET SDK un skaidru build soli. Tas ir pārvaldāmāks nekā C++ GDExtension, bet skolēniem joprojām jāiemācās, ka C# izmaiņas pēc saglabāšanas ir jāuzbūvē. 1.3 tāpēc ir darba vides diagnostikas stunda: ja uzstādīšana neizdodas, **precīzs kļūdas teksts ir iesniedzams darbs**, lai stunda nebeigtos ar tukšu rezultātu.
 
 
-### 1. tēma - Ievads Godot un C++
+### 1. tēma - Ievads Godot un C#
 
 **[1.1 Godot instalācija un projekta sagatavošana](programmesana2/prog2_1/prog2_11.html)**
 
@@ -799,7 +799,7 @@ Drošības zars pirms apvienošanas: `backup/vienkarsosana-pirms-merge`.
 - 3. uzdevums - Iestati logu un saglabā projektu Git
 - Papildu uzdevums - Saglabā savu editora izkārtojumu
 
-> **Iesniedz:** Tev ir uzstādīts Godot 4 un izveidots tukšs Pong projekts pareizā loga izmērā, kas saglabāts GitHub krātuvē, un tu proti nosaukt piecas editora galvenās daļas.
+> **Iesniedz:** Tev ir uzstādīts Godot 4 .NET un izveidots tukšs Pong projekts pareizā loga izmērā, kas saglabāts GitHub krātuvē, un tu proti nosaukt piecas editora galvenās daļas.
 
 **[1.2 Scene Tree un Node sistēma](programmesana2/prog2_1/prog2_12.html)**
 
@@ -810,23 +810,23 @@ Drošības zars pirms apvienošanas: `backup/vienkarsosana-pirms-merge`.
 
 > **Iesniedz:** Tev ir saglabāta Pong scēna main.tscn, kurā objekti sakārtoti saprotamā Node kokā, un viens paddle ir izveidots kā atkārtoti lietojama scēna paddle.tscn.
 
-**[1.3 C++ un GDExtension sagatavošana](programmesana2/prog2_1/prog2_13.html)**
+**[1.3 C# un .NET sagatavošana](programmesana2/prog2_1/prog2_13.html)**
 
-- 1. uzdevums - Uzstādi kompilatoru un SCons
-- 2. uzdevums - Lejupielādē godot-cpp un nokompilē to
-- 3. uzdevums - Pieslēdz bibliotēku Godot projektam
+- 1. uzdevums - Pārbaudi Godot .NET un .NET SDK
+- 2. uzdevums - Izveido diagnostikas C# skriptu
+- 3. uzdevums - Pieslēdz VS Code un Git
 - Papildu uzdevums - Saprot, ko dara katrs solis
 
-> **Iesniedz:** Tavā datorā ir uzstādīts C++ kompilators un SCons, nokompilēta godot-cpp bibliotēka, un Godot projekts atveras bez kļūdas par trūkstošu GDExtension bibliotēku.
+> **Iesniedz:** Tavā datorā ir Godot .NET projekts ar strādājošu BuildCheck.cs diagnostikas skriptu, .NET SDK ir pārbaudīts, un C# projekta faili ir saglabāti GitHub.
 
-**[1.4 Pirmais C++ skripts: mainīgie un izvade](programmesana2/prog2_1/prog2_14.html)**
+**[1.4 Pirmais C# skripts: mainīgie un izvade](programmesana2/prog2_1/prog2_14.html)**
 
-- 1. uzdevums - Uzraksti .hpp un .cpp failu pāri
-- 2. uzdevums - Reģistrē klasi un nokompilē
+- 1. uzdevums - Izveido Hello.cs skriptu
+- 2. uzdevums - Būvē un palaid skriptu
 - 3. uzdevums - Pievieno mainīgo un izdrukā to Godot
 - Papildu uzdevums - Salīdzini ar Python
 
-> **Iesniedz:** Tev ir uzrakstīta pirmā C++ klase Hello, kas ir reģistrēta, nokompilēta, pievienota Godot scēnai un palaižot spēli izdrukā tekstu Output panelī.
+> **Iesniedz:** Tev ir uzrakstīts pirmais C# skripts Hello.cs, tas ir piesaistīts Godot mezglam, projekts ir uzbūvēts, un palaižot spēli tas izdrukā tekstu Output panelī.
 
 **[1.5 Spēles laukuma izveide](programmesana2/prog2_1/prog2_15.html)**
 
@@ -844,7 +844,7 @@ Drošības zars pirms apvienošanas: `backup/vienkarsosana-pirms-merge`.
 - 3. uzdevums - Pievieno punktus un uzvaru
 - Papildu uzdevums - Paātrini bumbu pēc katra sitiena
 
-> **Iesniedz:** Tev ir strādājoša Pong spēle: abi spēlētāji vada savus paddle, bumba lido un atlec, spēle skaita punktus un paziņo uzvarētāju pie 5 punktiem. Visa spēles loģika ir C++ klasēs.
+> **Iesniedz:** Tev ir strādājoša Pong spēle: abi spēlētāji vada savus paddle, bumba lido un atlec, spēle skaita punktus un paziņo uzvarētāju pie 5 punktiem. Visa spēles loģika ir C# klasēs.
 
 
 ### 2. tēma - Spēles mehānika
@@ -1142,7 +1142,7 @@ Katrai tēmai ir ievadlapa (`*main.html`) ar stundu sarakstu un špikeri. Špike
 
 **Kas bija nepareizi:**
 
-- Špikeri sedza tikai daļu tēmas. Piemēram, Programmēšanas II 1. tēmas špikeris rādīja tikai C++ klases reģistrāciju, lai gan tēmā ir arī Scene Tree, koordinātes un build komandas. Programmēšanas I 11. tēmā bija viens fragments, lai gan tēmā ir klases, konstruktori, metodes, mantošana un polimorfisms.
+- Špikeri sedza tikai daļu tēmas. Piemēram, Programmēšanas II 1. tēmas špikerim jāsedz ne tikai C# skripta piemērs, bet arī Scene Tree, koordinātes un build komandas. Programmēšanas I 11. tēmā bija viens fragments, lai gan tēmā ir klases, konstruktori, metodes, mantošana un polimorfisms.
 - Apjoms bija ļoti nevienmērīgs: no 824 līdz 4807 baitiem.
 - Divi špikeri lietoja ar roku rakstītu `<span class="tok-*">` izcelšanu, ko nevar uzturēt; pārējie - parasto `pre/code`.
 - `prog2_5` visur rakstīja **BSP**, bet stunda faktiski māca **Random Walk** algoritmu.

@@ -15,7 +15,7 @@ Galvenās satura daļas:
 | Datorika 9. klasei | `datorika9/` | Tīmekļa tehnoloģijas, HTML/CSS, JavaScript pamati un spēles projekta izstrāde. |
 | Robotika | `robotika/` | LEGO SPIKE, Arduino, sensori, mikrokontrolieri un praktiski robotikas uzdevumi. |
 | Programmēšana I | `programmesana1/` | Python pamati, algoritmi, datu struktūras, tīmekļa integrācija, datubāzes un izvietošana. |
-| Programmēšana II | `programmesana2/` | Godot 4 un C++/GDExtension spēļu izstrādei. |
+| Programmēšana II | `programmesana2/` | Godot 4 .NET un C# spēļu izstrādei. |
 | Sagataves | `sagataves/` | HTML sagataves jaunu stundu un noslēguma darbu veidošanai. |
 
 ## Lokāla palaišana
