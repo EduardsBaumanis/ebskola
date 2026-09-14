@@ -1,6 +1,6 @@
 # Mācību satura audits
 
-Datums: 2026-06-02
+Sākotnējais audits: 2026-06-02. Datorika 9 pārskatīta: 2026-09-14.
 
 Šis audits salīdzina `sasnRez.html` ierakstītos sasniedzamos rezultātus ar faktiskajām mācību stundu lapām. SR kodi tiek vērtēti kursa/vecumposma kontekstā, jo, piemēram, `2.4.1.` 9. klases datorikā, Programmēšanā I un Programmēšanā II nav viens un tas pats rezultāts.
 
@@ -9,78 +9,70 @@ Datums: 2026-06-02
 - Obligātie SR ir `sasnRez.html` tabulu ieraksti ar `class="sr-kods"`.
 - 9. klases datorikas caurviju prasmes un mācību jomas mērķi ar `goal-num` ir pārbaudīti atsevišķi, jo tie tiek lietoti daļā stundu SR atsaucēs.
 - Par mācību stundām skaitītas visas ne-`main.html` lapas mapēs `datorika9`, `robotika`, `programmesana1` un `programmesana2`. Kursu un tēmu ievadlapas auditā netiek skaitītas kā stundas.
-- Stundas SR piesaiste tiek ņemta no stundu ievaddaļas: no `h1` līdz pirmajam `h2`, kur lapās atrodas SR saites uz `sasnRez.html`.
+- Datorika 9 SR piesaistes atrodas atveramajā skolotāja sadaļā ar `.lesson-meta`. Pārējos kursos izmantota sākotnējā metode: ievaddaļa no `h1` līdz pirmajam `h2`. Datorika 9 piesaistes pārbaudītas pret konkrēto uzdevumu saturu, nošķirot daļēju apguvi no visa SR izpildes.
 - Pēc šīs kārtas ieteiktās piesaistes ir ierakstītas pašos stundu HTML failos; audits vairs neuzskata priekšlikumu par segumu, ja stunda to faktiski nenorāda.
 
 ## Kopsavilkums
 
 | Kurss | Stundas | Obligātie SR | Nosegti | Nenosegti | Piezīmes |
 |---|---:|---:|---:|---:|---|
-| Datorika 9. klase | 30 | 37 | 37 | 0 | OK |
+| Datorika 9. klase | 30 | 37 | 22 rezultātu daļas | 15 bez tieša uzdevuma | Piesaiste neapliecina visa SR apguvi; skatīt piezīmes zemāk. |
 | Robotika 7. klase | 10 | 7 | 7 | 0 | OK |
 | Programmēšana I | 72 | 29 | 29 | 0 | OK |
 | Programmēšana II | 36 | 23 | 23 | 0 | OK |
 
-## Galvenie secinājumi
+## Pārskatījuma secinājumi
 
-- Visi `sasnRez.html` obligātie SR tagad ir piesaistīti vismaz vienai atbilstoša kursa mācību stundai.
-- Visi auditētie 9. klases datorikas caurviju/mācību jomas mērķi ir piesaistīti stundu ievaddaļās.
-- Visām analizētajām stundu lapām ir vismaz viena SR atsauce.
-- Netika atrastas sveša vecumposma vai kursa SR atsauces analizēto stundu ievaddaļās.
-- Datorikas `2.6.3` piesaiste ir veikta 9. klases `dat9_46` stundā, nevis robotikas lapās, lai kursu pārklājums paliktu korekts.
+Datorika 9 iepriekšējais vērtējums “37 no 37” tika balstīts uz SR saišu esamību. Tas neapliecināja visu rezultātu praktisku apguvi. Pārstrādātajā kursā noņemtas nepamatotas Office, datortīklu un robotu/sensoru prasību piesaistes. Pārējo kursu tabulas šajā pārskatījumā nav pārvērtētas.
 
-## Nenosegtie obligātie SR
+Saglabātas piecas tēmas un 30 dubultstundas. Katrai tēmai noslēguma projekts aizņem pēdējās divas dubultstundas. Skolēns iesniedz trešā uzdevuma praktisko rezultātu; izvēles papildu uzdevums neietekmē ieskaiti.
 
-Visiem obligātajiem SR no `sasnRez.html` ir vismaz viena stundu piesaiste savā kursā/vecumposmā.
+## Datorika 9: rezultātu pārklājums
 
-## Datorika 9. klases caurviju un mērķu pārklājums
+22 no 37 saraksta kodiem ir tieši vingrinātas daļas. Arī šiem kodiem nedrīkst automātiski piešķirt pilnu apguvi: piemēram, skaņas ievietošana neaizstāj video veidošanu, bet vienkāršs zīmējums Paint neaizstāj visu darbu ar rastra un vektoru grafiku.
 
-| Kods | Statuss | Stundas |
-|---|---|---|
-| `5.2.1` | Nosegts | [3.1 Ievads JavaScript un mainīgie](datorika9/dat9_31.html), [3.2 Datu tipi un interaktivitāte (Input/Output)](datorika9/dat9_32.html), [3.3 Loģiskie operatori un sazarojumi (If/Else)](datorika9/dat9_33.html), [3.5 Cikli (Loops) un atkārtošanās loģika](datorika9/dat9_35.html), [3.6 Noslēguma projekts: Radošā teksta spēle JS](datorika9/dat9_36.html), [4.5 Sadursmju noteikšanas (Collision detection) pamati](datorika9/dat9_45.html), [5.4 Papildfunkciju ieviešana (Power-ups, līmeņi, skaņa)](datorika9/dat9_54.html) |
-| `5.2.2` | Nosegts | [1.4 Spēles koncepcija un mērķauditorija](datorika9/dat9_14.html), [5.4 Papildfunkciju ieviešana (Power-ups, līmeņi, skaņa)](datorika9/dat9_54.html) |
-| `5.2.3` | Nosegts | [1.6 Noslēguma projekts: Spēles projekta pieteikums](datorika9/dat9_16.html), [3.6 Noslēguma projekts: Radošā teksta spēle JS](datorika9/dat9_36.html), [5.6 Noslēguma projekts: Pilnvērtīga spēle internetā](datorika9/dat9_56.html) |
-| `5.2.4` | Nosegts | [4.6 Noslēguma projekts: Spēles dzinēja prototips](datorika9/dat9_46.html), [5.5 Spēles testēšana, atkļūdošana un publicēšana](datorika9/dat9_55.html) |
-| `5.2.5` | Nosegts | [1.3 Dizaina pētniecība un tirgus analīze](datorika9/dat9_13.html), [5.6 Noslēguma projekts: Pilnvērtīga spēle internetā](datorika9/dat9_56.html) |
-| `5.2.6` | Nosegts | [1.1 Izstrādes vide un GitHub integrācija](datorika9/dat9_11.html), [2.5 Datņu sistēmas organizēšana un arhīvi](datorika9/dat9_25.html), [3.1 Ievads JavaScript un mainīgie](datorika9/dat9_31.html), [3.2 Datu tipi un interaktivitāte (Input/Output)](datorika9/dat9_32.html) |
-| `7.6` | Nosegts | [1.6 Noslēguma projekts: Spēles projekta pieteikums](datorika9/dat9_16.html), [5.6 Noslēguma projekts: Pilnvērtīga spēle internetā](datorika9/dat9_56.html) |
+Bez tieša uzdevuma šajā 30 nodarbību kursā paliek: `1.1.3`, `1.3.3`, `1.3.4`, `3.4.3`, `3.4.4`, `2.3.2`, `2.4.1`, `2.4.2`, `2.4.3`, `2.4.4`, `2.4.9`, `2.4.11`, `2.5.1`, `2.5.4`, `2.6.3`. To apguvi nepieciešams pārbaudīt citos skolēnu darbos; iepriekšējo klašu apguve netiek pieņemta par notikušu.
+
+Caurviju prasmes attīsta praktiski: skolēns izvēlas sava darba saturu, ievēro soļus, labo kļūdas un pārbauda klasesbiedra darbu. Šis pārskats nepielīdzina šīs darbības pilnai visu caurviju un mācību jomas mērķu apguvei.
+
+Detalizētie nosacījumi: [Datorika 9 skolotāja piezīmes](datorika9/SKOLOTAJAM.md). SR avots: [sasnRez.html 9. klases sadaļa](sasnRez.html#datorika9); tā teksts šajā pārstrādē nav mainīts.
 
 ## Stunda pret SR
 
 ### Datorika 9. klase
 
-| Stunda | SR kodi | Atbilstība |
+| Stunda | SR kodi | Pierādījuma robeža |
 |---|---|---|
-| [1.1 Izstrādes vide un GitHub integrācija](datorika9/dat9_11.html) | `2.3.1`, `5.2.6`, `2.3.2`, `2.5.2` | Atbilst vecumposmam |
-| [1.2 HTML skelets un satura strukturēšana](datorika9/dat9_12.html) | `2.6.1`, `2.3.3` | Atbilst vecumposmam |
-| [1.3 Dizaina pētniecība un tirgus analīze](datorika9/dat9_13.html) | `1.1.1`, `1.2.3`, `3.4.4`, `2.5.4`, `5.2.5` | Atbilst vecumposmam |
-| [1.4 Spēles koncepcija un mērķauditorija](datorika9/dat9_14.html) | `1.2.1`, `1.2.2`, `5.2.2` | Atbilst vecumposmam |
-| [1.5 UX/UI pamati un spēles prototipēšana](datorika9/dat9_15.html) | `1.1.2`, `1.3.2`, `1.1.3` | Atbilst vecumposmam |
-| [1.6 Noslēguma projekts: Spēles projekta pieteikums](datorika9/dat9_16.html) | `1.3.1`, `1.5.1`, `2.6.1`, `5.2.3`, `1.1.3`, `2.4.4`, `7.6` | Atbilst vecumposmam |
-| [2.1 CSS pamati un vizuālā ergonomika](datorika9/dat9_21.html) | `1.1.1`, `2.5.3` | Atbilst vecumposmam |
-| [2.2 Izkārtojuma kontrole un "Box Model"](datorika9/dat9_22.html) | `1.1.1`, `2.4.1`, `2.4.9` | Atbilst vecumposmam |
-| [2.3 Grafisko resursu sagatavošana un optimizācija](datorika9/dat9_23.html) | `2.4.6`, `2.4.7` | Atbilst vecumposmam |
-| [2.4 Audio materiālu apstrāde un integrācija](datorika9/dat9_24.html) | `2.4.6`, `2.4.10`, `2.4.9` | Atbilst vecumposmam |
-| [2.5 Datņu sistēmas organizēšana un arhīvi](datorika9/dat9_25.html) | `2.3.3`, `5.2.6` | Atbilst vecumposmam |
-| [2.6 Noslēguma projekts: Stilizēta spēles lapa](datorika9/dat9_26.html) | `1.4.1`, `2.4.5`, `2.4.6`, `2.4.10`, `2.4.8` | Atbilst vecumposmam |
-| [3.1 Ievads JavaScript un mainīgie](datorika9/dat9_31.html) | `2.6.1`, `5.2.1`, `5.2.6` | Atbilst vecumposmam |
-| [3.2 Datu tipi un interaktivitāte (Input/Output)](datorika9/dat9_32.html) | `2.6.1`, `5.2.1`, `5.2.6` | Atbilst vecumposmam |
-| [3.3 Loģiskie operatori un sazarojumi (If/Else)](datorika9/dat9_33.html) | `2.6.1`, `5.2.1` | Atbilst vecumposmam |
-| [3.4 Masīvi (Arrays) un datu strukturēšana](datorika9/dat9_34.html) | `2.6.1`, `2.4.2`, `2.4.3` | Atbilst vecumposmam |
-| [3.5 Cikli (Loops) un atkārtošanās loģika](datorika9/dat9_35.html) | `2.6.1`, `5.2.1` | Atbilst vecumposmam |
-| [3.6 Noslēguma projekts: Radošā teksta spēle JS](datorika9/dat9_36.html) | `2.6.1`, `2.6.2`, `5.2.1`, `5.2.3` | Atbilst vecumposmam |
-| [4.1 Funkcijas un koda atkārtota izmantošana](datorika9/dat9_41.html) | `2.6.1`, `1.3.4` | Atbilst vecumposmam |
-| [4.2 Notikumu klausītāji (Event Listeners) un interakcija](datorika9/dat9_42.html) | `2.6.1`, `1.3.3` | Atbilst vecumposmam |
-| [4.3 DOM manipulācija – dinamiska elementu pārvaldība](datorika9/dat9_43.html) | `2.6.1`, `2.4.7` | Atbilst vecumposmam |
-| [4.4 Laika kontrole (Timers) un spēles cikls](datorika9/dat9_44.html) | `2.6.1`, `3.4.3` | Atbilst vecumposmam |
-| [4.5 Sadursmju noteikšanas (Collision detection) pamati](datorika9/dat9_45.html) | `2.6.1`, `5.2.1` | Atbilst vecumposmam |
-| [4.6 Noslēguma projekts: Spēles dzinēja prototips](datorika9/dat9_46.html) | `2.6.1`, `1.3.4`, `1.4.2`, `5.2.4`, `2.6.3` | Atbilst vecumposmam |
-| [5.1 Projekta specifikācija un laika plānošana](datorika9/dat9_51.html) | `1.3.1`, `1.5.1` | Atbilst vecumposmam |
-| [5.2 Vizuālo resursu un saskarnes (UI) pabeigšana](datorika9/dat9_52.html) | `2.4.11`, `1.1.2` | Atbilst vecumposmam |
-| [5.3 Spēles pamatloģikas programmēšana](datorika9/dat9_53.html) | `2.6.1`, `2.6.2` | Atbilst vecumposmam |
-| [5.4 Papildfunkciju ieviešana (Power-ups, līmeņi, skaņa)](datorika9/dat9_54.html) | `5.2.1`, `2.3.1`, `3.4.4`, `5.2.2` | Atbilst vecumposmam |
-| [5.5 Spēles testēšana, atkļūdošana un publicēšana](datorika9/dat9_55.html) | `1.3.3`, `1.4.2`, `2.6.1`, `5.2.4`, `1.1.3`, `1.4.3` | Atbilst vecumposmam |
-| [5.6 Noslēguma projekts: Pilnvērtīga spēle internetā](datorika9/dat9_56.html) | `1.5.1`, `2.4.10`, `2.5.3`, `5.2.3`, `1.4.3`, `2.3.2`, `2.4.3`, `2.4.4`, `2.4.8`, `2.5.1`, `2.5.2`, `2.5.4`, `5.2.5`, `7.6` | Atbilst vecumposmam |
+| [1.1 Sagatavo VS Code un GitHub](datorika9/dat9_11.html) | `2.3.1`, `2.3.3`, `2.5.2` | Praktiski vingrināta rezultāta daļa. |
+| [1.2 HTML lapas uzbūve un pirmā saglabātā versija](datorika9/dat9_12.html) | `2.3.3`, `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [1.3 Salīdzini spēles lapas un nosūti darbu uz GitHub](datorika9/dat9_13.html) | `1.1.1`, `1.2.3`, `2.5.3` | Praktiski vingrināta rezultāta daļa. |
+| [1.4 Izvēlies spēles ideju un spēlētāju](datorika9/dat9_14.html) | `1.2.1`, `1.2.2`, `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [1.5 Izveido spēles ekrānus — projekta 1. daļa](datorika9/dat9_15.html) | `1.1.2`, `1.3.2`, `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [1.6 Pabeidz spēles pieteikumu — projekta 2. daļa](datorika9/dat9_16.html) | `1.2.2`, `1.3.1`, `1.5.1`, `2.5.3` | Praktiski vingrināta rezultāta daļa. |
+| [2.1 Maini lapas krāsas un tekstu](datorika9/dat9_21.html) | `1.1.1`, `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [2.2 Sakārto atstarpes un spēles laukumu](datorika9/dat9_22.html) | `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [2.3 Sagatavo un pievieno spēles attēlu](datorika9/dat9_23.html) | `2.4.5`, `2.4.7`, `2.4.10` | Praktiski vingrināta rezultāta daļa. |
+| [2.4 Pievieno un pielāgo spēles skaņu](datorika9/dat9_24.html) | `2.4.6`, `2.4.8`, `2.4.10` | Praktiski vingrināta rezultāta daļa. |
+| [2.5 Sakārto failus un arhīvu — projekta 1. daļa](datorika9/dat9_25.html) | `2.3.3`, `2.4.8`, `2.4.10` | Praktiski vingrināta rezultāta daļa. |
+| [2.6 Pabeidz noformēto spēles lapu — projekta 2. daļa](datorika9/dat9_26.html) | `1.4.1`, `2.4.8`, `2.4.10`, `2.5.3` | Praktiski vingrināta rezultāta daļa. |
+| [3.1 JavaScript: spēles nosaukums, punkti un dzīvības](datorika9/dat9_31.html) | `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [3.2 Ievadi tekstu un aprēķini punktus](datorika9/dat9_32.html) | `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [3.3 Nosacījumi: kad spēlētājs uzvar?](datorika9/dat9_33.html) | `2.6.1`, `2.6.2` | Praktiski vingrināta rezultāta daļa. |
+| [3.4 Masīvs: spēlētāja priekšmetu saraksts](datorika9/dat9_34.html) | `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [3.5 Cikls izveido izvēles — projekta 1. daļa](datorika9/dat9_35.html) | `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [3.6 Pabeidz teksta spēli — projekta 2. daļa](datorika9/dat9_36.html) | `2.6.1`, `2.6.2`, `1.4.2` | Praktiski vingrināta rezultāta daļa. |
+| [4.1 Funkcijas: viena darbība vairākām pogām](datorika9/dat9_41.html) | `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [4.2 Vadi spēlētāju ar pogām un taustiņiem](datorika9/dat9_42.html) | `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [4.3 Pārvieto un maini lapas elementus](datorika9/dat9_43.html) | `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [4.4 Laiks un automātiska kustība](datorika9/dat9_44.html) | `2.6.1`, `2.6.2` | Praktiski vingrināta rezultāta daļa. |
+| [4.5 Sadursme aptur spēli — projekta 1. daļa](datorika9/dat9_45.html) | `2.6.1`, `2.6.2` | Praktiski vingrināta rezultāta daļa. |
+| [4.6 Pabeidz kustīgo spēli — projekta 2. daļa](datorika9/dat9_46.html) | `2.6.1`, `2.6.2`, `1.4.2` | Praktiski vingrināta rezultāta daļa. |
+| [5.1 Izvēlies spēles uzlabojumus un saplāno darbu](datorika9/dat9_51.html) | `1.3.1`, `1.2.2`, `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [5.2 Pabeidz sākuma, spēles un beigu ekrānu](datorika9/dat9_52.html) | `1.1.2`, `2.6.1` | Praktiski vingrināta rezultāta daļa. |
+| [5.3 Savieno punktus, dzīvības un spēles beigas](datorika9/dat9_53.html) | `2.6.1`, `2.6.2` | Praktiski vingrināta rezultāta daļa. |
+| [5.4 Pievieno savācamu bonusu un skaņu](datorika9/dat9_54.html) | `2.6.1`, `2.6.2` | Praktiski vingrināta rezultāta daļa. |
+| [5.5 Pārbaudi savu spēli — projekta 1. daļa](datorika9/dat9_55.html) | `2.6.2`, `1.4.2`, `1.4.3` | Praktiski vingrināta rezultāta daļa. |
+| [5.6 Publicē savu spēli — projekta 2. daļa](datorika9/dat9_56.html) | `1.5.1`, `2.4.10`, `2.5.3`, `2.6.2` | Praktiski vingrināta rezultāta daļa. |
 
 ### Robotika 7. klase
 

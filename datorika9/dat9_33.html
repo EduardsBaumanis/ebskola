@@ -1,229 +1,558 @@
 <!DOCTYPE html>
 <html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3.3 Loģiskie operatori un sazarojumi (If/Else) - ebSkola</title>
-<meta name="description" content="Analizēt spēles stāvokli un izstrādāt algoritma sazarojumus, lai programma spētu patstāvīgi pieņemt lēmumus un reaģēt uz dažādām spēlētāja situācijām.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/datorika9/dat9_33">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="3.3 Loģiskie operatori un sazarojumi (If/Else)">
-<meta property="og:description" content="Analizēt spēles stāvokli un izstrādāt algoritma sazarojumus, lai programma spētu patstāvīgi pieņemt lēmumus un reaģēt uz dažādām spēlētāja situācijām.">
-<meta property="og:url" content="https://ebskola.lv/datorika9/dat9_33">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="3.3 Loģiskie operatori un sazarojumi (If/Else)">
-<meta name="twitter:description" content="Analizēt spēles stāvokli un izstrādāt algoritma sazarojumus, lai programma spētu patstāvīgi pieņemt lēmumus un reaģēt uz dažādām spēlētāja situācijām.">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "3.3 Loģiskie operatori un sazarojumi (If/Else)", "description": "Analizēt spēles stāvokli un izstrādāt algoritma sazarojumus, lai programma spētu patstāvīgi pieņemt lēmumus un reaģēt uz dažādām spēlētāja situācijām.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_33", "isPartOf": {"@type": "Course", "name": "ebSkola - datorika9", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
-</script>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   3.3 Nosacījumi: kad spēlētājs uzvar? - ebSkola
+  </title>
+  <meta content="Izveido punktu pārbaudi ar trim atšķirīgiem rezultātiem." name="description"/>
+  <meta content="Eduards Baumanis" name="author"/>
+  <link href="https://ebskola.lv/datorika9/dat9_33" rel="canonical"/>
+  <meta content="article" property="og:type"/>
+  <meta content="lv_LV" property="og:locale"/>
+  <meta content="ebSkola" property="og:site_name"/>
+  <meta content="3.3 Nosacījumi: kad spēlētājs uzvar?" property="og:title"/>
+  <meta content="Izveido punktu pārbaudi ar trim atšķirīgiem rezultātiem." property="og:description"/>
+  <meta content="https://ebskola.lv/datorika9/dat9_33" property="og:url"/>
+  <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+  <meta content="summary" name="twitter:card"/>
+  <link href="../favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../manifest.json" rel="manifest"/>
+  <meta content="#222831" name="theme-color"/>
+  <link href="../style.css" rel="stylesheet"/>
+  <link href="kursa-stils.css" rel="stylesheet"/>
+  <script type="application/ld+json">
+   {"@context": "https://schema.org", "@type": "LearningResource", "name": "3.3 Nosacījumi: kad spēlētājs uzvar?", "description": "Izveido punktu pārbaudi ar trim atšķirīgiem rezultātiem.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_33", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+  </script>
+  <script defer="" src="kursam.js">
+  </script>
+ </head>
+ <body class="page-reference datorika-kurss">
+  <a class="skip-link" href="#saturs">
+   Uz mācību saturu
+  </a>
+  <header class="course-topbar">
+   <a href="../index.html">
+    ebSkola
+   </a>
+   <nav aria-label="Kursa navigācija">
+    <a href="datorika9.html">
+     Datorika 9
     </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/datorika9/datorika9">Datorika 9</a>
-      <a href="/datorika9/dat9_3main">3. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/datorika9/dat9_32">← 3.2</a>
-    <a class="btn primary" href="/datorika9/dat9_34">3.4 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Datorika 9</div>
-  <h3>3. Tēma - Algoritmi un JavaScript pamati</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/datorika9/dat9_3main">Tēmas sākums</a>
-    <a href="/datorika9/dat9_31">3.1 Ievads JavaScript un mainīgie</a>
-    <a href="/datorika9/dat9_32">3.2 Datu tipi un interaktivitāte (Input/Output)</a>
-    <a class="active" aria-current="page" href="/datorika9/dat9_33">3.3 Loģiskie operatori un sazarojumi (If/Else)</a>
-    <a href="/datorika9/dat9_34">3.4 Masīvi (Arrays) un datu strukturēšana</a>
-    <a href="/datorika9/dat9_35">3.5 Cikli (Loops) un atkārtošanās loģika</a>
-    <a href="/datorika9/dat9_36">3.6 Noslēguma projekts: Radošā teksta spēle JS</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>3.3 Loģiskie operatori un sazarojumi (If/Else)</h1>
-    <p><b>Stundas uzdevums:</b> Analizēt spēles stāvokli un izstrādāt algoritma sazarojumus, lai programma spētu patstāvīgi pieņemt lēmumus un reaģēt uz dažādām spēlētāja situācijām.</p>
-    <a href="/sasnRez">2.6.1. Lasa un izpilda algoritmus ar sazarojumiem; 5.2.1. Kritiskā domāšana problēmu risināšanā.</a>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - palaid pirmo <code>if/else</code> bloku ar punktu pārbaudi · 2. uzdevums (~25 min) - uzraksti funkciju <code>parbauditStavokli()</code>, kas maina statusa tekstu lapā · 3. uzdevums (~20 min) - pārbaudi zaru secību pie 0 dzīvībām. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savu projektu ar <code>index.html</code> un <code>script.js</code>, kur jau ir mainīgie <code class="language-javascript">punkti</code>, <code class="language-javascript">dzivibas</code> un poga "Pievienot punktus".</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Kā dators pieņem lēmumus?</h2>
-    <div class="logic-box">
-        <p>Dators nesaprot vārdu "varbūt". Tas atpazīst tikai divus stāvokļus: <b>true</b> (patiess) un <b>false</b> (aplams). Lai spēle pati saprastu, vai spēlētājs ir uzvarējis, mēs izmantojam <b>If/Else</b> (Ja/Citādi) blokus un operatorus.</p>
-        
-        <table style="width:100%; border-collapse: collapse; margin-bottom: 15px; margin-top: 10px;">
-            <tr style="background-color: #333; color: white;">
-                <th style="padding: 10px; border: 1px solid #555;">Kods</th>
-                <th style="padding: 10px; border: 1px solid #555;">Ko tas dara?</th>
-                <th style="padding: 10px; border: 1px solid #555;">Piemērs spēlē</th>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b><code class="language-javascript">===</code></b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Precīzi vienāds <i>(Svarīgi: trīs vienādības zīmes!)</i></td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">dzivibas === 0</code> (Vai esi miris?)</td>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b><code class="language-javascript">!==</code></b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Nav vienāds</td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">atslega !== true</code> (Nav atslēgas?)</td>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b><code class="language-javascript">&gt;</code></b> un <b><code class="language-javascript">&lt;</code></b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Lielāks / Mazāks</td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">punkti &gt; 100</code></td>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b><code class="language-javascript">&&</code></b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b>UN</b> (Abiem nosacījumiem jāizpildās)</td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">punkti &gt; 50 && laiks &gt; 0</code></td>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b><code class="language-javascript">||</code></b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b>VAI</b> (Vismaz vienam jāizpildās)</td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">dzivibas === 0 || laiks === 0</code></td>
-            </tr>
-        </table>
-
-        <p><b>Pareizais rakstības stils (Sintakse):</b></p>
-        <pre><code class="language-javascript">if (punkti &gt;= 100) {
-    console.log("Uzvara!"); // Notiks tikai tad, ja nosacījums ir TRUE
+    <a href="git.html">
+     GitHub palīdzība
+    </a>
+   </nav>
+  </header>
+  <main class="course-content" id="saturs">
+   <p class="breadcrumb">
+    <a href="dat9_3main.html">
+     3. tēma
+    </a>
+    / 3.3
+   </p>
+   <h1>
+    3.3 Nosacījumi: kad spēlētājs uzvar?
+   </h1>
+   <p class="lesson-goal">
+    <b>
+     Šodien:
+    </b>
+    Izveido punktu pārbaudi ar trim atšķirīgiem rezultātiem.
+   </p>
+   <section id="teorija">
+    <h2>
+     Īsā teorija
+    </h2>
+    <p>
+     <code>
+      if
+     </code>
+     nozīmē “ja”.
+     <code>
+      else
+     </code>
+     nozīmē “citādi”.
+    </p>
+    <p>
+     <code>
+      &gt;=
+     </code>
+     nozīmē “lielāks vai vienāds”;
+     <code>
+      &lt;
+     </code>
+     nozīmē “mazāks”.
+    </p>
+    <p>
+     Ar
+     <code>
+      else if
+     </code>
+     pievieno vēl vienu pārbaudi. Pārbaudes notiek no augšas uz leju.
+    </p>
+    <pre><code>if (punkti &lt; 0) {
+  zina = "Punkti nevar būt negatīvi.";
+} else if (punkti &gt;= 10) {
+  zina = "Uzvara!";
 } else {
-    console.log("Turpini cīnīties!"); // Notiks visos citos gadījumos (FALSE)
+  zina = "Turpini spēli!";
 }</code></pre>
+   </section>
+   <section id="sakuma-kods">
+    <h2>
+     Sākuma kods un darba vieta
+    </h2>
+    <p class="workplace">
+     Vide: mācību lapa → VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      VS Code ar
+      <b>
+       File → Open Folder
+      </b>
+      atver
+      <code>
+       Desktop/datorika9-tema3
+      </code>
+      . Ja mapes nav, izveido to darbvirsmā.
+     </li>
+     <li>
+      Šajā mācību lapā nospied
+      <b>
+       Kopēt sākuma kodu
+      </b>
+      .
+     </li>
+     <li>
+      VS Code nospied
+      <b>
+       Ctrl+N
+      </b>
+      un ielīmē kodu ar
+      <b>
+       Ctrl+V
+      </b>
+      .
+     </li>
+     <li>
+      Saglabā ar
+      <b>
+       Ctrl+Shift+S
+      </b>
+      tēmas mapē kā
+      <code>
+       33.html
+      </code>
+      .
+     </li>
+    </ol>
+    <div class="starter-actions">
+     <button class="btn" data-copy="pilnais-kods" type="button">
+      Kopēt sākuma kodu
+     </button>
+     <a class="btn" download="33.html" href="sakuma-kodi/33.html">
+      Lejupielādēt 33.html
+     </a>
     </div>
-</section>
+    <p aria-live="polite" class="copy-status" role="status">
+    </p>
+    <details class="starter-source">
+     <summary>
+      Atvērt pilno sākuma kodu
+     </summary>
+     <pre><code id="pilnais-kods">&lt;!DOCTYPE html&gt;
+&lt;html lang="lv"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Mana spēle&lt;/title&gt;
+&lt;style&gt;
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Palaid pirmo if/else pārbaudi ar punktiem</h3>
-        <p>Beigās konsole pati pateiks, vai spēlētājs jau ir sakrājis vajadzīgos 100 punktus.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>script.js</code> un iestati faila augšā <code class="language-javascript">let punkti = 40;</code>.</li>
-            <li><b>Uzraksti</b> zem tā bloku <code class="language-javascript">if (punkti &gt;= 100) { console.log("Uzvara!"); } else { console.log("Turpini!"); }</code>.</li>
-            <li><b>Pārlādē</b> lapu un nolasi konsoles ziņojumu.</li>
-            <li><b>Nomaini</b> punktu vērtību uz 100 un pārlādē vēlreiz.</li>
-            <li><b>Nomaini</b> nosacījumā <code class="language-javascript">&gt;=</code> uz <code class="language-javascript">&gt;</code> un pārlādē trešo reizi.</li>
-            <li><b>Pieraksti</b>, kurš ziņojums tagad parādās tieši pie 100 punktiem.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar <code class="language-javascript">&gt;=</code> konsole pie 100 punktiem rāda "Uzvara!", bet ar <code class="language-javascript">&gt;</code> - "Turpini!".</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Uzraksti funkciju parbauditStavokli()</h3>
-        <p>Beigās lapā būs statusa rindiņa, kas pati maina tekstu atkarībā no punktiem un dzīvībām.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code class="language-html">index.html</code> failā elementu <code class="language-html">&lt;p id="statuss"&gt;&lt;/p&gt;</code>.</li>
-            <li><b>Uzraksti</b> <code>script.js</code> failā tukšu funkciju <code class="language-javascript">function parbauditStavokli() { }</code>.</li>
-            <li><b>Ieraksti</b> tajā pirmo zaru: <code class="language-javascript">if (dzivibas &lt;= 0)</code> - statuss kļūst "Spēle beigusies!".</li>
-            <li><b>Pievieno</b> otro zaru: <code class="language-javascript">else if (punkti &gt;= 100)</code> - statuss kļūst "Uzvara!".</li>
-            <li><b>Pievieno</b> trešo zaru: <code class="language-javascript">else</code> - statuss kļūst "Turpinās. Punkti: " + punkti.</li>
-            <li><b>Izsauc</b> <code class="language-javascript">parbauditStavokli();</code> funkcijas <code class="language-javascript">pievienotPunktus()</code> pēdējā rindā.</li>
-            <li><b>Nospied</b> pogu "Pievienot punktus", līdz punkti sasniedz 100.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> statusa rindiņa lapā pati nomainās no "Turpinās" uz "Uzvara!", tiklīdz punkti sasniedz 100.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pārbaudi, kurš zars nostrādā pirmais</h3>
-        <p>Beigās tu zināsi, kāpēc zaru secība maina spēles rezultātu pie 0 dzīvībām.</p>
-        <ol class="step-list">
-            <li><b>Ieraksti</b> konsolē <code class="language-javascript">punkti = 0; dzivibas = 3; parbauditStavokli();</code> un nolasi statusu.</li>
-            <li><b>Ieraksti</b> <code class="language-javascript">punkti = 150; dzivibas = 0; parbauditStavokli();</code> un nolasi statusu vēlreiz.</li>
-            <li><b>Pieraksti</b>, kurš no diviem zariem nostrādāja, kaut arī abi nosacījumi bija patiesi.</li>
-            <li><b>Pievieno</b> funkcijā jaunu zaru <code class="language-javascript">else if (dzivibas === 1)</code> ar tekstu "Pēdējā dzīvība!".</li>
-            <li><b>Pārbaudi</b> to ar <code class="language-javascript">dzivibas = 1; parbauditStavokli();</code>.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc drošāk rakstīt <code class="language-javascript">dzivibas &lt;= 0</code> nekā <code class="language-javascript">dzivibas === 0</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pie 150 punktiem un 0 dzīvībām lapā redzams "Spēle beigusies!", nevis "Uzvara!".</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Laika beigu nosacījums ar taimeri</h3>
-        <p>Beigās spēle beigsies arī tad, kad taimeris noskaitīs līdz nullei.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code>script.js</code> augšā rindu <code class="language-javascript">let laiks = 5;</code>.</li>
-            <li><b>Pievieno</b> <code class="language-html">index.html</code> failā elementu <code class="language-html">&lt;p id="taimeris"&gt;Laiks: 5&lt;/p&gt;</code>.</li>
-            <li><b>Pievieno</b> pogu <code class="language-html">&lt;button onclick="pagajaSekunde()"&gt;Pagāja sekunde&lt;/button&gt;</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code class="language-javascript">function pagajaSekunde() { laiks--; document.getElementById("taimeris").textContent = "Laiks: " + laiks; parbauditStavokli(); }</code>.</li>
-            <li><b>Pievieno</b> funkcijai <code class="language-javascript">parbauditStavokli()</code> zaru <code class="language-javascript">else if (laiks &lt;= 0)</code> ar tekstu "Laiks beidzies!".</li>
-            <li><b>Nospied</b> pogu piecas reizes pēc kārtas.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc piektā klikšķa statusa rindiņa rāda "Laiks beidzies!".</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <div class='logic-box'>
-<ul>
-        <li><b>Vienas = zīmes izmantošana pārbaudē:</b> Ja rakstīsi <code class="language-javascript">if (parole = "777")</code>, kods nevis pārbaudīs, bet gan nomainīs paroli un vienmēr atļaus ieeju. Vienmēr izmanto <code class="language-javascript">===</code>!</li>
-        <li><b>Aizmirstas figūriekavas <code>{}</code>:</b> Katram <code>if</code>, <code>else if</code> un <code>else</code> blokam ir nepieciešamas savas figūriekavas.</li>
-        <li><b>Nepareiza secība <code>else if</code> blokos:</b> Vienmēr sāc pārbaudi no visstingrākā/lielākā nosacījuma (piem. > 1000) uz mazāko. Dators lasa kodu no augšas uz leju!</li>
-    </ul>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (zaru pareiza secība funkcijā parbauditStavokli())</h2>
-    <div class='code-example'>
-        <pre><code class="language-javascript">let punkti = 150;
-let dzivibas = 0;
-
-function parbauditStavokli() {
-    let statuss = document.getElementById("statuss");
-
-    // SVARĪGI: vissvarīgākais nosacījums vienmēr ir PIRMAIS.
-    // Ja "Uzvara!" būtu augšā, spēlētājs uzvarētu pat bez dzīvībām.
-    if (dzivibas &lt;= 0) {            // &lt;= 0, nevis === 0: pasargā arī no -1
-        statuss.textContent = "Spēle beigusies!";
-    } else if (punkti &gt;= 100) {     // === salīdzina, = piešķir vērtību!
-        statuss.textContent = "Uzvara!";
-    } else if (dzivibas === 1) {
-        statuss.textContent = "Pēdējā dzīvība!";
-    } else {
-        statuss.textContent = "Turpinās. Punkti: " + punkti;
-    }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Pārbaudi punktus&lt;/h1&gt;
+&lt;label for="skaits"&gt;Punkti&lt;/label&gt;
+&lt;input id="skaits" type="number" value="0"&gt;
+&lt;button onclick="parbaudit()"&gt;Pārbaudīt&lt;/button&gt;
+&lt;p id="atbilde"&gt;Ievadi punktus un nospied pogu.&lt;/p&gt;
+&lt;script&gt;
+function parbaudit() {
+  const punkti = Number(document.getElementById("skaits").value);
+  let zina = "";
+  if (punkti &gt;= 10) {
+    zina = "Uzvara!";
+  } else {
+    zina = "Turpini spēli!";
+  }
+  document.getElementById("atbilde").textContent = zina;
 }
-
-parbauditStavokli();</code></pre>
-        <div class='result'>
-            Ar <code class="language-javascript">punkti = 150</code> un <code class="language-javascript">dzivibas = 0</code> lapā parādās <b>Spēle beigusies!</b> - pirmais patiesais zars apstādina pārējos.<br><br>
-            Ar <code class="language-javascript">dzivibas = 3</code> tas pats kods rāda <b>Uzvara!</b>, bet ar <code class="language-javascript">punkti = 40</code> - <b>Turpinās. Punkti: 40</b>.<br><br>
-            Ja kļūdas pēc uzraksti <code class="language-javascript">if (dzivibas = 0)</code> ar vienu vienādības zīmi, dzīvības tiek pārrakstītas uz 0 un spēle beidzas uzreiz.
-        </div>
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    </details>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-1">
+    <p class="task-number">
+     1. uzdevums
+    </p>
+    <h2>
+     Izmēģini robežu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Sāc ar
+      <code>
+       33.html
+      </code>
+      .
+     </li>
+     <li>
+      Pārlūkā pārbaudi
+      <code>
+       9
+      </code>
+      un
+      <code>
+       10
+      </code>
+      punktus.
+     </li>
+     <li>
+      Ievēro, ka pie 10 punktiem ziņa mainās uz
+      <b>
+       Uzvara!
+      </b>
+      .
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Atpazīsti, pie kura skaita mainās rezultāts.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-2">
+    <p class="task-number">
+     2. uzdevums
+    </p>
+    <h2>
+     Pievieno trešo rezultātu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Atrodi visu
+      <code>
+       if ... else
+      </code>
+      bloku.
+     </li>
+     <li>
+      Aizstāj to ar šīs lapas teorijas piemēru. Saglabā rindu, kas parāda
+      <code>
+       zina
+      </code>
+      .
+     </li>
+     <li>
+      Pārbaudi, ka visām figūriekavām ir pāris.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Kodā ir negatīvu punktu, uzvaras un turpināšanas gadījums.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-3">
+    <p class="task-number">
+     3. uzdevums
+    </p>
+    <h2>
+     Maini mērķi un pārbaudi visus gadījumus
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Uzvaras robežu nomaini uz
+      <code>
+       20
+      </code>
+      .
+     </li>
+     <li>
+      HTML daļā pievieno norādi, ka uzvarai vajag 20 punktus. Izvēlies savai spēlei piemērotas ziņas.
+     </li>
+     <li>
+      Pārlūkā pārbaudi
+      <code>
+       -1
+      </code>
+      ,
+      <code>
+       19
+      </code>
+      un
+      <code>
+       20
+      </code>
+      . Jāparādās trim atbilstošajām ziņām.
+     </li>
+     <li>
+      Saglabā un nosūti darbu uz GitHub.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Visi trīs pārbaudes gadījumi dod pareizo rezultātu.
+    </p>
+    <div class="submission">
+     <h3>
+      Iesniedz 3. uzdevuma rezultātu
+     </h3>
+     <p>
+      Iesniedz pabeigto
+      <code>
+       33.html
+      </code>
+      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
+     </p>
+     <p>
+      <b>
+       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
+      </b>
+     </p>
+     <ul class="assessment-checks">
+      <li>
+       Kodā ir if, else if un else.
+      </li>
+      <li>
+       Uzvaras robeža kodā un lapas norādē ir 20.
+      </li>
+      <li>
+       −1 dod brīdinājumu, 19 — turpināšanu, 20 — uzvaru.
+      </li>
+     </ul>
+     <p>
+      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
+     </p>
     </div>
-</div>
-
-<div class="stundas-navigacija">
-    <a href="/datorika9/dat9_32" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/datorika9/dat9_34" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+    <details class="course-help">
+     <summary>
+      Saglabā un nosūti uz GitHub — pogu atgādne
+     </summary>
+     <p class="workplace">
+      Vide: VS Code / Source Control → GitHub pārlūkā
+     </p>
+     <ol class="step-list">
+      <li>
+       Ar
+       <b>
+        File → Save All
+       </b>
+       saglabā failus. Atver
+       <b>
+        Source Control
+       </b>
+       ar
+       <b>
+        Ctrl+Shift+G
+       </b>
+       .
+      </li>
+      <li>
+       Pie
+       <b>
+        Changes
+       </b>
+       nospied
+       <b>
+        +
+       </b>
+       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
+       <b>
+        Staged Changes
+       </b>
+       .
+      </li>
+      <li>
+       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
+       <code>
+        Pabeigts 3.3 darbs
+       </code>
+       . Spied
+       <b>
+        Commit
+       </b>
+       .
+      </li>
+      <li>
+       Ja šī tēmas mape vēl nav GitHub, spied
+       <b>
+        Publish to GitHub
+       </b>
+       un izveido publisku projektu
+       <code>
+        datorika9-tema3
+       </code>
+       . Jau publicētam projektam spied
+       <b>
+        Sync Changes
+       </b>
+       . Ja pogas nav, atver
+       <b>
+        … → Push
+       </b>
+       .
+      </li>
+      <li>
+       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
+      </li>
+     </ol>
+     <p>
+      Ja Source Control rāda
+      <b>
+       Initialize Repository
+      </b>
+      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
+      <a href="git.html">
+       palīdzību
+      </a>
+      un palūdz skolotāja atbalstu.
+     </p>
+    </details>
+   </section>
+   <details class="course-help extra-task">
+    <summary>
+     Papildu uzdevums: Pievieno lielo uzvaru
+    </summary>
+    <p>
+     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+    </p>
+    <ol class="step-list">
+     <li>
+      Pirms parastās uzvaras pārbaudes pievieno gadījumu
+      <code>
+       punkti &gt;= 100
+      </code>
+      .
+     </li>
+     <li>
+      Parādi īpašu ziņu un pārbaudi 99 un 100 punktus.
+     </li>
+    </ol>
+   </details>
+   <details class="course-help">
+    <summary>
+     Ja kaut kas neizdodas
+    </summary>
+    <ul>
+     <li>
+      <b>
+       Neredzi izmaiņas?
+      </b>
+      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
+      <code>
+       33.html
+      </code>
+      .
+     </li>
+     <li>
+      <b>
+       Kods redzams kā teksts?
+      </b>
+      Saglabā ar galotni .html. Windows ieslēdz
+      <b>
+       View → Show → File name extensions
+      </b>
+      un pārbaudi, ka beigās nav .txt.
+     </li>
+     <li>
+      <b>
+       Poga nestrādā?
+      </b>
+      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+     </li>
+     <li>
+      <b>
+       Nesaproti nākamo soli?
+      </b>
+      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+     </li>
+    </ul>
+    <p>
+     <a href="git.html">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
+   </details>
+   <details class="course-help teacher-meta">
+    <summary>
+     Skolotājam: sasniedzamo rezultātu saistība
+    </summary>
+    <p>
+     Šajā nodarbībā vingrina šādu rezultātu daļas no
+     <a href="../sasnRez.html#datorika9">
+      9. klases saraksta
+     </a>
+     . Piesaiste pati par sevi nenozīmē visa rezultāta apguvi.
+    </p>
+    <div class="lesson-meta">
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.1
+     </a>
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.2
+     </a>
+    </div>
+    <p>
+     <a href="SKOLOTAJAM.md">
+      Kursa nosacījumi un satura pārklājums
+     </a>
+    </p>
+   </details>
+   <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
+    <a class="nav-btn" href="dat9_32.html">
+     ← Iepriekšējā
+    </a>
+    <a class="nav-btn" href="dat9_34.html">
+     Nākamā →
+    </a>
+   </nav>
+  </main>
+  <footer class="course-footer">
+   <a href="datorika9.html">
+    Kursa pārskats
+   </a>
+   ·
+   <a href="git.html">
+    GitHub palīdzība
+   </a>
+   ·
+   <a href="../sasnRez.html#datorika9">
+    Sasniedzamie rezultāti
+   </a>
+  </footer>
+ </body>
 </html>

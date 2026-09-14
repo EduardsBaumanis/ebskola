@@ -1,242 +1,529 @@
 <!DOCTYPE html>
 <html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3.5 Cikli (Loops) un atkārtošanās loģika - ebSkola</title>
-<meta name="description" content="Izstrādāt ciklisku algoritmu, lai automātiski apstrādātu datu masīvus un ģenerētu HTML saturu, izvairoties no manuālas koda pārrakstīšanas.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/datorika9/dat9_35">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="3.5 Cikli (Loops) un atkārtošanās loģika">
-<meta property="og:description" content="Izstrādāt ciklisku algoritmu, lai automātiski apstrādātu datu masīvus un ģenerētu HTML saturu, izvairoties no manuālas koda pārrakstīšanas.">
-<meta property="og:url" content="https://ebskola.lv/datorika9/dat9_35">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="3.5 Cikli (Loops) un atkārtošanās loģika">
-<meta name="twitter:description" content="Izstrādāt ciklisku algoritmu, lai automātiski apstrādātu datu masīvus un ģenerētu HTML saturu, izvairoties no manuālas koda pārrakstīšanas.">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "3.5 Cikli (Loops) un atkārtošanās loģika", "description": "Izstrādāt ciklisku algoritmu, lai automātiski apstrādātu datu masīvus un ģenerētu HTML saturu, izvairoties no manuālas koda pārrakstīšanas.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_35", "isPartOf": {"@type": "Course", "name": "ebSkola - datorika9", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
-</script>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   3.5 Cikls izveido izvēles — projekta 1. daļa - ebSkola
+  </title>
+  <meta content="Sāc teksta spēles projektu: no saraksta izveido izvēles pogas un skaiti gājienus." name="description"/>
+  <meta content="Eduards Baumanis" name="author"/>
+  <link href="https://ebskola.lv/datorika9/dat9_35" rel="canonical"/>
+  <meta content="article" property="og:type"/>
+  <meta content="lv_LV" property="og:locale"/>
+  <meta content="ebSkola" property="og:site_name"/>
+  <meta content="3.5 Cikls izveido izvēles — projekta 1. daļa" property="og:title"/>
+  <meta content="Sāc teksta spēles projektu: no saraksta izveido izvēles pogas un skaiti gājienus." property="og:description"/>
+  <meta content="https://ebskola.lv/datorika9/dat9_35" property="og:url"/>
+  <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+  <meta content="summary" name="twitter:card"/>
+  <link href="../favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../manifest.json" rel="manifest"/>
+  <meta content="#222831" name="theme-color"/>
+  <link href="../style.css" rel="stylesheet"/>
+  <link href="kursa-stils.css" rel="stylesheet"/>
+  <script type="application/ld+json">
+   {"@context": "https://schema.org", "@type": "LearningResource", "name": "3.5 Cikls izveido izvēles — projekta 1. daļa", "description": "Sāc teksta spēles projektu: no saraksta izveido izvēles pogas un skaiti gājienus.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_35", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+  </script>
+  <script defer="" src="kursam.js">
+  </script>
+ </head>
+ <body class="page-reference datorika-kurss">
+  <a class="skip-link" href="#saturs">
+   Uz mācību saturu
+  </a>
+  <header class="course-topbar">
+   <a href="../index.html">
+    ebSkola
+   </a>
+   <nav aria-label="Kursa navigācija">
+    <a href="datorika9.html">
+     Datorika 9
     </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/datorika9/datorika9">Datorika 9</a>
-      <a href="/datorika9/dat9_3main">3. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/datorika9/dat9_34">← 3.4</a>
-    <a class="btn primary" href="/datorika9/dat9_36">3.6 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Datorika 9</div>
-  <h3>3. Tēma - Algoritmi un JavaScript pamati</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/datorika9/dat9_3main">Tēmas sākums</a>
-    <a href="/datorika9/dat9_31">3.1 Ievads JavaScript un mainīgie</a>
-    <a href="/datorika9/dat9_32">3.2 Datu tipi un interaktivitāte (Input/Output)</a>
-    <a href="/datorika9/dat9_33">3.3 Loģiskie operatori un sazarojumi (If/Else)</a>
-    <a href="/datorika9/dat9_34">3.4 Masīvi (Arrays) un datu strukturēšana</a>
-    <a class="active" aria-current="page" href="/datorika9/dat9_35">3.5 Cikli (Loops) un atkārtošanās loģika</a>
-    <a href="/datorika9/dat9_36">3.6 Noslēguma projekts: Radošā teksta spēle JS</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>3.5 Cikli (Loops) un atkārtošanās loģika</h1>
-    <p><b>Stundas uzdevums:</b> Izstrādāt ciklisku algoritmu, lai automātiski apstrādātu datu masīvus un ģenerētu HTML saturu, izvairoties no manuālas koda pārrakstīšanas.</p>
-    <a href="/sasnRez">2.6.1. Pieraksta, lasa un izpilda algoritmus ar cikliskām darbībām; 5.2.1. Problēmrisināšana un optimizācija.</a>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - palaid pirmo <code>for</code> ciklu ar izvadi konsolē · 2. uzdevums (~25 min) - uzģenerē inventāra sarakstu lapā ar ciklu · 3. uzdevums (~20 min) - pārbaudi cikla robežas un salabo <code>undefined</code>. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savu 3.4 stundas projektu, kur <code>script.js</code> jau ir masīvs <code class="language-javascript">inventars</code> un poga "Pacelt mantu".</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Automātiskais dzinējs (For cikls) un DOM manipulācija</h2>
-    <div class="logic-box">
-        <p>Vai gribi lapā parādīt 100 ienaidniekus? Tev nav jāraksta 100 koda rindiņas! Lai liktu datoram atkārtot darbību, mēs izmantojam <b>for</b> ciklu. Tas sastāv no trim svarīgām daļām iekavās, kas atdalītas ar <b>semikolu (;)</b>:</p>
-        
-        <table style="width:100%; border-collapse: collapse; margin-bottom: 15px; margin-top: 10px;">
-            <tr style="background-color: #333; color: white;">
-                <th style="padding: 10px; border: 1px solid #555;">Daļa</th>
-                <th style="padding: 10px; border: 1px solid #555;">Kods (Sintakse)</th>
-                <th style="padding: 10px; border: 1px solid #555;">Ko tas nozīmē?</th>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b>1. Sākums</b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">let i = 0;</code></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Kur sākam skaitīt? Parasti no 0, jo masīvi sākas ar 0.</td>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b>2. Nosacījums</b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">i &lt; 5;</code></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Cik ilgi atkārtosim? (Kamēr <i>i</i> ir mazāks par 5).</td>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b>3. Solis</b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">i++</code></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Ko darām pēc katra apļa? Palielinām <i>i</i> par 1.</td>
-            </tr>
-        </table>
-
-        <p><b>Kā tas izskatās kopā:</b></p>
-        <pre><code class="language-javascript">for (let i = 0; i &lt; 5; i++) {
-    console.log("Šis teksts parādīsies 5 reizes!");
+    <a href="git.html">
+     GitHub palīdzība
+    </a>
+   </nav>
+  </header>
+  <main class="course-content" id="saturs">
+   <p class="breadcrumb">
+    <a href="dat9_3main.html">
+     3. tēma
+    </a>
+    / 3.5
+   </p>
+   <h1>
+    3.5 Cikls izveido izvēles — projekta 1. daļa
+   </h1>
+   <p class="lesson-goal">
+    <b>
+     Šodien:
+    </b>
+    Sāc teksta spēles projektu: no saraksta izveido izvēles pogas un skaiti gājienus.
+   </p>
+   <p class="project-note">
+    Tēmas projekts · 1. daļa no 2
+   </p>
+   <section id="teorija">
+    <h2>
+     Īsā teorija
+    </h2>
+    <p>
+     <b>
+      Cikls
+     </b>
+     atkārto darbību. Šeit tas katrai saraksta vietai izveido pogu.
+    </p>
+    <p>
+     <code>
+      i = 0
+     </code>
+     sāk ar pirmo vietu.
+     <code>
+      i &lt; vietas.length
+     </code>
+     turpina, kamēr sarakstā vēl ir vietas.
+    </p>
+    <p>
+     <code>
+      i = i + 1
+     </code>
+     pāriet pie nākamās vietas. Pogas izveidošanas rindas sākuma kodā jau ir dotas.
+    </p>
+    <pre><code>for (let i = 0; i &lt; vietas.length; i = i + 1) {
+  // Darbība katrai vietai.
 }</code></pre>
-
-        <hr style="border: 1px solid #948979; margin: 25px 0;">
-
-        <h3>Saziņa ar HTML lapu (document.getElementById)</h3>
-        <p>Lai JavaScript varētu dinamiski mainīt to, ko lietotājs redz ekrānā, tam ir jāatrod konkrēts HTML elements. Programmēšanā mēs to panākam ar <code class="language-javascript">document.getElementById()</code>, kas sameklē elementu pēc tā unikālā <b>id</b> atribūta. Kad elements ir atrasts, varam mainīt tā saturu, izmantojot <code class="language-javascript">.innerHTML</code> (ja satur HTML tagus) vai <code class="language-javascript">.innerText</code> (tikai tekstam).</p>
-        
-        <p><b>1. HTML sagatave:</b></p>
-        <pre><code class="language-html">&lt;!-- Izveidojam elementu ar unikālu identifikatoru (id) --&gt;
-&lt;div id="rezultats"&gt;Sākotnējais teksts&lt;/div&gt;</code></pre>
-
-        <p><b>2. JavaScript rīcība:</b></p>
-        <pre><code class="language-javascript">// Atrodam elementu un pārrakstām tā saturu
-document.getElementById("rezultats").innerHTML = "Sistēma veiksmīgi ielādēta!";
-
-// Apvienojumā ar 'for' ciklu, lai pakāpeniski papildinātu saturu
-document.getElementById("rezultats").innerHTML = ""; // Vispirms iztukšojam saturu
-for (let i = 1; i &lt;= 3; i++) {
-    // Izmantojam += , lai pievienotu jaunu informāciju klāt esošajai
-    document.getElementById("rezultats").innerHTML += "Ielādēts modulis " + i + "&lt;br&gt;";
-}</code></pre>
+   </section>
+   <section id="sakuma-kods">
+    <h2>
+     Sākuma kods un darba vieta
+    </h2>
+    <p class="workplace">
+     Vide: mācību lapa → VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      VS Code ar
+      <b>
+       File → Open Folder
+      </b>
+      atver
+      <code>
+       Desktop/datorika9-tema3
+      </code>
+      . Ja mapes nav, izveido to darbvirsmā.
+     </li>
+     <li>
+      Šajā mācību lapā nospied
+      <b>
+       Kopēt sākuma kodu
+      </b>
+      .
+     </li>
+     <li>
+      VS Code nospied
+      <b>
+       Ctrl+N
+      </b>
+      un ielīmē kodu ar
+      <b>
+       Ctrl+V
+      </b>
+      .
+     </li>
+     <li>
+      Saglabā ar
+      <b>
+       Ctrl+Shift+S
+      </b>
+      tēmas mapē kā
+      <code>
+       35.html
+      </code>
+      .
+     </li>
+    </ol>
+    <div class="starter-actions">
+     <button class="btn" data-copy="pilnais-kods" type="button">
+      Kopēt sākuma kodu
+     </button>
+     <a class="btn" download="35.html" href="sakuma-kodi/35.html">
+      Lejupielādēt 35.html
+     </a>
     </div>
-</section>
+    <p aria-live="polite" class="copy-status" role="status">
+    </p>
+    <details class="starter-source">
+     <summary>
+      Atvērt pilno sākuma kodu
+     </summary>
+     <pre><code id="pilnais-kods">&lt;!DOCTYPE html&gt;
+&lt;html lang="lv"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Mana spēle&lt;/title&gt;
+&lt;style&gt;
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Palaid pirmo for ciklu ar izvadi konsolē</h3>
-        <p>Beigās viena koda rinda uzrakstīs konsolē piecas rindiņas ar dažādiem numuriem.</p>
-        <ol class="step-list">
-            <li><b>Uzraksti</b> <code>script.js</code> beigās ciklu <code class="language-javascript">for (let i = 0; i &lt; 5; i++) { console.log("Aplis " + i); }</code>.</li>
-            <li><b>Pārlādē</b> lapu un saskaiti, cik rindu parādījās konsolē.</li>
-            <li><b>Nomaini</b> nosacījumā skaitli 5 uz 3 un pārlādē vēlreiz.</li>
-            <li><b>Nomaini</b> sākumu uz <code class="language-javascript">let i = 1</code> un nosacījumu uz <code class="language-javascript">i &lt;= 3</code>.</li>
-            <li><b>Pieraksti</b>, ar kuru skaitli cikls sākās un beidzās katrā no trim variantiem.</li>
-            <li><b>Pārbaudi</b>, ka visas trīs cikla daļas iekavās atdala semikols, nevis komats.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pirmajā variantā konsolē ir tieši piecas rindas no "Aplis 0" līdz "Aplis 4".</p>
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Dārgumu meklētājs&lt;/h1&gt;
+&lt;p id="noteikumi"&gt;Izvēlies vietu, kur meklēt dārgumus.&lt;/p&gt;
+&lt;div id="pogas"&gt;&lt;/div&gt;
+&lt;p id="atbilde"&gt;Izvēlies vietu.&lt;/p&gt;
+&lt;p id="gajieni"&gt;Gājieni: 0&lt;/p&gt;
+&lt;button onclick="location.reload()"&gt;Sākt no jauna&lt;/button&gt;
+&lt;script&gt;
+// MAINI ŠEIT: vietu nosaukumi.
+const vietas = ["Mežs", "Upe", "Pils"];
+let gajieni = 0;
+
+// Cikls izveido vienu pogu katrai vietai.
+for (let i = 0; i &lt; vietas.length; i = i + 1) {
+  const poga = document.createElement("button");
+  poga.textContent = vietas[i];
+  poga.onclick = function () { izveleties(vietas[i]); };
+  document.getElementById("pogas").append(poga);
+}
+
+function izveleties(vieta) {
+  gajieni = gajieni + 1;
+  document.getElementById("atbilde").textContent = "Tu izvēlējies: " + vieta;
+  document.getElementById("gajieni").textContent = "Gājieni: " + gajieni;
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    </details>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-1">
+    <p class="task-number">
+     1. uzdevums
+    </p>
+    <h2>
+     Izmēģini izvēļu sarakstu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Sāc ar
+      <code>
+       35.html
+      </code>
+      .
+     </li>
+     <li>
+      Pārlūkā nospied visas trīs vietu pogas.
+     </li>
+     <li>
+      Pārbaudi, ka mainās vietas nosaukums un gājienu skaits.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Saraksta vietām ir strādājošas pogas.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-2">
+    <p class="task-number">
+     2. uzdevums
+    </p>
+    <h2>
+     Izveido savas spēles vietas
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Masīvā
+      <code>
+       vietas
+      </code>
+      ieraksti četras savas vietas.
+     </li>
+     <li>
+      Nemainot ciklu, saglabā failu.
+     </li>
+     <li>
+      HTML daļā pielāgo spēles nosaukumu un sākuma norādi.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Spēles kodā ir četras savas vietas.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-3">
+    <p class="task-number">
+     3. uzdevums
+    </p>
+    <h2>
+     Pievieno piekto vietu un pārbaudi ciklu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Pievieno masīvam piekto vietu. Papildu HTML pogu neraksti.
+     </li>
+     <li>
+      Atver lapu pārlūkā: jāparādās piecām vietu pogām.
+     </li>
+     <li>
+      Nospied trīs dažādas vietas. Pārbaudi vietu nosaukumus un gājienu skaitu 3.
+     </li>
+     <li>
+      Nospied
+      <b>
+       Sākt no jauna
+      </b>
+      : gājieniem jābūt 0. Nosūti darbu uz GitHub.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Cikls veido piecas pogas, un darbojas gājienu skaitīšana.
+    </p>
+    <div class="submission">
+     <h3>
+      Iesniedz 3. uzdevuma rezultātu
+     </h3>
+     <p>
+      Iesniedz pabeigto
+      <code>
+       35.html
+      </code>
+      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
+     </p>
+     <p>
+      <b>
+       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
+      </b>
+     </p>
+     <ul class="assessment-checks">
+      <li>
+       Ir savs spēles nosaukums un piecas paša izvēlētas vietas.
+      </li>
+      <li>
+       Visas vietu pogas veido for cikls no masīva.
+      </li>
+      <li>
+       Trīs izvēles dod 3 gājienus; sākšana no jauna atjauno 0.
+      </li>
+     </ul>
+     <p>
+      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
+     </p>
     </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Uzģenerē inventāra sarakstu ar ciklu</h3>
-        <p>Beigās katra tavas somas manta parādīsies kā atsevišķs saraksta punkts lapā.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code class="language-html">index.html</code> failā elementu <code class="language-html">&lt;ul id="inventara-saraksts"&gt;&lt;/ul&gt;</code>.</li>
-            <li><b>Uzraksti</b> <code>script.js</code> failā funkciju <code class="language-javascript">function zimetSarakstu() { }</code>.</li>
-            <li><b>Ieraksti</b> tajā pirmo rindu <code class="language-javascript">let saraksts = document.getElementById("inventara-saraksts");</code>.</li>
-            <li><b>Pievieno</b> nākamo rindu <code class="language-javascript">saraksts.innerHTML = "";</code>, lai vecais saturs netiktu dublēts.</li>
-            <li><b>Pievieno</b> ciklu <code class="language-javascript">for (let i = 0; i &lt; inventars.length; i++)</code>, kas raksta <code class="language-javascript">saraksts.innerHTML += "&lt;li&gt;" + inventars[i] + "&lt;/li&gt;";</code>.</li>
-            <li><b>Izsauc</b> <code class="language-javascript">zimetSarakstu();</code> arī funkcijas <code class="language-javascript">paceltMantu()</code> pēdējā rindā.</li>
-            <li><b>Nospied</b> pogu "Pacelt mantu" divas reizes.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> sarakstā ir tieši tik punktu, cik mantu somā, un pēc pogas nospiešanas tie nedublējas.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pārbaudi cikla robežas un salabo undefined</h3>
-        <p>Beigās tu zināsi, kāpēc cikls masīvā beidzas pirms garuma, nevis pie tā.</p>
-        <ol class="step-list">
-            <li><b>Nomaini</b> ciklā nosacījumu uz <code class="language-javascript">i &lt;= inventars.length</code> un pārlādē lapu.</li>
-            <li><b>Pieraksti</b>, kas parādījās saraksta pēdējā punktā.</li>
-            <li><b>Atgriez</b> nosacījumu atpakaļ uz <code class="language-javascript">i &lt; inventars.length</code>.</li>
-            <li><b>Iztukšo</b> somu konsolē ar <code class="language-javascript">inventars = []; zimetSarakstu();</code>.</li>
-            <li><b>Atver</b> DevTools sadaļu "Elements" un saskaiti <code class="language-html">&lt;li&gt;</code> elementus iekš <code class="language-html">&lt;ul&gt;</code>.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kas notiktu ar pārlūku, ja ciklā aizmirstu <code class="language-javascript">i++</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar <code class="language-javascript">&lt;=</code> saraksta beigās parādās "undefined", bet ar <code class="language-javascript">&lt;</code> saraksts ir tieši pareizā garumā.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Ienaidnieku rinda ar bosu beigās</h3>
-        <p>Beigās viens funkcijas izsaukums uzzīmēs lapā piecus ienaidniekus, no kuriem pēdējais ir boss.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code class="language-html">index.html</code> failā elementu <code class="language-html">&lt;div id="ienaidnieki"&gt;&lt;/div&gt;</code>.</li>
-            <li><b>Pievieno</b> <code class="language-css">style.css</code> failā klasi <code class="language-css">.ienaidnieks { display: inline-block; margin: 4px; padding: 8px; background: #FF5733; color: white; border-radius: 4px; }</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code class="language-javascript">raditIenaidniekus(skaits)</code>, kas vispirms notīra elementu ar <code class="language-javascript">innerHTML = ""</code>.</li>
-            <li><b>Pievieno</b> ciklu, kas <code class="language-javascript">skaits</code> reizes pieraksta <code class="language-javascript">"&lt;span class='ienaidnieks'&gt;E" + (i + 1) + "&lt;/span&gt;"</code>.</li>
-            <li><b>Pievieno</b> ciklā nosacījumu: ja <code class="language-javascript">i === skaits - 1</code>, teksta vietā raksti "BOSS".</li>
-            <li><b>Izsauc</b> <code class="language-javascript">raditIenaidniekus(5);</code> un atver lapu pārlūkā.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> lapā redzami pieci sarkani lauciņi E1, E2, E3, E4 un BOSS.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <div class='logic-box'>
-<ul>
-        <li><b>Mūžīgais cikls (Infinite Loop):</b> Ja uzrakstīsi <code class="language-javascript">i--</code> (samazināt) vietā <code class="language-javascript">i++</code> (palielināt), nosacījums vienmēr būs patiess. Pārlūks uzkārsies un "iesaldēs" lapu. Rūpīgi pārbaudi cikla soli!</li>
-        <li><b>Komati semikolu vietā:</b> For cikla iekavās trīs daļas ir jāatdala ar <b>semikolu (;)</b>, nevis komatu. <code class="language-javascript">for (let i = 0, i &lt; 5, i++)</code> izmetīs kļūdu.</li>
-        <li><b>Kļūda "undefined" pēdējā aplī:</b> Ja izmantosi <code class="language-javascript">i &lt;= masivs.length</code> (mazāks vai vienāds), cikls mēģinās nolasīt neeksistējošu elementu. Indeksi beidzas pirms garuma, tāpēc izmanto tikai <code class="language-javascript">&lt;</code> (mazāks).</li>
+    <details class="course-help">
+     <summary>
+      Saglabā un nosūti uz GitHub — pogu atgādne
+     </summary>
+     <p class="workplace">
+      Vide: VS Code / Source Control → GitHub pārlūkā
+     </p>
+     <ol class="step-list">
+      <li>
+       Ar
+       <b>
+        File → Save All
+       </b>
+       saglabā failus. Atver
+       <b>
+        Source Control
+       </b>
+       ar
+       <b>
+        Ctrl+Shift+G
+       </b>
+       .
+      </li>
+      <li>
+       Pie
+       <b>
+        Changes
+       </b>
+       nospied
+       <b>
+        +
+       </b>
+       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
+       <b>
+        Staged Changes
+       </b>
+       .
+      </li>
+      <li>
+       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
+       <code>
+        Pabeigts 3.5 darbs
+       </code>
+       . Spied
+       <b>
+        Commit
+       </b>
+       .
+      </li>
+      <li>
+       Ja šī tēmas mape vēl nav GitHub, spied
+       <b>
+        Publish to GitHub
+       </b>
+       un izveido publisku projektu
+       <code>
+        datorika9-tema3
+       </code>
+       . Jau publicētam projektam spied
+       <b>
+        Sync Changes
+       </b>
+       . Ja pogas nav, atver
+       <b>
+        … → Push
+       </b>
+       .
+      </li>
+      <li>
+       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
+      </li>
+     </ol>
+     <p>
+      Ja Source Control rāda
+      <b>
+       Initialize Repository
+      </b>
+      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
+      <a href="git.html">
+       palīdzību
+      </a>
+      un palūdz skolotāja atbalstu.
+     </p>
+    </details>
+   </section>
+   <details class="course-help extra-task">
+    <summary>
+     Papildu uzdevums: Numurē vietu pogas
+    </summary>
+    <p>
+     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+    </p>
+    <ol class="step-list">
+     <li>
+      Maini pogas teksta rindu uz
+      <code>
+       poga.textContent = (i + 1) + ". " + vietas[i];
+      </code>
+      .
+     </li>
+     <li>
+      Pārbaudi, ka numerācija sākas ar 1.
+     </li>
+    </ol>
+   </details>
+   <details class="course-help">
+    <summary>
+     Ja kaut kas neizdodas
+    </summary>
+    <ul>
+     <li>
+      <b>
+       Neredzi izmaiņas?
+      </b>
+      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
+      <code>
+       35.html
+      </code>
+      .
+     </li>
+     <li>
+      <b>
+       Kods redzams kā teksts?
+      </b>
+      Saglabā ar galotni .html. Windows ieslēdz
+      <b>
+       View → Show → File name extensions
+      </b>
+      un pārbaudi, ka beigās nav .txt.
+     </li>
+     <li>
+      <b>
+       Poga nestrādā?
+      </b>
+      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+     </li>
+     <li>
+      <b>
+       Nesaproti nākamo soli?
+      </b>
+      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+     </li>
     </ul>
+    <p>
+     <a href="git.html">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
+   </details>
+   <details class="course-help teacher-meta">
+    <summary>
+     Skolotājam: sasniedzamo rezultātu saistība
+    </summary>
+    <p>
+     Šajā nodarbībā vingrina šādu rezultātu daļas no
+     <a href="../sasnRez.html#datorika9">
+      9. klases saraksta
+     </a>
+     . Piesaiste pati par sevi nenozīmē visa rezultāta apguvi.
+    </p>
+    <div class="lesson-meta">
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.1
+     </a>
     </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (cikls, kas pārzīmē sarakstu bez dublēšanās)</h2>
-    <div class='code-example'>
-        <pre><code class="language-javascript">let inventars = ["marķieris", "plāns", "lapiņa"];
-
-function zimetSarakstu() {
-    let saraksts = document.getElementById("inventara-saraksts");
-
-    // Bez šīs rindas katrs izsaukums pieliktu sarakstu vēlreiz klāt vecajam
-    saraksts.innerHTML = "";
-
-    // i &lt; length, NEVIS i &lt;= length - citādi pēdējais punkts būtu "undefined"
-    for (let i = 0; i &lt; inventars.length; i++) {
-        saraksts.innerHTML += "&lt;li&gt;" + (i + 1) + ". " + inventars[i] + "&lt;/li&gt;";
-    }
-}
-
-function paceltMantu() {
-    inventars.push(prompt("Ko pacēli?"));
-    zimetSarakstu(); // pārzīmē sarakstu ar jauno mantu
-}
-
-zimetSarakstu();</code></pre>
-        <div class='result'>
-            <i>Lapā ģenerētais saraksts:</i>
-            <ul>
-                <li>1. marķieris</li>
-                <li>2. plāns</li>
-                <li>3. lapiņa</li>
-            </ul>
-            Pēc pogas nospiešanas un vārda "atslēga" ievadīšanas parādās ceturtais punkts - bez trim vecajiem dublikātiem.<br><br>
-            Ja nosacījumu nomaini uz <code class="language-javascript">i &lt;= inventars.length</code>, saraksta beigās parādās lieks punkts "4. undefined".
-        </div>
-    </div>
-</div>
-
-<div class="stundas-navigacija">
-    <a href="/datorika9/dat9_34" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/datorika9/dat9_36" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+    <p>
+     <a href="SKOLOTAJAM.md">
+      Kursa nosacījumi un satura pārklājums
+     </a>
+    </p>
+   </details>
+   <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
+    <a class="nav-btn" href="dat9_34.html">
+     ← Iepriekšējā
+    </a>
+    <a class="nav-btn" href="dat9_36.html">
+     Nākamā →
+    </a>
+   </nav>
+  </main>
+  <footer class="course-footer">
+   <a href="datorika9.html">
+    Kursa pārskats
+   </a>
+   ·
+   <a href="git.html">
+    GitHub palīdzība
+   </a>
+   ·
+   <a href="../sasnRez.html#datorika9">
+    Sasniedzamie rezultāti
+   </a>
+  </footer>
+ </body>
 </html>

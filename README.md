@@ -55,7 +55,7 @@ http://localhost:8000
 
 ## Satura konvencijas
 
-Satura uzturēšanai galvenais avots ir `AUDIT.md`. Īsā versija:
+Satura pārklājumu apraksta `macibu-satura-audits.md`. Datorika 9 kursa darba kārtība un uzturēšana aprakstīta [skolotāja piezīmēs](datorika9/SKOLOTAJAM.md). Īsā versija:
 
 - Stundas faila nosaukums seko kursa/tēmas numerācijai, piemēram, `prog1_4/prog1_45.html`.
 - Tēmas galvenā lapa beidzas ar `main.html`, piemēram, `prog1_4main.html`.
@@ -63,6 +63,8 @@ Satura uzturēšanai galvenais avots ir `AUDIT.md`. Īsā versija:
 - Stundā jābūt skaidram izaicinājumam, kompaktai teorijai, 3 galvenajiem uzdevumiem, papildu uzdevumam, biežākajām kļūdām un navigācijai uz iepriekšējo/nākamo lapu.
 - Sasniedzamie rezultāti tiek norādīti ar `.lesson-meta` blokiem un saitēm uz `sasnRez.html`.
 - Kopīgo vizuālo stilu uztur `style.css`; atsevišķu lapu inline stili jālieto piesardzīgi.
+
+Datorika 9 kursā katrai no 30 nodarbībām ir pilns sākuma kods, trīs secīgi uzdevumi un trešā uzdevuma iesniegšanas kritēriji. Git darbības veic VS Code Source Control sadaļā. Katras tēmas pēdējās divas dubultstundas atvēlētas projektam. Lejupielādējamie piemēri ir `datorika9/sakuma-kodi/`; kursa papildu stils neietekmē pārējos kursus.
 
 ## Jaunas stundas pievienošana
 

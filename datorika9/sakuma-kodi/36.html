@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mana spēle</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+
+</style>
+</head>
+<body>
+<h1>Dārgumu meklētājs</h1>
+<p id="noteikumi">Atrodi dārgumus ne vairāk kā 3 gājienos.</p>
+<div id="pogas"></div>
+<p id="atbilde">Izvēlies vietu.</p>
+<p id="gajieni">Gājieni: 0</p>
+<button onclick="location.reload()">Sākt no jauna</button>
+<script>
+// MAINI ŠEIT: vietu nosaukumi.
+const vietas = ["Mežs", "Upe", "Pils"];
+const dargumuVieta = "Pils";
+const gajienuLimits = 3;
+let gajieni = 0;
+let beigas = false;
+
+// Cikls izveido vienu pogu katrai vietai.
+for (let i = 0; i < vietas.length; i = i + 1) {
+  const poga = document.createElement("button");
+  poga.textContent = vietas[i];
+  poga.onclick = function () { izveleties(vietas[i]); };
+  document.getElementById("pogas").append(poga);
+}
+
+function izveleties(vieta) {
+  if (beigas) { return; }
+  gajieni = gajieni + 1;
+  let zina = "Šeit dārgumu nav: " + vieta;
+  if (vieta === dargumuVieta) {
+    zina = "Uzvara! Tu atradi dārgumus!";
+    beigas = true;
+  } else if (gajieni >= gajienuLimits) {
+    zina = "Gājieni beigušies. Mēģini vēlreiz!";
+    beigas = true;
+  }
+  document.getElementById("atbilde").textContent = zina;
+  document.getElementById("gajieni").textContent = "Gājieni: " + gajieni;
+}
+</script>
+</body>
+</html>

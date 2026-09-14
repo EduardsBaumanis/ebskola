@@ -1,221 +1,533 @@
 <!DOCTYPE html>
 <html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4.1 Funkcijas un koda atkārtota izmantošana - ebSkola</title>
-<meta name="description" content="Izstrādāt un pielietot atkārtoti izmantojamus koda blokus (funkcijas), lai optimizētu spēles loģiku un izvairītos no koda dublēšanās.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/datorika9/dat9_41">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4.1 Funkcijas un koda atkārtota izmantošana">
-<meta property="og:description" content="Izstrādāt un pielietot atkārtoti izmantojamus koda blokus (funkcijas), lai optimizētu spēles loģiku un izvairītos no koda dublēšanās.">
-<meta property="og:url" content="https://ebskola.lv/datorika9/dat9_41">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4.1 Funkcijas un koda atkārtota izmantošana">
-<meta name="twitter:description" content="Izstrādāt un pielietot atkārtoti izmantojamus koda blokus (funkcijas), lai optimizētu spēles loģiku un izvairītos no koda dublēšanās.">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.1 Funkcijas un koda atkārtota izmantošana", "description": "Izstrādāt un pielietot atkārtoti izmantojamus koda blokus (funkcijas), lai optimizētu spēles loģiku un izvairītos no koda dublēšanās.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_41", "isPartOf": {"@type": "Course", "name": "ebSkola - datorika9", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
-</script>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   4.1 Funkcijas: viena darbība vairākām pogām - ebSkola
+  </title>
+  <meta content="Izmanto vienu funkciju vairākām punktu pogām un izveido atņemšanas pogu." name="description"/>
+  <meta content="Eduards Baumanis" name="author"/>
+  <link href="https://ebskola.lv/datorika9/dat9_41" rel="canonical"/>
+  <meta content="article" property="og:type"/>
+  <meta content="lv_LV" property="og:locale"/>
+  <meta content="ebSkola" property="og:site_name"/>
+  <meta content="4.1 Funkcijas: viena darbība vairākām pogām" property="og:title"/>
+  <meta content="Izmanto vienu funkciju vairākām punktu pogām un izveido atņemšanas pogu." property="og:description"/>
+  <meta content="https://ebskola.lv/datorika9/dat9_41" property="og:url"/>
+  <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+  <meta content="summary" name="twitter:card"/>
+  <link href="../favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../manifest.json" rel="manifest"/>
+  <meta content="#222831" name="theme-color"/>
+  <link href="../style.css" rel="stylesheet"/>
+  <link href="kursa-stils.css" rel="stylesheet"/>
+  <script type="application/ld+json">
+   {"@context": "https://schema.org", "@type": "LearningResource", "name": "4.1 Funkcijas: viena darbība vairākām pogām", "description": "Izmanto vienu funkciju vairākām punktu pogām un izveido atņemšanas pogu.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_41", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+  </script>
+  <script defer="" src="kursam.js">
+  </script>
+ </head>
+ <body class="page-reference datorika-kurss">
+  <a class="skip-link" href="#saturs">
+   Uz mācību saturu
+  </a>
+  <header class="course-topbar">
+   <a href="../index.html">
+    ebSkola
+   </a>
+   <nav aria-label="Kursa navigācija">
+    <a href="datorika9.html">
+     Datorika 9
     </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/datorika9/datorika9">Datorika 9</a>
-      <a href="/datorika9/dat9_4main">4. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/datorika9/dat9_4main">← Tēma</a>
-    <a class="btn primary" href="/datorika9/dat9_42">4.2 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Datorika 9</div>
-  <h3>4. Tēma - Spēles dzinēja izstrāde un funkcijas</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/datorika9/dat9_4main">Tēmas sākums</a>
-    <a class="active" aria-current="page" href="/datorika9/dat9_41">4.1 Funkcijas un koda atkārtota izmantošana</a>
-    <a href="/datorika9/dat9_42">4.2 Notikumu klausītāji (Event Listeners) un interakcija</a>
-    <a href="/datorika9/dat9_43">4.3 DOM manipulācija – dinamiska elementu pārvaldība</a>
-    <a href="/datorika9/dat9_44">4.4 Laika kontrole (Timers) un spēles cikls</a>
-    <a href="/datorika9/dat9_45">4.5 Sadursmju noteikšanas (Collision detection) pamati</a>
-    <a href="/datorika9/dat9_46">4.6 Noslēguma projekts: Spēles dzinēja prototips</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>4.1 Funkcijas un koda atkārtota izmantošana</h1>
-    <p><b>Stundas uzdevums:</b> Izstrādāt un pielietot atkārtoti izmantojamus koda blokus (funkcijas), lai optimizētu spēles loģiku un izvairītos no koda dublēšanās.</p>
-    <a href="/sasnRez">2.6.1. Ievēro programmas pieraksta un strukturēšanas labās prakses ieteikumus; 1.3.4. Izvēlas programmu izvēlētā izstrādājuma īstenošanai.</a>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - palaid gatavu funkciju <code>pievienotPunktus()</code> · 2. uzdevums (~25 min) - uzraksti dzīvību un restarta funkcijas · 3. uzdevums (~20 min) - izsauc visas trīs funkcijas konsolē un salabo kļūdu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savu spēles mapi koda redaktorā ar failiem <code>index.html</code> un <code>script.js</code>, un atver <code>index.html</code> pārlūkā.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Koda "Receptes" (Funkcijas)</h2>
-    <div class='logic-box'>
-<p><b>Funkcija</b> ir kā recepte – tu to uzraksti vienreiz, bet vari "pagatavot" (izsaukt) cik reizes vien vēlies. Tā ļauj sagrupēt kodu loģiskos blokos.
-        <ul>
-            <li><b>Definēšana:</b> Mēs izveidojam funkciju ar atslēgas vārdu <code>function</code>, iedodam tai nosaukumu un figūriekavās <code>{}</code> ieliekam kodu, kas būs jāizpilda.</li>
-            <li><b>Izsaukšana:</b> Funkcija pati no sevis neko nedara, kamēr mēs to neizsaucam, aiz nosaukuma uzrakstot iekavas, piemēram, <code>saktSpeli();</code>.</li>
-            <li><b>Parametri (Argumenti):</b> Funkcijām var iedot datus, ar kuriem strādāt. Piemēram, <code>pieskaititPunktus(10)</code> un <code>pieskaititPunktus(50)</code> izmanto vienu un to pašu funkciju, bet ar dažādām vērtībām.</li>
-        </ul>
+    <a href="git.html">
+     GitHub palīdzība
+    </a>
+   </nav>
+  </header>
+  <main class="course-content" id="saturs">
+   <p class="breadcrumb">
+    <a href="dat9_4main.html">
+     4. tēma
+    </a>
+    / 4.1
+   </p>
+   <h1>
+    4.1 Funkcijas: viena darbība vairākām pogām
+   </h1>
+   <p class="lesson-goal">
+    <b>
+     Šodien:
+    </b>
+    Izmanto vienu funkciju vairākām punktu pogām un izveido atņemšanas pogu.
+   </p>
+   <section id="teorija">
+    <h2>
+     Īsā teorija
+    </h2>
+    <p>
+     <b>
+      Funkcija
+     </b>
+     ir nosaukta darbību grupa. To var izmantot atkārtoti.
     </p>
+    <p>
+     <code>
+      pieskaitit(5)
+     </code>
+     izsauc funkciju ar skaitli 5. Funkcijas iekšpusē šī vērtība saucas
+     <code>
+      skaits
+     </code>
+     .
+    </p>
+    <p>
+     Vairākas pogas var izmantot to pašu funkciju ar atšķirīgiem skaitļiem.
+    </p>
+    <pre><code>function pieskaitit(skaits) {
+  punkti = punkti + skaits;
+  paradit();
+}</code></pre>
+   </section>
+   <section id="sakuma-kods">
+    <h2>
+     Sākuma kods un darba vieta
+    </h2>
+    <p class="workplace">
+     Vide: mācību lapa → VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      VS Code ar
+      <b>
+       File → Open Folder
+      </b>
+      atver
+      <code>
+       Desktop/datorika9-tema4
+      </code>
+      . Ja mapes nav, izveido to darbvirsmā.
+     </li>
+     <li>
+      Šajā mācību lapā nospied
+      <b>
+       Kopēt sākuma kodu
+      </b>
+      .
+     </li>
+     <li>
+      VS Code nospied
+      <b>
+       Ctrl+N
+      </b>
+      un ielīmē kodu ar
+      <b>
+       Ctrl+V
+      </b>
+      .
+     </li>
+     <li>
+      Saglabā ar
+      <b>
+       Ctrl+Shift+S
+      </b>
+      tēmas mapē kā
+      <code>
+       41.html
+      </code>
+      .
+     </li>
+    </ol>
+    <p class="info-box">
+     Jauna tēma: izmanto atsevišķu mapi un GitHub projektu
+     <code>
+      datorika9-tema4
+     </code>
+     . Saglabājot pirmo darbu, izpildi Source Control atgādni zem 3. uzdevuma. Iepriekšējās tēmas mapi paturi.
+    </p>
+    <div class="starter-actions">
+     <button class="btn" data-copy="pilnais-kods" type="button">
+      Kopēt sākuma kodu
+     </button>
+     <a class="btn" download="41.html" href="sakuma-kodi/41.html">
+      Lejupielādēt 41.html
+     </a>
     </div>
-</section>
+    <p aria-live="polite" class="copy-status" role="status">
+    </p>
+    <details class="starter-source">
+     <summary>
+      Atvērt pilno sākuma kodu
+     </summary>
+     <pre><code id="pilnais-kods">&lt;!DOCTYPE html&gt;
+&lt;html lang="lv"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Mana spēle&lt;/title&gt;
+&lt;style&gt;
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Palaid gatavu punktu pieskaitīšanas funkciju</h3>
-        <p>Beigās poga "Savākt monētu" pieskaitīs 10 punktus, un skaitlis lapā mainīsies.</p>
-        <p><b>Kopējamais paraugs:</b> divas rindas HTML failā un viena funkcija JavaScript failā.</p>
-<pre><code class="language-html">&lt;p id="punkti"&gt;Punkti: 0&lt;/p&gt;
-&lt;button id="monetaPoga"&gt;Savākt monētu&lt;/button&gt;</code></pre>
-<pre><code class="language-javascript">let punkti = 0;
-
-function pievienotPunktus(daudzums) {
-  punkti = punkti + daudzums;
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Punktu pogas&lt;/h1&gt;
+&lt;p id="punkti"&gt;Punkti: 0&lt;/p&gt;
+&lt;button onclick="pieskaitit(1)"&gt;+1 punkts&lt;/button&gt;
+&lt;!-- ŠEIT OTRĀ POGA --&gt;
+&lt;button onclick="saktNoJauna()"&gt;Sākt no jauna&lt;/button&gt;
+&lt;script&gt;
+let punkti = 0;
+function paradit() {
   document.getElementById("punkti").textContent = "Punkti: " + punkti;
 }
-
-document.getElementById("monetaPoga").addEventListener("click", function () {
-  pievienotPunktus(10);
-});</code></pre>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>index.html</code> un ielīmē abas HTML rindas pirms <code>&lt;/body&gt;</code>.</li>
-            <li><b>Atver</b> <code>script.js</code> un ielīmē JavaScript kodu faila beigās.</li>
-            <li><b>Saglabā</b> abus failus un pārlādē lapu pārlūkā.</li>
-            <li><b>Nospied</b> pogu trīs reizes un vēro, kā skaitlis aug par 10.</li>
-            <li><b>Nomaini</b> izsaukumā skaitli <code>10</code> uz <code>25</code> un pārlādē lapu.</li>
-            <li><b>Pārbaudi</b>, ka tagad viens klikšķis pieskaita 25 punktus.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc trim klikšķiem lapā redzams teksts "Punkti: 75".</p>
+function pieskaitit(skaits) {
+  punkti = punkti + skaits;
+  paradit();
+}
+function saktNoJauna() {
+  punkti = 0;
+  paradit();
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    </details>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-1">
+    <p class="task-number">
+     1. uzdevums
+    </p>
+    <h2>
+     Izmēģini gatavās funkcijas
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Sāc ar
+      <code>
+       41.html
+      </code>
+      .
+     </li>
+     <li>
+      Nospied punktu pogu trīs reizes: jābūt 3 punktiem.
+     </li>
+     <li>
+      Nospied
+      <b>
+       Sākt no jauna
+      </b>
+      : jābūt 0.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Abas gatavās funkcijas darbojas.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-2">
+    <p class="task-number">
+     2. uzdevums
+    </p>
+    <h2>
+     Izmanto funkciju otrai pogai
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Vietā
+      <code>
+       &lt;!-- ŠEIT OTRĀ POGA --&gt;
+      </code>
+      pievieno
+      <code>
+       &lt;button onclick="pieskaitit(5)"&gt;+5 punkti&lt;/button&gt;
+      </code>
+      .
+     </li>
+     <li>
+      Nomaini lapas virsrakstu atbilstoši savai spēlei.
+     </li>
+     <li>
+      Pārliecinies, ka abas punktu pogas izmanto vienu funkciju.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Ir divas punktu pogas ar dažādām vērtībām.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-3">
+    <p class="task-number">
+     3. uzdevums
+    </p>
+    <h2>
+     Pievieno soda pogu un pārbaudi
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Pievieno trešo punktu pogu:
+      <code>
+       &lt;button onclick="pieskaitit(-2)"&gt;−2 punkti&lt;/button&gt;
+      </code>
+      .
+     </li>
+     <li>
+      Atver lapu no jauna. Nospied +1, +5, −2: jābūt 4 punktiem.
+     </li>
+     <li>
+      Nospied sākšanu no jauna: jābūt 0. Pārbaudi arī atkārtotu klikšķi.
+     </li>
+     <li>
+      Saglabā un nosūti darbu uz GitHub.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Viena funkcija apkalpo visas trīs punktu pogas.
+    </p>
+    <div class="submission">
+     <h3>
+      Iesniedz 3. uzdevuma rezultātu
+     </h3>
+     <p>
+      Iesniedz pabeigto
+      <code>
+       41.html
+      </code>
+      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
+     </p>
+     <p>
+      <b>
+       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
+      </b>
+     </p>
+     <ul class="assessment-checks">
+      <li>
+       Ir savs virsraksts un pogas +1, +5, −2.
+      </li>
+      <li>
+       Visas trīs izmanto pieskaitit(skaits).
+      </li>
+      <li>
+       Secība +1, +5, −2 dod 4; sākšana no jauna dod 0.
+      </li>
+     </ul>
+     <p>
+      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
+     </p>
     </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Uzraksti dzīvību un restarta funkcijas</h3>
-        <p>Beigās divas jaunas pogas atņems dzīvību un atgriezīs spēli sākuma stāvoklī.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>index.html</code> un pievieno rindu <code>&lt;p id="dzivibas"&gt;Dzīvības: 3&lt;/p&gt;</code>.</li>
-            <li><b>Pievieno</b> divas pogas: <code>&lt;button id="bojajumsPoga"&gt;Saņemt bojājumu&lt;/button&gt;</code> un <code>&lt;button id="restartsPoga"&gt;Restarts&lt;/button&gt;</code>.</li>
-            <li><b>Atver</b> <code>script.js</code> un pievieno faila augšā mainīgo <code>let dzivibas = 3;</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code>zaudetDzivibu()</code>, kas atņem vienu dzīvību un ieraksta jauno skaitli elementā <code>#dzivibas</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code>restartetSpeli()</code>, kas atgriež <code>punkti = 0</code> un <code>dzivibas = 3</code> un pārraksta abus tekstus.</li>
-            <li><b>Piesaisti</b> abas funkcijas pogām ar <code>addEventListener</code> un saglabā failu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc "Restarts" nospiešanas lapā atkal redzams "Punkti: 0" un "Dzīvības: 3".</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Izsauc funkcijas konsolē un salabo kļūdu</h3>
-        <p>Beigās tu būsi pārliecinājies, ka visas trīs funkcijas strādā pareizi arī pēc restarta.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> pārlūkā izstrādātāja rīkus ar taustiņu <code>F12</code> un pārej uz cilni Console.</li>
-            <li><b>Ieraksti</b> <code>pievienotPunktus(50)</code> un nospied Enter - skaitlim lapā jākļūst 50.</li>
-            <li><b>Ieraksti</b> to pašu vēlreiz - rezultātam jābūt 100, nevis 50.</li>
-            <li><b>Izsauc</b> <code>zaudetDzivibu()</code> trīs reizes un pārbaudi, ka dzīvības nokrīt līdz 0.</li>
-            <li><b>Salabo</b>, ja skaitlis mainās tikai konsolē, bet ne lapā: funkcijas beigās trūkst teksta pārrakstīšanas rindas.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc viena funkcija ar parametru ir labāka par divām atsevišķām funkcijām.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc <code>restartetSpeli()</code> izsaukuma konsolē lapā redzams "Punkti: 0" un "Dzīvības: 3".</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno līmeņa funkciju</h3>
-        <p>Beigās poga "Nākamais līmenis" palielinās līmeņa numuru, un restarts to atgriezīs uz 1.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code>index.html</code> rindu <code>&lt;p id="limenis"&gt;Līmenis: 1&lt;/p&gt;</code> un pogu <code>&lt;button id="limenaPoga"&gt;Nākamais līmenis&lt;/button&gt;</code>.</li>
-            <li><b>Pievieno</b> <code>script.js</code> faila augšā mainīgo <code>let limenis = 1;</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code>iestatitLimeni(n)</code>, kas piešķir <code>limenis = n</code> un pārraksta tekstu elementā <code>#limenis</code>.</li>
-            <li><b>Piesaisti</b> pogai izsaukumu <code>iestatitLimeni(limenis + 1)</code> ar <code>addEventListener</code>.</li>
-            <li><b>Paplašini</b> <code>restartetSpeli()</code>, lai tā izsauc <code>iestatitLimeni(1)</code>.</li>
-            <li><b>Veic</b> <code>git commit -m "Add level function and full restart"</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc trim klikšķiem redzams "Līmenis: 4", un "Restarts" atgriež "Līmenis: 1".</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <div class='logic-box'>
-<ul>
-        <li><b>Funkcija neizpildās:</b> Esi uzrakstījis smuku <code>function start() {...}</code>, bet pārlūkā nekas nenotiek. Tu aizmirsi to izsaukt! Neaizmirsti pievienot <code>start();</code> faila beigās.</li>
-        <li><b>Mainīgo tvērums (Scope):</b> Ja izveidosi mainīgo (ar <code>let</code>) funkcijas IEKŠPUSĒ, tas "nomirs" brīdī, kad funkcija beigs darbu. Ārpus funkcijas tu to neredzēsi. Tāpēc galvenos spēles datus (punktus, dzīvības) vienmēr definē faila augšā, ārpus jebkuras funkcijas!</li>
-        <li><b>Aizmirstas iekavas izsaukumā:</b> Ja kodā uzrakstīsi <code>saktSpeli</code> (bez iekavām), JavaScript tikai sapratīs, ka tāda funkcija eksistē, bet to nepalaidīs. Vienmēr vajag <code>saktSpeli()</code>.</li>
+    <details class="course-help">
+     <summary>
+      Saglabā un nosūti uz GitHub — pogu atgādne
+     </summary>
+     <p class="workplace">
+      Vide: VS Code / Source Control → GitHub pārlūkā
+     </p>
+     <ol class="step-list">
+      <li>
+       Ar
+       <b>
+        File → Save All
+       </b>
+       saglabā failus. Atver
+       <b>
+        Source Control
+       </b>
+       ar
+       <b>
+        Ctrl+Shift+G
+       </b>
+       .
+      </li>
+      <li>
+       Pie
+       <b>
+        Changes
+       </b>
+       nospied
+       <b>
+        +
+       </b>
+       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
+       <b>
+        Staged Changes
+       </b>
+       .
+      </li>
+      <li>
+       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
+       <code>
+        Pabeigts 4.1 darbs
+       </code>
+       . Spied
+       <b>
+        Commit
+       </b>
+       .
+      </li>
+      <li>
+       Ja šī tēmas mape vēl nav GitHub, spied
+       <b>
+        Publish to GitHub
+       </b>
+       un izveido publisku projektu
+       <code>
+        datorika9-tema4
+       </code>
+       . Jau publicētam projektam spied
+       <b>
+        Sync Changes
+       </b>
+       . Ja pogas nav, atver
+       <b>
+        … → Push
+       </b>
+       .
+      </li>
+      <li>
+       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
+      </li>
+     </ol>
+     <p>
+      Ja Source Control rāda
+      <b>
+       Initialize Repository
+      </b>
+      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
+      <a href="git.html">
+       palīdzību
+      </a>
+      un palūdz skolotāja atbalstu.
+     </p>
+    </details>
+   </section>
+   <details class="course-help extra-task">
+    <summary>
+     Papildu uzdevums: Neļauj punktiem kļūt negatīviem
+    </summary>
+    <p>
+     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+    </p>
+    <ol class="step-list">
+     <li>
+      Pēc pieskaitīšanas pievieno
+      <code>
+       if (punkti &lt; 0) { punkti = 0; }
+      </code>
+      .
+     </li>
+     <li>
+      Pie 0 punktiem nospied −2 un pārbaudi rezultātu.
+     </li>
+    </ol>
+   </details>
+   <details class="course-help">
+    <summary>
+     Ja kaut kas neizdodas
+    </summary>
+    <ul>
+     <li>
+      <b>
+       Neredzi izmaiņas?
+      </b>
+      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
+      <code>
+       41.html
+      </code>
+      .
+     </li>
+     <li>
+      <b>
+       Kods redzams kā teksts?
+      </b>
+      Saglabā ar galotni .html. Windows ieslēdz
+      <b>
+       View → Show → File name extensions
+      </b>
+      un pārbaudi, ka beigās nav .txt.
+     </li>
+     <li>
+      <b>
+       Poga nestrādā?
+      </b>
+      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+     </li>
+     <li>
+      <b>
+       Nesaproti nākamo soli?
+      </b>
+      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+     </li>
     </ul>
+    <p>
+     <a href="git.html">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
+   </details>
+   <details class="course-help teacher-meta">
+    <summary>
+     Skolotājam: sasniedzamo rezultātu saistība
+    </summary>
+    <p>
+     Šajā nodarbībā vingrina šādu rezultātu daļas no
+     <a href="../sasnRez.html#datorika9">
+      9. klases saraksta
+     </a>
+     . Piesaiste pati par sevi nenozīmē visa rezultāta apguvi.
+    </p>
+    <div class="lesson-meta">
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.1
+     </a>
     </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (globālie mainīgie un ekrāna atjaunošana funkcijā)</h2>
-    <div class='code-example'>
-        <pre><code class="language-javascript">// SVARĪGI: spēles dati definēti ĀRPUS funkcijām, citādi tie "nomirst"
-let punkti = 0;
-let dzivibas = 3;
-
-// Viena vieta, kas pārraksta abus tekstus lapā
-function atjaunotEkranu() {
-    document.getElementById("punkti").textContent = "Punkti: " + punkti;
-    document.getElementById("dzivibas").textContent = "Dzīvības: " + dzivibas;
-}
-
-function pievienotPunktus(daudzums) {
-    punkti = punkti + daudzums;
-    atjaunotEkranu();   // bez šīs rindas skaitlis lapā nemainītos
-}
-
-function zaudetDzivibu() {
-    dzivibas = dzivibas - 1;
-    atjaunotEkranu();
-    if (dzivibas &lt;= 0) {
-        document.getElementById("statuss").textContent = "Spēle beigusies!";
-    }
-}
-
-function restartetSpeli() {
-    punkti = 0;
-    dzivibas = 3;
-    document.getElementById("statuss").textContent = "";
-    atjaunotEkranu();
-}
-
-pievienotPunktus(10);   // Punkti: 10
-pievienotPunktus(50);   // Punkti: 60
-zaudetDzivibu();        // Dzīvības: 2
-restartetSpeli();       // Punkti: 0, Dzīvības: 3</code></pre>
-        <div class='result'>
-            <i>Lapā secīgi redzēsi:</i><br>
-            Punkti: 10 → Punkti: 60 → Dzīvības: 2 → Punkti: 0 un Dzīvības: 3.<br><br>
-            <i>Kāpēc tas strādā:</i> <code>punkti</code> un <code>dzivibas</code> ir definēti faila augšā, tāpēc visas trīs funkcijas redz vienas un tās pašas vērtības. Ja tos definētu funkcijas iekšpusē ar <code>let</code>, katrs izsaukums sāktu no nulles.
-        </div>
-    </div>
-</div>
-
-<div class="stundas-navigacija">
-    <a href="/datorika9/dat9_4main" class="nav-btn">⬅ Tēmas apkopojums</a>
-    <a href="/datorika9/dat9_42" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+    <p>
+     <a href="SKOLOTAJAM.md">
+      Kursa nosacījumi un satura pārklājums
+     </a>
+    </p>
+   </details>
+   <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
+    <a class="nav-btn" href="dat9_36.html">
+     ← Iepriekšējā
+    </a>
+    <a class="nav-btn" href="dat9_42.html">
+     Nākamā →
+    </a>
+   </nav>
+  </main>
+  <footer class="course-footer">
+   <a href="datorika9.html">
+    Kursa pārskats
+   </a>
+   ·
+   <a href="git.html">
+    GitHub palīdzība
+   </a>
+   ·
+   <a href="../sasnRez.html#datorika9">
+    Sasniedzamie rezultāti
+   </a>
+  </footer>
+ </body>
 </html>

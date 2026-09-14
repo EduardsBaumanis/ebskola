@@ -1,222 +1,558 @@
 <!DOCTYPE html>
 <html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4.4 Laika kontrole (Timers) un spēles cikls - ebSkola</title>
-<meta name="description" content="Izveidot automātisku spēles ciklu, izmantojot laika kontroles funkcijas, lai spēles elementi (šķēršļi, laika atskaite) darbotos patstāvīgi bez lietotāja iejaukš">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/datorika9/dat9_44">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4.4 Laika kontrole (Timers) un spēles cikls">
-<meta property="og:description" content="Izveidot automātisku spēles ciklu, izmantojot laika kontroles funkcijas, lai spēles elementi (šķēršļi, laika atskaite) darbotos patstāvīgi bez lietotāja iejaukš">
-<meta property="og:url" content="https://ebskola.lv/datorika9/dat9_44">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4.4 Laika kontrole (Timers) un spēles cikls">
-<meta name="twitter:description" content="Izveidot automātisku spēles ciklu, izmantojot laika kontroles funkcijas, lai spēles elementi (šķēršļi, laika atskaite) darbotos patstāvīgi bez lietotāja iejaukš">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.4 Laika kontrole (Timers) un spēles cikls", "description": "Izveidot automātisku spēles ciklu, izmantojot laika kontroles funkcijas, lai spēles elementi (šķēršļi, laika atskaite) darbotos patstāvīgi bez lietotāja iejaukš", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_44", "isPartOf": {"@type": "Course", "name": "ebSkola - datorika9", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
-</script>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   4.4 Laiks un automātiska kustība - ebSkola
+  </title>
+  <meta content="Izveido pretinieku, kura kustību var sākt, apturēt un atsākt." name="description"/>
+  <meta content="Eduards Baumanis" name="author"/>
+  <link href="https://ebskola.lv/datorika9/dat9_44" rel="canonical"/>
+  <meta content="article" property="og:type"/>
+  <meta content="lv_LV" property="og:locale"/>
+  <meta content="ebSkola" property="og:site_name"/>
+  <meta content="4.4 Laiks un automātiska kustība" property="og:title"/>
+  <meta content="Izveido pretinieku, kura kustību var sākt, apturēt un atsākt." property="og:description"/>
+  <meta content="https://ebskola.lv/datorika9/dat9_44" property="og:url"/>
+  <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+  <meta content="summary" name="twitter:card"/>
+  <link href="../favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../manifest.json" rel="manifest"/>
+  <meta content="#222831" name="theme-color"/>
+  <link href="../style.css" rel="stylesheet"/>
+  <link href="kursa-stils.css" rel="stylesheet"/>
+  <script type="application/ld+json">
+   {"@context": "https://schema.org", "@type": "LearningResource", "name": "4.4 Laiks un automātiska kustība", "description": "Izveido pretinieku, kura kustību var sākt, apturēt un atsākt.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_44", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+  </script>
+  <script defer="" src="kursam.js">
+  </script>
+ </head>
+ <body class="page-reference datorika-kurss">
+  <a class="skip-link" href="#saturs">
+   Uz mācību saturu
+  </a>
+  <header class="course-topbar">
+   <a href="../index.html">
+    ebSkola
+   </a>
+   <nav aria-label="Kursa navigācija">
+    <a href="datorika9.html">
+     Datorika 9
     </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/datorika9/datorika9">Datorika 9</a>
-      <a href="/datorika9/dat9_4main">4. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/datorika9/dat9_43">← 4.3</a>
-    <a class="btn primary" href="/datorika9/dat9_45">4.5 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Datorika 9</div>
-  <h3>4. Tēma - Spēles dzinēja izstrāde un funkcijas</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/datorika9/dat9_4main">Tēmas sākums</a>
-    <a href="/datorika9/dat9_41">4.1 Funkcijas un koda atkārtota izmantošana</a>
-    <a href="/datorika9/dat9_42">4.2 Notikumu klausītāji (Event Listeners) un interakcija</a>
-    <a href="/datorika9/dat9_43">4.3 DOM manipulācija – dinamiska elementu pārvaldība</a>
-    <a class="active" aria-current="page" href="/datorika9/dat9_44">4.4 Laika kontrole (Timers) un spēles cikls</a>
-    <a href="/datorika9/dat9_45">4.5 Sadursmju noteikšanas (Collision detection) pamati</a>
-    <a href="/datorika9/dat9_46">4.6 Noslēguma projekts: Spēles dzinēja prototips</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>4.4 Laika kontrole (Timers) un spēles cikls</h1>
-    <p><b>Stundas uzdevums:</b> Izveidot automātisku spēles ciklu, izmantojot laika kontroles funkcijas, lai spēles elementi (šķēršļi, laika atskaite) darbotos patstāvīgi bez lietotāja iejaukšanās.</p>
-    <a href="/sasnRez">2.6.1. Pieraksta un izpilda algoritmus; 3.4.3. Skaidro tehnoloģisko procesu norisi (reāllaika sistēmas).</a>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - palaid gatavu sekunžu skaitītāju · 2. uzdevums (~25 min) - uzbūvē spēles ciklu, kas kustina ienaidnieku · 3. uzdevums (~20 min) - salabo dubultā starta kļūdu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savu 4.3 stundas projektu ar laukumu <code>#laukums</code> un spēlētāju <code>#speletajs</code> koda redaktorā un pārlūkā.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Kas ir Spēles Cikls (Game Loop)?</h2>
-    <div class='logic-box'>
-<p>Gandrīz visas datorspēles pamatā ir "Game Loop" – kods, kas atkārtojas desmitiem reižu sekundē (FPS - frames per second). Tas dara trīs lietas: nolasa spēlētāja ievadi, atjaunina pozīcijas un pārzīmē ekrānu.
-        <ul>
-            <li><b>setInterval(funkcija, milisekundes):</b> Iebūvēts JS rīks, kas liek pārlūkam atkārtoti izsaukt norādīto funkciju ik pēc noteikta laika (1000 ms = 1 sekunde).</li>
-            <li><b>clearInterval(id):</b> Rīks, kas aptur iepriekš sākto ciklu. Tas ir svarīgi, lai spēle apstātos, kad iestājas "Game Over" vai beidzas laiks.</li>
-            <li><b>Automātiskā kustība:</b> Ja mēs <code>setInterval</code> ciklā katru reizi palielinām ienaidnieka <code>X</code> koordinātu par 5 pikseļiem (ik pēc 20 ms), cilvēka acij izskatīsies, ka objekts plūdeni slīd pa ekrānu.</li>
-        </ul>
+    <a href="git.html">
+     GitHub palīdzība
+    </a>
+   </nav>
+  </header>
+  <main class="course-content" id="saturs">
+   <p class="breadcrumb">
+    <a href="dat9_4main.html">
+     4. tēma
+    </a>
+    / 4.4
+   </p>
+   <h1>
+    4.4 Laiks un automātiska kustība
+   </h1>
+   <p class="lesson-goal">
+    <b>
+     Šodien:
+    </b>
+    Izveido pretinieku, kura kustību var sākt, apturēt un atsākt.
+   </p>
+   <section id="teorija">
+    <h2>
+     Īsā teorija
+    </h2>
+    <p>
+     <code>
+      setInterval(solis, 30)
+     </code>
+     atkārto funkciju apmēram ik pēc 30 milisekundēm. 1000 milisekundes ir viena sekunde.
     </p>
-        <pre><code class="language-javascript">// Spēles cikls: funkcija atkārtojas ik pēc 100 ms
-let punkti = 0;
-let ciklsId = setInterval(function () {
-  punkti = punkti + 1;
-  document.getElementById("punkti").textContent = punkti;
-}, 100);
-
-// Apturēšana - šo rindu izpilda TIKAI tad, kad spēle jābeidz
-function beigtSpeli() {
-  clearInterval(ciklsId);
-}</code></pre>
+    <p>
+     <code>
+      clearInterval(taimeris)
+     </code>
+     aptur atkārtošanu. Taimera vērtību glabājam ārpus funkcijām.
+    </p>
+    <p>
+     Pirms jauna taimera sākšanas apturam iepriekšējo. Tad atkārtots klikšķis nepaātrina spēli.
+    </p>
+    <pre><code>clearInterval(taimeris);
+taimeris = setInterval(solis, 30);</code></pre>
+   </section>
+   <section id="sakuma-kods">
+    <h2>
+     Sākuma kods un darba vieta
+    </h2>
+    <p class="workplace">
+     Vide: mācību lapa → VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      VS Code ar
+      <b>
+       File → Open Folder
+      </b>
+      atver
+      <code>
+       Desktop/datorika9-tema4
+      </code>
+      . Ja mapes nav, izveido to darbvirsmā.
+     </li>
+     <li>
+      Šajā mācību lapā nospied
+      <b>
+       Kopēt sākuma kodu
+      </b>
+      .
+     </li>
+     <li>
+      VS Code nospied
+      <b>
+       Ctrl+N
+      </b>
+      un ielīmē kodu ar
+      <b>
+       Ctrl+V
+      </b>
+      .
+     </li>
+     <li>
+      Saglabā ar
+      <b>
+       Ctrl+Shift+S
+      </b>
+      tēmas mapē kā
+      <code>
+       44.html
+      </code>
+      .
+     </li>
+    </ol>
+    <div class="starter-actions">
+     <button class="btn" data-copy="pilnais-kods" type="button">
+      Kopēt sākuma kodu
+     </button>
+     <a class="btn" download="44.html" href="sakuma-kodi/44.html">
+      Lejupielādēt 44.html
+     </a>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Palaid gatavu sekunžu skaitītāju</h3>
-        <p>Beigās skaitlis lapā pieaugs par vienu katru sekundi, un poga to apturēs.</p>
-        <p><b>Kopējamais paraugs:</b> divas rindas HTML failā un viens taimeris JavaScript failā.</p>
-<pre><code class="language-html">&lt;p id="skaititajs"&gt;0&lt;/p&gt;
-&lt;button id="apturetPoga"&gt;Apturēt&lt;/button&gt;</code></pre>
-<pre><code class="language-javascript">let sekundes = 0;
-let ciklsId = setInterval(function () {
-  sekundes = sekundes + 1;
-  document.getElementById("skaititajs").textContent = sekundes;
-}, 1000);
-
-document.getElementById("apturetPoga").addEventListener("click", function () {
-  clearInterval(ciklsId);
-});</code></pre>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>index.html</code> un ielīmē abas HTML rindas pirms <code>&lt;/body&gt;</code>.</li>
-            <li><b>Atver</b> <code>script.js</code> un ielīmē taimera kodu faila beigās.</li>
-            <li><b>Saglabā</b>, pārlādē lapu un vēro, kā skaitlis aug pats no sevis.</li>
-            <li><b>Nospied</b> "Apturēt" un pārbaudi, ka skaitlis vairs nemainās.</li>
-            <li><b>Nomaini</b> skaitli <code>1000</code> uz <code>200</code> un pārlādē lapu.</li>
-            <li><b>Pārbaudi</b>, ka skaitītājs tagad aug piecas reizes ātrāk.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> skaitlis aug bez tavas iejaukšanās un poga to nekavējoties aptur.</p>
+    <p aria-live="polite" class="copy-status" role="status">
+    </p>
+    <details class="starter-source">
+     <summary>
+      Atvērt pilno sākuma kodu
+     </summary>
+     <pre><code id="pilnais-kods">&lt;!DOCTYPE html&gt;
+&lt;html lang="lv"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Mana spēle&lt;/title&gt;
+&lt;style&gt;
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+#speletajs { background: #245b91; left: 20px; top: 160px; }
+#pretinieks { background: #b3261e; left: 220px; top: 160px; }
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Kustīgs pretinieks&lt;/h1&gt;
+&lt;p&gt;Nospied Sākt vai Apturēt.&lt;/p&gt;
+&lt;div id="laukums"&gt;&lt;div id="pretinieks"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;button id="sakt"&gt;Sākt&lt;/button&gt;
+&lt;button id="apturet"&gt;Apturēt&lt;/button&gt;
+&lt;p id="stavoklis"&gt;Apturēts&lt;/p&gt;
+&lt;script&gt;
+let x = 0;
+let taimeris = null;
+const atrums = 2;
+function solis() {
+  x = x + atrums;
+  const robeza = document.getElementById("laukums").clientWidth - 30;
+  if (x &gt; robeza) { x = 0; }
+  document.getElementById("pretinieks").style.left = x + "px";
+}
+function sakt() {
+  clearInterval(taimeris);
+  taimeris = setInterval(solis, 30);
+  document.getElementById("stavoklis").textContent = "Kustas";
+}
+function apturet() {
+  clearInterval(taimeris);
+  taimeris = null;
+  document.getElementById("stavoklis").textContent = "Apturēts";
+}
+document.getElementById("sakt").addEventListener("click", sakt);
+document.getElementById("apturet").addEventListener("click", apturet);
+document.getElementById("pretinieks").style.left = x + "px";
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    </details>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-1">
+    <p class="task-number">
+     1. uzdevums
+    </p>
+    <h2>
+     Izmēģini sākšanu un apturēšanu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Sāc ar
+      <code>
+       44.html
+      </code>
+      .
+     </li>
+     <li>
+      Nospied
+      <b>
+       Sākt
+      </b>
+      , tad
+      <b>
+       Apturēt
+      </b>
+      .
+     </li>
+     <li>
+      Pārbaudi kustību un zem pogām redzamo ziņu.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Pretinieks kustas tikai pēc sākšanas un apstājas pēc apturēšanas.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-2">
+    <p class="task-number">
+     2. uzdevums
+    </p>
+    <h2>
+     Pielāgo kustību
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Maini
+      <code>
+       atrums
+      </code>
+      no 2 uz 3.
+     </li>
+     <li>
+      CSS maini pretinieka krāsu. HTML pielāgo spēles nosaukumu.
+     </li>
+     <li>
+      Funkcijā
+      <code>
+       solis()
+      </code>
+      zem kustības rindas pievieno
+      <code>
+       document.getElementById("stavoklis").textContent = "X: " + x;
+      </code>
+      .
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Kustības laikā lapā redzama pretinieka X vērtība.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-3">
+    <p class="task-number">
+     3. uzdevums
+    </p>
+    <h2>
+     Pievieno sākuma vietas pogu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      HTML pievieno
+      <code>
+       &lt;button onclick="location.reload()"&gt;Atjaunot&lt;/button&gt;
+      </code>
+      .
+     </li>
+     <li>
+      Pārlūkā nospied
+      <b>
+       Sākt
+      </b>
+      piecas reizes. Kustība nedrīkst kļūt ātrāka.
+     </li>
+     <li>
+      Apturi kustību un pārbaudi, ka kvadrāts paliek vietā. Ar
+      <b>
+       Atjaunot
+      </b>
+      atgriez to sākumā apturētā stāvoklī.
+     </li>
+     <li>
+      Saglabā un nosūti darbu uz GitHub.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Atkārtota sākšana, apturēšana un atjaunošana darbojas.
+    </p>
+    <div class="submission">
+     <h3>
+      Iesniedz 3. uzdevuma rezultātu
+     </h3>
+     <p>
+      Iesniedz pabeigto
+      <code>
+       44.html
+      </code>
+      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
+     </p>
+     <p>
+      <b>
+       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
+      </b>
+     </p>
+     <ul class="assessment-checks">
+      <li>
+       Pretinieks pārvietojas automātiski ar soli 3 un redzamu X vērtību.
+      </li>
+      <li>
+       Pieci sākšanas klikšķi neveido ātrāku kustību.
+      </li>
+      <li>
+       Apturēt apstādina; Atjaunot atgriež sākumā bez kustības.
+      </li>
+     </ul>
+     <p>
+      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
+     </p>
     </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Uzbūvē spēles ciklu, kas kustina ienaidnieku</h3>
-        <p>Beigās sarkanais kvadrāts pats slīdēs pa laukumu, un pogas to sāks un apturēs.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>index.html</code> un pievieno laukumā ienaidnieku: <code>&lt;div id="ienaidnieks" style="position:absolute;left:0;top:100px;width:30px;height:30px;background:red;"&gt;&lt;/div&gt;</code>.</li>
-            <li><b>Pievieno</b> divas pogas: <code>&lt;button id="saktPoga"&gt;Sākt&lt;/button&gt;</code> un <code>&lt;button id="beigtPoga"&gt;Apturēt&lt;/button&gt;</code>.</li>
-            <li><b>Atver</b> <code>script.js</code> un uzraksti faila augšā <code>let ienX = 0;</code> un <code>let ciklsId = null;</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code>spelesCikls()</code>, kas pieskaita <code>ienX = ienX + 3</code>, atgriež <code>ienX</code> uz 0, kad tas pārsniedz 400, un iestata <code>style.left</code> ar <code>"px"</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code>saktSpeli()</code>, kas piešķir <code>ciklsId = setInterval(spelesCikls, 16);</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code>beigtSpeli()</code>, kas izsauc <code>clearInterval(ciklsId)</code>, un piesaisti abas funkcijas pogām.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc "Sākt" sarkanais kvadrāts slīd pa laukumu, un "Apturēt" to nostādina uz vietas.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Salabo dubultā starta kļūdu</h3>
-        <p>Beigās spēle darbosies vienādā ātrumā, lai cik reižu tu spiestu pogu "Sākt".</p>
-        <ol class="step-list">
-            <li><b>Nospied</b> "Sākt" vienu reizi un iegaumē, cik ātri kvadrāts slīd.</li>
-            <li><b>Nospied</b> "Sākt" vēl divas reizes bez apturēšanas - kustība kļūst neprātīgi ātra.</li>
-            <li><b>Atver</b> <code>script.js</code> un funkcijas <code>saktSpeli()</code> pirmajā rindā pievieno <code>clearInterval(ciklsId);</code>.</li>
-            <li><b>Pārlādē</b> lapu un nospied "Sākt" piecas reizes pēc kārtas.</li>
-            <li><b>Pārbaudi</b>, ka ātrums vairs nemainās, lai cik reižu pogu nospiestu.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc katra <code>setInterval</code> ID jāglabā mainīgajā ārpus funkcijas.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc piecām "Sākt" nospiešanām kvadrāts slīd tikpat ātri kā pēc pirmās.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno 30 sekunžu atskaiti</h3>
-        <p>Beigās spēle pati beigsies, kad taimeris nolaidīsies līdz nullei.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code>index.html</code> rindu <code>&lt;p id="taimeris"&gt;30&lt;/p&gt;</code>.</li>
-            <li><b>Pievieno</b> <code>script.js</code> faila augšā <code>let sekundes = 30;</code>.</li>
-            <li><b>Uzraksti</b> otru taimeri ar <code>setInterval</code>, kas ik sekundi atņem 1 no <code>sekundes</code>.</li>
-            <li><b>Ieraksti</b> jauno vērtību elementā <code>#taimeris</code> katrā taimera izsaukumā.</li>
-            <li><b>Izsauc</b> <code>beigtSpeli()</code>, kad <code>sekundes</code> kļūst 0, un apturi arī pašu atskaiti.</li>
-            <li><b>Veic</b> <code>git commit -m "Add countdown timer to game"</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc 30 sekundēm taimeris rāda 0 un ienaidnieks pats apstājas.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <div class='logic-box'>
-<ul>
-        <li><b>"Zūdošais" taimera ID:</b> Ja definēsi <code>let spelesTaimeris = setInterval(...)</code> funkcijas iekšpusē, tu nevarēsi to apturēt ar <code>clearInterval()</code> citā funkcijā (Scope kļūda). Taimera mainīgo vienmēr definē faila sākumā!</li>
-        <li><b>Paātrināšanās kļūda (Multiple intervals):</b> Ja funkcija, kas iedarbina <code>setInterval</code>, tiek izsaukta vairākas reizes (piemēram, katru reizi nospiežot "Sākt spēli"), tiks palaisti vairāki paralēli taimeri, un laiks vai kustība kļūs neprātīgi ātra. Vienmēr pārbaudi, vai iepriekšējais intervāls ir apturēts pirms jauna sākšanas.</li>
-        <li><b>Neaizmirsti "px":</b> Automātiskā kustība nestrādās, ja piemirsīsi pievienot mērvienību (<code>...style.top = Y + "px"</code>).</li>
+    <details class="course-help">
+     <summary>
+      Saglabā un nosūti uz GitHub — pogu atgādne
+     </summary>
+     <p class="workplace">
+      Vide: VS Code / Source Control → GitHub pārlūkā
+     </p>
+     <ol class="step-list">
+      <li>
+       Ar
+       <b>
+        File → Save All
+       </b>
+       saglabā failus. Atver
+       <b>
+        Source Control
+       </b>
+       ar
+       <b>
+        Ctrl+Shift+G
+       </b>
+       .
+      </li>
+      <li>
+       Pie
+       <b>
+        Changes
+       </b>
+       nospied
+       <b>
+        +
+       </b>
+       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
+       <b>
+        Staged Changes
+       </b>
+       .
+      </li>
+      <li>
+       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
+       <code>
+        Pabeigts 4.4 darbs
+       </code>
+       . Spied
+       <b>
+        Commit
+       </b>
+       .
+      </li>
+      <li>
+       Ja šī tēmas mape vēl nav GitHub, spied
+       <b>
+        Publish to GitHub
+       </b>
+       un izveido publisku projektu
+       <code>
+        datorika9-tema4
+       </code>
+       . Jau publicētam projektam spied
+       <b>
+        Sync Changes
+       </b>
+       . Ja pogas nav, atver
+       <b>
+        … → Push
+       </b>
+       .
+      </li>
+      <li>
+       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
+      </li>
+     </ol>
+     <p>
+      Ja Source Control rāda
+      <b>
+       Initialize Repository
+      </b>
+      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
+      <a href="git.html">
+       palīdzību
+      </a>
+      un palūdz skolotāja atbalstu.
+     </p>
+    </details>
+   </section>
+   <details class="course-help extra-task">
+    <summary>
+     Papildu uzdevums: Padari kustību lēnāku
+    </summary>
+    <p>
+     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+    </p>
+    <ol class="step-list">
+     <li>
+      Maini intervālu no
+      <code>
+       30
+      </code>
+      uz
+      <code>
+       60
+      </code>
+      .
+     </li>
+     <li>
+      Izmēģini un izvēlies savai spēlei piemērotāko vērtību.
+     </li>
+    </ol>
+   </details>
+   <details class="course-help">
+    <summary>
+     Ja kaut kas neizdodas
+    </summary>
+    <ul>
+     <li>
+      <b>
+       Neredzi izmaiņas?
+      </b>
+      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
+      <code>
+       44.html
+      </code>
+      .
+     </li>
+     <li>
+      <b>
+       Kods redzams kā teksts?
+      </b>
+      Saglabā ar galotni .html. Windows ieslēdz
+      <b>
+       View → Show → File name extensions
+      </b>
+      un pārbaudi, ka beigās nav .txt.
+     </li>
+     <li>
+      <b>
+       Poga nestrādā?
+      </b>
+      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+     </li>
+     <li>
+      <b>
+       Nesaproti nākamo soli?
+      </b>
+      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+     </li>
     </ul>
+    <p>
+     <a href="git.html">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
+   </details>
+   <details class="course-help teacher-meta">
+    <summary>
+     Skolotājam: sasniedzamo rezultātu saistība
+    </summary>
+    <p>
+     Šajā nodarbībā vingrina šādu rezultātu daļas no
+     <a href="../sasnRez.html#datorika9">
+      9. klases saraksta
+     </a>
+     . Piesaiste pati par sevi nenozīmē visa rezultāta apguvi.
+    </p>
+    <div class="lesson-meta">
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.1
+     </a>
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.2
+     </a>
     </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (taimera apturēšana un dubultā setInterval novēršana)</h2>
-    <div class='code-example'>
-        <pre><code class="language-javascript">// SVARĪGI: ID definēts ĀRPUS funkcijām, citādi to nevar apturēt citā funkcijā
-let ciklsId = null;
-let ienX = 0;
-const ienaidnieks = document.getElementById("ienaidnieks");
-
-function spelesCikls() {
-    ienX = ienX + 3;
-    if (ienX &gt; 400) {
-        ienX = 0;                            // sāk no jauna no kreisās malas
-    }
-    ienaidnieks.style.left = ienX + "px";    // bez "px" kustība nenotiek
-}
-
-function saktSpeli() {
-    clearInterval(ciklsId);                  // apturam veco ciklu, ja tāds jau darbojas
-    ciklsId = setInterval(spelesCikls, 16);  // ~60 kadri sekundē
-}
-
-function beigtSpeli() {
-    clearInterval(ciklsId);
-    document.getElementById("statuss").textContent = "Spēle beigusies!";
-}
-
-document.getElementById("saktPoga").addEventListener("click", saktSpeli);
-document.getElementById("beigtPoga").addEventListener("click", beigtSpeli);</code></pre>
-        <div class='result'>
-            <i>Ekrānā:</i> pēc "Sākt" sarkanais kvadrāts slīd pa labi un pēc laukuma malas parādās no jauna kreisajā pusē.<br><br>
-            <i>Pēc "Apturēt":</i> kustība apstājas un parādās teksts "Spēle beigusies!".<br><br>
-            <i>Kāpēc svarīga pirmā rinda funkcijā <code>saktSpeli()</code>:</i> bez <code>clearInterval(ciklsId)</code> katrs jauns "Sākt" klikšķis palaistu vēl vienu paralēlu ciklu, un kvadrāts kļūtu arvien ātrāks.
-        </div>
-    </div>
-</div>
-
-<div class="stundas-navigacija">
-    <a href="/datorika9/dat9_43" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/datorika9/dat9_45" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+    <p>
+     <a href="SKOLOTAJAM.md">
+      Kursa nosacījumi un satura pārklājums
+     </a>
+    </p>
+   </details>
+   <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
+    <a class="nav-btn" href="dat9_43.html">
+     ← Iepriekšējā
+    </a>
+    <a class="nav-btn" href="dat9_45.html">
+     Nākamā →
+    </a>
+   </nav>
+  </main>
+  <footer class="course-footer">
+   <a href="datorika9.html">
+    Kursa pārskats
+   </a>
+   ·
+   <a href="git.html">
+    GitHub palīdzība
+   </a>
+   ·
+   <a href="../sasnRez.html#datorika9">
+    Sasniedzamie rezultāti
+   </a>
+  </footer>
+ </body>
 </html>

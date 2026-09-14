@@ -1,313 +1,534 @@
 <!DOCTYPE html>
 <html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3.6 Noslēguma projekts: Vienkārša teksta spēle JS - ebSkola</title>
-<meta name="description" content="Izstrādāt un testēt interaktīvu mini-programmu, kas saņem spēlētāja datus, pieņem lēmumus ar sazarojumiem un automātiski ģenerē saturu.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/datorika9/dat9_36">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="3.6 Noslēguma projekts: Vienkārša teksta spēle JS">
-<meta property="og:description" content="Izstrādāt un testēt interaktīvu mini-programmu, kas saņem spēlētāja datus, pieņem lēmumus ar sazarojumiem un automātiski ģenerē saturu.">
-<meta property="og:url" content="https://ebskola.lv/datorika9/dat9_36">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="3.6 Noslēguma projekts: Vienkārša teksta spēle JS">
-<meta name="twitter:description" content="Izstrādāt un testēt interaktīvu mini-programmu, kas saņem spēlētāja datus, pieņem lēmumus ar sazarojumiem un automātiski ģenerē saturu.">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org","@type": "LearningResource","name": "3.6 Noslēguma projekts: Vienkārša teksta spēle JS","description": "Izstrādāt un testēt interaktīvu mini-programmu, kas saņem spēlētāja datus, pieņem lēmumus ar sazarojumiem un automātiski ģenerē saturu.","inLanguage": "lv","url": "https://ebskola.lv/datorika9/dat9_36","isPartOf": {"@type": "Course","name": "Datorika 9","url": "https://ebskola.lv/datorika9/dat9_3main"},"learningResourceType": "Lesson","educationalLevel": "Pamatizglītība","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
-</script>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   3.6 Pabeidz teksta spēli — projekta 2. daļa - ebSkola
+  </title>
+  <meta content="Pabeidz izvēļu spēli ar uzvaru, zaudējumu un sākšanu no jauna." name="description"/>
+  <meta content="Eduards Baumanis" name="author"/>
+  <link href="https://ebskola.lv/datorika9/dat9_36" rel="canonical"/>
+  <meta content="article" property="og:type"/>
+  <meta content="lv_LV" property="og:locale"/>
+  <meta content="ebSkola" property="og:site_name"/>
+  <meta content="3.6 Pabeidz teksta spēli — projekta 2. daļa" property="og:title"/>
+  <meta content="Pabeidz izvēļu spēli ar uzvaru, zaudējumu un sākšanu no jauna." property="og:description"/>
+  <meta content="https://ebskola.lv/datorika9/dat9_36" property="og:url"/>
+  <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+  <meta content="summary" name="twitter:card"/>
+  <link href="../favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../manifest.json" rel="manifest"/>
+  <meta content="#222831" name="theme-color"/>
+  <link href="../style.css" rel="stylesheet"/>
+  <link href="kursa-stils.css" rel="stylesheet"/>
+  <script type="application/ld+json">
+   {"@context": "https://schema.org", "@type": "LearningResource", "name": "3.6 Pabeidz teksta spēli — projekta 2. daļa", "description": "Pabeidz izvēļu spēli ar uzvaru, zaudējumu un sākšanu no jauna.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_36", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+  </script>
+  <script defer="" src="kursam.js">
+  </script>
+ </head>
+ <body class="page-reference datorika-kurss">
+  <a class="skip-link" href="#saturs">
+   Uz mācību saturu
+  </a>
+  <header class="course-topbar">
+   <a href="../index.html">
+    ebSkola
+   </a>
+   <nav aria-label="Kursa navigācija">
+    <a href="datorika9.html">
+     Datorika 9
     </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/datorika9/datorika9">Datorika 9</a>
-      <a href="/datorika9/dat9_3main">3. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/datorika9/dat9_35">← 3.5</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Datorika 9</div>
-  <h3>3. Tēma - Algoritmi un JavaScript pamati</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/datorika9/dat9_3main">Tēmas sākums</a>
-    <a href="/datorika9/dat9_31">3.1 Ievads JavaScript un mainīgie</a>
-    <a href="/datorika9/dat9_32">3.2 Datu tipi un interaktivitāte (Input/Output)</a>
-    <a href="/datorika9/dat9_33">3.3 Loģiskie operatori un sazarojumi (If/Else)</a>
-    <a href="/datorika9/dat9_34">3.4 Masīvi (Arrays) un datu strukturēšana</a>
-    <a href="/datorika9/dat9_35">3.5 Cikli (Loops) un atkārtošanās loģika</a>
-    <a class="active" aria-current="page" href="/datorika9/dat9_36">3.6 Noslēguma projekts: Radošā teksta spēle JS</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>3.6 Noslēguma projekts: Radošā teksta spēle JS</h1>
-    <p><b>Stundas uzdevums:</b> Izveidot interaktīvu teksta spēli, izmantojot tikai 3. tēmā apgūto: mainīgos, ievadi, datu tipus, if/else, masīvus, ciklus un DOM izvadi.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.6.1. Algoritmi un programmas strukturēšana</a>
-        <a href="/sasnRez">SR 2.6.2. Algoritma testēšana un kļūdu meklēšana</a>
-        <a href="/sasnRez">SR 5.2.1. Kritiskā domāšana un problēmrisināšana</a>
-        <a href="/sasnRez">SR 5.2.3. Pašvadīta mācīšanās</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un skelets (~10 min) · 1. uzdevums (~15 min) - palaid spēles skeletu un sveicienu ar spēlētāja vārdu · 2. uzdevums (~25 min) - uzzīmē inventāru ar ciklu un pievieno rīka izvēli ar <code>if/else</code> · 3. uzdevums (~20 min) - pārbaudi nepareizu izvēli, tukšu somu un restartu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> izveido jaunu mapi ar tukšu <code>index.html</code> un <code>script.js</code>; blakus atver savas 3.4 un 3.5 stundas piezīmes par masīviem un cikliem.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: mini spēle no jau apgūtiem blokiem</h2>
-    <p>Šajā projektā nav jāizmanto jaunas JavaScript bibliotēkas vai sarežģīta animācija. Spēle veidojas no pazīstamiem blokiem: HTML poga izsauc funkciju, <code>prompt()</code> iegūst izvēli, <code>if/else</code> pieņem lēmumu, masīvs glabā materiālu sarakstu, bet <code>for</code> cikls parāda saturu lapā.</p>
-    <div class="code-example">
-<pre><code class="language-javascript">let materiali = ["plāns", "marķieris", "taimeris"];
-
-for (let i = 0; i < materiali.length; i++) {
-  materialuSaraksts.innerHTML += "&lt;li&gt;" + materiali[i] + "&lt;/li&gt;";
+    <a href="git.html">
+     GitHub palīdzība
+    </a>
+   </nav>
+  </header>
+  <main class="course-content" id="saturs">
+   <p class="breadcrumb">
+    <a href="dat9_3main.html">
+     3. tēma
+    </a>
+    / 3.6
+   </p>
+   <h1>
+    3.6 Pabeidz teksta spēli — projekta 2. daļa
+   </h1>
+   <p class="lesson-goal">
+    <b>
+     Šodien:
+    </b>
+    Pabeidz izvēļu spēli ar uzvaru, zaudējumu un sākšanu no jauna.
+   </p>
+   <p class="project-note">
+    Tēmas projekts · 2. daļa no 2
+   </p>
+   <section id="teorija">
+    <h2>
+     Īsā teorija
+    </h2>
+    <p>
+     <code>
+      ===
+     </code>
+     salīdzina divas vērtības. Vietas nosaukumiem jāsakrīt arī pēc burtu lieluma.
+    </p>
+    <p>
+     <code>
+      beigas
+     </code>
+     glabā
+     <code>
+      true
+     </code>
+     vai
+     <code>
+      false
+     </code>
+     : vai spēle jau beigusies.
+    </p>
+    <p>
+     <code>
+      if (beigas) { return; }
+     </code>
+     pārtrauc funkciju, lai pēc beigām gājieni vairs nepieaugtu.
+    </p>
+    <pre><code>if (vieta === dargumuVieta) {
+  zina = "Uzvara!";
+  beigas = true;
 }</code></pre>
-        <div class="result">Iepriekš apgūtais saturs: masīvs, cikls, DOM elementa satura maiņa.</div>
+   </section>
+   <section id="sakuma-kods">
+    <h2>
+     Sākuma kods un darba vieta
+    </h2>
+    <p>
+     Turpini savu iepriekšējās nodarbības projektu pēc 1. uzdevuma soļiem. Ja tā nav, šeit ir pilns sākuma paraugs. Jauno kopiju saglabā kā
+     <code>
+      index.html
+     </code>
+     mapē
+     <code>
+      Desktop/datorika9-tema3
+     </code>
+     .
+    </p>
+    <div class="starter-actions">
+     <button class="btn" data-copy="pilnais-kods" type="button">
+      Kopēt sākuma kodu
+     </button>
+     <a class="btn" download="index.html" href="sakuma-kodi/36.html">
+      Lejupielādēt index.html
+     </a>
     </div>
-    <div class="info-box">
-        <p><b>Ko no kuras stundas izmantosi:</b> mainīgos no 3.1, <code>prompt()</code> un <code>Number()</code> no 3.2, <code>if/else</code> no 3.3, masīvu ar <code>.push()</code> no 3.4 un <code>for</code> ciklu no 3.5.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>HTML skelets (sākuma punkts)</h2>
-    <div class='logic-box'>
-        <p>Iekopē šo HTML skeletu savā <code class="language-html">index.html</code> failā un saglabā. Šeit tu vēlāk varēsi mainīt krāsas un stilus.</p>
-        <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+    <p aria-live="polite" class="copy-status" role="status">
+    </p>
+    <details class="starter-source">
+     <summary>
+      Atvērt pilno sākuma kodu
+     </summary>
+     <pre><code id="pilnais-kods">&lt;!DOCTYPE html&gt;
 &lt;html lang="lv"&gt;
 &lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-    &lt;title&gt;Mana Radošā Spēle&lt;/title&gt;
-    &lt;style&gt;
-        body {
-            font-family: 'JetBrains Mono', monospace;
-            background: #222831; /* Pamēģini nomainīt šo krāsu! */
-            color: #DFD0B8;
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-        h1, h2 { color: #FFB142; }
-        button {
-            background: #948979;
-            color: #222831;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        button:hover { background: #FFB142; }
-        ul { background: #393E46; padding: 16px 32px; border-radius: 6px; }
-    &lt;/style&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Mana spēle&lt;/title&gt;
+&lt;style&gt;
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+
+&lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;h1&gt;Tavs Unikālais Klases Izaicinājums&lt;/h1&gt;
-    &lt;button onclick="saktIzaicinajumu()"&gt;Sākt spēli&lt;/button&gt;
-    &lt;h2 id="sveiciens"&gt;&lt;/h2&gt;
-    &lt;h3&gt;Klases materiāli:&lt;/h3&gt;
-    &lt;ul id="materialuSaraksts"&gt;&lt;/ul&gt;
-    &lt;script src="script.js"&gt;&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-    </div>
-</section>
+&lt;h1&gt;Dārgumu meklētājs&lt;/h1&gt;
+&lt;p id="noteikumi"&gt;Atrodi dārgumus ne vairāk kā 3 gājienos.&lt;/p&gt;
+&lt;div id="pogas"&gt;&lt;/div&gt;
+&lt;p id="atbilde"&gt;Izvēlies vietu.&lt;/p&gt;
+&lt;p id="gajieni"&gt;Gājieni: 0&lt;/p&gt;
+&lt;button onclick="location.reload()"&gt;Sākt no jauna&lt;/button&gt;
+&lt;script&gt;
+// MAINI ŠEIT: vietu nosaukumi.
+const vietas = ["Mežs", "Upe", "Pils"];
+const dargumuVieta = "Pils";
+const gajienuLimits = 3;
+let gajieni = 0;
+let beigas = false;
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Palaid spēles skeletu un sveicienu ar vārdu</h3>
-        <p>Beigās poga "Sākt spēli" pajautās spēlētāja vārdu un uzrunās viņu lapā.</p>
-        <ol class="step-list">
-            <li><b>Iekopē</b> augstāk doto HTML skeletu savā <code class="language-html">index.html</code> failā un saglabā.</li>
-            <li><b>Izveido</b> blakus tukšu failu <code>script.js</code>.</li>
-            <li><b>Uzraksti</b> tā augšā <code class="language-javascript">let speletajs = ""; let inventars = ["marķieris", "plāns", "lapiņa"];</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code class="language-javascript">saktIzaicinajumu()</code>, kas ar <code class="language-javascript">prompt()</code> pajautā vārdu un saglabā to mainīgajā <code class="language-javascript">speletajs</code>.</li>
-            <li><b>Ieraksti</b> elementā <code>sveiciens</code> tekstu "Sveiks, " + speletajs + "! Izaicinājums sācies."</li>
-            <li><b>Nospied</b> pogu "Sākt spēli" un ievadi savu vārdu.</li>
-            <li><b>Pārbaudi</b> konsolē (F12), ka nav neviena sarkana kļūdas ziņojuma.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> lapā redzams "Sveiks, {tavs vārds}! Izaicinājums sācies."</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Uzzīmē inventāru un pievieno rīka izvēli</h3>
-        <p>Beigās spēlētājs varēs izmantot vienu mantu, un tā pazudīs no saraksta lapā.</p>
-        <ol class="step-list">
-            <li><b>Uzraksti</b> funkciju <code class="language-javascript">zimetInventaru()</code>, kas vispirms notīra <code>materialuSaraksts</code> ar <code class="language-javascript">innerHTML = ""</code>.</li>
-            <li><b>Pievieno</b> tajā <code class="language-javascript">for</code> ciklu, kas katrai mantai izveido <code class="language-html">&lt;li&gt;</code> elementu.</li>
-            <li><b>Izsauc</b> <code class="language-javascript">zimetInventaru();</code> funkcijas <code class="language-javascript">saktIzaicinajumu()</code> pēdējā rindā.</li>
-            <li><b>Pievieno</b> pogu <code class="language-html">&lt;button onclick="izmantotRiku()"&gt;Izmantot rīku&lt;/button&gt;</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code class="language-javascript">izmantotRiku()</code>, kas ar <code class="language-javascript">prompt()</code> pajautā mantas nosaukumu.</li>
-            <li><b>Pievieno</b> <code class="language-javascript">if/else</code>: ja <code class="language-javascript">inventars.indexOf(riks) !== -1</code>, izņem mantu ar <code class="language-javascript">splice()</code>; citādi rādi kļūdas ziņu.</li>
-            <li><b>Nospied</b> pogu un ievadi vārdu <code>plāns</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc "plāns" izmantošanas sarakstā palikušas divas mantas un parādās ziņa par veiksmi.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pārbaudi nepareizu izvēli, tukšu somu un restartu</h3>
-        <p>Beigās spēle korekti tiks galā ar kļūdainu ievadi un varēs sākties no jauna.</p>
-        <ol class="step-list">
-            <li><b>Ievadi</b> mantu <code>lāpsta</code>, kuras somā nav, un pārbaudi kļūdas ziņojumu.</li>
-            <li><b>Izmanto</b> visas trīs mantas pēc kārtas, līdz saraksts ir tukšs.</li>
-            <li><b>Pievieno</b> nosacījumu: ja <code class="language-javascript">inventars.length === 0</code>, rādi "Soma tukša - izaicinājums pabeigts!".</li>
-            <li><b>Pievieno</b> pogu "Restartēt" un funkciju <code class="language-javascript">restartet()</code>, kas atjauno sākuma inventāru.</li>
-            <li><b>Salabo</b> pirmo kļūdu, ko konsole rāda sarkanā krāsā.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kurš 3. tēmas rīks - mainīgais, <code class="language-javascript">if/else</code>, masīvs vai cikls - tev noderēja visvairāk.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc "Restartēt" nospiešanas sarakstā atkal ir visas trīs sākuma mantas.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Punktu skaitīšana un spēles beigas</h3>
-        <p>Beigās spēle parādīs gala rezultātu, kad soma būs iztukšota.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code>script.js</code> rindu <code class="language-javascript">let punkti = 0;</code>.</li>
-            <li><b>Pievieno</b> <code class="language-html">index.html</code> failā elementu <code class="language-html">&lt;p id="rezultats"&gt;Punkti: 0&lt;/p&gt;</code>.</li>
-            <li><b>Pieskaiti</b> 10 punktus katrā veiksmīgajā <code class="language-javascript">izmantotRiku()</code> izsaukumā.</li>
-            <li><b>Ieraksti</b> jaunos punktus elementā <code>rezultats</code> pēc katras izvēles.</li>
-            <li><b>Papildini</b> beigu nosacījumu ar tekstu "Spēle pabeigta! Rezultāts: " + punkti.</li>
-            <li><b>Izspēlē</b> spēli no sākuma līdz beigām un palūdz klasesbiedram to izspēlēt bez paskaidrojumiem.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc trim veiksmīgām izvēlēm lapā redzams "Spēle pabeigta! Rezultāts: 30".</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot)</h2>
-    <ul>
-        <li><b>Poga neko nedara:</b> pārbaudi, vai funkcijas nosaukums HTML un JS failā ir identisks.</li>
-        <li><b>Saraksts dublējas:</b> pirms cikla iztukšo sarakstu ar <code>materialuSaraksts.innerHTML = "";</code>.</li>
-        <li><b>Skaitliskā izvēle nestrādā:</b> pārveido ievadi ar <code>Number()</code> un salīdzini ar skaitli, nevis tekstu.</li>
-        <li><b>Masīva elements pazūd nepareizi:</b> pārbaudi indeksu; pirmais elements ir <code>0</code>.</li>
-    </ul>
-</section>
-
-<section class='section'>
-    <h2>Koda piemērs (mantas izņemšana no inventāra ar indexOf un splice)</h2>
-    <div class='code-example'>
-        <pre><code class="language-javascript">let speletajs = "";
-let inventars = ["marķieris", "plāns", "lapiņa"];
-
-function zimetInventaru() {
-    let saraksts = document.getElementById("materialuSaraksts");
-    saraksts.innerHTML = ""; // bez šīs rindas saraksts dublējas katrā zīmēšanā
-
-    for (let i = 0; i &lt; inventars.length; i++) {
-        saraksts.innerHTML += "&lt;li&gt;" + inventars[i] + "&lt;/li&gt;";
-    }
+// Cikls izveido vienu pogu katrai vietai.
+for (let i = 0; i &lt; vietas.length; i = i + 1) {
+  const poga = document.createElement("button");
+  poga.textContent = vietas[i];
+  poga.onclick = function () { izveleties(vietas[i]); };
+  document.getElementById("pogas").append(poga);
 }
 
-function izmantotRiku() {
-    let riks = prompt("Kuru mantu izmantosi?");
-    let vieta = inventars.indexOf(riks); // -1 nozīmē "somā tādas nav"
-
-    if (vieta === -1) {
-        document.getElementById("sveiciens").textContent = "Somā nav tādas mantas: " + riks;
-        return; // svarīgi: apstājamies, citādi splice(-1, 1) izmestu pēdējo mantu!
-    }
-
-    inventars.splice(vieta, 1); // izņem 1 elementu tieši no atrastās vietas
-    zimetInventaru();
-
-    if (inventars.length === 0) {
-        document.getElementById("sveiciens").textContent = "Soma tukša - izaicinājums pabeigts!";
-    } else {
-        document.getElementById("sveiciens").textContent = speletajs + " izmantoja: " + riks;
-    }
-}</code></pre>
-        <div class='result'>
-            Ievadot <b>plāns</b>, saraksts pārzīmējas un tajā paliek "marķieris" un "lapiņa", bet virsrakstā parādās "{vārds} izmantoja: plāns".<br><br>
-            Ievadot <b>lāpsta</b>, saraksts nemainās un parādās "Somā nav tādas mantas: lāpsta".<br><br>
-            Pēc trešās mantas izmantošanas saraksts ir tukšs un parādās "Soma tukša - izaicinājums pabeigts!".<br><br>
-            Bez <code class="language-javascript">return</code> rindas nepareiza ievade izmestu pēdējo mantu, jo <code class="language-javascript">splice(-1, 1)</code> strādā no masīva beigām.
-        </div>
+function izveleties(vieta) {
+  if (beigas) { return; }
+  gajieni = gajieni + 1;
+  let zina = "Šeit dārgumu nav: " + vieta;
+  if (vieta === dargumuVieta) {
+    zina = "Uzvara! Tu atradi dārgumus!";
+    beigas = true;
+  } else if (gajieni &gt;= gajienuLimits) {
+    zina = "Gājieni beigušies. Mēģini vēlreiz!";
+    beigas = true;
+  }
+  document.getElementById("atbilde").textContent = zina;
+  document.getElementById("gajieni").textContent = "Gājieni: " + gajieni;
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    </details>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-1">
+    <p class="task-number">
+     1. uzdevums
+    </p>
+    <h2>
+     Savieno savu ideju ar spēles paraugu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Sāc ar šīs lapas pilno kodu failā
+      <code>
+       index.html
+      </code>
+      . Tas papildina 3.5. nodarbības spēli.
+     </li>
+     <li>
+      Pārnes savu nosaukumu un piecas vietas no iepriekšējā darba. Ja tā nav, izvēlies jaunas.
+     </li>
+     <li>
+      Vērtībā
+      <code>
+       dargumuVieta
+      </code>
+      ieraksti precīzi vienu no masīvā esošajām vietām.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Spēlē ir tava tēma un sasniedzama dārgumu vieta.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-2">
+    <p class="task-number">
+     2. uzdevums
+    </p>
+    <h2>
+     Pielāgo spēles noteikumus
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Izvēlies gājienu limitu no 3 līdz 5 un ieraksti
+      <code>
+       gajienuLimits
+      </code>
+      .
+     </li>
+     <li>
+      HTML noteikumu rindkopā norādi to pašu limitu.
+     </li>
+     <li>
+      Maini uzvaras un zaudējuma ziņas atbilstoši savam stāstam.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Teksts un kods izmanto vienādus noteikumus.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-3">
+    <p class="task-number">
+     3. uzdevums
+    </p>
+    <h2>
+     Pārbaudi un iesniedz teksta spēli
+    </h2>
+    <p class="workplace">
+     Vide: Pārlūks → VS Code → GitHub
+    </p>
+    <ol class="step-list">
+     <li>
+      Atver spēli un izvēlies dārgumu vietu: jāparādās uzvarai. Pēc tās cita vietas poga nedrīkst palielināt gājienus.
+     </li>
+     <li>
+      Sāc no jauna un izvēlies tukšu vietu tik reižu, cik ir limits: jāparādās zaudējumam.
+     </li>
+     <li>
+      README ieraksti spēles nosaukumu, atvēršanu un gājienu limitu. Pievieno divas īsas pārbaudes rindas:
+      <code>
+       Uzvara: darbojas
+      </code>
+      un
+      <code>
+       Zaudējums: darbojas
+      </code>
+      pēc to izmēģināšanas.
+     </li>
+     <li>
+      Nosūti projektu uz GitHub un iesniedz tā saiti.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Spēlē darbojas abi beigu veidi un atkārtota sākšana.
+    </p>
+    <div class="submission">
+     <h3>
+      Iesniedz 3. uzdevuma rezultātu
+     </h3>
+     <p>
+      Iesniedz
+      <b>
+       GitHub projekta saiti
+      </b>
+      . Projektā jābūt pabeigtajam
+      <code>
+       index.html
+      </code>
+      un šajā nodarbībā prasītajiem failiem.
+     </p>
+     <p>
+      <b>
+       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
+      </b>
+     </p>
+     <ul class="assessment-checks">
+      <li>
+       Ir piecas vietas, sava tēma un ciklā izveidotas pogas.
+      </li>
+      <li>
+       Darbojas uzvara, gājienu limits un zaudējums; pēc beigām skaitītājs nemainās.
+      </li>
+      <li>
+       Darbojas sākšana no jauna; GitHub ir index.html un īss README ar pārbaudes rezultātiem.
+      </li>
+     </ul>
+     <p>
+      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
+     </p>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Vērtēšanas kritēriji (SLA)</h2>
-    <table style="width:100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em;">
-        <thead>
-            <tr style="background-color: #34495e; color: white;">
-                <th style="padding: 10px; border: 1px solid #ddd;">Kritēriji</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Sācis apgūt (1-3)</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Turpina apgūt (4-6)</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Apguvis (7-8)</th>
-                <th style="padding: 10px; border: 1px solid #ddd;">Apguvis padziļināti (9-10)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b>1. Radošais saturs un dizains (Stāsts, HTML/CSS)</b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Stāsta nav, atstāti oriģinālie piemēri. Vizuālais dizains nav mainīts.</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Izdomāti unikāli priekšmeti masīvam un pamata stāsts. Nomainīta vismaz viena krāsa.</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Izveidots oriģināls, asprātīgs sižets. CSS dizains pilnībā pielāgots tēmai (krāsas saskaņotas).</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Izcils stāstījums un dizains, iekļauti papildu HTML elementi stāsta bagātināšanai (piem., emocijzīmes).</td>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b>2. Funkcijas un interaktivitāte</b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Faili eksistē, funkcija netiek izsaukta vai ID ir kļūdaini.</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">JS fails pievienots, poga bez kļūdām iedarbina funkciju.</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Dati tiek iegūti un veiksmīgi izvadīti HTML tagos.</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Darba vide organizēta perfekti, ievade pārveidota pareizā datu tipā.</td>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b>3. Loģika un struktūras (If/Else, Masīvi)</b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Masīvs vai <i>If</i> bloks uzrakstīts ar lielām sintakses kļūdām.</td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><i>If/Else</i> strādā un masīvs eksistē, taču tajā netiek veiktas izmaiņas.</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Loģika strādā korekti – masīvs tiek papildināts vai mainīts atkarībā no lietotāja izvēles.</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Precīza masīva apstrāde un nevainojama programmas plūsma, kas pielāgota unikālajam stāstam.</td>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b>4. Automatizācija (Cikli)</b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Cikls nedarbojas vai nespēj nolasīt masīvu.</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Cikls strādā, bet saturs netiek dinamiski pievienots HTML lapai.</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Cikls iziet cauri masīvam un veiksmīgi ģenerē HTML sarakstu.</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Pirms saraksta ģenerēšanas tas tiek iztukšots. Kods ir pilnībā optimizēts.</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
-<section class='section'>
-    <h2>Pašpārbaudes saraksts pirms darba nodošanas</h2>
+    <details class="course-help">
+     <summary>
+      Saglabā un nosūti uz GitHub — pogu atgādne
+     </summary>
+     <p class="workplace">
+      Vide: VS Code / Source Control → GitHub pārlūkā
+     </p>
+     <ol class="step-list">
+      <li>
+       Ar
+       <b>
+        File → Save All
+       </b>
+       saglabā failus. Atver
+       <b>
+        Source Control
+       </b>
+       ar
+       <b>
+        Ctrl+Shift+G
+       </b>
+       .
+      </li>
+      <li>
+       Pie
+       <b>
+        Changes
+       </b>
+       nospied
+       <b>
+        +
+       </b>
+       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
+       <b>
+        Staged Changes
+       </b>
+       .
+      </li>
+      <li>
+       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
+       <code>
+        Pabeigts 3.6 darbs
+       </code>
+       . Spied
+       <b>
+        Commit
+       </b>
+       .
+      </li>
+      <li>
+       Ja šī tēmas mape vēl nav GitHub, spied
+       <b>
+        Publish to GitHub
+       </b>
+       un izveido publisku projektu
+       <code>
+        datorika9-tema3
+       </code>
+       . Jau publicētam projektam spied
+       <b>
+        Sync Changes
+       </b>
+       . Ja pogas nav, atver
+       <b>
+        … → Push
+       </b>
+       .
+      </li>
+      <li>
+       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
+      </li>
+     </ol>
+     <p>
+      Ja Source Control rāda
+      <b>
+       Initialize Repository
+      </b>
+      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
+      <a href="git.html">
+       palīdzību
+      </a>
+      un palūdz skolotāja atbalstu.
+     </p>
+    </details>
+   </section>
+   <details class="course-help extra-task">
+    <summary>
+     Papildu uzdevums: Pievieno vēl vienu dārgumu vietu
+    </summary>
+    <p>
+     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+    </p>
+    <ol class="step-list">
+     <li>
+      Nosacījumā izmanto
+      <code>
+       vieta === dargumuVieta || vieta === "Otra vieta"
+      </code>
+      .
+      <code>
+       ||
+      </code>
+      nozīmē “vai”.
+     </li>
+     <li>
+      Ieraksti kādas citas masīva vietas nosaukumu un pārbaudi abas uzvaras.
+     </li>
+    </ol>
+   </details>
+   <details class="course-help">
+    <summary>
+     Ja kaut kas neizdodas
+    </summary>
     <ul>
-        <li>Vai esmu nomainījis sākuma priekšmetus un izveidojis savu, unikālu sižetu?</li>
-        <li>Vai esmu pielāgojis CSS krāsas un fontus savas spēles tematikai?</li>
-        <li>Vai, nospiežot pogu "Sākt spēli", parādās ievades lodziņi un mans vārds tiek attēlots uz ekrāna?</li>
-        <li>Vai inventāra saraksts mainās atkarībā no manas izvēles (1 vai 2)?</li>
-        <li>Vai pārlūkprogrammas Konsolē (F12) nav kļūdu (sarkani paziņojumi)?</li>
+     <li>
+      <b>
+       Neredzi izmaiņas?
+      </b>
+      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
+      <code>
+       index.html
+      </code>
+      .
+     </li>
+     <li>
+      <b>
+       Kods redzams kā teksts?
+      </b>
+      Saglabā ar galotni .html. Windows ieslēdz
+      <b>
+       View → Show → File name extensions
+      </b>
+      un pārbaudi, ka beigās nav .txt.
+     </li>
+     <li>
+      <b>
+       Poga nestrādā?
+      </b>
+      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+     </li>
+     <li>
+      <b>
+       Nesaproti nākamo soli?
+      </b>
+      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+     </li>
     </ul>
-</section>
-
-<div class="stundas-navigacija">
-    <a href="/datorika9/dat9_35" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/datorika9/dat9_3main" class="nav-btn">Tēmas apkopojums ➡</a>
-</div>
-</body>
+    <p>
+     <a href="git.html">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
+   </details>
+   <details class="course-help teacher-meta">
+    <summary>
+     Skolotājam: sasniedzamo rezultātu saistība
+    </summary>
+    <p>
+     Šajā nodarbībā vingrina šādu rezultātu daļas no
+     <a href="../sasnRez.html#datorika9">
+      9. klases saraksta
+     </a>
+     . Piesaiste pati par sevi nenozīmē visa rezultāta apguvi.
+    </p>
+    <div class="lesson-meta">
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.1
+     </a>
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.2
+     </a>
+     <a href="../sasnRez.html#datorika9">
+      SR 1.4.2
+     </a>
+    </div>
+    <p>
+     <a href="SKOLOTAJAM.md">
+      Kursa nosacījumi un satura pārklājums
+     </a>
+    </p>
+   </details>
+   <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
+    <a class="nav-btn" href="dat9_35.html">
+     ← Iepriekšējā
+    </a>
+    <a class="nav-btn" href="dat9_41.html">
+     Nākamā →
+    </a>
+   </nav>
+  </main>
+  <footer class="course-footer">
+   <a href="datorika9.html">
+    Kursa pārskats
+   </a>
+   ·
+   <a href="git.html">
+    GitHub palīdzība
+   </a>
+   ·
+   <a href="../sasnRez.html#datorika9">
+    Sasniedzamie rezultāti
+   </a>
+  </footer>
+ </body>
 </html>

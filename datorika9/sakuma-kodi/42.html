@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mana spēle</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+#speletajs { background: #245b91; left: 20px; top: 160px; }
+#pretinieks { background: #b3261e; left: 220px; top: 160px; }
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<h1>Vadi spēlētāju</h1>
+<p>Spied pogas vai labo bultiņu uz tastatūras.</p>
+<div id="laukums"><div id="speletajs"></div></div>
+<button id="paKreisi">← Pa kreisi</button>
+<button id="paLabi">Pa labi →</button>
+<p id="vieta">X: 20</p>
+<script>
+let x = 20;
+const solis = 10;
+const speletajs = document.getElementById("speletajs");
+function kustinat(virziens) {
+  x = x + virziens * solis;
+  // Gatavas robežas: kvadrāts paliek laukumā.
+  const robeza = document.getElementById("laukums").clientWidth - 30;
+  if (x < 0) { x = 0; }
+  if (x > robeza) { x = robeza; }
+  speletajs.style.left = x + "px";
+  document.getElementById("vieta").textContent = "X: " + x;
+}
+document.getElementById("paLabi").addEventListener("click", function () { kustinat(1); });
+document.getElementById("paKreisi").addEventListener("click", function () { kustinat(-1); });
+document.addEventListener("keydown", function (notikums) {
+  if (notikums.key === "ArrowRight") { notikums.preventDefault(); kustinat(1); }
+  // ŠEIT KREISĀ BULTIŅA
+});
+</script>
+</body>
+</html>

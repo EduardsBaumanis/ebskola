@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mana spēle</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+#speletajs { background: #245b91; left: 20px; top: 160px; }
+#pretinieks { background: #b3261e; left: 220px; top: 160px; }
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<h1>Zvaigžņu mednieks</h1>
+<section id="sakumaEkrans">
+  <h2>Noteikumi</h2>
+  <p>Ar bultiņām vai pogām vadi zilo kvadrātu. Izvairies no sarkanā pretinieka.</p>
+  <p id="merkis"></p>
+  <button id="sakt">Sākt spēli</button>
+</section>
+<section id="spelesEkrans" hidden>
+  <p id="raditaji"></p>
+  <div id="laukums">
+    <div id="speletajs"></div>
+    <div id="pretinieks"></div>
+    <div id="moneta" hidden></div>
+  </div>
+  <button id="paKreisi">←</button>
+  <button id="paLabi">→</button>
+  <button id="uzAugsu">↑</button>
+  <button id="uzLeju">↓</button>
+  <button id="beigt">Beigt spēli</button>
+</section>
+<section id="beiguEkrans" hidden>
+  <h2 id="beiguZina">Spēle beigusies</h2>
+  <p id="rezultats"></p>
+  <button id="velreiz">Spēlēt vēlreiz</button>
+</section>
+<script>
+// 1. SPĒLES IESTATĪJUMI: šeit maini savas spēles noteikumus.
+const uzvarasPunkti = 30;
+const sakumaDzivibas = 3;
+const aplaPunkti = 5;
+const solis = 10;
+const pretiniekaAtrums = 3;
+const irBonuss = false;
+const bonusaPunkti = 10;
+const irSkana = false;
+
+// 2. SPĒLES DATI: viens objekts glabā saistītās vērtības.
+const spele = { punkti: 0, dzivibas: sakumaDzivibas, x: 20, y: 160, pretiniekaX: 260, aktiva: false };
+let taimeris = null;
+const laukums = document.getElementById("laukums");
+const speletajs = document.getElementById("speletajs");
+const pretinieks = document.getElementById("pretinieks");
+const moneta = document.getElementById("moneta");
+
+// 3. EKRĀNI UN SKAITĻI.
+function ekrans(nosaukums) {
+  document.getElementById("sakumaEkrans").hidden = nosaukums !== "sakumaEkrans";
+  document.getElementById("spelesEkrans").hidden = nosaukums !== "spelesEkrans";
+  document.getElementById("beiguEkrans").hidden = nosaukums !== "beiguEkrans";
+}
+function paradit() {
+  speletajs.style.left = spele.x + "px";
+  speletajs.style.top = spele.y + "px";
+  pretinieks.style.left = spele.pretiniekaX + "px";
+  document.getElementById("raditaji").textContent = "Punkti: " + spele.punkti + " | Dzīvības: " + spele.dzivibas;
+}
+function beigt(zina) {
+  spele.aktiva = false;
+  clearInterval(taimeris);
+  document.getElementById("beiguZina").textContent = zina;
+  document.getElementById("rezultats").textContent = "Tavs rezultāts: " + spele.punkti;
+  ekrans("beiguEkrans");
+}
+
+// 4. GATAVĀ PALĪDZĪBA SADURSMEI UN BONUSAM.
+function saduras(a, b) {
+  const p = a.getBoundingClientRect();
+  const q = b.getBoundingClientRect();
+  return p.left < q.right && p.right > q.left &&
+         p.top < q.bottom && p.bottom > q.top;
+}
+function novietotMonetu() {
+  const maxX = Math.max(0, laukums.clientWidth - 30);
+  const maxY = Math.max(0, laukums.clientHeight - 30);
+  moneta.style.left = Math.floor(Math.random() * (maxX + 1)) + "px";
+  moneta.style.top = Math.floor(Math.random() * (maxY + 1)) + "px";
+  moneta.hidden = !irBonuss;
+  // Ja bonuss trāpījis uz spēlētāja, pārvieto to pie pretējās malas.
+  if (irBonuss && saduras(speletajs, moneta)) {
+    if (spele.y < laukums.clientHeight / 2) {
+      moneta.style.top = maxY + "px";
+    } else {
+      moneta.style.top = "0px";
+    }
+  }
+}
+// Īss signāls tiek veidots pārlūkā; atsevišķs skaņas fails nav vajadzīgs.
+let audio = null;
+function skana() {
+  if (!irSkana || !audio) { return; }
+  const tonis = audio.createOscillator();
+  const skalums = audio.createGain();
+  tonis.connect(skalums);
+  skalums.connect(audio.destination);
+  skalums.gain.value = 0.05;
+  tonis.frequency.value = 660;
+  tonis.start();
+  tonis.stop(audio.currentTime + 0.12);
+}
+function parbaudit() {
+  if (saduras(speletajs, pretinieks)) {
+    spele.dzivibas = spele.dzivibas - 1;
+    spele.x = 20;
+    spele.y = 40;
+    spele.pretiniekaX = laukums.clientWidth - 30;
+    paradit();
+    if (spele.dzivibas <= 0) { beigt("Dzīvības beigušās!"); return; }
+  }
+  if (irBonuss && !moneta.hidden && saduras(speletajs, moneta)) {
+    spele.punkti = spele.punkti + bonusaPunkti;
+    skana();
+    novietotMonetu();
+    paradit();
+  }
+  if (spele.punkti >= uzvarasPunkti) { beigt("Uzvara!"); }
+}
+
+// 5. KUSTĪBA UN SPĒLES SĀKŠANA.
+function kustinat(dx, dy) {
+  if (!spele.aktiva) { return; }
+  spele.x = Math.max(0, Math.min(laukums.clientWidth - 30, spele.x + dx * solis));
+  spele.y = Math.max(0, Math.min(laukums.clientHeight - 30, spele.y + dy * solis));
+  paradit();
+  parbaudit();
+}
+function cikls() {
+  if (!spele.aktiva) { return; }
+  spele.pretiniekaX = spele.pretiniekaX - pretiniekaAtrums;
+  if (spele.pretiniekaX < 0) {
+    spele.pretiniekaX = laukums.clientWidth - 30;
+    spele.punkti = spele.punkti + aplaPunkti;
+  }
+  paradit();
+  parbaudit();
+}
+function sakt() {
+  clearInterval(taimeris);
+  ekrans("spelesEkrans");
+  spele.punkti = 0;
+  spele.dzivibas = sakumaDzivibas;
+  spele.x = 20;
+  spele.y = 160;
+  spele.pretiniekaX = laukums.clientWidth - 30;
+  spele.aktiva = true;
+  paradit();
+  novietotMonetu();
+  if (irSkana) {
+    const AudioRiks = window.AudioContext || window.webkitAudioContext;
+    if (AudioRiks) { audio = audio || new AudioRiks(); audio.resume(); }
+  }
+  taimeris = setInterval(cikls, 30);
+}
+
+// 6. GATAVA POGU UN TAUSTIŅU PIESAISTE.
+document.getElementById("sakt").addEventListener("click", sakt);
+document.getElementById("velreiz").addEventListener("click", sakt);
+document.getElementById("beigt").addEventListener("click", function () { beigt("Spēle apturēta."); });
+document.getElementById("paKreisi").addEventListener("click", function () { kustinat(-1, 0); });
+document.getElementById("paLabi").addEventListener("click", function () { kustinat(1, 0); });
+document.getElementById("uzAugsu").addEventListener("click", function () { kustinat(0, -1); });
+document.getElementById("uzLeju").addEventListener("click", function () { kustinat(0, 1); });
+document.addEventListener("keydown", function (notikums) {
+  if (!spele.aktiva) { return; }
+  if (notikums.key === "ArrowLeft") { notikums.preventDefault(); kustinat(-1, 0); }
+  if (notikums.key === "ArrowRight") { notikums.preventDefault(); kustinat(1, 0); }
+  if (notikums.key === "ArrowUp") { notikums.preventDefault(); kustinat(0, -1); }
+  if (notikums.key === "ArrowDown") { notikums.preventDefault(); kustinat(0, 1); }
+});
+document.getElementById("merkis").textContent = "Sasniedz " + uzvarasPunkti + " punktus. Dzīvības: " + sakumaDzivibas + ".";
+ekrans("sakumaEkrans");
+</script>
+</body>
+</html>

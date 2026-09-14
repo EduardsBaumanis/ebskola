@@ -1,217 +1,565 @@
 <!DOCTYPE html>
 <html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3.1 Ievads JavaScript un mainīgie - ebSkola</title>
-<meta name="description" content="Konstruēt programmas &quot;atmiņu&quot;, definējot mainīgos un konstantes, lai manipulētu ar spēles pamatdatiem un kontrolētu to izvadi pārlūka konsolē.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/datorika9/dat9_31">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="3.1 Ievads JavaScript un mainīgie">
-<meta property="og:description" content="Konstruēt programmas &quot;atmiņu&quot;, definējot mainīgos un konstantes, lai manipulētu ar spēles pamatdatiem un kontrolētu to izvadi pārlūka konsolē.">
-<meta property="og:url" content="https://ebskola.lv/datorika9/dat9_31">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="3.1 Ievads JavaScript un mainīgie">
-<meta name="twitter:description" content="Konstruēt programmas &quot;atmiņu&quot;, definējot mainīgos un konstantes, lai manipulētu ar spēles pamatdatiem un kontrolētu to izvadi pārlūka konsolē.">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "3.1 Ievads JavaScript un mainīgie", "description": "Konstruēt programmas \"atmiņu\", definējot mainīgos un konstantes, lai manipulētu ar spēles pamatdatiem un kontrolētu to izvadi pārlūka konsolē.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_31", "isPartOf": {"@type": "Course", "name": "ebSkola - datorika9", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
-</script>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   3.1 JavaScript: spēles nosaukums, punkti un dzīvības - ebSkola
+  </title>
+  <meta content="Izmaini spēles datus kodā un parādi aprēķināto rezultātu lapā." name="description"/>
+  <meta content="Eduards Baumanis" name="author"/>
+  <link href="https://ebskola.lv/datorika9/dat9_31" rel="canonical"/>
+  <meta content="article" property="og:type"/>
+  <meta content="lv_LV" property="og:locale"/>
+  <meta content="ebSkola" property="og:site_name"/>
+  <meta content="3.1 JavaScript: spēles nosaukums, punkti un dzīvības" property="og:title"/>
+  <meta content="Izmaini spēles datus kodā un parādi aprēķināto rezultātu lapā." property="og:description"/>
+  <meta content="https://ebskola.lv/datorika9/dat9_31" property="og:url"/>
+  <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+  <meta content="summary" name="twitter:card"/>
+  <link href="../favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../manifest.json" rel="manifest"/>
+  <meta content="#222831" name="theme-color"/>
+  <link href="../style.css" rel="stylesheet"/>
+  <link href="kursa-stils.css" rel="stylesheet"/>
+  <script type="application/ld+json">
+   {"@context": "https://schema.org", "@type": "LearningResource", "name": "3.1 JavaScript: spēles nosaukums, punkti un dzīvības", "description": "Izmaini spēles datus kodā un parādi aprēķināto rezultātu lapā.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_31", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+  </script>
+  <script defer="" src="kursam.js">
+  </script>
+ </head>
+ <body class="page-reference datorika-kurss">
+  <a class="skip-link" href="#saturs">
+   Uz mācību saturu
+  </a>
+  <header class="course-topbar">
+   <a href="../index.html">
+    ebSkola
+   </a>
+   <nav aria-label="Kursa navigācija">
+    <a href="datorika9.html">
+     Datorika 9
     </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/datorika9/datorika9">Datorika 9</a>
-      <a href="/datorika9/dat9_3main">3. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/datorika9/dat9_3main">← Tēma</a>
-    <a class="btn primary" href="/datorika9/dat9_32">3.2 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Datorika 9</div>
-  <h3>3. Tēma - Algoritmi un JavaScript pamati</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/datorika9/dat9_3main">Tēmas sākums</a>
-    <a class="active" aria-current="page" href="/datorika9/dat9_31">3.1 Ievads JavaScript un mainīgie</a>
-    <a href="/datorika9/dat9_32">3.2 Datu tipi un interaktivitāte (Input/Output)</a>
-    <a href="/datorika9/dat9_33">3.3 Loģiskie operatori un sazarojumi (If/Else)</a>
-    <a href="/datorika9/dat9_34">3.4 Masīvi (Arrays) un datu strukturēšana</a>
-    <a href="/datorika9/dat9_35">3.5 Cikli (Loops) un atkārtošanās loģika</a>
-    <a href="/datorika9/dat9_36">3.6 Noslēguma projekts: Radošā teksta spēle JS</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>3.1 Ievads JavaScript un mainīgie</h1>
-    <p><b>Stundas uzdevums:</b> Konstruēt programmas "atmiņu", definējot mainīgos un konstantes, lai manipulētu ar spēles pamatdatiem un kontrolētu to izvadi pārlūka konsolē.</p>
-    <a href="/sasnRez">2.6.1. Pieraksta, lasa un izpilda algoritmus; 5.2.1. Kritiskā domāšana un problēmrisināšana; 5.2.6. Digitālā pratība.</a>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - savieno <code>script.js</code> ar lapu un izvadi punktus konsolē · 2. uzdevums (~25 min) - parādi punktus un dzīvības uz lapas ar <code>atjaunotEkranu()</code> · 3. uzdevums (~20 min) - pārbaudi konsolē, ar ko <code>let</code> atšķiras no <code>const</code>. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savu projekta mapi ar <code>index.html</code>, izveido tukšu failu <code>script.js</code> un atver pārlūka konsoli ar F12.</p>
+    <a href="git.html">
+     GitHub palīdzība
+    </a>
+   </nav>
+  </header>
+  <main class="course-content" id="saturs">
+   <p class="breadcrumb">
+    <a href="dat9_3main.html">
+     3. tēma
+    </a>
+    / 3.1
+   </p>
+   <h1>
+    3.1 JavaScript: spēles nosaukums, punkti un dzīvības
+   </h1>
+   <p class="lesson-goal">
+    <b>
+     Šodien:
+    </b>
+    Izmaini spēles datus kodā un parādi aprēķināto rezultātu lapā.
+   </p>
+   <section id="teorija">
+    <h2>
+     Īsā teorija
+    </h2>
+    <p>
+     <b>
+      JavaScript
+     </b>
+     veic darbības. To rakstām faila
+     <code>
+      &lt;script&gt;
+     </code>
+     daļā zem lapas satura.
+    </p>
+    <p>
+     <code>
+      let
+     </code>
+     izveido maināmu vērtību, piemēram, punktus.
+     <code>
+      const
+     </code>
+     lieto vērtībai, kuru šajā programmā nepārpiešķirsi.
+    </p>
+    <p>
+     Tekstu raksti pēdiņās; skaitli — bez tām.
+     <code>
+      punkti = punkti + 5;
+     </code>
+     pieskaita piecus punktus.
+    </p>
+    <pre><code>const nosaukums = "Zvaigžņu mednieks";
+let punkti = 10;
+punkti = punkti + 5;</code></pre>
+   </section>
+   <section id="sakuma-kods">
+    <h2>
+     Sākuma kods un darba vieta
+    </h2>
+    <p class="workplace">
+     Vide: mācību lapa → VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      VS Code ar
+      <b>
+       File → Open Folder
+      </b>
+      atver
+      <code>
+       Desktop/datorika9-tema3
+      </code>
+      . Ja mapes nav, izveido to darbvirsmā.
+     </li>
+     <li>
+      Šajā mācību lapā nospied
+      <b>
+       Kopēt sākuma kodu
+      </b>
+      .
+     </li>
+     <li>
+      VS Code nospied
+      <b>
+       Ctrl+N
+      </b>
+      un ielīmē kodu ar
+      <b>
+       Ctrl+V
+      </b>
+      .
+     </li>
+     <li>
+      Saglabā ar
+      <b>
+       Ctrl+Shift+S
+      </b>
+      tēmas mapē kā
+      <code>
+       31.html
+      </code>
+      .
+     </li>
+    </ol>
+    <p class="info-box">
+     Jauna tēma: izmanto atsevišķu mapi un GitHub projektu
+     <code>
+      datorika9-tema3
+     </code>
+     . Saglabājot pirmo darbu, izpildi Source Control atgādni zem 3. uzdevuma. Iepriekšējās tēmas mapi paturi.
+    </p>
+    <div class="starter-actions">
+     <button class="btn" data-copy="pilnais-kods" type="button">
+      Kopēt sākuma kodu
+     </button>
+     <a class="btn" download="31.html" href="sakuma-kodi/31.html">
+      Lejupielādēt 31.html
+     </a>
     </div>
-</section>
+    <p aria-live="polite" class="copy-status" role="status">
+    </p>
+    <details class="starter-source">
+     <summary>
+      Atvērt pilno sākuma kodu
+     </summary>
+     <pre><code id="pilnais-kods">&lt;!DOCTYPE html&gt;
+&lt;html lang="lv"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Mana spēle&lt;/title&gt;
+&lt;style&gt;
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
 
-<section class='section'>
-    <h2>Teorija: Smadzenes un Atmiņa (Mainīgie)</h2>
-    <div class="logic-box">
-        <p><b>JavaScript (JS)</b> ir programmēšanas valoda, kas padara lapu interaktīvu. Lai programma varētu kaut ko aprēķināt (piemēram, spēlētāja punktus), tai šī informācija ir jāsaglabā <b>mainīgajos</b> - "kastēs" ar nosaukumiem.</p>
-        
-        <p><b>1. Failu sasaiste:</b></p>
-        <p>Lai pārlūks zinātu, ka HTML failam ir pievienota loģika, mums tie ir jāsavieno, izmantojot <code class="language-html">&lt;script&gt;</code> tagu. Tā atribūts <code class="language-html">src</code> (source) norāda uz Tavu JS failu.</p>
-        <pre><code class="language-html">&lt;!-- Šo rindu liek HTML faila beigās, tieši virs &lt;/body&gt; --&gt;
-&lt;script src="script.js"&gt;&lt;/script&gt;</code></pre>
-
-        <p><b>2. Datu uzglabāšana:</b></p>
-        <table style="width:100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 15px;">
-            <tr style="background-color: #333; color: white;">
-                <th style="padding: 10px; border: 1px solid #555;">Veids</th>
-                <th style="padding: 10px; border: 1px solid #555;">Atslēgvārds</th>
-                <th style="padding: 10px; border: 1px solid #555;">Lietojums</th>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b>Mainīgais</b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">let</code></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Vērtībām, kas mainīsies (punkti, dzīvības).</td>
-            </tr>
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;"><b>Konstante</b></td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><code class="language-javascript">const</code></td>
-                <td style="padding: 10px; border: 1px solid #ddd;">Vērtībām, kas paliek nemainīgas (spēles nosaukums).</td>
-            </tr>
-        </table>
-        
-        <p>Izstrādes laikā mēs izmantojam <code class="language-javascript">console.log()</code>, lai nosūtītu ziņojumus uz pārlūka slēpto konsoli (F12), pārbaudot, vai kods strādā pareizi.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Savieno script.js ar lapu un izvadi punktus</h3>
-        <p>Beigās pārlūka konsolē parādīsies tavs pirmais JavaScript ziņojums ar punktu skaitu.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> savā projekta mapē tukšu failu <code>script.js</code> blakus <code class="language-html">index.html</code>.</li>
-            <li><b>Ievieto</b> <code class="language-html">index.html</code> failā tieši pirms <code class="language-html">&lt;/body&gt;</code> rindu <code class="language-html">&lt;script src="script.js"&gt;&lt;/script&gt;</code>.</li>
-            <li><b>Uzraksti</b> failā <code>script.js</code> pirmo rindu <code class="language-javascript">let punkti = 0;</code>.</li>
-            <li><b>Pievieno</b> nākamo rindu <code class="language-javascript">console.log("Punkti: " + punkti);</code>.</li>
-            <li><b>Atver</b> lapu pārlūkā un nospied F12, lai atvērtu sadaļu "Console".</li>
-            <li><b>Nomaini</b> nulli uz 25 un pārlādē lapu ar F5.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> konsolē redzams ieraksts "Punkti: 25" un nav neviena sarkana kļūdas ziņojuma.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Parādi punktus un dzīvības uz lapas</h3>
-        <p>Beigās tavu spēles datus redzēs arī spēlētājs lapā, nevis tikai tu konsolē.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code class="language-html">index.html</code> failā rindu <code class="language-html">&lt;p id="punkti-parads"&gt;Punkti: 0&lt;/p&gt;</code>.</li>
-            <li><b>Pievieno</b> zem tās otru rindu <code class="language-html">&lt;p id="dzivibas-parads"&gt;Dzīvības: 3&lt;/p&gt;</code>.</li>
-            <li><b>Uzraksti</b> <code>script.js</code> augšā rindu <code class="language-javascript">let dzivibas = 3;</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code class="language-javascript">atjaunotEkranu()</code>, kas abos elementos ieraksta mainīgo vērtības (paraugs ir lapas apakšā).</li>
-            <li><b>Izsauc</b> <code class="language-javascript">atjaunotEkranu();</code> faila pēdējā rindā.</li>
-            <li><b>Nomaini</b> punktu sākuma vērtību uz <code class="language-javascript">let punkti = 40;</code> un saglabā failu.</li>
-            <li><b>Pārlādē</b> lapu pārlūkā ar F5.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> lapā redzams "Punkti: 40", lai gan HTML failā joprojām rakstīts "Punkti: 0".</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pārbaudi, ar ko let atšķiras no const</h3>
-        <p>Beigās tu būsi redzējis pats savām acīm kļūdu, kas rodas, mēģinot mainīt konstanti.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code>script.js</code> augšā rindu <code class="language-javascript">const SPELES_NOSAUKUMS = "Klases cīņa";</code>.</li>
-            <li><b>Ieraksti</b> konsolē <code class="language-javascript">punkti = 100; atjaunotEkranu();</code> un pārbaudi lapu.</li>
-            <li><b>Ieraksti</b> konsolē <code class="language-javascript">SPELES_NOSAUKUMS = "Cita spēle";</code>.</li>
-            <li><b>Nolasi</b> sarkano kļūdas ziņojumu un pieraksti tā nosaukumu README.md failā.</li>
-            <li><b>Ieraksti</b> konsolē <code class="language-javascript">dzivibas = 0; atjaunotEkranu();</code> un pārbaudi, ka lapa rāda "Dzīvības: 0".</li>
-            <li><b>Pieraksti</b> vienu teikumu: kāpēc dzīvībām der <code class="language-javascript">let</code>, bet spēles nosaukumam - <code class="language-javascript">const</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> konsolē esi ieraudzījis "TypeError: Assignment to constant variable" un README.md failā ir pierakstīts secinājums.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Līmeņa skaitītājs ar pogu</h3>
-        <p>Beigās poga "Nākamais līmenis" palielinās līmeņa numuru uz lapas.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code>script.js</code> augšā rindu <code class="language-javascript">let limenis = 1;</code>.</li>
-            <li><b>Pievieno</b> <code class="language-html">index.html</code> failā rindu <code class="language-html">&lt;p id="limenis-parads"&gt;Līmenis: 1&lt;/p&gt;</code>.</li>
-            <li><b>Papildini</b> funkciju <code class="language-javascript">atjaunotEkranu()</code>, lai tā ieraksta līmeni arī šajā elementā.</li>
-            <li><b>Pievieno</b> pogu <code class="language-html">&lt;button onclick="nakamaisLimenis()"&gt;Nākamais līmenis&lt;/button&gt;</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code class="language-javascript">function nakamaisLimenis() { limenis++; atjaunotEkranu(); }</code>.</li>
-            <li><b>Nospied</b> pogu pārlūkā trīs reizes.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc trim klikšķiem lapā redzams "Līmenis: 4".</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <div class='logic-box'>
-<ul>
-        <li><b>ReferenceError:</b> Tu lieto mainīgo, ko neesi izveidojis, vai esi kļūdījies burtu lielumā.</li>
-        <li><b>TypeError: Assignment to constant variable:</b> Tu mēģini mainīt <code class="language-javascript">const</code> vērtību. Nomaini to uz <code class="language-javascript">let</code>.</li>
-        <li><b>Fails netiek atrasts:</b> Pārliecinies, ka <code class="language-html">src="script.js"</code> precīzi sakrīt ar faila nosaukumu mapē.</li>
-    </ul>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (mainīgā vērtības ierakstīšana lapā)</h2>
-    <div class='code-example'>
-        <pre><code class="language-javascript">// script.js - pieslēgts ar &lt;script src="script.js"&gt;&lt;/script&gt; pirms &lt;/body&gt;
-let punkti = 40;
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 id="nosaukums"&gt;Mana spēle&lt;/h1&gt;
+&lt;p id="punkti"&gt;Punkti: 0&lt;/p&gt;
+&lt;p id="dzivibas"&gt;Dzīvības: 0&lt;/p&gt;
+&lt;script&gt;
+// MAINI ŠEIT: spēles dati.
+const nosaukums = "Zvaigžņu mednieks";
+let punkti = 0;
 let dzivibas = 3;
-const SPELES_NOSAUKUMS = "Klases cīņa"; // šo vērtību vairs nedrīkst mainīt
 
-function atjaunotEkranu() {
-    // Ja šeit rodas kļūda "Cannot set properties of null",
-    // tad id iekavās nesakrīt ar id HTML failā.
-    document.getElementById("punkti-parads").textContent = "Punkti: " + punkti;
-    document.getElementById("dzivibas-parads").textContent = "Dzīvības: " + dzivibas;
-}
+// ŠEIT APRĒĶINS
 
-atjaunotEkranu(); // pirmā izvade uzreiz pēc lapas ielādes
-console.log(SPELES_NOSAUKUMS + " sākusies!");</code></pre>
-        <div class='result'>
-            <i>Lapā redzēsi:</i><br>
-            Punkti: 40<br>
-            Dzīvības: 3<br><br>
-            <i>Konsolē (F12) redzēsi:</i> Klases cīņa sākusies!<br><br>
-            Ja konsolē ieraksti <code class="language-javascript">punkti = 100; atjaunotEkranu();</code>, lapas teksts uzreiz nomainās uz "Punkti: 100".
-            Ja ieraksti <code class="language-javascript">SPELES_NOSAUKUMS = "Cita";</code>, parādās kļūda "TypeError: Assignment to constant variable".
-        </div>
+// Gatavās rindas parāda vērtības lapā.
+document.getElementById("nosaukums").textContent = nosaukums;
+document.getElementById("punkti").textContent = "Punkti: " + punkti;
+document.getElementById("dzivibas").textContent = "Dzīvības: " + dzivibas;
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    </details>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-1">
+    <p class="task-number">
+     1. uzdevums
+    </p>
+    <h2>
+     Maini spēles datus
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Sāc ar
+      <code>
+       31.html
+      </code>
+      . Atrodi komentāru
+      <code>
+       // MAINI ŠEIT
+      </code>
+      .
+     </li>
+     <li>
+      Maini
+      <code>
+       nosaukums
+      </code>
+      tekstu un iestati
+      <code>
+       punkti = 10
+      </code>
+      .
+     </li>
+     <li>
+      Atstāj gatavās parādīšanas rindas zemāk.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Spēles dati kodā ir mainīti.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-2">
+    <p class="task-number">
+     2. uzdevums
+    </p>
+    <h2>
+     Pievieno aprēķinu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Vietā
+      <code>
+       // ŠEIT APRĒĶINS
+      </code>
+      ieraksti
+      <code>
+       punkti = punkti + 5;
+      </code>
+      .
+     </li>
+     <li>
+      Zem tā ieraksti
+      <code>
+       dzivibas = dzivibas - 1;
+      </code>
+      .
+     </li>
+     <li>
+      Saglabā failu.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Pirms parādīšanas kods maina gan punktus, gan dzīvības.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-3">
+    <p class="task-number">
+     3. uzdevums
+    </p>
+    <h2>
+     Pielāgo un pārbaudi rezultātu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Nomaini punktu sākuma vērtību uz
+      <code>
+       20
+      </code>
+      , bet pieskaitāmo skaitli uz
+      <code>
+       7
+      </code>
+      .
+     </li>
+     <li>
+      Atver lapu pārlūkā. Pārbaudi, ka redzi savu nosaukumu,
+      <b>
+       27 punktus
+      </b>
+      un
+      <b>
+       2 dzīvības
+      </b>
+      .
+     </li>
+     <li>
+      Ja skaitļi nesakrīt, pārbaudi sākuma vērtības un aprēķina rindas virs parādīšanas rindām.
+     </li>
+     <li>
+      Nosūti failu uz GitHub.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Lapa parāda aprēķina rezultātu: 27 punkti un 2 dzīvības.
+    </p>
+    <div class="submission">
+     <h3>
+      Iesniedz 3. uzdevuma rezultātu
+     </h3>
+     <p>
+      Iesniedz pabeigto
+      <code>
+       31.html
+      </code>
+      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
+     </p>
+     <p>
+      <b>
+       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
+      </b>
+     </p>
+     <ul class="assessment-checks">
+      <li>
+       Spēles nosaukums nāk no paša mainītas const vērtības.
+      </li>
+      <li>
+       Punktiem izmantots aprēķins 20 + 7, dzīvībām — 3 − 1.
+      </li>
+      <li>
+       Pārlūkā redzami 27 punkti un 2 dzīvības.
+      </li>
+     </ul>
+     <p>
+      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
+     </p>
     </div>
-</div>
-
-<script>
-    console.log("Malacis, tu atradi konsoli!");
-</script>
-
-<div class="stundas-navigacija">
-    <a href="/datorika9/dat9_3main" class="nav-btn">⬅ Tēmas apkopojums</a>
-    <a href="/datorika9/dat9_32" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-
-</body>
+    <details class="course-help">
+     <summary>
+      Saglabā un nosūti uz GitHub — pogu atgādne
+     </summary>
+     <p class="workplace">
+      Vide: VS Code / Source Control → GitHub pārlūkā
+     </p>
+     <ol class="step-list">
+      <li>
+       Ar
+       <b>
+        File → Save All
+       </b>
+       saglabā failus. Atver
+       <b>
+        Source Control
+       </b>
+       ar
+       <b>
+        Ctrl+Shift+G
+       </b>
+       .
+      </li>
+      <li>
+       Pie
+       <b>
+        Changes
+       </b>
+       nospied
+       <b>
+        +
+       </b>
+       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
+       <b>
+        Staged Changes
+       </b>
+       .
+      </li>
+      <li>
+       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
+       <code>
+        Pabeigts 3.1 darbs
+       </code>
+       . Spied
+       <b>
+        Commit
+       </b>
+       .
+      </li>
+      <li>
+       Ja šī tēmas mape vēl nav GitHub, spied
+       <b>
+        Publish to GitHub
+       </b>
+       un izveido publisku projektu
+       <code>
+        datorika9-tema3
+       </code>
+       . Jau publicētam projektam spied
+       <b>
+        Sync Changes
+       </b>
+       . Ja pogas nav, atver
+       <b>
+        … → Push
+       </b>
+       .
+      </li>
+      <li>
+       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
+      </li>
+     </ol>
+     <p>
+      Ja Source Control rāda
+      <b>
+       Initialize Repository
+      </b>
+      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
+      <a href="git.html">
+       palīdzību
+      </a>
+      un palūdz skolotāja atbalstu.
+     </p>
+    </details>
+   </section>
+   <details class="course-help extra-task">
+    <summary>
+     Papildu uzdevums: Pievieno līmeni
+    </summary>
+    <p>
+     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+    </p>
+    <ol class="step-list">
+     <li>
+      HTML pievieno
+      <code>
+       &lt;p id="limenis"&gt;&lt;/p&gt;
+      </code>
+      .
+     </li>
+     <li>
+      JS izveido
+      <code>
+       let limenis = 1;
+      </code>
+      un pēc punktu parādīšanas parauga parādi līmeni.
+     </li>
+    </ol>
+   </details>
+   <details class="course-help">
+    <summary>
+     Ja kaut kas neizdodas
+    </summary>
+    <ul>
+     <li>
+      <b>
+       Neredzi izmaiņas?
+      </b>
+      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
+      <code>
+       31.html
+      </code>
+      .
+     </li>
+     <li>
+      <b>
+       Kods redzams kā teksts?
+      </b>
+      Saglabā ar galotni .html. Windows ieslēdz
+      <b>
+       View → Show → File name extensions
+      </b>
+      un pārbaudi, ka beigās nav .txt.
+     </li>
+     <li>
+      <b>
+       Poga nestrādā?
+      </b>
+      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+     </li>
+     <li>
+      <b>
+       Nesaproti nākamo soli?
+      </b>
+      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+     </li>
+    </ul>
+    <p>
+     <a href="git.html">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
+   </details>
+   <details class="course-help teacher-meta">
+    <summary>
+     Skolotājam: sasniedzamo rezultātu saistība
+    </summary>
+    <p>
+     Šajā nodarbībā vingrina šādu rezultātu daļas no
+     <a href="../sasnRez.html#datorika9">
+      9. klases saraksta
+     </a>
+     . Piesaiste pati par sevi nenozīmē visa rezultāta apguvi.
+    </p>
+    <div class="lesson-meta">
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.1
+     </a>
+    </div>
+    <p>
+     <a href="SKOLOTAJAM.md">
+      Kursa nosacījumi un satura pārklājums
+     </a>
+    </p>
+   </details>
+   <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
+    <a class="nav-btn" href="dat9_26.html">
+     ← Iepriekšējā
+    </a>
+    <a class="nav-btn" href="dat9_32.html">
+     Nākamā →
+    </a>
+   </nav>
+  </main>
+  <footer class="course-footer">
+   <a href="datorika9.html">
+    Kursa pārskats
+   </a>
+   ·
+   <a href="git.html">
+    GitHub palīdzība
+   </a>
+   ·
+   <a href="../sasnRez.html#datorika9">
+    Sasniedzamie rezultāti
+   </a>
+  </footer>
+ </body>
 </html>

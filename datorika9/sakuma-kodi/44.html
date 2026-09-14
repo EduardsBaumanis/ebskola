@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mana spēle</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+#speletajs { background: #245b91; left: 20px; top: 160px; }
+#pretinieks { background: #b3261e; left: 220px; top: 160px; }
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<h1>Kustīgs pretinieks</h1>
+<p>Nospied Sākt vai Apturēt.</p>
+<div id="laukums"><div id="pretinieks"></div></div>
+<button id="sakt">Sākt</button>
+<button id="apturet">Apturēt</button>
+<p id="stavoklis">Apturēts</p>
+<script>
+let x = 0;
+let taimeris = null;
+const atrums = 2;
+function solis() {
+  x = x + atrums;
+  const robeza = document.getElementById("laukums").clientWidth - 30;
+  if (x > robeza) { x = 0; }
+  document.getElementById("pretinieks").style.left = x + "px";
+}
+function sakt() {
+  clearInterval(taimeris);
+  taimeris = setInterval(solis, 30);
+  document.getElementById("stavoklis").textContent = "Kustas";
+}
+function apturet() {
+  clearInterval(taimeris);
+  taimeris = null;
+  document.getElementById("stavoklis").textContent = "Apturēts";
+}
+document.getElementById("sakt").addEventListener("click", sakt);
+document.getElementById("apturet").addEventListener("click", apturet);
+document.getElementById("pretinieks").style.left = x + "px";
+</script>
+</body>
+</html>

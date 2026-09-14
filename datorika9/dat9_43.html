@@ -1,210 +1,560 @@
 <!DOCTYPE html>
 <html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4.3 DOM manipulācija – dinamiska elementu pārvaldība - ebSkola</title>
-<meta name="description" content="Izstrādāt algoritmu spēles varoņa vizuālai pārvietošanai pa ekrānu, mainot tā CSS koordinātas reāllaikā caur JavaScript.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/datorika9/dat9_43">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4.3 DOM manipulācija – dinamiska elementu pārvaldība">
-<meta property="og:description" content="Izstrādāt algoritmu spēles varoņa vizuālai pārvietošanai pa ekrānu, mainot tā CSS koordinātas reāllaikā caur JavaScript.">
-<meta property="og:url" content="https://ebskola.lv/datorika9/dat9_43">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4.3 DOM manipulācija – dinamiska elementu pārvaldība">
-<meta name="twitter:description" content="Izstrādāt algoritmu spēles varoņa vizuālai pārvietošanai pa ekrānu, mainot tā CSS koordinātas reāllaikā caur JavaScript.">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.3 DOM manipulācija – dinamiska elementu pārvaldība", "description": "Izstrādāt algoritmu spēles varoņa vizuālai pārvietošanai pa ekrānu, mainot tā CSS koordinātas reāllaikā caur JavaScript.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_43", "isPartOf": {"@type": "Course", "name": "ebSkola - datorika9", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
-</script>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-css.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   4.3 Pārvieto un maini lapas elementus - ebSkola
+  </title>
+  <meta content="Vadi spēlētāju četros virzienos un parādi tā atrašanās vietu." name="description"/>
+  <meta content="Eduards Baumanis" name="author"/>
+  <link href="https://ebskola.lv/datorika9/dat9_43" rel="canonical"/>
+  <meta content="article" property="og:type"/>
+  <meta content="lv_LV" property="og:locale"/>
+  <meta content="ebSkola" property="og:site_name"/>
+  <meta content="4.3 Pārvieto un maini lapas elementus" property="og:title"/>
+  <meta content="Vadi spēlētāju četros virzienos un parādi tā atrašanās vietu." property="og:description"/>
+  <meta content="https://ebskola.lv/datorika9/dat9_43" property="og:url"/>
+  <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+  <meta content="summary" name="twitter:card"/>
+  <link href="../favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../manifest.json" rel="manifest"/>
+  <meta content="#222831" name="theme-color"/>
+  <link href="../style.css" rel="stylesheet"/>
+  <link href="kursa-stils.css" rel="stylesheet"/>
+  <script type="application/ld+json">
+   {"@context": "https://schema.org", "@type": "LearningResource", "name": "4.3 Pārvieto un maini lapas elementus", "description": "Vadi spēlētāju četros virzienos un parādi tā atrašanās vietu.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_43", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+  </script>
+  <script defer="" src="kursam.js">
+  </script>
+ </head>
+ <body class="page-reference datorika-kurss">
+  <a class="skip-link" href="#saturs">
+   Uz mācību saturu
+  </a>
+  <header class="course-topbar">
+   <a href="../index.html">
+    ebSkola
+   </a>
+   <nav aria-label="Kursa navigācija">
+    <a href="datorika9.html">
+     Datorika 9
     </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/datorika9/datorika9">Datorika 9</a>
-      <a href="/datorika9/dat9_4main">4. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/datorika9/dat9_42">← 4.2</a>
-    <a class="btn primary" href="/datorika9/dat9_44">4.4 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Datorika 9</div>
-  <h3>4. Tēma - Spēles dzinēja izstrāde un funkcijas</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/datorika9/dat9_4main">Tēmas sākums</a>
-    <a href="/datorika9/dat9_41">4.1 Funkcijas un koda atkārtota izmantošana</a>
-    <a href="/datorika9/dat9_42">4.2 Notikumu klausītāji (Event Listeners) un interakcija</a>
-    <a class="active" aria-current="page" href="/datorika9/dat9_43">4.3 DOM manipulācija – dinamiska elementu pārvaldība</a>
-    <a href="/datorika9/dat9_44">4.4 Laika kontrole (Timers) un spēles cikls</a>
-    <a href="/datorika9/dat9_45">4.5 Sadursmju noteikšanas (Collision detection) pamati</a>
-    <a href="/datorika9/dat9_46">4.6 Noslēguma projekts: Spēles dzinēja prototips</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>4.3 DOM manipulācija – dinamiska elementu pārvaldība</h1>
-    <p><b>Stundas uzdevums:</b> Izstrādāt algoritmu spēles varoņa vizuālai pārvietošanai pa ekrānu, mainot tā CSS koordinātas reāllaikā caur JavaScript.</p>
-    <a href="/sasnRez">2.6.1. Pieraksta, lasa un izpilda algoritmus; 2.4.7. Veido kompleksu pieeju (apvieno CSS un JS).</a>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - pārvieto kvadrātu ar gatavu koda rindu · 2. uzdevums (~25 min) - uzraksti funkciju <code>kustinat(dx, dy)</code> un četras pogas · 3. uzdevums (~20 min) - salīdzini koordinātes konsolē un pievieno robežas. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savu 4.2 stundas projektu ar spēles laukumu <code>#laukums</code> un spēlētāju <code>#speletajs</code> koda redaktorā un pārlūkā.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Tīmekļa koordinātu sistēma un CSS pozicionēšana</h2>
-    <div class='logic-box'>
-<p>Lai mēs varētu kustināt elementu (piemēram, spēlētāja kvadrātu vai attēlu) ar JavaScript, tam HTML/CSS vidē ir jābūt "atrautam" no parastās teksta plūsmas.
-        <ul>
-            <li><b>CSS Position:</b> Elementam jāpiešķir <code>position: absolute;</code> (kustas attiecībā pret savu rāmi) vai <code>position: fixed;</code> (kustas attiecībā pret visu logu). Tā vecākam (spēles laukumam) jābūt <code>position: relative;</code>.</li>
-            <li><b>Koordinātas:</b> Tīmeklī X ass iet no kreisās uz labo (kā matemātikā), bet <b>Y ass iet no augšas uz leju!</b> (0,0 ir augšējais kreisais stūris).</li>
-            <li><b>JS manipulācija:</b> Mēs varam mainīt elementa pozīciju, mainot tā <code>style.left</code> (X) un <code>style.top</code> (Y) īpašības. Svarīgi: tām vienmēr jāpievieno teksta mērvienība <code>"px"</code>!</li>
-        </ul>
+    <a href="git.html">
+     GitHub palīdzība
+    </a>
+   </nav>
+  </header>
+  <main class="course-content" id="saturs">
+   <p class="breadcrumb">
+    <a href="dat9_4main.html">
+     4. tēma
+    </a>
+    / 4.3
+   </p>
+   <h1>
+    4.3 Pārvieto un maini lapas elementus
+   </h1>
+   <p class="lesson-goal">
+    <b>
+     Šodien:
+    </b>
+    Vadi spēlētāju četros virzienos un parādi tā atrašanās vietu.
+   </p>
+   <section id="teorija">
+    <h2>
+     Īsā teorija
+    </h2>
+    <p>
+     JavaScript var atrast HTML elementu pēc
+     <code>
+      id
+     </code>
+     un mainīt tā tekstu vai stilu. Šādi strādājam ar lapas elementiem jeb DOM.
     </p>
+    <p>
+     <code>
+      style.left
+     </code>
+     nosaka attālumu no kreisās malas;
+     <code>
+      style.top
+     </code>
+     — no augšas. Mazāks Y nozīmē augstāk.
+    </p>
+    <p>
+     <code>
+      kustinat(dx, dy)
+     </code>
+     saņem divas izmaiņas. Piemēram,
+     <code>
+      kustinat(0, -10)
+     </code>
+     kustina uz augšu.
+    </p>
+    <pre><code>speletajs.style.left = x + "px";
+speletajs.style.top = y + "px";</code></pre>
+   </section>
+   <section id="sakuma-kods">
+    <h2>
+     Sākuma kods un darba vieta
+    </h2>
+    <p class="workplace">
+     Vide: mācību lapa → VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      VS Code ar
+      <b>
+       File → Open Folder
+      </b>
+      atver
+      <code>
+       Desktop/datorika9-tema4
+      </code>
+      . Ja mapes nav, izveido to darbvirsmā.
+     </li>
+     <li>
+      Šajā mācību lapā nospied
+      <b>
+       Kopēt sākuma kodu
+      </b>
+      .
+     </li>
+     <li>
+      VS Code nospied
+      <b>
+       Ctrl+N
+      </b>
+      un ielīmē kodu ar
+      <b>
+       Ctrl+V
+      </b>
+      .
+     </li>
+     <li>
+      Saglabā ar
+      <b>
+       Ctrl+Shift+S
+      </b>
+      tēmas mapē kā
+      <code>
+       43.html
+      </code>
+      .
+     </li>
+    </ol>
+    <div class="starter-actions">
+     <button class="btn" data-copy="pilnais-kods" type="button">
+      Kopēt sākuma kodu
+     </button>
+     <a class="btn" download="43.html" href="sakuma-kodi/43.html">
+      Lejupielādēt 43.html
+     </a>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Pārvieto kvadrātu ar gatavu koda rindu</h3>
-        <p>Beigās kvadrāts pārlēks uz laukuma vidu, kad nospiedīsi pogu.</p>
-        <p><b>Kopējamais paraugs:</b> viena poga HTML failā un divas <code>style</code> rindas JavaScript failā.</p>
-<pre><code class="language-html">&lt;button id="lektPoga"&gt;Pārlec uz vidu&lt;/button&gt;</code></pre>
-<pre><code class="language-javascript">const speletajs = document.getElementById("speletajs");
-
-document.getElementById("lektPoga").addEventListener("click", function () {
-  speletajs.style.left = "180px";
-  speletajs.style.top = "130px";
-});</code></pre>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>index.html</code> un pievieno pogu zem spēles laukuma.</li>
-            <li><b>Atver</b> <code>script.js</code> un ielīmē gatavo kodu faila beigās.</li>
-            <li><b>Saglabā</b>, pārlādē lapu un nospied pogu - kvadrāts pārlec uz laukuma vidu.</li>
-            <li><b>Nomaini</b> vērtību <code>"130px"</code> uz <code>"10px"</code> un pārlādē lapu.</li>
-            <li><b>Nospied</b> pogu vēlreiz un vēro, uz kuru pusi kvadrāts pārvietojas.</li>
-            <li><b>Pieraksti</b>, vai mazāka <code>top</code> vērtība nozīmē augstāk vai zemāk.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar <code>top: 10px</code> kvadrāts atrodas pie laukuma augšmalas, nevis pie apakšmalas.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Uzraksti funkciju kustinat(dx, dy) un četras pogas</h3>
-        <p>Beigās četras pogas pārvietos kvadrātu pa visām četrām debespusēm.</p>
-        <ol class="step-list">
-            <li><b>Pārbaudi</b>, ka laukumam ir <code>position: relative;</code> un spēlētājam <code>position: absolute;</code>.</li>
-            <li><b>Atver</b> <code>script.js</code> un uzraksti divus mainīgos: <code>let spX = 180;</code> un <code>let spY = 250;</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code>kustinat(dx, dy)</code>, kas pieskaita <code>dx</code> pie <code>spX</code> un <code>dy</code> pie <code>spY</code>.</li>
-            <li><b>Pievieno</b> funkcijas beigās <code>speletajs.style.left = spX + "px";</code> un <code>speletajs.style.top = spY + "px";</code>.</li>
-            <li><b>Atver</b> <code>index.html</code> un pievieno četras pogas: "Pa kreisi", "Pa labi", "Augšup", "Lejup".</li>
-            <li><b>Piesaisti</b> pogām izsaukumus <code>kustinat(-10, 0)</code>, <code>kustinat(10, 0)</code>, <code>kustinat(0, -10)</code> un <code>kustinat(0, 10)</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar četrām pogām kvadrātu var aizvest uz jebkuru laukuma stūri.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Salīdzini koordinātes konsolē un pievieno robežas</h3>
-        <p>Beigās konsolē redzamie skaitļi vienmēr sakritīs ar kvadrāta vietu laukumā.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> izstrādātāja rīkus ar <code>F12</code> un pārej uz cilni Console.</li>
-            <li><b>Pievieno</b> funkcijai <code>kustinat</code> rindu <code>console.log("X: " + spX + ", Y: " + spY);</code>.</li>
-            <li><b>Nospied</b> pogu "Pa labi" piecas reizes un salīdzini konsoles skaitli ar kvadrāta vietu ekrānā.</li>
-            <li><b>Pievieno</b> robežas pa X: ja <code>spX &lt; 0</code>, iestati 0; ja <code>spX &gt; 360</code>, iestati 360.</li>
-            <li><b>Pievieno</b> tādas pašas robežas pa Y starp 0 un 260.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kas notiek ar kustību, ja pie <code>style.top</code> vērtības aizmirst pievienot <code>"px"</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> konsolē redzamās koordinātes paliek robežās 0–360 pa X un 0–260 pa Y.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Novieto monētu nejaušā vietā</h3>
-        <p>Beigās zeltainā monēta pēc katras lapas pārlādes parādīsies citā laukuma vietā.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> laukuma iekšpusē <code>&lt;div id="moneta" style="position:absolute;width:20px;height:20px;background:gold;border-radius:50%;"&gt;&lt;/div&gt;</code>.</li>
-            <li><b>Atver</b> <code>script.js</code> un uzraksti funkciju <code>parvietotMonetu()</code>.</li>
-            <li><b>Aprēķini</b> funkcijā nejaušu X vērtību ar <code>Math.floor(Math.random() * 380)</code>.</li>
-            <li><b>Aprēķini</b> nejaušu Y vērtību ar <code>Math.floor(Math.random() * 280)</code> un piešķir abas ar <code>"px"</code>.</li>
-            <li><b>Izsauc</b> <code>parvietotMonetu()</code> faila beigās un pārlādē lapu piecas reizes.</li>
-            <li><b>Veic</b> <code>git commit -m "Add collectable coin element"</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc katras pārlādes monēta ir citā vietā, bet vienmēr paliek laukuma iekšpusē.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <div class='logic-box'>
-<ul>
-        <li><b>Varonis nekustas vispār:</b> Visbiežāk aizmirsts <code>position: absolute;</code> CSS failā. Bez tā <code>left</code> un <code>top</code> īpašības vienkārši nedarbojas.</li>
-        <li><b>Kļūda "px" pievienošanā:</b> Ja JS failā ierakstīsi <code>varonisObj.style.left = varonisX;</code> (bez <code>+ "px"</code>), pārlūks to nesapratīs. Skaitlim obligāti jāpievieno teksta mērvienība.</li>
-        <li><b>Y ass pārpratumi:</b> Atceries, lai varonis "lektu" uz augšu (ArrowUp), tev Y koordināta ir <b>jāsamazina</b>, nevis jāpalielina!</li>
-    </ul>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (abu asu robežas un "px" pievienošana)</h2>
-    <div class='code-example'>
-        <pre><code class="language-javascript">let spX = 180;
-let spY = 250;
-const speletajs = document.getElementById("speletajs");
-
-function kustinat(dx, dy) {
-    // 1. Mainām koordinātas
-    spX = spX + dx;
-    spY = spY + dy;
-
-    // 2. Robežas (laukums 400x300, kvadrāts 40x40)
-    if (spX &lt; 0)   spX = 0;
-    if (spX &gt; 360) spX = 360;
-    if (spY &lt; 0)   spY = 0;     // 0 ir laukuma AUGŠA, ne apakša!
-    if (spY &gt; 260) spY = 260;
-
-    // 3. Vizuālā atjaunināšana - bez "px" pārlūks vērtību ignorē
-    speletajs.style.left = spX + "px";
-    speletajs.style.top  = spY + "px";
-
-    console.log("X: " + spX + ", Y: " + spY);
+    <p aria-live="polite" class="copy-status" role="status">
+    </p>
+    <details class="starter-source">
+     <summary>
+      Atvērt pilno sākuma kodu
+     </summary>
+     <pre><code id="pilnais-kods">&lt;!DOCTYPE html&gt;
+&lt;html lang="lv"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Mana spēle&lt;/title&gt;
+&lt;style&gt;
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+#speletajs { background: #245b91; left: 20px; top: 160px; }
+#pretinieks { background: #b3261e; left: 220px; top: 160px; }
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Spēles koordinātes&lt;/h1&gt;
+&lt;p&gt;Vadi kvadrātu ar pogām.&lt;/p&gt;
+&lt;div id="laukums"&gt;&lt;div id="speletajs"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;button onclick="kustinat(-10, 0)"&gt;←&lt;/button&gt;
+&lt;button onclick="kustinat(10, 0)"&gt;→&lt;/button&gt;
+&lt;!-- ŠEIT VERTIKĀLĀS POGAS --&gt;
+&lt;p id="vieta"&gt;&lt;/p&gt;
+&lt;script&gt;
+let x = 20;
+let y = 160;
+function paradit() {
+  const speletajs = document.getElementById("speletajs");
+  speletajs.style.left = x + "px";
+  speletajs.style.top = y + "px";
+  document.getElementById("vieta").textContent = "X: " + x + ", Y: " + y;
 }
-
-kustinat(10, 0);    // pa labi
-kustinat(0, -10);   // AUGŠUP - Y kļūst mazāks
-kustinat(0, 999);   // mēģina lejup, bet apstājas pie 260</code></pre>
-        <div class='result'>
-            <i>Konsolē:</i><br>
-            X: 190, Y: 250<br>
-            X: 190, Y: 240<br>
-            X: 190, Y: 260<br><br>
-            <i>Ekrānā:</i> kvadrāts pārvietojas pa labi, tad par 10 pikseļiem uz augšu, un pēdējā izsaukumā apstājas tieši pie laukuma apakšmalas, nevis izlien ārā.
-        </div>
+function kustinat(dx, dy) {
+  x = x + dx;
+  y = y + dy;
+  // Gatavas robežas abiem virzieniem.
+  const laukums = document.getElementById("laukums");
+  x = Math.max(0, Math.min(laukums.clientWidth - 30, x));
+  y = Math.max(0, Math.min(laukums.clientHeight - 30, y));
+  paradit();
+}
+paradit();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    </details>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-1">
+    <p class="task-number">
+     1. uzdevums
+    </p>
+    <h2>
+     Maini sākuma vietu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Sāc ar
+      <code>
+       43.html
+      </code>
+      .
+     </li>
+     <li>
+      JS sākumā iestati
+      <code>
+       x = 40
+      </code>
+      un
+      <code>
+       y = 100
+      </code>
+      .
+     </li>
+     <li>
+      Nomaini lapas virsrakstu un CSS spēlētāja krāsu.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Spēlētājam ir paša izvēlēts izskats un jaunā sākuma vieta.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-2">
+    <p class="task-number">
+     2. uzdevums
+    </p>
+    <h2>
+     Pievieno kustību augšup un lejup
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      HTML komentāra vietā pievieno
+      <code>
+       &lt;button onclick="kustinat(0, -10)"&gt;↑&lt;/button&gt;
+      </code>
+      .
+     </li>
+     <li>
+      Zem tās pievieno otru pogu ar
+      <code>
+       kustinat(0, 10)
+      </code>
+      un tekstu ↓.
+     </li>
+     <li>
+      Vadības norādē pasaki, ka pieejami četri virzieni.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Ir četras kustības pogas.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-3">
+    <p class="task-number">
+     3. uzdevums
+    </p>
+    <h2>
+     Pārbaudi koordinātes un atjaunošanu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      HTML pievieno pogu
+      <code>
+       &lt;button onclick="location.reload()"&gt;Sākuma vieta&lt;/button&gt;
+      </code>
+      .
+     </li>
+     <li>
+      Atver lapu: jābūt X: 40, Y: 100. Nospied → un ↑: jābūt X: 50, Y: 90.
+     </li>
+     <li>
+      Pārbaudi visas malas un pogu
+      <b>
+       Sākuma vieta
+      </b>
+      . Tai jāatjauno X: 40, Y: 100.
+     </li>
+     <li>
+      Saglabā un nosūti darbu uz GitHub.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Koordinātes atbilst kustībai un sākuma vietu var atjaunot.
+    </p>
+    <div class="submission">
+     <h3>
+      Iesniedz 3. uzdevuma rezultātu
+     </h3>
+     <p>
+      Iesniedz pabeigto
+      <code>
+       43.html
+      </code>
+      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
+     </p>
+     <p>
+      <b>
+       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
+      </b>
+     </p>
+     <ul class="assessment-checks">
+      <li>
+       Sākuma vieta ir (40; 100), un spēlētāja krāsa ir mainīta.
+      </li>
+      <li>
+       Ir četras kustības pogas un redzamas abas koordinātes.
+      </li>
+      <li>
+       Pēc → un ↑ ir (50; 90); atjaunošanas poga atgriež (40; 100).
+      </li>
+     </ul>
+     <p>
+      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
+     </p>
     </div>
-</div>
-
-<div class="stundas-navigacija">
-    <a href="/datorika9/dat9_42" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/datorika9/dat9_44" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+    <details class="course-help">
+     <summary>
+      Saglabā un nosūti uz GitHub — pogu atgādne
+     </summary>
+     <p class="workplace">
+      Vide: VS Code / Source Control → GitHub pārlūkā
+     </p>
+     <ol class="step-list">
+      <li>
+       Ar
+       <b>
+        File → Save All
+       </b>
+       saglabā failus. Atver
+       <b>
+        Source Control
+       </b>
+       ar
+       <b>
+        Ctrl+Shift+G
+       </b>
+       .
+      </li>
+      <li>
+       Pie
+       <b>
+        Changes
+       </b>
+       nospied
+       <b>
+        +
+       </b>
+       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
+       <b>
+        Staged Changes
+       </b>
+       .
+      </li>
+      <li>
+       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
+       <code>
+        Pabeigts 4.3 darbs
+       </code>
+       . Spied
+       <b>
+        Commit
+       </b>
+       .
+      </li>
+      <li>
+       Ja šī tēmas mape vēl nav GitHub, spied
+       <b>
+        Publish to GitHub
+       </b>
+       un izveido publisku projektu
+       <code>
+        datorika9-tema4
+       </code>
+       . Jau publicētam projektam spied
+       <b>
+        Sync Changes
+       </b>
+       . Ja pogas nav, atver
+       <b>
+        … → Push
+       </b>
+       .
+      </li>
+      <li>
+       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
+      </li>
+     </ol>
+     <p>
+      Ja Source Control rāda
+      <b>
+       Initialize Repository
+      </b>
+      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
+      <a href="git.html">
+       palīdzību
+      </a>
+      un palūdz skolotāja atbalstu.
+     </p>
+    </details>
+   </section>
+   <details class="course-help extra-task">
+    <summary>
+     Papildu uzdevums: Pievieno monētu
+    </summary>
+    <p>
+     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+    </p>
+    <ol class="step-list">
+     <li>
+      Laukuma iekšpusē pievieno
+      <code>
+       &lt;div id="moneta"&gt;&lt;/div&gt;
+      </code>
+      .
+     </li>
+     <li>
+      CSS maini monētas
+      <code>
+       left
+      </code>
+      un
+      <code>
+       top
+      </code>
+      tā, lai tā būtu sasniedzama.
+     </li>
+    </ol>
+   </details>
+   <details class="course-help">
+    <summary>
+     Ja kaut kas neizdodas
+    </summary>
+    <ul>
+     <li>
+      <b>
+       Neredzi izmaiņas?
+      </b>
+      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
+      <code>
+       43.html
+      </code>
+      .
+     </li>
+     <li>
+      <b>
+       Kods redzams kā teksts?
+      </b>
+      Saglabā ar galotni .html. Windows ieslēdz
+      <b>
+       View → Show → File name extensions
+      </b>
+      un pārbaudi, ka beigās nav .txt.
+     </li>
+     <li>
+      <b>
+       Poga nestrādā?
+      </b>
+      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+     </li>
+     <li>
+      <b>
+       Nesaproti nākamo soli?
+      </b>
+      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+     </li>
+    </ul>
+    <p>
+     <a href="git.html">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
+   </details>
+   <details class="course-help teacher-meta">
+    <summary>
+     Skolotājam: sasniedzamo rezultātu saistība
+    </summary>
+    <p>
+     Šajā nodarbībā vingrina šādu rezultātu daļas no
+     <a href="../sasnRez.html#datorika9">
+      9. klases saraksta
+     </a>
+     . Piesaiste pati par sevi nenozīmē visa rezultāta apguvi.
+    </p>
+    <div class="lesson-meta">
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.1
+     </a>
+    </div>
+    <p>
+     <a href="SKOLOTAJAM.md">
+      Kursa nosacījumi un satura pārklājums
+     </a>
+    </p>
+   </details>
+   <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
+    <a class="nav-btn" href="dat9_42.html">
+     ← Iepriekšējā
+    </a>
+    <a class="nav-btn" href="dat9_44.html">
+     Nākamā →
+    </a>
+   </nav>
+  </main>
+  <footer class="course-footer">
+   <a href="datorika9.html">
+    Kursa pārskats
+   </a>
+   ·
+   <a href="git.html">
+    GitHub palīdzība
+   </a>
+   ·
+   <a href="../sasnRez.html#datorika9">
+    Sasniedzamie rezultāti
+   </a>
+  </footer>
+ </body>
 </html>

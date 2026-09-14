@@ -1,204 +1,544 @@
 <!DOCTYPE html>
 <html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4.2 Notikumu klausītāji (Event Listeners) un interakcija - ebSkola</title>
-<meta name="description" content="Piesaistīt izstrādātās JavaScript funkcijas reālām lietotāja darbībām (peles klikšķiem un klaviatūras taustiņiem), padarot spēles saskarni pilnībā interaktīvu.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/datorika9/dat9_42">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4.2 Notikumu klausītāji (Event Listeners) un interakcija">
-<meta property="og:description" content="Piesaistīt izstrādātās JavaScript funkcijas reālām lietotāja darbībām (peles klikšķiem un klaviatūras taustiņiem), padarot spēles saskarni pilnībā interaktīvu.">
-<meta property="og:url" content="https://ebskola.lv/datorika9/dat9_42">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4.2 Notikumu klausītāji (Event Listeners) un interakcija">
-<meta name="twitter:description" content="Piesaistīt izstrādātās JavaScript funkcijas reālām lietotāja darbībām (peles klikšķiem un klaviatūras taustiņiem), padarot spēles saskarni pilnībā interaktīvu.">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.2 Notikumu klausītāji (Event Listeners) un interakcija", "description": "Piesaistīt izstrādātās JavaScript funkcijas reālām lietotāja darbībām (peles klikšķiem un klaviatūras taustiņiem), padarot spēles saskarni pilnībā interaktīvu.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_42", "isPartOf": {"@type": "Course", "name": "ebSkola - datorika9", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
-</script>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   4.2 Vadi spēlētāju ar pogām un taustiņiem - ebSkola
+  </title>
+  <meta content="Pievieno vadību abos virzienos un pielāgo kustības soli." name="description"/>
+  <meta content="Eduards Baumanis" name="author"/>
+  <link href="https://ebskola.lv/datorika9/dat9_42" rel="canonical"/>
+  <meta content="article" property="og:type"/>
+  <meta content="lv_LV" property="og:locale"/>
+  <meta content="ebSkola" property="og:site_name"/>
+  <meta content="4.2 Vadi spēlētāju ar pogām un taustiņiem" property="og:title"/>
+  <meta content="Pievieno vadību abos virzienos un pielāgo kustības soli." property="og:description"/>
+  <meta content="https://ebskola.lv/datorika9/dat9_42" property="og:url"/>
+  <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+  <meta content="summary" name="twitter:card"/>
+  <link href="../favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../manifest.json" rel="manifest"/>
+  <meta content="#222831" name="theme-color"/>
+  <link href="../style.css" rel="stylesheet"/>
+  <link href="kursa-stils.css" rel="stylesheet"/>
+  <script type="application/ld+json">
+   {"@context": "https://schema.org", "@type": "LearningResource", "name": "4.2 Vadi spēlētāju ar pogām un taustiņiem", "description": "Pievieno vadību abos virzienos un pielāgo kustības soli.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_42", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+  </script>
+  <script defer="" src="kursam.js">
+  </script>
+ </head>
+ <body class="page-reference datorika-kurss">
+  <a class="skip-link" href="#saturs">
+   Uz mācību saturu
+  </a>
+  <header class="course-topbar">
+   <a href="../index.html">
+    ebSkola
+   </a>
+   <nav aria-label="Kursa navigācija">
+    <a href="datorika9.html">
+     Datorika 9
     </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/datorika9/datorika9">Datorika 9</a>
-      <a href="/datorika9/dat9_4main">4. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/datorika9/dat9_41">← 4.1</a>
-    <a class="btn primary" href="/datorika9/dat9_43">4.3 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Datorika 9</div>
-  <h3>4. Tēma - Spēles dzinēja izstrāde un funkcijas</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/datorika9/dat9_4main">Tēmas sākums</a>
-    <a href="/datorika9/dat9_41">4.1 Funkcijas un koda atkārtota izmantošana</a>
-    <a class="active" aria-current="page" href="/datorika9/dat9_42">4.2 Notikumu klausītāji (Event Listeners) un interakcija</a>
-    <a href="/datorika9/dat9_43">4.3 DOM manipulācija – dinamiska elementu pārvaldība</a>
-    <a href="/datorika9/dat9_44">4.4 Laika kontrole (Timers) un spēles cikls</a>
-    <a href="/datorika9/dat9_45">4.5 Sadursmju noteikšanas (Collision detection) pamati</a>
-    <a href="/datorika9/dat9_46">4.6 Noslēguma projekts: Spēles dzinēja prototips</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>4.2 Notikumu klausītāji (Event Listeners) un interakcija</h1>
-    <p><b>Stundas uzdevums:</b> Piesaistīt izstrādātās JavaScript funkcijas reālām lietotāja darbībām (peles klikšķiem un klaviatūras taustiņiem), padarot spēles saskarni pilnībā interaktīvu.</p>
-    <a href="/sasnRez">2.6.1. Ievēro programmas pieraksta labo praksi; 1.3.3. Īsteno risinājumu atbilstoši plānam.</a>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - parādi lapā nospiestā taustiņa nosaukumu · 2. uzdevums (~25 min) - vadi spēlētāja kvadrātu ar bultiņu taustiņiem · 3. uzdevums (~20 min) - pievieno laukuma robežas un pārbaudi tās. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savu spēles mapi koda redaktorā ar failiem <code>index.html</code> un <code>script.js</code>, un atver <code>index.html</code> pārlūkā.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Kā iemācīt lapai "klausīties"?</h2>
-    <div class='logic-box'>
-<p>Lai pārlūkprogramma zinātu, kad izsaukt tavu funkciju, mēs izmantojam <b>notikumu klausītājus (Event Listeners)</b>. Tas ir kā neredzams sargs, kas stāv pie HTML elementa un gaida, kad notiks konkrēta darbība (notikums).
-        <ul>
-            <li><b>Notikumu veidi:</b> <code>click</code> (peles klikšķis), <code>keydown</code> (taustiņa nospiešana), <code>mouseenter</code> (peles novietošana virs elementa).</li>
-            <li><b>Sintakse:</b> <code>elements.addEventListener('notikums', funkcijasNosaukums);</code></li>
-            <li><b>Notikuma objekts (Event Object):</b> Kad notiek darbība, pārlūks bieži nodod papildu informāciju (piemēram, KURU tieši taustiņu tu nospiedi). Mēs to varam "noķert" funkcijas parametros, visbiežāk apzīmējot ar burtu <code>e</code> vai <code>event</code>.</li>
-        </ul>
-    <i>Piezīme:</i> Projektos parasti izvairāmies no <code>onclick=""</code> rakstīšanas tieši HTML failā. HTML ir struktūrai, JS ir uzvedībai!
+    <a href="git.html">
+     GitHub palīdzība
+    </a>
+   </nav>
+  </header>
+  <main class="course-content" id="saturs">
+   <p class="breadcrumb">
+    <a href="dat9_4main.html">
+     4. tēma
+    </a>
+    / 4.2
+   </p>
+   <h1>
+    4.2 Vadi spēlētāju ar pogām un taustiņiem
+   </h1>
+   <p class="lesson-goal">
+    <b>
+     Šodien:
+    </b>
+    Pievieno vadību abos virzienos un pielāgo kustības soli.
+   </p>
+   <section id="teorija">
+    <h2>
+     Īsā teorija
+    </h2>
+    <p>
+     <code>
+      addEventListener
+     </code>
+     piesaista darbību notikumam.
+     <code>
+      click
+     </code>
+     ir klikšķis;
+     <code>
+      keydown
+     </code>
+     — taustiņa nospiešana.
     </p>
+    <p>
+     <code>
+      notikums.key
+     </code>
+     pasaka taustiņa nosaukumu.
+     <code>
+      ArrowLeft
+     </code>
+     ir kreisā bultiņa.
+    </p>
+    <p>
+     <code>
+      preventDefault()
+     </code>
+     šajā piemērā aptur lapas ritināšanu ar izmantoto bultiņu.
+    </p>
+    <pre><code>if (notikums.key === "ArrowLeft") {
+  notikums.preventDefault();
+  kustinat(-1);
+}</code></pre>
+   </section>
+   <section id="sakuma-kods">
+    <h2>
+     Sākuma kods un darba vieta
+    </h2>
+    <p class="workplace">
+     Vide: mācību lapa → VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      VS Code ar
+      <b>
+       File → Open Folder
+      </b>
+      atver
+      <code>
+       Desktop/datorika9-tema4
+      </code>
+      . Ja mapes nav, izveido to darbvirsmā.
+     </li>
+     <li>
+      Šajā mācību lapā nospied
+      <b>
+       Kopēt sākuma kodu
+      </b>
+      .
+     </li>
+     <li>
+      VS Code nospied
+      <b>
+       Ctrl+N
+      </b>
+      un ielīmē kodu ar
+      <b>
+       Ctrl+V
+      </b>
+      .
+     </li>
+     <li>
+      Saglabā ar
+      <b>
+       Ctrl+Shift+S
+      </b>
+      tēmas mapē kā
+      <code>
+       42.html
+      </code>
+      .
+     </li>
+    </ol>
+    <div class="starter-actions">
+     <button class="btn" data-copy="pilnais-kods" type="button">
+      Kopēt sākuma kodu
+     </button>
+     <a class="btn" download="42.html" href="sakuma-kodi/42.html">
+      Lejupielādēt 42.html
+     </a>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Parādi lapā nospiestā taustiņa nosaukumu</h3>
-        <p>Beigās lapā parādīsies tā taustiņa nosaukums, ko tu tikko nospiedi.</p>
-        <p><b>Kopējamais paraugs:</b> viena rinda HTML failā un viens klausītājs JavaScript failā.</p>
-<pre><code class="language-html">&lt;p id="taustins"&gt;Nospied jebkuru taustiņu&lt;/p&gt;</code></pre>
-<pre><code class="language-javascript">document.addEventListener("keydown", function (e) {
-  document.getElementById("taustins").textContent = "Nospiests: " + e.key;
-});</code></pre>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>index.html</code> un ielīmē rindu ar <code>id="taustins"</code> pirms <code>&lt;/body&gt;</code>.</li>
-            <li><b>Atver</b> <code>script.js</code> un ielīmē klausītāja kodu faila beigās.</li>
-            <li><b>Saglabā</b> abus failus un pārlādē lapu pārlūkā.</li>
-            <li><b>Nospied</b> bultiņu pa labi - lapā jāparādās tekstam "Nospiests: ArrowRight".</li>
-            <li><b>Nospied</b> atstarpes taustiņu un pieraksti, kāds nosaukums parādās.</li>
-            <li><b>Nomaini</b> vārdu <code>"keydown"</code> uz <code>"keyup"</code> un pārbaudi, kad teksts tagad mainās.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> spiežot dažādus taustiņus, teksts lapā katru reizi nomainās uz citu nosaukumu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Vadi spēlētāja kvadrātu ar bultiņu taustiņiem</h3>
-        <p>Beigās zilais kvadrāts pārvietosies pa kreisi un pa labi, kad spiedīsi bultiņu taustiņus.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>index.html</code> un pievieno spēles laukumu: <code>&lt;div id="laukums" style="position:relative;width:400px;height:300px;border:2px solid #fff;overflow:hidden;"&gt;&lt;/div&gt;</code>.</li>
-            <li><b>Pievieno</b> laukuma iekšpusē spēlētāju: <code>&lt;div id="speletajs" style="position:absolute;left:180px;top:250px;width:40px;height:40px;background:blue;"&gt;&lt;/div&gt;</code>.</li>
-            <li><b>Atver</b> <code>script.js</code> un uzraksti faila augšā <code>let spX = 180;</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code>atjaunotSpeletaju()</code>, kas iestata <code>style.left</code> uz <code>spX + "px"</code>.</li>
-            <li><b>Pievieno</b> <code>keydown</code> klausītāju, kurā <code>"ArrowLeft"</code> atņem 10 no <code>spX</code>, bet <code>"ArrowRight"</code> pieskaita 10.</li>
-            <li><b>Izsauc</b> <code>atjaunotSpeletaju()</code> klausītāja beigās, saglabā failu un pārlādē lapu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> katrs bultiņas nospiediens pārvieto zilo kvadrātu par 10 pikseļiem pa laukumu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pievieno laukuma robežas un pārbaudi tās</h3>
-        <p>Beigās kvadrāts apstāsies pie laukuma malām, nevis izlīdīs ārā no rāmja.</p>
-        <ol class="step-list">
-            <li><b>Nospied</b> bultiņu pa kreisi 25 reizes un vēro, kā kvadrāts pazūd aiz laukuma malas.</li>
-            <li><b>Atver</b> <code>script.js</code> un pievieno pirmo robežu: ja <code>spX &lt; 0</code>, iestati <code>spX = 0</code>.</li>
-            <li><b>Pievieno</b> otro robežu: ja <code>spX &gt; 360</code>, iestati <code>spX = 360</code>.</li>
-            <li><b>Pārlādē</b> lapu un turi bultiņu nospiestu abos virzienos līdz galam.</li>
-            <li><b>Salabo</b>, ja kvadrāts nemaz nekustas: pārbaudi, vai <code>id="speletajs"</code> sakrīt ar tekstu <code>getElementById</code> izsaukumā.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc <code>addEventListener</code> ir labāks par <code>onclick=""</code> tieši HTML failā.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> kvadrāts apstājas pie abām malām un nekad neizlien ārpus laukuma rāmja.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno šaušanu ar peles klikšķi</h3>
-        <p>Beigās klikšķis uz spēles laukuma parādīs "Šāviens!" un pieskaitīs 5 punktus.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>index.html</code> un pievieno zem laukuma rindu <code>&lt;p id="statuss"&gt;Gatavs&lt;/p&gt;</code>.</li>
-            <li><b>Atver</b> <code>script.js</code> un uzraksti funkciju <code>saut()</code>, kas ieraksta "Šāviens!" elementā <code>#statuss</code>.</li>
-            <li><b>Pievieno</b> klikšķa klausītāju: <code>document.getElementById("laukums").addEventListener("click", saut);</code></li>
-            <li><b>Paplašini</b> funkciju <code>saut()</code>, lai tā pieskaita 5 punktus mainīgajam <code>punkti</code>.</li>
-            <li><b>Noklikšķini</b> uz laukuma trīs reizes un vienlaikus spied bultiņu taustiņus.</li>
-            <li><b>Veic</b> <code>git commit -m "Add mouse click shoot event"</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc trim klikšķiem statuss rāda "Šāviens!" un punkti ir palielinājušies par 15.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <div class='logic-box'>
-<ul>
-        <li><b>Funkcijas tūlītēja izsaukšana:</b> Rakstot <code>poga.addEventListener("click", savakt());</code> (ar iekavām beigās), funkcija izpildīsies UZREIZ lapas ielādes brīdī, nevis gaidīs klikšķi. Pareizi ir <code>savakt</code> (bez iekavām).</li>
-        <li><b>Nepareizs notikuma nosaukums:</b> Rakstīt <code>"onClick"</code> JS failā ir kļūda. HTML vidē tas bija "onclick", bet <code>addEventListener</code> prasa tikai <code>"click"</code>.</li>
-        <li><b>Elementa neatrašana (null):</b> Ja mēģini pievienot klausītāju pogai, pirms HTML fails to ir uzzīmējis (piemēram, <code>&lt;script&gt;</code> tags ir lapas sākumā), radīsies kļūda. Novieto <code>&lt;script&gt;</code> tieši pirms <code>&lt;/body&gt;</code>.</li>
-    </ul>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (klausītāja piesaiste bez iekavām un e.key nolasīšana)</h2>
-    <div class='code-example'>
-        <pre><code class="language-javascript">let spX = 180;
+    <p aria-live="polite" class="copy-status" role="status">
+    </p>
+    <details class="starter-source">
+     <summary>
+      Atvērt pilno sākuma kodu
+     </summary>
+     <pre><code id="pilnais-kods">&lt;!DOCTYPE html&gt;
+&lt;html lang="lv"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Mana spēle&lt;/title&gt;
+&lt;style&gt;
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+#speletajs { background: #245b91; left: 20px; top: 160px; }
+#pretinieks { background: #b3261e; left: 220px; top: 160px; }
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Vadi spēlētāju&lt;/h1&gt;
+&lt;p&gt;Spied pogas vai labo bultiņu uz tastatūras.&lt;/p&gt;
+&lt;div id="laukums"&gt;&lt;div id="speletajs"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;button id="paKreisi"&gt;← Pa kreisi&lt;/button&gt;
+&lt;button id="paLabi"&gt;Pa labi →&lt;/button&gt;
+&lt;p id="vieta"&gt;X: 20&lt;/p&gt;
+&lt;script&gt;
+let x = 20;
+const solis = 10;
 const speletajs = document.getElementById("speletajs");
-
-function veiktUzbrukumu() {
-    console.log("Bam! Ienaidnieks saņem bojājumus.");
+function kustinat(virziens) {
+  x = x + virziens * solis;
+  // Gatavas robežas: kvadrāts paliek laukumā.
+  const robeza = document.getElementById("laukums").clientWidth - 30;
+  if (x &lt; 0) { x = 0; }
+  if (x &gt; robeza) { x = robeza; }
+  speletajs.style.left = x + "px";
+  document.getElementById("vieta").textContent = "X: " + x;
 }
-
-// PAREIZI: funkcijas nosaukums BEZ iekavām - tā gaida klikšķi
-document.getElementById("uzbrukt-btn").addEventListener("click", veiktUzbrukumu);
-
-// NEPAREIZI: ar iekavām funkcija izpildās uzreiz lapas ielādes brīdī
-// document.getElementById("uzbrukt-btn").addEventListener("click", veiktUzbrukumu());
-
-// Tastatūras uztveršana visā lapā
-document.addEventListener("keydown", function (e) {
-    if (e.key === "ArrowLeft")  spX = spX - 10;
-    if (e.key === "ArrowRight") spX = spX + 10;
-
-    // Robežas, lai kvadrāts nepazustu aiz laukuma malas
-    if (spX &lt; 0)   spX = 0;
-    if (spX &gt; 360) spX = 360;
-
-    speletajs.style.left = spX + "px";   // mērvienība "px" ir obligāta
-});</code></pre>
-        <div class='result'>
-            <i>Pēc pogas nospiešanas konsolē parādās:</i> Bam! Ienaidnieks saņem bojājumus.<br><br>
-            <i>Spiežot bultiņas:</i> zilais kvadrāts slīd pa laukumu un apstājas pie abām malām.<br><br>
-            <i>Ja pieliktu iekavas</i> <code>veiktUzbrukumu()</code>, tad teksts konsolē parādītos uzreiz pēc lapas ielādes un vēlāk klikšķis vairs neko nedarītu.
-        </div>
+document.getElementById("paLabi").addEventListener("click", function () { kustinat(1); });
+document.getElementById("paKreisi").addEventListener("click", function () { kustinat(-1); });
+document.addEventListener("keydown", function (notikums) {
+  if (notikums.key === "ArrowRight") { notikums.preventDefault(); kustinat(1); }
+  // ŠEIT KREISĀ BULTIŅA
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    </details>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-1">
+    <p class="task-number">
+     1. uzdevums
+    </p>
+    <h2>
+     Izmēģini kustību
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Sāc ar
+      <code>
+       42.html
+      </code>
+      .
+     </li>
+     <li>
+      Pārlūkā izmēģini abas pogas un labo bultiņu uz tastatūras.
+     </li>
+     <li>
+      Pārbaudi, ka X skaitlis mainās kopā ar kvadrātu.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Kvadrātu var kustināt ar pogām un labo bultiņu.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-2">
+    <p class="task-number">
+     2. uzdevums
+    </p>
+    <h2>
+     Pievieno kreiso bultiņu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Atrodi komentāru
+      <code>
+       // ŠEIT KREISĀ BULTIŅA
+      </code>
+      .
+     </li>
+     <li>
+      Tā vietā ievieto teorijas piemēra
+      <code>
+       if
+      </code>
+      bloku.
+     </li>
+     <li>
+      Nemainot citus klausītājus, saglabā failu.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Abiem bultiņu taustiņiem ir sava kustības darbība.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-3">
+    <p class="task-number">
+     3. uzdevums
+    </p>
+    <h2>
+     Pielāgo vadību un pārbaudi robežas
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Maini
+      <code>
+       solis
+      </code>
+      no 10 uz 20. Pielāgo virsrakstu un vadības norādi.
+     </li>
+     <li>
+      Pārlūkā nospied pa labi vienu reizi: X jāmainās no 20 uz 40. Nospied pa kreisi: atkal 20.
+     </li>
+     <li>
+      Ar pogām un taustiņiem sasniedz abas malas. Kvadrāts nedrīkst pazust ārpus laukuma.
+     </li>
+     <li>
+      Saglabā un nosūti darbu uz GitHub.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Pogas un abi taustiņi pārvieto spēlētāju pa 20 px laukuma robežās.
+    </p>
+    <div class="submission">
+     <h3>
+      Iesniedz 3. uzdevuma rezultātu
+     </h3>
+     <p>
+      Iesniedz pabeigto
+      <code>
+       42.html
+      </code>
+      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
+     </p>
+     <p>
+      <b>
+       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
+      </b>
+     </p>
+     <ul class="assessment-checks">
+      <li>
+       Darbojas abas pogas un abas tastatūras bultiņas.
+      </li>
+      <li>
+       Kustības solis ir 20 px un redzama pareizā X vērtība.
+      </li>
+      <li>
+       Spēlētājs paliek laukuma robežās.
+      </li>
+     </ul>
+     <p>
+      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
+     </p>
     </div>
-</div>
-
-<div class="stundas-navigacija">
-    <a href="/datorika9/dat9_41" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/datorika9/dat9_43" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+    <details class="course-help">
+     <summary>
+      Saglabā un nosūti uz GitHub — pogu atgādne
+     </summary>
+     <p class="workplace">
+      Vide: VS Code / Source Control → GitHub pārlūkā
+     </p>
+     <ol class="step-list">
+      <li>
+       Ar
+       <b>
+        File → Save All
+       </b>
+       saglabā failus. Atver
+       <b>
+        Source Control
+       </b>
+       ar
+       <b>
+        Ctrl+Shift+G
+       </b>
+       .
+      </li>
+      <li>
+       Pie
+       <b>
+        Changes
+       </b>
+       nospied
+       <b>
+        +
+       </b>
+       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
+       <b>
+        Staged Changes
+       </b>
+       .
+      </li>
+      <li>
+       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
+       <code>
+        Pabeigts 4.2 darbs
+       </code>
+       . Spied
+       <b>
+        Commit
+       </b>
+       .
+      </li>
+      <li>
+       Ja šī tēmas mape vēl nav GitHub, spied
+       <b>
+        Publish to GitHub
+       </b>
+       un izveido publisku projektu
+       <code>
+        datorika9-tema4
+       </code>
+       . Jau publicētam projektam spied
+       <b>
+        Sync Changes
+       </b>
+       . Ja pogas nav, atver
+       <b>
+        … → Push
+       </b>
+       .
+      </li>
+      <li>
+       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
+      </li>
+     </ol>
+     <p>
+      Ja Source Control rāda
+      <b>
+       Initialize Repository
+      </b>
+      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
+      <a href="git.html">
+       palīdzību
+      </a>
+      un palūdz skolotāja atbalstu.
+     </p>
+    </details>
+   </section>
+   <details class="course-help extra-task">
+    <summary>
+     Papildu uzdevums: Pievieno taustiņus A un D
+    </summary>
+    <p>
+     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+    </p>
+    <ol class="step-list">
+     <li>
+      Taustiņu funkcijā pievieno
+      <code>
+       if (notikums.key === "a") { kustinat(-1); }
+      </code>
+      un līdzīgu rindu burtam d.
+     </li>
+     <li>
+      Atjauno vadības norādi un pārbaudi abus mazos burtus.
+     </li>
+    </ol>
+   </details>
+   <details class="course-help">
+    <summary>
+     Ja kaut kas neizdodas
+    </summary>
+    <ul>
+     <li>
+      <b>
+       Neredzi izmaiņas?
+      </b>
+      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
+      <code>
+       42.html
+      </code>
+      .
+     </li>
+     <li>
+      <b>
+       Kods redzams kā teksts?
+      </b>
+      Saglabā ar galotni .html. Windows ieslēdz
+      <b>
+       View → Show → File name extensions
+      </b>
+      un pārbaudi, ka beigās nav .txt.
+     </li>
+     <li>
+      <b>
+       Poga nestrādā?
+      </b>
+      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+     </li>
+     <li>
+      <b>
+       Nesaproti nākamo soli?
+      </b>
+      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+     </li>
+    </ul>
+    <p>
+     <a href="git.html">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
+   </details>
+   <details class="course-help teacher-meta">
+    <summary>
+     Skolotājam: sasniedzamo rezultātu saistība
+    </summary>
+    <p>
+     Šajā nodarbībā vingrina šādu rezultātu daļas no
+     <a href="../sasnRez.html#datorika9">
+      9. klases saraksta
+     </a>
+     . Piesaiste pati par sevi nenozīmē visa rezultāta apguvi.
+    </p>
+    <div class="lesson-meta">
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.1
+     </a>
+    </div>
+    <p>
+     <a href="SKOLOTAJAM.md">
+      Kursa nosacījumi un satura pārklājums
+     </a>
+    </p>
+   </details>
+   <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
+    <a class="nav-btn" href="dat9_41.html">
+     ← Iepriekšējā
+    </a>
+    <a class="nav-btn" href="dat9_43.html">
+     Nākamā →
+    </a>
+   </nav>
+  </main>
+  <footer class="course-footer">
+   <a href="datorika9.html">
+    Kursa pārskats
+   </a>
+   ·
+   <a href="git.html">
+    GitHub palīdzība
+   </a>
+   ·
+   <a href="../sasnRez.html#datorika9">
+    Sasniedzamie rezultāti
+   </a>
+  </footer>
+ </body>
 </html>

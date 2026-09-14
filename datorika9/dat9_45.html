@@ -1,208 +1,613 @@
 <!DOCTYPE html>
 <html lang="lv">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>4.5 Sadursmju noteikšanas (Collision detection) pamati - ebSkola</title>
-<meta name="description" content="Izstrādāt matemātisku algoritmu, kas reāllaikā pārbauda, vai divi spēles elementi (piemēram, spēlētājs un šķērslis) ekrānā pārklājas, un atbilstoši reaģēt.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/datorika9/dat9_45">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4.5 Sadursmju noteikšanas (Collision detection) pamati">
-<meta property="og:description" content="Izstrādāt matemātisku algoritmu, kas reāllaikā pārbauda, vai divi spēles elementi (piemēram, spēlētājs un šķērslis) ekrānā pārklājas, un atbilstoši reaģēt.">
-<meta property="og:url" content="https://ebskola.lv/datorika9/dat9_45">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4.5 Sadursmju noteikšanas (Collision detection) pamati">
-<meta name="twitter:description" content="Izstrādāt matemātisku algoritmu, kas reāllaikā pārbauda, vai divi spēles elementi (piemēram, spēlētājs un šķērslis) ekrānā pārklājas, un atbilstoši reaģēt.">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#222831">
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.5 Sadursmju noteikšanas (Collision detection) pamati", "description": "Izstrādāt matemātisku algoritmu, kas reāllaikā pārbauda, vai divi spēles elementi (piemēram, spēlētājs un šķērslis) ekrānā pārklājas, un atbilstoši reaģēt.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_45", "isPartOf": {"@type": "Course", "name": "ebSkola - datorika9", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
-</script>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   4.5 Sadursme aptur spēli — projekta 1. daļa - ebSkola
+  </title>
+  <meta content="Sāc kustīgas spēles projektu: pārbaudi sadursmi un skaidri parādi spēles beigas." name="description"/>
+  <meta content="Eduards Baumanis" name="author"/>
+  <link href="https://ebskola.lv/datorika9/dat9_45" rel="canonical"/>
+  <meta content="article" property="og:type"/>
+  <meta content="lv_LV" property="og:locale"/>
+  <meta content="ebSkola" property="og:site_name"/>
+  <meta content="4.5 Sadursme aptur spēli — projekta 1. daļa" property="og:title"/>
+  <meta content="Sāc kustīgas spēles projektu: pārbaudi sadursmi un skaidri parādi spēles beigas." property="og:description"/>
+  <meta content="https://ebskola.lv/datorika9/dat9_45" property="og:url"/>
+  <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+  <meta content="summary" name="twitter:card"/>
+  <link href="../favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../manifest.json" rel="manifest"/>
+  <meta content="#222831" name="theme-color"/>
+  <link href="../style.css" rel="stylesheet"/>
+  <link href="kursa-stils.css" rel="stylesheet"/>
+  <script type="application/ld+json">
+   {"@context": "https://schema.org", "@type": "LearningResource", "name": "4.5 Sadursme aptur spēli — projekta 1. daļa", "description": "Sāc kustīgas spēles projektu: pārbaudi sadursmi un skaidri parādi spēles beigas.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_45", "educationalLevel": "Pamatizglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+  </script>
+  <script defer="" src="kursam.js">
+  </script>
+ </head>
+ <body class="page-reference datorika-kurss">
+  <a class="skip-link" href="#saturs">
+   Uz mācību saturu
+  </a>
+  <header class="course-topbar">
+   <a href="../index.html">
+    ebSkola
+   </a>
+   <nav aria-label="Kursa navigācija">
+    <a href="datorika9.html">
+     Datorika 9
     </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/datorika9/datorika9">Datorika 9</a>
-      <a href="/datorika9/dat9_4main">4. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/datorika9/dat9_44">← 4.4</a>
-    <a class="btn primary" href="/datorika9/dat9_46">4.6 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Datorika 9</div>
-  <h3>4. Tēma - Spēles dzinēja izstrāde un funkcijas</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/datorika9/dat9_4main">Tēmas sākums</a>
-    <a href="/datorika9/dat9_41">4.1 Funkcijas un koda atkārtota izmantošana</a>
-    <a href="/datorika9/dat9_42">4.2 Notikumu klausītāji (Event Listeners) un interakcija</a>
-    <a href="/datorika9/dat9_43">4.3 DOM manipulācija – dinamiska elementu pārvaldība</a>
-    <a href="/datorika9/dat9_44">4.4 Laika kontrole (Timers) un spēles cikls</a>
-    <a class="active" aria-current="page" href="/datorika9/dat9_45">4.5 Sadursmju noteikšanas (Collision detection) pamati</a>
-    <a href="/datorika9/dat9_46">4.6 Noslēguma projekts: Spēles dzinēja prototips</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>4.5 Sadursmju noteikšanas (Collision detection) pamati</h1>
-    <p><b>Stundas uzdevums:</b> Izstrādāt matemātisku algoritmu, kas reāllaikā pārbauda, vai divi spēles elementi (piemēram, spēlētājs un šķērslis) ekrānā pārklājas, un atbilstoši reaģēt.</p>
-    <a href="/sasnRez">2.6.1. Izstrādā komplicētas darbības un algoritmus; 5.2.1. Definē problēmas būtību un risina kompleksus izaicinājumus.</a>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izmēri elementa kasti ar <code>getBoundingClientRect()</code> · 2. uzdevums (~25 min) - uzraksti AABB sadursmes pārbaudi un apturi spēli · 3. uzdevums (~20 min) - notestē sadursmi konsolē un pievieno sarkano efektu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savu 4.4 stundas projektu, kurā jau darbojas spēles cikls un kustīgs ienaidnieks <code>#ienaidnieks</code>.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Kā dators redz sadursmi?</h2>
-    <div class='logic-box'>
-<p>Dators neskatās uz tavu uzzīmēto varoni kā uz cilvēku. Tas redz tikai kastes (taisnstūrus). Divas kastes saduras TIKAI TAD, ja vienlaicīgi izpildās četri nosacījumi:
-        <ul>
-            <li>Varoņa kreisā mala ir tālāk par ienaidnieka labo malu? NĒ.</li>
-            <li>Varoņa labā mala ir pirms ienaidnieka kreisās malas? NĒ.</li>
-            <li>Varoņa augša ir zemāk par ienaidnieka apakšu? NĒ.</li>
-            <li>Varoņa apakša ir augstāk par ienaidnieka augšu? NĒ.</li>
-        </ul>
-    Tīmekļa pārlūkprogrammās ir iebūvēts ģeniāls rīks <code>getBoundingClientRect()</code>, kas uzreiz iedod elementa X un Y koordinātas, kā arī tā platumu un augstumu, padarot šo matemātiku daudz vieglāku!
+    <a href="git.html">
+     GitHub palīdzība
+    </a>
+   </nav>
+  </header>
+  <main class="course-content" id="saturs">
+   <p class="breadcrumb">
+    <a href="dat9_4main.html">
+     4. tēma
+    </a>
+    / 4.5
+   </p>
+   <h1>
+    4.5 Sadursme aptur spēli — projekta 1. daļa
+   </h1>
+   <p class="lesson-goal">
+    <b>
+     Šodien:
+    </b>
+    Sāc kustīgas spēles projektu: pārbaudi sadursmi un skaidri parādi spēles beigas.
+   </p>
+   <p class="project-note">
+    Tēmas projekts · 1. daļa no 2
+   </p>
+   <section id="teorija">
+    <h2>
+     Īsā teorija
+    </h2>
+    <p>
+     Sadursme ir brīdis, kad abu kvadrātu laukumi pārklājas. Gatavā funkcija
+     <code>
+      saduras(a, b)
+     </code>
+     to pārbauda.
     </p>
+    <p>
+     <code>
+      &amp;&amp;
+     </code>
+     nozīmē “un”. Funkcijā visām četrām pārbaudēm jāizpildās reizē.
+    </p>
+    <p>
+     Kad ir sadursme, apturi kustību un parādi spēlētājam saprotamu ziņu.
+    </p>
+    <pre><code>if (saduras(speletajs, pretinieks)) {
+  aktiva = false;
+  clearInterval(taimeris);
+}</code></pre>
+   </section>
+   <section id="sakuma-kods">
+    <h2>
+     Sākuma kods un darba vieta
+    </h2>
+    <p class="workplace">
+     Vide: mācību lapa → VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      VS Code ar
+      <b>
+       File → Open Folder
+      </b>
+      atver
+      <code>
+       Desktop/datorika9-tema4
+      </code>
+      . Ja mapes nav, izveido to darbvirsmā.
+     </li>
+     <li>
+      Šajā mācību lapā nospied
+      <b>
+       Kopēt sākuma kodu
+      </b>
+      .
+     </li>
+     <li>
+      VS Code nospied
+      <b>
+       Ctrl+N
+      </b>
+      un ielīmē kodu ar
+      <b>
+       Ctrl+V
+      </b>
+      .
+     </li>
+     <li>
+      Saglabā ar
+      <b>
+       Ctrl+Shift+S
+      </b>
+      tēmas mapē kā
+      <code>
+       45.html
+      </code>
+      .
+     </li>
+    </ol>
+    <div class="starter-actions">
+     <button class="btn" data-copy="pilnais-kods" type="button">
+      Kopēt sākuma kodu
+     </button>
+     <a class="btn" download="45.html" href="sakuma-kodi/45.html">
+      Lejupielādēt 45.html
+     </a>
     </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Izmēri elementa kasti ar getBoundingClientRect()</h3>
-        <p>Beigās konsolē redzēsi sava spēlētāja kvadrāta četras malas skaitļos.</p>
-        <p><b>Kopējamais paraugs:</b> trīs rindas, ko ielīmē <code>script.js</code> faila beigās.</p>
-<pre><code class="language-javascript">const kaste = document.getElementById("speletajs").getBoundingClientRect();
-
-console.log("kreisā:", kaste.left, "labā:", kaste.right);
-console.log("augša:", kaste.top, "apakša:", kaste.bottom);</code></pre>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>script.js</code> un ielīmē gatavo kodu faila beigās.</li>
-            <li><b>Saglabā</b>, pārlādē lapu un atver konsoli ar taustiņu <code>F12</code>.</li>
-            <li><b>Pieraksti</b>, kāds skaitlis ir "kreisā" un kāds "labā".</li>
-            <li><b>Nomaini</b> <code>index.html</code> failā spēlētāja <code>left</code> vērtību no <code>180px</code> uz <code>300px</code>.</li>
-            <li><b>Pārlādē</b> lapu un salīdzini jaunos skaitļus ar iepriekšējiem.</li>
-            <li><b>Pārbaudi</b>, ka gan "kreisā", gan "labā" pieauga par 120.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> konsolē redzami četri skaitļi un "apakša" ir lielāka par "augša".</p>
+    <p aria-live="polite" class="copy-status" role="status">
+    </p>
+    <details class="starter-source">
+     <summary>
+      Atvērt pilno sākuma kodu
+     </summary>
+     <pre><code id="pilnais-kods">&lt;!DOCTYPE html&gt;
+&lt;html lang="lv"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Mana spēle&lt;/title&gt;
+&lt;style&gt;
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+#speletajs { background: #245b91; left: 20px; top: 160px; }
+#pretinieks { background: #b3261e; left: 220px; top: 160px; }
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Izvairies no pretinieka&lt;/h1&gt;
+&lt;p&gt;Ar pogām vai bultiņām pārvieto zilo kvadrātu. Izvairies no sarkanā.&lt;/p&gt;
+&lt;div id="laukums"&gt;
+  &lt;div id="speletajs"&gt;&lt;/div&gt;
+  &lt;div id="pretinieks"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;button id="sakt"&gt;Sākt&lt;/button&gt;
+&lt;button id="paKreisi"&gt;←&lt;/button&gt;
+&lt;button id="paLabi"&gt;→&lt;/button&gt;
+&lt;button id="uzAugsu"&gt;↑&lt;/button&gt;
+&lt;button id="uzLeju"&gt;↓&lt;/button&gt;
+&lt;button id="atjaunot"&gt;Sākt no jauna&lt;/button&gt;
+&lt;p id="punkti"&gt;Punkti: 0&lt;/p&gt;
+&lt;p id="stavoklis"&gt;Nospied Sākt.&lt;/p&gt;
+&lt;script&gt;
+let x = 20;
+let y = 160;
+let pretiniekaX = 220;
+let punkti = 0;
+let aktiva = false;
+let taimeris = null;
+const solis = 10;
+const pretiniekaAtrums = 3;
+const speletajs = document.getElementById("speletajs");
+const pretinieks = document.getElementById("pretinieks");
+function paradit() {
+  speletajs.style.left = x + "px";
+  speletajs.style.top = y + "px";
+  pretinieks.style.left = pretiniekaX + "px";
+  document.getElementById("punkti").textContent = "Punkti: " + punkti;
+}
+function saduras(a, b) {
+  const p = a.getBoundingClientRect();
+  const q = b.getBoundingClientRect();
+  return p.left &lt; q.right &amp;&amp; p.right &gt; q.left &amp;&amp;
+         p.top &lt; q.bottom &amp;&amp; p.bottom &gt; q.top;
+}
+function parbaudit() {
+  if (saduras(speletajs, pretinieks)) {
+    aktiva = false;
+    clearInterval(taimeris);
+    document.getElementById("stavoklis").textContent = "Sadursme! Spēle beigusies.";
+  }
+}
+function kustinat(dx, dy) {
+  if (!aktiva) { return; }
+  x = x + dx * solis;
+  y = y + dy * solis;
+  const laukums = document.getElementById("laukums");
+  const robeza = laukums.clientWidth - 30;
+  x = Math.max(0, Math.min(robeza, x));
+  y = Math.max(0, Math.min(laukums.clientHeight - 30, y));
+  paradit();
+  parbaudit();
+}
+function cikls() {
+  pretiniekaX = pretiniekaX - pretiniekaAtrums;
+  if (pretiniekaX &lt; 0) {
+    pretiniekaX = document.getElementById("laukums").clientWidth - 30;
+    punkti = punkti + 1;
+  }
+  paradit();
+  parbaudit();
+}
+function sakt() {
+  if (aktiva) { return; }
+  x = 20;
+  y = 160;
+  pretiniekaX = document.getElementById("laukums").clientWidth - 30;
+  punkti = 0;
+  aktiva = true;
+  speletajs.style.backgroundColor = "";
+  document.getElementById("stavoklis").textContent = "Spēle notiek.";
+  clearInterval(taimeris);
+  paradit();
+  taimeris = setInterval(cikls, 30);
+}
+document.getElementById("sakt").addEventListener("click", sakt);
+document.getElementById("paKreisi").addEventListener("click", function () { kustinat(-1, 0); });
+document.getElementById("paLabi").addEventListener("click", function () { kustinat(1, 0); });
+document.getElementById("uzAugsu").addEventListener("click", function () { kustinat(0, -1); });
+document.getElementById("uzLeju").addEventListener("click", function () { kustinat(0, 1); });
+document.getElementById("atjaunot").addEventListener("click", function () { location.reload(); });
+document.addEventListener("keydown", function (notikums) {
+  if (notikums.key === "ArrowLeft") { notikums.preventDefault(); kustinat(-1, 0); }
+  if (notikums.key === "ArrowRight") { notikums.preventDefault(); kustinat(1, 0); }
+  if (notikums.key === "ArrowUp") { notikums.preventDefault(); kustinat(0, -1); }
+  if (notikums.key === "ArrowDown") { notikums.preventDefault(); kustinat(0, 1); }
+});
+paradit();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    </details>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-1">
+    <p class="task-number">
+     1. uzdevums
+    </p>
+    <h2>
+     Palaid spēli un atrodi sadursmi
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Sāc ar
+      <code>
+       45.html
+      </code>
+      .
+     </li>
+     <li>
+      Pārlūkā nospied
+      <b>
+       Sākt
+      </b>
+      un pagaidi, līdz kvadrāti satiekas.
+     </li>
+     <li>
+      Pārbaudi, ka kustība apstājas un parādās beigu ziņa.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Gatavā sadursmes pārbaude apstādina spēli.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-2">
+    <p class="task-number">
+     2. uzdevums
+    </p>
+    <h2>
+     Parādi sadursmi ar krāsu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Atrodi funkciju
+      <code>
+       parbaudit()
+      </code>
+      .
+     </li>
+     <li>
+      Tās
+      <code>
+       if
+      </code>
+      bloka beigās pievieno
+      <code>
+       speletajs.style.backgroundColor = "#6b1d1d";
+      </code>
+      .
+     </li>
+     <li>
+      Nomaini sadursmes ziņu uz savai spēlei piemērotu tekstu.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Sadursmes brīdī spēlētājs mainīs krāsu un ziņu.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-3">
+    <p class="task-number">
+     3. uzdevums
+    </p>
+    <h2>
+     Pielāgo spēli un pārbaudi restartu
+    </h2>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Nomaini nosaukumu, vadības norādi un spēlētāja sākuma krāsu CSS.
+     </li>
+     <li>
+      Izspēlē sadursmi. Pēc tās nospied kustības pogas: spēlētājs vairs nedrīkst kustēties.
+     </li>
+     <li>
+      Nospied
+      <b>
+       Sākt no jauna
+      </b>
+      , tad
+      <b>
+       Sākt
+      </b>
+      . Spēlētājam jāatgūst sākuma krāsa un kustība.
+     </li>
+     <li>
+      Saglabā un nosūti darbu uz GitHub.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     Darbojas sadursmes efekts un pilna sākšana no jauna.
+    </p>
+    <div class="submission">
+     <h3>
+      Iesniedz 3. uzdevuma rezultātu
+     </h3>
+     <p>
+      Iesniedz pabeigto
+      <code>
+       45.html
+      </code>
+      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
+     </p>
+     <p>
+      <b>
+       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
+      </b>
+     </p>
+     <ul class="assessment-checks">
+      <li>
+       Spēlei ir savs nosaukums un vadības norāde.
+      </li>
+      <li>
+       Sadursme aptur spēli, maina spēlētāja krāsu un parāda ziņu.
+      </li>
+      <li>
+       Pēc beigām kustības pogas neko nemaina; sākšana no jauna atjauno spēli.
+      </li>
+     </ul>
+     <p>
+      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
+     </p>
     </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Uzraksti AABB sadursmes pārbaudi un apturi spēli</h3>
-        <p>Beigās spēle apstāsies tajā brīdī, kad tavs kvadrāts pieskarsies ienaidniekam.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>script.js</code> un uzraksti funkciju <code>parbauditSadursmi()</code>.</li>
-            <li><b>Iegūsti</b> funkcijas sākumā abas kastes ar <code>getBoundingClientRect()</code> - spēlētājam un ienaidniekam.</li>
-            <li><b>Uzraksti</b> <code>return</code> ar četriem nosacījumiem, kas savienoti ar <code>&amp;&amp;</code>: <code>a.left &lt; b.right</code>, <code>a.right &gt; b.left</code>, <code>a.top &lt; b.bottom</code>, <code>a.bottom &gt; b.top</code>.</li>
-            <li><b>Izsauc</b> <code>parbauditSadursmi()</code> funkcijas <code>spelesCikls()</code> beigās.</li>
-            <li><b>Izsauc</b> <code>beigtSpeli()</code> un ieraksti "Sadursme!" elementā <code>#statuss</code>, kad rezultāts ir <code>true</code>.</li>
-            <li><b>Saglabā</b>, sāc spēli un aizvadi savu kvadrātu ienaidniekam ceļā.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> brīdī, kad abi kvadrāti saskaras, kustība apstājas un parādās teksts "Sadursme!".</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Notestē sadursmi konsolē un pievieno sarkano efektu</h3>
-        <p>Beigās spēlētājs sadursmes brīdī kļūs sarkans, un konsolē redzēsi, kad tieši tas notiek.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> funkcijas <code>spelesCikls()</code> beigās rindu <code>console.log(parbauditSadursmi());</code>.</li>
-            <li><b>Sāc</b> spēli un novieto savu kvadrātu laukuma malā, tālu no ienaidnieka.</li>
-            <li><b>Pārbaudi</b>, ka konsolē visu laiku parādās tikai <code>false</code>.</li>
-            <li><b>Aizvadi</b> kvadrātu ienaidniekam ceļā un pārbaudi, ka <code>true</code> parādās tikai saskaršanās brīdī.</li>
-            <li><b>Pievieno</b> sadursmes blokā rindu <code>speletajs.style.background = "red";</code>.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc <code>alert()</code> sadursmes brīdī "uzkārtu" pārlūku.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> konsolē pirms saskaršanās ir tikai <code>false</code>, un pēc tās kvadrāts ekrānā ir sarkans.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno otro ienaidnieku ar vertikālu kustību</h3>
-        <p>Beigās spēli beigs sadursme ar jebkuru no diviem ienaidniekiem.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> laukumā otro ienaidnieku <code>&lt;div id="ienaidnieks2" style="position:absolute;left:300px;top:0;width:30px;height:30px;background:orange;"&gt;&lt;/div&gt;</code>.</li>
-            <li><b>Pievieno</b> <code>script.js</code> mainīgo <code>let ien2Y = 0;</code>.</li>
-            <li><b>Papildini</b> <code>spelesCikls()</code>, lai tas palielina <code>ien2Y</code> un iestata otrā ienaidnieka <code>style.top</code>.</li>
-            <li><b>Paplašini</b> <code>parbauditSadursmi()</code>, lai tā pārbauda arī otro ienaidnieku un atgriež <code>true</code>, ja sakrīt kaut viena kaste.</li>
-            <li><b>Sāc</b> spēli un mēģini izvairīties no abiem ienaidniekiem vienlaikus.</li>
-            <li><b>Veic</b> <code>git commit -m "Add second enemy with collision"</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> viens ienaidnieks kustas horizontāli, otrs vertikāli, un abi beidz spēli pie saskaršanās.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot):</h2>
-    <div class='logic-box'>
-<ul>
-        <li><b>Nepārtraukti "Game Over" paziņojumi:</b> Ja sadursme fiksējas un tu izmanto <code>alert</code>, tas var izlēkt 50 reizes sekundē un "uzkārt" pārlūku. Vienmēr labāk nomainīt HTML tekstu vai apturēt ciklu ar <code>clearInterval</code>!</li>
-        <li><b>Sajaukta "top" un "bottom" loģika:</b> Atceries, tīmeklī Y koordinātas iet UZ LEJU. Tāpēc elementa <code>bottom</code> (apakša) vērtība vienmēr ir lielāka (vairāk pikseļu) nekā <code>top</code> (augša).</li>
-        <li><b>Pārbaude ārpus cikla:</b> Ja tu izsauksi <code>parbauditSadursmi()</code> faila sākumā tikai vienu reizi, dators to pārbaudīs tikai lapas ielādes brīdī un pēc tam vairs nekad. Tai obligāti jābūt ciklā vai uz taustiņa nospiešanas notikuma!</li>
+    <details class="course-help">
+     <summary>
+      Saglabā un nosūti uz GitHub — pogu atgādne
+     </summary>
+     <p class="workplace">
+      Vide: VS Code / Source Control → GitHub pārlūkā
+     </p>
+     <ol class="step-list">
+      <li>
+       Ar
+       <b>
+        File → Save All
+       </b>
+       saglabā failus. Atver
+       <b>
+        Source Control
+       </b>
+       ar
+       <b>
+        Ctrl+Shift+G
+       </b>
+       .
+      </li>
+      <li>
+       Pie
+       <b>
+        Changes
+       </b>
+       nospied
+       <b>
+        +
+       </b>
+       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
+       <b>
+        Staged Changes
+       </b>
+       .
+      </li>
+      <li>
+       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
+       <code>
+        Pabeigts 4.5 darbs
+       </code>
+       . Spied
+       <b>
+        Commit
+       </b>
+       .
+      </li>
+      <li>
+       Ja šī tēmas mape vēl nav GitHub, spied
+       <b>
+        Publish to GitHub
+       </b>
+       un izveido publisku projektu
+       <code>
+        datorika9-tema4
+       </code>
+       . Jau publicētam projektam spied
+       <b>
+        Sync Changes
+       </b>
+       . Ja pogas nav, atver
+       <b>
+        … → Push
+       </b>
+       .
+      </li>
+      <li>
+       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
+      </li>
+     </ol>
+     <p>
+      Ja Source Control rāda
+      <b>
+       Initialize Repository
+      </b>
+      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
+      <a href="git.html">
+       palīdzību
+      </a>
+      un palūdz skolotāja atbalstu.
+     </p>
+    </details>
+   </section>
+   <details class="course-help extra-task">
+    <summary>
+     Papildu uzdevums: Maini pretinieka ātrumu
+    </summary>
+    <p>
+     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+    </p>
+    <ol class="step-list">
+     <li>
+      Izvēlies
+      <code>
+       pretiniekaAtrums
+      </code>
+      vērtību no 1 līdz 5.
+     </li>
+     <li>
+      Izmēģini, vai pie šī ātruma vari laikus pārvietot spēlētāju.
+     </li>
+    </ol>
+   </details>
+   <details class="course-help">
+    <summary>
+     Ja kaut kas neizdodas
+    </summary>
+    <ul>
+     <li>
+      <b>
+       Neredzi izmaiņas?
+      </b>
+      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
+      <code>
+       45.html
+      </code>
+      .
+     </li>
+     <li>
+      <b>
+       Kods redzams kā teksts?
+      </b>
+      Saglabā ar galotni .html. Windows ieslēdz
+      <b>
+       View → Show → File name extensions
+      </b>
+      un pārbaudi, ka beigās nav .txt.
+     </li>
+     <li>
+      <b>
+       Poga nestrādā?
+      </b>
+      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+     </li>
+     <li>
+      <b>
+       Nesaproti nākamo soli?
+      </b>
+      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+     </li>
     </ul>
+    <p>
+     <a href="git.html">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
+   </details>
+   <details class="course-help teacher-meta">
+    <summary>
+     Skolotājam: sasniedzamo rezultātu saistība
+    </summary>
+    <p>
+     Šajā nodarbībā vingrina šādu rezultātu daļas no
+     <a href="../sasnRez.html#datorika9">
+      9. klases saraksta
+     </a>
+     . Piesaiste pati par sevi nenozīmē visa rezultāta apguvi.
+    </p>
+    <div class="lesson-meta">
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.1
+     </a>
+     <a href="../sasnRez.html#datorika9">
+      SR 2.6.2
+     </a>
     </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (AABB pārbaude katrā kadrā un cikla apturēšana pēc sadursmes)</h2>
-    <div class='code-example'>
-        <pre><code class="language-javascript">let spelesCiklsID = null;
-
-function parbauditSadursmi() {
-    // 1. Iegūstam abu elementu kastes (taisnstūrus atmiņā)
-    const a = document.getElementById("speletajs").getBoundingClientRect();
-    const b = document.getElementById("ienaidnieks").getBoundingClientRect();
-
-    // 2. AABB: sadursme ir TIKAI tad, ja izpildās visi četri nosacījumi
-    return (
-        a.left &lt; b.right &&
-        a.right &gt; b.left &&
-        a.top &lt; b.bottom &&
-        a.bottom &gt; b.top
-    );
-}
-
-function spelesCikls() {
-    // ... šeit kustinām ienaidnieku ...
-
-    // 3. Pārbaudām KATRU kadru, nevis vienu reizi faila sākumā
-    if (parbauditSadursmi()) {
-        clearInterval(spelesCiklsID);   // bez šī teksts rakstītos 50 reizes sekundē
-        document.getElementById("statuss").textContent = "GAME OVER";
-        document.getElementById("speletajs").style.background = "red";
-    }
-}
-
-spelesCiklsID = setInterval(spelesCikls, 20);   // 20 ms = 50 kadri sekundē</code></pre>
-        <div class='result'>
-            <i>Ekrānā:</i> kamēr kvadrāti ir tālu viens no otra, spēle turpinās. Tiklīdz tie saskaras, kustība apstājas, spēlētājs kļūst sarkans un parādās uzraksts "GAME OVER".<br><br>
-            <i>Kāpēc <code>clearInterval</code> ir tieši šeit:</i> tas aptur ciklu uzreiz pēc pirmās sadursmes, tāpēc paziņojums parādās vienu reizi, nevis 50 reizes sekundē.
-        </div>
-    </div>
-</div>
-
-<div class="stundas-navigacija">
-    <a href="/datorika9/dat9_44" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/datorika9/dat9_46" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+    <p>
+     <a href="SKOLOTAJAM.md">
+      Kursa nosacījumi un satura pārklājums
+     </a>
+    </p>
+   </details>
+   <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
+    <a class="nav-btn" href="dat9_44.html">
+     ← Iepriekšējā
+    </a>
+    <a class="nav-btn" href="dat9_46.html">
+     Nākamā →
+    </a>
+   </nav>
+  </main>
+  <footer class="course-footer">
+   <a href="datorika9.html">
+    Kursa pārskats
+   </a>
+   ·
+   <a href="git.html">
+    GitHub palīdzība
+   </a>
+   ·
+   <a href="../sasnRez.html#datorika9">
+    Sasniedzamie rezultāti
+   </a>
+  </footer>
+ </body>
 </html>

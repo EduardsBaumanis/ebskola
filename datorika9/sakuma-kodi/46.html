@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mana spēle</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
+button, input { font: inherit; padding: 10px; margin: 4px; }
+button { cursor: pointer; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+#speletajs { background: #245b91; left: 20px; top: 160px; }
+#pretinieks { background: #b3261e; left: 220px; top: 160px; }
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+</style>
+</head>
+<body>
+<h1>Izvairies no pretinieka</h1>
+<p>Ar pogām vai bultiņām pārvieto zilo kvadrātu. Izvairies no sarkanā.</p>
+<div id="laukums">
+  <div id="speletajs"></div>
+  <div id="pretinieks"></div>
+</div>
+<button id="sakt">Sākt</button>
+<button id="paKreisi">←</button>
+<button id="paLabi">→</button>
+<button id="uzAugsu">↑</button>
+<button id="uzLeju">↓</button>
+<button id="atjaunot">Sākt no jauna</button>
+<p id="punkti">Punkti: 0</p>
+<p id="stavoklis">Nospied Sākt.</p>
+<script>
+let x = 20;
+let y = 160;
+let pretiniekaX = 220;
+let punkti = 0;
+let aktiva = false;
+let taimeris = null;
+const solis = 10;
+const pretiniekaAtrums = 3;
+const speletajs = document.getElementById("speletajs");
+const pretinieks = document.getElementById("pretinieks");
+function paradit() {
+  speletajs.style.left = x + "px";
+  speletajs.style.top = y + "px";
+  pretinieks.style.left = pretiniekaX + "px";
+  document.getElementById("punkti").textContent = "Punkti: " + punkti;
+}
+function saduras(a, b) {
+  const p = a.getBoundingClientRect();
+  const q = b.getBoundingClientRect();
+  return p.left < q.right && p.right > q.left &&
+         p.top < q.bottom && p.bottom > q.top;
+}
+function parbaudit() {
+  if (saduras(speletajs, pretinieks)) {
+    aktiva = false;
+    clearInterval(taimeris);
+    document.getElementById("stavoklis").textContent = "Sadursme! Spēle beigusies.";
+  }
+}
+function kustinat(dx, dy) {
+  if (!aktiva) { return; }
+  x = x + dx * solis;
+  y = y + dy * solis;
+  const laukums = document.getElementById("laukums");
+  const robeza = laukums.clientWidth - 30;
+  x = Math.max(0, Math.min(robeza, x));
+  y = Math.max(0, Math.min(laukums.clientHeight - 30, y));
+  paradit();
+  parbaudit();
+}
+function cikls() {
+  pretiniekaX = pretiniekaX - pretiniekaAtrums;
+  if (pretiniekaX < 0) {
+    pretiniekaX = document.getElementById("laukums").clientWidth - 30;
+    punkti = punkti + 1;
+  }
+  paradit();
+  parbaudit();
+}
+function sakt() {
+  if (aktiva) { return; }
+  x = 20;
+  y = 160;
+  pretiniekaX = document.getElementById("laukums").clientWidth - 30;
+  punkti = 0;
+  aktiva = true;
+  speletajs.style.backgroundColor = "";
+  document.getElementById("stavoklis").textContent = "Spēle notiek.";
+  clearInterval(taimeris);
+  paradit();
+  taimeris = setInterval(cikls, 30);
+}
+document.getElementById("sakt").addEventListener("click", sakt);
+document.getElementById("paKreisi").addEventListener("click", function () { kustinat(-1, 0); });
+document.getElementById("paLabi").addEventListener("click", function () { kustinat(1, 0); });
+document.getElementById("uzAugsu").addEventListener("click", function () { kustinat(0, -1); });
+document.getElementById("uzLeju").addEventListener("click", function () { kustinat(0, 1); });
+document.getElementById("atjaunot").addEventListener("click", function () { location.reload(); });
+document.addEventListener("keydown", function (notikums) {
+  if (notikums.key === "ArrowLeft") { notikums.preventDefault(); kustinat(-1, 0); }
+  if (notikums.key === "ArrowRight") { notikums.preventDefault(); kustinat(1, 0); }
+  if (notikums.key === "ArrowUp") { notikums.preventDefault(); kustinat(0, -1); }
+  if (notikums.key === "ArrowDown") { notikums.preventDefault(); kustinat(0, 1); }
+});
+paradit();
+</script>
+</body>
+</html>
