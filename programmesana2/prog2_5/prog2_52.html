@@ -1,93 +1,72 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>5.2 JSON serializācija un Resource sistēma - ebSkola</title>
-<meta name="description" content="Saglabāt sarežģītas datu struktūras ar JSON un Godot Resource klasēm, salīdzinot abu pieeju priekšrocības spēļu projektos.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_5/prog2_52">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="5.2 JSON serializācija un Resource sistēma">
-<meta property="og:description" content="Saglabāt sarežģītas datu struktūras ar JSON un Godot Resource klasēm, salīdzinot abu pieeju priekšrocības spēļu projektos.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_5/prog2_52">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="5.2 JSON serializācija un Resource sistēma">
-<meta name="twitter:description" content="Saglabāt sarežģītas datu struktūras ar JSON un Godot Resource klasēm, salīdzinot abu pieeju priekšrocības spēļu projektos.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Saglabāt sarežģītas datu struktūras ar JSON un Godot Resource klasēm, salīdzinot abu pieeju priekšrocības spēļu projektos." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_5/prog2_52" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="5.2 JSON serializācija un Resource sistēma" property="og:title"/>
+<meta content="Saglabāt sarežģītas datu struktūras ar JSON un Godot Resource klasēm, salīdzinot abu pieeju priekšrocības spēļu projektos." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_5/prog2_52" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="5.2 JSON serializācija un Resource sistēma" name="twitter:title"/>
+<meta content="Saglabāt sarežģītas datu struktūras ar JSON un Godot Resource klasēm, salīdzinot abu pieeju priekšrocības spēļu projektos." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "5.2 JSON serializācija un Resource sistēma","description": "Saglabāt sarežģītas datu struktūras ar JSON un Godot Resource klasēm, salīdzinot abu pieeju priekšrocības spēļu projektos.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_5/prog2_52","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_5/prog2_5main">5. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_5/prog2_51">← 5.1</a>
-    <a class="btn primary" href="/programmesana2/prog2_5/prog2_53">5.3 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>5. Tēma - Datu pastāvība un algoritmi</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_5/prog2_5main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_5/prog2_51">5.1 Failu I/O Godot vidē</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_5/prog2_52">5.2 JSON serializācija un Resource sistēma</a>
-    <a href="/programmesana2/prog2_5/prog2_53">5.3 Save/Load arhitektūra</a>
-    <a href="/programmesana2/prog2_5/prog2_54">5.4 Procedural generation</a>
-    <a href="/programmesana2/prog2_5/prog2_55">5.5 Algoritmu efektivitāte</a>
-    <a href="/programmesana2/prog2_5/prog2_56">5.6 Noslēguma projekts: Procedurālais klases labirints</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>5.2 JSON serializācija un Resource sistēma</h1>
-    <p><b>Stundas uzdevums:</b> Saglabāt sarežģītus datu struktūras, izmantojot JSON un Godot Resource klases.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.17. Failu</a>
-        <a href="/sasnRez">SR 2.4.16. Datu struktūras</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārvērs Dictionary par JSON · 2. uzdevums (~25 min) - nolasi JSON atpakaļ · 3. uzdevums (~20 min) - apstrādā bojātu JSON · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atceries no Programmēšanas I JSON failus. Godot to dara <code>JSON</code> klase. Priekšrocība pret 5.1 metodi: JSON failu var atvērt un izlasīt ar acīm.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: JSON un Resources</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>5. Tēma - Datu pastāvība un algoritmi</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_5/prog2_5main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_5/prog2_51">5.1 Failu I/O Godot vidē</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_5/prog2_52">5.2 JSON serializācija un Resource sistēma</a>
+<a href="/programmesana2/prog2_5/prog2_53">5.3 Save/Load arhitektūra</a>
+<a href="/programmesana2/prog2_5/prog2_54">5.4 Procedural generation</a>
+<a href="/programmesana2/prog2_5/prog2_55">5.5 Algoritmu efektivitāte</a>
+<a href="/programmesana2/prog2_5/prog2_56">5.6 Noslēguma projekts: Procedurālais klases labirints</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_5/prog2_5main">5. tēma</a> / 5.2</p>
+<h1>5.2 JSON serializācija un Resource sistēma</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Saglabāt sarežģītus datu struktūras, izmantojot JSON un Godot Resource klases.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.17. Failu</a>
+<a href="/sasnRez">SR 2.4.16. Datu struktūras</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārvērs Dictionary par JSON · 2. uzdevums (~25 min) - nolasi JSON atpakaļ · 3. uzdevums (~20 min) - apstrādā bojātu JSON · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atceries no Programmēšanas I JSON failus. Godot to dara <code>JSON</code> klase. Priekšrocība pret 5.1 metodi: JSON failu var atvērt un izlasīt ar acīm.</p>
+</div>
+</section><section>
+<h2>Teorija: JSON un Resources</h2>
+<div class="logic-box">
 <p><b>JSON</b> (JavaScript Object Notation) ir cilvēkam un mašīnai lasāms datu formāts. Godot piedāvā <code>JSON</code> klasi tā parsēšanai.</p>
 <pre><code class="language-csharp">using Godot;
 using Godot.Collections;
@@ -109,15 +88,12 @@ if (err == Error.Ok)
     string name = loaded["player_name"].AsString();
 }</code></pre>
 <p><b>Resource</b> ir Godot iebūvēta klase resursu (audio, attēli, custom data) saglabāšanai .tres failos.</p>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> C# kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> C# kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
 <pre><code class="language-csharp">public class PersistenceCheckpoint
 {
     public string Lesson = "5.2 JSON serializācija un Resource sistēma";
@@ -126,113 +102,100 @@ if (err == Error.Ok)
     public bool ValidatesData = true;
     public bool DocumentsComplexity = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Pārvērs Dictionary par JSON</h3>
-        <p>Beigās tavs saglabātais fails būs salasāms cilvēkam.</p>
-        <ol class="step-list">
-            <li><b>Pārliecinies</b>, ka faila sākumā ir <code class="language-csharp">using Godot.Collections;</code>.</li>
-            <li><b>Izveido</b> <code class="language-csharp">Godot.Collections.Dictionary saveData = new();</code>.</li>
-            <li><b>Pievieno</b> tam <code>player_name</code>, <code>level</code> un <code>score</code>.</li>
-            <li><b>Pārvērs</b> to ar <code class="language-csharp">string jsonStr = Json.Stringify(saveData, "    ");</code>.</li>
-            <li><b>Ieraksti</b> rezultātu failā <code>user://save.json</code>.</li>
-            <li><b>Atver</b> failu teksta redaktorā un apskati saturu.</li>
-            <li><b>Pieraksti</b>, ko dara otrais <code>stringify</code> arguments.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> fails <code>save.json</code> ir salasāms ar atkāpēm un satur visas trīs vērtības.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Nolasi JSON atpakaļ</h3>
-        <p>Beigās spēle atjaunos stāvokli no salasāma faila.</p>
-        <ol class="step-list">
-            <li><b>Nolasi</b> faila saturu ar <code>GetAsText()</code>.</li>
-            <li><b>Izveido</b> <code class="language-csharp">Json json = new();</code> un izsauc <code class="language-csharp">json.Parse(text);</code>.</li>
-            <li><b>Paņem</b> rezultātu ar <code class="language-csharp">Dictionary d = json.Data.AsGodotDictionary();</code>.</li>
-            <li><b>Izdrukā</b> visas trīs vērtības.</li>
-            <li><b>Pārbaudi</b>, vai skaitlis ielādējas kā skaitlis, nevis kā teksts.</li>
-            <li><b>Nomaini</b> failā ar roku līmeņa vērtību un palaid vēlreiz.</li>
-            <li><b>Pieraksti</b>, kāpēc tas ir gan ērti, gan bīstami.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> izdrukātās vērtības sakrīt ar failā redzamajām, arī pēc tam, kad failu izlaboji ar roku.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Apstrādā bojātu JSON</h3>
-        <p>Beigās bojāts fails vairs nenogāzīs spēli.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> <code>save.json</code> un izdzēs vienu figūriekavu.</li>
-            <li><b>Palaid</b> spēli un pieraksti, kas notiek.</li>
-            <li><b>Pievieno</b> pārbaudi <code class="language-csharp">Error err = json.Parse(text);</code>.</li>
-            <li><b>Pārbaudi</b> <code class="language-csharp">if (err != Error.Ok)</code> un izdrukā brīdinājumu.</li>
-            <li><b>Atgriez</b> tādā gadījumā noklusējuma vērtības.</li>
-            <li><b>Palaid</b> ar bojātu failu vēlreiz un pārliecinies, ka spēle turpina darboties.</li>
-            <li><b>Salabo</b> failu un pārbaudi, ka ielāde atkal strādā.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar bojātu JSON spēle parāda brīdinājumu un sāk ar noklusējuma vērtībām, nevis avarē.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Saglabā sarakstu JSON failā</h3>
-        <p>Ja pamatdarbs ir gatavs, saglabā vairākus rezultātus.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> <code class="language-csharp">Godot.Collections.Array highscores = new();</code>.</li>
-            <li><b>Pievieno</b> tam trīs <code>Dictionary</code> ierakstus ar vārdu un punktiem.</li>
-            <li><b>Ieliec</b> masīvu galvenajā <code>Dictionary</code> un saglabā.</li>
-            <li><b>Nolasi</b> to atpakaļ un izdrukā ciklā.</li>
-            <li><b>Sakārto</b> rezultātus dilstošā secībā pirms izdrukas.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> failā ir trīs rezultāti, un ielādējot tie izdrukājas no lielākā uz mazāko.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tava spēle saglabā stāvokli salasāmā JSON failā, ielādē to atpakaļ ar pareiziem datu tipiem un neapstājas, ja fails ir bojāts.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Fails <code>save.json</code> paraugs un C# kods ar <code>Json.Stringify</code> un <code>Parse</code>.</li>
-            <li>Ekrānuzņēmums ar Output paneli, kurā redzams brīdinājums par bojātu failu un noklusējuma vērtības.</li>
-            <li>README.md: kāpēc salasāms saglabāšanas fails ir gan ērts, gan bīstams.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Crash, parse JSON:</b> Tukšs vai bojāts fails. Pārbaudi err == OK vienmēr.</li>
-        <li><b>Dictionary keys nav konsistenti:</b> Lieto strukturas vai konstantes (kods centra).</li>
-        <li><b>Resource fails neielādējas:</b> Path nepareizs vai resurss bojāts.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic5_save_json.png" alt="Teksta redaktors atvērts ar savegame.json saturu: pretty-printed JSON ar player_name, hp, level, inventory array." loading="lazy">
-            <figcaption>Teksta redaktors atvērts ar savegame.json saturu: pretty-printed JSON ar player_name, hp, level, inventory array.</figcaption>
-        </figure>
-        <figure class="screenshot">
-            <img src="../img/topic5_resource_inspector.png" alt="Godot Inspector ar custom ItemResource: Name, Icon (texture preview), Max Stack, Value." loading="lazy">
-            <figcaption>Godot Inspector ar custom ItemResource: Name, Icon (texture preview), Max Stack, Value.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Pārvērs Dictionary par JSON</h2>
+<p>Beigās tavs saglabātais fails būs salasāms cilvēkam.</p>
+<ol class="step-list">
+<li><b>Pārliecinies</b>, ka faila sākumā ir <code class="language-csharp">using Godot.Collections;</code>.</li>
+<li><b>Izveido</b> <code class="language-csharp">Godot.Collections.Dictionary saveData = new();</code>.</li>
+<li><b>Pievieno</b> tam <code>player_name</code>, <code>level</code> un <code>score</code>.</li>
+<li><b>Pārvērs</b> to ar <code class="language-csharp">string jsonStr = Json.Stringify(saveData, "    ");</code>.</li>
+<li><b>Ieraksti</b> rezultātu failā <code>user://save.json</code>.</li>
+<li><b>Atver</b> failu teksta redaktorā un apskati saturu.</li>
+<li><b>Pieraksti</b>, ko dara otrais <code>stringify</code> arguments.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> fails <code>save.json</code> ir salasāms ar atkāpēm un satur visas trīs vērtības.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Nolasi JSON atpakaļ</h2>
+<p>Beigās spēle atjaunos stāvokli no salasāma faila.</p>
+<ol class="step-list">
+<li><b>Nolasi</b> faila saturu ar <code>GetAsText()</code>.</li>
+<li><b>Izveido</b> <code class="language-csharp">Json json = new();</code> un izsauc <code class="language-csharp">json.Parse(text);</code>.</li>
+<li><b>Paņem</b> rezultātu ar <code class="language-csharp">Dictionary d = json.Data.AsGodotDictionary();</code>.</li>
+<li><b>Izdrukā</b> visas trīs vērtības.</li>
+<li><b>Pārbaudi</b>, vai skaitlis ielādējas kā skaitlis, nevis kā teksts.</li>
+<li><b>Nomaini</b> failā ar roku līmeņa vērtību un palaid vēlreiz.</li>
+<li><b>Pieraksti</b>, kāpēc tas ir gan ērti, gan bīstami.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> izdrukātās vērtības sakrīt ar failā redzamajām, arī pēc tam, kad failu izlaboji ar roku.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Apstrādā bojātu JSON</h2>
+<p>Beigās bojāts fails vairs nenogāzīs spēli.</p>
+<ol class="step-list">
+<li><b>Atver</b> <code>save.json</code> un izdzēs vienu figūriekavu.</li>
+<li><b>Palaid</b> spēli un pieraksti, kas notiek.</li>
+<li><b>Pievieno</b> pārbaudi <code class="language-csharp">Error err = json.Parse(text);</code>.</li>
+<li><b>Pārbaudi</b> <code class="language-csharp">if (err != Error.Ok)</code> un izdrukā brīdinājumu.</li>
+<li><b>Atgriez</b> tādā gadījumā noklusējuma vērtības.</li>
+<li><b>Palaid</b> ar bojātu failu vēlreiz un pārliecinies, ka spēle turpina darboties.</li>
+<li><b>Salabo</b> failu un pārbaudi, ka ielāde atkal strādā.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar bojātu JSON spēle parāda brīdinājumu un sāk ar noklusējuma vērtībām, nevis avarē.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Saglabā sarakstu JSON failā</summary>
+<p>Ja pamatdarbs ir gatavs, saglabā vairākus rezultātus.</p>
+<ol class="step-list">
+<li><b>Izveido</b> <code class="language-csharp">Godot.Collections.Array highscores = new();</code>.</li>
+<li><b>Pievieno</b> tam trīs <code>Dictionary</code> ierakstus ar vārdu un punktiem.</li>
+<li><b>Ieliec</b> masīvu galvenajā <code>Dictionary</code> un saglabā.</li>
+<li><b>Nolasi</b> to atpakaļ un izdrukā ciklā.</li>
+<li><b>Sakārto</b> rezultātus dilstošā secībā pirms izdrukas.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> failā ir trīs rezultāti, un ielādējot tie izdrukājas no lielākā uz mazāko.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tava spēle saglabā stāvokli salasāmā JSON failā, ielādē to atpakaļ ar pareiziem datu tipiem un neapstājas, ja fails ir bojāts.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Fails <code>save.json</code> paraugs un C# kods ar <code>Json.Stringify</code> un <code>Parse</code>.</li>
+<li>Ekrānuzņēmums ar Output paneli, kurā redzams brīdinājums par bojātu failu un noklusējuma vērtības.</li>
+<li>README.md: kāpēc salasāms saglabāšanas fails ir gan ērts, gan bīstams.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Crash, parse JSON:</b> Tukšs vai bojāts fails. Pārbaudi err == OK vienmēr.</li>
+<li><b>Dictionary keys nav konsistenti:</b> Lieto strukturas vai konstantes (kods centra).</li>
+<li><b>Resource fails neielādējas:</b> Path nepareizs vai resurss bojāts.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Teksta redaktors atvērts ar savegame.json saturu: pretty-printed JSON ar player_name, hp, level, inventory array." loading="lazy" src="../img/topic5_save_json.png"/>
+<figcaption>Teksta redaktors atvērts ar savegame.json saturu: pretty-printed JSON ar player_name, hp, level, inventory array.</figcaption>
+</figure>
+<figure class="screenshot">
+<img alt="Godot Inspector ar custom ItemResource: Name, Icon (texture preview), Max Stack, Value." loading="lazy" src="../img/topic5_resource_inspector.png"/>
+<figcaption>Godot Inspector ar custom ItemResource: Name, Icon (texture preview), Max Stack, Value.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
 
@@ -278,13 +241,23 @@ public partial class Player : CharacterBody2D
         Position = new Vector2(data["position_x"].AsSingle(), data["position_y"].AsSingle());
     }
 }</code></pre>
-        <div class='result'>Save fails saturēs JSON ar player datiem; pēc load - viss state atjaunots korekti.</div>
-    </div>
+<div class="result">Save fails saturēs JSON ar player datiem; pēc load - viss state atjaunots korekti.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_5/prog2_51">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_5/prog2_53">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_5/prog2_51" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_5/prog2_53" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

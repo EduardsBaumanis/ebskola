@@ -1,94 +1,73 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>1.5 Spēles laukuma izveide - ebSkola</title>
-<meta name="description" content="Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_1/prog2_15">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="1.5 Spēles laukuma izveide">
-<meta property="og:description" content="Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_1/prog2_15">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="1.5 Spēles laukuma izveide">
-<meta name="twitter:description" content="Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_1/prog2_15" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="1.5 Spēles laukuma izveide" property="og:title"/>
+<meta content="Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_1/prog2_15" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="1.5 Spēles laukuma izveide" name="twitter:title"/>
+<meta content="Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "1.5 Spēles laukuma izveide", "description": "Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_1/prog2_15", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_1/prog2_1main">1. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_1/prog2_14">← 1.4</a>
-    <a class="btn primary" href="/programmesana2/prog2_1/prog2_16">1.6 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>1. Tēma - Ievads Godot un C#</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_1/prog2_1main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_1/prog2_11">1.1 Godot instalācija un projekta sagatavošana</a>
-    <a href="/programmesana2/prog2_1/prog2_12">1.2 Scene Tree un Node sistēma</a>
-    <a href="/programmesana2/prog2_1/prog2_13">1.3 C# un .NET sagatavošana</a>
-    <a href="/programmesana2/prog2_1/prog2_14">1.4 Pirmais C# skripts: mainīgie un izvade</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_1/prog2_15">1.5 Spēles laukuma izveide</a>
-    <a href="/programmesana2/prog2_1/prog2_16">1.6 Noslēguma projekts: Pong</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>1.5 Spēles laukuma izveide</h1>
-    <p><b>Stundas uzdevums:</b> Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.7. Lietotāja saskarne (UI)</a>
-        <a href="/sasnRez">SR 2.4.13. Datu tipi</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - novieto objektus pēc koordinātēm · 2. uzdevums (~25 min) - pievieno sienas un vidus līniju · 3. uzdevums (~20 min) - pievieno punktu skaitītāju un kameru · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu <code>main.tscn</code>. Atceries galveno: Godot koordinātes sākas kreisajā AUGŠĒJĀ stūrī, un Y pieaug uz LEJU, nevis uz augšu kā matemātikā.</p>
-        <p><b>Fokuss:</b> katru pozīciju pārbaudi ar acīm, ne tikai ar skaitļiem. Ja objekts nav tur, kur gaidīji, pieraksti, kura koordināte mainīja virzienu.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Coordinates (Koordinātes) un transformācijas</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>1. Tēma - Ievads Godot un C#</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_1/prog2_1main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_1/prog2_11">1.1 Godot instalācija un projekta sagatavošana</a>
+<a href="/programmesana2/prog2_1/prog2_12">1.2 Scene Tree un Node sistēma</a>
+<a href="/programmesana2/prog2_1/prog2_13">1.3 C# un .NET sagatavošana</a>
+<a href="/programmesana2/prog2_1/prog2_14">1.4 Pirmais C# skripts: mainīgie un izvade</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_1/prog2_15">1.5 Spēles laukuma izveide</a>
+<a href="/programmesana2/prog2_1/prog2_16">1.6 Noslēguma projekts: Pong</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_1/prog2_1main">1. tēma</a> / 1.5</p>
+<h1>1.5 Spēles laukuma izveide</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveidot Pong spēles laukuma vizuālo izkārtojumu un sagatavot to spēles loģikai.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.7. Lietotāja saskarne (UI)</a>
+<a href="/sasnRez">SR 2.4.13. Datu tipi</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - novieto objektus pēc koordinātēm · 2. uzdevums (~25 min) - pievieno sienas un vidus līniju · 3. uzdevums (~20 min) - pievieno punktu skaitītāju un kameru · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu <code>main.tscn</code>. Atceries galveno: Godot koordinātes sākas kreisajā AUGŠĒJĀ stūrī, un Y pieaug uz LEJU, nevis uz augšu kā matemātikā.</p>
+<p><b>Fokuss:</b> katru pozīciju pārbaudi ar acīm, ne tikai ar skaitļiem. Ja objekts nav tur, kur gaidīji, pieraksti, kura koordināte mainīja virzienu.</p>
+</div>
+</section><section>
+<h2>Teorija: Coordinates (Koordinātes) un transformācijas</h2>
+<div class="logic-box">
 <p>Godot 2D koordinātes sākas <b>kreisajā augšējā stūrī</b>: (0, 0). X pieaug pa labi, Y uz leju. Tas nozīmē, ka Pong laukuma centrs 1280×720 logā ir <code>(640, 360)</code>, augšējā siena ir pie mazas Y vērtības, bet apakšējā siena ir pie lielas Y vērtības.</p>
 <p>Spēles laukuma izveidē svarīgi nodalīt <b>vizuālo slāni</b>, <b>sadursmju slāni</b> un <b>UI slāni</b>. Vizuālie objekti parāda spēli, sadursmju objekti nosaka fizikas robežas, bet UI elementi, piemēram, <code>Label</code>, rāda punktus. Vēlāk C# kods atsauksies uz šiem elementiem pēc nosaukuma.</p>
 <pre><code class="language-csharp">// Pozīciju manipulācija C#
@@ -109,126 +88,115 @@ public partial class GameHud : CanvasLayer
         GetNode&lt;Label&gt;("Punkti").Text = left + " : " + right;
     }
 }</code></pre>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Novieto objektus pēc koordinātēm</h3>
-        <p>Beigās abi paddle stāvēs precīzi laukuma malās, nevis nejaušās vietās.</p>
-        <p><b>Ko šis māca:</b> praktiski pārbaudīt Godot koordināšu sistēmu: X iet pa labi, bet Y iet uz leju.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> <code>PaddleLeft</code> un atver Inspector paneli.</li>
-            <li><b>Ieraksti</b> <code>Transform -&gt; Position</code> vērtības <code>x = 60</code>, <code>y = 360</code>.</li>
-            <li><b>Ieraksti</b> <code>PaddleRight</code> pozīciju <code>x = 1220</code>, <code>y = 360</code>.</li>
-            <li><b>Novieto</b> <code>Ball</code> pašā centrā: <code>x = 640</code>, <code>y = 360</code>.</li>
-            <li><b>Palaid</b> spēli ar <code>F5</code> un pārbaudi, vai visi trīs objekti ir redzami.</li>
-            <li><b>Nomaini</b> viena paddle <code>y</code> uz <code>0</code> un palaid vēlreiz.</li>
-            <li><b>Pieraksti</b>, uz kuru pusi objekts pārvietojās, un ieliec vērtību atpakaļ.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> abi paddle ir pretējās malās vienā augstumā, un tu vari pateikt, ka <code>y = 0</code> ir ekrāna augšā.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Pievieno sienas un vidus līniju</h3>
-        <p>Beigās bumbai būs no kā atlēkt, un laukums izskatīsies kā īsts Pong.</p>
-        <p><b>Ko šis māca:</b> atšķirt redzamu līniju no sadursmes objekta: vizuālais elements pats par sevi bumbu neaptur.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code>StaticBody2D</code> ar nosaukumu <code>SienaAugsa</code>.</li>
-            <li><b>Pievieno</b> tai bērnu <code>CollisionShape2D</code> ar <code>RectangleShape2D</code> formu.</li>
-            <li><b>Iestati</b> formas platumu <code>1280</code> un augstumu <code>20</code>, pozīciju <code>x = 640</code>, <code>y = 10</code>.</li>
-            <li><b>Izveido</b> tāpat <code>SienaApaksa</code> ar pozīciju <code>y = 710</code>.</li>
-            <li><b>Pievieno</b> <code>Line2D</code> ar nosaukumu <code>VidusLinija</code>.</li>
-            <li><b>Ieraksti</b> tās punktus: <code>(640, 0)</code> un <code>(640, 720)</code>.</li>
-            <li><b>Palaid</b> spēli un pārbaudi, ka līnija sadala laukumu uz pusēm.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ekrānā ir divas sienas ar sadursmes formām un līnija tieši pa vidu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pievieno punktu skaitītāju un kameru</h3>
-        <p>Beigās laukumā būs vieta, kur vēlāk parādīsies rezultāts.</p>
-        <p><b>Ko šis māca:</b> nodalīt UI slāni no spēles objektiem, lai rezultāts nekustas kopā ar paddle vai bumbu.</p>
-        <ol class="step-list">
-            <li><b>Izvēlies</b> mezglu <code>Punkti</code> un iestati tā tekstu uz <code>0 : 0</code>.</li>
-            <li><b>Novieto</b> to pozīcijā <code>x = 600</code>, <code>y = 40</code>.</li>
-            <li><b>Palielini</b> fonta izmēru Inspector sadaļā <code>Theme Overrides -&gt; Font Sizes</code>.</li>
-            <li><b>Pievieno</b> zem <code>Main</code> mezglu <code>Camera2D</code>.</li>
-            <li><b>Iestati</b> kameras pozīciju <code>x = 640</code>, <code>y = 360</code>.</li>
-            <li><b>Palaid</b> spēli un pārbaudi, ka viss laukums ietilpst ekrānā.</li>
-            <li><b>Saglabā</b> scēnu un veic commit.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> palaižot spēli, redzams viss laukums ar sienām, līniju un rezultātu <code>0 : 0</code> augšā.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Izrēķini pozīcijas pats</h3>
-        <p>Ja pamatdarbs ir gatavs, pārbaudi, vai proti strādāt ar koordinātēm.</p>
-        <p><b>Ko šis māca:</b> lietot formulu <code>centrs = platums / 2, augstums / 2</code> jaunam loga izmēram, nevis minēt ar aci.</p>
-        <ol class="step-list">
-            <li><b>Izrēķini</b>, kāda būtu centra pozīcija logā <code>1920 x 1080</code>.</li>
-            <li><b>Pieraksti</b> atbildi README.md failā pirms pārbaudes.</li>
-            <li><b>Nomaini</b> projekta loga izmēru uz <code>1920 x 1080</code>.</li>
-            <li><b>Pārvieto</b> <code>Ball</code> uz savu izrēķināto pozīciju un palaid.</li>
-            <li><b>Atgriez</b> loga izmēru atpakaļ uz <code>1280 x 720</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> tava izrēķinātā centra pozīcija bija pareiza, un bumba tiešām bija ekrāna vidū.</p>
-    </div>
-</section>
 
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tavā <code>main.tscn</code> scēnā ir gatavs Pong laukums: abi paddle malās, bumba centrā, divas sienas ar sadursmes formām, vidus līnija, rezultāta uzraksts un kamera.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Ekrānuzņēmums ar palaistu spēli, kurā redzams viss laukums.</li>
-            <li>Ekrānuzņēmums ar Scene paneli, kurā redzams pilns mezglu koks.</li>
-            <li>Fails <code>main.tscn</code>.</li>
-            <li>README.md: kāda ir laukuma centra pozīcija un kā tu to izrēķināji.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Pašpārbaude pirms iesniegšanas</h2>
-    <p>Pārbaudi, vai laukums ir saprotams gan vizuāli, gan pēc mezglu koka.</p>
-    <div class='logic-box'>
-        <ul>
-            <li><b>Palaid spēli:</b> redzami abi paddle, <code>Ball</code>, sienas, vidus līnija un <code>Punkti</code>.</li>
-            <li><b>Pārbaudi koku:</b> <code>Punkti</code> nav bērns zem kustīga objekta.</li>
-            <li><b>README.md</b> ir īsa skice vai teikums, kāpēc 1280x720 laukuma centrs ir <code>(640, 360)</code>.</li>
-        </ul>
-    </div>
-</section>
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Spēle palaižas baltā logā:</b> Main Scene Project Settings nav iestatīta.</li>
-        <li><b>Objekti aizsedz Background:</b> Pārbaudi Z-index Inspector.</li>
-        <li><b>Camera2D nedarbojas:</b> Make Current Inspector vai <code>current = true</code> kodā.</li>
-        </ul>
-    </div>
-</section>
 
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic1_pong_layout.png" alt="Pong spēles vizuālais izkārtojums Game Window: melns fons, balta vertikāla centrālā līnija, 0 0 punkti augšā, divas baltas paddles malās, balta bumba centrā." loading="lazy">
-            <figcaption>Pong spēles vizuālais izkārtojums Game Window: melns fons, balta vertikāla centrālā līnija, 0 0 punkti augšā, divas baltas paddles malās, balta bumba centrā.</figcaption>
-        </figure>
-        <figure class="screenshot">
-            <img src="../img/topic1_project_settings.png" alt="Godot Project Settings logs ar Display → Window sadaļu un Viewport 1280×720 vērtībām." loading="lazy">
-            <figcaption>Godot Project Settings logs ar Display → Window sadaļu un Viewport 1280×720 vērtībām.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Novieto objektus pēc koordinātēm</h2>
+<p>Beigās abi paddle stāvēs precīzi laukuma malās, nevis nejaušās vietās.</p>
+<p><b>Ko šis māca:</b> praktiski pārbaudīt Godot koordināšu sistēmu: X iet pa labi, bet Y iet uz leju.</p>
+<ol class="step-list">
+<li><b>Izvēlies</b> <code>PaddleLeft</code> un atver Inspector paneli.</li>
+<li><b>Ieraksti</b> <code>Transform -&gt; Position</code> vērtības <code>x = 60</code>, <code>y = 360</code>.</li>
+<li><b>Ieraksti</b> <code>PaddleRight</code> pozīciju <code>x = 1220</code>, <code>y = 360</code>.</li>
+<li><b>Novieto</b> <code>Ball</code> pašā centrā: <code>x = 640</code>, <code>y = 360</code>.</li>
+<li><b>Palaid</b> spēli ar <code>F5</code> un pārbaudi, vai visi trīs objekti ir redzami.</li>
+<li><b>Nomaini</b> viena paddle <code>y</code> uz <code>0</code> un palaid vēlreiz.</li>
+<li><b>Pieraksti</b>, uz kuru pusi objekts pārvietojās, un ieliec vērtību atpakaļ.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> abi paddle ir pretējās malās vienā augstumā, un tu vari pateikt, ka <code>y = 0</code> ir ekrāna augšā.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Pievieno sienas un vidus līniju</h2>
+<p>Beigās bumbai būs no kā atlēkt, un laukums izskatīsies kā īsts Pong.</p>
+<p><b>Ko šis māca:</b> atšķirt redzamu līniju no sadursmes objekta: vizuālais elements pats par sevi bumbu neaptur.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> <code>StaticBody2D</code> ar nosaukumu <code>SienaAugsa</code>.</li>
+<li><b>Pievieno</b> tai bērnu <code>CollisionShape2D</code> ar <code>RectangleShape2D</code> formu.</li>
+<li><b>Iestati</b> formas platumu <code>1280</code> un augstumu <code>20</code>, pozīciju <code>x = 640</code>, <code>y = 10</code>.</li>
+<li><b>Izveido</b> tāpat <code>SienaApaksa</code> ar pozīciju <code>y = 710</code>.</li>
+<li><b>Pievieno</b> <code>Line2D</code> ar nosaukumu <code>VidusLinija</code>.</li>
+<li><b>Ieraksti</b> tās punktus: <code>(640, 0)</code> un <code>(640, 720)</code>.</li>
+<li><b>Palaid</b> spēli un pārbaudi, ka līnija sadala laukumu uz pusēm.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ekrānā ir divas sienas ar sadursmes formām un līnija tieši pa vidu.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pievieno punktu skaitītāju un kameru</h2>
+<p>Beigās laukumā būs vieta, kur vēlāk parādīsies rezultāts.</p>
+<p><b>Ko šis māca:</b> nodalīt UI slāni no spēles objektiem, lai rezultāts nekustas kopā ar paddle vai bumbu.</p>
+<ol class="step-list">
+<li><b>Izvēlies</b> mezglu <code>Punkti</code> un iestati tā tekstu uz <code>0 : 0</code>.</li>
+<li><b>Novieto</b> to pozīcijā <code>x = 600</code>, <code>y = 40</code>.</li>
+<li><b>Palielini</b> fonta izmēru Inspector sadaļā <code>Theme Overrides -&gt; Font Sizes</code>.</li>
+<li><b>Pievieno</b> zem <code>Main</code> mezglu <code>Camera2D</code>.</li>
+<li><b>Iestati</b> kameras pozīciju <code>x = 640</code>, <code>y = 360</code>.</li>
+<li><b>Palaid</b> spēli un pārbaudi, ka viss laukums ietilpst ekrānā.</li>
+<li><b>Saglabā</b> scēnu un veic commit.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> palaižot spēli, redzams viss laukums ar sienām, līniju un rezultātu <code>0 : 0</code> augšā.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Izrēķini pozīcijas pats</summary>
+<p>Ja pamatdarbs ir gatavs, pārbaudi, vai proti strādāt ar koordinātēm.</p>
+<p><b>Ko šis māca:</b> lietot formulu <code>centrs = platums / 2, augstums / 2</code> jaunam loga izmēram, nevis minēt ar aci.</p>
+<ol class="step-list">
+<li><b>Izrēķini</b>, kāda būtu centra pozīcija logā <code>1920 x 1080</code>.</li>
+<li><b>Pieraksti</b> atbildi README.md failā pirms pārbaudes.</li>
+<li><b>Nomaini</b> projekta loga izmēru uz <code>1920 x 1080</code>.</li>
+<li><b>Pārvieto</b> <code>Ball</code> uz savu izrēķināto pozīciju un palaid.</li>
+<li><b>Atgriez</b> loga izmēru atpakaļ uz <code>1280 x 720</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> tava izrēķinātā centra pozīcija bija pareiza, un bumba tiešām bija ekrāna vidū.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tavā <code>main.tscn</code> scēnā ir gatavs Pong laukums: abi paddle malās, bumba centrā, divas sienas ar sadursmes formām, vidus līnija, rezultāta uzraksts un kamera.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Ekrānuzņēmums ar palaistu spēli, kurā redzams viss laukums.</li>
+<li>Ekrānuzņēmums ar Scene paneli, kurā redzams pilns mezglu koks.</li>
+<li>Fails <code>main.tscn</code>.</li>
+<li>README.md: kāda ir laukuma centra pozīcija un kā tu to izrēķināji.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Pašpārbaude pirms iesniegšanas</h2>
+<p>Pārbaudi, vai laukums ir saprotams gan vizuāli, gan pēc mezglu koka.</p>
+<div class="logic-box">
+<ul>
+<li><b>Palaid spēli:</b> redzami abi paddle, <code>Ball</code>, sienas, vidus līnija un <code>Punkti</code>.</li>
+<li><b>Pārbaudi koku:</b> <code>Punkti</code> nav bērns zem kustīga objekta.</li>
+<li><b>README.md</b> ir īsa skice vai teikums, kāpēc 1280x720 laukuma centrs ir <code>(640, 360)</code>.</li>
+</ul>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Spēle palaižas baltā logā:</b> Main Scene Project Settings nav iestatīta.</li>
+<li><b>Objekti aizsedz Background:</b> Pārbaudi Z-index Inspector.</li>
+<li><b>Camera2D nedarbojas:</b> Make Current Inspector vai <code>current = true</code> kodā.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Pong spēles vizuālais izkārtojums Game Window: melns fons, balta vertikāla centrālā līnija, 0 0 punkti augšā, divas baltas paddles malās, balta bumba centrā." loading="lazy" src="../img/topic1_pong_layout.png"/>
+<figcaption>Pong spēles vizuālais izkārtojums Game Window: melns fons, balta vertikāla centrālā līnija, 0 0 punkti augšā, divas baltas paddles malās, balta bumba centrā.</figcaption>
+</figure>
+<figure class="screenshot">
+<img alt="Godot Project Settings logs ar Display → Window sadaļu un Viewport 1280×720 vērtībām." loading="lazy" src="../img/topic1_project_settings.png"/>
+<figcaption>Godot Project Settings logs ar Display → Window sadaļu un Viewport 1280×720 vērtībām.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 
 public partial class CourtSetup : Node2D
 {
@@ -249,13 +217,23 @@ public partial class CourtSetup : Node2D
         camera.MakeCurrent();
     }
 }</code></pre>
-        <div class='result'>C# kods sagatavo redzamos laukuma elementus un UI sākumstāvokli.</div>
-    </div>
+<div class="result">C# kods sagatavo redzamos laukuma elementus un UI sākumstāvokli.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_1/prog2_14">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_1/prog2_16">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_1/prog2_14" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_1/prog2_16" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

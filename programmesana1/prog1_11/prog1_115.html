@@ -1,89 +1,68 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>11.5 Polimorfisms un dunder metodes - ebSkola</title>
-<meta name="description" content="Izprast polimorfismu un Python speciālās (&quot;dunder&quot;) metodes objektu pielāgošanai.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_11/prog1_115">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="11.5 Polimorfisms un dunder metodes">
-<meta property="og:description" content="Izprast polimorfismu un Python speciālās (&quot;dunder&quot;) metodes objektu pielāgošanai.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_11/prog1_115">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="11.5 Polimorfisms un dunder metodes">
-<meta name="twitter:description" content="Izprast polimorfismu un Python speciālās (&quot;dunder&quot;) metodes objektu pielāgošanai.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content='Izprast polimorfismu un Python speciālās ("dunder") metodes objektu pielāgošanai.' name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana1/prog1_11/prog1_115" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="11.5 Polimorfisms un dunder metodes" property="og:title"/>
+<meta content='Izprast polimorfismu un Python speciālās ("dunder") metodes objektu pielāgošanai.' property="og:description"/>
+<meta content="https://ebskola.lv/programmesana1/prog1_11/prog1_115" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="11.5 Polimorfisms un dunder metodes" name="twitter:title"/>
+<meta content='Izprast polimorfismu un Python speciālās ("dunder") metodes objektu pielāgošanai.' name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "11.5 Polimorfisms un dunder metodes", "description": "Izprast polimorfismu un Python speciālās (\"dunder\") metodes objektu pielāgošanai.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_11/prog1_115", "isPartOf": {"@type": "Course", "name": "ebSkola - programmesana1", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana1/programmesana1">Prog I</a>
-      <a href="/programmesana1/prog1_11/prog1_11main">11. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana1/prog1_11/prog1_114">← 11.4</a>
-    <a class="btn primary" href="/programmesana1/prog1_11/prog1_116">11.6 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana I</div>
-  <h3>11. Tēma - Objektorientētā programmēšana</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana1/prog1_11/prog1_11main">Tēmas sākums</a>
-    <a href="/programmesana1/prog1_11/prog1_111">11.1 Klases un objekti</a>
-    <a href="/programmesana1/prog1_11/prog1_112">11.2 Konstruktori un atribūti</a>
-    <a href="/programmesana1/prog1_11/prog1_113">11.3 Metodes un self</a>
-    <a href="/programmesana1/prog1_11/prog1_114">11.4 Mantošana un super()</a>
-    <a class="active" aria-current="page" href="/programmesana1/prog1_11/prog1_115">11.5 Polimorfisms un dunder metodes</a>
-    <a href="/programmesana1/prog1_11/prog1_116">11.6 Noslēguma projekts: Klases turnīra simulators</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>11.5 Polimorfisms un dunder metodes</h1>
-    <p><b>Stundas uzdevums:</b> Izprast polimorfismu un Python speciālās ("dunder") metodes objektu pielāgošanai.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.18. Lieto OOP pamatus</a>
-        <a href="/sasnRez">SR 2.4.11. Standartizētas bibliotēkas un API</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - pārraksti vienu metodi vairākās klasēs · 2. uzdevums (~25 min) - izsauc tās vienā ciklā · 3. uzdevums (~20 min) - pievieno __str__ un __repr__. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savas 11.4 stundas klases <code>Dalibnieks</code>, <code>Kapteinis</code> un <code>Prezentetajs</code>.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Polimorfisms un dunder (__metode__)</h2>
-    <div class='logic-box'>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana1.html">Programmēšana I</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>11. Tēma - Objektorientētā programmēšana</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_11/prog1_11main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_11/prog1_111">11.1 Klases un objekti</a>
+<a href="/programmesana1/prog1_11/prog1_112">11.2 Konstruktori un atribūti</a>
+<a href="/programmesana1/prog1_11/prog1_113">11.3 Metodes un self</a>
+<a href="/programmesana1/prog1_11/prog1_114">11.4 Mantošana un super()</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_11/prog1_115">11.5 Polimorfisms un dunder metodes</a>
+<a href="/programmesana1/prog1_11/prog1_116">11.6 Noslēguma projekts: Klases turnīra simulators</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_11/prog1_11main">11. tēma</a> / 11.5</p>
+<h1>11.5 Polimorfisms un dunder metodes</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Izprast polimorfismu un Python speciālās ("dunder") metodes objektu pielāgošanai.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.18. Lieto OOP pamatus</a>
+<a href="/sasnRez">SR 2.4.11. Standartizētas bibliotēkas un API</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - pārraksti vienu metodi vairākās klasēs · 2. uzdevums (~25 min) - izsauc tās vienā ciklā · 3. uzdevums (~20 min) - pievieno __str__ un __repr__. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> atver savas 11.4 stundas klases <code>Dalibnieks</code>, <code>Kapteinis</code> un <code>Prezentetajs</code>.</p>
+</div>
+</section><section>
+<h2>Teorija: Polimorfisms un dunder (__metode__)</h2>
+<div class="logic-box">
 <p><b>Polimorfisms</b> = daudzas formas. Dažādas klases ar to pašu metodes nosaukumu, bet atšķirīgu uzvedību.</p>
 <pre><code class="language-python">class Dalibnieks:
     def runa(self): print("Dalibnieks runā vispārīgi.")
@@ -98,7 +77,7 @@ class Kapteinis(Dalibnieks):
 for v in [Dalibnieks(), Prezentetajs(), Kapteinis()]:
     v.runa()</code></pre>
 <p><b>Dunder metodes</b> (<i>double underscore</i>) ir iebūvētie āķi, kas ļauj klasei darboties ar Python operatoriem un funkcijām:</p>
-<table>
+<div aria-label="Tabula" class="table-scroll" role="region" tabindex="0"><table>
 <thead><tr><th>Metode</th><th>Aktivizē</th></tr></thead>
 <tbody>
 <tr><td><code>__str__</code></td><td><code>str(o)</code> un <code>print(o)</code></td></tr>
@@ -109,81 +88,76 @@ for v in [Dalibnieks(), Prezentetajs(), Kapteinis()]:
 <tr><td><code>__len__</code></td><td><code>len(o)</code></td></tr>
 <tr><td><code>__contains__</code></td><td><code>x in o</code></td></tr>
 </tbody>
-</table>
-    </div>
-</section>
+</table></div>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Pārraksti vienu metodi vairākās klasēs</h3>
-        <p>Beigās vienam metodes nosaukumam būs trīs dažādas uzvedības.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> klasei <code>Dalibnieks</code> metodi <code class="language-python">def runa(self):</code> ar vispārīgu tekstu.</li>
-            <li><b>Pievieno</b> klasei <code>Kapteinis</code> tādu pašu metodi ar citu tekstu.</li>
-            <li><b>Pievieno</b> klasei <code>Prezentetajs</code> vēl vienu variantu.</li>
-            <li><b>Izveido</b> pa vienam objektam no katras klases.</li>
-            <li><b>Izsauc</b> katram <code>runa()</code> atsevišķi.</li>
-            <li><b>Pieraksti</b>, kura klase noteica, kurš teksts izdrukājās.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> viens metodes nosaukums dod trīs dažādas izvades atkarībā no objekta klases.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Izsauc tās vienā ciklā</h3>
-        <p>Beigās viens cikls apkalpos jebkuru lomu skaitu.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> sarakstu ar visiem trim objektiem.</li>
-            <li><b>Uzraksti</b> ciklu <code class="language-python">for d in dalibnieki:</code>.</li>
-            <li><b>Izsauc</b> ciklā <code class="language-python">d.runa()</code>.</li>
-            <li><b>Palaid</b> un pārbaudi, ka izdrukājas trīs dažādi teksti.</li>
-            <li><b>Pievieno</b> sarakstam vēl vienu jaunu lomu.</li>
-            <li><b>Palaid</b> vēlreiz un pārbaudi, vai cikls bija jāmaina.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc te nevajag <code>if</code> pēc klases nosaukuma.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pievienojot ceturto lomu, cikls strādā bez izmaiņām.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pievieno __str__ un __repr__</h3>
-        <p>Beigās objekts pats zinās, kā izskatīties izdrukā.</p>
-        <ol class="step-list">
-            <li><b>Izdrukā</b> objektu bez papildu metodēm un pieraksti rezultātu.</li>
-            <li><b>Pievieno</b> klasei <code class="language-python">def __str__(self):</code>, kas atgriež vārdu un enerģiju.</li>
-            <li><b>Izdrukā</b> objektu vēlreiz un salīdzini.</li>
-            <li><b>Pievieno</b> <code class="language-python">def __repr__(self):</code> ar tehnisku pierakstu.</li>
-            <li><b>Izdrukā</b> sarakstu ar objektiem un pieraksti, kura metode nostrādāja.</li>
-            <li><b>Pieraksti</b>, kur lieto <code>__str__</code> un kur <code>__repr__</code>.</li>
-            <li><b>Pārbaudi</b>, ka <code class="language-python">print(objekts)</code> un <code class="language-python">print([objekts])</code> dod dažādu rezultātu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> atsevišķi izdrukāts objekts rāda <code>__str__</code>, bet sarakstā - <code>__repr__</code>.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno salīdzināšanu</h3>
-        <p>Ja pamatdarbs ir gatavs, ļauj kārtot dalībniekus pēc enerģijas.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> klasei <code class="language-python">def __lt__(self, cits):</code>.</li>
-            <li><b>Atgriez</b> tajā <code class="language-python">return self.energija &lt; cits.energija</code>.</li>
-            <li><b>Izsauc</b> <code class="language-python">sorted(dalibnieki)</code>.</li>
-            <li><b>Izdrukā</b> sakārtoto sarakstu.</li>
-            <li><b>Pieraksti</b>, kāpēc bez <code>__lt__</code> kārtošana neizdevās.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> <code>sorted()</code> sakārto dalībniekus pēc enerģijas, nevis met <code>TypeError</code>.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>__str__ atgriež ne-string:</b> Vienmēr atgriež <code>str</code>, citādi <code>TypeError</code>.</li>
-        <li><b>__eq__ bez __hash__:</b> Ja klase salīdzināma, bet maināma - definē <code>__hash__ = None</code>.</li>
-        <li><b>Aizmirsts atgriezt vērtību:</b> <code>__lt__</code>, <code>__eq__</code> - vienmēr <code>return True/False</code>.</li>
-        </ul>
-    </div>
-</section>
 
-<div class='section'>
-    <h2>Koda piemērs</h2>
-    <div class='code-example'>
-        <pre><code class="language-python">class Dalibnieks:
+
+
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Pārraksti vienu metodi vairākās klasēs</h2>
+<p>Beigās vienam metodes nosaukumam būs trīs dažādas uzvedības.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> klasei <code>Dalibnieks</code> metodi <code class="language-python">def runa(self):</code> ar vispārīgu tekstu.</li>
+<li><b>Pievieno</b> klasei <code>Kapteinis</code> tādu pašu metodi ar citu tekstu.</li>
+<li><b>Pievieno</b> klasei <code>Prezentetajs</code> vēl vienu variantu.</li>
+<li><b>Izveido</b> pa vienam objektam no katras klases.</li>
+<li><b>Izsauc</b> katram <code>runa()</code> atsevišķi.</li>
+<li><b>Pieraksti</b>, kura klase noteica, kurš teksts izdrukājās.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> viens metodes nosaukums dod trīs dažādas izvades atkarībā no objekta klases.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Izsauc tās vienā ciklā</h2>
+<p>Beigās viens cikls apkalpos jebkuru lomu skaitu.</p>
+<ol class="step-list">
+<li><b>Izveido</b> sarakstu ar visiem trim objektiem.</li>
+<li><b>Uzraksti</b> ciklu <code class="language-python">for d in dalibnieki:</code>.</li>
+<li><b>Izsauc</b> ciklā <code class="language-python">d.runa()</code>.</li>
+<li><b>Palaid</b> un pārbaudi, ka izdrukājas trīs dažādi teksti.</li>
+<li><b>Pievieno</b> sarakstam vēl vienu jaunu lomu.</li>
+<li><b>Palaid</b> vēlreiz un pārbaudi, vai cikls bija jāmaina.</li>
+<li><b>Pieraksti</b> vienu secinājumu: kāpēc te nevajag <code>if</code> pēc klases nosaukuma.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pievienojot ceturto lomu, cikls strādā bez izmaiņām.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pievieno __str__ un __repr__</h2>
+<p>Beigās objekts pats zinās, kā izskatīties izdrukā.</p>
+<ol class="step-list">
+<li><b>Izdrukā</b> objektu bez papildu metodēm un pieraksti rezultātu.</li>
+<li><b>Pievieno</b> klasei <code class="language-python">def __str__(self):</code>, kas atgriež vārdu un enerģiju.</li>
+<li><b>Izdrukā</b> objektu vēlreiz un salīdzini.</li>
+<li><b>Pievieno</b> <code class="language-python">def __repr__(self):</code> ar tehnisku pierakstu.</li>
+<li><b>Izdrukā</b> sarakstu ar objektiem un pieraksti, kura metode nostrādāja.</li>
+<li><b>Pieraksti</b>, kur lieto <code>__str__</code> un kur <code>__repr__</code>.</li>
+<li><b>Pārbaudi</b>, ka <code class="language-python">print(objekts)</code> un <code class="language-python">print([objekts])</code> dod dažādu rezultātu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> atsevišķi izdrukāts objekts rāda <code>__str__</code>, bet sarakstā - <code>__repr__</code>.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno salīdzināšanu</summary>
+<p>Ja pamatdarbs ir gatavs, ļauj kārtot dalībniekus pēc enerģijas.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> klasei <code class="language-python">def __lt__(self, cits):</code>.</li>
+<li><b>Atgriez</b> tajā <code class="language-python">return self.energija &lt; cits.energija</code>.</li>
+<li><b>Izsauc</b> <code class="language-python">sorted(dalibnieki)</code>.</li>
+<li><b>Izdrukā</b> sakārtoto sarakstu.</li>
+<li><b>Pieraksti</b>, kāpēc bez <code>__lt__</code> kārtošana neizdevās.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> <code>sorted()</code> sakārto dalībniekus pēc enerģijas, nevis met <code>TypeError</code>.</p>
+</details><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>__str__ atgriež ne-string:</b> Vienmēr atgriež <code>str</code>, citādi <code>TypeError</code>.</li>
+<li><b>__eq__ bez __hash__:</b> Ja klase salīdzināma, bet maināma - definē <code>__hash__ = None</code>.</li>
+<li><b>Aizmirsts atgriezt vērtību:</b> <code>__lt__</code>, <code>__eq__</code> - vienmēr <code>return True/False</code>.</li>
+</ul>
+</div>
+</section><section>
+<h2>Koda piemērs</h2>
+<div class="code-example">
+<pre><code class="language-python">class Dalibnieks:
     def __init__(self, vards, energija): self.vards = vards; self.energija = energija
     def __str__(self): return f"{self.vards} ({self.energija} enerģija)"
     def __repr__(self): return f"Dalibnieks({self.vards!r}, energija={self.energija})"
@@ -193,13 +167,20 @@ for v in [Dalibnieks(), Prezentetajs(), Kapteinis()]:
 dalibnieki = [Dalibnieks("Anna", 100), Dalibnieks("Jānis", 80), Dalibnieks("Eva", 120)]
 for v in sorted(dalibnieki):
     print(v)</code></pre>
-        <div class='result'>Jānis (80 enerģija)<br>Anna (100 enerģija)<br>Eva (120 enerģija)</div>
-    </div>
+<div class="result">Jānis (80 enerģija)<br/>Anna (100 enerģija)<br/>Eva (120 enerģija)</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_11/prog1_114">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_11/prog1_116">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana1/prog1_11/prog1_114" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana1/prog1_11/prog1_116" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana1.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

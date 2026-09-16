@@ -1,93 +1,72 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>5.4 Procedural generation - ebSkola</title>
-<meta name="description" content="Ģenerēt nejaušus, bet sakārtotus līmeņus ar algoritmu, pārbaudot telpu savienojumus un spēlētāja pārvietošanās iespējas.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_5/prog2_54">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="5.4 Procedural generation">
-<meta property="og:description" content="Ģenerēt nejaušus, bet sakārtotus līmeņus ar algoritmu, pārbaudot telpu savienojumus un spēlētāja pārvietošanās iespējas.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_5/prog2_54">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="5.4 Procedural generation">
-<meta name="twitter:description" content="Ģenerēt nejaušus, bet sakārtotus līmeņus ar algoritmu, pārbaudot telpu savienojumus un spēlētāja pārvietošanās iespējas.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Ģenerēt nejaušus, bet sakārtotus līmeņus ar algoritmu, pārbaudot telpu savienojumus un spēlētāja pārvietošanās iespējas." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_5/prog2_54" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="5.4 Procedural generation" property="og:title"/>
+<meta content="Ģenerēt nejaušus, bet sakārtotus līmeņus ar algoritmu, pārbaudot telpu savienojumus un spēlētāja pārvietošanās iespējas." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_5/prog2_54" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="5.4 Procedural generation" name="twitter:title"/>
+<meta content="Ģenerēt nejaušus, bet sakārtotus līmeņus ar algoritmu, pārbaudot telpu savienojumus un spēlētāja pārvietošanās iespējas." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "5.4 Procedural generation","description": "Ģenerēt nejaušus, bet sakārtotus līmeņus ar algoritmu, pārbaudot telpu savienojumus un spēlētāja pārvietošanās iespējas.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_5/prog2_54","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_5/prog2_5main">5. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_5/prog2_53">← 5.3</a>
-    <a class="btn primary" href="/programmesana2/prog2_5/prog2_55">5.5 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>5. Tēma - Datu pastāvība un algoritmi</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_5/prog2_5main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_5/prog2_51">5.1 Failu I/O Godot vidē</a>
-    <a href="/programmesana2/prog2_5/prog2_52">5.2 JSON serializācija un Resource sistēma</a>
-    <a href="/programmesana2/prog2_5/prog2_53">5.3 Save/Load arhitektūra</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_5/prog2_54">5.4 Procedural generation</a>
-    <a href="/programmesana2/prog2_5/prog2_55">5.5 Algoritmu efektivitāte</a>
-    <a href="/programmesana2/prog2_5/prog2_56">5.6 Noslēguma projekts: Procedurālais klases labirints</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>5.4 Procedural generation</h1>
-    <p><b>Stundas uzdevums:</b> Ģenerēt nejaušus, bet sakārtotus līmeņus ar algoritmu.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
-        <a href="/sasnRez">SR 2.4.16. Datu struktūras</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - ģenerē labirintu ar Random Walk · 2. uzdevums (~25 min) - pārvērs režģi par spēles laukumu · 3. uzdevums (~20 min) - pārbaudi, vai labirints ir izejams · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu projektu. Šodien līmeņus vairs nezīmēsi ar roku - tos uzģenerēs kods. Sāc ar mazu režģi 15x15, nevis milzīgu.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Procedural generation pamati</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>5. Tēma - Datu pastāvība un algoritmi</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_5/prog2_5main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_5/prog2_51">5.1 Failu I/O Godot vidē</a>
+<a href="/programmesana2/prog2_5/prog2_52">5.2 JSON serializācija un Resource sistēma</a>
+<a href="/programmesana2/prog2_5/prog2_53">5.3 Save/Load arhitektūra</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_5/prog2_54">5.4 Procedural generation</a>
+<a href="/programmesana2/prog2_5/prog2_55">5.5 Algoritmu efektivitāte</a>
+<a href="/programmesana2/prog2_5/prog2_56">5.6 Noslēguma projekts: Procedurālais klases labirints</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_5/prog2_5main">5. tēma</a> / 5.4</p>
+<h1>5.4 Procedural generation</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Ģenerēt nejaušus, bet sakārtotus līmeņus ar algoritmu.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
+<a href="/sasnRez">SR 2.4.16. Datu struktūras</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - ģenerē labirintu ar Random Walk · 2. uzdevums (~25 min) - pārvērs režģi par spēles laukumu · 3. uzdevums (~20 min) - pārbaudi, vai labirints ir izejams · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu projektu. Šodien līmeņus vairs nezīmēsi ar roku - tos uzģenerēs kods. Sāc ar mazu režģi 15x15, nevis milzīgu.</p>
+</div>
+</section><section>
+<h2>Teorija: Procedural generation pamati</h2>
+<div class="logic-box">
 <p><b>Procedural generation</b> ir tehnika, kas algoritmiski rada saturu (līmeņus, labirintus, pasaules) bez manuālas dizainas. Klasiskais pieteikums - <i>procedurāls klases labirints</i>.</p>
 <p><b>Pamata pieejas:</b></p>
 <ul>
@@ -129,15 +108,12 @@ public class MazeGenerator
         }
     }
 }</code></pre>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> C# kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> C# kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
 <pre><code class="language-csharp">public class PersistenceCheckpoint
 {
     public string Lesson = "5.4 Procedural generation";
@@ -146,114 +122,101 @@ public class MazeGenerator
     public bool ValidatesData = true;
     public bool DocumentsComplexity = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Ģenerē labirintu ar Random Walk</h3>
-        <p>Beigās kods pats izraks ejas tukšā režģī.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> <code class="language-csharp">int[,] grid = new int[15, 15];</code>.</li>
-            <li><b>Aizpildi</b> to visu ar vērtību 1 (siena).</li>
-            <li><b>Sāc</b> no centra un iestati tur vērtību 0 (eja).</li>
-            <li><b>Uzraksti</b> ciklu, kas 200 reizes paiet nejaušā virzienā.</li>
-            <li><b>Iestati</b> katrā solī jauno šūnu uz 0.</li>
-            <li><b>Pārbaudi</b>, ka gājējs nepamet režģa robežas.</li>
-            <li><b>Izdrukā</b> režģi Output panelī ar simboliem <code>#</code> un atstarpi.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> Output panelī redzams režģis ar savienotām ejām, un tās nekad neiziet ārpus malām.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Pārvērs režģi par spēles laukumu</h3>
-        <p>Beigās uzģenerēto labirintu varēs redzēt un tajā staigāt.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> scēnai <code>TileMap</code> vai izmanto <code>ColorRect</code> mezglus.</li>
-            <li><b>Uzraksti</b> divkāršu ciklu pār visu režģi.</li>
-            <li><b>Novieto</b> sienas mezglu katrā vietā, kur vērtība ir 1.</li>
-            <li><b>Reizini</b> režģa koordinātes ar šūnas izmēru, piemēram 64.</li>
-            <li><b>Novieto</b> spēlētāju vietā, kur vērtība ir 0.</li>
-            <li><b>Palaid</b> un pastaigā pa labirintu.</li>
-            <li><b>Palaid</b> vēlreiz un pārliecinies, ka labirints ir citāds.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> katrā palaišanas reizē labirints ir atšķirīgs, un spēlētājs var pa to staigāt.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pārbaudi, vai labirints ir izejams</h3>
-        <p>Beigās tu būsi pārliecinājies, ka izeja tiešām ir sasniedzama.</p>
-        <ol class="step-list">
-            <li><b>Novieto</b> izeju tālākajā režģa stūrī, kur vērtība ir 0.</li>
-            <li><b>Uzraksti</b> metodi, kas no starta izplatās pa visām savienotajām ejām.</li>
-            <li><b>Atzīmē</b> apmeklētās šūnas otrā režģī.</li>
-            <li><b>Pārbaudi</b>, vai izejas šūna tika atzīmēta.</li>
-            <li><b>Ģenerē</b> labirintu atkārtoti, kamēr izeja ir sasniedzama.</li>
-            <li><b>Saskaiti</b>, cik reižu vidēji vajadzēja ģenerēt.</li>
-            <li><b>Pieraksti</b>, kāpēc šī pārbaude ir obligāta.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> spēle nekad nesāk ar labirintu, kurā izeja nav sasniedzama.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno sēklu atkārtojamībai</h3>
-        <p>Ja pamatdarbs ir gatavs, ļauj atkārtot to pašu labirintu.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> lauku <code class="language-csharp">int seed;</code>.</li>
-            <li><b>Iestati</b> to ar <code class="language-csharp">Random rng = new Random(seed);</code> pirms ģenerēšanas.</li>
-            <li><b>Ģenerē</b> divas reizes ar to pašu sēklu un salīdzini rezultātu.</li>
-            <li><b>Ģenerē</b> ar citu sēklu un salīdzini vēlreiz.</li>
-            <li><b>Izdrukā</b> sēklu ekrānā, lai to varētu pierakstīt.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar vienu un to pašu sēklu labirints vienmēr sanāk identisks.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tava spēle pati uzģenerē labirintu ar Random Walk algoritmu, pārvērš to par spēlējamu laukumu un pirms sākuma pārbauda, ka izeja tiešām ir sasniedzama.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Fails <code>MazeGenerator.cs</code>.</li>
-            <li>Trīs ekrānuzņēmumi ar trim dažādiem uzģenerētiem labirintiem.</li>
-            <li>Ekrānuzņēmums ar Output paneli, kurā redzams izdrukātais režģis.</li>
-            <li>README.md: kāpēc obligāti jāpārbauda, vai izeja ir sasniedzama.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Always same maze:</b> Aizmirsts mainīt seed vai tiek katru reizi izmantota viena un tā pati vērtība.</li>
-        <li><b>Walls disconnected:</b> Pārbaudi flood fill - vai visas istabas savienotas.</li>
-        <li><b>Slow generation:</b> Lielam grid lieto efficient algorithms - A* vai Voronoi.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic5_random_walk.png" alt="Procedurāli ģenerēta labirints karte: pelēks fons (sienas), gaišāka taka (random walk ceļš) ar zaļu spawn point un sarkanu exit." loading="lazy">
-            <figcaption>Procedurāli ģenerēta labirints karte: pelēks fons (sienas), gaišāka taka (random walk ceļš) ar zaļu spawn point un sarkanu exit.</figcaption>
-        </figure>
-        <figure class="screenshot">
-            <img src="../img/topic5_rooms_corridors.png" alt="Sarežģītāks labirints: 6 taisnstūrveida klases zonas savienotas ar koridoriem, dažas ar galdiem un šķēršļiem." loading="lazy">
-            <figcaption>Sarežģītāks labirints: 6 taisnstūrveida klases zonas savienotas ar koridoriem, dažas ar galdiem un šķēršļiem.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Ģenerē labirintu ar Random Walk</h2>
+<p>Beigās kods pats izraks ejas tukšā režģī.</p>
+<ol class="step-list">
+<li><b>Izveido</b> <code class="language-csharp">int[,] grid = new int[15, 15];</code>.</li>
+<li><b>Aizpildi</b> to visu ar vērtību 1 (siena).</li>
+<li><b>Sāc</b> no centra un iestati tur vērtību 0 (eja).</li>
+<li><b>Uzraksti</b> ciklu, kas 200 reizes paiet nejaušā virzienā.</li>
+<li><b>Iestati</b> katrā solī jauno šūnu uz 0.</li>
+<li><b>Pārbaudi</b>, ka gājējs nepamet režģa robežas.</li>
+<li><b>Izdrukā</b> režģi Output panelī ar simboliem <code>#</code> un atstarpi.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Output panelī redzams režģis ar savienotām ejām, un tās nekad neiziet ārpus malām.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Pārvērs režģi par spēles laukumu</h2>
+<p>Beigās uzģenerēto labirintu varēs redzēt un tajā staigāt.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> scēnai <code>TileMap</code> vai izmanto <code>ColorRect</code> mezglus.</li>
+<li><b>Uzraksti</b> divkāršu ciklu pār visu režģi.</li>
+<li><b>Novieto</b> sienas mezglu katrā vietā, kur vērtība ir 1.</li>
+<li><b>Reizini</b> režģa koordinātes ar šūnas izmēru, piemēram 64.</li>
+<li><b>Novieto</b> spēlētāju vietā, kur vērtība ir 0.</li>
+<li><b>Palaid</b> un pastaigā pa labirintu.</li>
+<li><b>Palaid</b> vēlreiz un pārliecinies, ka labirints ir citāds.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> katrā palaišanas reizē labirints ir atšķirīgs, un spēlētājs var pa to staigāt.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pārbaudi, vai labirints ir izejams</h2>
+<p>Beigās tu būsi pārliecinājies, ka izeja tiešām ir sasniedzama.</p>
+<ol class="step-list">
+<li><b>Novieto</b> izeju tālākajā režģa stūrī, kur vērtība ir 0.</li>
+<li><b>Uzraksti</b> metodi, kas no starta izplatās pa visām savienotajām ejām.</li>
+<li><b>Atzīmē</b> apmeklētās šūnas otrā režģī.</li>
+<li><b>Pārbaudi</b>, vai izejas šūna tika atzīmēta.</li>
+<li><b>Ģenerē</b> labirintu atkārtoti, kamēr izeja ir sasniedzama.</li>
+<li><b>Saskaiti</b>, cik reižu vidēji vajadzēja ģenerēt.</li>
+<li><b>Pieraksti</b>, kāpēc šī pārbaude ir obligāta.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> spēle nekad nesāk ar labirintu, kurā izeja nav sasniedzama.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno sēklu atkārtojamībai</summary>
+<p>Ja pamatdarbs ir gatavs, ļauj atkārtot to pašu labirintu.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> lauku <code class="language-csharp">int seed;</code>.</li>
+<li><b>Iestati</b> to ar <code class="language-csharp">Random rng = new Random(seed);</code> pirms ģenerēšanas.</li>
+<li><b>Ģenerē</b> divas reizes ar to pašu sēklu un salīdzini rezultātu.</li>
+<li><b>Ģenerē</b> ar citu sēklu un salīdzini vēlreiz.</li>
+<li><b>Izdrukā</b> sēklu ekrānā, lai to varētu pierakstīt.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar vienu un to pašu sēklu labirints vienmēr sanāk identisks.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tava spēle pati uzģenerē labirintu ar Random Walk algoritmu, pārvērš to par spēlējamu laukumu un pirms sākuma pārbauda, ka izeja tiešām ir sasniedzama.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Fails <code>MazeGenerator.cs</code>.</li>
+<li>Trīs ekrānuzņēmumi ar trim dažādiem uzģenerētiem labirintiem.</li>
+<li>Ekrānuzņēmums ar Output paneli, kurā redzams izdrukātais režģis.</li>
+<li>README.md: kāpēc obligāti jāpārbauda, vai izeja ir sasniedzama.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Always same maze:</b> Aizmirsts mainīt seed vai tiek katru reizi izmantota viena un tā pati vērtība.</li>
+<li><b>Walls disconnected:</b> Pārbaudi flood fill - vai visas istabas savienotas.</li>
+<li><b>Slow generation:</b> Lielam grid lieto efficient algorithms - A* vai Voronoi.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Procedurāli ģenerēta labirints karte: pelēks fons (sienas), gaišāka taka (random walk ceļš) ar zaļu spawn point un sarkanu exit." loading="lazy" src="../img/topic5_random_walk.png"/>
+<figcaption>Procedurāli ģenerēta labirints karte: pelēks fons (sienas), gaišāka taka (random walk ceļš) ar zaļu spawn point un sarkanu exit.</figcaption>
+</figure>
+<figure class="screenshot">
+<img alt="Sarežģītāks labirints: 6 taisnstūrveida klases zonas savienotas ar koridoriem, dažas ar galdiem un šķēršļiem." loading="lazy" src="../img/topic5_rooms_corridors.png"/>
+<figcaption>Sarežģītāks labirints: 6 taisnstūrveida klases zonas savienotas ar koridoriem, dažas ar galdiem un šķēršļiem.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 using System;
 
 public class MazeGenerator
@@ -297,13 +260,23 @@ public class MazeGenerator
         }
     }
 }</code></pre>
-        <div class='result'>Katra spēles palaišanas reize ģenerē atšķirīgu labirintu: dažādas telpas, koridori un bonusa materiālu izvietojums.</div>
-    </div>
+<div class="result">Katra spēles palaišanas reize ģenerē atšķirīgu labirintu: dažādas telpas, koridori un bonusa materiālu izvietojums.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_5/prog2_53">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_5/prog2_55">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_5/prog2_53" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_5/prog2_55" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

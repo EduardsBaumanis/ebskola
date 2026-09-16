@@ -1,94 +1,73 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>1.2 Scene Tree un Node sistēma - ebSkola</title>
-<meta name="description" content="Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_1/prog2_12">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="1.2 Scene Tree un Node sistēma">
-<meta property="og:description" content="Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_1/prog2_12">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="1.2 Scene Tree un Node sistēma">
-<meta name="twitter:description" content="Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_1/prog2_12" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="1.2 Scene Tree un Node sistēma" property="og:title"/>
+<meta content="Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_1/prog2_12" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="1.2 Scene Tree un Node sistēma" name="twitter:title"/>
+<meta content="Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "1.2 Scene Tree un Node sistēma", "description": "Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_1/prog2_12", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_1/prog2_1main">1. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_1/prog2_11">← 1.1</a>
-    <a class="btn primary" href="/programmesana2/prog2_1/prog2_13">1.3 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>1. Tēma - Ievads Godot un C#</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_1/prog2_1main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_1/prog2_11">1.1 Godot instalācija un projekta sagatavošana</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_1/prog2_12">1.2 Scene Tree un Node sistēma</a>
-    <a href="/programmesana2/prog2_1/prog2_13">1.3 C# un .NET sagatavošana</a>
-    <a href="/programmesana2/prog2_1/prog2_14">1.4 Pirmais C# skripts: mainīgie un izvade</a>
-    <a href="/programmesana2/prog2_1/prog2_15">1.5 Spēles laukuma izveide</a>
-    <a href="/programmesana2/prog2_1/prog2_16">1.6 Noslēguma projekts: Pong</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>1.2 Scene Tree un Node sistēma</h1>
-    <p><b>Stundas uzdevums:</b> Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.13. Datu tipi</a>
-        <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido pirmo scēnu ar trim mezgliem · 2. uzdevums (~25 min) - saliec Pong laukuma koku · 3. uzdevums (~20 min) - saglabā paddle kā atsevišķu scēnu · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu Pong projektu no 1.1 stundas. Šodien vēl nerakstīsi kodu - tikai saliksi objektu koku, uz kuru vēlāk atsauksies C# kods.</p>
-        <p><b>Fokuss:</b> šodien katrs objekts iegūst vietu kokā un skaidru nosaukumu. Ja apjūc, paskaties tikai uz Scene paneli un pārbaudi, kurš mezgls ir vecāks un kurš ir bērns.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Node un Scene koncepti</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>1. Tēma - Ievads Godot un C#</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_1/prog2_1main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_1/prog2_11">1.1 Godot instalācija un projekta sagatavošana</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_1/prog2_12">1.2 Scene Tree un Node sistēma</a>
+<a href="/programmesana2/prog2_1/prog2_13">1.3 C# un .NET sagatavošana</a>
+<a href="/programmesana2/prog2_1/prog2_14">1.4 Pirmais C# skripts: mainīgie un izvade</a>
+<a href="/programmesana2/prog2_1/prog2_15">1.5 Spēles laukuma izveide</a>
+<a href="/programmesana2/prog2_1/prog2_16">1.6 Noslēguma projekts: Pong</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_1/prog2_1main">1. tēma</a> / 1.2</p>
+<h1>1.2 Scene Tree un Node sistēma</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Saprast, kā Godot organizē objektus Node hierarhijā un izveidot pirmo strādājošu scēnu.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.13. Datu tipi</a>
+<a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido pirmo scēnu ar trim mezgliem · 2. uzdevums (~25 min) - saliec Pong laukuma koku · 3. uzdevums (~20 min) - saglabā paddle kā atsevišķu scēnu · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu Pong projektu no 1.1 stundas. Šodien vēl nerakstīsi kodu - tikai saliksi objektu koku, uz kuru vēlāk atsauksies C# kods.</p>
+<p><b>Fokuss:</b> šodien katrs objekts iegūst vietu kokā un skaidru nosaukumu. Ja apjūc, paskaties tikai uz Scene paneli un pārbaudi, kurš mezgls ir vecāks un kurš ir bērns.</p>
+</div>
+</section><section>
+<h2>Teorija: Node un Scene koncepti</h2>
+<div class="logic-box">
 <p>Godot fundamentālais princips: <b>viss ir Node</b> (Mezgls). Spēles laukums, varonis, poga, skaņa un kamera ir mezgli, kas savienoti hierarhiskā kokā jeb <b>Scene</b> (Skatā). Scēna nav tikai vizuāls izkārtojums; tā ir arī objektu īpašumtiesību un komunikācijas struktūra.</p>
 <p>Labs Scene Tree ir kā skaidrs programmas modelis: katram node ir viena atbildība, bērni papildina vecāku, un atkārtoti lietojami objekti tiek saglabāti kā atsevišķas scēnas. Slikts Scene Tree parasti ir milzīgs <code>Main</code> ar nejaušiem bērniem, kur C# kodā grūti atrast vajadzīgos objektus.</p>
 <p><b>Galvenie Node tipi 2D spēlēs:</b></p>
@@ -124,130 +103,119 @@ public partial class Main : Node2D
         GD.Print("Scene ready: ", left.Name, ", ", right.Name, ", ", ball.Name);
     }
 }</code></pre>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Izveido pirmo scēnu ar trim mezgliem</h3>
-        <p>Beigās tev būs scēna ar vecāku mezglu un diviem bērniem.</p>
-        <p><b>Ko šis māca:</b> redzēt, ka scēna ir koks, kur bērni pieder vecākam un pārmanto tā novietojumu.</p>
-        <ol class="step-list">
-            <li><b>Nospied</b> Scene panelī <b>+ Other Node</b>.</li>
-            <li><b>Izvēlies</b> tipu <code>Node2D</code> un pārsauc to par <code>Main</code>.</li>
-            <li><b>Nospied</b> uz <code>Main</code> ar labo pogu un izvēlies <b>Add Child Node</b>.</li>
-            <li><b>Pievieno</b> bērnu <code>CharacterBody2D</code> un pārsauc to par <code>Ball</code>.</li>
-            <li><b>Pievieno</b> vēl vienu bērnu <code>Label</code> un pārsauc to par <code>Punkti</code>.</li>
-            <li><b>Saglabā</b> scēnu ar <code>Ctrl+S</code> kā <code>main.tscn</code>.</li>
-            <li><b>Pārbaudi</b>, ka Scene panelī <code>Ball</code> un <code>Punkti</code> ir nobīdīti pa labi zem <code>Main</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> Scene panelī ir koks ar <code>Main</code> augšā un diviem bērniem zem tā, un fails <code>main.tscn</code> ir saglabāts.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Saliec Pong laukuma koku</h3>
-        <p>Beigās tavā scēnā būs visi Pong objekti ar saprotamiem nosaukumiem.</p>
-        <p><b>Ko šis māca:</b> izvēlēties mezglu tipus pēc atbildības: kustīgs ķermenis, sadursmes forma un vizuāls elements nav viens un tas pats.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> zem <code>Main</code> mezglu <code>CharacterBody2D</code> un pārsauc to par <code>PaddleLeft</code>.</li>
-            <li><b>Pievieno</b> otru <code>CharacterBody2D</code> un pārsauc to par <code>PaddleRight</code>.</li>
-            <li><b>Pievieno</b> <code>PaddleLeft</code> bērnu <code>CollisionShape2D</code>.</li>
-            <li><b>Pievieno</b> <code>PaddleRight</code> bērnu <code>CollisionShape2D</code>.</li>
-            <li><b>Pievieno</b> <code>Ball</code> bērnu <code>CollisionShape2D</code>.</li>
-            <li><b>Izvēlies</b> paddle sadursmēm Inspector panelī <code>Shape</code> -&gt; <b>New RectangleShape2D</b>.</li>
-            <li><b>Izvēlies</b> <code>Ball</code> sadursmei <code>Shape</code> -&gt; <b>New CircleShape2D</b>.</li>
-            <li><b>Pievieno</b> katram paddle arī bērnu <code>ColorRect</code>, lai to redzētu.</li>
-            <li><b>Pievieno</b> <code>Ball</code> bērnu <code>ColorRect</code>, lai bumbu redzētu kā mazu kvadrātu.</li>
-            <li><b>Pārbaudi</b>, ka neviens mezgls nesaucas <code>Node2D2</code>, <code>CharacterBody2D2</code> vai <code>ColorRect3</code>.</li>
-            <li><b>Saglabā</b> scēnu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> Scene kokā katram mezglam ir nosaukums, no kura var saprast, kas tas ir, un abiem paddle un <code>Ball</code> ir sadursmes forma.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Saglabā paddle kā atsevišķu scēnu</h3>
-        <p>Beigās vienu paddle varēsi lietot atkārtoti, nekopējot mezglus.</p>
-        <p><b>Ko šis māca:</b> saprast atkārtoti lietojamu scēnu principu - vienu objektu labo vienā failā, bet izmanto vairākās vietās.</p>
-        <ol class="step-list">
-            <li><b>Nospied</b> uz <code>PaddleLeft</code> ar labo pogu.</li>
-            <li><b>Izvēlies</b> <b>Save Branch as Scene</b> un saglabā kā <code>paddle.tscn</code>.</li>
-            <li><b>Ievēro</b>, ka mezgla ikonai tagad ir maza filmiņas zīme - tā ir atsevišķa scēna.</li>
-            <li><b>Izdzēs</b> <code>PaddleRight</code> no koka.</li>
-            <li><b>Ievelc</b> <code>paddle.tscn</code> no FileSystem paneļa uz <code>Main</code> un pārsauc to par <code>PaddleRight</code>.</li>
-            <li><b>Atver</b> <code>paddle.tscn</code>, nomaini krāsu un saglabā.</li>
-            <li><b>Atgriezies</b> uz <code>main.tscn</code> un pārbaudi abus paddle.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> nomainot krāsu vienā <code>paddle.tscn</code> failā, tā mainās abiem paddle uzreiz.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Sakārto koku pēc atbildības</h3>
-        <p>Ja pamatdarbs ir gatavs, sadali scēnu loģiskās grupās.</p>
-        <p><b>Ko šis māca:</b> dalīt projektu mazākās grupās, lai C# kodā vēlāk nav jāmeklē objekti lielā, nejaušā sarakstā.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> zem <code>Main</code> tukšu <code>Node2D</code> ar nosaukumu <code>Speles</code>.</li>
-            <li><b>Pievieno</b> otru tukšu <code>Node2D</code> ar nosaukumu <code>UI</code>.</li>
-            <li><b>Pārvelc</b> abus paddle un <code>Ball</code> zem <code>Speles</code>.</li>
-            <li><b>Pārvelc</b> <code>Punkti</code> zem <code>UI</code>.</li>
-            <li><b>Pieraksti</b>, ka pēc grupēšanas C# ceļi būs, piemēram, <code>Speles/Ball</code> un <code>UI/Punkti</code>.</li>
-            <li><b>Pieraksti</b>, kāpēc šāds dalījums vēlāk atvieglos koda rakstīšanu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> koks ir sadalīts divās grupās, un zem <code>Main</code> ir tikai divi tiešie bērni.</p>
-    </div>
-</section>
 
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tev ir saglabāta Pong scēna <code>main.tscn</code>, kurā objekti sakārtoti saprotamā Node kokā, un viens paddle ir izveidots kā atkārtoti lietojama scēna <code>paddle.tscn</code>.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Ekrānuzņēmums ar Scene paneli, kurā redzams viss tavs mezglu koks ar nosaukumiem.</li>
-            <li>Faili <code>main.tscn</code> un <code>paddle.tscn</code> (veic commit un push).</li>
-            <li>Viens teikums README.md failā: ar ko scēna atšķiras no mezgla.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Pašpārbaude pirms iesniegšanas</h2>
-    <p>Pārbaudi, vai scēnas koku var saprast arī cilvēks, kurš to redz pirmo reizi.</p>
-    <div class='logic-box'>
-        <ul>
-            <li><b>Pārskati nosaukumus:</b> kokā nedrīkst palikt <code>Node2D2</code>, <code>CharacterBody2D2</code>, <code>ColorRect3</code> vai citi nejauši nosaukumi.</li>
-            <li><b>Atver</b> <code>paddle.tscn</code> atsevišķi un pārliecinies, ka tajā ir vizuālais mezgls un <code>CollisionShape2D</code>.</li>
-            <li><b>README.md</b> vienā teikumā paskaidro, ar ko scēna atšķiras no mezgla.</li>
-        </ul>
-    </div>
-</section>
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Bērns nepārvietojas ar vecāku:</b> Pārliecinies, ka Sprite2D un CollisionShape2D ir tieši zem CharacterBody2D.</li>
-        <li><b>CollisionShape2D rāda dzeltenu trīsstūri:</b> Trūkst Shape resursa.</li>
-        <li><b>Sprite nav redzams:</b> Texture lauks tukšs.</li>
-        </ul>
-    </div>
-</section>
 
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic1_scene_tree.png" alt="Scene Tree panelis ar Pong scēnas hierarhiju: Main → Background, PaddleLeft, PaddleRight, Ball, katrs ar Sprite2D un CollisionShape2D bērniem." loading="lazy">
-            <figcaption>Scene Tree panelis ar Pong scēnas hierarhiju: Main → Background, PaddleLeft, PaddleRight, Ball, katrs ar Sprite2D un CollisionShape2D bērniem.</figcaption>
-        </figure>
-        <figure class="screenshot">
-            <img src="../img/topic1_inspector.png" alt="Inspector panelis ar atlasītu CharacterBody2D un Position, Rotation, Scale īpašībām." loading="lazy">
-            <figcaption>Inspector panelis ar atlasītu CharacterBody2D un Position, Rotation, Scale īpašībām.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Izveido pirmo scēnu ar trim mezgliem</h2>
+<p>Beigās tev būs scēna ar vecāku mezglu un diviem bērniem.</p>
+<p><b>Ko šis māca:</b> redzēt, ka scēna ir koks, kur bērni pieder vecākam un pārmanto tā novietojumu.</p>
+<ol class="step-list">
+<li><b>Nospied</b> Scene panelī <b>+ Other Node</b>.</li>
+<li><b>Izvēlies</b> tipu <code>Node2D</code> un pārsauc to par <code>Main</code>.</li>
+<li><b>Nospied</b> uz <code>Main</code> ar labo pogu un izvēlies <b>Add Child Node</b>.</li>
+<li><b>Pievieno</b> bērnu <code>CharacterBody2D</code> un pārsauc to par <code>Ball</code>.</li>
+<li><b>Pievieno</b> vēl vienu bērnu <code>Label</code> un pārsauc to par <code>Punkti</code>.</li>
+<li><b>Saglabā</b> scēnu ar <code>Ctrl+S</code> kā <code>main.tscn</code>.</li>
+<li><b>Pārbaudi</b>, ka Scene panelī <code>Ball</code> un <code>Punkti</code> ir nobīdīti pa labi zem <code>Main</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Scene panelī ir koks ar <code>Main</code> augšā un diviem bērniem zem tā, un fails <code>main.tscn</code> ir saglabāts.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Saliec Pong laukuma koku</h2>
+<p>Beigās tavā scēnā būs visi Pong objekti ar saprotamiem nosaukumiem.</p>
+<p><b>Ko šis māca:</b> izvēlēties mezglu tipus pēc atbildības: kustīgs ķermenis, sadursmes forma un vizuāls elements nav viens un tas pats.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> zem <code>Main</code> mezglu <code>CharacterBody2D</code> un pārsauc to par <code>PaddleLeft</code>.</li>
+<li><b>Pievieno</b> otru <code>CharacterBody2D</code> un pārsauc to par <code>PaddleRight</code>.</li>
+<li><b>Pievieno</b> <code>PaddleLeft</code> bērnu <code>CollisionShape2D</code>.</li>
+<li><b>Pievieno</b> <code>PaddleRight</code> bērnu <code>CollisionShape2D</code>.</li>
+<li><b>Pievieno</b> <code>Ball</code> bērnu <code>CollisionShape2D</code>.</li>
+<li><b>Izvēlies</b> paddle sadursmēm Inspector panelī <code>Shape</code> -&gt; <b>New RectangleShape2D</b>.</li>
+<li><b>Izvēlies</b> <code>Ball</code> sadursmei <code>Shape</code> -&gt; <b>New CircleShape2D</b>.</li>
+<li><b>Pievieno</b> katram paddle arī bērnu <code>ColorRect</code>, lai to redzētu.</li>
+<li><b>Pievieno</b> <code>Ball</code> bērnu <code>ColorRect</code>, lai bumbu redzētu kā mazu kvadrātu.</li>
+<li><b>Pārbaudi</b>, ka neviens mezgls nesaucas <code>Node2D2</code>, <code>CharacterBody2D2</code> vai <code>ColorRect3</code>.</li>
+<li><b>Saglabā</b> scēnu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Scene kokā katram mezglam ir nosaukums, no kura var saprast, kas tas ir, un abiem paddle un <code>Ball</code> ir sadursmes forma.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Saglabā paddle kā atsevišķu scēnu</h2>
+<p>Beigās vienu paddle varēsi lietot atkārtoti, nekopējot mezglus.</p>
+<p><b>Ko šis māca:</b> saprast atkārtoti lietojamu scēnu principu - vienu objektu labo vienā failā, bet izmanto vairākās vietās.</p>
+<ol class="step-list">
+<li><b>Nospied</b> uz <code>PaddleLeft</code> ar labo pogu.</li>
+<li><b>Izvēlies</b> <b>Save Branch as Scene</b> un saglabā kā <code>paddle.tscn</code>.</li>
+<li><b>Ievēro</b>, ka mezgla ikonai tagad ir maza filmiņas zīme - tā ir atsevišķa scēna.</li>
+<li><b>Izdzēs</b> <code>PaddleRight</code> no koka.</li>
+<li><b>Ievelc</b> <code>paddle.tscn</code> no FileSystem paneļa uz <code>Main</code> un pārsauc to par <code>PaddleRight</code>.</li>
+<li><b>Atver</b> <code>paddle.tscn</code>, nomaini krāsu un saglabā.</li>
+<li><b>Atgriezies</b> uz <code>main.tscn</code> un pārbaudi abus paddle.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> nomainot krāsu vienā <code>paddle.tscn</code> failā, tā mainās abiem paddle uzreiz.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Sakārto koku pēc atbildības</summary>
+<p>Ja pamatdarbs ir gatavs, sadali scēnu loģiskās grupās.</p>
+<p><b>Ko šis māca:</b> dalīt projektu mazākās grupās, lai C# kodā vēlāk nav jāmeklē objekti lielā, nejaušā sarakstā.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> zem <code>Main</code> tukšu <code>Node2D</code> ar nosaukumu <code>Speles</code>.</li>
+<li><b>Pievieno</b> otru tukšu <code>Node2D</code> ar nosaukumu <code>UI</code>.</li>
+<li><b>Pārvelc</b> abus paddle un <code>Ball</code> zem <code>Speles</code>.</li>
+<li><b>Pārvelc</b> <code>Punkti</code> zem <code>UI</code>.</li>
+<li><b>Pieraksti</b>, ka pēc grupēšanas C# ceļi būs, piemēram, <code>Speles/Ball</code> un <code>UI/Punkti</code>.</li>
+<li><b>Pieraksti</b>, kāpēc šāds dalījums vēlāk atvieglos koda rakstīšanu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> koks ir sadalīts divās grupās, un zem <code>Main</code> ir tikai divi tiešie bērni.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tev ir saglabāta Pong scēna <code>main.tscn</code>, kurā objekti sakārtoti saprotamā Node kokā, un viens paddle ir izveidots kā atkārtoti lietojama scēna <code>paddle.tscn</code>.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Ekrānuzņēmums ar Scene paneli, kurā redzams viss tavs mezglu koks ar nosaukumiem.</li>
+<li>Faili <code>main.tscn</code> un <code>paddle.tscn</code> (veic commit un push).</li>
+<li>Viens teikums README.md failā: ar ko scēna atšķiras no mezgla.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Pašpārbaude pirms iesniegšanas</h2>
+<p>Pārbaudi, vai scēnas koku var saprast arī cilvēks, kurš to redz pirmo reizi.</p>
+<div class="logic-box">
+<ul>
+<li><b>Pārskati nosaukumus:</b> kokā nedrīkst palikt <code>Node2D2</code>, <code>CharacterBody2D2</code>, <code>ColorRect3</code> vai citi nejauši nosaukumi.</li>
+<li><b>Atver</b> <code>paddle.tscn</code> atsevišķi un pārliecinies, ka tajā ir vizuālais mezgls un <code>CollisionShape2D</code>.</li>
+<li><b>README.md</b> vienā teikumā paskaidro, ar ko scēna atšķiras no mezgla.</li>
+</ul>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Bērns nepārvietojas ar vecāku:</b> Pārliecinies, ka Sprite2D un CollisionShape2D ir tieši zem CharacterBody2D.</li>
+<li><b>CollisionShape2D rāda dzeltenu trīsstūri:</b> Trūkst Shape resursa.</li>
+<li><b>Sprite nav redzams:</b> Texture lauks tukšs.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Scene Tree panelis ar Pong scēnas hierarhiju: Main → Background, PaddleLeft, PaddleRight, Ball, katrs ar Sprite2D un CollisionShape2D bērniem." loading="lazy" src="../img/topic1_scene_tree.png"/>
+<figcaption>Scene Tree panelis ar Pong scēnas hierarhiju: Main → Background, PaddleLeft, PaddleRight, Ball, katrs ar Sprite2D un CollisionShape2D bērniem.</figcaption>
+</figure>
+<figure class="screenshot">
+<img alt="Inspector panelis ar atlasītu CharacterBody2D un Position, Rotation, Scale īpašībām." loading="lazy" src="../img/topic1_inspector.png"/>
+<figcaption>Inspector panelis ar atlasītu CharacterBody2D un Position, Rotation, Scale īpašībām.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 
 public partial class Main : Node2D
 {
@@ -262,13 +230,23 @@ public partial class Main : Node2D
         ball.Position = new Vector2(640, 360);
     }
 }</code></pre>
-        <div class='result'>C# kods atrod Pong scēnas galvenos mezglus un novieto tos sākuma pozīcijās.</div>
-    </div>
+<div class="result">C# kods atrod Pong scēnas galvenos mezglus un novieto tos sākuma pozīcijās.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_1/prog2_11">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_1/prog2_13">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_1/prog2_11" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_1/prog2_13" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

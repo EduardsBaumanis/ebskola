@@ -1,94 +1,74 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>4.6 Noslēguma projekts: Top-down šautene - ebSkola</title>
-<meta name="description" content="Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down shooter projektā ar viļņiem, ienaidniekiem un testiem.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_4/prog2_46">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4.6 Noslēguma projekts: Top-down šautene">
-<meta property="og:description" content="Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down shooter projektā ar viļņiem, ienaidniekiem un testiem.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_4/prog2_46">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4.6 Noslēguma projekts: Top-down šautene">
-<meta name="twitter:description" content="Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down shooter projektā ar viļņiem, ienaidniekiem un testiem.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down shooter projektā ar viļņiem, ienaidniekiem un testiem." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_4/prog2_46" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="4.6 Noslēguma projekts: Top-down šautene" property="og:title"/>
+<meta content="Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down shooter projektā ar viļņiem, ienaidniekiem un testiem." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_4/prog2_46" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="4.6 Noslēguma projekts: Top-down šautene" name="twitter:title"/>
+<meta content="Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down shooter projektā ar viļņiem, ienaidniekiem un testiem." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "4.6 Noslēguma projekts: Top-down šautene","description": "Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down shooter projektā ar viļņiem, ienaidniekiem un testiem.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_4/prog2_46","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_4/prog2_4main">4. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_4/prog2_45">← 4.5</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>4. Tēma - Datu struktūras un AI</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_4/prog2_4main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_4/prog2_41">4.1 List un Array</a>
-    <a href="/programmesana2/prog2_4/prog2_42">4.2 Dictionary un Godot Dictionary</a>
-    <a href="/programmesana2/prog2_4/prog2_43">4.3 State machines AI uzvedībai</a>
-    <a href="/programmesana2/prog2_4/prog2_44">4.4 Pathfinding ar A*</a>
-    <a href="/programmesana2/prog2_4/prog2_45">4.5 Šaušanas mehānika un object pooling</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_4/prog2_46">4.6 Noslēguma projekts: Top-down šautene</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>4.6 Noslēguma projekts: Top-down šautene</h1>
-    <p><b>Stundas uzdevums:</b> Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down šautenē.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.1. Problēmu dekompozīcija</a>
-        <a href="/sasnRez">SR 2.4.16. Datu struktūras</a>
-        <a href="/sasnRez">SR 2.4.18. OOP</a>
-        <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~20 min) - spēlētājs ar kustību un mērķēšanu · 2. uzdevums (~25 min) - divi ienaidnieku tipi ar AI · 3. uzdevums (~20 min) - viļņu sistēma un rezultāts · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> šis ir 4. tēmas noslēguma projekts. Izmanto visu apgūto: sarakstus, vārdnīcas, stāvokļu mašīnu, pathfinding un lādiņu krātuvi. Sāc ar VIENU ienaidnieka tipu.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Spēles apraksts un arhitektūra</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>4. Tēma - Datu struktūras un AI</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_4/prog2_4main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_4/prog2_41">4.1 List un Array</a>
+<a href="/programmesana2/prog2_4/prog2_42">4.2 Dictionary un Godot Dictionary</a>
+<a href="/programmesana2/prog2_4/prog2_43">4.3 State machines AI uzvedībai</a>
+<a href="/programmesana2/prog2_4/prog2_44">4.4 Pathfinding ar A*</a>
+<a href="/programmesana2/prog2_4/prog2_45">4.5 Šaušanas mehānika un object pooling</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_4/prog2_46">4.6 Noslēguma projekts: Top-down šautene</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_4/prog2_4main">4. tēma</a> / 4.6</p>
+<h1>4.6 Noslēguma projekts: Top-down šautene</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Apvienot datu struktūras, AI un object pooling pilnvērtīgā top-down šautenē.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.1. Problēmu dekompozīcija</a>
+<a href="/sasnRez">SR 2.4.16. Datu struktūras</a>
+<a href="/sasnRez">SR 2.4.18. OOP</a>
+<a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~20 min) - spēlētājs ar kustību un mērķēšanu · 2. uzdevums (~25 min) - divi ienaidnieku tipi ar AI · 3. uzdevums (~20 min) - viļņu sistēma un rezultāts · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> šis ir 4. tēmas noslēguma projekts. Izmanto visu apgūto: sarakstus, vārdnīcas, stāvokļu mašīnu, pathfinding un lādiņu krātuvi. Sāc ar VIENU ienaidnieka tipu.</p>
+</div>
+</section><section>
+<h2>Teorija: Spēles apraksts un arhitektūra</h2>
+<div class="logic-box">
 <p><b>Top-down šautene</b> ar šādām funkcijām:</p>
 <ul>
 <li>Spēlētājs ar 8 virzienu kustību un mouse-aimed šaušanu.</li>
@@ -106,15 +86,12 @@ public partial class Brute : Enemy { /* slow, strong */ }
 public partial class Shooter : Enemy { /* keeps distance, shoots */ }
 public partial class Bullet : Area2D { /* pooled */ }
 public partial class WaveManager : Node { /* spawns waves */ }</code></pre>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> C# kodā pamatoti izvēlēti <code>List</code>, <code>Dictionary</code> vai <code>HashSet</code>, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> C# kodā pamatoti izvēlēti <code>List</code>, <code>Dictionary</code> vai <code>HashSet</code>, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
 <pre><code class="language-csharp">public class AiDataCheckpoint
 {
     public string Lesson = "4.6 Noslēguma projekts: Top-down šautene";
@@ -123,114 +100,101 @@ public partial class WaveManager : Node { /* spawns waves */ }</code></pre>
     public bool SeparatesAiState = true;
     public bool HandlesRemovalSafely = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Spēlētājs ar kustību un mērķēšanu</h3>
-        <p>Beigās spēlētājs pārvietosies ar WASD un šaus peles virzienā.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> spēlētāja klasi ar 8 virzienu kustību un normalizētu vektoru.</li>
-            <li><b>Paņem</b> peles pozīciju ar <code class="language-csharp">GetGlobalMousePosition()</code>.</li>
-            <li><b>Pagriez</b> spēlētāju pret peli ar <code class="language-csharp">LookAt(...)</code>.</li>
-            <li><b>Pievieno</b> šaušanu no 4.5 stundas ar lādiņu krātuvi.</li>
-            <li><b>Izšauj</b> lādiņu spēlētāja skatīšanās virzienā.</li>
-            <li><b>Būvē</b> un pārbaudi kustību visos virzienos un šaušanu.</li>
-            <li><b>Pārliecinies</b>, ka diagonālā kustība nav ātrāka.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> spēlētājs kustas visos virzienos, vienmēr skatās uz peli un šauj tieši tajā virzienā.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Divi ienaidnieku tipi ar AI</h3>
-        <p>Beigās ienaidnieki uzvedīsies atšķirīgi.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> bāzes klasi <code>Enemy</code> ar stāvokļu mašīnu no 4.3 stundas.</li>
-            <li><b>Izveido</b> bērna klasi <code>Chaser</code>, kas dzenas ar pathfinding.</li>
-            <li><b>Izveido</b> otru bērna klasi <code>Shooter</code>, kas apstājas un šauj no attāluma.</li>
-            <li><b>Glabā</b> visus ienaidniekus vienā <code class="language-csharp">List&lt;Enemy&gt;</code>.</li>
-            <li><b>Uzraksti</b> vienu ciklu, kas atjaunina visus ienaidniekus.</li>
-            <li><b>Pievieno</b> ienaidniekiem HP un dzēšanu, kad tie tiek nošauti.</li>
-            <li><b>Pārbaudi</b>, ka abi tipi uzvedas atšķirīgi.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> viens ienaidnieku tips dzenas pakaļ, otrs apstājas un šauj, un abus apstrādā viens cikls.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Viļņu sistēma un rezultāts</h3>
-        <p>Beigās spēle kļūs arvien grūtāka un skaitīs punktus.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> klasi <code>WaveManager</code> ar lauku <code class="language-csharp">int wave = 1;</code>.</li>
-            <li><b>Radi</b> katrā vilnī vairāk ienaidnieku nekā iepriekšējā.</li>
-            <li><b>Pārej</b> uz nākamo vilni, kad visi ienaidnieki iznīcināti.</li>
-            <li><b>Pievieno</b> punktu skaitītāju un HUD ar vilni, punktiem un HP.</li>
-            <li><b>Pievieno</b> spēles beigas, kad spēlētāja HP sasniedz nulli.</li>
-            <li><b>Izspēlē</b> vismaz trīs viļņus.</li>
-            <li><b>Veic</b> commit un push.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> spēle pāriet no viļņa uz vilni, katrā ir vairāk ienaidnieku, un beidzas, kad spēlētājs zaudē HP.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno savācamos bonusus</h3>
-        <p>Ja pamatdarbs ir gatavs, ļauj spēlētājam atjaunot HP un munīciju.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> <code>Area2D</code> bonusa scēnu ar veidu <code>HP</code> vai <code>AMMO</code>.</li>
-            <li><b>Radi</b> bonusu nejaušā vietā pēc katra viļņa.</li>
-            <li><b>Palielini</b> attiecīgo vērtību, kad spēlētājs to savāc.</li>
-            <li><b>Ierobežo</b> HP, lai tas nepārsniegtu maksimumu.</li>
-            <li><b>Pārbaudi</b> abus bonusa veidus.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> bonusi parādās pēc katra viļņa un atjauno HP vai munīciju, nepārsniedzot maksimumu.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tev ir izspēlējama top-down šautene: spēlētājs ar 8 virzienu kustību un mērķēšanu pret peli, vismaz divi ienaidnieku tipi ar atšķirīgu AI, viļņu sistēma ar augošu grūtību un HUD ar punktiem un HP.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Viss projekts ar C# skriptiem, scēnām un projekta failiem.</li>
-            <li>README.md ievietota video saite, kurā izspēlē vismaz divus viļņus un redzami abi ienaidnieku tipi.</li>
-            <li>Faili <code>Player.cs</code>, <code>Enemy.cs</code>, abu ienaidnieku tipu klases un <code>WaveManager.cs</code>.</li>
-            <li>README.md: kā tavi divi ienaidnieku tipi atšķiras un kāpēc abus var apstrādāt vienā ciklā.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Lag ar daudziem enemies:</b> Pārliecinies, ka NavigationAgent2D update_freq ir saprātīgs.</li>
-        <li><b>Bullets sit savus:</b> Pārbaudi collision layers - Player bullets jāignore Player.</li>
-        <li><b>Wave neuzsākas:</b> Timer vai counter sajaucies - debug ar print statements.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic4_topdown_gameplay.png" alt="Top-down šautenes spēles aina: spēlētājs centrā, 8 ienaidnieki dažādos virzienos, lādiņu trajektorijas, HP bāris." loading="lazy">
-            <figcaption>Top-down šautenes spēles aina: spēlētājs centrā, 8 ienaidnieki dažādos virzienos, lādiņu trajektorijas, HP bāris.</figcaption>
-        </figure>
-        <figure class="screenshot">
-            <img src="../img/topic4_wave_ui.png" alt="Spēles UI: 'Wave 3' augšā, 'Enemies: 8/12' centrā, 'Score: 1240' apakšā, HP bāris, ammo skaitītājs." loading="lazy">
-            <figcaption>Spēles UI: 'Wave 3' augšā, 'Enemies: 8/12' centrā, 'Score: 1240' apakšā, HP bāris, ammo skaitītājs.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Spēlētājs ar kustību un mērķēšanu</h2>
+<p>Beigās spēlētājs pārvietosies ar WASD un šaus peles virzienā.</p>
+<ol class="step-list">
+<li><b>Izveido</b> spēlētāja klasi ar 8 virzienu kustību un normalizētu vektoru.</li>
+<li><b>Paņem</b> peles pozīciju ar <code class="language-csharp">GetGlobalMousePosition()</code>.</li>
+<li><b>Pagriez</b> spēlētāju pret peli ar <code class="language-csharp">LookAt(...)</code>.</li>
+<li><b>Pievieno</b> šaušanu no 4.5 stundas ar lādiņu krātuvi.</li>
+<li><b>Izšauj</b> lādiņu spēlētāja skatīšanās virzienā.</li>
+<li><b>Būvē</b> un pārbaudi kustību visos virzienos un šaušanu.</li>
+<li><b>Pārliecinies</b>, ka diagonālā kustība nav ātrāka.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> spēlētājs kustas visos virzienos, vienmēr skatās uz peli un šauj tieši tajā virzienā.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Divi ienaidnieku tipi ar AI</h2>
+<p>Beigās ienaidnieki uzvedīsies atšķirīgi.</p>
+<ol class="step-list">
+<li><b>Izveido</b> bāzes klasi <code>Enemy</code> ar stāvokļu mašīnu no 4.3 stundas.</li>
+<li><b>Izveido</b> bērna klasi <code>Chaser</code>, kas dzenas ar pathfinding.</li>
+<li><b>Izveido</b> otru bērna klasi <code>Shooter</code>, kas apstājas un šauj no attāluma.</li>
+<li><b>Glabā</b> visus ienaidniekus vienā <code class="language-csharp">List&lt;Enemy&gt;</code>.</li>
+<li><b>Uzraksti</b> vienu ciklu, kas atjaunina visus ienaidniekus.</li>
+<li><b>Pievieno</b> ienaidniekiem HP un dzēšanu, kad tie tiek nošauti.</li>
+<li><b>Pārbaudi</b>, ka abi tipi uzvedas atšķirīgi.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> viens ienaidnieku tips dzenas pakaļ, otrs apstājas un šauj, un abus apstrādā viens cikls.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Viļņu sistēma un rezultāts</h2>
+<p>Beigās spēle kļūs arvien grūtāka un skaitīs punktus.</p>
+<ol class="step-list">
+<li><b>Izveido</b> klasi <code>WaveManager</code> ar lauku <code class="language-csharp">int wave = 1;</code>.</li>
+<li><b>Radi</b> katrā vilnī vairāk ienaidnieku nekā iepriekšējā.</li>
+<li><b>Pārej</b> uz nākamo vilni, kad visi ienaidnieki iznīcināti.</li>
+<li><b>Pievieno</b> punktu skaitītāju un HUD ar vilni, punktiem un HP.</li>
+<li><b>Pievieno</b> spēles beigas, kad spēlētāja HP sasniedz nulli.</li>
+<li><b>Izspēlē</b> vismaz trīs viļņus.</li>
+<li><b>Veic</b> commit un push.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> spēle pāriet no viļņa uz vilni, katrā ir vairāk ienaidnieku, un beidzas, kad spēlētājs zaudē HP.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno savācamos bonusus</summary>
+<p>Ja pamatdarbs ir gatavs, ļauj spēlētājam atjaunot HP un munīciju.</p>
+<ol class="step-list">
+<li><b>Izveido</b> <code>Area2D</code> bonusa scēnu ar veidu <code>HP</code> vai <code>AMMO</code>.</li>
+<li><b>Radi</b> bonusu nejaušā vietā pēc katra viļņa.</li>
+<li><b>Palielini</b> attiecīgo vērtību, kad spēlētājs to savāc.</li>
+<li><b>Ierobežo</b> HP, lai tas nepārsniegtu maksimumu.</li>
+<li><b>Pārbaudi</b> abus bonusa veidus.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> bonusi parādās pēc katra viļņa un atjauno HP vai munīciju, nepārsniedzot maksimumu.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tev ir izspēlējama top-down šautene: spēlētājs ar 8 virzienu kustību un mērķēšanu pret peli, vismaz divi ienaidnieku tipi ar atšķirīgu AI, viļņu sistēma ar augošu grūtību un HUD ar punktiem un HP.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Viss projekts ar C# skriptiem, scēnām un projekta failiem.</li>
+<li>README.md ievietota video saite, kurā izspēlē vismaz divus viļņus un redzami abi ienaidnieku tipi.</li>
+<li>Faili <code>Player.cs</code>, <code>Enemy.cs</code>, abu ienaidnieku tipu klases un <code>WaveManager.cs</code>.</li>
+<li>README.md: kā tavi divi ienaidnieku tipi atšķiras un kāpēc abus var apstrādāt vienā ciklā.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Lag ar daudziem enemies:</b> Pārliecinies, ka NavigationAgent2D update_freq ir saprātīgs.</li>
+<li><b>Bullets sit savus:</b> Pārbaudi collision layers - Player bullets jāignore Player.</li>
+<li><b>Wave neuzsākas:</b> Timer vai counter sajaucies - debug ar print statements.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Top-down šautenes spēles aina: spēlētājs centrā, 8 ienaidnieki dažādos virzienos, lādiņu trajektorijas, HP bāris." loading="lazy" src="../img/topic4_topdown_gameplay.png"/>
+<figcaption>Top-down šautenes spēles aina: spēlētājs centrā, 8 ienaidnieki dažādos virzienos, lādiņu trajektorijas, HP bāris.</figcaption>
+</figure>
+<figure class="screenshot">
+<img alt="Spēles UI: 'Wave 3' augšā, 'Enemies: 8/12' centrā, 'Score: 1240' apakšā, HP bāris, ammo skaitītājs." loading="lazy" src="../img/topic4_wave_ui.png"/>
+<figcaption>Spēles UI: 'Wave 3' augšā, 'Enemies: 8/12' centrā, 'Score: 1240' apakšā, HP bāris, ammo skaitītājs.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 using System.Collections.Generic;
 
 public enum EnemyType { Fast, Brute, Shooter }
@@ -277,13 +241,23 @@ public partial class WaveManager : Node
         waveTimer = 30.0f;
     }
 }</code></pre>
-        <div class='result'>Pilnvērtīga top-down šautene ar 5 viļņiem, 3 ienaidnieku tipiem, pathfinding un boss.</div>
-    </div>
+<div class="result">Pilnvērtīga top-down šautene ar 5 viļņiem, 3 ienaidnieku tipiem, pathfinding un boss.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_4/prog2_45">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_4/prog2_4main">Tēmas apkopojums ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_4/prog2_45" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_4/prog2_4main" class="nav-btn">Tēmas apkopojums ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

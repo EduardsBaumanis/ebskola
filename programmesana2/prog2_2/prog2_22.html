@@ -1,93 +1,72 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>2.2 Input apstrāde un Input Map - ebSkola</title>
-<meta name="description" content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C# kodā.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_2/prog2_22">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="2.2 Input apstrāde un Input Map">
-<meta property="og:description" content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C# kodā.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_2/prog2_22">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2.2 Input apstrāde un Input Map">
-<meta name="twitter:description" content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C# kodā.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C# kodā." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_2/prog2_22" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="2.2 Input apstrāde un Input Map" property="og:title"/>
+<meta content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C# kodā." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_2/prog2_22" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="2.2 Input apstrāde un Input Map" name="twitter:title"/>
+<meta content="Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C# kodā." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "2.2 Input apstrāde un Input Map","description": "Konfigurēt Godot Input Map un izveidot WASD vai bultiņu vadāmu spēlētāju ar skaidru ievades apstrādi C# kodā.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_2/prog2_22","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_2/prog2_2main">2. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_2/prog2_21">← 2.1</a>
-    <a class="btn primary" href="/programmesana2/prog2_2/prog2_23">2.3 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>2. Tēma - Kustība un sadursmes</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_2/prog2_2main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_2/prog2_21">2.1 Process un fizikas cikli</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_2/prog2_22">2.2 Input apstrāde un Input Map</a>
-    <a href="/programmesana2/prog2_2/prog2_23">2.3 Vadības struktūras spēles loģikā</a>
-    <a href="/programmesana2/prog2_2/prog2_24">2.4 Sadursmju noteikšana</a>
-    <a href="/programmesana2/prog2_2/prog2_25">2.5 Gravitācija un platformas mehānika</a>
-    <a href="/programmesana2/prog2_2/prog2_26">2.6 Noslēguma projekts: Platformas spēle</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>2.2 Input apstrāde un Input Map</h1>
-    <p><b>Stundas uzdevums:</b> Konfigurēt Input Map un izveidot WASD/bultiņu vadāmu spēlētāju.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.14. Vadības struktūras</a>
-        <a href="/sasnRez">SR 2.4.7. UI</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido Input Map darbības · 2. uzdevums (~25 min) - vadi objektu ar taustiņiem · 3. uzdevums (~20 min) - normalizē diagonālo kustību · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu projektu ar <code>Mover</code> klasi no 2.1 stundas. Šodien objektu vadīsi tu pats, nevis tas kustēsies pats.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Input pārvaldība Godot</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>2. Tēma - Kustība un sadursmes</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_2/prog2_2main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_2/prog2_21">2.1 Process un fizikas cikli</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_2/prog2_22">2.2 Input apstrāde un Input Map</a>
+<a href="/programmesana2/prog2_2/prog2_23">2.3 Vadības struktūras spēles loģikā</a>
+<a href="/programmesana2/prog2_2/prog2_24">2.4 Sadursmju noteikšana</a>
+<a href="/programmesana2/prog2_2/prog2_25">2.5 Gravitācija un platformas mehānika</a>
+<a href="/programmesana2/prog2_2/prog2_26">2.6 Noslēguma projekts: Platformas spēle</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_2/prog2_2main">2. tēma</a> / 2.2</p>
+<h1>2.2 Input apstrāde un Input Map</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Konfigurēt Input Map un izveidot WASD/bultiņu vadāmu spēlētāju.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.14. Vadības struktūras</a>
+<a href="/sasnRez">SR 2.4.7. UI</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido Input Map darbības · 2. uzdevums (~25 min) - vadi objektu ar taustiņiem · 3. uzdevums (~20 min) - normalizē diagonālo kustību · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu projektu ar <code>Mover</code> klasi no 2.1 stundas. Šodien objektu vadīsi tu pats, nevis tas kustēsies pats.</p>
+</div>
+</section><section>
+<h2>Teorija: Input pārvaldība Godot</h2>
+<div class="logic-box">
 <p>Godot piedāvā divus veidus apstrādāt input:</p>
 <ul>
 <li><b>Polling</b> (aptauja) - <code>Input.IsActionPressed("move_right")</code> katrā kadrā pārbauda stāvokli.</li>
@@ -114,15 +93,12 @@ public partial class Player : CharacterBody2D
     }
 }</code></pre>
 <p><b>Input Map</b> definē abstraktas darbības (move_right) un saista tās ar konkrētiem taustiņiem. <i>Project Settings → Input Map</i>.</p>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C# klasēm, kas lieto _PhysicsProcess, Input, CharacterBody2D, Area2D vai MoveAndSlide.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C# klasēm, kas lieto _PhysicsProcess, Input, CharacterBody2D, Area2D vai MoveAndSlide.</p>
 <pre><code class="language-csharp">public class PhysicsCheckpoint
 {
     public string Lesson = "2.2 Input apstrāde un Input Map";
@@ -131,112 +107,99 @@ public partial class Player : CharacterBody2D
     public bool UsesDeltaTime = true;
     public bool ChecksCollisions = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Izveido Input Map darbības</h3>
-        <p>Beigās taustiņi būs pieteikti ar saprotamiem nosaukumiem, nevis kodiem.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> <b>Project -&gt; Project Settings -&gt; Input Map</b>.</li>
-            <li><b>Ieraksti</b> jaunas darbības nosaukumu <code>move_right</code> un nospied <b>Add</b>.</li>
-            <li><b>Nospied</b> pluszīmi pie darbības un piesaisti taustiņu D.</li>
-            <li><b>Izveido</b> tāpat <code>move_left</code>, <code>move_up</code> un <code>move_down</code>.</li>
-            <li><b>Piesaisti</b> katrai arī atbilstošo bultiņu taustiņu, lai būtu divi varianti.</li>
-            <li><b>Aizver</b> iestatījumus un saglabā projektu.</li>
-            <li><b>Pieraksti</b>, kāpēc labāk lietot nosaukumu, nevis taustiņa kodu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> Input Map sarakstā ir četras darbības, un katrai piesaistīti divi taustiņi.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Vadi objektu ar taustiņiem</h3>
-        <p>Beigās objekts kustēsies tikai tad, kad tu turi taustiņu.</p>
-        <ol class="step-list">
-            <li><b>Pārbaudi</b>, ka C# faila augšā ir <code class="language-csharp">using Godot;</code>.</li>
-            <li><b>Izveido</b> metodē vektoru <code class="language-csharp">Vector2 dir = Vector2.Zero;</code>.</li>
-            <li><b>Pievieno</b> <code class="language-csharp">if (Input.IsActionPressed("move_right")) dir.X += 1;</code>.</li>
-            <li><b>Pievieno</b> tādas pašas rindas pārējiem trim virzieniem.</li>
-            <li><b>Pārvieto</b> objektu ar <code class="language-csharp">Position += dir * Speed * (float)delta;</code> vai <code>CharacterBody2D</code> gadījumā ar <code>Velocity</code> un <code>MoveAndSlide()</code>.</li>
-            <li><b>Būvē</b>, palaid un izmēģini visus četrus virzienus.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> objekts kustas visos četros virzienos un apstājas, tiklīdz atlaid taustiņu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Normalizē diagonālo kustību</h3>
-        <p>Beigās pa diagonāli objekts vairs nekustēsies ātrāk nekā taisni.</p>
-        <ol class="step-list">
-            <li><b>Nospied</b> vienlaikus divus taustiņus, piemēram D un S.</li>
-            <li><b>Pieraksti</b> README.md failā, vai objekts pa diagonāli kustas ātrāk.</li>
-            <li><b>Izrēķini</b> README.md failā vektora <code>(1, 1)</code> garumu.</li>
-            <li><b>Pievieno</b> kodā rindu <code class="language-csharp">dir = dir.Normalized();</code> pirms pārvietošanas.</li>
-            <li><b>Kompilē</b> un pārbaudi diagonālo kustību vēlreiz.</li>
-            <li><b>Pārbaudi</b>, ka objekts joprojām stāv uz vietas, ja neviens taustiņš nav nospiests.</li>
-            <li><b>Pieraksti</b> README.md failā, ko dara <code>Normalized()</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pirms labojuma diagonālā kustība ir ~1.4 reizes ātrāka, pēc tā - vienāda ar taisno.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno skriešanas taustiņu</h3>
-        <p>Ja pamatdarbs ir gatavs, ļauj objektam paātrināties.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> Input Map darbību <code>run</code> ar taustiņu Shift.</li>
-            <li><b>Pievieno</b> kodā mainīgo <code class="language-csharp">float currentSpeed = Speed;</code>.</li>
-            <li><b>Reizini</b> to ar 2, ja <code>run</code> ir nospiests.</li>
-            <li><b>Kompilē</b> un pārbaudi abus ātrumus.</li>
-            <li><b>Pārliecinies</b>, ka diagonālā kustība joprojām ir normalizēta.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> turot Shift, objekts kustas divreiz ātrāk visos virzienos.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tev ir izveidotas četras Input Map darbības, un C# klase pārvieto objektu pēc taustiņiem tā, ka diagonālā kustība nav ātrāka par taisno.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Ekrānuzņēmums ar Input Map sarakstu, kurā redzamas visas darbības.</li>
-            <li>Fails ar tavu kustības kodu.</li>
-            <li>README.md: vektora <code>(1, 1)</code> garuma aprēķins un viens teikums, ko dara <code>Normalized()</code>.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Spēlētājs nekustas:</b> Input Map nav saglabāta vai darbība nepareizi nosaukta.</li>
-        <li><b>Diagonālais ātrums dubults:</b> Aizmirsts <code>.Normalized()</code>.</li>
-        <li><b>Spēlētājs iet cauri sienām:</b> lieto <code>MoveAndSlide()</code>, ne tiešu <code>Position</code> pārbīdi.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic2_input_map.png" alt="Project Settings → Input Map sadaļa ar konfigurētiem darbībām move_right, move_left, jump, attack un to taustiņu piesaistēm." loading="lazy">
-            <figcaption>Project Settings → Input Map sadaļa ar konfigurētiem darbībām move_right, move_left, jump, attack un to taustiņu piesaistēm.</figcaption>
-        </figure>
-        <figure class="screenshot">
-            <img src="../img/topic2_player_moving.png" alt="Spēles logs ar varoni (zaļš sprite), kas pārvietojas pa platformu, redzams blakus sienai." loading="lazy">
-            <figcaption>Spēles logs ar varoni (zaļš sprite), kas pārvietojas pa platformu, redzams blakus sienai.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Izveido Input Map darbības</h2>
+<p>Beigās taustiņi būs pieteikti ar saprotamiem nosaukumiem, nevis kodiem.</p>
+<ol class="step-list">
+<li><b>Atver</b> <b>Project -&gt; Project Settings -&gt; Input Map</b>.</li>
+<li><b>Ieraksti</b> jaunas darbības nosaukumu <code>move_right</code> un nospied <b>Add</b>.</li>
+<li><b>Nospied</b> pluszīmi pie darbības un piesaisti taustiņu D.</li>
+<li><b>Izveido</b> tāpat <code>move_left</code>, <code>move_up</code> un <code>move_down</code>.</li>
+<li><b>Piesaisti</b> katrai arī atbilstošo bultiņu taustiņu, lai būtu divi varianti.</li>
+<li><b>Aizver</b> iestatījumus un saglabā projektu.</li>
+<li><b>Pieraksti</b>, kāpēc labāk lietot nosaukumu, nevis taustiņa kodu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Input Map sarakstā ir četras darbības, un katrai piesaistīti divi taustiņi.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Vadi objektu ar taustiņiem</h2>
+<p>Beigās objekts kustēsies tikai tad, kad tu turi taustiņu.</p>
+<ol class="step-list">
+<li><b>Pārbaudi</b>, ka C# faila augšā ir <code class="language-csharp">using Godot;</code>.</li>
+<li><b>Izveido</b> metodē vektoru <code class="language-csharp">Vector2 dir = Vector2.Zero;</code>.</li>
+<li><b>Pievieno</b> <code class="language-csharp">if (Input.IsActionPressed("move_right")) dir.X += 1;</code>.</li>
+<li><b>Pievieno</b> tādas pašas rindas pārējiem trim virzieniem.</li>
+<li><b>Pārvieto</b> objektu ar <code class="language-csharp">Position += dir * Speed * (float)delta;</code> vai <code>CharacterBody2D</code> gadījumā ar <code>Velocity</code> un <code>MoveAndSlide()</code>.</li>
+<li><b>Būvē</b>, palaid un izmēģini visus četrus virzienus.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> objekts kustas visos četros virzienos un apstājas, tiklīdz atlaid taustiņu.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Normalizē diagonālo kustību</h2>
+<p>Beigās pa diagonāli objekts vairs nekustēsies ātrāk nekā taisni.</p>
+<ol class="step-list">
+<li><b>Nospied</b> vienlaikus divus taustiņus, piemēram D un S.</li>
+<li><b>Pieraksti</b> README.md failā, vai objekts pa diagonāli kustas ātrāk.</li>
+<li><b>Izrēķini</b> README.md failā vektora <code>(1, 1)</code> garumu.</li>
+<li><b>Pievieno</b> kodā rindu <code class="language-csharp">dir = dir.Normalized();</code> pirms pārvietošanas.</li>
+<li><b>Kompilē</b> un pārbaudi diagonālo kustību vēlreiz.</li>
+<li><b>Pārbaudi</b>, ka objekts joprojām stāv uz vietas, ja neviens taustiņš nav nospiests.</li>
+<li><b>Pieraksti</b> README.md failā, ko dara <code>Normalized()</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pirms labojuma diagonālā kustība ir ~1.4 reizes ātrāka, pēc tā - vienāda ar taisno.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno skriešanas taustiņu</summary>
+<p>Ja pamatdarbs ir gatavs, ļauj objektam paātrināties.</p>
+<ol class="step-list">
+<li><b>Izveido</b> Input Map darbību <code>run</code> ar taustiņu Shift.</li>
+<li><b>Pievieno</b> kodā mainīgo <code class="language-csharp">float currentSpeed = Speed;</code>.</li>
+<li><b>Reizini</b> to ar 2, ja <code>run</code> ir nospiests.</li>
+<li><b>Kompilē</b> un pārbaudi abus ātrumus.</li>
+<li><b>Pārliecinies</b>, ka diagonālā kustība joprojām ir normalizēta.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> turot Shift, objekts kustas divreiz ātrāk visos virzienos.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tev ir izveidotas četras Input Map darbības, un C# klase pārvieto objektu pēc taustiņiem tā, ka diagonālā kustība nav ātrāka par taisno.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Ekrānuzņēmums ar Input Map sarakstu, kurā redzamas visas darbības.</li>
+<li>Fails ar tavu kustības kodu.</li>
+<li>README.md: vektora <code>(1, 1)</code> garuma aprēķins un viens teikums, ko dara <code>Normalized()</code>.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Spēlētājs nekustas:</b> Input Map nav saglabāta vai darbība nepareizi nosaukta.</li>
+<li><b>Diagonālais ātrums dubults:</b> Aizmirsts <code>.Normalized()</code>.</li>
+<li><b>Spēlētājs iet cauri sienām:</b> lieto <code>MoveAndSlide()</code>, ne tiešu <code>Position</code> pārbīdi.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Project Settings → Input Map sadaļa ar konfigurētiem darbībām move_right, move_left, jump, attack un to taustiņu piesaistēm." loading="lazy" src="../img/topic2_input_map.png"/>
+<figcaption>Project Settings → Input Map sadaļa ar konfigurētiem darbībām move_right, move_left, jump, attack un to taustiņu piesaistēm.</figcaption>
+</figure>
+<figure class="screenshot">
+<img alt="Spēles logs ar varoni (zaļš sprite), kas pārvietojas pa platformu, redzams blakus sienai." loading="lazy" src="../img/topic2_player_moving.png"/>
+<figcaption>Spēles logs ar varoni (zaļš sprite), kas pārvietojas pa platformu, redzams blakus sienai.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 
 public partial class Player : CharacterBody2D
 {
@@ -255,13 +218,23 @@ public partial class Player : CharacterBody2D
         MoveAndSlide();
     }
 }</code></pre>
-        <div class='result'>Player kustās pa ekrānu ar WASD vai bultiņām, sadursmes apstrādātas automātiski.</div>
-    </div>
+<div class="result">Player kustās pa ekrānu ar WASD vai bultiņām, sadursmes apstrādātas automātiski.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_2/prog2_21">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_2/prog2_23">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_2/prog2_21" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_2/prog2_23" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

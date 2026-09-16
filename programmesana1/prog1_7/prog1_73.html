@@ -1,168 +1,141 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>7.3 Big O un Sarežģītība - ebSkola</title>
-<meta name="description" content="Apgūt Big O domāšanu, salīdzinot algoritmu ātrdarbību un skaidrojot, kāpēc dažādi risinājumi aug atšķirīgā tempā.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_7/prog1_73">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="7.3 Big O un Sarežģītība">
-<meta property="og:description" content="Apgūt Big O domāšanu, salīdzinot algoritmu ātrdarbību un skaidrojot, kāpēc dažādi risinājumi aug atšķirīgā tempā.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_7/prog1_73">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="7.3 Big O un Sarežģītība">
-<meta name="twitter:description" content="Apgūt Big O domāšanu, salīdzinot algoritmu ātrdarbību un skaidrojot, kāpēc dažādi risinājumi aug atšķirīgā tempā.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Apgūt Big O domāšanu, salīdzinot algoritmu ātrdarbību un skaidrojot, kāpēc dažādi risinājumi aug atšķirīgā tempā." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana1/prog1_7/prog1_73" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="7.3 Big O un Sarežģītība" property="og:title"/>
+<meta content="Apgūt Big O domāšanu, salīdzinot algoritmu ātrdarbību un skaidrojot, kāpēc dažādi risinājumi aug atšķirīgā tempā." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana1/prog1_7/prog1_73" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="7.3 Big O un Sarežģītība" name="twitter:title"/>
+<meta content="Apgūt Big O domāšanu, salīdzinot algoritmu ātrdarbību un skaidrojot, kāpēc dažādi risinājumi aug atšķirīgā tempā." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "7.3 Big O un Sarežģītība","description": "Apgūt Big O domāšanu, salīdzinot algoritmu ātrdarbību un skaidrojot, kāpēc dažādi risinājumi aug atšķirīgā tempā.","inLanguage": "lv","url": "https://ebskola.lv/programmesana1/prog1_7/prog1_73","isPartOf": {"@type": "Course","name": "ebSkola - programmesana1","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana1/programmesana1">Prog I</a>
-      <a href="/programmesana1/prog1_7/prog1_7main">7. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana1/prog1_7/prog1_72">← 7.2</a>
-    <a class="btn primary" href="/programmesana1/prog1_7/prog1_74">7.4 →</a>
-  </div>
-</header>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana1.html">Programmēšana I</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>7. Tēma - Algoritmi un to efektivitāte</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_7/prog1_7main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_7/prog1_71">7.1 Meklēšanas pamati</a>
+<a href="/programmesana1/prog1_7/prog1_72">7.2 Kārtošanas loģika</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_7/prog1_73">7.3 Big O un Sarežģītība</a>
+<a href="/programmesana1/prog1_7/prog1_74">7.4 Iebūvēto funkciju ātrums</a>
+<a href="/programmesana1/prog1_7/prog1_75">7.5 Iebūvēto funkciju efektivitāte</a>
+<a href="/programmesana1/prog1_7/prog1_76">7.6 Noslēguma projekts: "Koda lauzējs: AI Efektivitāte"</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_7/prog1_7main">7. tēma</a> / 7.3</p>
+<h1>7.3 Big O un Sarežģītība</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Tu proti uzrakstīt kodu, kas strādā, bet vai tas strādā <i>labi</i>? Mācīsimies skatīties uz kodu kā profesionāli inženieri, izmantojot <b>Big O notāciju</b>, lai paredzētu programmas uzvedību, kad tai jāapstrādā nevis desmit, bet desmit miljoni datu vienību.</p>
+<a href="/sasnRez">SR 2.4.16. (Tu novērtē algoritmu sarežģītību un efektivitāti dažādos izpildes apstākļos)</a><br/><br/>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izmēri O(1) darbību · 2. uzdevums (~25 min) - salīdzini O(n) ar O(n²) · 3. uzdevums (~20 min) - nosaki sarežģītību svešam kodam. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> atver VS Code un izveido failu <code>big_o.py</code>. Laiku mērīsi ar <code>time</code> bibliotēku, bet secinājumus izdarīsi par soļu skaitu, nevis sekundēm.</p>
+</div>
+</section><section>
+<h2>Teorija: Kas ir Big O?</h2>
+<div class="logic-box">
+<ul>
+<li><b>Kāpēc nemērīt sekundēs?</b> Katrs dators ir atšķirīgs. Sekundes neko neizsaka par pašu algoritmu. Tā vietā mēs mēram, <b>kā pieaug veikto operāciju (soļu) skaits</b>, palielinoties datu apjomam (<i>n</i>).</li>
+<li><b>Galvenās Big O klases:</b>
+<ul>
+<li><b>O(1) - Konstants laiks:</b> Zibensātrs. Cik datu, nav svarīgi. Piemērs: paņemt saraksta pirmo elementu (<code class="language-python">saraksts[0]</code>).</li>
+<li><b>O(log n) - Logaritmisks laiks:</b> Ļoti ātrs. Dati ar katru soli tiek dalīti uz pusēm. Piemērs: Binārā meklēšana.</li>
+<li><b>O(n) - Lineārs laiks:</b> Pieaug proporcionāli datu apjomam. 100 elementi = 100 soļi. Piemērs: Lineārā meklēšana, viens <code class="language-python">for</code> cikls.</li>
+<li><b>O(n²) - Kvadrātisks laiks:</b> Lēns. Katram elementam jāpārbauda katrs cits elements. 100 elementi = 10 000 soļi. Piemērs: Burbuļkārtošana, divi iegulti <code class="language-python">for</code> cikli.</li>
+</ul>
+</li>
+</ul>
+</div>
+</section><section>
+<h2>Vides sagatavošana (Windows)</h2>
+<ol class="step-list">
+<li><b>Atver</b> <b>PowerShell</b>.</li>
+<li><b>Ieej</b> algoritmu mapē: <code class="language-python">cd Tema7_Algoritmi</code></li>
+<li><b>Izveido</b> jaunu failu un atver to kodu redaktorā: <code class="language-python">ni big_o.py; code big_o.py</code></li>
+</ol>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana I</div>
-  <h3>7. Tēma - Algoritmi un to efektivitāte</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana1/prog1_7/prog1_7main">Tēmas sākums</a>
-    <a href="/programmesana1/prog1_7/prog1_71">7.1 Meklēšanas pamati</a>
-    <a href="/programmesana1/prog1_7/prog1_72">7.2 Kārtošanas loģika</a>
-    <a class="active" aria-current="page" href="/programmesana1/prog1_7/prog1_73">7.3 Big O un Sarežģītība</a>
-    <a href="/programmesana1/prog1_7/prog1_74">7.4 Iebūvēto funkciju ātrums</a>
-    <a href="/programmesana1/prog1_7/prog1_75">7.5 Iebūvēto funkciju efektivitāte</a>
-    <a href="/programmesana1/prog1_7/prog1_76">7.6 Noslēguma projekts: &quot;Koda lauzējs: AI Efektivitāte&quot;</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>7.3 Big O un Sarežģītība</h1>
-    <p><b>Stundas uzdevums:</b> Tu proti uzrakstīt kodu, kas strādā, bet vai tas strādā <i>labi</i>? Mācīsimies skatīties uz kodu kā profesionāli inženieri, izmantojot <b>Big O notāciju</b>, lai paredzētu programmas uzvedību, kad tai jāapstrādā nevis desmit, bet desmit miljoni datu vienību.</p>
-    
-    <a href="/sasnRez">SR 2.4.16. (Tu novērtē algoritmu sarežģītību un efektivitāti dažādos izpildes apstākļos)</a><br><br>
-</section>
 
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izmēri O(1) darbību · 2. uzdevums (~25 min) - salīdzini O(n) ar O(n²) · 3. uzdevums (~20 min) - nosaki sarežģītību svešam kodam. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver VS Code un izveido failu <code>big_o.py</code>. Laiku mērīsi ar <code>time</code> bibliotēku, bet secinājumus izdarīsi par soļu skaitu, nevis sekundēm.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Kas ir Big O?</h2>
-    <div class="logic-box">
-        <ul>
-            <li><b>Kāpēc nemērīt sekundēs?</b> Katrs dators ir atšķirīgs. Sekundes neko neizsaka par pašu algoritmu. Tā vietā mēs mēram, <b>kā pieaug veikto operāciju (soļu) skaits</b>, palielinoties datu apjomam (<i>n</i>).</li>
-            <li><b>Galvenās Big O klases:</b>
-                <ul>
-                    <li><b>O(1) - Konstants laiks:</b> Zibensātrs. Cik datu, nav svarīgi. Piemērs: paņemt saraksta pirmo elementu (<code class="language-python">saraksts[0]</code>).</li>
-                    <li><b>O(log n) - Logaritmisks laiks:</b> Ļoti ātrs. Dati ar katru soli tiek dalīti uz pusēm. Piemērs: Binārā meklēšana.</li>
-                    <li><b>O(n) - Lineārs laiks:</b> Pieaug proporcionāli datu apjomam. 100 elementi = 100 soļi. Piemērs: Lineārā meklēšana, viens <code class="language-python">for</code> cikls.</li>
-                    <li><b>O(n²) - Kvadrātisks laiks:</b> Lēns. Katram elementam jāpārbauda katrs cits elements. 100 elementi = 10 000 soļi. Piemērs: Burbuļkārtošana, divi iegulti <code class="language-python">for</code> cikli.</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Vides sagatavošana (Windows)</h2>
-    <ol class="step-list">
-        <li><b>Atver</b> <b>PowerShell</b>.</li>
-        <li><b>Ieej</b> algoritmu mapē: <code class="language-python">cd Tema7_Algoritmi</code></li>
-        <li><b>Izveido</b> jaunu failu un atver to kodu redaktorā: <code class="language-python">ni big_o.py; code big_o.py</code></li>
-    </ol>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Izmēri O(1) darbību</h3>
-        <p>Beigās tu redzēsi, ka daži darbi neatkarīgi no datu apjoma aizņem vienādu laiku.</p>
-        <ol class="step-list">
-            <li><b>Ieraksti</b> <code class="language-python">import time</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code class="language-python">def iegut_pirmo(dati):</code>, kas atgriež <code class="language-python">dati[0]</code>.</li>
-            <li><b>Izveido</b> sarakstu ar 10 elementiem un otru ar 1 000 000 elementiem.</li>
-            <li><b>Izmēri</b> laiku ar <code class="language-python">sakums = time.time()</code> pirms un pēc izsaukuma.</li>
-            <li><b>Izdrukā</b> abus laikus.</li>
-            <li><b>Pieraksti</b>, vai lielākais saraksts prasīja manāmi vairāk laika.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> abi laiki ir gandrīz vienādi, lai gan viens saraksts ir 100 000 reižu lielāks.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Salīdzini O(n) ar O(n kvadrātā)</h3>
-        <p>Beigās tu redzēsi, cik strauji aug ligzdota cikla laiks.</p>
-        <ol class="step-list">
-            <li><b>Uzraksti</b> funkciju ar vienu ciklu, kas saskaita visus saraksta elementus.</li>
-            <li><b>Uzraksti</b> otru funkciju ar diviem ligzdotiem cikliem pār to pašu sarakstu.</li>
-            <li><b>Palaid</b> abas ar 100 elementiem un pieraksti laikus.</li>
-            <li><b>Palaid</b> abas ar 1000 elementiem un pieraksti laikus.</li>
-            <li><b>Izrēķini</b>, cik reižu pieauga katras funkcijas laiks.</li>
-            <li><b>Pieraksti</b>, kura funkcija palēninājās vairāk.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> palielinot datus 10 reizes, viena cikla laiks aug ~10 reizes, bet ligzdotā - ~100 reizes.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Nosaki sarežģītību svešam kodam</h3>
-        <p>Beigās tu pratīsi paskatīties uz kodu un pateikt tā Big O.</p>
-        <ol class="step-list">
-            <li><b>Uzraksti</b> trīs īsas funkcijas: vienu ar <code>saraksts[0]</code>, vienu ar vienu ciklu, vienu ar diviem ligzdotiem.</li>
-            <li><b>Pieraksti</b> katrai savu minējumu: O(1), O(n) vai O(n²).</li>
-            <li><b>Pievieno</b> katrai skaitītāju, cik operāciju tā veic.</li>
-            <li><b>Palaid</b> katru ar 10 un ar 100 elementiem.</li>
-            <li><b>Salīdzini</b> skaitītāja vērtības ar saviem minējumiem.</li>
-            <li><b>Izlabo</b> minējumu, ja skaitļi to neapstiprina.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc Big O nemēra sekundēs.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> visiem trim gadījumiem tavs minējums sakrīt ar izmērīto operāciju skaita pieaugumu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Atrodi O(log n)</h3>
-        <p>Ja pamatdarbs ir gatavs, izmēri bināro meklēšanu no 7.1 stundas.</p>
-        <ol class="step-list">
-            <li><b>Nokopē</b> savu <code>binary_search</code> funkciju no 7.1 stundas.</li>
-            <li><b>Pievieno</b> tai soļu skaitītāju, ja tā vēl nav.</li>
-            <li><b>Palaid</b> ar 100, 1000 un 10 000 elementiem.</li>
-            <li><b>Pieraksti</b> soļu skaitu katrā gadījumā.</li>
-            <li><b>Pieraksti</b>, par cik soļiem pieauga rezultāts, kad dati pieauga 10 reizes.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> dati pieaugot 10 reizes, soļu skaits pieaug tikai par dažiem - tā izskatās O(log n).</p>
-    </div>
-</section>
-<div class='section'>
-    <h2>Koda piemērs (O(n) pret O(n²) mērījums - grūtākā daļa)</h2>
-    <div class='code-example'>
-        <pre><code class="language-python">import time
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Izmēri O(1) darbību</h2>
+<p>Beigās tu redzēsi, ka daži darbi neatkarīgi no datu apjoma aizņem vienādu laiku.</p>
+<ol class="step-list">
+<li><b>Ieraksti</b> <code class="language-python">import time</code>.</li>
+<li><b>Uzraksti</b> funkciju <code class="language-python">def iegut_pirmo(dati):</code>, kas atgriež <code class="language-python">dati[0]</code>.</li>
+<li><b>Izveido</b> sarakstu ar 10 elementiem un otru ar 1 000 000 elementiem.</li>
+<li><b>Izmēri</b> laiku ar <code class="language-python">sakums = time.time()</code> pirms un pēc izsaukuma.</li>
+<li><b>Izdrukā</b> abus laikus.</li>
+<li><b>Pieraksti</b>, vai lielākais saraksts prasīja manāmi vairāk laika.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> abi laiki ir gandrīz vienādi, lai gan viens saraksts ir 100 000 reižu lielāks.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Salīdzini O(n) ar O(n kvadrātā)</h2>
+<p>Beigās tu redzēsi, cik strauji aug ligzdota cikla laiks.</p>
+<ol class="step-list">
+<li><b>Uzraksti</b> funkciju ar vienu ciklu, kas saskaita visus saraksta elementus.</li>
+<li><b>Uzraksti</b> otru funkciju ar diviem ligzdotiem cikliem pār to pašu sarakstu.</li>
+<li><b>Palaid</b> abas ar 100 elementiem un pieraksti laikus.</li>
+<li><b>Palaid</b> abas ar 1000 elementiem un pieraksti laikus.</li>
+<li><b>Izrēķini</b>, cik reižu pieauga katras funkcijas laiks.</li>
+<li><b>Pieraksti</b>, kura funkcija palēninājās vairāk.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> palielinot datus 10 reizes, viena cikla laiks aug ~10 reizes, bet ligzdotā - ~100 reizes.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Nosaki sarežģītību svešam kodam</h2>
+<p>Beigās tu pratīsi paskatīties uz kodu un pateikt tā Big O.</p>
+<ol class="step-list">
+<li><b>Uzraksti</b> trīs īsas funkcijas: vienu ar <code>saraksts[0]</code>, vienu ar vienu ciklu, vienu ar diviem ligzdotiem.</li>
+<li><b>Pieraksti</b> katrai savu minējumu: O(1), O(n) vai O(n²).</li>
+<li><b>Pievieno</b> katrai skaitītāju, cik operāciju tā veic.</li>
+<li><b>Palaid</b> katru ar 10 un ar 100 elementiem.</li>
+<li><b>Salīdzini</b> skaitītāja vērtības ar saviem minējumiem.</li>
+<li><b>Izlabo</b> minējumu, ja skaitļi to neapstiprina.</li>
+<li><b>Pieraksti</b> vienu secinājumu: kāpēc Big O nemēra sekundēs.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> visiem trim gadījumiem tavs minējums sakrīt ar izmērīto operāciju skaita pieaugumu.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Atrodi O(log n)</summary>
+<p>Ja pamatdarbs ir gatavs, izmēri bināro meklēšanu no 7.1 stundas.</p>
+<ol class="step-list">
+<li><b>Nokopē</b> savu <code>binary_search</code> funkciju no 7.1 stundas.</li>
+<li><b>Pievieno</b> tai soļu skaitītāju, ja tā vēl nav.</li>
+<li><b>Palaid</b> ar 100, 1000 un 10 000 elementiem.</li>
+<li><b>Pieraksti</b> soļu skaitu katrā gadījumā.</li>
+<li><b>Pieraksti</b>, par cik soļiem pieauga rezultāts, kad dati pieauga 10 reizes.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> dati pieaugot 10 reizes, soļu skaits pieaug tikai par dažiem - tā izskatās O(log n).</p>
+</details><section>
+<h2>Koda piemērs (O(n) pret O(n²) mērījums - grūtākā daļa)</h2>
+<div class="code-example">
+<pre><code class="language-python">import time
 
 # Grūtākā vieta: saprast, ka svarīgs nav SEKUNŽU skaits,
 # bet tas, CIK REIZES laiks pieaug, kad dati pieaug 10 reizes.
@@ -187,14 +160,22 @@ for n in (100, 1000):
     t2 = time.time(); divi_cikli(dati);  t3 = time.time()
 
     print(f"n={n:5}  O(n)={t1-t0:.5f}s   O(n^2)={t3-t2:.5f}s")</code></pre>
-        <div class='result'>
+<div class="result">
             Palielinot n no 100 uz 1000 (10 reizes), O(n) funkcijas laiks pieaug aptuveni 10 reizes, bet O(n²) funkcijas laiks - aptuveni 100 reizes. Tieši šī attiecība, nevis pati sekunžu vērtība, ir Big O jēga.
         </div>
-    </div>
 </div>
-<div class="stundas-navigacija">
-    <a href="/programmesana1/prog1_7/prog1_72" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana1/prog1_7/prog1_74" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_7/prog1_72">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_7/prog1_74">Nākamā stunda ➡</a>
+</nav></main>
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana1.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

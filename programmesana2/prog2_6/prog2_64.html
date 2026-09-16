@@ -1,94 +1,73 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>6.4 Atkļūdošana un profilēšana - ebSkola</title>
-<meta name="description" content="Apgūt Godot debugger un breakpoints, lai atrastu kļūdas, pārbaudītu mainīgo vērtības un salabotu spēles loģiku.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_6/prog2_64">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="6.4 Atkļūdošana un profilēšana">
-<meta property="og:description" content="Apgūt Godot debugger un breakpoints, lai atrastu kļūdas, pārbaudītu mainīgo vērtības un salabotu spēles loģiku.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_6/prog2_64">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="6.4 Atkļūdošana un profilēšana">
-<meta name="twitter:description" content="Apgūt Godot debugger un breakpoints, lai atrastu kļūdas, pārbaudītu mainīgo vērtības un salabotu spēles loģiku.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Apgūt Godot debugger un breakpoints, lai atrastu kļūdas, pārbaudītu mainīgo vērtības un salabotu spēles loģiku." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_6/prog2_64" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="6.4 Atkļūdošana un profilēšana" property="og:title"/>
+<meta content="Apgūt Godot debugger un breakpoints, lai atrastu kļūdas, pārbaudītu mainīgo vērtības un salabotu spēles loģiku." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_6/prog2_64" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="6.4 Atkļūdošana un profilēšana" name="twitter:title"/>
+<meta content="Apgūt Godot debugger un breakpoints, lai atrastu kļūdas, pārbaudītu mainīgo vērtības un salabotu spēles loģiku." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "6.4 Atkļūdošana un profilēšana","description": "Apgūt Godot debugger un breakpoints, lai atrastu kļūdas, pārbaudītu mainīgo vērtības un salabotu spēles loģiku.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_6/prog2_64","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_6/prog2_6main">6. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_6/prog2_63">← 6.3</a>
-    <a class="btn primary" href="/programmesana2/prog2_6/prog2_65">6.5 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>6. Tēma - UI, audio un publicēšana</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_6/prog2_6main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_6/prog2_61">6.1 UI elementi un Control nodes</a>
-    <a href="/programmesana2/prog2_6/prog2_62">6.2 Animācijas un Tween</a>
-    <a href="/programmesana2/prog2_6/prog2_63">6.3 Audio sistēma</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_6/prog2_64">6.4 Atkļūdošana un profilēšana</a>
-    <a href="/programmesana2/prog2_6/prog2_65">6.5 Eksports un publicēšana</a>
-    <a href="/programmesana2/prog2_6/prog2_66">6.6 Noslēguma projekts: Puzzle spēle</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>6.4 Atkļūdošana un profilēšana</h1>
-    <p><b>Stundas uzdevums:</b> Apgūt Godot debugger, breakpoints, un izmantot to, lai atrastu bugs.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.10. Atkļūdošana</a>
-        <a href="/sasnRez">SR 2.4.19. Algoritmi</a>
-        <a href="/sasnRez">SR 2.4.5. Datu analīze un vizualizācija</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - atrodi kļūdu ar izdrukām · 2. uzdevums (~25 min) - lieto breakpoint un mainīgo skatu · 3. uzdevums (~20 min) - atrodi lēnāko vietu ar profileri · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu spēli. Šodien apzināti salauzīsi kodu un tad mācīsies to atrast - tā ir prasme, ko vajadzēs katrā projektā.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Debugger un profileris</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>6. Tēma - UI, audio un publicēšana</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_6/prog2_6main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_6/prog2_61">6.1 UI elementi un Control nodes</a>
+<a href="/programmesana2/prog2_6/prog2_62">6.2 Animācijas un Tween</a>
+<a href="/programmesana2/prog2_6/prog2_63">6.3 Audio sistēma</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_6/prog2_64">6.4 Atkļūdošana un profilēšana</a>
+<a href="/programmesana2/prog2_6/prog2_65">6.5 Eksports un publicēšana</a>
+<a href="/programmesana2/prog2_6/prog2_66">6.6 Noslēguma projekts: Puzzle spēle</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_6/prog2_6main">6. tēma</a> / 6.4</p>
+<h1>6.4 Atkļūdošana un profilēšana</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Apgūt Godot debugger, breakpoints, un izmantot to, lai atrastu bugs.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.10. Atkļūdošana</a>
+<a href="/sasnRez">SR 2.4.19. Algoritmi</a>
+<a href="/sasnRez">SR 2.4.5. Datu analīze un vizualizācija</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - atrodi kļūdu ar izdrukām · 2. uzdevums (~25 min) - lieto breakpoint un mainīgo skatu · 3. uzdevums (~20 min) - atrodi lēnāko vietu ar profileri · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu spēli. Šodien apzināti salauzīsi kodu un tad mācīsies to atrast - tā ir prasme, ko vajadzēs katrā projektā.</p>
+</div>
+</section><section>
+<h2>Teorija: Debugger un profileris</h2>
+<div class="logic-box">
 <p>Godot piedāvā vairākus rīkus problēmu atrašanai:</p>
 <ul>
 <li><b>Output panel</b> - <code>GD.Print()</code> un <code>GD.PrintErr()</code> ziņojumi.</li>
@@ -117,15 +96,12 @@ if (hp &lt; 0)
 #if DEBUG
 GD.Print("Function called: ", nameof(TakeDamage));
 #endif</code></pre>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> UI signāli, audio darbības, debug izvade un publicēšanas sagatave ir sasaistīta ar C# spēles stāvokli.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> UI signāli, audio darbības, debug izvade un publicēšanas sagatave ir sasaistīta ar C# spēles stāvokli.</p>
 <pre><code class="language-csharp">public class PolishCheckpoint
 {
     public string Lesson = "6.4 Atkļūdošana un profilēšana";
@@ -134,114 +110,101 @@ GD.Print("Function called: ", nameof(TakeDamage));
     public bool RoutesAudioEvents = true;
     public bool VerifiesExportBuild = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Atrodi kļūdu ar izdrukām</h3>
-        <p>Beigās tu pratīsi atrast, kurā vietā vērtība kļūst nepareiza.</p>
-        <ol class="step-list">
-            <li><b>Ievies</b> savā kodā apzinātu kļūdu, piemēram nomaini <code>+</code> uz <code>-</code>.</li>
-            <li><b>Palaid</b> spēli un pieraksti, kas izskatās nepareizi.</li>
-            <li><b>Pievieno</b> <code class="language-csharp">GD.Print("pozicija: ", Position);</code> pirms aprēķina.</li>
-            <li><b>Pievieno</b> tādu pašu izdruku pēc aprēķina.</li>
-            <li><b>Palaid</b> un salīdzini abas vērtības.</li>
-            <li><b>Atrodi</b> pēc izdrukām precīzo rindu, kur vērtība kļūst nepareiza.</li>
-            <li><b>Salabo</b> kļūdu un izdzēs izdrukas.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> tu vari nosaukt konkrētu rindu, kurā vērtība kļuva nepareiza, un kļūda ir izlabota.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Lieto breakpoint un mainīgo skatu</h3>
-        <p>Beigās tu pratīsi apturēt spēli un apskatīt visus mainīgos uzreiz.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> cilni <b>Debugger</b>.</li>
-            <li><b>Uzliec</b> breakpoint uz vienas koda rindas, uzklikšķinot rindas numura kreisajā malā.</li>
-            <li><b>Palaid</b> spēli un pagaidi, līdz tā apstājas.</li>
-            <li><b>Apskati</b> panelī <b>Stack Variables</b> visu mainīgo vērtības.</li>
-            <li><b>Nospied</b> <b>Step Into</b> un vēro, kā izpilde iet pa vienai rindai.</li>
-            <li><b>Pieraksti</b>, kāda vērtība bija tavam galvenajam mainīgajam.</li>
-            <li><b>Pieraksti</b>, kad breakpoint ir ērtāks par izdrukām.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> spēle apstājas norādītajā rindā, un tu vari nolasīt mainīgo vērtības, tās neizdrukājot.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Atrodi lēnāko vietu ar profileri</h3>
-        <p>Beigās tu zināsi, kura funkcija patērē visvairāk laika.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> <b>Debugger -&gt; Profiler</b> un nospied <b>Start</b>.</li>
-            <li><b>Spēlē</b> 30 sekundes ar aktīvu spēli.</li>
-            <li><b>Aptur</b> profileri un sakārto sarakstu pēc laika.</li>
-            <li><b>Pieraksti</b> trīs funkcijas, kas aizņem visvairāk laika.</li>
-            <li><b>Pārbaudi</b>, vai kāda no tām tiek izsaukta biežāk, nekā vajadzētu.</li>
-            <li><b>Salīdzini</b> <code>_Process</code> un <code>_PhysicsProcess</code> kopējo laiku.</li>
-            <li><b>Pieraksti</b> vienu ideju, ko varētu uzlabot.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> tev ir pierakstītas trīs laikietilpīgākās funkcijas un viena konkrēta uzlabojuma ideja.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno pašpārbaudes izdrukas</h3>
-        <p>Ja pamatdarbs ir gatavs, liec kodam pašam brīdināt par kļūdām.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> pārbaudi, vai svarīgs mezgls tiešām tika atrasts.</li>
-            <li><b>Izdrukā</b> <code class="language-csharp">GD.PrintErr("Nav atrasts mezgls!");</code>, ja tas ir <code>null</code>.</li>
-            <li><b>Pārsauc</b> mezglu scēnā un palaid spēli.</li>
-            <li><b>Pieraksti</b>, ar ko sarkanā <code>GD.PrintErr</code> izdruka atšķiras no parastās.</li>
-            <li><b>Atgriez</b> nosaukumu un pārbaudi, ka brīdinājums pazūd.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pārsaucot mezglu, konsolē parādās sarkans brīdinājums, nevis spēle klusi avarē.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tu proti atrast kļūdu trīs veidos: ar izdrukām, ar breakpoint un mainīgo skatu, un ar profileri atrast laikietilpīgāko funkciju.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Ekrānuzņēmums ar Debugger paneli, kurā spēle apturēta breakpoint vietā un redzami mainīgie.</li>
-            <li>Ekrānuzņēmums ar profilera sarakstu, sakārtotu pēc laika.</li>
-            <li>README.md: kura rinda saturēja apzināti ievesto kļūdu un kā tu to atradi.</li>
-            <li>README.md: trīs laikietilpīgākās funkcijas un viena uzlabojuma ideja.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Breakpoint nestrādā:</b> Palaid projektu no Godot .NET debug režīmā un pārliecinies, ka C# projekts ir uzbūvēts bez kļūdām.</li>
-        <li><b>Print panel pārplūst:</b> Pārāk daudz print - lieto conditional vai noņem.</li>
-        <li><b>Profiler crashes:</b> Pārliecinies par jaunāko Godot versiju.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic6_debugger.png" alt="Godot Debugger ar breakpoint kodā, Stack panelī call stack, Locals panelī active variables ar to vērtībām." loading="lazy">
-            <figcaption>Godot Debugger ar breakpoint kodā, Stack panelī call stack, Locals panelī active variables ar to vērtībām.</figcaption>
-        </figure>
-        <figure class="screenshot">
-            <img src="../img/topic6_profiler.png" alt="Profiler logs ar function timing tabulu - top funkcijas pēc 'Total Time' sortētas, ar grafu vēsturei." loading="lazy">
-            <figcaption>Profiler logs ar function timing tabulu - top funkcijas pēc 'Total Time' sortētas, ar grafu vēsturei.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Atrodi kļūdu ar izdrukām</h2>
+<p>Beigās tu pratīsi atrast, kurā vietā vērtība kļūst nepareiza.</p>
+<ol class="step-list">
+<li><b>Ievies</b> savā kodā apzinātu kļūdu, piemēram nomaini <code>+</code> uz <code>-</code>.</li>
+<li><b>Palaid</b> spēli un pieraksti, kas izskatās nepareizi.</li>
+<li><b>Pievieno</b> <code class="language-csharp">GD.Print("pozicija: ", Position);</code> pirms aprēķina.</li>
+<li><b>Pievieno</b> tādu pašu izdruku pēc aprēķina.</li>
+<li><b>Palaid</b> un salīdzini abas vērtības.</li>
+<li><b>Atrodi</b> pēc izdrukām precīzo rindu, kur vērtība kļūst nepareiza.</li>
+<li><b>Salabo</b> kļūdu un izdzēs izdrukas.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> tu vari nosaukt konkrētu rindu, kurā vērtība kļuva nepareiza, un kļūda ir izlabota.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Lieto breakpoint un mainīgo skatu</h2>
+<p>Beigās tu pratīsi apturēt spēli un apskatīt visus mainīgos uzreiz.</p>
+<ol class="step-list">
+<li><b>Atver</b> cilni <b>Debugger</b>.</li>
+<li><b>Uzliec</b> breakpoint uz vienas koda rindas, uzklikšķinot rindas numura kreisajā malā.</li>
+<li><b>Palaid</b> spēli un pagaidi, līdz tā apstājas.</li>
+<li><b>Apskati</b> panelī <b>Stack Variables</b> visu mainīgo vērtības.</li>
+<li><b>Nospied</b> <b>Step Into</b> un vēro, kā izpilde iet pa vienai rindai.</li>
+<li><b>Pieraksti</b>, kāda vērtība bija tavam galvenajam mainīgajam.</li>
+<li><b>Pieraksti</b>, kad breakpoint ir ērtāks par izdrukām.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> spēle apstājas norādītajā rindā, un tu vari nolasīt mainīgo vērtības, tās neizdrukājot.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Atrodi lēnāko vietu ar profileri</h2>
+<p>Beigās tu zināsi, kura funkcija patērē visvairāk laika.</p>
+<ol class="step-list">
+<li><b>Atver</b> <b>Debugger -&gt; Profiler</b> un nospied <b>Start</b>.</li>
+<li><b>Spēlē</b> 30 sekundes ar aktīvu spēli.</li>
+<li><b>Aptur</b> profileri un sakārto sarakstu pēc laika.</li>
+<li><b>Pieraksti</b> trīs funkcijas, kas aizņem visvairāk laika.</li>
+<li><b>Pārbaudi</b>, vai kāda no tām tiek izsaukta biežāk, nekā vajadzētu.</li>
+<li><b>Salīdzini</b> <code>_Process</code> un <code>_PhysicsProcess</code> kopējo laiku.</li>
+<li><b>Pieraksti</b> vienu ideju, ko varētu uzlabot.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> tev ir pierakstītas trīs laikietilpīgākās funkcijas un viena konkrēta uzlabojuma ideja.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno pašpārbaudes izdrukas</summary>
+<p>Ja pamatdarbs ir gatavs, liec kodam pašam brīdināt par kļūdām.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> pārbaudi, vai svarīgs mezgls tiešām tika atrasts.</li>
+<li><b>Izdrukā</b> <code class="language-csharp">GD.PrintErr("Nav atrasts mezgls!");</code>, ja tas ir <code>null</code>.</li>
+<li><b>Pārsauc</b> mezglu scēnā un palaid spēli.</li>
+<li><b>Pieraksti</b>, ar ko sarkanā <code>GD.PrintErr</code> izdruka atšķiras no parastās.</li>
+<li><b>Atgriez</b> nosaukumu un pārbaudi, ka brīdinājums pazūd.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pārsaucot mezglu, konsolē parādās sarkans brīdinājums, nevis spēle klusi avarē.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tu proti atrast kļūdu trīs veidos: ar izdrukām, ar breakpoint un mainīgo skatu, un ar profileri atrast laikietilpīgāko funkciju.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Ekrānuzņēmums ar Debugger paneli, kurā spēle apturēta breakpoint vietā un redzami mainīgie.</li>
+<li>Ekrānuzņēmums ar profilera sarakstu, sakārtotu pēc laika.</li>
+<li>README.md: kura rinda saturēja apzināti ievesto kļūdu un kā tu to atradi.</li>
+<li>README.md: trīs laikietilpīgākās funkcijas un viena uzlabojuma ideja.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Breakpoint nestrādā:</b> Palaid projektu no Godot .NET debug režīmā un pārliecinies, ka C# projekts ir uzbūvēts bez kļūdām.</li>
+<li><b>Print panel pārplūst:</b> Pārāk daudz print - lieto conditional vai noņem.</li>
+<li><b>Profiler crashes:</b> Pārliecinies par jaunāko Godot versiju.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Godot Debugger ar breakpoint kodā, Stack panelī call stack, Locals panelī active variables ar to vērtībām." loading="lazy" src="../img/topic6_debugger.png"/>
+<figcaption>Godot Debugger ar breakpoint kodā, Stack panelī call stack, Locals panelī active variables ar to vērtībām.</figcaption>
+</figure>
+<figure class="screenshot">
+<img alt="Profiler logs ar function timing tabulu - top funkcijas pēc 'Total Time' sortētas, ar grafu vēsturei." loading="lazy" src="../img/topic6_profiler.png"/>
+<figcaption>Profiler logs ar function timing tabulu - top funkcijas pēc 'Total Time' sortētas, ar grafu vēsturei.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 using System;
 
 public partial class Player : CharacterBody2D
@@ -276,13 +239,23 @@ public partial class Player : CharacterBody2D
         EmitSignal(SignalName.Damaged, amount);
     }
 }</code></pre>
-        <div class='result'>Output panelī redzami detalizēti debug ziņojumi; pie nederīgas ievades - error ar context.</div>
-    </div>
+<div class="result">Output panelī redzami detalizēti debug ziņojumi; pie nederīgas ievades - error ar context.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_6/prog2_63">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_6/prog2_65">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_6/prog2_63" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_6/prog2_65" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

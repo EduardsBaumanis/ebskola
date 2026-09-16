@@ -1,192 +1,164 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>6.1 Failu I/O - ebSkola</title>
-<meta name="description" content="Apgūt failu lasīšanu un rakstīšanu Python valodā, lai programma varētu saglabāt spēles datus arī pēc aizvēršanas.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_6/prog1_61">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="6.1 Failu I/O">
-<meta property="og:description" content="Apgūt failu lasīšanu un rakstīšanu Python valodā, lai programma varētu saglabāt spēles datus arī pēc aizvēršanas.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_6/prog1_61">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="6.1 Failu I/O">
-<meta name="twitter:description" content="Apgūt failu lasīšanu un rakstīšanu Python valodā, lai programma varētu saglabāt spēles datus arī pēc aizvēršanas.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Apgūt failu lasīšanu un rakstīšanu Python valodā, lai programma varētu saglabāt spēles datus arī pēc aizvēršanas." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana1/prog1_6/prog1_61" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="6.1 Failu I/O" property="og:title"/>
+<meta content="Apgūt failu lasīšanu un rakstīšanu Python valodā, lai programma varētu saglabāt spēles datus arī pēc aizvēršanas." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana1/prog1_6/prog1_61" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="6.1 Failu I/O" name="twitter:title"/>
+<meta content="Apgūt failu lasīšanu un rakstīšanu Python valodā, lai programma varētu saglabāt spēles datus arī pēc aizvēršanas." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "6.1 Failu I/O","description": "Apgūt failu lasīšanu un rakstīšanu Python valodā, lai programma varētu saglabāt spēles datus arī pēc aizvēršanas.","inLanguage": "lv","url": "https://ebskola.lv/programmesana1/prog1_6/prog1_61","isPartOf": {"@type": "Course","name": "ebSkola - programmesana1","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-json.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana1/programmesana1">Prog I</a>
-      <a href="/programmesana1/prog1_6/prog1_6main">6. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana1/prog1_6/prog1_6main">← Tēma</a>
-    <a class="btn primary" href="/programmesana1/prog1_6/prog1_62">6.2 →</a>
-  </div>
-</header>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-json.min.js"></script>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana1.html">Programmēšana I</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>6. Tēma - Datu pastāvība un Analīze</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_6/prog1_6main">Tēmas sākums</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_6/prog1_61">6.1 Failu I/O</a>
+<a href="/programmesana1/prog1_6/prog1_62">6.2 Digitālais rīks</a>
+<a href="/programmesana1/prog1_6/prog1_63">6.3 Datu transformācija</a>
+<a href="/programmesana1/prog1_6/prog1_64">6.4 Rezultātu tabulas</a>
+<a href="/programmesana1/prog1_6/prog1_65">6.5 Analīze un Vizualizācija</a>
+<a href="/programmesana1/prog1_6/prog1_66">6.6 Noslēguma projekts: Quiz spēle ar Highscore</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_6/prog1_6main">6. tēma</a> / 6.1</p>
+<h1>6.1 Failu I/O</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Piešķirt savai programmai "bezmirstību". Apgūsi, kā izmantot <b>Failu I/O (Input/Output)</b>, lai saglabātu informāciju (piemēram, spēles progresu vai rezultātu tabulas) cietajā diskā. Apskatīsim trīs galvenos formātus: <b>TXT, JSON</b> un <b>CSV</b>.</p>
+<a href="/sasnRez">SR 2.4.14. (Failu lasīšana un rakstīšana)</a>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - ieraksti un nolasi teksta failu · 2. uzdevums (~25 min) - salīdzini režīmus w un a · 3. uzdevums (~20 min) - saglabā spēles datus JSON formātā. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> atver VS Code projekta mapē un izveido failu <code>faili.py</code>. Uzmanies ar režīmu <code>"w"</code> - tas dzēš visu faila saturu bez brīdinājuma.</p>
+</div>
+</section><section>
+<h2>Teorija: Failu apstrādes režīmi</h2>
+<div class="logic-box">
+<p>Atverot failu, mums ir jāpasaka Python, ko mēs plānojam darīt. Katram režīmam ir sava loma un riski.</p>
+<div aria-label="Tabula" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>Režīms</th>
+<th>Nosaukums</th>
+<th>Ko tas dara?</th>
+<th>Bīstamība</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-python">"r"</code></td>
+<td>Read</td>
+<td>Atver failu <b>tikai lasīšanai</b>.</td>
+<td>Izmetīs kļūdu, ja fails neeksistē.</td>
+</tr>
+<tr>
+<td><code class="language-python">"w"</code></td>
+<td>Write</td>
+<td>Izveido jaunu failu vai <b>pārraksta</b> esošo.</td>
+<td><b>Viss iepriekšējais saturs tiks neatgriezeniski izdzēsts!</b></td>
+</tr>
+<tr>
+<td><code class="language-python">"a"</code></td>
+<td>Append</td>
+<td>Pieraksta jaunus datus faila <b>beigās</b>.</td>
+<td>Drošs - saglabā esošo saturu.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Kāpēc lietot "with open()"?</h3>
+<p>Šī konstrukcija nodrošina, ka fails tiek <b>automātiski aizvērts</b>, tiklīdz beidzas ar atkāpi rakstītais koda bloks (pat tad, ja programmā rodas kļūda). Tas novērš failu korupciju.</p>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana I</div>
-  <h3>6. Tēma - Datu pastāvība un Analīze</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana1/prog1_6/prog1_6main">Tēmas sākums</a>
-    <a class="active" aria-current="page" href="/programmesana1/prog1_6/prog1_61">6.1 Failu I/O</a>
-    <a href="/programmesana1/prog1_6/prog1_62">6.2 Digitālais rīks</a>
-    <a href="/programmesana1/prog1_6/prog1_63">6.3 Datu transformācija</a>
-    <a href="/programmesana1/prog1_6/prog1_64">6.4 Rezultātu tabulas</a>
-    <a href="/programmesana1/prog1_6/prog1_65">6.5 Analīze un Vizualizācija</a>
-    <a href="/programmesana1/prog1_6/prog1_66">6.6 Noslēguma projekts: Quiz spēle ar Highscore</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>6.1 Failu I/O</h1>
-    <p><b>Stundas uzdevums:</b> Piešķirt savai programmai "bezmirstību". Apgūsi, kā izmantot <b>Failu I/O (Input/Output)</b>, lai saglabātu informāciju (piemēram, spēles progresu vai rezultātu tabulas) cietajā diskā. Apskatīsim trīs galvenos formātus: <b>TXT, JSON</b> un <b>CSV</b>.</p>
-    <a href="/sasnRez">SR 2.4.14. (Failu lasīšana un rakstīšana)</a>
-</section>
 
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - ieraksti un nolasi teksta failu · 2. uzdevums (~25 min) - salīdzini režīmus w un a · 3. uzdevums (~20 min) - saglabā spēles datus JSON formātā. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver VS Code projekta mapē un izveido failu <code>faili.py</code>. Uzmanies ar režīmu <code>"w"</code> - tas dzēš visu faila saturu bez brīdinājuma.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Failu apstrādes režīmi</h2>
-    <div class="logic-box">
-        <p>Atverot failu, mums ir jāpasaka Python, ko mēs plānojam darīt. Katram režīmam ir sava loma un riski.</p>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>Režīms</th>
-                    <th>Nosaukums</th>
-                    <th>Ko tas dara?</th>
-                    <th>Bīstamība</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code class="language-python">"r"</code></td>
-                    <td>Read</td>
-                    <td>Atver failu <b>tikai lasīšanai</b>.</td>
-                    <td>Izmetīs kļūdu, ja fails neeksistē.</td>
-                </tr>
-                <tr>
-                    <td><code class="language-python">"w"</code></td>
-                    <td>Write</td>
-                    <td>Izveido jaunu failu vai <b>pārraksta</b> esošo.</td>
-                    <td><b>Viss iepriekšējais saturs tiks neatgriezeniski izdzēsts!</b></td>
-                </tr>
-                <tr>
-                    <td><code class="language-python">"a"</code></td>
-                    <td>Append</td>
-                    <td>Pieraksta jaunus datus faila <b>beigās</b>.</td>
-                    <td>Drošs - saglabā esošo saturu.</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h3>Kāpēc lietot "with open()"?</h3>
-        <p>Šī konstrukcija nodrošina, ka fails tiek <b>automātiski aizvērts</b>, tiklīdz beidzas ar atkāpi rakstītais koda bloks (pat tad, ja programmā rodas kļūda). Tas novērš failu korupciju.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Ieraksti un nolasi teksta failu</h3>
-        <p>Beigās tava programma izveidos failu un pēc tam to nolasīs.</p>
-        <ol class="step-list">
-            <li><b>Ieraksti</b> <code class="language-python">with open("dati.txt", "w", encoding="utf-8") as f:</code>.</li>
-            <li><b>Ieraksti</b> zem tā ar atkāpi <code class="language-python">f.write("Pirmā rinda\n")</code>.</li>
-            <li><b>Palaid</b> un pārbaudi, vai mapē parādījās <code>dati.txt</code>.</li>
-            <li><b>Atver</b> failu VS Code un izlasi tā saturu.</li>
-            <li><b>Pievieno</b> kodam <code class="language-python">with open("dati.txt", "r", encoding="utf-8") as f:</code> un izdrukā <code class="language-python">f.read()</code>.</li>
-            <li><b>Palaid</b> un salīdzini terminālī redzamo ar faila saturu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> mapē ir fails <code>dati.txt</code>, un terminālī izdrukājas tieši tas pats teksts.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Salīdzini režīmus w un a</h3>
-        <p>Beigās tu zināsi, kurš režīms dzēš tavus datus.</p>
-        <ol class="step-list">
-            <li><b>Palaid</b> savu rakstīšanas kodu vēl divas reizes.</li>
-            <li><b>Atver</b> <code>dati.txt</code> un saskaiti rindas.</li>
-            <li><b>Nomaini</b> režīmu no <code>"w"</code> uz <code>"a"</code>.</li>
-            <li><b>Palaid</b> vēl divas reizes un saskaiti rindas vēlreiz.</li>
-            <li><b>Pieraksti</b>, kurā gadījumā rindas krājās un kurā ne.</li>
-            <li><b>Mēģini</b> atvērt neesošu failu režīmā <code>"r"</code> un pieraksti kļūdas nosaukumu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar <code>"w"</code> failā vienmēr paliek viena rinda, ar <code>"a"</code> to skaits aug, bet <code>"r"</code> uz neesoša faila dod <code>FileNotFoundError</code>.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Saglabā spēles datus JSON formātā</h3>
-        <p>Beigās vesela vārdnīca tiks saglabāta un atkal ielādēta.</p>
-        <ol class="step-list">
-            <li><b>Ieraksti</b> pirmajā rindā <code class="language-python">import json</code>.</li>
-            <li><b>Izveido</b> vārdnīcu ar atslēgām <code>vards</code>, <code>punkti</code> un sarakstu <code>materiali</code>.</li>
-            <li><b>Saglabā</b> to ar <code class="language-python">json.dump(dati, f, indent=4)</code> failā <code>save.json</code>.</li>
-            <li><b>Atver</b> <code>save.json</code> VS Code un apskati, kā tas izskatās.</li>
-            <li><b>Nolasi</b> failu atpakaļ ar <code class="language-python">ielade = json.load(f)</code>.</li>
-            <li><b>Izdrukā</b> <code class="language-python">ielade["punkti"]</code>.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: ko dara <code>indent=4</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> <code>save.json</code> ir salasāms ar atkāpēm, un ielādētie punkti sakrīt ar sākotnējiem.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Nolasi failu pa rindām</h3>
-        <p>Ja pamatdarbs ir gatavs, apstrādā katru rindu atsevišķi.</p>
-        <ol class="step-list">
-            <li><b>Ieraksti</b> failā piecas rindas ar režīmu <code>"a"</code>.</li>
-            <li><b>Nolasi</b> failu ar <code class="language-python">for rinda in f:</code> ciklu.</li>
-            <li><b>Izdrukā</b> katru rindu ar <code class="language-python">print(rinda.strip())</code>.</li>
-            <li><b>Pieraksti</b>, ko mainīja <code>.strip()</code>.</li>
-            <li><b>Saskaiti</b> ciklā rindu skaitu un izdrukā to.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> izvadē nav lieku tukšu rindu, un izdrukātais rindu skaits sakrīt ar faila saturu.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas:</h2>
-    <div class='logic-box'>
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Ieraksti un nolasi teksta failu</h2>
+<p>Beigās tava programma izveidos failu un pēc tam to nolasīs.</p>
+<ol class="step-list">
+<li><b>Ieraksti</b> <code class="language-python">with open("dati.txt", "w", encoding="utf-8") as f:</code>.</li>
+<li><b>Ieraksti</b> zem tā ar atkāpi <code class="language-python">f.write("Pirmā rinda\n")</code>.</li>
+<li><b>Palaid</b> un pārbaudi, vai mapē parādījās <code>dati.txt</code>.</li>
+<li><b>Atver</b> failu VS Code un izlasi tā saturu.</li>
+<li><b>Pievieno</b> kodam <code class="language-python">with open("dati.txt", "r", encoding="utf-8") as f:</code> un izdrukā <code class="language-python">f.read()</code>.</li>
+<li><b>Palaid</b> un salīdzini terminālī redzamo ar faila saturu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> mapē ir fails <code>dati.txt</code>, un terminālī izdrukājas tieši tas pats teksts.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Salīdzini režīmus w un a</h2>
+<p>Beigās tu zināsi, kurš režīms dzēš tavus datus.</p>
+<ol class="step-list">
+<li><b>Palaid</b> savu rakstīšanas kodu vēl divas reizes.</li>
+<li><b>Atver</b> <code>dati.txt</code> un saskaiti rindas.</li>
+<li><b>Nomaini</b> režīmu no <code>"w"</code> uz <code>"a"</code>.</li>
+<li><b>Palaid</b> vēl divas reizes un saskaiti rindas vēlreiz.</li>
+<li><b>Pieraksti</b>, kurā gadījumā rindas krājās un kurā ne.</li>
+<li><b>Mēģini</b> atvērt neesošu failu režīmā <code>"r"</code> un pieraksti kļūdas nosaukumu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar <code>"w"</code> failā vienmēr paliek viena rinda, ar <code>"a"</code> to skaits aug, bet <code>"r"</code> uz neesoša faila dod <code>FileNotFoundError</code>.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Saglabā spēles datus JSON formātā</h2>
+<p>Beigās vesela vārdnīca tiks saglabāta un atkal ielādēta.</p>
+<ol class="step-list">
+<li><b>Ieraksti</b> pirmajā rindā <code class="language-python">import json</code>.</li>
+<li><b>Izveido</b> vārdnīcu ar atslēgām <code>vards</code>, <code>punkti</code> un sarakstu <code>materiali</code>.</li>
+<li><b>Saglabā</b> to ar <code class="language-python">json.dump(dati, f, indent=4)</code> failā <code>save.json</code>.</li>
+<li><b>Atver</b> <code>save.json</code> VS Code un apskati, kā tas izskatās.</li>
+<li><b>Nolasi</b> failu atpakaļ ar <code class="language-python">ielade = json.load(f)</code>.</li>
+<li><b>Izdrukā</b> <code class="language-python">ielade["punkti"]</code>.</li>
+<li><b>Pieraksti</b> vienu secinājumu: ko dara <code>indent=4</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> <code>save.json</code> ir salasāms ar atkāpēm, un ielādētie punkti sakrīt ar sākotnējiem.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Nolasi failu pa rindām</summary>
+<p>Ja pamatdarbs ir gatavs, apstrādā katru rindu atsevišķi.</p>
+<ol class="step-list">
+<li><b>Ieraksti</b> failā piecas rindas ar režīmu <code>"a"</code>.</li>
+<li><b>Nolasi</b> failu ar <code class="language-python">for rinda in f:</code> ciklu.</li>
+<li><b>Izdrukā</b> katru rindu ar <code class="language-python">print(rinda.strip())</code>.</li>
+<li><b>Pieraksti</b>, ko mainīja <code>.strip()</code>.</li>
+<li><b>Saskaiti</b> ciklā rindu skaitu un izdrukā to.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> izvadē nav lieku tukšu rindu, un izdrukātais rindu skaits sakrīt ar faila saturu.</p>
+</details><section>
+<h2>Biežākās kļūdas:</h2>
+<div class="logic-box">
 <blockquote>
-        <b>1. <code class="language-python">encoding="utf-8"</code> trūkums:</b> Neaizmirsti šo parametru <code class="language-python">open()</code> funkcijā, citādi latviešu burti (ā, č, ē) failā pārvērtīsies par "ķeburiem".<br>
-        <b>2. Write vs Append (w pret a):</b> Atceries, ka <code class="language-python">"w"</code> izdzēsīs visu Tavu faila vēsturi! Ja gribi tikai pievienot jaunu rindiņu, izmanto <code class="language-python">"a"</code>.<br>
-        <b>3. Aizmirsts <code class="language-python">import</code>:</b> Tu nevari izmantot <code class="language-python">json.dump()</code> vai <code class="language-python">csv.writer()</code>, ja faila pirmajā rindā nav veikts attiecīgais imports.
+<b>1. <code class="language-python">encoding="utf-8"</code> trūkums:</b> Neaizmirsti šo parametru <code class="language-python">open()</code> funkcijā, citādi latviešu burti (ā, č, ē) failā pārvērtīsies par "ķeburiem".<br/>
+<b>2. Write vs Append (w pret a):</b> Atceries, ka <code class="language-python">"w"</code> izdzēsīs visu Tavu faila vēsturi! Ja gribi tikai pievienot jaunu rindiņu, izmanto <code class="language-python">"a"</code>.<br/>
+<b>3. Aizmirsts <code class="language-python">import</code>:</b> Tu nevari izmantot <code class="language-python">json.dump()</code> vai <code class="language-python">csv.writer()</code>, ja faila pirmajā rindā nav veikts attiecīgais imports.
     </blockquote>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Koda piemērs</h2>
-    <div class='code-example'>
+</div>
+</section><section>
+<h2>Koda piemērs</h2>
+<div class="code-example">
 <pre><code class="language-python">import json
 
 dati = {"vards": "Anna", "punkti": 100, "materiali": ["marķieris"]}
@@ -202,16 +174,23 @@ with open("save.json", "r", encoding="utf-8") as f:
     ieladetie_dati = json.load(f)
 
 print(f"Ielādēts profils: {ieladetie_dati['vards']}")</code></pre>
-        <div class='result'>
-            Rezultāts saglabāts!<br>
+<div class="result">
+            Rezultāts saglabāts!<br/>
             Ielādēts profils: Anna
         </div>
-    </div>
-</section>
-
-<div class="stundas-navigacija">
-    <a href="/programmesana1/prog1_6/prog1_6main" class="nav-btn">⬅ Tēmas apkopojums</a>
-    <a href="/programmesana1/prog1_6/prog1_62" class="nav-btn">Nākamā stunda ➡</a>
 </div>
-</body>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_6/prog1_6main">⬅ Tēmas apkopojums</a>
+<a class="nav-btn" href="/programmesana1/prog1_6/prog1_62">Nākamā stunda ➡</a>
+</nav></main>
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana1.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

@@ -1,89 +1,68 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>10.3 Tabulu projektēšana un saites - ebSkola</title>
-<meta name="description" content="Projektēt vairākas saistītas PostgreSQL tabulas, izmantot primārās un ārējās atslēgas un izveidot relāciju datubāzes modeli.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_10/prog1_103">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="10.3 Tabulu projektēšana un saites">
-<meta property="og:description" content="Projektēt vairākas saistītas PostgreSQL tabulas, izmantot primārās un ārējās atslēgas un izveidot relāciju datubāzes modeli.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_10/prog1_103">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="10.3 Tabulu projektēšana un saites">
-<meta name="twitter:description" content="Projektēt vairākas saistītas PostgreSQL tabulas, izmantot primārās un ārējās atslēgas un izveidot relāciju datubāzes modeli.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Projektēt vairākas saistītas PostgreSQL tabulas, izmantot primārās un ārējās atslēgas un izveidot relāciju datubāzes modeli." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana1/prog1_10/prog1_103" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="10.3 Tabulu projektēšana un saites" property="og:title"/>
+<meta content="Projektēt vairākas saistītas PostgreSQL tabulas, izmantot primārās un ārējās atslēgas un izveidot relāciju datubāzes modeli." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana1/prog1_10/prog1_103" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="10.3 Tabulu projektēšana un saites" name="twitter:title"/>
+<meta content="Projektēt vairākas saistītas PostgreSQL tabulas, izmantot primārās un ārējās atslēgas un izveidot relāciju datubāzes modeli." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "10.3 Tabulu projektēšana un saites","description": "Projektēt vairākas saistītas PostgreSQL tabulas, izmantot primārās un ārējās atslēgas un izveidot relāciju datubāzes modeli.","inLanguage": "lv","url": "https://ebskola.lv/programmesana1/prog1_10/prog1_103","isPartOf": {"@type": "Course","name": "ebSkola - programmesana1","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana1/programmesana1">Prog I</a>
-      <a href="/programmesana1/prog1_10/prog1_10main">10. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana1/prog1_10/prog1_102">← 10.2</a>
-    <a class="btn primary" href="/programmesana1/prog1_10/prog1_104">10.4 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana I</div>
-  <h3>10. Tēma - Datubāzes un PostgreSQL</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana1/prog1_10/prog1_10main">Tēmas sākums</a>
-    <a href="/programmesana1/prog1_10/prog1_101">10.1 Ievads datubāzēs un PostgreSQL</a>
-    <a href="/programmesana1/prog1_10/prog1_102">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
-    <a class="active" aria-current="page" href="/programmesana1/prog1_10/prog1_103">10.3 Tabulu projektēšana un saites</a>
-    <a href="/programmesana1/prog1_10/prog1_104">10.4 JOIN un sarežģīti vaicājumi</a>
-    <a href="/programmesana1/prog1_10/prog1_105">10.5 Python ↔ PostgreSQL (psycopg2)</a>
-    <a href="/programmesana1/prog1_10/prog1_106">10.6 Noslēguma projekts: Highscore datubāze</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>10.3 Tabulu projektēšana un saites</h1>
-    <p><b>Stundas uzdevums:</b> Projektēt vairākas saistītas tabulas, izmantojot primārās un ārējās atslēgas.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.1. Analizē problēmu un veic dekompozīciju</a>
-        <a href="/sasnRez">SR 2.4.6. Plāno un dokumentē izstrādes procesu</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izveido otro tabulu ar ārējo atslēgu · 2. uzdevums (~25 min) - pārbaudi, ko dara ārējā atslēga · 3. uzdevums (~20 min) - novērs datu dublēšanos. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savu datubāzi <code>spele</code>. Šajā stundā no vienas tabulas taisīsi divas, kas saistītas savā starpā.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Primārās un ārējās atslēgas</h2>
-    <div class='logic-box'>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana1.html">Programmēšana I</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>10. Tēma - Datubāzes un PostgreSQL</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_10/prog1_10main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_10/prog1_101">10.1 Ievads datubāzēs un PostgreSQL</a>
+<a href="/programmesana1/prog1_10/prog1_102">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_10/prog1_103">10.3 Tabulu projektēšana un saites</a>
+<a href="/programmesana1/prog1_10/prog1_104">10.4 JOIN un sarežģīti vaicājumi</a>
+<a href="/programmesana1/prog1_10/prog1_105">10.5 Python ↔ PostgreSQL (psycopg2)</a>
+<a href="/programmesana1/prog1_10/prog1_106">10.6 Noslēguma projekts: Highscore datubāze</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_10/prog1_10main">10. tēma</a> / 10.3</p>
+<h1>10.3 Tabulu projektēšana un saites</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Projektēt vairākas saistītas tabulas, izmantojot primārās un ārējās atslēgas.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.1. Analizē problēmu un veic dekompozīciju</a>
+<a href="/sasnRez">SR 2.4.6. Plāno un dokumentē izstrādes procesu</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izveido otro tabulu ar ārējo atslēgu · 2. uzdevums (~25 min) - pārbaudi, ko dara ārējā atslēga · 3. uzdevums (~20 min) - novērs datu dublēšanos. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> atver savu datubāzi <code>spele</code>. Šajā stundā no vienas tabulas taisīsi divas, kas saistītas savā starpā.</p>
+</div>
+</section><section>
+<h2>Teorija: Primārās un ārējās atslēgas</h2>
+<div class="logic-box">
 <p>Datubāze ir tikai tik laba, cik labi tā ir <b>projektēta</b>. Galvenie principi:</p>
 <ul>
 <li><b>Primary Key (PK)</b> - viens lauks, kas unikāli identificē rindu (parasti <code>id SERIAL</code>).</li>
@@ -103,80 +82,75 @@ CREATE TABLE speles (
     spelets TIMESTAMP DEFAULT NOW()
 );</code></pre>
 <p><b>ON DELETE CASCADE</b> - ja izdzēš spēlētāju, automātiski tiek izdzēstas arī viņa spēles.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Izveido otro tabulu ar ārējo atslēgu</h3>
-        <p>Beigās katra spēle zinās, kuram spēlētājam tā pieder.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> tabulu <code class="language-sql">CREATE TABLE speles (</code>.</li>
-            <li><b>Pievieno</b> lauku <code class="language-sql">id SERIAL PRIMARY KEY</code>.</li>
-            <li><b>Pievieno</b> lauku <code class="language-sql">speletajs_id INTEGER NOT NULL REFERENCES speletaji(id)</code>.</li>
-            <li><b>Pievieno</b> lauku <code class="language-sql">punkti INTEGER NOT NULL CHECK (punkti &gt;= 0)</code>.</li>
-            <li><b>Pievieno</b> lauku <code class="language-sql">spelets TIMESTAMP DEFAULT NOW()</code>.</li>
-            <li><b>Izpildi</b> skriptu un pārbaudi tabulu ar <code class="language-sql">\d speles</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> tabula <code>speles</code> eksistē, un <code>speletajs_id</code> ir atzīmēts kā ārējā atslēga.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Pārbaudi, ko dara ārējā atslēga</h3>
-        <p>Beigās tu redzēsi, ka datubāze neļauj izveidot spēli bez spēlētāja.</p>
-        <ol class="step-list">
-            <li><b>Atrodi</b> viena spēlētāja <code>id</code> ar <code class="language-sql">SELECT id, vards FROM speletaji;</code>.</li>
-            <li><b>Ievadi</b> spēli šim spēlētājam ar <code>INSERT</code>.</li>
-            <li><b>Mēģini</b> ievadīt spēli ar <code>speletajs_id = 9999</code>.</li>
-            <li><b>Pieraksti</b>, kā sauc kļūdu, kas to neļāva.</li>
-            <li><b>Mēģini</b> izdzēst spēlētāju, kuram ir spēles.</li>
-            <li><b>Pieraksti</b>, kāpēc arī tas neizdodas.</li>
-            <li><b>Pievieno</b> ārējai atslēgai <code>ON DELETE CASCADE</code> un mēģini vēlreiz.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> spēli neizdodas piesaistīt neesošam spēlētājam, bet ar <code>ON DELETE CASCADE</code> spēlētāja dzēšana aizvāc arī viņa spēles.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Novērs datu dublēšanos</h3>
-        <p>Beigās viens un tas pats dati vairs neatkārtosies divās vietās.</p>
-        <ol class="step-list">
-            <li><b>Pieraksti</b>, kas notiktu, ja spēlētāja vārdu glabātu arī tabulā <code>speles</code>.</li>
-            <li><b>Pieraksti</b>, cik vietās būtu jālabo vārds, ja spēlētājs to nomainītu.</li>
-            <li><b>Izpildi</b> vaicājumu, kas parāda spēles kopā ar spēlētāja vārdu no otras tabulas.</li>
-            <li><b>Pārliecinies</b>, ka vārds tabulā <code>speles</code> nav glabāts.</li>
-            <li><b>Nomaini</b> viena spēlētāja vārdu ar <code>UPDATE</code>.</li>
-            <li><b>Izpildi</b> vaicājumu vēlreiz un pārbaudi, ka jaunais vārds parādās visur.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: ko nozīmē neatkārtot datus.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> nomainot vārdu vienā vietā, tas mainās visos rezultātos, jo tas glabājas tikai vienā tabulā.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno trešo tabulu</h3>
-        <p>Ja pamatdarbs ir gatavs, sadali spēles pa veidiem.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> tabulu <code>speles_veidi</code> ar <code>id</code> un <code>nosaukums</code>.</li>
-            <li><b>Ievadi</b> tajā trīs spēļu veidus.</li>
-            <li><b>Pievieno</b> tabulai <code>speles</code> lauku <code>veids_id</code> ar ārējo atslēgu.</li>
-            <li><b>Atjaunini</b> esošās spēles ar kādu veidu.</li>
-            <li><b>Pārbaudi</b>, ka nevar ievadīt neesošu veidu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> katrai spēlei ir veids, un neesoša veida ievade tiek noraidīta.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>FK norāda uz neeksistējošu rindu:</b> Vispirms ievadi vecāku tabulā, tad bērnu.</li>
-        <li><b>Aizmirsts CASCADE:</b> Bez tā nevarēsi dzēst vecāku rindas, kamēr ir bērnu rindas.</li>
-        <li><b>Daudzi-pret-daudziem bez saites tabulas:</b> NEKAD nelieto FK masīvu - vienmēr trešo tabulu.</li>
-        </ul>
-    </div>
-</section>
 
-<div class='section'>
-    <h2>Koda piemērs</h2>
-    <div class='code-example'>
-        <pre><code class="language-python">CREATE TABLE speletaji (
+
+
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Izveido otro tabulu ar ārējo atslēgu</h2>
+<p>Beigās katra spēle zinās, kuram spēlētājam tā pieder.</p>
+<ol class="step-list">
+<li><b>Izveido</b> tabulu <code class="language-sql">CREATE TABLE speles (</code>.</li>
+<li><b>Pievieno</b> lauku <code class="language-sql">id SERIAL PRIMARY KEY</code>.</li>
+<li><b>Pievieno</b> lauku <code class="language-sql">speletajs_id INTEGER NOT NULL REFERENCES speletaji(id)</code>.</li>
+<li><b>Pievieno</b> lauku <code class="language-sql">punkti INTEGER NOT NULL CHECK (punkti &gt;= 0)</code>.</li>
+<li><b>Pievieno</b> lauku <code class="language-sql">spelets TIMESTAMP DEFAULT NOW()</code>.</li>
+<li><b>Izpildi</b> skriptu un pārbaudi tabulu ar <code class="language-sql">\d speles</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> tabula <code>speles</code> eksistē, un <code>speletajs_id</code> ir atzīmēts kā ārējā atslēga.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Pārbaudi, ko dara ārējā atslēga</h2>
+<p>Beigās tu redzēsi, ka datubāze neļauj izveidot spēli bez spēlētāja.</p>
+<ol class="step-list">
+<li><b>Atrodi</b> viena spēlētāja <code>id</code> ar <code class="language-sql">SELECT id, vards FROM speletaji;</code>.</li>
+<li><b>Ievadi</b> spēli šim spēlētājam ar <code>INSERT</code>.</li>
+<li><b>Mēģini</b> ievadīt spēli ar <code>speletajs_id = 9999</code>.</li>
+<li><b>Pieraksti</b>, kā sauc kļūdu, kas to neļāva.</li>
+<li><b>Mēģini</b> izdzēst spēlētāju, kuram ir spēles.</li>
+<li><b>Pieraksti</b>, kāpēc arī tas neizdodas.</li>
+<li><b>Pievieno</b> ārējai atslēgai <code>ON DELETE CASCADE</code> un mēģini vēlreiz.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> spēli neizdodas piesaistīt neesošam spēlētājam, bet ar <code>ON DELETE CASCADE</code> spēlētāja dzēšana aizvāc arī viņa spēles.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Novērs datu dublēšanos</h2>
+<p>Beigās viens un tas pats dati vairs neatkārtosies divās vietās.</p>
+<ol class="step-list">
+<li><b>Pieraksti</b>, kas notiktu, ja spēlētāja vārdu glabātu arī tabulā <code>speles</code>.</li>
+<li><b>Pieraksti</b>, cik vietās būtu jālabo vārds, ja spēlētājs to nomainītu.</li>
+<li><b>Izpildi</b> vaicājumu, kas parāda spēles kopā ar spēlētāja vārdu no otras tabulas.</li>
+<li><b>Pārliecinies</b>, ka vārds tabulā <code>speles</code> nav glabāts.</li>
+<li><b>Nomaini</b> viena spēlētāja vārdu ar <code>UPDATE</code>.</li>
+<li><b>Izpildi</b> vaicājumu vēlreiz un pārbaudi, ka jaunais vārds parādās visur.</li>
+<li><b>Pieraksti</b> vienu secinājumu: ko nozīmē neatkārtot datus.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> nomainot vārdu vienā vietā, tas mainās visos rezultātos, jo tas glabājas tikai vienā tabulā.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno trešo tabulu</summary>
+<p>Ja pamatdarbs ir gatavs, sadali spēles pa veidiem.</p>
+<ol class="step-list">
+<li><b>Izveido</b> tabulu <code>speles_veidi</code> ar <code>id</code> un <code>nosaukums</code>.</li>
+<li><b>Ievadi</b> tajā trīs spēļu veidus.</li>
+<li><b>Pievieno</b> tabulai <code>speles</code> lauku <code>veids_id</code> ar ārējo atslēgu.</li>
+<li><b>Atjaunini</b> esošās spēles ar kādu veidu.</li>
+<li><b>Pārbaudi</b>, ka nevar ievadīt neesošu veidu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> katrai spēlei ir veids, un neesoša veida ievade tiek noraidīta.</p>
+</details><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>FK norāda uz neeksistējošu rindu:</b> Vispirms ievadi vecāku tabulā, tad bērnu.</li>
+<li><b>Aizmirsts CASCADE:</b> Bez tā nevarēsi dzēst vecāku rindas, kamēr ir bērnu rindas.</li>
+<li><b>Daudzi-pret-daudziem bez saites tabulas:</b> NEKAD nelieto FK masīvu - vienmēr trešo tabulu.</li>
+</ul>
+</div>
+</section><section>
+<h2>Koda piemērs</h2>
+<div class="code-example">
+<pre><code class="language-python">CREATE TABLE speletaji (
     id SERIAL PRIMARY KEY,
     vards TEXT NOT NULL UNIQUE
 );
@@ -190,13 +164,20 @@ CREATE TABLE speles (
 
 INSERT INTO speletaji (vards) VALUES ('Anna'), ('Jānis');
 INSERT INTO speles (speletajs_id, punkti) VALUES (1, 120), (1, 85), (2, 200);</code></pre>
-        <div class='result'>Tabulu shēma izveidota.<br>3 spēļu rezultāti pievienoti.</div>
-    </div>
+<div class="result">Tabulu shēma izveidota.<br/>3 spēļu rezultāti pievienoti.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_10/prog1_102">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_10/prog1_104">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana1/prog1_10/prog1_102" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana1/prog1_10/prog1_104" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana1.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

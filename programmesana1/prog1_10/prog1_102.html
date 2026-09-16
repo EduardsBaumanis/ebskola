@@ -1,89 +1,68 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE - ebSkola</title>
-<meta name="description" content="Apgūt visu četru SQL CRUD operāciju sintaksi un izpildīt tās praktiski savā datubāzē.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_10/prog1_102">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE">
-<meta property="og:description" content="Apgūt visu četru SQL CRUD operāciju sintaksi un izpildīt tās praktiski savā datubāzē.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_10/prog1_102">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE">
-<meta name="twitter:description" content="Apgūt visu četru SQL CRUD operāciju sintaksi un izpildīt tās praktiski savā datubāzē.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Apgūt visu četru SQL CRUD operāciju sintaksi un izpildīt tās praktiski savā datubāzē." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana1/prog1_10/prog1_102" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE" property="og:title"/>
+<meta content="Apgūt visu četru SQL CRUD operāciju sintaksi un izpildīt tās praktiski savā datubāzē." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana1/prog1_10/prog1_102" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE" name="twitter:title"/>
+<meta content="Apgūt visu četru SQL CRUD operāciju sintaksi un izpildīt tās praktiski savā datubāzē." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE", "description": "Apgūt visu četru SQL CRUD operāciju sintaksi un izpildīt tās praktiski savā datubāzē.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_10/prog1_102", "isPartOf": {"@type": "Course", "name": "ebSkola - programmesana1", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana1/programmesana1">Prog I</a>
-      <a href="/programmesana1/prog1_10/prog1_10main">10. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana1/prog1_10/prog1_101">← 10.1</a>
-    <a class="btn primary" href="/programmesana1/prog1_10/prog1_103">10.3 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana I</div>
-  <h3>10. Tēma - Datubāzes un PostgreSQL</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana1/prog1_10/prog1_10main">Tēmas sākums</a>
-    <a href="/programmesana1/prog1_10/prog1_101">10.1 Ievads datubāzēs un PostgreSQL</a>
-    <a class="active" aria-current="page" href="/programmesana1/prog1_10/prog1_102">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
-    <a href="/programmesana1/prog1_10/prog1_103">10.3 Tabulu projektēšana un saites</a>
-    <a href="/programmesana1/prog1_10/prog1_104">10.4 JOIN un sarežģīti vaicājumi</a>
-    <a href="/programmesana1/prog1_10/prog1_105">10.5 Python ↔ PostgreSQL (psycopg2)</a>
-    <a href="/programmesana1/prog1_10/prog1_106">10.6 Noslēguma projekts: Highscore datubāze</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</h1>
-    <p><b>Stundas uzdevums:</b> Apgūt visu četru SQL CRUD operāciju sintaksi un izpildīt tās praktiski savā datubāzē.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.17. Darbs ar failiem un ārējām datu krātuvēm</a>
-        <a href="/sasnRez">SR 2.4.13. Mainīgie un datu tipi</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - ievadi datus ar INSERT · 2. uzdevums (~25 min) - filtrē un kārto ar SELECT · 3. uzdevums (~20 min) - droši lieto UPDATE un DELETE. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savu datubāzi <code>spele</code> no 10.1 stundas. Brīdinājums: <code>UPDATE</code> un <code>DELETE</code> bez <code>WHERE</code> maina visas rindas.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: CRUD - datu pārvaldības četri stūrakmeņi</h2>
-    <div class='logic-box'>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana1.html">Programmēšana I</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>10. Tēma - Datubāzes un PostgreSQL</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_10/prog1_10main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_10/prog1_101">10.1 Ievads datubāzēs un PostgreSQL</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_10/prog1_102">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+<a href="/programmesana1/prog1_10/prog1_103">10.3 Tabulu projektēšana un saites</a>
+<a href="/programmesana1/prog1_10/prog1_104">10.4 JOIN un sarežģīti vaicājumi</a>
+<a href="/programmesana1/prog1_10/prog1_105">10.5 Python ↔ PostgreSQL (psycopg2)</a>
+<a href="/programmesana1/prog1_10/prog1_106">10.6 Noslēguma projekts: Highscore datubāze</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_10/prog1_10main">10. tēma</a> / 10.2</p>
+<h1>10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Apgūt visu četru SQL CRUD operāciju sintaksi un izpildīt tās praktiski savā datubāzē.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.17. Darbs ar failiem un ārējām datu krātuvēm</a>
+<a href="/sasnRez">SR 2.4.13. Mainīgie un datu tipi</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - ievadi datus ar INSERT · 2. uzdevums (~25 min) - filtrē un kārto ar SELECT · 3. uzdevums (~20 min) - droši lieto UPDATE un DELETE. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> atver savu datubāzi <code>spele</code> no 10.1 stundas. Brīdinājums: <code>UPDATE</code> un <code>DELETE</code> bez <code>WHERE</code> maina visas rindas.</p>
+</div>
+</section><section>
+<h2>Teorija: CRUD - datu pārvaldības četri stūrakmeņi</h2>
+<div class="logic-box">
 <p>CRUD ir akronīms četrām pamata datu operācijām:</p>
 <ul>
 <li><b>C</b>reate - <code class="language-sql">INSERT</code></li>
@@ -105,80 +84,75 @@ UPDATE speletaji SET punkti = punkti + 10 WHERE vards = 'Anna';
 
 -- DELETE (uzmanīgi! vienmēr ar WHERE)
 DELETE FROM speletaji WHERE punkti &lt; 50;</code></pre>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Ievadi datus ar INSERT</h3>
-        <p>Beigās tabulā būs pietiekami daudz datu, ar ko strādāt.</p>
-        <ol class="step-list">
-            <li><b>Izpildi</b> <code class="language-sql">INSERT INTO speletaji (vards, punkti) VALUES ('Anna', 120), ('Jānis', 95);</code>.</li>
-            <li><b>Pievieno</b> vēl četrus spēlētājus vienā komandā.</li>
-            <li><b>Izpildi</b> <code class="language-sql">SELECT COUNT(*) FROM speletaji;</code>.</li>
-            <li><b>Pārbaudi</b>, vai skaitlis sakrīt ar ievadīto rindu skaitu.</li>
-            <li><b>Izpildi</b> <code class="language-sql">SELECT * FROM speletaji;</code> un apskati <code>id</code> kolonnu.</li>
-            <li><b>Pieraksti</b>, kas piešķīra <code>id</code> vērtības, ja tu tās neievadīji.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> tabulā ir vismaz 6 spēlētāji, un katram ir automātiski piešķirts unikāls <code>id</code>.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Filtrē un kārto ar SELECT</h3>
-        <p>Beigās tu izvilksi tieši tos datus, kas vajadzīgi, nevis visus.</p>
-        <ol class="step-list">
-            <li><b>Izpildi</b> <code class="language-sql">SELECT vards, punkti FROM speletaji WHERE punkti &gt; 100;</code>.</li>
-            <li><b>Pievieno</b> <code class="language-sql">ORDER BY punkti DESC</code> un izpildi vēlreiz.</li>
-            <li><b>Pievieno</b> <code class="language-sql">LIMIT 3</code> un pieraksti, cik rindu atgriezās.</li>
-            <li><b>Uzraksti</b> vaicājumu, kas atrod spēlētājus ar punktiem no 50 līdz 100.</li>
-            <li><b>Uzraksti</b> vaicājumu, kas atrod spēlētāju pēc vārda.</li>
-            <li><b>Izpildi</b> <code class="language-sql">SELECT AVG(punkti) FROM speletaji;</code>.</li>
-            <li><b>Pieraksti</b> vidējo punktu skaitu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> TOP 3 vaicājums atgriež tieši trīs rindas, sakārtotas no lielākā punktu skaita.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Droši lieto UPDATE un DELETE</h3>
-        <p>Beigās tu zināsi, kā nesabojāt visu tabulu ar vienu komandu.</p>
-        <ol class="step-list">
-            <li><b>Izpildi</b> vispirms <code class="language-sql">SELECT * FROM speletaji WHERE vards = 'Anna';</code>.</li>
-            <li><b>Pārliecinies</b>, ka atgriežas tieši viena rinda.</li>
-            <li><b>Izpildi</b> <code class="language-sql">UPDATE speletaji SET punkti = punkti + 10 WHERE vards = 'Anna';</code>.</li>
-            <li><b>Pārbaudi</b> rezultātu ar <code>SELECT</code>.</li>
-            <li><b>Izpildi</b> <code class="language-sql">SELECT * FROM speletaji WHERE punkti &lt; 50;</code>.</li>
-            <li><b>Izdzēs</b> tieši šīs rindas ar <code class="language-sql">DELETE FROM speletaji WHERE punkti &lt; 50;</code>.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc pirms <code>UPDATE</code> vienmēr jāizpilda <code>SELECT</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> Annas punkti pieauga tieši par 10, un dzēstas tikai tās rindas, ko iepriekš redzēji <code>SELECT</code> rezultātā.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Izmēģini transakciju</h3>
-        <p>Ja pamatdarbs ir gatavs, iemācies atsaukt kļūdainu komandu.</p>
-        <ol class="step-list">
-            <li><b>Izpildi</b> <code class="language-sql">BEGIN;</code>.</li>
-            <li><b>Izpildi</b> <code class="language-sql">DELETE FROM speletaji;</code> bez <code>WHERE</code>.</li>
-            <li><b>Pārbaudi</b> ar <code>SELECT</code>, ka tabula ir tukša.</li>
-            <li><b>Izpildi</b> <code class="language-sql">ROLLBACK;</code>.</li>
-            <li><b>Pārbaudi</b> ar <code>SELECT</code> vēlreiz.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc <code>ROLLBACK</code> visi dati ir atgriezušies, it kā dzēšana nekad nebūtu notikusi.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>UPDATE bez WHERE atjaunina visu:</b> Vienmēr divreiz pārbaudi <code>WHERE</code>.</li>
-        <li><b>Jaucās virkņu pēdiņas:</b> SQL lieto <code>'pēdiņas'</code>, nevis dubultās <code>"pēdiņas"</code>.</li>
-        <li><b>Trūkst semikola:</b> Katrs SQL paziņojums beidzas ar <code>;</code>.</li>
-        </ul>
-    </div>
-</section>
 
-<div class='section'>
-    <h2>Koda piemērs</h2>
-    <div class='code-example'>
-        <pre><code class="language-python">-- Pilns CRUD demo
+
+
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Ievadi datus ar INSERT</h2>
+<p>Beigās tabulā būs pietiekami daudz datu, ar ko strādāt.</p>
+<ol class="step-list">
+<li><b>Izpildi</b> <code class="language-sql">INSERT INTO speletaji (vards, punkti) VALUES ('Anna', 120), ('Jānis', 95);</code>.</li>
+<li><b>Pievieno</b> vēl četrus spēlētājus vienā komandā.</li>
+<li><b>Izpildi</b> <code class="language-sql">SELECT COUNT(*) FROM speletaji;</code>.</li>
+<li><b>Pārbaudi</b>, vai skaitlis sakrīt ar ievadīto rindu skaitu.</li>
+<li><b>Izpildi</b> <code class="language-sql">SELECT * FROM speletaji;</code> un apskati <code>id</code> kolonnu.</li>
+<li><b>Pieraksti</b>, kas piešķīra <code>id</code> vērtības, ja tu tās neievadīji.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> tabulā ir vismaz 6 spēlētāji, un katram ir automātiski piešķirts unikāls <code>id</code>.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Filtrē un kārto ar SELECT</h2>
+<p>Beigās tu izvilksi tieši tos datus, kas vajadzīgi, nevis visus.</p>
+<ol class="step-list">
+<li><b>Izpildi</b> <code class="language-sql">SELECT vards, punkti FROM speletaji WHERE punkti &gt; 100;</code>.</li>
+<li><b>Pievieno</b> <code class="language-sql">ORDER BY punkti DESC</code> un izpildi vēlreiz.</li>
+<li><b>Pievieno</b> <code class="language-sql">LIMIT 3</code> un pieraksti, cik rindu atgriezās.</li>
+<li><b>Uzraksti</b> vaicājumu, kas atrod spēlētājus ar punktiem no 50 līdz 100.</li>
+<li><b>Uzraksti</b> vaicājumu, kas atrod spēlētāju pēc vārda.</li>
+<li><b>Izpildi</b> <code class="language-sql">SELECT AVG(punkti) FROM speletaji;</code>.</li>
+<li><b>Pieraksti</b> vidējo punktu skaitu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> TOP 3 vaicājums atgriež tieši trīs rindas, sakārtotas no lielākā punktu skaita.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Droši lieto UPDATE un DELETE</h2>
+<p>Beigās tu zināsi, kā nesabojāt visu tabulu ar vienu komandu.</p>
+<ol class="step-list">
+<li><b>Izpildi</b> vispirms <code class="language-sql">SELECT * FROM speletaji WHERE vards = 'Anna';</code>.</li>
+<li><b>Pārliecinies</b>, ka atgriežas tieši viena rinda.</li>
+<li><b>Izpildi</b> <code class="language-sql">UPDATE speletaji SET punkti = punkti + 10 WHERE vards = 'Anna';</code>.</li>
+<li><b>Pārbaudi</b> rezultātu ar <code>SELECT</code>.</li>
+<li><b>Izpildi</b> <code class="language-sql">SELECT * FROM speletaji WHERE punkti &lt; 50;</code>.</li>
+<li><b>Izdzēs</b> tieši šīs rindas ar <code class="language-sql">DELETE FROM speletaji WHERE punkti &lt; 50;</code>.</li>
+<li><b>Pieraksti</b> vienu secinājumu: kāpēc pirms <code>UPDATE</code> vienmēr jāizpilda <code>SELECT</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Annas punkti pieauga tieši par 10, un dzēstas tikai tās rindas, ko iepriekš redzēji <code>SELECT</code> rezultātā.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Izmēģini transakciju</summary>
+<p>Ja pamatdarbs ir gatavs, iemācies atsaukt kļūdainu komandu.</p>
+<ol class="step-list">
+<li><b>Izpildi</b> <code class="language-sql">BEGIN;</code>.</li>
+<li><b>Izpildi</b> <code class="language-sql">DELETE FROM speletaji;</code> bez <code>WHERE</code>.</li>
+<li><b>Pārbaudi</b> ar <code>SELECT</code>, ka tabula ir tukša.</li>
+<li><b>Izpildi</b> <code class="language-sql">ROLLBACK;</code>.</li>
+<li><b>Pārbaudi</b> ar <code>SELECT</code> vēlreiz.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pēc <code>ROLLBACK</code> visi dati ir atgriezušies, it kā dzēšana nekad nebūtu notikusi.</p>
+</details><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>UPDATE bez WHERE atjaunina visu:</b> Vienmēr divreiz pārbaudi <code>WHERE</code>.</li>
+<li><b>Jaucās virkņu pēdiņas:</b> SQL lieto <code>'pēdiņas'</code>, nevis dubultās <code>"pēdiņas"</code>.</li>
+<li><b>Trūkst semikola:</b> Katrs SQL paziņojums beidzas ar <code>;</code>.</li>
+</ul>
+</div>
+</section><section>
+<h2>Koda piemērs</h2>
+<div class="code-example">
+<pre><code class="language-python">-- Pilns CRUD demo
 INSERT INTO speletaji (vards, punkti) VALUES ('Anna', 120), ('Jānis', 95);
 
 SELECT vards, punkti FROM speletaji
@@ -190,13 +164,20 @@ DELETE FROM speletaji WHERE punkti &lt; 50;
 
 -- Statistika
 SELECT COUNT(*), AVG(punkti), MAX(punkti) FROM speletaji;</code></pre>
-        <div class='result'>vards | punkti<br>------|-------<br>Anna  | 130<br>Jānis | 95<br>(skaits, vidējais, maks)</div>
-    </div>
+<div class="result">vards | punkti<br/>------|-------<br/>Anna  | 130<br/>Jānis | 95<br/>(skaits, vidējais, maks)</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_10/prog1_101">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_10/prog1_103">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana1/prog1_10/prog1_101" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana1/prog1_10/prog1_103" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana1.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

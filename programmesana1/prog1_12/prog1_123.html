@@ -1,89 +1,68 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>12.3 REST API izstrāde - ebSkola</title>
-<meta name="description" content="Saprast REST principus un izveidot pareizi strukturētu API spēļu rezultātu pārvaldībai.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_12/prog1_123">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="12.3 REST API izstrāde">
-<meta property="og:description" content="Saprast REST principus un izveidot pareizi strukturētu API spēļu rezultātu pārvaldībai.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_12/prog1_123">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="12.3 REST API izstrāde">
-<meta name="twitter:description" content="Saprast REST principus un izveidot pareizi strukturētu API spēļu rezultātu pārvaldībai.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Saprast REST principus un izveidot pareizi strukturētu API spēļu rezultātu pārvaldībai." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana1/prog1_12/prog1_123" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="12.3 REST API izstrāde" property="og:title"/>
+<meta content="Saprast REST principus un izveidot pareizi strukturētu API spēļu rezultātu pārvaldībai." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana1/prog1_12/prog1_123" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="12.3 REST API izstrāde" name="twitter:title"/>
+<meta content="Saprast REST principus un izveidot pareizi strukturētu API spēļu rezultātu pārvaldībai." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "12.3 REST API izstrāde", "description": "Saprast REST principus un izveidot pareizi strukturētu API spēļu rezultātu pārvaldībai.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_12/prog1_123", "isPartOf": {"@type": "Course", "name": "ebSkola - programmesana1", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana1/programmesana1">Prog I</a>
-      <a href="/programmesana1/prog1_12/prog1_12main">12. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana1/prog1_12/prog1_122">← 12.2</a>
-    <a class="btn primary" href="/programmesana1/prog1_12/prog1_124">12.4 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana I</div>
-  <h3>12. Tēma - Pilnvērtīga izstrāde un izvietošana</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana1/prog1_12/prog1_12main">Tēmas sākums</a>
-    <a href="/programmesana1/prog1_12/prog1_121">12.1 Front-end un back-end arhitektūra</a>
-    <a href="/programmesana1/prog1_12/prog1_122">12.2 Flask: Python kā web serveris</a>
-    <a class="active" aria-current="page" href="/programmesana1/prog1_12/prog1_123">12.3 REST API izstrāde</a>
-    <a href="/programmesana1/prog1_12/prog1_124">12.4 Front-end + API integrācija</a>
-    <a href="/programmesana1/prog1_12/prog1_125">12.5 Izvietošana mākonī un drošība</a>
-    <a href="/programmesana1/prog1_12/prog1_126">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>12.3 REST API izstrāde</h1>
-    <p><b>Stundas uzdevums:</b> Saprast REST principus un izveidot pareizi strukturētu API spēļu rezultātu pārvaldībai.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.11. Lieto standartizētas bibliotēkas un API</a>
-        <a href="/sasnRez">SR 2.4.7. Lietotāja saskarne</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - uzbūvē GET un POST pēc REST · 2. uzdevums (~25 min) - pievieno validāciju un pareizus statusa kodus · 3. uzdevums (~20 min) - pievieno filtrēšanu un kārtošanu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver savu 12.2 stundas <code>serveris.py</code>. Šoreiz maršrutus sakārtosi pēc REST principiem, lai citi programmētāji tos saprastu bez skaidrojuma.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: REST principi</h2>
-    <div class='logic-box'>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana1.html">Programmēšana I</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>12. Tēma - Pilnvērtīga izstrāde un izvietošana</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_12/prog1_12main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_12/prog1_121">12.1 Front-end un back-end arhitektūra</a>
+<a href="/programmesana1/prog1_12/prog1_122">12.2 Flask: Python kā web serveris</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_12/prog1_123">12.3 REST API izstrāde</a>
+<a href="/programmesana1/prog1_12/prog1_124">12.4 Front-end + API integrācija</a>
+<a href="/programmesana1/prog1_12/prog1_125">12.5 Izvietošana mākonī un drošība</a>
+<a href="/programmesana1/prog1_12/prog1_126">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_12/prog1_12main">12. tēma</a> / 12.3</p>
+<h1>12.3 REST API izstrāde</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Saprast REST principus un izveidot pareizi strukturētu API spēļu rezultātu pārvaldībai.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.11. Lieto standartizētas bibliotēkas un API</a>
+<a href="/sasnRez">SR 2.4.7. Lietotāja saskarne</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - uzbūvē GET un POST pēc REST · 2. uzdevums (~25 min) - pievieno validāciju un pareizus statusa kodus · 3. uzdevums (~20 min) - pievieno filtrēšanu un kārtošanu. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> atver savu 12.2 stundas <code>serveris.py</code>. Šoreiz maršrutus sakārtosi pēc REST principiem, lai citi programmētāji tos saprastu bez skaidrojuma.</p>
+</div>
+</section><section>
+<h2>Teorija: REST principi</h2>
+<div class="logic-box">
 <p><b>REST</b> (Representational State Transfer) ir API projektēšanas stils, kas nosaka:</p>
 <ul>
 <li><b>Resursu identificēšana</b> caur URL (piem., <code>/api/speletaji/42</code>).</li>
@@ -91,7 +70,7 @@
 <li><b>Stateless</b> - katrs pieprasījums saturs visu vajadzīgo info; serveris nesaglabā stāvokli starp pieprasījumiem.</li>
 <li><b>JSON</b> kā datu formāts.</li>
 </ul>
-<table>
+<div aria-label="Tabula" class="table-scroll" role="region" tabindex="0"><table>
 <thead><tr><th>Metode</th><th>URL</th><th>Darbība</th></tr></thead>
 <tbody>
 <tr><td>GET</td><td>/api/speletaji</td><td>Saraksts ar visiem</td></tr>
@@ -101,82 +80,77 @@
 <tr><td>PATCH</td><td>/api/speletaji/42</td><td>Daļēji atjaunināt</td></tr>
 <tr><td>DELETE</td><td>/api/speletaji/42</td><td>Dzēst</td></tr>
 </tbody>
-</table>
+</table></div>
 <p><b>Pareizie statusa kodi:</b> 200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 404 Not Found, 500 Server Error.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Uzbūvē GET un POST pēc REST</h3>
-        <p>Beigās viena adrese apkalpos gan lasīšanu, gan pievienošanu.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> sarakstu <code class="language-python">REZULTATI = []</code>.</li>
-            <li><b>Uzraksti</b> <code class="language-python">@app.route("/api/rezultati", methods=["GET"])</code>, kas atgriež visu sarakstu.</li>
-            <li><b>Uzraksti</b> otru funkciju tai pašai adresei ar <code class="language-python">methods=["POST"]</code>.</li>
-            <li><b>Piešķir</b> katram jaunam ierakstam <code>id</code>.</li>
-            <li><b>Atgriez</b> pēc izveides statusa kodu 201.</li>
-            <li><b>Pārbaudi</b> abus maršrutus ar <code>curl</code> vai pārlūku.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> viena adrese ar GET atgriež sarakstu, bet ar POST pievieno ierakstu un atgriež 201.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Pievieno validāciju un pareizus statusa kodus</h3>
-        <p>Beigās serveris noraidīs sliktus datus, nevis tos saglabās.</p>
-        <ol class="step-list">
-            <li><b>Pārbaudi</b>, vai <code class="language-python">request.json</code> satur atslēgu <code>vards</code>.</li>
-            <li><b>Atgriez</b> statusa kodu 400 ar paskaidrojumu, ja tās nav.</li>
-            <li><b>Pārbaudi</b>, vai <code>punkti</code> ir skaitlis un nav negatīvs.</li>
-            <li><b>Nosūti</b> POST pieprasījumu bez vārda un pieraksti atbildi.</li>
-            <li><b>Nosūti</b> pieprasījumu ar negatīviem punktiem un pieraksti atbildi.</li>
-            <li><b>Nosūti</b> derīgu pieprasījumu un pārbaudi, ka tas izdodas.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc validācija jāveic serverī, nevis pārlūkā.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> trūkstoši vai nederīgi dati atgriež 400 ar paskaidrojumu, bet derīgi - 201.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pievieno filtrēšanu un kārtošanu</h3>
-        <p>Beigās klients varēs prasīt tikai TOP 5 rezultātus.</p>
-        <ol class="step-list">
-            <li><b>Nolasi</b> parametru ar <code class="language-python">request.args.get("limit", 100, type=int)</code>.</li>
-            <li><b>Sakārto</b> rezultātus pēc punktiem dilstoši.</li>
-            <li><b>Atgriez</b> tikai pirmos <code>limit</code> ierakstus.</li>
-            <li><b>Atver</b> pārlūkā <code>/api/rezultati?limit=5</code>.</li>
-            <li><b>Atver</b> to pašu bez parametra un salīdzini.</li>
-            <li><b>Ievadi</b> parametru <code>limit=abc</code> un pieraksti, kas notiek.</li>
-            <li><b>Pieraksti</b>, ko dara <code>type=int</code> šajā izsaukumā.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar <code>?limit=5</code> atgriežas tieši pieci ieraksti, un nederīgs parametrs neizraisa 500 kļūdu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno DELETE</h3>
-        <p>Ja pamatdarbs ir gatavs, pabeidz visu CRUD komplektu.</p>
-        <ol class="step-list">
-            <li><b>Uzraksti</b> <code class="language-python">@app.route("/api/rezultati/&lt;int:id&gt;", methods=["DELETE"])</code>.</li>
-            <li><b>Atrodi</b> ierakstu pēc <code>id</code> un izdzēs to.</li>
-            <li><b>Atgriez</b> statusa kodu 404, ja ieraksta nav.</li>
-            <li><b>Pārbaudi</b> ar <code class="language-bash">curl -X DELETE http://localhost:5000/api/rezultati/1</code>.</li>
-            <li><b>Pārbaudi</b>, ka GET vairs šo ierakstu nerāda.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> esošs ieraksts tiek izdzēsts, bet neesoša dzēšana atgriež 404.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>POST izmanto GET datus:</b> JSON sūta caur body, ne URL parametriem. Dažādi <code>request.json</code> vs <code>request.args</code>.</li>
-        <li><b>200 OK pat kļūdām:</b> Atgriez pareizu statusa kodu - 4xx klienta kļūdām, 5xx servera kļūdām.</li>
-        <li><b>API atgriež HTML kļūdas:</b> Noklusējuma Flask 404 ir HTML - pārraksti to, lai vienmēr būtu JSON.</li>
-        </ul>
-    </div>
-</section>
 
-<div class='section'>
-    <h2>Koda piemērs</h2>
-    <div class='code-example'>
-        <pre><code class="language-python">from flask import Flask, jsonify, request, abort
+
+
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Uzbūvē GET un POST pēc REST</h2>
+<p>Beigās viena adrese apkalpos gan lasīšanu, gan pievienošanu.</p>
+<ol class="step-list">
+<li><b>Izveido</b> sarakstu <code class="language-python">REZULTATI = []</code>.</li>
+<li><b>Uzraksti</b> <code class="language-python">@app.route("/api/rezultati", methods=["GET"])</code>, kas atgriež visu sarakstu.</li>
+<li><b>Uzraksti</b> otru funkciju tai pašai adresei ar <code class="language-python">methods=["POST"]</code>.</li>
+<li><b>Piešķir</b> katram jaunam ierakstam <code>id</code>.</li>
+<li><b>Atgriez</b> pēc izveides statusa kodu 201.</li>
+<li><b>Pārbaudi</b> abus maršrutus ar <code>curl</code> vai pārlūku.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> viena adrese ar GET atgriež sarakstu, bet ar POST pievieno ierakstu un atgriež 201.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Pievieno validāciju un pareizus statusa kodus</h2>
+<p>Beigās serveris noraidīs sliktus datus, nevis tos saglabās.</p>
+<ol class="step-list">
+<li><b>Pārbaudi</b>, vai <code class="language-python">request.json</code> satur atslēgu <code>vards</code>.</li>
+<li><b>Atgriez</b> statusa kodu 400 ar paskaidrojumu, ja tās nav.</li>
+<li><b>Pārbaudi</b>, vai <code>punkti</code> ir skaitlis un nav negatīvs.</li>
+<li><b>Nosūti</b> POST pieprasījumu bez vārda un pieraksti atbildi.</li>
+<li><b>Nosūti</b> pieprasījumu ar negatīviem punktiem un pieraksti atbildi.</li>
+<li><b>Nosūti</b> derīgu pieprasījumu un pārbaudi, ka tas izdodas.</li>
+<li><b>Pieraksti</b> vienu secinājumu: kāpēc validācija jāveic serverī, nevis pārlūkā.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> trūkstoši vai nederīgi dati atgriež 400 ar paskaidrojumu, bet derīgi - 201.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pievieno filtrēšanu un kārtošanu</h2>
+<p>Beigās klients varēs prasīt tikai TOP 5 rezultātus.</p>
+<ol class="step-list">
+<li><b>Nolasi</b> parametru ar <code class="language-python">request.args.get("limit", 100, type=int)</code>.</li>
+<li><b>Sakārto</b> rezultātus pēc punktiem dilstoši.</li>
+<li><b>Atgriez</b> tikai pirmos <code>limit</code> ierakstus.</li>
+<li><b>Atver</b> pārlūkā <code>/api/rezultati?limit=5</code>.</li>
+<li><b>Atver</b> to pašu bez parametra un salīdzini.</li>
+<li><b>Ievadi</b> parametru <code>limit=abc</code> un pieraksti, kas notiek.</li>
+<li><b>Pieraksti</b>, ko dara <code>type=int</code> šajā izsaukumā.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar <code>?limit=5</code> atgriežas tieši pieci ieraksti, un nederīgs parametrs neizraisa 500 kļūdu.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno DELETE</summary>
+<p>Ja pamatdarbs ir gatavs, pabeidz visu CRUD komplektu.</p>
+<ol class="step-list">
+<li><b>Uzraksti</b> <code class="language-python">@app.route("/api/rezultati/&lt;int:id&gt;", methods=["DELETE"])</code>.</li>
+<li><b>Atrodi</b> ierakstu pēc <code>id</code> un izdzēs to.</li>
+<li><b>Atgriez</b> statusa kodu 404, ja ieraksta nav.</li>
+<li><b>Pārbaudi</b> ar <code class="language-bash">curl -X DELETE http://localhost:5000/api/rezultati/1</code>.</li>
+<li><b>Pārbaudi</b>, ka GET vairs šo ierakstu nerāda.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> esošs ieraksts tiek izdzēsts, bet neesoša dzēšana atgriež 404.</p>
+</details><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>POST izmanto GET datus:</b> JSON sūta caur body, ne URL parametriem. Dažādi <code>request.json</code> vs <code>request.args</code>.</li>
+<li><b>200 OK pat kļūdām:</b> Atgriez pareizu statusa kodu - 4xx klienta kļūdām, 5xx servera kļūdām.</li>
+<li><b>API atgriež HTML kļūdas:</b> Noklusējuma Flask 404 ir HTML - pārraksti to, lai vienmēr būtu JSON.</li>
+</ul>
+</div>
+</section><section>
+<h2>Koda piemērs</h2>
+<div class="code-example">
+<pre><code class="language-python">from flask import Flask, jsonify, request, abort
 
 app = Flask(__name__)
 REZULTATI = []
@@ -199,13 +173,20 @@ def jauns():
 @app.errorhandler(404)
 def not_found(e):
     return jsonify({"kluda": "Nav atrasts"}), 404</code></pre>
-        <div class='result'>POST → 201 Created<br>GET ?limit=5 → top 5<br>404 → {kluda: 'Nav atrasts'}</div>
-    </div>
+<div class="result">POST → 201 Created<br/>GET ?limit=5 → top 5<br/>404 → {kluda: 'Nav atrasts'}</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_12/prog1_122">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_12/prog1_124">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana1/prog1_12/prog1_122" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana1/prog1_12/prog1_124" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana1.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

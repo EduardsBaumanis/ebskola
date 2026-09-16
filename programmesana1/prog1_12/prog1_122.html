@@ -1,90 +1,69 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>12.2 Flask: Python kā web serveris - ebSkola</title>
-<meta name="description" content="Uzbūvēt savu pirmo Flask web serveri ar vairākām maršrutēm un atgriezt JSON datus.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_12/prog1_122">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="12.2 Flask: Python kā web serveris">
-<meta property="og:description" content="Uzbūvēt savu pirmo Flask web serveri ar vairākām maršrutēm un atgriezt JSON datus.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_12/prog1_122">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="12.2 Flask: Python kā web serveris">
-<meta name="twitter:description" content="Uzbūvēt savu pirmo Flask web serveri ar vairākām maršrutēm un atgriezt JSON datus.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Uzbūvēt savu pirmo Flask web serveri ar vairākām maršrutēm un atgriezt JSON datus." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana1/prog1_12/prog1_122" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="12.2 Flask: Python kā web serveris" property="og:title"/>
+<meta content="Uzbūvēt savu pirmo Flask web serveri ar vairākām maršrutēm un atgriezt JSON datus." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana1/prog1_12/prog1_122" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="12.2 Flask: Python kā web serveris" name="twitter:title"/>
+<meta content="Uzbūvēt savu pirmo Flask web serveri ar vairākām maršrutēm un atgriezt JSON datus." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "12.2 Flask: Python kā web serveris", "description": "Uzbūvēt savu pirmo Flask web serveri ar vairākām maršrutēm un atgriezt JSON datus.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_12/prog1_122", "isPartOf": {"@type": "Course", "name": "ebSkola - programmesana1", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana1/programmesana1">Prog I</a>
-      <a href="/programmesana1/prog1_12/prog1_12main">12. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana1/prog1_12/prog1_121">← 12.1</a>
-    <a class="btn primary" href="/programmesana1/prog1_12/prog1_123">12.3 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana I</div>
-  <h3>12. Tēma - Pilnvērtīga izstrāde un izvietošana</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana1/prog1_12/prog1_12main">Tēmas sākums</a>
-    <a href="/programmesana1/prog1_12/prog1_121">12.1 Front-end un back-end arhitektūra</a>
-    <a class="active" aria-current="page" href="/programmesana1/prog1_12/prog1_122">12.2 Flask: Python kā web serveris</a>
-    <a href="/programmesana1/prog1_12/prog1_123">12.3 REST API izstrāde</a>
-    <a href="/programmesana1/prog1_12/prog1_124">12.4 Front-end + API integrācija</a>
-    <a href="/programmesana1/prog1_12/prog1_125">12.5 Izvietošana mākonī un drošība</a>
-    <a href="/programmesana1/prog1_12/prog1_126">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>12.2 Flask: Python kā web serveris</h1>
-    <p><b>Stundas uzdevums:</b> Uzbūvēt savu pirmo Flask web serveri ar vairākām maršrutēm un atgriezt JSON datus.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.11. Lieto standartizētas bibliotēkas un API</a>
-        <a href="/sasnRez">SR 2.4.15. Modulāras programmas un funkcijas</a>
-        <a href="/sasnRez">SR 2.4.2. Programmēšanas rīku un bibliotēku izvēle</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - palaid pirmo Flask serveri · 2. uzdevums (~25 min) - atgriez JSON no maršruta · 3. uzdevums (~20 min) - pieņem datus ar POST. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> aktivizē virtuālo vidi un izpildi <code class="language-bash">pip install flask</code>. Serveri apturēsi ar <code>Ctrl+C</code> terminālī.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Flask pamatkomponenti</h2>
-    <div class='logic-box'>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana1.html">Programmēšana I</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>12. Tēma - Pilnvērtīga izstrāde un izvietošana</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_12/prog1_12main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_12/prog1_121">12.1 Front-end un back-end arhitektūra</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_12/prog1_122">12.2 Flask: Python kā web serveris</a>
+<a href="/programmesana1/prog1_12/prog1_123">12.3 REST API izstrāde</a>
+<a href="/programmesana1/prog1_12/prog1_124">12.4 Front-end + API integrācija</a>
+<a href="/programmesana1/prog1_12/prog1_125">12.5 Izvietošana mākonī un drošība</a>
+<a href="/programmesana1/prog1_12/prog1_126">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_12/prog1_12main">12. tēma</a> / 12.2</p>
+<h1>12.2 Flask: Python kā web serveris</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Uzbūvēt savu pirmo Flask web serveri ar vairākām maršrutēm un atgriezt JSON datus.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.11. Lieto standartizētas bibliotēkas un API</a>
+<a href="/sasnRez">SR 2.4.15. Modulāras programmas un funkcijas</a>
+<a href="/sasnRez">SR 2.4.2. Programmēšanas rīku un bibliotēku izvēle</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - palaid pirmo Flask serveri · 2. uzdevums (~25 min) - atgriez JSON no maršruta · 3. uzdevums (~20 min) - pieņem datus ar POST. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> aktivizē virtuālo vidi un izpildi <code class="language-bash">pip install flask</code>. Serveri apturēsi ar <code>Ctrl+C</code> terminālī.</p>
+</div>
+</section><section>
+<h2>Teorija: Flask pamatkomponenti</h2>
+<div class="logic-box">
 <p><b>Flask</b> ir mikro-ietvars Python - tikai 100 KB, bet pietiekams reāliem projektiem. Instalācija: <code>pip install flask</code>.</p>
 <pre><code class="language-python">from flask import Flask, jsonify, request
 
@@ -117,80 +96,75 @@ def saglabat():
 if __name__ == "__main__":
     app.run(debug=True, port=5000)</code></pre>
 <p>Palaiž ar <code>python app.py</code> → atver <code>http://localhost:5000/</code>.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Palaid pirmo Flask serveri</h3>
-        <p>Beigās tavs Python kods atbildēs pārlūkam.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> failu <code>serveris.py</code> un ieraksti <code class="language-python">from flask import Flask</code>.</li>
-            <li><b>Ieraksti</b> <code class="language-python">app = Flask(__name__)</code>.</li>
-            <li><b>Pievieno</b> dekoratoru <code class="language-python">@app.route("/")</code>.</li>
-            <li><b>Uzraksti</b> zem tā funkciju, kas atgriež <code class="language-python">"&lt;h1&gt;Sveiks!&lt;/h1&gt;"</code>.</li>
-            <li><b>Pievieno</b> faila beigās <code class="language-python">app.run(debug=True)</code>.</li>
-            <li><b>Palaid</b> un atver pārlūkā <code>http://localhost:5000</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pārlūkā redzams liels uzraksts <code>Sveiks!</code>, un terminālī parādās ieraksts par pieprasījumu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Atgriez JSON no maršruta</h3>
-        <p>Beigās serveris atdos datus, nevis tekstu.</p>
-        <ol class="step-list">
-            <li><b>Importē</b> <code class="language-python">jsonify</code> no Flask.</li>
-            <li><b>Pievieno</b> maršrutu <code class="language-python">@app.route("/api/speletaji")</code>.</li>
-            <li><b>Atgriez</b> tajā <code class="language-python">jsonify([{"vards": "Anna", "punkti": 120}])</code>.</li>
-            <li><b>Atver</b> pārlūkā <code>/api/speletaji</code> un apskati rezultātu.</li>
-            <li><b>Atgriez</b> to pašu bez <code>jsonify</code> un pieraksti, kas notiek.</li>
-            <li><b>Ieliec</b> <code>jsonify</code> atpakaļ.</li>
-            <li><b>Pārbaudi</b> F12 Network cilnē, kāds ir atbildes <code>Content-Type</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> atbildes <code>Content-Type</code> ir <code>application/json</code>, nevis <code>text/html</code>.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pieņem datus ar POST</h3>
-        <p>Beigās serveris varēs saņemt jaunu ierakstu.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> sarakstu <code class="language-python">SPELETAJI = []</code> faila augšā.</li>
-            <li><b>Pievieno</b> maršrutu ar <code class="language-python">methods=["POST"]</code>.</li>
-            <li><b>Nolasi</b> tajā <code class="language-python">dati = request.json</code>.</li>
-            <li><b>Pievieno</b> datus sarakstam un atgriez tos ar statusa kodu 201.</li>
-            <li><b>Izmēģini</b> to ar <code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"vards":"Jānis"}' http://localhost:5000/api/speletaji</code>.</li>
-            <li><b>Atver</b> GET maršrutu un pārbaudi, ka jaunais ieraksts tur ir.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc dati pazūd, kad serveri restartē.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc POST pieprasījuma GET maršruts rāda jauno spēlētāju, bet pēc servera restarta saraksts atkal ir tukšs.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno maršrutu ar parametru</h3>
-        <p>Ja pamatdarbs ir gatavs, ļauj pieprasīt vienu konkrētu spēlētāju.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> maršrutu <code class="language-python">@app.route("/api/speletaji/&lt;int:id&gt;")</code>.</li>
-            <li><b>Atrodi</b> sarakstā spēlētāju ar šo <code>id</code>.</li>
-            <li><b>Atgriez</b> to kā JSON.</li>
-            <li><b>Atgriez</b> statusa kodu 404, ja spēlētājs nav atrasts.</li>
-            <li><b>Pārbaudi</b> abus gadījumus pārlūkā.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> esošs <code>id</code> atgriež spēlētāju, bet neesošs - kodu 404, nevis servera kļūdu.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Aizmirsts <code>jsonify()</code>:</b> Bez tā Flask atgriež dictionary kā string, ne JSON.</li>
-        <li><b>Ports aizņemts:</b> <code>OSError: Address already in use</code> - nogalini iepriekšējo procesu vai mainī portu.</li>
-        <li><b>JSON parametra trūkums:</b> <code>request.json</code> ir <code>None</code>, ja klients nesūta <code>Content-Type: application/json</code>.</li>
-        </ul>
-    </div>
-</section>
 
-<div class='section'>
-    <h2>Koda piemērs</h2>
-    <div class='code-example'>
-        <pre><code class="language-python">from flask import Flask, jsonify, request
+
+
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Palaid pirmo Flask serveri</h2>
+<p>Beigās tavs Python kods atbildēs pārlūkam.</p>
+<ol class="step-list">
+<li><b>Izveido</b> failu <code>serveris.py</code> un ieraksti <code class="language-python">from flask import Flask</code>.</li>
+<li><b>Ieraksti</b> <code class="language-python">app = Flask(__name__)</code>.</li>
+<li><b>Pievieno</b> dekoratoru <code class="language-python">@app.route("/")</code>.</li>
+<li><b>Uzraksti</b> zem tā funkciju, kas atgriež <code class="language-python">"&lt;h1&gt;Sveiks!&lt;/h1&gt;"</code>.</li>
+<li><b>Pievieno</b> faila beigās <code class="language-python">app.run(debug=True)</code>.</li>
+<li><b>Palaid</b> un atver pārlūkā <code>http://localhost:5000</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pārlūkā redzams liels uzraksts <code>Sveiks!</code>, un terminālī parādās ieraksts par pieprasījumu.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Atgriez JSON no maršruta</h2>
+<p>Beigās serveris atdos datus, nevis tekstu.</p>
+<ol class="step-list">
+<li><b>Importē</b> <code class="language-python">jsonify</code> no Flask.</li>
+<li><b>Pievieno</b> maršrutu <code class="language-python">@app.route("/api/speletaji")</code>.</li>
+<li><b>Atgriez</b> tajā <code class="language-python">jsonify([{"vards": "Anna", "punkti": 120}])</code>.</li>
+<li><b>Atver</b> pārlūkā <code>/api/speletaji</code> un apskati rezultātu.</li>
+<li><b>Atgriez</b> to pašu bez <code>jsonify</code> un pieraksti, kas notiek.</li>
+<li><b>Ieliec</b> <code>jsonify</code> atpakaļ.</li>
+<li><b>Pārbaudi</b> F12 Network cilnē, kāds ir atbildes <code>Content-Type</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> atbildes <code>Content-Type</code> ir <code>application/json</code>, nevis <code>text/html</code>.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pieņem datus ar POST</h2>
+<p>Beigās serveris varēs saņemt jaunu ierakstu.</p>
+<ol class="step-list">
+<li><b>Izveido</b> sarakstu <code class="language-python">SPELETAJI = []</code> faila augšā.</li>
+<li><b>Pievieno</b> maršrutu ar <code class="language-python">methods=["POST"]</code>.</li>
+<li><b>Nolasi</b> tajā <code class="language-python">dati = request.json</code>.</li>
+<li><b>Pievieno</b> datus sarakstam un atgriez tos ar statusa kodu 201.</li>
+<li><b>Izmēģini</b> to ar <code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"vards":"Jānis"}' http://localhost:5000/api/speletaji</code>.</li>
+<li><b>Atver</b> GET maršrutu un pārbaudi, ka jaunais ieraksts tur ir.</li>
+<li><b>Pieraksti</b> vienu secinājumu: kāpēc dati pazūd, kad serveri restartē.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pēc POST pieprasījuma GET maršruts rāda jauno spēlētāju, bet pēc servera restarta saraksts atkal ir tukšs.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno maršrutu ar parametru</summary>
+<p>Ja pamatdarbs ir gatavs, ļauj pieprasīt vienu konkrētu spēlētāju.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> maršrutu <code class="language-python">@app.route("/api/speletaji/&lt;int:id&gt;")</code>.</li>
+<li><b>Atrodi</b> sarakstā spēlētāju ar šo <code>id</code>.</li>
+<li><b>Atgriez</b> to kā JSON.</li>
+<li><b>Atgriez</b> statusa kodu 404, ja spēlētājs nav atrasts.</li>
+<li><b>Pārbaudi</b> abus gadījumus pārlūkā.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> esošs <code>id</code> atgriež spēlētāju, bet neesošs - kodu 404, nevis servera kļūdu.</p>
+</details><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Aizmirsts <code>jsonify()</code>:</b> Bez tā Flask atgriež dictionary kā string, ne JSON.</li>
+<li><b>Ports aizņemts:</b> <code>OSError: Address already in use</code> - nogalini iepriekšējo procesu vai mainī portu.</li>
+<li><b>JSON parametra trūkums:</b> <code>request.json</code> ir <code>None</code>, ja klients nesūta <code>Content-Type: application/json</code>.</li>
+</ul>
+</div>
+</section><section>
+<h2>Koda piemērs</h2>
+<div class="code-example">
+<pre><code class="language-python">from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 SPELETAJI = [{"id": 1, "vards": "Anna", "punkti": 120}]
@@ -210,13 +184,20 @@ def pievienot():
 
 if __name__ == "__main__":
     app.run(debug=True)</code></pre>
-        <div class='result'>GET /api/speletaji → [{...}]<br>POST /api/speletaji → 201 Created</div>
-    </div>
+<div class="result">GET /api/speletaji → [{...}]<br/>POST /api/speletaji → 201 Created</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_12/prog1_121">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_12/prog1_123">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana1/prog1_12/prog1_121" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana1/prog1_12/prog1_123" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana1.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

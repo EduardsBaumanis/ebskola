@@ -1,90 +1,69 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>10.1 Ievads datubāzēs un PostgreSQL - ebSkola</title>
-<meta name="description" content="Saprast, kāpēc relāciju datubāzes ir labākas par CSV/JSON failiem, instalēt PostgreSQL un izveidot pirmo tabulu.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_10/prog1_101">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="10.1 Ievads datubāzēs un PostgreSQL">
-<meta property="og:description" content="Saprast, kāpēc relāciju datubāzes ir labākas par CSV/JSON failiem, instalēt PostgreSQL un izveidot pirmo tabulu.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_10/prog1_101">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="10.1 Ievads datubāzēs un PostgreSQL">
-<meta name="twitter:description" content="Saprast, kāpēc relāciju datubāzes ir labākas par CSV/JSON failiem, instalēt PostgreSQL un izveidot pirmo tabulu.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Saprast, kāpēc relāciju datubāzes ir labākas par CSV/JSON failiem, instalēt PostgreSQL un izveidot pirmo tabulu." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana1/prog1_10/prog1_101" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="10.1 Ievads datubāzēs un PostgreSQL" property="og:title"/>
+<meta content="Saprast, kāpēc relāciju datubāzes ir labākas par CSV/JSON failiem, instalēt PostgreSQL un izveidot pirmo tabulu." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana1/prog1_10/prog1_101" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="10.1 Ievads datubāzēs un PostgreSQL" name="twitter:title"/>
+<meta content="Saprast, kāpēc relāciju datubāzes ir labākas par CSV/JSON failiem, instalēt PostgreSQL un izveidot pirmo tabulu." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "10.1 Ievads datubāzēs un PostgreSQL", "description": "Saprast, kāpēc relāciju datubāzes ir labākas par CSV/JSON failiem, instalēt PostgreSQL un izveidot pirmo tabulu.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_10/prog1_101", "isPartOf": {"@type": "Course", "name": "ebSkola - programmesana1", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana1/programmesana1">Prog I</a>
-      <a href="/programmesana1/prog1_10/prog1_10main">10. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana1/prog1_10/prog1_10main">← Tēma</a>
-    <a class="btn primary" href="/programmesana1/prog1_10/prog1_102">10.2 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana I</div>
-  <h3>10. Tēma - Datubāzes un PostgreSQL</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana1/prog1_10/prog1_10main">Tēmas sākums</a>
-    <a class="active" aria-current="page" href="/programmesana1/prog1_10/prog1_101">10.1 Ievads datubāzēs un PostgreSQL</a>
-    <a href="/programmesana1/prog1_10/prog1_102">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
-    <a href="/programmesana1/prog1_10/prog1_103">10.3 Tabulu projektēšana un saites</a>
-    <a href="/programmesana1/prog1_10/prog1_104">10.4 JOIN un sarežģīti vaicājumi</a>
-    <a href="/programmesana1/prog1_10/prog1_105">10.5 Python ↔ PostgreSQL (psycopg2)</a>
-    <a href="/programmesana1/prog1_10/prog1_106">10.6 Noslēguma projekts: Highscore datubāze</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>10.1 Ievads datubāzēs un PostgreSQL</h1>
-    <p><b>Stundas uzdevums:</b> Saprast, kāpēc relāciju datubāzes ir labākas par CSV/JSON failiem, instalēt PostgreSQL un izveidot pirmo tabulu.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.17. Darbs ar failiem un ārējām datu krātuvēm</a>
-        <a href="/sasnRez">SR 2.4.4. Iegūst, atlasa un apstrādā datus</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izveido datubāzi un pieslēdzies · 2. uzdevums (~25 min) - uzraksti pirmo CREATE TABLE · 3. uzdevums (~20 min) - pārbaudi datu tipu ierobežojumus. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> uzstādi PostgreSQL un atver pgAdmin vai psql. Ja instalēšana neizdodas, pasaki skolotājam - visu stundu var izpildīt arī uz kopīgā skolas servera.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Kas ir relāciju datubāze?</h2>
-    <div class='logic-box'>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana1.html">Programmēšana I</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>10. Tēma - Datubāzes un PostgreSQL</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_10/prog1_10main">Tēmas sākums</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_10/prog1_101">10.1 Ievads datubāzēs un PostgreSQL</a>
+<a href="/programmesana1/prog1_10/prog1_102">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+<a href="/programmesana1/prog1_10/prog1_103">10.3 Tabulu projektēšana un saites</a>
+<a href="/programmesana1/prog1_10/prog1_104">10.4 JOIN un sarežģīti vaicājumi</a>
+<a href="/programmesana1/prog1_10/prog1_105">10.5 Python ↔ PostgreSQL (psycopg2)</a>
+<a href="/programmesana1/prog1_10/prog1_106">10.6 Noslēguma projekts: Highscore datubāze</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_10/prog1_10main">10. tēma</a> / 10.1</p>
+<h1>10.1 Ievads datubāzēs un PostgreSQL</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Saprast, kāpēc relāciju datubāzes ir labākas par CSV/JSON failiem, instalēt PostgreSQL un izveidot pirmo tabulu.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.17. Darbs ar failiem un ārējām datu krātuvēm</a>
+<a href="/sasnRez">SR 2.4.4. Iegūst, atlasa un apstrādā datus</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izveido datubāzi un pieslēdzies · 2. uzdevums (~25 min) - uzraksti pirmo CREATE TABLE · 3. uzdevums (~20 min) - pārbaudi datu tipu ierobežojumus. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> uzstādi PostgreSQL un atver pgAdmin vai psql. Ja instalēšana neizdodas, pasaki skolotājam - visu stundu var izpildīt arī uz kopīgā skolas servera.</p>
+</div>
+</section><section>
+<h2>Teorija: Kas ir relāciju datubāze?</h2>
+<div class="logic-box">
 <p>Datubāze (DB) ir strukturēta datu kopa, kuru pārvalda <b>datubāzes pārvaldības sistēma (DBVS)</b>. PostgreSQL ir bezmaksas, atvērtā koda DBVS, ko izmanto Apple, Reddit, Spotify un tūkstošiem citu lielo uzņēmumu.</p>
 <p>Atšķirībā no JSON/CSV, datubāze:</p>
 <ul>
@@ -99,79 +78,74 @@ CREATE TABLE speletaji (
     vards TEXT NOT NULL,
     punkti INTEGER DEFAULT 0
 );</code></pre>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Izveido datubāzi un pieslēdzies</h3>
-        <p>Beigās tev būs sava datubāze, kurā strādāt visu tēmu.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> pgAdmin vai izpildi terminālī <code class="language-bash">psql -U postgres</code>.</li>
-            <li><b>Izpildi</b> <code class="language-sql">CREATE DATABASE spele;</code>.</li>
-            <li><b>Pieslēdzies</b> tai ar <code class="language-bash">\c spele</code> vai izvēlies to pgAdmin sarakstā.</li>
-            <li><b>Izpildi</b> <code class="language-sql">SELECT version();</code>.</li>
-            <li><b>Pieraksti</b>, kāda PostgreSQL versija tev uzstādīta.</li>
-            <li><b>Pieraksti</b>, ar kādu lietotājvārdu tu pieslēdzies.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> <code>SELECT version();</code> atgriež versijas tekstu, nevis kļūdu par pieslēgumu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Uzraksti pirmo CREATE TABLE</h3>
-        <p>Beigās datubāzē būs tabula ar pareiziem datu tipiem.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> failu <code>schema.sql</code>.</li>
-            <li><b>Ieraksti</b> <code class="language-sql">CREATE TABLE IF NOT EXISTS speletaji (</code>.</li>
-            <li><b>Pievieno</b> lauku <code class="language-sql">id SERIAL PRIMARY KEY</code>.</li>
-            <li><b>Pievieno</b> lauku <code class="language-sql">vards TEXT NOT NULL UNIQUE</code>.</li>
-            <li><b>Pievieno</b> laukus <code class="language-sql">punkti INTEGER DEFAULT 0</code> un <code class="language-sql">izveidots TIMESTAMP DEFAULT NOW()</code>.</li>
-            <li><b>Izpildi</b> skriptu un pārbaudi tabulu ar <code class="language-sql">\d speletaji</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> tabula <code>speletaji</code> eksistē un tajā ir visi četri lauki ar pareiziem tipiem.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pārbaudi datu tipu ierobežojumus</h3>
-        <p>Beigās tu redzēsi, ka datubāze pati neļauj ievadīt sliktus datus.</p>
-        <ol class="step-list">
-            <li><b>Ievadi</b> vienu spēlētāju ar <code class="language-sql">INSERT INTO speletaji (vards) VALUES ('Anna');</code>.</li>
-            <li><b>Izpildi</b> to pašu komandu vēlreiz un izlasi kļūdu.</li>
-            <li><b>Pieraksti</b>, kurš ierobežojums to neļāva.</li>
-            <li><b>Mēģini</b> ievadīt spēlētāju bez vārda un pieraksti kļūdu.</li>
-            <li><b>Mēģini</b> ievadīt punktus kā tekstu <code>'daudz'</code> un pieraksti kļūdu.</li>
-            <li><b>Izpildi</b> <code class="language-sql">SELECT * FROM speletaji;</code> un pārbaudi, cik rindu ir.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: ar ko datubāze šeit ir labāka par CSV failu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> datubāze noraidīja trīs nederīgus ierakstus, un tabulā ir tikai viena derīga rinda.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno CHECK ierobežojumu</h3>
-        <p>Ja pamatdarbs ir gatavs, neļauj ievadīt negatīvus punktus.</p>
-        <ol class="step-list">
-            <li><b>Izpildi</b> <code class="language-sql">ALTER TABLE speletaji ADD CONSTRAINT punkti_pozitivi CHECK (punkti &gt;= 0);</code>.</li>
-            <li><b>Mēģini</b> ievadīt spēlētāju ar punktiem <code>-10</code>.</li>
-            <li><b>Pieraksti</b> kļūdas nosaukumu.</li>
-            <li><b>Ievadi</b> spēlētāju ar punktiem <code>50</code> un pārbaudi, ka tas izdodas.</li>
-            <li><b>Pieraksti</b>, kāpēc šādu pārbaudi labāk likt datubāzē, nevis Python kodā.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> negatīvi punkti tiek noraidīti pašā datubāzē, arī tad, ja Python kods to nepārbauda.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Aizmirsi paroli postgres lietotājam:</b> Instalācijas laikā saglabā paroli pārvaldnieka rīkā (piem., Bitwarden).</li>
-        <li><b>Tabulu nevar dzēst:</b> Vispirms ar <code>DROP TABLE IF EXISTS speletaji CASCADE;</code> - CASCADE noņem arī saistītos objektus.</li>
-        <li><b>SERIAL nepilda:</b> Saglabā skripta failu un pārbaudi pareizrakstību (S-E-R-I-A-L).</li>
-        </ul>
-    </div>
-</section>
 
-<div class='section'>
-    <h2>Koda piemērs</h2>
-    <div class='code-example'>
-        <pre><code class="language-python">-- Pirmais SQL skripts (schema.sql)
+
+
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Izveido datubāzi un pieslēdzies</h2>
+<p>Beigās tev būs sava datubāze, kurā strādāt visu tēmu.</p>
+<ol class="step-list">
+<li><b>Atver</b> pgAdmin vai izpildi terminālī <code class="language-bash">psql -U postgres</code>.</li>
+<li><b>Izpildi</b> <code class="language-sql">CREATE DATABASE spele;</code>.</li>
+<li><b>Pieslēdzies</b> tai ar <code class="language-bash">\c spele</code> vai izvēlies to pgAdmin sarakstā.</li>
+<li><b>Izpildi</b> <code class="language-sql">SELECT version();</code>.</li>
+<li><b>Pieraksti</b>, kāda PostgreSQL versija tev uzstādīta.</li>
+<li><b>Pieraksti</b>, ar kādu lietotājvārdu tu pieslēdzies.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> <code>SELECT version();</code> atgriež versijas tekstu, nevis kļūdu par pieslēgumu.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Uzraksti pirmo CREATE TABLE</h2>
+<p>Beigās datubāzē būs tabula ar pareiziem datu tipiem.</p>
+<ol class="step-list">
+<li><b>Izveido</b> failu <code>schema.sql</code>.</li>
+<li><b>Ieraksti</b> <code class="language-sql">CREATE TABLE IF NOT EXISTS speletaji (</code>.</li>
+<li><b>Pievieno</b> lauku <code class="language-sql">id SERIAL PRIMARY KEY</code>.</li>
+<li><b>Pievieno</b> lauku <code class="language-sql">vards TEXT NOT NULL UNIQUE</code>.</li>
+<li><b>Pievieno</b> laukus <code class="language-sql">punkti INTEGER DEFAULT 0</code> un <code class="language-sql">izveidots TIMESTAMP DEFAULT NOW()</code>.</li>
+<li><b>Izpildi</b> skriptu un pārbaudi tabulu ar <code class="language-sql">\d speletaji</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> tabula <code>speletaji</code> eksistē un tajā ir visi četri lauki ar pareiziem tipiem.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pārbaudi datu tipu ierobežojumus</h2>
+<p>Beigās tu redzēsi, ka datubāze pati neļauj ievadīt sliktus datus.</p>
+<ol class="step-list">
+<li><b>Ievadi</b> vienu spēlētāju ar <code class="language-sql">INSERT INTO speletaji (vards) VALUES ('Anna');</code>.</li>
+<li><b>Izpildi</b> to pašu komandu vēlreiz un izlasi kļūdu.</li>
+<li><b>Pieraksti</b>, kurš ierobežojums to neļāva.</li>
+<li><b>Mēģini</b> ievadīt spēlētāju bez vārda un pieraksti kļūdu.</li>
+<li><b>Mēģini</b> ievadīt punktus kā tekstu <code>'daudz'</code> un pieraksti kļūdu.</li>
+<li><b>Izpildi</b> <code class="language-sql">SELECT * FROM speletaji;</code> un pārbaudi, cik rindu ir.</li>
+<li><b>Pieraksti</b> vienu secinājumu: ar ko datubāze šeit ir labāka par CSV failu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> datubāze noraidīja trīs nederīgus ierakstus, un tabulā ir tikai viena derīga rinda.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno CHECK ierobežojumu</summary>
+<p>Ja pamatdarbs ir gatavs, neļauj ievadīt negatīvus punktus.</p>
+<ol class="step-list">
+<li><b>Izpildi</b> <code class="language-sql">ALTER TABLE speletaji ADD CONSTRAINT punkti_pozitivi CHECK (punkti &gt;= 0);</code>.</li>
+<li><b>Mēģini</b> ievadīt spēlētāju ar punktiem <code>-10</code>.</li>
+<li><b>Pieraksti</b> kļūdas nosaukumu.</li>
+<li><b>Ievadi</b> spēlētāju ar punktiem <code>50</code> un pārbaudi, ka tas izdodas.</li>
+<li><b>Pieraksti</b>, kāpēc šādu pārbaudi labāk likt datubāzē, nevis Python kodā.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> negatīvi punkti tiek noraidīti pašā datubāzē, arī tad, ja Python kods to nepārbauda.</p>
+</details><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Aizmirsi paroli postgres lietotājam:</b> Instalācijas laikā saglabā paroli pārvaldnieka rīkā (piem., Bitwarden).</li>
+<li><b>Tabulu nevar dzēst:</b> Vispirms ar <code>DROP TABLE IF EXISTS speletaji CASCADE;</code> - CASCADE noņem arī saistītos objektus.</li>
+<li><b>SERIAL nepilda:</b> Saglabā skripta failu un pārbaudi pareizrakstību (S-E-R-I-A-L).</li>
+</ul>
+</div>
+</section><section>
+<h2>Koda piemērs</h2>
+<div class="code-example">
+<pre><code class="language-python">-- Pirmais SQL skripts (schema.sql)
 CREATE TABLE IF NOT EXISTS speletaji (
     id SERIAL PRIMARY KEY,
     vards TEXT NOT NULL UNIQUE,
@@ -182,13 +156,20 @@ CREATE TABLE IF NOT EXISTS speletaji (
 -- Pārbaude, ka tabula izveidota
 SELECT table_name FROM information_schema.tables
 WHERE table_schema = 'public';</code></pre>
-        <div class='result'>table_name<br>----------<br>speletaji</div>
-    </div>
+<div class="result">table_name<br/>----------<br/>speletaji</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_10/prog1_10main">⬅ Tēmas apkopojums</a>
+<a class="nav-btn" href="/programmesana1/prog1_10/prog1_102">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana1/prog1_10/prog1_10main" class="nav-btn">⬅ Tēmas apkopojums</a>
-    <a href="/programmesana1/prog1_10/prog1_102" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana1.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

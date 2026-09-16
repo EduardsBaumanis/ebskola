@@ -1,93 +1,72 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>4.5 Šaušanas mehānika un object pooling - ebSkola</title>
-<meta name="description" content="Izveidot efektīvu šaušanas mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_4/prog2_45">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4.5 Šaušanas mehānika un object pooling">
-<meta property="og:description" content="Izveidot efektīvu šaušanas mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_4/prog2_45">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4.5 Šaušanas mehānika un object pooling">
-<meta name="twitter:description" content="Izveidot efektīvu šaušanas mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Izveidot efektīvu šaušanas mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_4/prog2_45" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="4.5 Šaušanas mehānika un object pooling" property="og:title"/>
+<meta content="Izveidot efektīvu šaušanas mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_4/prog2_45" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="4.5 Šaušanas mehānika un object pooling" name="twitter:title"/>
+<meta content="Izveidot efektīvu šaušanas mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "4.5 Šaušanas mehānika un object pooling","description": "Izveidot efektīvu šaušanas mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_4/prog2_45","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_4/prog2_4main">4. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_4/prog2_44">← 4.4</a>
-    <a class="btn primary" href="/programmesana2/prog2_4/prog2_46">4.6 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>4. Tēma - Datu struktūras un AI</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_4/prog2_4main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_4/prog2_41">4.1 List un Array</a>
-    <a href="/programmesana2/prog2_4/prog2_42">4.2 Dictionary un Godot Dictionary</a>
-    <a href="/programmesana2/prog2_4/prog2_43">4.3 State machines AI uzvedībai</a>
-    <a href="/programmesana2/prog2_4/prog2_44">4.4 Pathfinding ar A*</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_4/prog2_45">4.5 Šaušanas mehānika un object pooling</a>
-    <a href="/programmesana2/prog2_4/prog2_46">4.6 Noslēguma projekts: Top-down šautene</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>4.5 Šaušanas mehānika un object pooling</h1>
-    <p><b>Stundas uzdevums:</b> Implementēt efektīvu lādiņu (bullet) sistēmu ar object pooling tehniku.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
-        <a href="/sasnRez">SR 2.4.16. Datu struktūras</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izšauj pirmo lādiņu · 2. uzdevums (~25 min) - izveido lādiņu krātuvi · 3. uzdevums (~20 min) - salīdzini abas pieejas ar mērījumu · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu projektu. Šodien uztaisīsi šaušanu divos veidos un pats izmērīsi, kurš no tiem ir ātrāks.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Object pooling</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>4. Tēma - Datu struktūras un AI</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_4/prog2_4main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_4/prog2_41">4.1 List un Array</a>
+<a href="/programmesana2/prog2_4/prog2_42">4.2 Dictionary un Godot Dictionary</a>
+<a href="/programmesana2/prog2_4/prog2_43">4.3 State machines AI uzvedībai</a>
+<a href="/programmesana2/prog2_4/prog2_44">4.4 Pathfinding ar A*</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_4/prog2_45">4.5 Šaušanas mehānika un object pooling</a>
+<a href="/programmesana2/prog2_4/prog2_46">4.6 Noslēguma projekts: Top-down šautene</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_4/prog2_4main">4. tēma</a> / 4.5</p>
+<h1>4.5 Šaušanas mehānika un object pooling</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Implementēt efektīvu lādiņu (bullet) sistēmu ar object pooling tehniku.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
+<a href="/sasnRez">SR 2.4.16. Datu struktūras</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izšauj pirmo lādiņu · 2. uzdevums (~25 min) - izveido lādiņu krātuvi · 3. uzdevums (~20 min) - salīdzini abas pieejas ar mērījumu · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu projektu. Šodien uztaisīsi šaušanu divos veidos un pats izmērīsi, kurš no tiem ir ātrāks.</p>
+</div>
+</section><section>
+<h2>Teorija: Object pooling</h2>
+<div class="logic-box">
 <p><b>Object pooling</b> ir tehnika, kas atkārtoti izmanto objektus, nevis tos nepārtraukti veido un dzēš. Kritisks veiktspējai šautenēs, kur var būt 100+ lādiņu vienlaikus.</p>
 <pre><code class="language-csharp">using Godot;
 using System.Collections.Generic;
@@ -129,15 +108,12 @@ public class BulletPool
         bullet.Visible = false;
     }
 }</code></pre>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> C# kodā pamatoti izvēlēti <code>List</code>, <code>Dictionary</code> vai <code>HashSet</code>, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> C# kodā pamatoti izvēlēti <code>List</code>, <code>Dictionary</code> vai <code>HashSet</code>, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
 <pre><code class="language-csharp">public class AiDataCheckpoint
 {
     public string Lesson = "4.5 Šaušanas mehānika un object pooling";
@@ -146,109 +122,96 @@ public class BulletPool
     public bool SeparatesAiState = true;
     public bool HandlesRemovalSafely = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Izšauj pirmo lādiņu</h3>
-        <p>Beigās spēlētājs varēs šaut ar peles klikšķi.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> scēnu <code>bullet.tscn</code> ar <code>Area2D</code> sakni un sadursmes formu.</li>
-            <li><b>Izveido</b> C# klasi <code>Bullet</code>, kas kustas taisni ar <code>delta</code>.</li>
-            <li><b>Pievieno</b> tai laiku, pēc kura lādiņš izdzēšas ar <code class="language-csharp">QueueFree();</code>.</li>
-            <li><b>Izveido</b> Input Map darbību <code>shoot</code> ar peles kreiso pogu.</li>
-            <li><b>Ielādē</b> spēlētāja klasē scēnu ar <code class="language-csharp">[Export] public PackedScene BulletScene { get; set; }</code> vai <code class="language-csharp">GD.Load&lt;PackedScene&gt;("res://bullet.tscn")</code>.</li>
-            <li><b>Izveido</b> jaunu lādiņu ar <code class="language-csharp">Bullet bullet = BulletScene.Instantiate&lt;Bullet&gt;();</code> un pievieno to scēnai.</li>
-            <li><b>Būvē</b> un izšauj dažus lādiņus.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar katru peles klikšķi parādās lādiņš, kas lido prom un pēc laika pazūd.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Izveido lādiņu krātuvi</h3>
-        <p>Beigās lādiņi tiks izmantoti atkārtoti, nevis veidoti no jauna.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> klasi <code>BulletPool</code> ar lauku <code class="language-csharp">private readonly List&lt;Bullet&gt; pool = new();</code>.</li>
-            <li><b>Uzraksti</b> metodi <code class="language-csharp">public void Initialize(Node parent)</code>.</li>
-            <li><b>Izveido</b> tajā ciklā 50 lādiņus ar <code class="language-csharp">Bullet bullet = BulletScene.Instantiate&lt;Bullet&gt;();</code> un paslēp tos.</li>
-            <li><b>Uzraksti</b> metodi <code class="language-csharp">public Bullet GetBullet()</code>, kas atgriež pirmo neaktīvo.</li>
-            <li><b>Atgriez</b> <code>null</code>, ja visi ir aizņemti, un apstrādā šo gadījumu.</li>
-            <li><b>Nomaini</b> šaušanas kodu tā, lai tas ņemtu lādiņu no krātuves.</li>
-            <li><b>Atgriez</b> lādiņu krātuvē, kad tā laiks beidzas, nevis dzēs to.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> šaujot lādiņi parādās kā iepriekš, bet scēnas kokā mezglu skaits vairs neaug.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Salīdzini abas pieejas ar mērījumu</h3>
-        <p>Beigās tev būs skaitļos pierādīts, kāpēc krātuve ir vērtīga.</p>
-        <ol class="step-list">
-            <li><b>Izšauj</b> 200 lādiņus ar pirmo pieeju un pieraksti FPS rādījumu.</li>
-            <li><b>Ieslēdz</b> FPS rādītāju ar <b>Debug -&gt; Visible Collision Shapes</b> un profilēšanas paneli.</li>
-            <li><b>Izšauj</b> 200 lādiņus ar krātuves pieeju un pieraksti FPS.</li>
-            <li><b>Saskaiti</b>, cik mezglu abos gadījumos ir scēnas kokā.</li>
-            <li><b>Pieraksti</b>, kura pieeja radīja vairāk mezglu.</li>
-            <li><b>Pieraksti</b>, kāpēc objekta izveide un dzēšana maksā vairāk nekā tā paslēpšana.</li>
-            <li><b>Izvēlies</b>, kuru pieeju atstāsi savā spēlē, un pamato.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar krātuvi mezglu skaits paliek nemainīgs, un tu vari nosaukt abu pieeju FPS atšķirību.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno šaušanas ātruma ierobežojumu</h3>
-        <p>Ja pamatdarbs ir gatavs, neļauj šaut bezgalīgi ātri.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> lauku <code class="language-csharp">double cooldown = 0.0;</code>.</li>
-            <li><b>Samazini</b> to katrā kadrā ar <code>delta</code>.</li>
-            <li><b>Atļauj</b> šaut tikai tad, kad tas ir mazāks vai vienāds ar nulli.</li>
-            <li><b>Iestati</b> to uz 0.2 pēc katra šāviena.</li>
-            <li><b>Pārbaudi</b>, ka turot peles pogu, lādiņi nāk vienmērīgi.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> turot peles pogu, lādiņi izšaujas ar vienmērīgu atstarpi, nevis visi uzreiz.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē ir strādājoša šaušana, kas izmanto lādiņu krātuvi (object pooling), un tu ar mērījumu vari pierādīt, ar ko tā ir labāka par lādiņu veidošanu un dzēšanu katru reizi.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Faili <code>Bullet.cs</code> un <code>BulletPool.cs</code>.</li>
-            <li>Ekrānuzņēmums ar scēnas koku pēc 200 izšautiem lādiņiem, izmantojot krātuvi.</li>
-            <li>README.md: abu pieeju FPS un mezglu skaits un viens teikums, kāpēc krātuve ir ātrāka.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Pool tukšs:</b> POOL_SIZE pārāk mazs vai bullets nepareizi atgriežas.</li>
-        <li><b>Lag at start:</b> Pool initialization pārāk lēns - sadali laikā vai async.</li>
-        <li><b>Bullets pazūd:</b> Lifetime un visibility nepareizi sinhronizēti.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic4_bullets_pool.png" alt="Spēles aina: spēlētājs centrā, 15+ lādiņu trajektorijas dažādos virzienos, vairāki ienaidnieki ekrāna malās." loading="lazy">
-            <figcaption>Spēles aina: spēlētājs centrā, 15+ lādiņu trajektorijas dažādos virzienos, vairāki ienaidnieki ekrāna malās.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Izšauj pirmo lādiņu</h2>
+<p>Beigās spēlētājs varēs šaut ar peles klikšķi.</p>
+<ol class="step-list">
+<li><b>Izveido</b> scēnu <code>bullet.tscn</code> ar <code>Area2D</code> sakni un sadursmes formu.</li>
+<li><b>Izveido</b> C# klasi <code>Bullet</code>, kas kustas taisni ar <code>delta</code>.</li>
+<li><b>Pievieno</b> tai laiku, pēc kura lādiņš izdzēšas ar <code class="language-csharp">QueueFree();</code>.</li>
+<li><b>Izveido</b> Input Map darbību <code>shoot</code> ar peles kreiso pogu.</li>
+<li><b>Ielādē</b> spēlētāja klasē scēnu ar <code class="language-csharp">[Export] public PackedScene BulletScene { get; set; }</code> vai <code class="language-csharp">GD.Load&lt;PackedScene&gt;("res://bullet.tscn")</code>.</li>
+<li><b>Izveido</b> jaunu lādiņu ar <code class="language-csharp">Bullet bullet = BulletScene.Instantiate&lt;Bullet&gt;();</code> un pievieno to scēnai.</li>
+<li><b>Būvē</b> un izšauj dažus lādiņus.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar katru peles klikšķi parādās lādiņš, kas lido prom un pēc laika pazūd.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Izveido lādiņu krātuvi</h2>
+<p>Beigās lādiņi tiks izmantoti atkārtoti, nevis veidoti no jauna.</p>
+<ol class="step-list">
+<li><b>Izveido</b> klasi <code>BulletPool</code> ar lauku <code class="language-csharp">private readonly List&lt;Bullet&gt; pool = new();</code>.</li>
+<li><b>Uzraksti</b> metodi <code class="language-csharp">public void Initialize(Node parent)</code>.</li>
+<li><b>Izveido</b> tajā ciklā 50 lādiņus ar <code class="language-csharp">Bullet bullet = BulletScene.Instantiate&lt;Bullet&gt;();</code> un paslēp tos.</li>
+<li><b>Uzraksti</b> metodi <code class="language-csharp">public Bullet GetBullet()</code>, kas atgriež pirmo neaktīvo.</li>
+<li><b>Atgriez</b> <code>null</code>, ja visi ir aizņemti, un apstrādā šo gadījumu.</li>
+<li><b>Nomaini</b> šaušanas kodu tā, lai tas ņemtu lādiņu no krātuves.</li>
+<li><b>Atgriez</b> lādiņu krātuvē, kad tā laiks beidzas, nevis dzēs to.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> šaujot lādiņi parādās kā iepriekš, bet scēnas kokā mezglu skaits vairs neaug.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Salīdzini abas pieejas ar mērījumu</h2>
+<p>Beigās tev būs skaitļos pierādīts, kāpēc krātuve ir vērtīga.</p>
+<ol class="step-list">
+<li><b>Izšauj</b> 200 lādiņus ar pirmo pieeju un pieraksti FPS rādījumu.</li>
+<li><b>Ieslēdz</b> FPS rādītāju ar <b>Debug -&gt; Visible Collision Shapes</b> un profilēšanas paneli.</li>
+<li><b>Izšauj</b> 200 lādiņus ar krātuves pieeju un pieraksti FPS.</li>
+<li><b>Saskaiti</b>, cik mezglu abos gadījumos ir scēnas kokā.</li>
+<li><b>Pieraksti</b>, kura pieeja radīja vairāk mezglu.</li>
+<li><b>Pieraksti</b>, kāpēc objekta izveide un dzēšana maksā vairāk nekā tā paslēpšana.</li>
+<li><b>Izvēlies</b>, kuru pieeju atstāsi savā spēlē, un pamato.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar krātuvi mezglu skaits paliek nemainīgs, un tu vari nosaukt abu pieeju FPS atšķirību.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno šaušanas ātruma ierobežojumu</summary>
+<p>Ja pamatdarbs ir gatavs, neļauj šaut bezgalīgi ātri.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> lauku <code class="language-csharp">double cooldown = 0.0;</code>.</li>
+<li><b>Samazini</b> to katrā kadrā ar <code>delta</code>.</li>
+<li><b>Atļauj</b> šaut tikai tad, kad tas ir mazāks vai vienāds ar nulli.</li>
+<li><b>Iestati</b> to uz 0.2 pēc katra šāviena.</li>
+<li><b>Pārbaudi</b>, ka turot peles pogu, lādiņi nāk vienmērīgi.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> turot peles pogu, lādiņi izšaujas ar vienmērīgu atstarpi, nevis visi uzreiz.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē ir strādājoša šaušana, kas izmanto lādiņu krātuvi (object pooling), un tu ar mērījumu vari pierādīt, ar ko tā ir labāka par lādiņu veidošanu un dzēšanu katru reizi.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Faili <code>Bullet.cs</code> un <code>BulletPool.cs</code>.</li>
+<li>Ekrānuzņēmums ar scēnas koku pēc 200 izšautiem lādiņiem, izmantojot krātuvi.</li>
+<li>README.md: abu pieeju FPS un mezglu skaits un viens teikums, kāpēc krātuve ir ātrāka.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Pool tukšs:</b> POOL_SIZE pārāk mazs vai bullets nepareizi atgriežas.</li>
+<li><b>Lag at start:</b> Pool initialization pārāk lēns - sadali laikā vai async.</li>
+<li><b>Bullets pazūd:</b> Lifetime un visibility nepareizi sinhronizēti.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Spēles aina: spēlētājs centrā, 15+ lādiņu trajektorijas dažādos virzienos, vairāki ienaidnieki ekrāna malās." loading="lazy" src="../img/topic4_bullets_pool.png"/>
+<figcaption>Spēles aina: spēlētājs centrā, 15+ lādiņu trajektorijas dažādos virzienos, vairāki ienaidnieki ekrāna malās.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 
 public partial class Bullet : Area2D
 {
@@ -303,13 +266,23 @@ public partial class Player : CharacterBody2D
         }
     }
 }</code></pre>
-        <div class='result'>Spēlētājs šauj 5 lādiņus/sek, ekrānā līdz 30 lādiņiem vienlaikus, FPS stabils 60.</div>
-    </div>
+<div class="result">Spēlētājs šauj 5 lādiņus/sek, ekrānā līdz 30 lādiņiem vienlaikus, FPS stabils 60.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_4/prog2_44">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_4/prog2_46">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_4/prog2_44" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_4/prog2_46" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

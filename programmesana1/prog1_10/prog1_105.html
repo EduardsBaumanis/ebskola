@@ -1,90 +1,69 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>10.5 Python ↔ PostgreSQL (psycopg2) - ebSkola</title>
-<meta name="description" content="Savienot Python kodu ar PostgreSQL datubāzi un izpildīt drošus parametrizētus vaicājumus.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_10/prog1_105">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="10.5 Python ↔ PostgreSQL (psycopg2)">
-<meta property="og:description" content="Savienot Python kodu ar PostgreSQL datubāzi un izpildīt drošus parametrizētus vaicājumus.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_10/prog1_105">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="10.5 Python ↔ PostgreSQL (psycopg2)">
-<meta name="twitter:description" content="Savienot Python kodu ar PostgreSQL datubāzi un izpildīt drošus parametrizētus vaicājumus.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Savienot Python kodu ar PostgreSQL datubāzi un izpildīt drošus parametrizētus vaicājumus." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana1/prog1_10/prog1_105" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="10.5 Python ↔ PostgreSQL (psycopg2)" property="og:title"/>
+<meta content="Savienot Python kodu ar PostgreSQL datubāzi un izpildīt drošus parametrizētus vaicājumus." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana1/prog1_10/prog1_105" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="10.5 Python ↔ PostgreSQL (psycopg2)" name="twitter:title"/>
+<meta content="Savienot Python kodu ar PostgreSQL datubāzi un izpildīt drošus parametrizētus vaicājumus." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "10.5 Python ↔ PostgreSQL (psycopg2)", "description": "Savienot Python kodu ar PostgreSQL datubāzi un izpildīt drošus parametrizētus vaicājumus.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_10/prog1_105", "isPartOf": {"@type": "Course", "name": "ebSkola - programmesana1", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana1/programmesana1">Prog I</a>
-      <a href="/programmesana1/prog1_10/prog1_10main">10. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana1/prog1_10/prog1_104">← 10.4</a>
-    <a class="btn primary" href="/programmesana1/prog1_10/prog1_106">10.6 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana I</div>
-  <h3>10. Tēma - Datubāzes un PostgreSQL</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana1/prog1_10/prog1_10main">Tēmas sākums</a>
-    <a href="/programmesana1/prog1_10/prog1_101">10.1 Ievads datubāzēs un PostgreSQL</a>
-    <a href="/programmesana1/prog1_10/prog1_102">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
-    <a href="/programmesana1/prog1_10/prog1_103">10.3 Tabulu projektēšana un saites</a>
-    <a href="/programmesana1/prog1_10/prog1_104">10.4 JOIN un sarežģīti vaicājumi</a>
-    <a class="active" aria-current="page" href="/programmesana1/prog1_10/prog1_105">10.5 Python ↔ PostgreSQL (psycopg2)</a>
-    <a href="/programmesana1/prog1_10/prog1_106">10.6 Noslēguma projekts: Highscore datubāze</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>10.5 Python ↔ PostgreSQL (psycopg2)</h1>
-    <p><b>Stundas uzdevums:</b> Savienot Python kodu ar PostgreSQL datubāzi un izpildīt drošus parametrizētus vaicājumus.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.11. Lieto standartizētas bibliotēkas un API</a>
-        <a href="/sasnRez">SR 3.2.5. Drošības riski</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - pieslēdzies datubāzei no Python · 2. uzdevums (~25 min) - ievadi un nolasi datus ar parametriem · 3. uzdevums (~20 min) - pārbaudi, kāpēc %s ir obligāts. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> aktivizē virtuālo vidi un izpildi <code class="language-bash">pip install psycopg2-binary</code>. Paroli neraksti kodā - to nekad nedrīkst nosūtīt uz GitHub.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: psycopg2 - Python ↔ PostgreSQL tilts</h2>
-    <div class='logic-box'>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana1.html">Programmēšana I</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>10. Tēma - Datubāzes un PostgreSQL</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_10/prog1_10main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_10/prog1_101">10.1 Ievads datubāzēs un PostgreSQL</a>
+<a href="/programmesana1/prog1_10/prog1_102">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+<a href="/programmesana1/prog1_10/prog1_103">10.3 Tabulu projektēšana un saites</a>
+<a href="/programmesana1/prog1_10/prog1_104">10.4 JOIN un sarežģīti vaicājumi</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_10/prog1_105">10.5 Python ↔ PostgreSQL (psycopg2)</a>
+<a href="/programmesana1/prog1_10/prog1_106">10.6 Noslēguma projekts: Highscore datubāze</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_10/prog1_10main">10. tēma</a> / 10.5</p>
+<h1>10.5 Python ↔ PostgreSQL (psycopg2)</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Savienot Python kodu ar PostgreSQL datubāzi un izpildīt drošus parametrizētus vaicājumus.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.11. Lieto standartizētas bibliotēkas un API</a>
+<a href="/sasnRez">SR 3.2.5. Drošības riski</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - pieslēdzies datubāzei no Python · 2. uzdevums (~25 min) - ievadi un nolasi datus ar parametriem · 3. uzdevums (~20 min) - pārbaudi, kāpēc %s ir obligāts. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> aktivizē virtuālo vidi un izpildi <code class="language-bash">pip install psycopg2-binary</code>. Paroli neraksti kodā - to nekad nedrīkst nosūtīt uz GitHub.</p>
+</div>
+</section><section>
+<h2>Teorija: psycopg2 - Python ↔ PostgreSQL tilts</h2>
+<div class="logic-box">
 <p><code class="language-python">psycopg2</code> ir Python bibliotēka, kas savieno tavu kodu ar PostgreSQL datubāzi. Instalācija: <code class="language-python">pip install psycopg2-binary</code>.</p>
 <pre><code class="language-python">import psycopg2
 
@@ -105,80 +84,75 @@ conn.commit()  # apstiprina izmaiņas
 cur.close()
 conn.close()</code></pre>
 <p><b>⚠ DROŠĪBA:</b> NEKAD nelieto string formatēšanu (<code>f"...{x}..."</code>) SQL vaicājumos - tas ir SQL injekcijas uzbrukums!</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Pieslēdzies datubāzei no Python</h3>
-        <p>Beigās Python varēs lasīt tavu datubāzi.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> failu <code>db.py</code> un ieraksti <code class="language-python">import psycopg2</code>.</li>
-            <li><b>Izveido</b> savienojumu ar <code class="language-python">psycopg2.connect(host=..., database="spele", user=..., password=...)</code>.</li>
-            <li><b>Izveido</b> kursoru ar <code class="language-python">cur = conn.cursor()</code>.</li>
-            <li><b>Izpildi</b> <code class="language-python">cur.execute("SELECT COUNT(*) FROM speletaji")</code>.</li>
-            <li><b>Izdrukā</b> rezultātu ar <code class="language-python">cur.fetchone()</code>.</li>
-            <li><b>Pievieno</b> <code>.gitignore</code> failam rindu, kas neļauj nosūtīt paroles failu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> Python izdrukā spēlētāju skaitu, un parole nav ierakstīta failā, kas nonāk GitHub.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ievadi un nolasi datus ar parametriem</h3>
-        <p>Beigās tava programma pati pievienos rezultātus datubāzē.</p>
-        <ol class="step-list">
-            <li><b>Uzraksti</b> funkciju <code class="language-python">def pievieno_speletaju(vards, punkti):</code>.</li>
-            <li><b>Izpildi</b> tajā <code class="language-python">cur.execute("INSERT INTO speletaji (vards, punkti) VALUES (%s, %s)", (vards, punkti))</code>.</li>
-            <li><b>Pievieno</b> <code class="language-python">conn.commit()</code> pēc ievades.</li>
-            <li><b>Izsauc</b> funkciju ar jaunu spēlētāju.</li>
-            <li><b>Pārbaudi</b> pgAdmin, vai rinda tiešām parādījās.</li>
-            <li><b>Izņem</b> <code>commit()</code> un mēģini vēlreiz ar citu vārdu.</li>
-            <li><b>Pieraksti</b>, kāpēc bez <code>commit()</code> dati nesaglabājas.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar <code>commit()</code> rinda parādās datubāzē, bez tā - pazūd pēc programmas beigām.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pārbaudi, kāpēc %s ir obligāts</h3>
-        <p>Beigās tu sapratīsi, kā slikti uzrakstīts vaicājums var izdzēst tabulu.</p>
-        <ol class="step-list">
-            <li><b>Uzraksti</b> apzināti nedrošu variantu ar <code class="language-python">f"SELECT * FROM speletaji WHERE vards = '{vards}'"</code>.</li>
-            <li><b>Izsauc</b> to ar parastu vārdu un pārbaudi, ka strādā.</li>
-            <li><b>Izsauc</b> to ar vārdu <code>' OR '1'='1</code>.</li>
-            <li><b>Pieraksti</b>, cik rindu atgriezās un kāpēc.</li>
-            <li><b>Pārraksti</b> vaicājumu ar <code>%s</code> vietturi.</li>
-            <li><b>Izsauc</b> to ar to pašu ļauno vārdu vēlreiz.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc <code>%s</code> nav tas pats, kas f-string.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar f-string ļaunais vārds atgriež visas rindas, bet ar <code>%s</code> tas tiek meklēts kā parasts teksts.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Lieto with un RealDictCursor</h3>
-        <p>Ja pamatdarbs ir gatavs, padari kodu drošāku un ērtāku.</p>
-        <ol class="step-list">
-            <li><b>Pārraksti</b> savienojumu ar <code class="language-python">with psycopg2.connect(...) as conn:</code>.</li>
-            <li><b>Pievieno</b> <code class="language-python">with conn.cursor(cursor_factory=RealDictCursor) as cur:</code>.</li>
-            <li><b>Izpildi</b> <code>SELECT</code> un izdrukā vienu rindu.</li>
-            <li><b>Pieraksti</b>, ar ko rezultāts tagad atšķiras no parasta kursora.</li>
-            <li><b>Piekļūsti</b> laukam pēc nosaukuma, nevis pēc numura.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> rindas dati pieejami pēc kolonnas nosaukuma, piemēram <code>rinda["vards"]</code>.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>SQL injekcija ar f-string:</b> NEKAD <code>f"WHERE id = {user_id}"</code> - vienmēr <code>%s</code> + parametru tuple.</li>
-        <li><b>Aizmirsts commit():</b> Bez tā INSERT/UPDATE neparādīsies.</li>
-        <li><b>Nav close():</b> Lieto <code>with</code> bloku vai <code>try/finally</code> - savienojumi jāatbrīvo.</li>
-        </ul>
-    </div>
-</section>
 
-<div class='section'>
-    <h2>Koda piemērs</h2>
-    <div class='code-example'>
-        <pre><code class="language-python">import psycopg2
+
+
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Pieslēdzies datubāzei no Python</h2>
+<p>Beigās Python varēs lasīt tavu datubāzi.</p>
+<ol class="step-list">
+<li><b>Izveido</b> failu <code>db.py</code> un ieraksti <code class="language-python">import psycopg2</code>.</li>
+<li><b>Izveido</b> savienojumu ar <code class="language-python">psycopg2.connect(host=..., database="spele", user=..., password=...)</code>.</li>
+<li><b>Izveido</b> kursoru ar <code class="language-python">cur = conn.cursor()</code>.</li>
+<li><b>Izpildi</b> <code class="language-python">cur.execute("SELECT COUNT(*) FROM speletaji")</code>.</li>
+<li><b>Izdrukā</b> rezultātu ar <code class="language-python">cur.fetchone()</code>.</li>
+<li><b>Pievieno</b> <code>.gitignore</code> failam rindu, kas neļauj nosūtīt paroles failu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Python izdrukā spēlētāju skaitu, un parole nav ierakstīta failā, kas nonāk GitHub.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Ievadi un nolasi datus ar parametriem</h2>
+<p>Beigās tava programma pati pievienos rezultātus datubāzē.</p>
+<ol class="step-list">
+<li><b>Uzraksti</b> funkciju <code class="language-python">def pievieno_speletaju(vards, punkti):</code>.</li>
+<li><b>Izpildi</b> tajā <code class="language-python">cur.execute("INSERT INTO speletaji (vards, punkti) VALUES (%s, %s)", (vards, punkti))</code>.</li>
+<li><b>Pievieno</b> <code class="language-python">conn.commit()</code> pēc ievades.</li>
+<li><b>Izsauc</b> funkciju ar jaunu spēlētāju.</li>
+<li><b>Pārbaudi</b> pgAdmin, vai rinda tiešām parādījās.</li>
+<li><b>Izņem</b> <code>commit()</code> un mēģini vēlreiz ar citu vārdu.</li>
+<li><b>Pieraksti</b>, kāpēc bez <code>commit()</code> dati nesaglabājas.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar <code>commit()</code> rinda parādās datubāzē, bez tā - pazūd pēc programmas beigām.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pārbaudi, kāpēc %s ir obligāts</h2>
+<p>Beigās tu sapratīsi, kā slikti uzrakstīts vaicājums var izdzēst tabulu.</p>
+<ol class="step-list">
+<li><b>Uzraksti</b> apzināti nedrošu variantu ar <code class="language-python">f"SELECT * FROM speletaji WHERE vards = '{vards}'"</code>.</li>
+<li><b>Izsauc</b> to ar parastu vārdu un pārbaudi, ka strādā.</li>
+<li><b>Izsauc</b> to ar vārdu <code>' OR '1'='1</code>.</li>
+<li><b>Pieraksti</b>, cik rindu atgriezās un kāpēc.</li>
+<li><b>Pārraksti</b> vaicājumu ar <code>%s</code> vietturi.</li>
+<li><b>Izsauc</b> to ar to pašu ļauno vārdu vēlreiz.</li>
+<li><b>Pieraksti</b> vienu secinājumu: kāpēc <code>%s</code> nav tas pats, kas f-string.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar f-string ļaunais vārds atgriež visas rindas, bet ar <code>%s</code> tas tiek meklēts kā parasts teksts.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Lieto with un RealDictCursor</summary>
+<p>Ja pamatdarbs ir gatavs, padari kodu drošāku un ērtāku.</p>
+<ol class="step-list">
+<li><b>Pārraksti</b> savienojumu ar <code class="language-python">with psycopg2.connect(...) as conn:</code>.</li>
+<li><b>Pievieno</b> <code class="language-python">with conn.cursor(cursor_factory=RealDictCursor) as cur:</code>.</li>
+<li><b>Izpildi</b> <code>SELECT</code> un izdrukā vienu rindu.</li>
+<li><b>Pieraksti</b>, ar ko rezultāts tagad atšķiras no parasta kursora.</li>
+<li><b>Piekļūsti</b> laukam pēc nosaukuma, nevis pēc numura.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> rindas dati pieejami pēc kolonnas nosaukuma, piemēram <code>rinda["vards"]</code>.</p>
+</details><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>SQL injekcija ar f-string:</b> NEKAD <code>f"WHERE id = {user_id}"</code> - vienmēr <code>%s</code> + parametru tuple.</li>
+<li><b>Aizmirsts commit():</b> Bez tā INSERT/UPDATE neparādīsies.</li>
+<li><b>Nav close():</b> Lieto <code>with</code> bloku vai <code>try/finally</code> - savienojumi jāatbrīvo.</li>
+</ul>
+</div>
+</section><section>
+<h2>Koda piemērs</h2>
+<div class="code-example">
+<pre><code class="language-python">import psycopg2
 from psycopg2.extras import RealDictCursor
 
 with psycopg2.connect(
@@ -197,13 +171,20 @@ with psycopg2.connect(
         cur.execute("SELECT * FROM speletaji ORDER BY id DESC LIMIT 3")
         for r in cur.fetchall():
             print(r["vards"], r["punkti"])</code></pre>
-        <div class='result'>Pievienots ar id = 12<br>Anna 0<br>Marta 200<br>Eva 145</div>
-    </div>
+<div class="result">Pievienots ar id = 12<br/>Anna 0<br/>Marta 200<br/>Eva 145</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_10/prog1_104">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_10/prog1_106">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana1/prog1_10/prog1_104" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana1/prog1_10/prog1_106" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana1.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

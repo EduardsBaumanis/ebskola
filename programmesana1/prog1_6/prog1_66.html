@@ -1,263 +1,229 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>6. tēma - Noslēguma projekts: &quot;Quiz spēle ar Highscore&quot; - ebSkola</title>
-<meta name="description" content="Apvienot tēmas prasmes - failu lasīšanu, rakstīšanu, JSON un CSV apstrādi - vienkāršā Quiz spēlē, kuras jautājumi tiek ielādēti no faila, bet labākie rezultāti ">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_6/prog1_66">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="6. tēma - Noslēguma projekts: &quot;Quiz spēle ar Highscore&quot;">
-<meta property="og:description" content="Apvienot tēmas prasmes - failu lasīšanu, rakstīšanu, JSON un CSV apstrādi - vienkāršā Quiz spēlē, kuras jautājumi tiek ielādēti no faila, bet labākie rezultāti ">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_6/prog1_66">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="6. tēma - Noslēguma projekts: &quot;Quiz spēle ar Highscore&quot;">
-<meta name="twitter:description" content="Apvienot tēmas prasmes - failu lasīšanu, rakstīšanu, JSON un CSV apstrādi - vienkāršā Quiz spēlē, kuras jautājumi tiek ielādēti no faila, bet labākie rezultāti ">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>6. tēma - Noslēguma projekts: "Quiz spēle ar Highscore" - ebSkola</title>
+<meta content="Apvienot tēmas prasmes - failu lasīšanu, rakstīšanu, JSON un CSV apstrādi - vienkāršā Quiz spēlē, kuras jautājumi tiek ielādēti no faila, bet labākie rezultāti " name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana1/prog1_6/prog1_66" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content='6. tēma - Noslēguma projekts: "Quiz spēle ar Highscore"' property="og:title"/>
+<meta content="Apvienot tēmas prasmes - failu lasīšanu, rakstīšanu, JSON un CSV apstrādi - vienkāršā Quiz spēlē, kuras jautājumi tiek ielādēti no faila, bet labākie rezultāti " property="og:description"/>
+<meta content="https://ebskola.lv/programmesana1/prog1_6/prog1_66" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content='6. tēma - Noslēguma projekts: "Quiz spēle ar Highscore"' name="twitter:title"/>
+<meta content="Apvienot tēmas prasmes - failu lasīšanu, rakstīšanu, JSON un CSV apstrādi - vienkāršā Quiz spēlē, kuras jautājumi tiek ielādēti no faila, bet labākie rezultāti " name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "6. tēma - Noslēguma projekts: \"Quiz spēle ar Highscore\"", "description": "Apvienot tēmas prasmes - failu lasīšanu, rakstīšanu, JSON un CSV apstrādi - vienkāršā Quiz spēlē, kuras jautājumi tiek ielādēti no faila, bet labākie rezultāti ", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_6/prog1_66", "isPartOf": {"@type": "Course", "name": "ebSkola - programmesana1", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana1/programmesana1">Prog I</a>
-      <a href="/programmesana1/prog1_6/prog1_6main">6. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana1/prog1_6/prog1_65">← 6.5</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana I</div>
-  <h3>6. Tēma - Datu pastāvība un Analīze</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana1/prog1_6/prog1_6main">Tēmas sākums</a>
-    <a href="/programmesana1/prog1_6/prog1_61">6.1 Failu I/O</a>
-    <a href="/programmesana1/prog1_6/prog1_62">6.2 Digitālais rīks</a>
-    <a href="/programmesana1/prog1_6/prog1_63">6.3 Datu transformācija</a>
-    <a href="/programmesana1/prog1_6/prog1_64">6.4 Rezultātu tabulas</a>
-    <a href="/programmesana1/prog1_6/prog1_65">6.5 Analīze un Vizualizācija</a>
-    <a class="active" aria-current="page" href="/programmesana1/prog1_6/prog1_66">6.6 Noslēguma projekts: Quiz spēle ar Highscore</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>6.6 Noslēguma projekts: Quiz spēle ar Highscore</h1>
-    <p><b>Stundas uzdevums:</b> Apvienot 6. tēmā apgūto failu lasīšanu, rakstīšanu, JSON un CSV apstrādi vienkāršā Quiz spēlē ar saglabātiem labākajiem rezultātiem.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.17. Darbs ar failiem un ārējām datu krātuvēm</a>
-        <a href="/sasnRez">SR 2.4.4. Iegūst, atlasa un apstrādā datus</a>
-        <a href="/sasnRez">SR 2.4.5. Datu analīze un vizualizācija</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~15 min) - ielādē jautājumus no JSON · 2. uzdevums (~25 min) - uzraksti spēles ciklu ar punktiem · 3. uzdevums (~20 min) - saglabā rezultātu CSV un parādi TOP 5. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> šis ir 6. tēmas noslēguma projekts. Sagatavo failu <code>jautajumi.json</code> ar vismaz 5 jautājumiem, pirms sāc rakstīt spēles kodu.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: dati atrodas ārpus koda</h2>
-    <div class='logic-box'>
-        <p>Programma sākumā nolasa jautājumus no <code>jautajumi.json</code> faila - katrā ierakstā ir jautājuma teksts, atbilžu varianti un pareizās atbildes indekss. Spēlētājs ievada savu vārdu un atbild uz 5 nejauši izvēlētiem jautājumiem. Pēc spēles rezultāts (vārds, punkti) tiek pievienots <code>highscore.csv</code> failam. Visbeidzot tiek izvadīts TOP 5 spēlētāju saraksts.</p>
-    </div>
-    <div class="code-example">
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana1.html">Programmēšana I</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>6. Tēma - Datu pastāvība un Analīze</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_6/prog1_6main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_6/prog1_61">6.1 Failu I/O</a>
+<a href="/programmesana1/prog1_6/prog1_62">6.2 Digitālais rīks</a>
+<a href="/programmesana1/prog1_6/prog1_63">6.3 Datu transformācija</a>
+<a href="/programmesana1/prog1_6/prog1_64">6.4 Rezultātu tabulas</a>
+<a href="/programmesana1/prog1_6/prog1_65">6.5 Analīze un Vizualizācija</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_6/prog1_66">6.6 Noslēguma projekts: Quiz spēle ar Highscore</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_6/prog1_6main">6. tēma</a> / 6.6</p>
+<h1>6.6 Noslēguma projekts: Quiz spēle ar Highscore</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Apvienot 6. tēmā apgūto failu lasīšanu, rakstīšanu, JSON un CSV apstrādi vienkāršā Quiz spēlē ar saglabātiem labākajiem rezultātiem.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.17. Darbs ar failiem un ārējām datu krātuvēm</a>
+<a href="/sasnRez">SR 2.4.4. Iegūst, atlasa un apstrādā datus</a>
+<a href="/sasnRez">SR 2.4.5. Datu analīze un vizualizācija</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~15 min) - ielādē jautājumus no JSON · 2. uzdevums (~25 min) - uzraksti spēles ciklu ar punktiem · 3. uzdevums (~20 min) - saglabā rezultātu CSV un parādi TOP 5. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> šis ir 6. tēmas noslēguma projekts. Sagatavo failu <code>jautajumi.json</code> ar vismaz 5 jautājumiem, pirms sāc rakstīt spēles kodu.</p>
+</div>
+</section><section>
+<h2>Teorija: dati atrodas ārpus koda</h2>
+<div class="logic-box">
+<p>Programma sākumā nolasa jautājumus no <code>jautajumi.json</code> faila - katrā ierakstā ir jautājuma teksts, atbilžu varianti un pareizās atbildes indekss. Spēlētājs ievada savu vārdu un atbild uz 5 nejauši izvēlētiem jautājumiem. Pēc spēles rezultāts (vārds, punkti) tiek pievienots <code>highscore.csv</code> failam. Visbeidzot tiek izvadīts TOP 5 spēlētāju saraksts.</p>
+</div>
+<div class="code-example">
 <pre><code class="language-python">with open("highscore.csv", "a", encoding="utf-8") as fails:
     fails.write(f"{vards},{punkti}\n")
 
 with open("jautajumi.json", "r", encoding="utf-8") as fails:
     jautajumi = json.load(fails)</code></pre>
-        <div class="result">Iepriekš apgūts: failu režīmi, with open, JSON un CSV rindas.</div>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Darba uzdevuma gaita</h2>
-
-    <div class='logic-box'>
-        <h3>1. solis: Datu ielāde no JSON (1. līmenis)</h3>
-        <ol>
-            <li>Failā <code>jautajumi.json</code> <b>izveido</b> vismaz 10 jautājumus formātā:
+<div class="result">Iepriekš apgūts: failu režīmi, with open, JSON un CSV rindas.</div>
+</div>
+</section><section>
+<h2>Darba uzdevuma gaita</h2>
+<div class="logic-box">
+<h3>1. solis: Datu ielāde no JSON (1. līmenis)</h3>
+<ol>
+<li>Failā <code>jautajumi.json</code> <b>izveido</b> vismaz 10 jautājumus formātā:
 <pre><code class="language-python">[
   {"jautajums": "Cik ir 2+2?", "varianti": ["3","4","5"], "pareiza": 1},
   ...
 ]</code></pre></li>
-            <li>Failā <code class="language-python">data.py</code> <b>izveido</b> funkciju <code class="language-python">ielade_jautajumus()</code>, kas atver JSON ar <code class="language-python">with open()</code> un atgriež sarakstu.</li>
-            <li><b>Pārbaudi</b>, ka <code class="language-python">print(ielade_jautajumus())</code> izdrukā jautājumus.</li>
-        </ol>
-    </div>
+<li>Failā <code class="language-python">data.py</code> <b>izveido</b> funkciju <code class="language-python">ielade_jautajumus()</code>, kas atver JSON ar <code class="language-python">with open()</code> un atgriež sarakstu.</li>
+<li><b>Pārbaudi</b>, ka <code class="language-python">print(ielade_jautajumus())</code> izdrukā jautājumus.</li>
+</ol>
+</div>
+<div class="logic-box">
+<h3>2. solis: Spēles cikls (2. līmenis)</h3>
+<ol>
+<li>Failā <code class="language-python">spele.py</code> <b>izveido</b> funkciju <code class="language-python">spele_quiz(jautajumi, vards)</code>.</li>
+<li>Ar <code class="language-python">random.sample(jautajumi, 5)</code> <b>izvēlies</b> 5 nejaušus jautājumus.</li>
+<li>Ar <code class="language-python">for</code> ciklu <b>rādi</b> katru jautājumu, ievāc atbildi un palielini punktus, ja atbilde pareiza.</li>
+<li>Funkcija atgriež iegūtos punktus.</li>
+</ol>
+</div>
+<div class="logic-box">
+<h3>3. solis: Highscore saglabāšana CSV (3. līmenis)</h3>
+<ol>
+<li>Failā <code class="language-python">highscore.py</code> <b>izveido</b> <code class="language-python">saglaba(vards, punkti)</code>, kas pievieno rindu CSV failam (mode <code>"a"</code>).</li>
+<li><b>Izveido</b> <code class="language-python">paradi_top()</code>, kas nolasa CSV, sakārto pēc punktiem dilstošā secībā un izvada TOP 5.</li>
+<li>Failā <code>main.py</code> <b>savieno</b> visu: ielādē jautājumus, palaiž spēli, saglabā rezultātu, parāda TOP 5.</li>
+<li><b>Pievieno</b> <code>README.md</code> ar palaišanas instrukciju un JSON formāta aprakstu.</li>
+<li>GitHub vēsturē ir vismaz 4 saturīgi <i>commit</i>.</li>
+</ol>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
-    <div class='logic-box'>
-        <h3>2. solis: Spēles cikls (2. līmenis)</h3>
-        <ol>
-            <li>Failā <code class="language-python">spele.py</code> <b>izveido</b> funkciju <code class="language-python">spele_quiz(jautajumi, vards)</code>.</li>
-            <li>Ar <code class="language-python">random.sample(jautajumi, 5)</code> <b>izvēlies</b> 5 nejaušus jautājumus.</li>
-            <li>Ar <code class="language-python">for</code> ciklu <b>rādi</b> katru jautājumu, ievāc atbildi un palielini punktus, ja atbilde pareiza.</li>
-            <li>Funkcija atgriež iegūtos punktus.</li>
-        </ol>
-    </div>
 
-    <div class='logic-box'>
-        <h3>3. solis: Highscore saglabāšana CSV (3. līmenis)</h3>
-        <ol>
-            <li>Failā <code class="language-python">highscore.py</code> <b>izveido</b> <code class="language-python">saglaba(vards, punkti)</code>, kas pievieno rindu CSV failam (mode <code>"a"</code>).</li>
-            <li><b>Izveido</b> <code class="language-python">paradi_top()</code>, kas nolasa CSV, sakārto pēc punktiem dilstošā secībā un izvada TOP 5.</li>
-            <li>Failā <code>main.py</code> <b>savieno</b> visu: ielādē jautājumus, palaiž spēli, saglabā rezultātu, parāda TOP 5.</li>
-            <li><b>Pievieno</b> <code>README.md</code> ar palaišanas instrukciju un JSON formāta aprakstu.</li>
-            <li>GitHub vēsturē ir vismaz 4 saturīgi <i>commit</i>.</li>
-        </ol>
-    </div>
-</section>
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Ielādē jautājumus no JSON</h3>
-        <p>Beigās tavi jautājumi dzīvos ārpus koda, atsevišķā failā.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> failu <code>jautajumi.json</code> ar sarakstu no 5 vārdnīcām.</li>
-            <li><b>Ieraksti</b> katrā vārdnīcā atslēgas <code>teksts</code>, <code>varianti</code> un <code>pareizais</code>.</li>
-            <li><b>Uzraksti</b> funkciju <code class="language-python">def ielade_jautajumus(fails="jautajumi.json"):</code>.</li>
-            <li><b>Atgriez</b> tajā <code class="language-python">json.load(f)</code> rezultātu.</li>
-            <li><b>Izsauc</b> funkciju un izdrukā <code class="language-python">len(jautajumi)</code>.</li>
-            <li><b>Palaid</b> un pārbaudi, ka izdrukājas skaitlis 5.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> programma izdrukā <code>Ielādēti 5 jautājumi.</code> un neizmet kļūdu par formātu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Uzraksti spēles ciklu ar punktiem</h3>
-        <p>Beigās spēlētājs atbildēs uz jautājumiem un redzēs savu rezultātu.</p>
-        <ol class="step-list">
-            <li><b>Nolasi</b> spēlētāja vārdu ar <code>input()</code>.</li>
-            <li><b>Izvēlies</b> 5 nejaušus jautājumus ar <code class="language-python">random.sample(jautajumi, 5)</code>.</li>
-            <li><b>Uzraksti</b> ciklu, kas izdrukā jautājuma tekstu un numurētus variantus.</li>
-            <li><b>Nolasi</b> atbildi un salīdzini to ar atslēgu <code>pareizais</code>.</li>
-            <li><b>Palielini</b> punktus par vienu pēc katras pareizas atbildes.</li>
-            <li><b>Izdrukā</b> beigās kopējos punktus ar f-string.</li>
-            <li><b>Palaid</b> un izspēlē vienu pilnu spēli.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> spēle uzdod 5 jautājumus un beigās parāda punktus no 0 līdz 5.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Saglabā rezultātu CSV un parādi TOP 5</h3>
-        <p>Beigās rezultāti saglabāsies starp spēlēm.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> rezultātu ar <code class="language-python">fails.write(f"{vards},{punkti}\n")</code> režīmā <code>"a"</code>.</li>
-            <li><b>Palaid</b> spēli trīs reizes ar dažādiem vārdiem.</li>
-            <li><b>Atver</b> <code>highscore.csv</code> un pārbaudi, ka ir trīs rindas.</li>
-            <li><b>Nolasi</b> failu atpakaļ un sadali katru rindu ar <code class="language-python">rinda.strip().split(",")</code>.</li>
-            <li><b>Sakārto</b> rezultātus pēc punktiem dilstoši.</li>
-            <li><b>Izdrukā</b> TOP 5 ar numerāciju.</li>
-            <li><b>Veic</b> commit ar ziņu <code>Pievieno quiz speli</code>, push un iesniedz saiti.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc trim spēlēm CSV ir trīs rindas, un TOP saraksts sākas ar labāko rezultātu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno kategorijas</h3>
-        <p>Ja pamatdarbs ir gatavs, ļauj spēlētājam izvēlēties jautājumu tēmu.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> katram jautājumam atslēgu <code>kategorija</code>.</li>
-            <li><b>Izdrukā</b> spēles sākumā pieejamās kategorijas.</li>
-            <li><b>Nolasi</b> spēlētāja izvēli.</li>
-            <li><b>Atlasi</b> tikai tos jautājumus, kas atbilst izvēlei.</li>
-            <li><b>Pārbaudi</b>, ka spēle strādā arī tad, ja kategorijā ir mazāk par 5 jautājumiem.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> spēle uzdod tikai izvēlētās kategorijas jautājumus un neavarē, ja to ir maz.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot)</h2>
-    <ul>
-        <li><b>CSV katru reizi pārrakstās:</b> rezultātu saglabāšanai izmanto režīmu <code>"a"</code>, nevis <code>"w"</code>.</li>
-        <li><b>JSON nelasās:</b> pārbaudi komatus starp ierakstiem un pēdiņas ap tekstiem.</li>
-        <li><b>TOP 5 kārto nepareizi:</b> pārvērt punktus par <code>int</code>, pirms salīdzini.</li>
-        <li><b>Jautājumi ir cietkodēti:</b> pārvieto tos uz <code>jautajumi.json</code>, lai kods un dati būtu atdalīti.</li>
-    </ul>
-</section>
 
-<section class='section'>
-    <h2>Vērtēšanas kritēriji</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Kritērijs</th>
-                <th class="level-header">Sācis (1-3)</th>
-                <th class="level-header">Turpina (4-6)</th>
-                <th class="level-header">Apguvis (7-8)</th>
-                <th class="level-header">Padziļināti (9-10)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><b>JSON ielāde</b></td>
-                <td>Jautājumi ievietoti tieši kodā.</td>
-                <td>JSON tiek nolasīts, bet bez kļūdu pārbaudes.</td>
-                <td>Lieto <code class="language-python">with open()</code> un kods darbojas ar dažādiem JSON failiem.</td>
-                <td>Pievienota validācija (try/except), ja JSON formāts kļūdains.</td>
-            </tr>
-            <tr>
-                <td><b>Spēles cikls</b></td>
-                <td>Cikls neizpildās vai izraisa kļūdu.</td>
-                <td>Cikls strādā, bet punktu skaitīšanā ir kļūda.</td>
-                <td>Cikls korekti rāda jautājumus un skaita punktus.</td>
-                <td>Pievienots laika ierobežojums vai bonusa punkti.</td>
-            </tr>
-            <tr>
-                <td><b>CSV pastāvība</b></td>
-                <td>Rezultāts netiek saglabāts.</td>
-                <td>Rezultāts tiek pārrakstīts katru reizi.</td>
-                <td>Rezultāts tiek pievienots, TOP 5 tiek pareizi sakārtots.</td>
-                <td>Veikta papildu analīze (vidējais punktu skaits, statistika).</td>
-            </tr>
-            <tr>
-                <td><b>Modularitāte un Git</b></td>
-                <td>Viens fails, viens commit.</td>
-                <td>Vairāki faili, bet imports nepilnīgs.</td>
-                <td>Sadalīts 3+ moduļos, PEP 8, 4+ commit.</td>
-                <td>Profesionāls README, type hints, izvērsta Git vēsture.</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
-<section class='section'>
-    <h2>Pašpārbaudes saraksts</h2>
-    <ul>
-        <li>Programma startē, palaižot tikai <code class="language-python">main.py</code>.</li>
-        <li>Jautājumi tiek ielādēti no <code>jautajumi.json</code> faila, nevis cietkodēti.</li>
-        <li>Pēc spēles rezultāts tiek pievienots <code>highscore.csv</code> (nevis pārrakstīts).</li>
-        <li>TOP 5 saraksts tiek izvadīts pareizā sakārtotā secībā.</li>
-        <li>Programma neavarē, ja CSV vai JSON fails ir tukšs.</li>
-        <li>GitHub vēsturē ir vismaz 4 saturīgi <i>commit</i> ar skaidriem ziņojumiem.</li>
-    </ul>
-</section>
-
-<section class='section'>
-    <h2>Koda piemērs: JSON ielāde</h2>
-    <div class='code-example'>
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Ielādē jautājumus no JSON</h2>
+<p>Beigās tavi jautājumi dzīvos ārpus koda, atsevišķā failā.</p>
+<ol class="step-list">
+<li><b>Izveido</b> failu <code>jautajumi.json</code> ar sarakstu no 5 vārdnīcām.</li>
+<li><b>Ieraksti</b> katrā vārdnīcā atslēgas <code>teksts</code>, <code>varianti</code> un <code>pareizais</code>.</li>
+<li><b>Uzraksti</b> funkciju <code class="language-python">def ielade_jautajumus(fails="jautajumi.json"):</code>.</li>
+<li><b>Atgriez</b> tajā <code class="language-python">json.load(f)</code> rezultātu.</li>
+<li><b>Izsauc</b> funkciju un izdrukā <code class="language-python">len(jautajumi)</code>.</li>
+<li><b>Palaid</b> un pārbaudi, ka izdrukājas skaitlis 5.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> programma izdrukā <code>Ielādēti 5 jautājumi.</code> un neizmet kļūdu par formātu.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Uzraksti spēles ciklu ar punktiem</h2>
+<p>Beigās spēlētājs atbildēs uz jautājumiem un redzēs savu rezultātu.</p>
+<ol class="step-list">
+<li><b>Nolasi</b> spēlētāja vārdu ar <code>input()</code>.</li>
+<li><b>Izvēlies</b> 5 nejaušus jautājumus ar <code class="language-python">random.sample(jautajumi, 5)</code>.</li>
+<li><b>Uzraksti</b> ciklu, kas izdrukā jautājuma tekstu un numurētus variantus.</li>
+<li><b>Nolasi</b> atbildi un salīdzini to ar atslēgu <code>pareizais</code>.</li>
+<li><b>Palielini</b> punktus par vienu pēc katras pareizas atbildes.</li>
+<li><b>Izdrukā</b> beigās kopējos punktus ar f-string.</li>
+<li><b>Palaid</b> un izspēlē vienu pilnu spēli.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> spēle uzdod 5 jautājumus un beigās parāda punktus no 0 līdz 5.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Saglabā rezultātu CSV un parādi TOP 5</h2>
+<p>Beigās rezultāti saglabāsies starp spēlēm.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> rezultātu ar <code class="language-python">fails.write(f"{vards},{punkti}\n")</code> režīmā <code>"a"</code>.</li>
+<li><b>Palaid</b> spēli trīs reizes ar dažādiem vārdiem.</li>
+<li><b>Atver</b> <code>highscore.csv</code> un pārbaudi, ka ir trīs rindas.</li>
+<li><b>Nolasi</b> failu atpakaļ un sadali katru rindu ar <code class="language-python">rinda.strip().split(",")</code>.</li>
+<li><b>Sakārto</b> rezultātus pēc punktiem dilstoši.</li>
+<li><b>Izdrukā</b> TOP 5 ar numerāciju.</li>
+<li><b>Veic</b> commit ar ziņu <code>Pievieno quiz speli</code>, push un iesniedz saiti.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pēc trim spēlēm CSV ir trīs rindas, un TOP saraksts sākas ar labāko rezultātu.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno kategorijas</summary>
+<p>Ja pamatdarbs ir gatavs, ļauj spēlētājam izvēlēties jautājumu tēmu.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> katram jautājumam atslēgu <code>kategorija</code>.</li>
+<li><b>Izdrukā</b> spēles sākumā pieejamās kategorijas.</li>
+<li><b>Nolasi</b> spēlētāja izvēli.</li>
+<li><b>Atlasi</b> tikai tos jautājumus, kas atbilst izvēlei.</li>
+<li><b>Pārbaudi</b>, ka spēle strādā arī tad, ja kategorijā ir mazāk par 5 jautājumiem.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> spēle uzdod tikai izvēlētās kategorijas jautājumus un neavarē, ja to ir maz.</p>
+</details><section>
+<h2>Biežākās kļūdas (un kā tās labot)</h2>
+<ul>
+<li><b>CSV katru reizi pārrakstās:</b> rezultātu saglabāšanai izmanto režīmu <code>"a"</code>, nevis <code>"w"</code>.</li>
+<li><b>JSON nelasās:</b> pārbaudi komatus starp ierakstiem un pēdiņas ap tekstiem.</li>
+<li><b>TOP 5 kārto nepareizi:</b> pārvērt punktus par <code>int</code>, pirms salīdzini.</li>
+<li><b>Jautājumi ir cietkodēti:</b> pārvieto tos uz <code>jautajumi.json</code>, lai kods un dati būtu atdalīti.</li>
+</ul>
+</section><section>
+<h2>Vērtēšanas kritēriji</h2>
+<div aria-label="Tabula" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>Kritērijs</th>
+<th class="level-header">Sācis (1-3)</th>
+<th class="level-header">Turpina (4-6)</th>
+<th class="level-header">Apguvis (7-8)</th>
+<th class="level-header">Padziļināti (9-10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>JSON ielāde</b></td>
+<td>Jautājumi ievietoti tieši kodā.</td>
+<td>JSON tiek nolasīts, bet bez kļūdu pārbaudes.</td>
+<td>Lieto <code class="language-python">with open()</code> un kods darbojas ar dažādiem JSON failiem.</td>
+<td>Pievienota validācija (try/except), ja JSON formāts kļūdains.</td>
+</tr>
+<tr>
+<td><b>Spēles cikls</b></td>
+<td>Cikls neizpildās vai izraisa kļūdu.</td>
+<td>Cikls strādā, bet punktu skaitīšanā ir kļūda.</td>
+<td>Cikls korekti rāda jautājumus un skaita punktus.</td>
+<td>Pievienots laika ierobežojums vai bonusa punkti.</td>
+</tr>
+<tr>
+<td><b>CSV pastāvība</b></td>
+<td>Rezultāts netiek saglabāts.</td>
+<td>Rezultāts tiek pārrakstīts katru reizi.</td>
+<td>Rezultāts tiek pievienots, TOP 5 tiek pareizi sakārtots.</td>
+<td>Veikta papildu analīze (vidējais punktu skaits, statistika).</td>
+</tr>
+<tr>
+<td><b>Modularitāte un Git</b></td>
+<td>Viens fails, viens commit.</td>
+<td>Vairāki faili, bet imports nepilnīgs.</td>
+<td>Sadalīts 3+ moduļos, PEP 8, 4+ commit.</td>
+<td>Profesionāls README, type hints, izvērsta Git vēsture.</td>
+</tr>
+</tbody>
+</table></div>
+</section><section>
+<h2>Pašpārbaudes saraksts</h2>
+<ul>
+<li>Programma startē, palaižot tikai <code class="language-python">main.py</code>.</li>
+<li>Jautājumi tiek ielādēti no <code>jautajumi.json</code> faila, nevis cietkodēti.</li>
+<li>Pēc spēles rezultāts tiek pievienots <code>highscore.csv</code> (nevis pārrakstīts).</li>
+<li>TOP 5 saraksts tiek izvadīts pareizā sakārtotā secībā.</li>
+<li>Programma neavarē, ja CSV vai JSON fails ir tukšs.</li>
+<li>GitHub vēsturē ir vismaz 4 saturīgi <i>commit</i> ar skaidriem ziņojumiem.</li>
+</ul>
+</section><section>
+<h2>Koda piemērs: JSON ielāde</h2>
+<div class="code-example">
 <pre><code class="language-python">import json
 
 def ielade_jautajumus(fails="jautajumi.json"):
@@ -267,15 +233,25 @@ def ielade_jautajumus(fails="jautajumi.json"):
 
 jautajumi = ielade_jautajumus()
 print(f"Ielādēti {len(jautajumi)} jautājumi.")</code></pre>
-        <div class='result'>
+<div class="result">
             Ielādēti 10 jautājumi.
         </div>
-    </div>
-</section>
-
-<div class="stundas-navigacija">
-    <a href="/programmesana1/prog1_6/prog1_65" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana1/prog1_6/prog1_6main" class="nav-btn">Tēmas apkopojums ➡</a>
 </div>
-</body>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_6/prog1_65">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_6/prog1_6main">Tēmas apkopojums ➡</a>
+</nav></main>
+
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana1.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

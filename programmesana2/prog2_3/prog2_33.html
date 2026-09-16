@@ -1,93 +1,72 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>3.3 Signāli un objektu komunikācija - ebSkola</title>
-<meta name="description" content="Apgūt Godot signālu sistēmu, lai objekti varētu droši sazināties, nesaistot visu spēles loģiku vienā klasē.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_3/prog2_33">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="3.3 Signāli un objektu komunikācija">
-<meta property="og:description" content="Apgūt Godot signālu sistēmu, lai objekti varētu droši sazināties, nesaistot visu spēles loģiku vienā klasē.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_3/prog2_33">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="3.3 Signāli un objektu komunikācija">
-<meta name="twitter:description" content="Apgūt Godot signālu sistēmu, lai objekti varētu droši sazināties, nesaistot visu spēles loģiku vienā klasē.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Apgūt Godot signālu sistēmu, lai objekti varētu droši sazināties, nesaistot visu spēles loģiku vienā klasē." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_3/prog2_33" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="3.3 Signāli un objektu komunikācija" property="og:title"/>
+<meta content="Apgūt Godot signālu sistēmu, lai objekti varētu droši sazināties, nesaistot visu spēles loģiku vienā klasē." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_3/prog2_33" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="3.3 Signāli un objektu komunikācija" name="twitter:title"/>
+<meta content="Apgūt Godot signālu sistēmu, lai objekti varētu droši sazināties, nesaistot visu spēles loģiku vienā klasē." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "3.3 Signāli un objektu komunikācija","description": "Apgūt Godot signālu sistēmu, lai objekti varētu droši sazināties, nesaistot visu spēles loģiku vienā klasē.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_3/prog2_33","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_3/prog2_3main">3. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_3/prog2_32">← 3.2</a>
-    <a class="btn primary" href="/programmesana2/prog2_3/prog2_34">3.4 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>3. Tēma - Objektorientētā programmēšana</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_3/prog2_3main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_3/prog2_31">3.1 C# klases pamati</a>
-    <a href="/programmesana2/prog2_3/prog2_32">3.2 Mantošana C# un Godot</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_3/prog2_33">3.3 Signāli un objektu komunikācija</a>
-    <a href="/programmesana2/prog2_3/prog2_34">3.4 Custom C# klases editorā redzamas</a>
-    <a href="/programmesana2/prog2_3/prog2_35">3.5 Statistikas sistēma un struct</a>
-    <a href="/programmesana2/prog2_3/prog2_36">3.6 Noslēguma projekts: Klases turnīra simulators</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>3.3 Signāli un objektu komunikācija</h1>
-    <p><b>Stundas uzdevums:</b> Apgūt Godot signal sistēmu objektu komunikācijai.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
-        <a href="/sasnRez">SR 2.4.18. OOP</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - reģistrē un raidi signālu · 2. uzdevums (~25 min) - pieslēdzies signālam no cita objekta · 3. uzdevums (~20 min) - salīdzini signālu ar tiešu izsaukumu · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu projektu ar dalībnieku klasēm. Signāls ir kā paziņojums: viens objekts pasaka "tas notika", bet citi paši izlemj, vai klausīties.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Godot signāli (Signals)</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>3. Tēma - Objektorientētā programmēšana</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_3/prog2_3main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_3/prog2_31">3.1 C# klases pamati</a>
+<a href="/programmesana2/prog2_3/prog2_32">3.2 Mantošana C# un Godot</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_3/prog2_33">3.3 Signāli un objektu komunikācija</a>
+<a href="/programmesana2/prog2_3/prog2_34">3.4 Custom C# klases editorā redzamas</a>
+<a href="/programmesana2/prog2_3/prog2_35">3.5 Statistikas sistēma un struct</a>
+<a href="/programmesana2/prog2_3/prog2_36">3.6 Noslēguma projekts: Klases turnīra simulators</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_3/prog2_3main">3. tēma</a> / 3.3</p>
+<h1>3.3 Signāli un objektu komunikācija</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Apgūt Godot signal sistēmu objektu komunikācijai.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
+<a href="/sasnRez">SR 2.4.18. OOP</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - reģistrē un raidi signālu · 2. uzdevums (~25 min) - pieslēdzies signālam no cita objekta · 3. uzdevums (~20 min) - salīdzini signālu ar tiešu izsaukumu · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu projektu ar dalībnieku klasēm. Signāls ir kā paziņojums: viens objekts pasaka "tas notika", bet citi paši izlemj, vai klausīties.</p>
+</div>
+</section><section>
+<h2>Teorija: Godot signāli (Signals)</h2>
+<div class="logic-box">
 <p>Godot <b>signāli</b> ir veids, kā objekti var sazināties bez tieša savienojuma. Viens objekts <b>emit</b> (raida) signālu, citi <b>connect</b> (pievienojas), lai uz to reaģētu.</p>
 <pre><code class="language-csharp">using Godot;
 using System;
@@ -110,15 +89,12 @@ public partial class Participant : Node
 }</code></pre>
 <p>Citur kodā:</p>
 <pre><code class="language-csharp">hero.Finished += OnHeroFinished;</code></pre>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> katrai būtiskai turnīra lomai ir C# klase vienā <code>.cs</code> failā, ar konstruktoriem, metodēm, signāliem vai mantošanu.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> katrai būtiskai turnīra lomai ir C# klase vienā <code>.cs</code> failā, ar konstruktoriem, metodēm, signāliem vai mantošanu.</p>
 <pre><code class="language-csharp">public class OopCheckpoint
 {
     public string Lesson = "3.3 Signāli un objektu komunikācija";
@@ -127,110 +103,97 @@ public partial class Participant : Node
     public bool HasSingleResponsibility = true;
     public bool UsesGodotInspector = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Reģistrē un raidi signālu</h3>
-        <p>Beigās tavs objekts pratīs paziņot, ka tas beidzis darbu.</p>
-        <ol class="step-list">
-            <li><b>Nomaini</b> <code>Participant</code> tā, lai tā mantotu no <code>Node</code>: <code class="language-csharp">public partial class Participant : Node</code>.</li>
-            <li><b>Pievieno</b> klasē signālu <code class="language-csharp">[Signal] public delegate void FinishedEventHandler(string name);</code>.</li>
-            <li><b>Uzraksti</b> metodē <code>ApplyPenalty</code> pārbaudi, vai enerģija nokritusi līdz 0.</li>
-            <li><b>Izsauc</b> tajā <code class="language-csharp">EmitSignal(SignalName.Finished, Name);</code>.</li>
-            <li><b>Būvē</b> projektu un pievieno objektu scēnai.</li>
-            <li><b>Pārbaudi</b> Godot editorā cilnē <b>Node -&gt; Signals</b>, vai signāls <code>finished</code> tur ir redzams.</li>
-            <li><b>Pieraksti</b>, kas notiek, ja <code>[Signal]</code> rindu izdzēš.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> Godot editora Signals sarakstā parādās tavs signāls <code>finished</code>.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Pieslēdzies signālam no cita objekta</h3>
-        <p>Beigās cits objekts uzzinās par notikumu, tieši to nepārbaudot.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> C# klasi <code>TournamentManager</code>, kas manto no <code>Node</code>.</li>
-            <li><b>Pievieno</b> tai metodi <code class="language-csharp">private void OnParticipantFinished(string name)</code>.</li>
-            <li><b>Paņem</b> dalībnieku ar <code class="language-csharp">Participant participant = GetNode&lt;Participant&gt;("Participant");</code>.</li>
-            <li><b>Savieno</b> <code>_Ready()</code> metodē signālu ar <code class="language-csharp">participant.Finished += OnParticipantFinished;</code>.</li>
-            <li><b>Izdrukā</b> apstrādātājā, kurš dalībnieks beidzis darbu.</li>
-            <li><b>Būvē</b> un samazini dalībnieka enerģiju līdz nullei.</li>
-            <li><b>Pārbaudi</b> Output panelī, ka paziņojums pienāca.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> kad dalībnieka enerģija sasniedz 0, menedžeris izdrukā tā vārdu, lai gan pats to nepārbaudīja.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Salīdzini signālu ar tiešu izsaukumu</h3>
-        <p>Beigās tu zināsi, kāpēc signāli ir ērtāki par tiešu saiti.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> otru dalībnieku un pieslēdz arī to tam pašam signālam.</li>
-            <li><b>Samazini</b> abu enerģiju un pārbaudi, ka pienāk divi paziņojumi.</li>
-            <li><b>Iedomājies</b> variantu, kur <code>Participant</code> pats izsauktu menedžeri, un pieraksti, ko tad vajadzētu glabāt katrā dalībniekā.</li>
-            <li><b>Pieraksti</b>, kas notiktu ar šo variantu, ja menedžera scēnā nav.</li>
-            <li><b>Atvieno</b> vienu dalībnieku ar <code class="language-csharp">participant.Finished -= OnParticipantFinished;</code> un pārbaudi vēlreiz.</li>
-            <li><b>Pieraksti</b>, cik paziņojumu tagad pienāca.</li>
-            <li><b>Pieraksti</b> secinājumu: kurš objekts zina par kuru.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> abi dalībnieki raida signālu neatkarīgi, un atvienotais vairs neizraisa paziņojumu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno signālam vairāk datu</h3>
-        <p>Ja pamatdarbs ir gatavs, nodod signālā arī skaitli.</p>
-        <ol class="step-list">
-            <li><b>Papildini</b> signāla delegate ar otru parametru, piemēram atlikušo enerģiju.</li>
-            <li><b>Nodod</b> to <code>EmitSignal</code> izsaukumā.</li>
-            <li><b>Papildini</b> apstrādātāja metodi ar otru parametru.</li>
-            <li><b>Izdrukā</b> abus datus.</li>
-            <li><b>Pārbaudi</b>, ka kompilators sūdzas, ja parametru skaits nesakrīt.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> signāls nodod gan vārdu, gan skaitli, un tie abi parādās izdrukā.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C# klasē reģistrēt Godot signālu, to raidīt notikuma brīdī un pieslēgt tam citu objektu, un vari izskaidrot, kāpēc signāls ir ērtāks par tiešu izsaukumu.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Faili ar <code>[Signal]</code>, <code>EmitSignal</code> un <code>+=</code> signāla pieslēgumu.</li>
-            <li>Ekrānuzņēmums ar Godot <b>Node -&gt; Signals</b> cilni, kurā redzams tavs signāls.</li>
-            <li>Ekrānuzņēmums ar Output paneli, kurā redzami abu dalībnieku paziņojumi.</li>
-            <li>README.md: viens teikums par to, kurš objekts par kuru zina, lietojot signālus.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>EmitSignal nav efekta:</b> signāls nav pieteikts ar <code>[Signal]</code> vai netiek izsaukts pareizais <code>SignalName</code>.</li>
-        <li><b>Handler kļūda:</b> apstrādātāja parametru skaitam un tipiem jāsakrīt ar signāla delegate.</li>
-        <li><b>Signāls saņemts vairākkārt:</b> <code>+=</code> izsaukts vairākas reizes - pieslēdz signālu vienā vietā, parasti <code>_Ready()</code>.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic3_signals_diagram.png" alt="Diagramma ar Participant objektu kreisajā pusē, signāliem penalty_applied/finished vidū un HUD ar Game klasi labajā pusē - bultiņas norāda signal flow." loading="lazy">
-            <figcaption>Diagramma ar Participant objektu kreisajā pusē, signāliem penalty_applied/finished vidū un HUD ar Game klasi labajā pusē - bultiņas norāda signal flow.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Reģistrē un raidi signālu</h2>
+<p>Beigās tavs objekts pratīs paziņot, ka tas beidzis darbu.</p>
+<ol class="step-list">
+<li><b>Nomaini</b> <code>Participant</code> tā, lai tā mantotu no <code>Node</code>: <code class="language-csharp">public partial class Participant : Node</code>.</li>
+<li><b>Pievieno</b> klasē signālu <code class="language-csharp">[Signal] public delegate void FinishedEventHandler(string name);</code>.</li>
+<li><b>Uzraksti</b> metodē <code>ApplyPenalty</code> pārbaudi, vai enerģija nokritusi līdz 0.</li>
+<li><b>Izsauc</b> tajā <code class="language-csharp">EmitSignal(SignalName.Finished, Name);</code>.</li>
+<li><b>Būvē</b> projektu un pievieno objektu scēnai.</li>
+<li><b>Pārbaudi</b> Godot editorā cilnē <b>Node -&gt; Signals</b>, vai signāls <code>finished</code> tur ir redzams.</li>
+<li><b>Pieraksti</b>, kas notiek, ja <code>[Signal]</code> rindu izdzēš.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Godot editora Signals sarakstā parādās tavs signāls <code>finished</code>.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Pieslēdzies signālam no cita objekta</h2>
+<p>Beigās cits objekts uzzinās par notikumu, tieši to nepārbaudot.</p>
+<ol class="step-list">
+<li><b>Izveido</b> C# klasi <code>TournamentManager</code>, kas manto no <code>Node</code>.</li>
+<li><b>Pievieno</b> tai metodi <code class="language-csharp">private void OnParticipantFinished(string name)</code>.</li>
+<li><b>Paņem</b> dalībnieku ar <code class="language-csharp">Participant participant = GetNode&lt;Participant&gt;("Participant");</code>.</li>
+<li><b>Savieno</b> <code>_Ready()</code> metodē signālu ar <code class="language-csharp">participant.Finished += OnParticipantFinished;</code>.</li>
+<li><b>Izdrukā</b> apstrādātājā, kurš dalībnieks beidzis darbu.</li>
+<li><b>Būvē</b> un samazini dalībnieka enerģiju līdz nullei.</li>
+<li><b>Pārbaudi</b> Output panelī, ka paziņojums pienāca.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> kad dalībnieka enerģija sasniedz 0, menedžeris izdrukā tā vārdu, lai gan pats to nepārbaudīja.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Salīdzini signālu ar tiešu izsaukumu</h2>
+<p>Beigās tu zināsi, kāpēc signāli ir ērtāki par tiešu saiti.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> otru dalībnieku un pieslēdz arī to tam pašam signālam.</li>
+<li><b>Samazini</b> abu enerģiju un pārbaudi, ka pienāk divi paziņojumi.</li>
+<li><b>Iedomājies</b> variantu, kur <code>Participant</code> pats izsauktu menedžeri, un pieraksti, ko tad vajadzētu glabāt katrā dalībniekā.</li>
+<li><b>Pieraksti</b>, kas notiktu ar šo variantu, ja menedžera scēnā nav.</li>
+<li><b>Atvieno</b> vienu dalībnieku ar <code class="language-csharp">participant.Finished -= OnParticipantFinished;</code> un pārbaudi vēlreiz.</li>
+<li><b>Pieraksti</b>, cik paziņojumu tagad pienāca.</li>
+<li><b>Pieraksti</b> secinājumu: kurš objekts zina par kuru.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> abi dalībnieki raida signālu neatkarīgi, un atvienotais vairs neizraisa paziņojumu.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno signālam vairāk datu</summary>
+<p>Ja pamatdarbs ir gatavs, nodod signālā arī skaitli.</p>
+<ol class="step-list">
+<li><b>Papildini</b> signāla delegate ar otru parametru, piemēram atlikušo enerģiju.</li>
+<li><b>Nodod</b> to <code>EmitSignal</code> izsaukumā.</li>
+<li><b>Papildini</b> apstrādātāja metodi ar otru parametru.</li>
+<li><b>Izdrukā</b> abus datus.</li>
+<li><b>Pārbaudi</b>, ka kompilators sūdzas, ja parametru skaits nesakrīt.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> signāls nodod gan vārdu, gan skaitli, un tie abi parādās izdrukā.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tu proti C# klasē reģistrēt Godot signālu, to raidīt notikuma brīdī un pieslēgt tam citu objektu, un vari izskaidrot, kāpēc signāls ir ērtāks par tiešu izsaukumu.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Faili ar <code>[Signal]</code>, <code>EmitSignal</code> un <code>+=</code> signāla pieslēgumu.</li>
+<li>Ekrānuzņēmums ar Godot <b>Node -&gt; Signals</b> cilni, kurā redzams tavs signāls.</li>
+<li>Ekrānuzņēmums ar Output paneli, kurā redzami abu dalībnieku paziņojumi.</li>
+<li>README.md: viens teikums par to, kurš objekts par kuru zina, lietojot signālus.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>EmitSignal nav efekta:</b> signāls nav pieteikts ar <code>[Signal]</code> vai netiek izsaukts pareizais <code>SignalName</code>.</li>
+<li><b>Handler kļūda:</b> apstrādātāja parametru skaitam un tipiem jāsakrīt ar signāla delegate.</li>
+<li><b>Signāls saņemts vairākkārt:</b> <code>+=</code> izsaukts vairākas reizes - pieslēdz signālu vienā vietā, parasti <code>_Ready()</code>.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Diagramma ar Participant objektu kreisajā pusē, signāliem penalty_applied/finished vidū un HUD ar Game klasi labajā pusē - bultiņas norāda signal flow." loading="lazy" src="../img/topic3_signals_diagram.png"/>
+<figcaption>Diagramma ar Participant objektu kreisajā pusē, signāliem penalty_applied/finished vidū un HUD ar Game klasi labajā pusē - bultiņas norāda signal flow.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 using System;
 
 public partial class Participant : Node
@@ -262,13 +225,23 @@ public partial class Game : Node
     private void OnPenalty(int amount) { }
     private void OnFinished(string name) { }
 }</code></pre>
-        <div class='result'>HUD atjauninās automātiski, kad dalībniekam mainās enerģija vai viņš pabeidz raundu, bez tiešas references.</div>
-    </div>
+<div class="result">HUD atjauninās automātiski, kad dalībniekam mainās enerģija vai viņš pabeidz raundu, bez tiešas references.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_3/prog2_32">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_3/prog2_34">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_3/prog2_32" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_3/prog2_34" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

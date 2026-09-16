@@ -5,11 +5,13 @@ document.querySelectorAll("[data-copy]").forEach(function (button) {
   button.addEventListener("click", async function () {
     const source = document.getElementById(button.dataset.copy);
     const status = button.closest("section").querySelector(".copy-status");
+    if (!source || !status) return;
     try {
       await navigator.clipboard.writeText(source.textContent);
       status.textContent = "Kods nokopēts. VS Code ielīmē ar Ctrl+V.";
     } catch (_) {
-      source.closest("details").open = true;
+      const details = source.closest("details");
+      if (details) details.open = true;
       const range = document.createRange();
       range.selectNodeContents(source);
       const selection = window.getSelection();
@@ -22,7 +24,10 @@ document.querySelectorAll("[data-copy]").forEach(function (button) {
 
 const taskSteps = Array.from(document.querySelectorAll(".lesson-task > .step-list > li"));
 if (taskSteps.length) {
-  const key = "datorika9-2026-09-soļi:" + location.pathname.replace(/\.html$/, "");
+  // Keep existing Datorika 9 marks when moving to the shared script.
+  const prefix = document.body.classList.contains("datorika-kurss")
+    ? "datorika9-2026-09-soļi:" : "ebskola-soļi-v1:";
+  const key = prefix + location.pathname.replace(/\/$/, "").replace(/\.html$/, "");
   let saved = [];
   try {
     const value = JSON.parse(localStorage.getItem(key) || "[]");
@@ -45,7 +50,8 @@ if (taskSteps.length) {
     box.className = "step-check";
     const task = step.closest(".lesson-task");
     const number = Array.from(step.parentElement.children).indexOf(step) + 1;
-    box.setAttribute("aria-label", task.querySelector(".task-number").textContent.split(" · ")[0] + ": atzīmēt " + number + ". soli kā paveiktu");
+    const label = task.querySelector(".task-number").textContent.trim().replace(/\s*[-–—:]$/, "").split(" · ")[0];
+    box.setAttribute("aria-label", label + ": atzīmēt " + number + ". soli kā paveiktu");
     box.checked = saved[index] === true;
     step.prepend(box);
     return box;

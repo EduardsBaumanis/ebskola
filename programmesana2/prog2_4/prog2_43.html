@@ -1,93 +1,72 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>4.3 State machines AI uzvedībai - ebSkola</title>
-<meta name="description" content="Implementēt AI uzvedību ar stāvokļu mašīnu, sadalot pretinieka darbības skaidros režīmos: patrulēšana, vajāšana un uzbrukums.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_4/prog2_43">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="4.3 State machines AI uzvedībai">
-<meta property="og:description" content="Implementēt AI uzvedību ar stāvokļu mašīnu, sadalot pretinieka darbības skaidros režīmos: patrulēšana, vajāšana un uzbrukums.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_4/prog2_43">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="4.3 State machines AI uzvedībai">
-<meta name="twitter:description" content="Implementēt AI uzvedību ar stāvokļu mašīnu, sadalot pretinieka darbības skaidros režīmos: patrulēšana, vajāšana un uzbrukums.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Implementēt AI uzvedību ar stāvokļu mašīnu, sadalot pretinieka darbības skaidros režīmos: patrulēšana, vajāšana un uzbrukums." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_4/prog2_43" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="4.3 State machines AI uzvedībai" property="og:title"/>
+<meta content="Implementēt AI uzvedību ar stāvokļu mašīnu, sadalot pretinieka darbības skaidros režīmos: patrulēšana, vajāšana un uzbrukums." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_4/prog2_43" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="4.3 State machines AI uzvedībai" name="twitter:title"/>
+<meta content="Implementēt AI uzvedību ar stāvokļu mašīnu, sadalot pretinieka darbības skaidros režīmos: patrulēšana, vajāšana un uzbrukums." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "4.3 State machines AI uzvedībai","description": "Implementēt AI uzvedību ar stāvokļu mašīnu, sadalot pretinieka darbības skaidros režīmos: patrulēšana, vajāšana un uzbrukums.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_4/prog2_43","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_4/prog2_4main">4. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_4/prog2_42">← 4.2</a>
-    <a class="btn primary" href="/programmesana2/prog2_4/prog2_44">4.4 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>4. Tēma - Datu struktūras un AI</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_4/prog2_4main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_4/prog2_41">4.1 List un Array</a>
-    <a href="/programmesana2/prog2_4/prog2_42">4.2 Dictionary un Godot Dictionary</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_4/prog2_43">4.3 State machines AI uzvedībai</a>
-    <a href="/programmesana2/prog2_4/prog2_44">4.4 Pathfinding ar A*</a>
-    <a href="/programmesana2/prog2_4/prog2_45">4.5 Šaušanas mehānika un object pooling</a>
-    <a href="/programmesana2/prog2_4/prog2_46">4.6 Noslēguma projekts: Top-down šautene</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>4.3 State machines AI uzvedībai</h1>
-    <p><b>Stundas uzdevums:</b> Implementēt AI ar stāvokļu mašīnu (state machine) reālistiskai uzvedībai.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.18. OOP</a>
-        <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido stāvokļu enum un pārslēgšanu · 2. uzdevums (~25 min) - pievieno pārejas noteikumus · 3. uzdevums (~20 min) - iztestē visus stāvokļus · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu projektu ar ienaidnieku. Stāvokļu mašīna nozīmē vienu vienkāršu noteikumu: ienaidnieks vienā brīdī var būt tikai vienā stāvoklī.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: State machine konceptu</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>4. Tēma - Datu struktūras un AI</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_4/prog2_4main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_4/prog2_41">4.1 List un Array</a>
+<a href="/programmesana2/prog2_4/prog2_42">4.2 Dictionary un Godot Dictionary</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_4/prog2_43">4.3 State machines AI uzvedībai</a>
+<a href="/programmesana2/prog2_4/prog2_44">4.4 Pathfinding ar A*</a>
+<a href="/programmesana2/prog2_4/prog2_45">4.5 Šaušanas mehānika un object pooling</a>
+<a href="/programmesana2/prog2_4/prog2_46">4.6 Noslēguma projekts: Top-down šautene</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_4/prog2_4main">4. tēma</a> / 4.3</p>
+<h1>4.3 State machines AI uzvedībai</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Implementēt AI ar stāvokļu mašīnu (state machine) reālistiskai uzvedībai.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.18. OOP</a>
+<a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido stāvokļu enum un pārslēgšanu · 2. uzdevums (~25 min) - pievieno pārejas noteikumus · 3. uzdevums (~20 min) - iztestē visus stāvokļus · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu projektu ar ienaidnieku. Stāvokļu mašīna nozīmē vienu vienkāršu noteikumu: ienaidnieks vienā brīdī var būt tikai vienā stāvoklī.</p>
+</div>
+</section><section>
+<h2>Teorija: State machine konceptu</h2>
+<div class="logic-box">
 <p><b>State machine</b> (stāvokļu mašīna) ir AI dizaina paraugs, kur objekts vienlaikus ir vienā no diskrētiem stāvokļiem un pāriet starp tiem pēc noteikumiem.</p>
 <pre><code class="language-csharp">using Godot;
 
@@ -130,15 +109,12 @@ public partial class Enemy : CharacterBody2D
         }
     }
 }</code></pre>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> C# kodā pamatoti izvēlēti <code>List</code>, <code>Dictionary</code> vai <code>HashSet</code>, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> C# kodā pamatoti izvēlēti <code>List</code>, <code>Dictionary</code> vai <code>HashSet</code>, AI stāvokļi ir skaidri, un sarežģītākas sistēmas var profilēt vai atkļūdot.</p>
 <pre><code class="language-csharp">public class AiDataCheckpoint
 {
     public string Lesson = "4.3 State machines AI uzvedībai";
@@ -147,114 +123,101 @@ public partial class Enemy : CharacterBody2D
     public bool SeparatesAiState = true;
     public bool HandlesRemovalSafely = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Izveido stāvokļu enum un pārslēgšanu</h3>
-        <p>Beigās ienaidnieks zinās, kurā stāvoklī tas atrodas.</p>
-        <ol class="step-list">
-            <li><b>Ieraksti</b> <code class="language-csharp">private enum EnemyState { Idle, Patrol, Chase, Attack, Dead }</code>.</li>
-            <li><b>Pievieno</b> klasei lauku <code class="language-csharp">private EnemyState state = EnemyState.Idle;</code>.</li>
-            <li><b>Uzraksti</b> <code>_PhysicsProcess</code> metodē <code class="language-csharp">switch (state) { ... }</code>.</li>
-            <li><b>Pievieno</b> katram stāvoklim savu <code>case</code> ar izdruku un <code>break;</code>.</li>
-            <li><b>Būvē</b> un palaid - jāizdrukājas tikai <code>Idle</code>.</li>
-            <li><b>Nomaini</b> sākuma stāvokli uz <code>Patrol</code> un palaid vēlreiz.</li>
-            <li><b>Pieraksti</b>, kāpēc vienlaikus izdrukājas tikai viens stāvoklis.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> Output panelī atkārtojas tikai viena stāvokļa nosaukums, nevis visi pieci.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Pievieno pārejas noteikumus</h3>
-        <p>Beigās ienaidnieks pats pārslēgsies starp stāvokļiem.</p>
-        <ol class="step-list">
-            <li><b>Uzraksti</b> metodi <code class="language-csharp">private void ChangeState(EnemyState newState)</code>, kas izdrukā pāreju.</li>
-            <li><b>Izrēķini</b> katrā kadrā attālumu līdz spēlētājam ar <code>Position.DistanceTo(player.Position)</code>.</li>
-            <li><b>Pārslēdz</b> uz <code>Chase</code>, ja attālums ir mazāks par 300.</li>
-            <li><b>Pārslēdz</b> uz <code>Attack</code>, ja attālums ir mazāks par 50.</li>
-            <li><b>Pārslēdz</b> atpakaļ uz <code>Patrol</code>, ja attālums pārsniedz 400.</li>
-            <li><b>Būvē</b> un pastaigā ar spēlētāju tuvāk un tālāk.</li>
-            <li><b>Pieraksti</b>, kāpēc atgriešanās slieksnis (400) ir lielāks par dzīšanās slieksni (300).</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pieejot tuvāk, ienaidnieks pāriet CHASE un ATTACK, bet aizejot - atgriežas PATROL.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Iztestē visus stāvokļus</h3>
-        <p>Beigās tu būsi pārliecinājies, ka neviens stāvoklis neiestrēgst.</p>
-        <ol class="step-list">
-            <li><b>Pieraksti</b> tabulu ar visiem pieciem stāvokļiem.</li>
-            <li><b>Atzīmē</b> katram, no kura stāvokļa tajā var nokļūt.</li>
-            <li><b>Pārbaudi</b> spēlē katru pāreju un atzīmē tabulā, vai tā notika.</li>
-            <li><b>Atrodi</b> stāvokli, no kura nevar izkļūt, ja tāds ir.</li>
-            <li><b>Pārbaudi</b>, kas notiek, kad ienaidnieka HP nokrīt līdz nullei.</li>
-            <li><b>Pievieno</b> pāreju uz <code>Dead</code> un pārliecinies, ka no tā vairs neizkļūst.</li>
-            <li><b>Pieraksti</b>, kurš stāvoklis ir gala stāvoklis.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> tabulā katrai pārejai ir atzīme, un no <code>Dead</code> stāvokļa ienaidnieks vairs neatgriežas.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno stāvokļa taimeri</h3>
-        <p>Ja pamatdarbs ir gatavs, neļauj stāvokļiem mainīties pārāk bieži.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> lauku <code class="language-csharp">double state_time = 0.0;</code>.</li>
-            <li><b>Palielini</b> to katrā kadrā ar <code>delta</code>.</li>
-            <li><b>Atiestati</b> to uz nulli katrā <code>ChangeState</code> izsaukumā.</li>
-            <li><b>Neļauj</b> mainīt stāvokli, ja <code>state_time</code> ir mazāks par 0.3.</li>
-            <li><b>Pārbaudi</b>, ka ienaidnieks vairs nemirgo starp diviem stāvokļiem.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> stāvot tieši uz sliekšņa robežas, ienaidnieks vairs nemaina stāvokli vairākas reizes sekundē.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tavam ienaidniekam ir strādājoša stāvokļu mašīna ar pieciem stāvokļiem, pārejas notiek pēc attāluma līdz spēlētājam, un <code>Dead</code> ir gala stāvoklis, no kura nevar izkļūt.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Fails <code>Enemy.cs</code> ar <code>enum</code> un <code>switch</code>.</li>
-            <li>README.md ievietota video saite vai ekrānuzņēmumu sērija krātuvē, kurā redzamas pārejas PATROL -> CHASE -> ATTACK.</li>
-            <li>README.md tabula ar atzīmētām pārbaudītajām stāvokļu pārejām.</li>
-            <li>README.md: kāpēc atgriešanās slieksnis ir lielāks par dzīšanās slieksni.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Stāvoklis paliek IDLE:</b> Pārbaudi, vai pārejas nosacījumi tiek izpildīti.</li>
-        <li><b>Crash, kad player == null:</b> Lieto null check pirms piekļūšanas.</li>
-        <li><b>Animation neattēlojas:</b> AnimationPlayer ne pareizi pievienots vai animation name nepareizs.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic4_state_diagram.png" alt="State machine diagramma: IDLE → PATROL (timer), IDLE/PATROL → CHASE (player vision), CHASE → ATTACK (range), ATTACK → CHASE (out of range), * → DEAD (hp 0)." loading="lazy">
-            <figcaption>State machine diagramma: IDLE → PATROL (timer), IDLE/PATROL → CHASE (player vision), CHASE → ATTACK (range), ATTACK → CHASE (out of range), * → DEAD (hp 0).</figcaption>
-        </figure>
-        <figure class="screenshot">
-            <img src="../img/topic4_ai_chase.png" alt="Spēles aina: spēlētājs centrā, ienaidnieks ar 'CHASE' debug label tuvojas no kreisās puses." loading="lazy">
-            <figcaption>Spēles aina: spēlētājs centrā, ienaidnieks ar 'CHASE' debug label tuvojas no kreisās puses.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">public enum EnemyState { Idle, Patrol, Chase, Attack, Dead }
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Izveido stāvokļu enum un pārslēgšanu</h2>
+<p>Beigās ienaidnieks zinās, kurā stāvoklī tas atrodas.</p>
+<ol class="step-list">
+<li><b>Ieraksti</b> <code class="language-csharp">private enum EnemyState { Idle, Patrol, Chase, Attack, Dead }</code>.</li>
+<li><b>Pievieno</b> klasei lauku <code class="language-csharp">private EnemyState state = EnemyState.Idle;</code>.</li>
+<li><b>Uzraksti</b> <code>_PhysicsProcess</code> metodē <code class="language-csharp">switch (state) { ... }</code>.</li>
+<li><b>Pievieno</b> katram stāvoklim savu <code>case</code> ar izdruku un <code>break;</code>.</li>
+<li><b>Būvē</b> un palaid - jāizdrukājas tikai <code>Idle</code>.</li>
+<li><b>Nomaini</b> sākuma stāvokli uz <code>Patrol</code> un palaid vēlreiz.</li>
+<li><b>Pieraksti</b>, kāpēc vienlaikus izdrukājas tikai viens stāvoklis.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Output panelī atkārtojas tikai viena stāvokļa nosaukums, nevis visi pieci.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Pievieno pārejas noteikumus</h2>
+<p>Beigās ienaidnieks pats pārslēgsies starp stāvokļiem.</p>
+<ol class="step-list">
+<li><b>Uzraksti</b> metodi <code class="language-csharp">private void ChangeState(EnemyState newState)</code>, kas izdrukā pāreju.</li>
+<li><b>Izrēķini</b> katrā kadrā attālumu līdz spēlētājam ar <code>Position.DistanceTo(player.Position)</code>.</li>
+<li><b>Pārslēdz</b> uz <code>Chase</code>, ja attālums ir mazāks par 300.</li>
+<li><b>Pārslēdz</b> uz <code>Attack</code>, ja attālums ir mazāks par 50.</li>
+<li><b>Pārslēdz</b> atpakaļ uz <code>Patrol</code>, ja attālums pārsniedz 400.</li>
+<li><b>Būvē</b> un pastaigā ar spēlētāju tuvāk un tālāk.</li>
+<li><b>Pieraksti</b>, kāpēc atgriešanās slieksnis (400) ir lielāks par dzīšanās slieksni (300).</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pieejot tuvāk, ienaidnieks pāriet CHASE un ATTACK, bet aizejot - atgriežas PATROL.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Iztestē visus stāvokļus</h2>
+<p>Beigās tu būsi pārliecinājies, ka neviens stāvoklis neiestrēgst.</p>
+<ol class="step-list">
+<li><b>Pieraksti</b> tabulu ar visiem pieciem stāvokļiem.</li>
+<li><b>Atzīmē</b> katram, no kura stāvokļa tajā var nokļūt.</li>
+<li><b>Pārbaudi</b> spēlē katru pāreju un atzīmē tabulā, vai tā notika.</li>
+<li><b>Atrodi</b> stāvokli, no kura nevar izkļūt, ja tāds ir.</li>
+<li><b>Pārbaudi</b>, kas notiek, kad ienaidnieka HP nokrīt līdz nullei.</li>
+<li><b>Pievieno</b> pāreju uz <code>Dead</code> un pārliecinies, ka no tā vairs neizkļūst.</li>
+<li><b>Pieraksti</b>, kurš stāvoklis ir gala stāvoklis.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> tabulā katrai pārejai ir atzīme, un no <code>Dead</code> stāvokļa ienaidnieks vairs neatgriežas.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno stāvokļa taimeri</summary>
+<p>Ja pamatdarbs ir gatavs, neļauj stāvokļiem mainīties pārāk bieži.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> lauku <code class="language-csharp">double state_time = 0.0;</code>.</li>
+<li><b>Palielini</b> to katrā kadrā ar <code>delta</code>.</li>
+<li><b>Atiestati</b> to uz nulli katrā <code>ChangeState</code> izsaukumā.</li>
+<li><b>Neļauj</b> mainīt stāvokli, ja <code>state_time</code> ir mazāks par 0.3.</li>
+<li><b>Pārbaudi</b>, ka ienaidnieks vairs nemirgo starp diviem stāvokļiem.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> stāvot tieši uz sliekšņa robežas, ienaidnieks vairs nemaina stāvokli vairākas reizes sekundē.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tavam ienaidniekam ir strādājoša stāvokļu mašīna ar pieciem stāvokļiem, pārejas notiek pēc attāluma līdz spēlētājam, un <code>Dead</code> ir gala stāvoklis, no kura nevar izkļūt.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Fails <code>Enemy.cs</code> ar <code>enum</code> un <code>switch</code>.</li>
+<li>README.md ievietota video saite vai ekrānuzņēmumu sērija krātuvē, kurā redzamas pārejas PATROL -&gt; CHASE -&gt; ATTACK.</li>
+<li>README.md tabula ar atzīmētām pārbaudītajām stāvokļu pārejām.</li>
+<li>README.md: kāpēc atgriešanās slieksnis ir lielāks par dzīšanās slieksni.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Stāvoklis paliek IDLE:</b> Pārbaudi, vai pārejas nosacījumi tiek izpildīti.</li>
+<li><b>Crash, kad player == null:</b> Lieto null check pirms piekļūšanas.</li>
+<li><b>Animation neattēlojas:</b> AnimationPlayer ne pareizi pievienots vai animation name nepareizs.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="State machine diagramma: IDLE → PATROL (timer), IDLE/PATROL → CHASE (player vision), CHASE → ATTACK (range), ATTACK → CHASE (out of range), * → DEAD (hp 0)." loading="lazy" src="../img/topic4_state_diagram.png"/>
+<figcaption>State machine diagramma: IDLE → PATROL (timer), IDLE/PATROL → CHASE (player vision), CHASE → ATTACK (range), ATTACK → CHASE (out of range), * → DEAD (hp 0).</figcaption>
+</figure>
+<figure class="screenshot">
+<img alt="Spēles aina: spēlētājs centrā, ienaidnieks ar 'CHASE' debug label tuvojas no kreisās puses." loading="lazy" src="../img/topic4_ai_chase.png"/>
+<figcaption>Spēles aina: spēlētājs centrā, ienaidnieks ar 'CHASE' debug label tuvojas no kreisās puses.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">public enum EnemyState { Idle, Patrol, Chase, Attack, Dead }
 
 public override void _PhysicsProcess(double delta)
 {
@@ -297,13 +260,23 @@ private void ChangeState(EnemyState newState)
     state = newState;
     stateTimer = 0.0;
 }</code></pre>
-        <div class='result'>Ienaidnieks staigā patrol līdz pamana spēlētāju, dzenas un uzbrūk; izvairoties - atgriežas patrol režīmā.</div>
-    </div>
+<div class="result">Ienaidnieks staigā patrol līdz pamana spēlētāju, dzenas un uzbrūk; izvairoties - atgriežas patrol režīmā.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_4/prog2_42">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_4/prog2_44">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_4/prog2_42" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_4/prog2_44" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

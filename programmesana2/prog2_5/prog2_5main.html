@@ -1,55 +1,55 @@
-<!doctype html><html lang="lv"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<!DOCTYPE html>
+<html lang="lv"><head>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>5. Tēma - Datu pastāvība un algoritmi - ebSkola</title>
-<meta name="description" content="Prog II 5. tēma: Godot failu I/O, JSON serializācija, save/load, procedurāla paaudze. Projekts: Roguelike.">
-<meta name="author" content="Eduards Baumanis"><meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_5/prog2_5main">
-<meta property="og:type" content="website"><meta property="og:locale" content="lv_LV"><meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="5. Tēma - Datu pastāvība un algoritmi">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_5/prog2_5main"><meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg"><link rel="manifest" href="../../manifest.json"><meta name="theme-color" content="#222831">
+<meta content="Prog II 5. tēma: Godot failu I/O, JSON serializācija, save/load, procedurāla paaudze. Projekts: Roguelike." name="description"/>
+<meta content="Eduards Baumanis" name="author"/><meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_5/prog2_5main" rel="canonical"/>
+<meta content="website" property="og:type"/><meta content="lv_LV" property="og:locale"/><meta content="ebSkola" property="og:site_name"/>
+<meta content="5. Tēma - Datu pastāvība un algoritmi" property="og:title"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_5/prog2_5main" property="og:url"/><meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/><link href="../../manifest.json" rel="manifest"/><meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"5. Tēma - Datu pastāvība","description":"Godot FileAccess, JSON serializācija, save/load arhitektūra, procedurālā ģenerēšana un Big-O.","inLanguage":"lv","url":"https://ebskola.lv/programmesana2/prog2_5/prog2_5main","provider":{"@type":"EducationalOrganization","name":"ebSkola","url":"https://ebskola.lv/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","availability":"https://schema.org/InStock"}}</script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-</head><body class="page-home">
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+</head><body class="page-home"><a class="skip-link" href="#saturs">Uz mācību saturu</a>
 <header class="topbar"><div class="wrap row">
-  <a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
-  <nav class="nav">
-    <a href="/programmesana2/programmesana2">Prog II</a>
-    <a href="/programmesana2/prog2_4/prog2_4main">4. Tēma</a>
-    <a href="/programmesana2/prog2_5/prog2_5main" aria-current="page">5. Tēma</a>
-    <a href="/programmesana2/prog2_6/prog2_6main">6. Tēma</a>
-    <a href="/sasnRez">rezultāti</a><a href="/paligm">palīgmateriāli</a>
-  </nav>
-  <div class="spacer"></div>
-  <a class="btn primary" href="/programmesana2/prog2_5/prog2_51">sākt stundu <span class="caret">→</span></a>
+<a class="brand" href="/"><span class="glyph">›_</span><span class="name">ebskola<span>.lv</span></span></a>
+<nav class="nav">
+<a href="/programmesana2/programmesana2">Prog II</a>
+<a href="/programmesana2/prog2_4/prog2_4main">4. Tēma</a>
+<a aria-current="page" href="/programmesana2/prog2_5/prog2_5main">5. Tēma</a>
+<a href="/programmesana2/prog2_6/prog2_6main">6. Tēma</a>
+<a href="/sasnRez">rezultāti</a><a href="/paligm">palīgmateriāli</a>
+</nav>
+<div class="spacer"></div>
+<a class="btn primary" href="/programmesana2/prog2_5/prog2_51">sākt stundu <span class="caret">→</span></a>
 </div></header>
-
-<section class="hero"><div class="wrap">
-  <div class="eyebrow"><span class="dot"></span><span>Prog II · 5. tēma · 6 stundas</span><span class="ver"> - C# · Save/Load · Roguelike</span></div>
-  <div class="hero-grid">
-    <div>
-      <h1 class="headline">Datu <span class="accent">pastāvība</span> <span class="slash">//</span><br>un algoritmi</h1>
-      <p class="lede">Saglabā un ielādē spēles stāvokli ar <code>FileAccess</code> un <code>Json</code>. Ģenerē labirintus ar Random Walk algoritmu. Izproti <code>Big-O</code>.</p>
-      <div class="cta-row">
-        <a class="btn primary" href="/programmesana2/prog2_5/prog2_51"><span>›</span> Sākt 5.1 stundu</a>
-        <a class="btn" href="/programmesana2/prog2_5/prog2_56">Noslēguma projekts <span class="caret">→</span></a>
-      </div>
-      <div class="hero-meta">
-        <span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
-        <span class="m"><span class="sw kw"></span> <b>FileAccess</b> · Json</span>
-        <span class="m"><span class="sw fn"></span> <b>Roguelike labirints</b></span>
-      </div>
-    </div>
-    <div>
-      <div class="editor" aria-hidden="true">
-        <div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog2_5/</em>SaveSystem.cs</span></div>
-        <div class="tabs"><span class="tab active"><span class="ic">●</span> SaveSystem.cs</span><span class="spacer"></span></div>
-        <div class="body">
-          <div class="gutter">1
+<main id="saturs"><section class="hero"><div class="wrap">
+<div class="eyebrow"><span class="dot"></span><span>Prog II · 5. tēma · 6 stundas</span><span class="ver"> - C# · Save/Load · Roguelike</span></div>
+<div class="hero-grid">
+<div>
+<h1 class="headline">Datu <span class="accent">pastāvība</span> <span class="slash">//</span><br/>un algoritmi</h1>
+<p class="lede">Saglabā un ielādē spēles stāvokli ar <code>FileAccess</code> un <code>Json</code>. Ģenerē labirintus ar Random Walk algoritmu. Izproti <code>Big-O</code>.</p>
+<div class="cta-row">
+<a class="btn primary" href="/programmesana2/prog2_5/prog2_51"><span>›</span> Sākt 5.1 stundu</a>
+<a class="btn" href="/programmesana2/prog2_5/prog2_56">Noslēguma projekts <span class="caret">→</span></a>
+</div>
+<div class="hero-meta">
+<span class="m"><span class="sw str"></span> <b>6</b> stundas</span>
+<span class="m"><span class="sw kw"></span> <b>FileAccess</b> · Json</span>
+<span class="m"><span class="sw fn"></span> <b>Roguelike labirints</b></span>
+</div>
+</div>
+<div>
+<div aria-hidden="true" class="editor">
+<div class="titlebar"><span class="dots"><i></i><i></i><i></i></span><span class="crumb"><em>prog2_5/</em>SaveSystem.cs</span></div>
+<div class="tabs"><span class="tab active"><span class="ic">●</span> SaveSystem.cs</span><span class="spacer"></span></div>
+<div class="body">
+<div class="gutter">1
 2
 3
 4
@@ -60,73 +60,62 @@
 9
 10
 11</div>
-          <div class="code"><span class="tok-kw">public void</span> <span class="tok-fn">Save</span>(<span class="tok-kw">string</span> path) {
+<div class="code"><span class="tok-kw">public void</span> <span class="tok-fn">Save</span>(<span class="tok-kw">string</span> path) {
   <span class="tok-typ">Dictionary</span> data <span class="tok-op">=</span> <span class="tok-kw">new</span>();
   data[<span class="tok-str">"hp"</span>]  <span class="tok-op">=</span> player.Health;
   data[<span class="tok-str">"lvl"</span>] <span class="tok-op">=</span> player.Level;
   data[<span class="tok-str">"pos"</span>] <span class="tok-op">=</span> player.Position;
   <span class="tok-kw">using</span> <span class="tok-typ">FileAccess</span> file <span class="tok-op">=</span>
-    <span class="tok-typ">FileAccess</span>.<span class="tok-fn">Open</span>(path, <span class="tok-typ">FileAccess</span>.ModeFlags.Write);
+<span class="tok-typ">FileAccess</span>.<span class="tok-fn">Open</span>(path, <span class="tok-typ">FileAccess</span>.ModeFlags.Write);
   file?.<span class="tok-fn">StoreString</span>(
     <span class="tok-typ">Json</span>.<span class="tok-fn">Stringify</span>(data));
 }
 <span class="tok-com">// user://saves/save.json</span><span class="cursor"></span></div>
-        </div>
-        <div class="statusbar"><span class="ok">● būvēts</span><span>C# · Godot</span><span class="spacer"></span><span>FileAccess</span></div>
-      </div>
-    </div>
-  </div>
-</div></section>
-
-<section id="stundas"><div class="wrap">
-  <div class="sec-head"><div>
-    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
-    <h2 class="sec-title">6 stundas - save/load, procedurālā ģenerēšana un Big-O</h2>
-  </div><a class="sec-link" href="/programmesana2/prog2_5/prog2_56">noslēguma projekts <span>→</span></a></div>
-  <div class="projects">
-
-    <a class="project" href="/programmesana2/prog2_5/prog2_51">
-      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="30" y="40" width="80" height="100" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="70" y="62" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">user://</text><text x="70" y="80" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">saves/</text><text x="70" y="96" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">save.json</text><text x="70" y="112" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">config.cfg</text><line x1="110" y1="90" x2="145" y2="90" stroke="var(--kw)" stroke-width="2"/><rect x="145" y="65" width="130" height="50" rx="3" fill="var(--surface)" stroke="var(--kw)"/><text x="210" y="82" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">FileAccess.Open(</text><text x="210" y="96" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">path, Write)</text><text x="210" y="110" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">StoreString()</text></svg><span class="label">// FileAccess</span></div>
-      <div class="body"><div class="meta-top"><span class="lang"><span class="d kw"></span> Godot · FileAccess</span><span>I/O</span></div><h3>Failu I/O Godot vidē</h3><p><code>FileAccess.Open()</code>, <code>StoreString()</code>, <code>GetAsText()</code>, <code>user://</code> direktorija.</p><div class="foot"><span>5.1 stunda</span><span class="open">atvērt ↗</span></div></div>
-    </a>
-
-    <a class="project" href="/programmesana2/prog2_5/prog2_52">
-      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="30" width="130" height="80" rx="4" fill="var(--surface)" stroke="var(--line)"/><text x="85" y="50" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Godot Dictionary</text><text x="30" y="68" font-family="monospace" font-size="8" fill="var(--str)">{"hp": 80,</text><text x="30" y="82" font-family="monospace" font-size="8" fill="var(--str)"> "level": 3,</text><text x="30" y="96" font-family="monospace" font-size="8" fill="var(--str)"> "pos": [12,8]}</text><line x1="150" y1="70" x2="170" y2="70" stroke="var(--kw)" stroke-width="2"/><text x="195" y="60" font-family="monospace" font-size="8" fill="var(--muted)">Json.Stringify()</text><rect x="170" y="75" width="130" height="50" rx="3" fill="var(--surface)" stroke="var(--str)"/><text x="235" y="94" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">JSON teksts</text><text x="235" y="110" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">Json.Parse()</text></svg><span class="label">// JSON serialize</span></div>
-      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> Json · serializācija</span><span>formāts</span></div><h3>JSON serializācija un Resource sistēma</h3><p><code>Json.Stringify()</code>, <code>Json.Parse()</code>, Godot <code>Resource</code> saglabāšana, <code>.tres</code> faili.</p><div class="foot"><span>5.2 stunda</span><span class="open">atvērt ↗</span></div></div>
-    </a>
-
-    <a class="project" href="/programmesana2/prog2_5/prog2_53">
-      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="110" y="20" width="100" height="40" rx="4" fill="var(--surface)" stroke="var(--fn)"/><text x="160" y="45" font-family="monospace" font-size="8" fill="var(--fn)" text-anchor="middle">GameState</text><line x1="80" y1="60" x2="110" y2="60" stroke="var(--muted)" stroke-width="1"/><line x1="160" y1="60" x2="160" y2="80" stroke="var(--muted)" stroke-width="1.5"/><line x1="240" y1="60" x2="210" y2="60" stroke="var(--muted)" stroke-width="1"/><rect x="30" y="80" width="80" height="36" rx="3" fill="var(--surface)" stroke="var(--kw)"/><text x="70" y="102" font-family="monospace" font-size="8" fill="var(--kw)" text-anchor="middle">SaveManager</text><rect x="120" y="80" width="80" height="36" rx="3" fill="var(--surface)" stroke="var(--str)"/><text x="160" y="102" font-family="monospace" font-size="8" fill="var(--str)" text-anchor="middle">disk</text><rect x="210" y="80" width="80" height="36" rx="3" fill="var(--surface)" stroke="var(--typ)"/><text x="250" y="102" font-family="monospace" font-size="8" fill="var(--typ)" text-anchor="middle">load ←</text><text x="160" y="155" font-family="monospace" font-size="8" fill="var(--muted)" text-anchor="middle">saglabāt() · ielādēt() · atiestatīt()</text></svg><span class="label">// save/load</span></div>
-      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> arhitektūra</span><span>save/load</span></div><h3>Save/Load arhitektūra</h3><p>Viena atbildīgā SaveManager klase, GameState serializācija, ielāde spēles uzsākšanā.</p><div class="foot"><span>5.3 stunda</span><span class="open">atvērt ↗</span></div></div>
-    </a>
-
-    <a class="project" href="/programmesana2/prog2_5/prog2_54">
-      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><rect x="20" y="20" width="280" height="160" rx="3" fill="var(--surface)" stroke="var(--line-soft)"/><rect x="20" y="20" width="130" height="75" rx="3" fill="none" stroke="var(--kw)" stroke-width="2"/><rect x="150" y="20" width="150" height="75" rx="3" fill="none" stroke="var(--str)" stroke-width="2"/><rect x="20" y="95" width="170" height="85" rx="3" fill="none" stroke="var(--fn)" stroke-width="2"/><rect x="190" y="95" width="110" height="85" rx="3" fill="none" stroke="var(--typ)" stroke-width="2"/><rect x="35" y="35" width="100" height="45" rx="2" fill="var(--surface)" stroke="var(--muted)"/><rect x="165" y="35" width="120" height="45" rx="2" fill="var(--surface)" stroke="var(--muted)"/><rect x="35" y="110" width="140" height="55" rx="2" fill="var(--surface)" stroke="var(--muted)"/><rect x="205" y="110" width="80" height="55" rx="2" fill="var(--surface)" stroke="var(--muted)"/><text x="160" y="193" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">Random Walk - ej nejauši un izrok ejas</text></svg><span class="label">// Random Walk dungeon</span></div>
-      <div class="body"><div class="meta-top"><span class="lang"><span class="d typ"></span> Random Walk · procedurāls</span><span>ģenerācija</span></div><h3>Procedural generation ar Random Walk</h3><p>Binary Space Partitioning - rekursīva telpu dalīšana, istabu izveide, koridoru savienošana.</p><div class="foot"><span>5.4 stunda</span><span class="open">atvērt ↗</span></div></div>
-    </a>
-
-    <a class="project" href="/programmesana2/prog2_5/prog2_55">
-      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="var(--bg)"/><line x1="40" y1="160" x2="290" y2="160" stroke="var(--muted)" stroke-width="1"/><line x1="40" y1="160" x2="40" y2="30" stroke="var(--muted)" stroke-width="1"/><line x1="40" y1="158" x2="290" y2="158" stroke="var(--kw)" stroke-width="2"/><path d="M40 145 Q100 135 160 100 Q220 60 290 35" fill="none" stroke="var(--str)" stroke-width="2"/><path d="M40 155 Q120 140 200 90 Q260 55 290 30" fill="none" stroke="var(--fn)" stroke-width="2"/><path d="M40 152 Q90 130 160 80 Q230 40 290 20" fill="none" stroke="var(--typ)" stroke-width="2"/><text x="300" y="162" font-family="monospace" font-size="7" fill="var(--kw)">O(1)</text><text x="300" y="55" font-family="monospace" font-size="7" fill="var(--str)">O(log n)</text><text x="300" y="50" font-family="monospace" font-size="7" fill="var(--fn)">O(n)</text><text x="300" y="25" font-family="monospace" font-size="7" fill="var(--typ)">O(n²)</text><text x="160" y="186" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle">n (ievades lielums)</text></svg><span class="label">// Big-O</span></div>
-      <div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> Big-O · profiling</span><span>efektivitāte</span></div><h3>Algoritmu efektivitāte</h3><p>Big-O notācija, O(1)/O(log n)/O(n)/O(n²) salīdzinājums, Godot Profiler izmantošana.</p><div class="foot"><span>5.5 stunda</span><span class="open">atvērt ↗</span></div></div>
-    </a>
-
-    <a class="project" href="/programmesana2/prog2_5/prog2_56">
-      <div class="preview"><svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice"><rect width="320" height="200" fill="#1a1f2e"/><rect x="20" y="20" width="280" height="160" rx="3" fill="var(--surface)"/><text x="40" y="38" font-family="monospace" font-size="8" fill="var(--muted)">##.........##</text><text x="40" y="52" font-family="monospace" font-size="8" fill="var(--muted)">#.++++.....+#</text><text x="40" y="66" font-family="monospace" font-size="8" fill="var(--kw)">#.+@...*....#</text><text x="40" y="80" font-family="monospace" font-size="8" fill="var(--muted)">#.++++......#</text><text x="40" y="94" font-family="monospace" font-size="8" fill="var(--muted)">#...........#</text><text x="40" y="108" font-family="monospace" font-size="8" fill="var(--str)">#.....E.....#</text><text x="40" y="122" font-family="monospace" font-size="8" fill="var(--muted)">##.........##</text><text x="40" y="155" font-family="monospace" font-size="7" fill="var(--muted)">@ - spēlētājs · E - ienaidnieks · * - prece</text></svg><span class="label">// roguelike projekts</span></div>
-      <div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> C# · Godot</span><span>projekts</span></div><h3>Noslēguma projekts: Procedurālais labirints</h3><p>Procedurāli ģenerēts labirints ar save/load, meta-progresu un savācamiem materiāliem.</p><div class="foot"><span>5.6 projekts</span><span class="open">atvērt ↗</span></div></div>
-    </a>
-
-  </div>
-</div></section>
-
-<section id="cheatsheet"><div class="wrap">
-  <div class="sec-head"><div>
-    <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-    <h2 class="sec-title">5. tēmas špikeris - dati, saglabāšana un algoritmi</h2>
-    <p class="sec-sub">Failu darbs, JSON, saglabāšanas sistēma, procedurālā ģenerēšana un efektivitāte. Katrs bloks atbilst vienai stundai.</p>
-  </div></div>
-  <div class="logic-box">
-    <h3>5.1 Failu lasīšana un rakstīšana</h3>
-    <pre><code class="language-csharp">using Godot;
+</div>
+<div class="statusbar"><span class="ok">● būvēts</span><span>C# · Godot</span><span class="spacer"></span><span>FileAccess</span></div>
+</div>
+</div>
+</div>
+</div></section><section id="stundas"><div class="wrap">
+<div class="sec-head"><div>
+<div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundu plāns</div>
+<h2 class="sec-title">6 stundas - save/load, procedurālā ģenerēšana un Big-O</h2>
+</div><a class="sec-link" href="/programmesana2/prog2_5/prog2_56">noslēguma projekts <span>→</span></a></div>
+<div class="projects">
+<a class="project" href="/programmesana2/prog2_5/prog2_51">
+<div class="preview"><svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 320 200"><rect fill="var(--bg)" height="200" width="320"></rect><rect fill="var(--surface)" height="100" rx="4" stroke="var(--line)" width="80" x="30" y="40"></rect><text fill="var(--muted)" font-family="monospace" font-size="8" text-anchor="middle" x="70" y="62">user://</text><text fill="var(--kw)" font-family="monospace" font-size="8" text-anchor="middle" x="70" y="80">saves/</text><text fill="var(--str)" font-family="monospace" font-size="8" text-anchor="middle" x="70" y="96">save.json</text><text fill="var(--muted)" font-family="monospace" font-size="8" text-anchor="middle" x="70" y="112">config.cfg</text><line stroke="var(--kw)" stroke-width="2" x1="110" x2="145" y1="90" y2="90"></line><rect fill="var(--surface)" height="50" rx="3" stroke="var(--kw)" width="130" x="145" y="65"></rect><text fill="var(--kw)" font-family="monospace" font-size="8" text-anchor="middle" x="210" y="82">FileAccess.Open(</text><text fill="var(--str)" font-family="monospace" font-size="8" text-anchor="middle" x="210" y="96">path, Write)</text><text fill="var(--fn)" font-family="monospace" font-size="8" text-anchor="middle" x="210" y="110">StoreString()</text></svg><span class="label">// FileAccess</span></div>
+<div class="body"><div class="meta-top"><span class="lang"><span class="d kw"></span> Godot · FileAccess</span><span>I/O</span></div><h3>Failu I/O Godot vidē</h3><p><code>FileAccess.Open()</code>, <code>StoreString()</code>, <code>GetAsText()</code>, <code>user://</code> direktorija.</p><div class="foot"><span>5.1 stunda</span><span class="open">atvērt ↗</span></div></div>
+</a>
+<a class="project" href="/programmesana2/prog2_5/prog2_52">
+<div class="preview"><svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 320 200"><rect fill="var(--bg)" height="200" width="320"></rect><rect fill="var(--surface)" height="80" rx="4" stroke="var(--line)" width="130" x="20" y="30"></rect><text fill="var(--muted)" font-family="monospace" font-size="8" text-anchor="middle" x="85" y="50">Godot Dictionary</text><text fill="var(--str)" font-family="monospace" font-size="8" x="30" y="68">{"hp": 80,</text><text fill="var(--str)" font-family="monospace" font-size="8" x="30" y="82"> "level": 3,</text><text fill="var(--str)" font-family="monospace" font-size="8" x="30" y="96"> "pos": [12,8]}</text><line stroke="var(--kw)" stroke-width="2" x1="150" x2="170" y1="70" y2="70"></line><text fill="var(--muted)" font-family="monospace" font-size="8" x="195" y="60">Json.Stringify()</text><rect fill="var(--surface)" height="50" rx="3" stroke="var(--str)" width="130" x="170" y="75"></rect><text fill="var(--str)" font-family="monospace" font-size="8" text-anchor="middle" x="235" y="94">JSON teksts</text><text fill="var(--fn)" font-family="monospace" font-size="8" text-anchor="middle" x="235" y="110">Json.Parse()</text></svg><span class="label">// JSON serialize</span></div>
+<div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> Json · serializācija</span><span>formāts</span></div><h3>JSON serializācija un Resource sistēma</h3><p><code>Json.Stringify()</code>, <code>Json.Parse()</code>, Godot <code>Resource</code> saglabāšana, <code>.tres</code> faili.</p><div class="foot"><span>5.2 stunda</span><span class="open">atvērt ↗</span></div></div>
+</a>
+<a class="project" href="/programmesana2/prog2_5/prog2_53">
+<div class="preview"><svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 320 200"><rect fill="var(--bg)" height="200" width="320"></rect><rect fill="var(--surface)" height="40" rx="4" stroke="var(--fn)" width="100" x="110" y="20"></rect><text fill="var(--fn)" font-family="monospace" font-size="8" text-anchor="middle" x="160" y="45">GameState</text><line stroke="var(--muted)" stroke-width="1" x1="80" x2="110" y1="60" y2="60"></line><line stroke="var(--muted)" stroke-width="1.5" x1="160" x2="160" y1="60" y2="80"></line><line stroke="var(--muted)" stroke-width="1" x1="240" x2="210" y1="60" y2="60"></line><rect fill="var(--surface)" height="36" rx="3" stroke="var(--kw)" width="80" x="30" y="80"></rect><text fill="var(--kw)" font-family="monospace" font-size="8" text-anchor="middle" x="70" y="102">SaveManager</text><rect fill="var(--surface)" height="36" rx="3" stroke="var(--str)" width="80" x="120" y="80"></rect><text fill="var(--str)" font-family="monospace" font-size="8" text-anchor="middle" x="160" y="102">disk</text><rect fill="var(--surface)" height="36" rx="3" stroke="var(--typ)" width="80" x="210" y="80"></rect><text fill="var(--typ)" font-family="monospace" font-size="8" text-anchor="middle" x="250" y="102">load ←</text><text fill="var(--muted)" font-family="monospace" font-size="8" text-anchor="middle" x="160" y="155">saglabāt() · ielādēt() · atiestatīt()</text></svg><span class="label">// save/load</span></div>
+<div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> arhitektūra</span><span>save/load</span></div><h3>Save/Load arhitektūra</h3><p>Viena atbildīgā SaveManager klase, GameState serializācija, ielāde spēles uzsākšanā.</p><div class="foot"><span>5.3 stunda</span><span class="open">atvērt ↗</span></div></div>
+</a>
+<a class="project" href="/programmesana2/prog2_5/prog2_54">
+<div class="preview"><svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 320 200"><rect fill="var(--bg)" height="200" width="320"></rect><rect fill="var(--surface)" height="160" rx="3" stroke="var(--line-soft)" width="280" x="20" y="20"></rect><rect fill="none" height="75" rx="3" stroke="var(--kw)" stroke-width="2" width="130" x="20" y="20"></rect><rect fill="none" height="75" rx="3" stroke="var(--str)" stroke-width="2" width="150" x="150" y="20"></rect><rect fill="none" height="85" rx="3" stroke="var(--fn)" stroke-width="2" width="170" x="20" y="95"></rect><rect fill="none" height="85" rx="3" stroke="var(--typ)" stroke-width="2" width="110" x="190" y="95"></rect><rect fill="var(--surface)" height="45" rx="2" stroke="var(--muted)" width="100" x="35" y="35"></rect><rect fill="var(--surface)" height="45" rx="2" stroke="var(--muted)" width="120" x="165" y="35"></rect><rect fill="var(--surface)" height="55" rx="2" stroke="var(--muted)" width="140" x="35" y="110"></rect><rect fill="var(--surface)" height="55" rx="2" stroke="var(--muted)" width="80" x="205" y="110"></rect><text fill="var(--muted)" font-family="monospace" font-size="7" text-anchor="middle" x="160" y="193">Random Walk - ej nejauši un izrok ejas</text></svg><span class="label">// Random Walk dungeon</span></div>
+<div class="body"><div class="meta-top"><span class="lang"><span class="d typ"></span> Random Walk · procedurāls</span><span>ģenerācija</span></div><h3>Procedural generation ar Random Walk</h3><p>Binary Space Partitioning - rekursīva telpu dalīšana, istabu izveide, koridoru savienošana.</p><div class="foot"><span>5.4 stunda</span><span class="open">atvērt ↗</span></div></div>
+</a>
+<a class="project" href="/programmesana2/prog2_5/prog2_55">
+<div class="preview"><svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 320 200"><rect fill="var(--bg)" height="200" width="320"></rect><line stroke="var(--muted)" stroke-width="1" x1="40" x2="290" y1="160" y2="160"></line><line stroke="var(--muted)" stroke-width="1" x1="40" x2="40" y1="160" y2="30"></line><line stroke="var(--kw)" stroke-width="2" x1="40" x2="290" y1="158" y2="158"></line><path d="M40 145 Q100 135 160 100 Q220 60 290 35" fill="none" stroke="var(--str)" stroke-width="2"></path><path d="M40 155 Q120 140 200 90 Q260 55 290 30" fill="none" stroke="var(--fn)" stroke-width="2"></path><path d="M40 152 Q90 130 160 80 Q230 40 290 20" fill="none" stroke="var(--typ)" stroke-width="2"></path><text fill="var(--kw)" font-family="monospace" font-size="7" x="300" y="162">O(1)</text><text fill="var(--str)" font-family="monospace" font-size="7" x="300" y="55">O(log n)</text><text fill="var(--fn)" font-family="monospace" font-size="7" x="300" y="50">O(n)</text><text fill="var(--typ)" font-family="monospace" font-size="7" x="300" y="25">O(n²)</text><text fill="var(--muted)" font-family="monospace" font-size="7" text-anchor="middle" x="160" y="186">n (ievades lielums)</text></svg><span class="label">// Big-O</span></div>
+<div class="body"><div class="meta-top"><span class="lang"><span class="d str"></span> Big-O · profiling</span><span>efektivitāte</span></div><h3>Algoritmu efektivitāte</h3><p>Big-O notācija, O(1)/O(log n)/O(n)/O(n²) salīdzinājums, Godot Profiler izmantošana.</p><div class="foot"><span>5.5 stunda</span><span class="open">atvērt ↗</span></div></div>
+</a>
+<a class="project" href="/programmesana2/prog2_5/prog2_56">
+<div class="preview"><svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 320 200"><rect fill="#1a1f2e" height="200" width="320"></rect><rect fill="var(--surface)" height="160" rx="3" width="280" x="20" y="20"></rect><text fill="var(--muted)" font-family="monospace" font-size="8" x="40" y="38">##.........##</text><text fill="var(--muted)" font-family="monospace" font-size="8" x="40" y="52">#.++++.....+#</text><text fill="var(--kw)" font-family="monospace" font-size="8" x="40" y="66">#.+@...*....#</text><text fill="var(--muted)" font-family="monospace" font-size="8" x="40" y="80">#.++++......#</text><text fill="var(--muted)" font-family="monospace" font-size="8" x="40" y="94">#...........#</text><text fill="var(--str)" font-family="monospace" font-size="8" x="40" y="108">#.....E.....#</text><text fill="var(--muted)" font-family="monospace" font-size="8" x="40" y="122">##.........##</text><text fill="var(--muted)" font-family="monospace" font-size="7" x="40" y="155">@ - spēlētājs · E - ienaidnieks · * - prece</text></svg><span class="label">// roguelike projekts</span></div>
+<div class="body"><div class="meta-top"><span class="lang"><span class="d fn"></span> C# · Godot</span><span>projekts</span></div><h3>Noslēguma projekts: Procedurālais labirints</h3><p>Procedurāli ģenerēts labirints ar save/load, meta-progresu un savācamiem materiāliem.</p><div class="foot"><span>5.6 projekts</span><span class="open">atvērt ↗</span></div></div>
+</a>
+</div>
+</div></section><section id="cheatsheet"><div class="wrap">
+<div class="sec-head"><div>
+<div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
+<h2 class="sec-title">5. tēmas špikeris - dati, saglabāšana un algoritmi</h2>
+<p class="sec-sub">Failu darbs, JSON, saglabāšanas sistēma, procedurālā ģenerēšana un efektivitāte. Katrs bloks atbilst vienai stundai.</p>
+</div></div>
+<div class="logic-box">
+<h3>5.1 Failu lasīšana un rakstīšana</h3>
+<pre><code class="language-csharp">using Godot;
 
 // res://  - projekta faili, TIKAI lasīšanai gatavā spēlē
 // user:// - spēlētāja dati, te saglabā (Project -&gt; Open User Data Folder)
@@ -145,11 +134,11 @@ int LoadScore()
     using FileAccess readFile = FileAccess.Open("user://save.txt", FileAccess.ModeFlags.Read);
     return readFile != null ? (int)readFile.Get32() : 0;
 }</code></pre>
-    <p class="cheat-note">Nolasīšanas secībai jābūt TIEŠI tādai pašai kā rakstīšanas secībai, citādi dati sajūk.</p>
-  </div>
-  <div class="logic-box">
-    <h3>5.2 JSON - salasāms saglabāšanas fails</h3>
-    <pre><code class="language-csharp">using Godot;
+<p class="cheat-note">Nolasīšanas secībai jābūt TIEŠI tādai pašai kā rakstīšanas secībai, citādi dati sajūk.</p>
+</div>
+<div class="logic-box">
+<h3>5.2 JSON - salasāms saglabāšanas fails</h3>
+<pre><code class="language-csharp">using Godot;
 using Godot.Collections;
 
 // Dictionary -&gt; teksts
@@ -167,11 +156,11 @@ if (err != Error.Ok)
     return DefaultData();          // nevis avarē
 }
 Dictionary data = json.Data.AsGodotDictionary();</code></pre>
-    <p class="cheat-note">Salasāms fails ir ērts atkļūdošanai, bet spēlētājs to var arī izlabot - tāpēc nekad neuzticies tā saturam akli.</p>
-  </div>
-  <div class="logic-box">
-    <h3>5.3 Save sistēma ar slotiem un versiju</h3>
-    <pre><code class="language-csharp">using Godot.Collections;
+<p class="cheat-note">Salasāms fails ir ērts atkļūdošanai, bet spēlētājs to var arī izlabot - tāpēc nekad neuzticies tā saturam akli.</p>
+</div>
+<div class="logic-box">
+<h3>5.3 Save sistēma ar slotiem un versiju</h3>
+<pre><code class="language-csharp">using Godot.Collections;
 using System.Collections.Generic;
 
 public interface ISaveable             // interfeiss: ko prot katrs objekts
@@ -198,11 +187,11 @@ public class SaveManager
 
 // Ielādējot:
 if (data["version"].AsInt32() != 1) { /* brīdini un lieto noklusējumus */ }</code></pre>
-    <p class="cheat-note"><code>SaveManager</code> nezina, kas ir spēlētāja iekšienē - katrs objekts saglabā sevi pats.</p>
-  </div>
-  <div class="logic-box">
-    <h3>5.4 Procedurālā ģenerēšana ar Random Walk</h3>
-    <pre><code class="language-csharp">using System;
+<p class="cheat-note"><code>SaveManager</code> nezina, kas ir spēlētāja iekšienē - katrs objekts saglabā sevi pats.</p>
+</div>
+<div class="logic-box">
+<h3>5.4 Procedurālā ģenerēšana ar Random Walk</h3>
+<pre><code class="language-csharp">using System;
 
 // 1 = siena, 0 = eja
 int[,] grid = new int[15, 15];
@@ -227,11 +216,11 @@ for (int i = 0; i &lt; 200; i++)
 // OBLIGĀTI: pārbaudi, vai izeja ir sasniedzama, un ģenerē atkārtoti, ja nav.
 // Režģis -&gt; ekrāns:
 //   wall.Position = new Vector2(x * 64, y * 64);</code></pre>
-    <p class="cheat-note">Bez izejamības pārbaudes spēlētājs var sākt līmenī, kuru <b>nav iespējams</b> izspēlēt.</p>
-  </div>
-  <div class="logic-box">
-    <h3>5.5 Efektivitāte: mēri, nevis min</h3>
-    <pre><code class="language-csharp">using Godot;
+<p class="cheat-note">Bez izejamības pārbaudes spēlētājs var sākt līmenī, kuru <b>nav iespējams</b> izspēlēt.</p>
+</div>
+<div class="logic-box">
+<h3>5.5 Efektivitāte: mēri, nevis min</h3>
+<pre><code class="language-csharp">using Godot;
 
 ulong t0 = Time.GetTicksUsec();
 Darbiba();
@@ -246,15 +235,21 @@ GD.Print("Aizņēma ", t1 - t0, " mikrosekundes");
 //   O(n^2)      100x              divi ligzdoti cikli
 
 // Godot: Debugger -&gt; Profiler -&gt; Start -&gt; spēlē 30 s -&gt; kārto pēc laika</code></pre>
-    <p class="cheat-note">Neoptimizē kodu, kas izpildās reti. Vispirms ar profileri atrodi, kur laiks tiešām aiziet.</p>
-  </div>
-</div></section>
+<p class="cheat-note">Neoptimizē kodu, kas izpildās reti. Vispirms ar profileri atrodi, kur laiks tiešām aiziet.</p>
+</div>
+</div></section><section class="cta-strip"><div class="wrap"><div class="cta-panel">
+<div class="cta-code"><span><span class="prompt">C#</span> FileAccess.Open(<span class="muted">"user://save.json"</span>, FileAccess.ModeFlags.Write); <span class="muted">// saglabā starp sesijām</span></span></div>
+<div class="cta-actions">
+<a class="btn primary large" href="/programmesana2/prog2_4/prog2_4main"><span>←</span> 4. Tēma</a>
+<a class="btn large" href="/programmesana2/prog2_6/prog2_6main">6. Tēma <span class="caret">→</span></a>
+</div>
+</div></div></section></main>
 
-<section class="cta-strip"><div class="wrap"><div class="cta-panel">
-  <div class="cta-code"><span><span class="prompt">C#</span> FileAccess.Open(<span class="muted">"user://save.json"</span>, FileAccess.ModeFlags.Write); <span class="muted">// saglabā starp sesijām</span></span></div>
-  <div class="cta-actions">
-    <a class="btn primary large" href="/programmesana2/prog2_4/prog2_4main"><span>←</span> 4. Tēma</a>
-    <a class="btn large" href="/programmesana2/prog2_6/prog2_6main">6. Tēma <span class="caret">→</span></a>
-  </div>
-</div></div></section>
-</body></html>
+
+
+<footer class="site"><div class="wrap"><div class="foot-grid">
+<div class="foot-col"><a class="foot-brand" href="/">›_ ebskola.lv</a><p>Programmēšana II</p></div>
+<div class="foot-col"><h4>Nodarbības</h4><ul><li><a href="/programmesana2/prog2_5/prog2_51">Failu I/O Godot vidē</a></li><li><a href="/programmesana2/prog2_5/prog2_52">JSON serializācija un Resource sistēma</a></li><li><a href="/programmesana2/prog2_5/prog2_53">Save/Load arhitektūra</a></li><li><a href="/programmesana2/prog2_5/prog2_54">Procedural generation ar Random Walk</a></li><li><a href="/programmesana2/prog2_5/prog2_55">Algoritmu efektivitāte</a></li><li><a href="/programmesana2/prog2_5/prog2_56">Noslēguma projekts: Procedurālais labirints</a></li></ul></div>
+<div class="foot-col"><h4>Kurss</h4><ul><li><a href="/programmesana2/programmesana2">Kursa pārskats</a></li></ul></div>
+<div class="foot-col"><h4>Resursi</h4><ul><li><a href="/sasnRez">Sasniedzamie rezultāti</a></li><li><a href="/paligm">Palīgmateriāli</a></li></ul></div>
+</div></div></footer></body></html>

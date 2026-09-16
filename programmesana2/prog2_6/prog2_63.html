@@ -1,93 +1,72 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>6.3 Audio sistēma - ebSkola</title>
-<meta name="description" content="Pievienot mūziku, skaņas efektus un audio buses, lai spēle skanētu līdzsvaroti un reaģētu uz spēlētāja darbībām.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_6/prog2_63">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="6.3 Audio sistēma">
-<meta property="og:description" content="Pievienot mūziku, skaņas efektus un audio buses, lai spēle skanētu līdzsvaroti un reaģētu uz spēlētāja darbībām.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_6/prog2_63">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="6.3 Audio sistēma">
-<meta name="twitter:description" content="Pievienot mūziku, skaņas efektus un audio buses, lai spēle skanētu līdzsvaroti un reaģētu uz spēlētāja darbībām.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Pievienot mūziku, skaņas efektus un audio buses, lai spēle skanētu līdzsvaroti un reaģētu uz spēlētāja darbībām." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_6/prog2_63" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="6.3 Audio sistēma" property="og:title"/>
+<meta content="Pievienot mūziku, skaņas efektus un audio buses, lai spēle skanētu līdzsvaroti un reaģētu uz spēlētāja darbībām." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_6/prog2_63" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="6.3 Audio sistēma" name="twitter:title"/>
+<meta content="Pievienot mūziku, skaņas efektus un audio buses, lai spēle skanētu līdzsvaroti un reaģētu uz spēlētāja darbībām." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "6.3 Audio sistēma","description": "Pievienot mūziku, skaņas efektus un audio buses, lai spēle skanētu līdzsvaroti un reaģētu uz spēlētāja darbībām.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_6/prog2_63","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_6/prog2_6main">6. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_6/prog2_62">← 6.2</a>
-    <a class="btn primary" href="/programmesana2/prog2_6/prog2_64">6.4 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>6. Tēma - UI, audio un publicēšana</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_6/prog2_6main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_6/prog2_61">6.1 UI elementi un Control nodes</a>
-    <a href="/programmesana2/prog2_6/prog2_62">6.2 Animācijas un Tween</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_6/prog2_63">6.3 Audio sistēma</a>
-    <a href="/programmesana2/prog2_6/prog2_64">6.4 Atkļūdošana un profilēšana</a>
-    <a href="/programmesana2/prog2_6/prog2_65">6.5 Eksports un publicēšana</a>
-    <a href="/programmesana2/prog2_6/prog2_66">6.6 Noslēguma projekts: Puzzle spēle</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>6.3 Audio sistēma</h1>
-    <p><b>Stundas uzdevums:</b> Pievienot mūziku, skaņas efektus un audio buses spēlei.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.7. UI</a>
-        <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - atskaņo pirmo skaņu · 2. uzdevums (~25 min) - pievieno fona mūziku ar pāreju · 3. uzdevums (~20 min) - sakārto skaļumu ar audio bus · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu spēli. Sagatavo divus audio failus: vienu īsu efektu un vienu garāku mūziku. Ja tādu nav, lejupielādē bezmaksas skaņas no <code>freesound.org</code> vai <code>opengameart.org</code>.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: Godot audio</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>6. Tēma - UI, audio un publicēšana</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_6/prog2_6main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_6/prog2_61">6.1 UI elementi un Control nodes</a>
+<a href="/programmesana2/prog2_6/prog2_62">6.2 Animācijas un Tween</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_6/prog2_63">6.3 Audio sistēma</a>
+<a href="/programmesana2/prog2_6/prog2_64">6.4 Atkļūdošana un profilēšana</a>
+<a href="/programmesana2/prog2_6/prog2_65">6.5 Eksports un publicēšana</a>
+<a href="/programmesana2/prog2_6/prog2_66">6.6 Noslēguma projekts: Puzzle spēle</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_6/prog2_6main">6. tēma</a> / 6.3</p>
+<h1>6.3 Audio sistēma</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Pievienot mūziku, skaņas efektus un audio buses spēlei.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.7. UI</a>
+<a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - atskaņo pirmo skaņu · 2. uzdevums (~25 min) - pievieno fona mūziku ar pāreju · 3. uzdevums (~20 min) - sakārto skaļumu ar audio bus · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu spēli. Sagatavo divus audio failus: vienu īsu efektu un vienu garāku mūziku. Ja tādu nav, lejupielādē bezmaksas skaņas no <code>freesound.org</code> vai <code>opengameart.org</code>.</p>
+</div>
+</section><section>
+<h2>Teorija: Godot audio</h2>
+<div class="logic-box">
 <p>Godot audio sistēma izmanto <code>AudioStreamPlayer</code> nodes ar audio bus arhitektūru.</p>
 <pre><code class="language-csharp">using Godot;
 
@@ -105,15 +84,12 @@ private void PlayMusicFadeIn(string path)
     CreateTween().TweenProperty(musicPlayer, "volume_db", -10.0, 2.0);  // fade up
 }</code></pre>
 <p><b>Audio buses:</b> Master → Music, SFX, Voice. Lietotājs var pielāgot katru atsevišķi.</p>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> UI signāli, audio darbības, debug izvade un publicēšanas sagatave ir sasaistīta ar C# spēles stāvokli.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> UI signāli, audio darbības, debug izvade un publicēšanas sagatave ir sasaistīta ar C# spēles stāvokli.</p>
 <pre><code class="language-csharp">public class PolishCheckpoint
 {
     public string Lesson = "6.3 Audio sistēma";
@@ -122,114 +98,101 @@ private void PlayMusicFadeIn(string path)
     public bool RoutesAudioEvents = true;
     public bool VerifiesExportBuild = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Atskaņo pirmo skaņu</h3>
-        <p>Beigās spēle noskanēs, kad kaut kas notiek.</p>
-        <ol class="step-list">
-            <li><b>Ievelc</b> audio failu projekta mapē, piemēram <code>res://sounds/jump.ogg</code>.</li>
-            <li><b>Pievieno</b> scēnai <code>AudioStreamPlayer</code> mezglu ar nosaukumu <code>SFX</code>.</li>
-            <li><b>Pārliecinies</b>, ka faila sākumā ir <code class="language-csharp">using Godot;</code>.</li>
-            <li><b>Paņem</b> mezglu ar <code class="language-csharp">AudioStreamPlayer sfx = GetNode&lt;AudioStreamPlayer&gt;("SFX");</code>.</li>
-            <li><b>Izsauc</b> <code class="language-csharp">sfx.Play();</code> lēciena vai savākšanas brīdī.</li>
-            <li><b>Būvē</b> un pārbaudi skaņu.</li>
-            <li><b>Izsauc</b> notikumu ļoti ātri vairākas reizes un pieraksti, kas notiek ar skaņu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> notikuma brīdī atskan skaņa, un tu esi pierakstījis, kas notiek, atkārtojot to ļoti ātri.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Pievieno fona mūziku ar pāreju</h3>
-        <p>Beigās mūzika sāksies mīksti, nevis uzreiz pilnā skaļumā.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> otru <code>AudioStreamPlayer</code> ar nosaukumu <code>Music</code>.</li>
-            <li><b>Iestati</b> tā audio failu un ieslēdz atkārtošanos importa iestatījumos.</li>
-            <li><b>Iestati</b> sākumā skaļumu uz <code class="language-csharp">music.VolumeDb = -40;</code>.</li>
-            <li><b>Izveido</b> Tween, kas vienā sekundē paceļ skaļumu līdz 0 dB.</li>
-            <li><b>Palaid</b> un ieklausies, vai mūzika ienāk pakāpeniski.</li>
-            <li><b>Pievieno</b> arī izejošu pāreju, kad spēle beidzas.</li>
-            <li><b>Pieraksti</b>, kāpēc skaļumu mēra decibelos, nevis procentos.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> mūzika ienāk pakāpeniski, atkārtojas bez pauzes un beigās izgaist.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Sakārto skaļumu ar audio bus</h3>
-        <p>Beigās spēlētājs varēs atsevišķi regulēt mūziku un efektus.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> apakšā cilni <b>Audio</b>.</li>
-            <li><b>Izveido</b> divus jaunus bus: <code>Music</code> un <code>SFX</code>.</li>
-            <li><b>Piesaisti</b> katru atskaņotāju savam bus Inspector panelī.</li>
-            <li><b>Pievieno</b> iestatījumu logam divus <code>HSlider</code> mezglus.</li>
-            <li><b>Savieno</b> tos ar <code class="language-csharp">AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), valueDb);</code>.</li>
-            <li><b>Pārbaudi</b>, ka mūzikas slīdnis nemaina efektu skaļumu.</li>
-            <li><b>Iestati</b> mūziku uz nulli un pārbaudi, ka efekti joprojām skan.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> abi slīdņi darbojas neatkarīgi: izslēdzot mūziku, skaņas efekti joprojām atskan.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Saglabā skaļuma iestatījumus</h3>
-        <p>Ja pamatdarbs ir gatavs, atceries spēlētāja izvēli.</p>
-        <ol class="step-list">
-            <li><b>Saglabā</b> abu bus skaļumu JSON failā ar 5.3 stundas <code>SaveManager</code>.</li>
-            <li><b>Ielādē</b> tos spēles startā.</li>
-            <li><b>Iestati</b> slīdņu pozīcijas pēc ielādētajām vērtībām.</li>
-            <li><b>Aizver</b> spēli un palaid no jauna.</li>
-            <li><b>Pārbaudi</b>, ka skaļums palicis tāds, kādu to atstāji.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc spēles restarta skaļuma slīdņi ir tajā pašā vietā, kur tu tos atstāji.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē skan skaņas efekti un fona mūzika ar mīkstām pārejām, un mūziku ar efektiem var regulēt atsevišķi caur diviem audio bus.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>README.md ievietota video saite ar skaņu, kurā dzirdama mūzikas ienākšana un vismaz viens skaņas efekts.</li>
-            <li>Ekrānuzņēmums ar Audio cilni, kurā redzami tavi divi bus.</li>
-            <li>C# fails ar audio kodu.</li>
-            <li>README.md: kāpēc skaļumu mēra decibelos un kāpēc mūziku un efektus tur atsevišķos bus.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Skaņa nestrādā:</b> stream nav ielādēts vai bus mute.</li>
-        <li><b>Lag music start:</b> OGG fails liels - ielādē to ar <code>ResourceLoader.Load</code> jau līmeņa sākumā.</li>
-        <li><b>SFX cuts off:</b> Lieto pool, lai daudzi vienlaikus.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic6_audio_bus.png" alt="Project → Audio Bus editor: Master, Music, SFX, Voice ar volume sliders un mute pogām." loading="lazy">
-            <figcaption>Project → Audio Bus editor: Master, Music, SFX, Voice ar volume sliders un mute pogām.</figcaption>
-        </figure>
-        <figure class="screenshot">
-            <img src="../img/topic6_sound_effects.png" alt="FileSystem panelis ar sounds/ mapē: jump.ogg, hit.ogg, coin.ogg, click.ogg, music_main.ogg." loading="lazy">
-            <figcaption>FileSystem panelis ar sounds/ mapē: jump.ogg, hit.ogg, coin.ogg, click.ogg, music_main.ogg.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Atskaņo pirmo skaņu</h2>
+<p>Beigās spēle noskanēs, kad kaut kas notiek.</p>
+<ol class="step-list">
+<li><b>Ievelc</b> audio failu projekta mapē, piemēram <code>res://sounds/jump.ogg</code>.</li>
+<li><b>Pievieno</b> scēnai <code>AudioStreamPlayer</code> mezglu ar nosaukumu <code>SFX</code>.</li>
+<li><b>Pārliecinies</b>, ka faila sākumā ir <code class="language-csharp">using Godot;</code>.</li>
+<li><b>Paņem</b> mezglu ar <code class="language-csharp">AudioStreamPlayer sfx = GetNode&lt;AudioStreamPlayer&gt;("SFX");</code>.</li>
+<li><b>Izsauc</b> <code class="language-csharp">sfx.Play();</code> lēciena vai savākšanas brīdī.</li>
+<li><b>Būvē</b> un pārbaudi skaņu.</li>
+<li><b>Izsauc</b> notikumu ļoti ātri vairākas reizes un pieraksti, kas notiek ar skaņu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> notikuma brīdī atskan skaņa, un tu esi pierakstījis, kas notiek, atkārtojot to ļoti ātri.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Pievieno fona mūziku ar pāreju</h2>
+<p>Beigās mūzika sāksies mīksti, nevis uzreiz pilnā skaļumā.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> otru <code>AudioStreamPlayer</code> ar nosaukumu <code>Music</code>.</li>
+<li><b>Iestati</b> tā audio failu un ieslēdz atkārtošanos importa iestatījumos.</li>
+<li><b>Iestati</b> sākumā skaļumu uz <code class="language-csharp">music.VolumeDb = -40;</code>.</li>
+<li><b>Izveido</b> Tween, kas vienā sekundē paceļ skaļumu līdz 0 dB.</li>
+<li><b>Palaid</b> un ieklausies, vai mūzika ienāk pakāpeniski.</li>
+<li><b>Pievieno</b> arī izejošu pāreju, kad spēle beidzas.</li>
+<li><b>Pieraksti</b>, kāpēc skaļumu mēra decibelos, nevis procentos.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> mūzika ienāk pakāpeniski, atkārtojas bez pauzes un beigās izgaist.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Sakārto skaļumu ar audio bus</h2>
+<p>Beigās spēlētājs varēs atsevišķi regulēt mūziku un efektus.</p>
+<ol class="step-list">
+<li><b>Atver</b> apakšā cilni <b>Audio</b>.</li>
+<li><b>Izveido</b> divus jaunus bus: <code>Music</code> un <code>SFX</code>.</li>
+<li><b>Piesaisti</b> katru atskaņotāju savam bus Inspector panelī.</li>
+<li><b>Pievieno</b> iestatījumu logam divus <code>HSlider</code> mezglus.</li>
+<li><b>Savieno</b> tos ar <code class="language-csharp">AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), valueDb);</code>.</li>
+<li><b>Pārbaudi</b>, ka mūzikas slīdnis nemaina efektu skaļumu.</li>
+<li><b>Iestati</b> mūziku uz nulli un pārbaudi, ka efekti joprojām skan.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> abi slīdņi darbojas neatkarīgi: izslēdzot mūziku, skaņas efekti joprojām atskan.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Saglabā skaļuma iestatījumus</summary>
+<p>Ja pamatdarbs ir gatavs, atceries spēlētāja izvēli.</p>
+<ol class="step-list">
+<li><b>Saglabā</b> abu bus skaļumu JSON failā ar 5.3 stundas <code>SaveManager</code>.</li>
+<li><b>Ielādē</b> tos spēles startā.</li>
+<li><b>Iestati</b> slīdņu pozīcijas pēc ielādētajām vērtībām.</li>
+<li><b>Aizver</b> spēli un palaid no jauna.</li>
+<li><b>Pārbaudi</b>, ka skaļums palicis tāds, kādu to atstāji.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pēc spēles restarta skaļuma slīdņi ir tajā pašā vietā, kur tu tos atstāji.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē skan skaņas efekti un fona mūzika ar mīkstām pārejām, un mūziku ar efektiem var regulēt atsevišķi caur diviem audio bus.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>README.md ievietota video saite ar skaņu, kurā dzirdama mūzikas ienākšana un vismaz viens skaņas efekts.</li>
+<li>Ekrānuzņēmums ar Audio cilni, kurā redzami tavi divi bus.</li>
+<li>C# fails ar audio kodu.</li>
+<li>README.md: kāpēc skaļumu mēra decibelos un kāpēc mūziku un efektus tur atsevišķos bus.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Skaņa nestrādā:</b> stream nav ielādēts vai bus mute.</li>
+<li><b>Lag music start:</b> OGG fails liels - ielādē to ar <code>ResourceLoader.Load</code> jau līmeņa sākumā.</li>
+<li><b>SFX cuts off:</b> Lieto pool, lai daudzi vienlaikus.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Project → Audio Bus editor: Master, Music, SFX, Voice ar volume sliders un mute pogām." loading="lazy" src="../img/topic6_audio_bus.png"/>
+<figcaption>Project → Audio Bus editor: Master, Music, SFX, Voice ar volume sliders un mute pogām.</figcaption>
+</figure>
+<figure class="screenshot">
+<img alt="FileSystem panelis ar sounds/ mapē: jump.ogg, hit.ogg, coin.ogg, click.ogg, music_main.ogg." loading="lazy" src="../img/topic6_sound_effects.png"/>
+<figcaption>FileSystem panelis ar sounds/ mapē: jump.ogg, hit.ogg, coin.ogg, click.ogg, music_main.ogg.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 using System.Collections.Generic;
 
 public partial class AudioManager : Node
@@ -272,13 +235,23 @@ public partial class AudioManager : Node
         musicPlayer.Play();
     }
 }</code></pre>
-        <div class='result'>Spēlē fonā mūzika, klikšķis pogai dod 'click.ogg', lec dod 'jump.ogg', skaņas pārklājas bez problēmām.</div>
-    </div>
+<div class="result">Spēlē fonā mūzika, klikšķis pogai dod 'click.ogg', lec dod 'jump.ogg', skaņas pārklājas bez problēmām.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_6/prog2_62">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_6/prog2_64">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_6/prog2_62" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_6/prog2_64" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

@@ -1,93 +1,72 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>3.4 Custom C# klases editorā redzamas - ebSkola</title>
-<meta name="description" content="Padarīt savu C# klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_3/prog2_34">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="3.4 Custom C# klases editorā redzamas">
-<meta property="og:description" content="Padarīt savu C# klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_3/prog2_34">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="3.4 Custom C# klases editorā redzamas">
-<meta name="twitter:description" content="Padarīt savu C# klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Padarīt savu C# klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām)." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_3/prog2_34" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="3.4 Custom C# klases editorā redzamas" property="og:title"/>
+<meta content="Padarīt savu C# klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām)." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_3/prog2_34" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="3.4 Custom C# klases editorā redzamas" name="twitter:title"/>
+<meta content="Padarīt savu C# klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām)." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "3.4 Custom C# klases editorā redzamas", "description": "Padarīt savu C# klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_3/prog2_34", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_3/prog2_3main">3. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_3/prog2_33">← 3.3</a>
-    <a class="btn primary" href="/programmesana2/prog2_3/prog2_35">3.5 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>3. Tēma - Objektorientētā programmēšana</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_3/prog2_3main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_3/prog2_31">3.1 C# klases pamati</a>
-    <a href="/programmesana2/prog2_3/prog2_32">3.2 Mantošana C# un Godot</a>
-    <a href="/programmesana2/prog2_3/prog2_33">3.3 Signāli un objektu komunikācija</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_3/prog2_34">3.4 Custom C# klases editorā redzamas</a>
-    <a href="/programmesana2/prog2_3/prog2_35">3.5 Statistikas sistēma un struct</a>
-    <a href="/programmesana2/prog2_3/prog2_36">3.6 Noslēguma projekts: Klases turnīra simulators</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>3.4 Custom C# klases editorā redzamas</h1>
-    <p><b>Stundas uzdevums:</b> Padarīt savu C# klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.7. UI</a>
-        <a href="/sasnRez">SR 2.4.18. OOP</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - padari klasi redzamu editorā · 2. uzdevums (~25 min) - pievieno rediģējamas īpašības · 3. uzdevums (~20 min) - iestati vērtības Inspector un pārbaudi · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu projektu. Šodien tavu C# klasi varēs noregulēt bez koda maiņas - tieši Godot editorā, kā jebkuru citu mezglu.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: GlobalClass un Export īpašības</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>3. Tēma - Objektorientētā programmēšana</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_3/prog2_3main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_3/prog2_31">3.1 C# klases pamati</a>
+<a href="/programmesana2/prog2_3/prog2_32">3.2 Mantošana C# un Godot</a>
+<a href="/programmesana2/prog2_3/prog2_33">3.3 Signāli un objektu komunikācija</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_3/prog2_34">3.4 Custom C# klases editorā redzamas</a>
+<a href="/programmesana2/prog2_3/prog2_35">3.5 Statistikas sistēma un struct</a>
+<a href="/programmesana2/prog2_3/prog2_36">3.6 Noslēguma projekts: Klases turnīra simulators</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_3/prog2_3main">3. tēma</a> / 3.4</p>
+<h1>3.4 Custom C# klases editorā redzamas</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Padarīt savu C# klasi pilnvērtīgi izmantojamu Godot editor (ar Inspector īpašībām).</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.7. UI</a>
+<a href="/sasnRez">SR 2.4.18. OOP</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - padari klasi redzamu editorā · 2. uzdevums (~25 min) - pievieno rediģējamas īpašības · 3. uzdevums (~20 min) - iestati vērtības Inspector un pārbaudi · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu projektu. Šodien tavu C# klasi varēs noregulēt bez koda maiņas - tieši Godot editorā, kā jebkuru citu mezglu.</p>
+</div>
+</section><section>
+<h2>Teorija: GlobalClass un Export īpašības</h2>
+<div class="logic-box">
 <p>Lai C# klase parādītos Godot Add Node dialogā, tai pievieno atribūtu <code>[GlobalClass]</code>. Lai laukus varētu rediģēt Inspector panelī, tiem pievieno <code>[Export]</code>. Pēc C# izmaiņām projekts ir jāuzbūvē ar Godot <b>Build</b> pogu.</p>
 <pre><code class="language-csharp">using Godot;
 using System;
@@ -115,15 +94,12 @@ public partial class Obstacle : CharacterBody2D
         set =&gt; speed = Math.Max(0.0f, value);
     }
 }</code></pre>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> katrai būtiskai turnīra lomai ir C# klase vienā <code>.cs</code> failā, ar konstruktoriem, metodēm, signāliem vai mantošanu.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> katrai būtiskai turnīra lomai ir C# klase vienā <code>.cs</code> failā, ar konstruktoriem, metodēm, signāliem vai mantošanu.</p>
 <pre><code class="language-csharp">public class OopCheckpoint
 {
     public string Lesson = "3.4 Custom C# klases editorā redzamas";
@@ -132,108 +108,95 @@ public partial class Obstacle : CharacterBody2D
     public bool HasSingleResponsibility = true;
     public bool UsesGodotInspector = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Padari klasi redzamu editorā</h3>
-        <p>Beigās tavu C# klasi varēs pievienot scēnai kā parastu mezglu.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> failu <code>Obstacle.cs</code> ar klasi <code>Obstacle</code>, kas manto no <code>CharacterBody2D</code>.</li>
-            <li><b>Pievieno</b> virs klases atribūtu <code class="language-csharp">[GlobalClass]</code>.</li>
-            <li><b>Pievieno</b> privātus laukus <code class="language-csharp">private int energy = 50;</code> un <code class="language-csharp">private float speed = 100.0f;</code>.</li>
-            <li><b>Pārbaudi</b>, ka faila nosaukums ir tieši <code>Obstacle.cs</code>, jo C# global class ir reģistrjutīgs.</li>
-            <li><b>Būvē</b> projektu ar Godot <b>Build</b> pogu.</li>
-            <li><b>Pievieno</b> mezglu scēnai, meklējot <code>Obstacle</code>.</li>
-            <li><b>Pieraksti</b>, kas notiek, ja <code>[GlobalClass]</code> rindu izdzēš un būvē vēlreiz.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> mezglu meklētājā parādās tips <code>Obstacle</code>, un to var pievienot scēnai.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Pievieno rediģējamas īpašības</h3>
-        <p>Beigās laukus varēs mainīt Inspector panelī.</p>
-        <ol class="step-list">
-            <li><b>Uzraksti</b> īpašību <code class="language-csharp">[Export] public int Energy { get; set; } = 50;</code>.</li>
-            <li><b>Pievieno</b> ātrumam diapazonu ar <code class="language-csharp">[Export(PropertyHint.Range, "0,500,0.1")] public float Speed { get; set; } = 100.0f;</code>.</li>
-            <li><b>Pievieno</b> tekstam <code class="language-csharp">[Export] public string ObstacleName { get; set; } = "PrinterQueue";</code>.</li>
-            <li><b>Pievieno</b> setter ar pārbaudi, ja vēlies neļaut negatīvu enerģiju.</li>
-            <li><b>Būvē</b> un atver mezgla Inspector paneli.</li>
-            <li><b>Pārbaudi</b>, ka tur redzami abi lauki.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> Inspector panelī pie tava mezgla ir redzami lauki <code>energy</code> un <code>speed</code>.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Iestati vērtības Inspector un pārbaudi</h3>
-        <p>Beigās viena klase apkalpos vairākus dažādus šķēršļus.</p>
-        <ol class="step-list">
-            <li><b>Ievelc</b> scēnā trīs <code>Obstacle</code> mezglus.</li>
-            <li><b>Iestati</b> katram Inspector panelī citu <code>energy</code> un <code>speed</code> vērtību.</li>
-            <li><b>Izdrukā</b> <code>_Ready()</code> metodē abus laukus.</li>
-            <li><b>Palaid</b> spēli un pārbaudi, vai izdrukā ir tavas ievadītās vērtības.</li>
-            <li><b>Mēģini</b> Inspector panelī ievadīt negatīvu enerģiju.</li>
-            <li><b>Pieraksti</b>, vai tava pārbaude to noķēra.</li>
-            <li><b>Saglabā</b> scēnu un veic commit.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> trīs mezgli izdrukā trīs dažādas vērtības, un negatīva enerģija tiek automātiski salabota.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno izvēlni ar variantiem</h3>
-        <p>Ja pamatdarbs ir gatavs, ļauj Inspector panelī izvēlēties šķēršļa veidu.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> lauku <code class="language-csharp">[Export(PropertyHint.Enum, "PrinterQueue,WifiDrop,MissingMarker")] public string ObstacleType { get; set; } = "PrinterQueue";</code>.</li>
-            <li><b>Būvē</b> un atver Inspector paneli.</li>
-            <li><b>Izvēlies</b> nolaižamajā sarakstā vienu variantu.</li>
-            <li><b>Izdrukā</b> izvēlēto veidu, palaižot spēli.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> Inspector panelī ir nolaižams saraksts ar trim šķēršļu veidiem.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tava C# klase parādās Godot editorā kā mezgla tips, tās lauki ir rediģējami Inspector panelī, un vairāki viena tipa mezgli var strādāt ar dažādām vērtībām bez koda maiņas.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Fails <code>Obstacle.cs</code> ar <code>[GlobalClass]</code> un <code>[Export]</code> īpašībām.</li>
-            <li>Ekrānuzņēmums ar Inspector paneli, kurā redzami tavi lauki.</li>
-            <li>Ekrānuzņēmums ar Output paneli, kurā trīs mezgli izdrukā trīs dažādas vērtības.</li>
-            <li>README.md: kāpēc noderīgi, ka vērtību var mainīt editorā, nevis kodā.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Inspector lauks neparādās:</b> pēc <code>[Export]</code> pievienošanas nospied Godot <b>Build</b>.</li>
-        <li><b>Klase neparādās Add Node:</b> pārbaudi <code>[GlobalClass]</code> un to, ka fails saucas <code>Obstacle.cs</code>.</li>
-        <li><b>Export hint kļūda:</b> pārbaudi <code>PropertyHint.Range</code> vai <code>PropertyHint.Enum</code> sintaksi.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic3_inspector_custom.png" alt="Godot Inspector ar Participant node, redzamas grupas 'Stats' (ENERGY slider 0-200), 'Turnīrs' (Focus, Calm) un 'Identity' (Name)." loading="lazy">
-            <figcaption>Godot Inspector ar Participant node, redzamas grupas 'Stats' (ENERGY slider 0-200), 'Turnīrs' (Focus, Calm) un 'Identity' (Name).</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Padari klasi redzamu editorā</h2>
+<p>Beigās tavu C# klasi varēs pievienot scēnai kā parastu mezglu.</p>
+<ol class="step-list">
+<li><b>Izveido</b> failu <code>Obstacle.cs</code> ar klasi <code>Obstacle</code>, kas manto no <code>CharacterBody2D</code>.</li>
+<li><b>Pievieno</b> virs klases atribūtu <code class="language-csharp">[GlobalClass]</code>.</li>
+<li><b>Pievieno</b> privātus laukus <code class="language-csharp">private int energy = 50;</code> un <code class="language-csharp">private float speed = 100.0f;</code>.</li>
+<li><b>Pārbaudi</b>, ka faila nosaukums ir tieši <code>Obstacle.cs</code>, jo C# global class ir reģistrjutīgs.</li>
+<li><b>Būvē</b> projektu ar Godot <b>Build</b> pogu.</li>
+<li><b>Pievieno</b> mezglu scēnai, meklējot <code>Obstacle</code>.</li>
+<li><b>Pieraksti</b>, kas notiek, ja <code>[GlobalClass]</code> rindu izdzēš un būvē vēlreiz.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> mezglu meklētājā parādās tips <code>Obstacle</code>, un to var pievienot scēnai.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Pievieno rediģējamas īpašības</h2>
+<p>Beigās laukus varēs mainīt Inspector panelī.</p>
+<ol class="step-list">
+<li><b>Uzraksti</b> īpašību <code class="language-csharp">[Export] public int Energy { get; set; } = 50;</code>.</li>
+<li><b>Pievieno</b> ātrumam diapazonu ar <code class="language-csharp">[Export(PropertyHint.Range, "0,500,0.1")] public float Speed { get; set; } = 100.0f;</code>.</li>
+<li><b>Pievieno</b> tekstam <code class="language-csharp">[Export] public string ObstacleName { get; set; } = "PrinterQueue";</code>.</li>
+<li><b>Pievieno</b> setter ar pārbaudi, ja vēlies neļaut negatīvu enerģiju.</li>
+<li><b>Būvē</b> un atver mezgla Inspector paneli.</li>
+<li><b>Pārbaudi</b>, ka tur redzami abi lauki.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Inspector panelī pie tava mezgla ir redzami lauki <code>energy</code> un <code>speed</code>.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Iestati vērtības Inspector un pārbaudi</h2>
+<p>Beigās viena klase apkalpos vairākus dažādus šķēršļus.</p>
+<ol class="step-list">
+<li><b>Ievelc</b> scēnā trīs <code>Obstacle</code> mezglus.</li>
+<li><b>Iestati</b> katram Inspector panelī citu <code>energy</code> un <code>speed</code> vērtību.</li>
+<li><b>Izdrukā</b> <code>_Ready()</code> metodē abus laukus.</li>
+<li><b>Palaid</b> spēli un pārbaudi, vai izdrukā ir tavas ievadītās vērtības.</li>
+<li><b>Mēģini</b> Inspector panelī ievadīt negatīvu enerģiju.</li>
+<li><b>Pieraksti</b>, vai tava pārbaude to noķēra.</li>
+<li><b>Saglabā</b> scēnu un veic commit.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> trīs mezgli izdrukā trīs dažādas vērtības, un negatīva enerģija tiek automātiski salabota.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno izvēlni ar variantiem</summary>
+<p>Ja pamatdarbs ir gatavs, ļauj Inspector panelī izvēlēties šķēršļa veidu.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> lauku <code class="language-csharp">[Export(PropertyHint.Enum, "PrinterQueue,WifiDrop,MissingMarker")] public string ObstacleType { get; set; } = "PrinterQueue";</code>.</li>
+<li><b>Būvē</b> un atver Inspector paneli.</li>
+<li><b>Izvēlies</b> nolaižamajā sarakstā vienu variantu.</li>
+<li><b>Izdrukā</b> izvēlēto veidu, palaižot spēli.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Inspector panelī ir nolaižams saraksts ar trim šķēršļu veidiem.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tava C# klase parādās Godot editorā kā mezgla tips, tās lauki ir rediģējami Inspector panelī, un vairāki viena tipa mezgli var strādāt ar dažādām vērtībām bez koda maiņas.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Fails <code>Obstacle.cs</code> ar <code>[GlobalClass]</code> un <code>[Export]</code> īpašībām.</li>
+<li>Ekrānuzņēmums ar Inspector paneli, kurā redzami tavi lauki.</li>
+<li>Ekrānuzņēmums ar Output paneli, kurā trīs mezgli izdrukā trīs dažādas vērtības.</li>
+<li>README.md: kāpēc noderīgi, ka vērtību var mainīt editorā, nevis kodā.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Inspector lauks neparādās:</b> pēc <code>[Export]</code> pievienošanas nospied Godot <b>Build</b>.</li>
+<li><b>Klase neparādās Add Node:</b> pārbaudi <code>[GlobalClass]</code> un to, ka fails saucas <code>Obstacle.cs</code>.</li>
+<li><b>Export hint kļūda:</b> pārbaudi <code>PropertyHint.Range</code> vai <code>PropertyHint.Enum</code> sintaksi.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Godot Inspector ar Participant node, redzamas grupas 'Stats' (ENERGY slider 0-200), 'Turnīrs' (Focus, Calm) un 'Identity' (Name)." loading="lazy" src="../img/topic3_inspector_custom.png"/>
+<figcaption>Godot Inspector ar Participant node, redzamas grupas 'Stats' (ENERGY slider 0-200), 'Turnīrs' (Focus, Calm) un 'Identity' (Name).</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 using System;
 
 public partial class Obstacle : CharacterBody2D
@@ -258,13 +221,23 @@ public partial class Obstacle : CharacterBody2D
         set =&gt; speed = Math.Max(0.0f, value);
     }
 }</code></pre>
-        <div class='result'>Inspector rāda Participant ar Stats grupu, kurā ir ENERGY slider 0-200, FOCUS skaitlis, CALM skaitlis.</div>
-    </div>
+<div class="result">Inspector rāda Participant ar Stats grupu, kurā ir ENERGY slider 0-200, FOCUS skaitlis, CALM skaitlis.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_3/prog2_33">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_3/prog2_35">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_3/prog2_33" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_3/prog2_35" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

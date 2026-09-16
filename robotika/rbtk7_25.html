@@ -1,169 +1,140 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2. tēma - Noslēguma projekts: &quot;Reakcijas spēle&quot; - ebSkola</title>
-<meta name="description" content="Izveidot Arduino reakcijas spēli ar LED, pogu, mainīgajiem, millis laika mērījumu un Serial Monitor rezultātu izvadi.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/robotika/rbtk7_25">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="2. tēma - Noslēguma projekts: &quot;Reakcijas spēle&quot;">
-<meta property="og:description" content="Izveidot Arduino reakcijas spēli ar LED, pogu, mainīgajiem, millis laika mērījumu un Serial Monitor rezultātu izvadi.">
-<meta property="og:url" content="https://ebskola.lv/robotika/rbtk7_25">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2. tēma - Noslēguma projekts: &quot;Reakcijas spēle&quot;">
-<meta name="twitter:description" content="Izveidot Arduino reakcijas spēli ar LED, pogu, mainīgajiem, millis laika mērījumu un Serial Monitor rezultātu izvadi.">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg">
-<link rel="manifest" href="../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>2. tēma - Noslēguma projekts: "Reakcijas spēle" - ebSkola</title>
+<meta content="Izveidot Arduino reakcijas spēli ar LED, pogu, mainīgajiem, millis laika mērījumu un Serial Monitor rezultātu izvadi." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/robotika/rbtk7_25" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content='2. tēma - Noslēguma projekts: "Reakcijas spēle"' property="og:title"/>
+<meta content="Izveidot Arduino reakcijas spēli ar LED, pogu, mainīgajiem, millis laika mērījumu un Serial Monitor rezultātu izvadi." property="og:description"/>
+<meta content="https://ebskola.lv/robotika/rbtk7_25" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content='2. tēma - Noslēguma projekts: "Reakcijas spēle"' name="twitter:title"/>
+<meta content="Izveidot Arduino reakcijas spēli ar LED, pogu, mainīgajiem, millis laika mērījumu un Serial Monitor rezultātu izvadi." name="twitter:description"/>
+<link href="../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "2. tēma - Noslēguma projekts: \"Reakcijas spēle\"","description": "Izveidot Arduino reakcijas spēli ar LED, pogu, mainīgajiem, millis laika mērījumu un Serial Monitor rezultātu izvadi.","inLanguage": "lv","url": "https://ebskola.lv/robotika/rbtk7_25","isPartOf": {"@type": "Course","name": "ebSkola - robotika","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Pamatizglītība","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/robotika/robotika">Robotika</a>
-      <a href="/robotika/rbtk7_2main">2. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/robotika/rbtk7_24">← 2.4</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Robotika</div>
-  <h3>2. Tēma - Ievads Arduino un elektronikas pamatos</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/robotika/rbtk7_2main">Tēmas sākums</a>
-    <a href="/robotika/rbtk7_21">2.1 Ievads Arduino un Tinkercad</a>
-    <a href="/robotika/rbtk7_22">2.2 Pogas un If-Else loģika</a>
-    <a href="/robotika/rbtk7_23">2.3 Analogie signāli (Potenciometrs)</a>
-    <a href="/robotika/rbtk7_24">2.4 Servo motors</a>
-    <a class="active" aria-current="page" href="/robotika/rbtk7_25">2.5 Noslēguma projekts: Reakcijas spēle</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>2.5 Noslēguma projekts: Reakcijas spēle</h1>
-    <p><b>Stundas uzdevums:</b> Izveidot Arduino reakcijas spēli, apvienojot iepriekš apgūto LED izvadi, pogas ievadi, <code>if/else</code>, mainīgos un Serial Monitor rezultātu izvadi.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">D.7.1.1. Sintakse un mainīgie</a>
-        <a href="/sasnRez">D.7.2.1. Elektriskā ķēde</a>
-        <a href="/sasnRez">D.7.3.1. Signāli un loģika</a>
-        <a href="/sasnRez">D.7.6.1. Komponenšu integrācija</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - saslēdz shēmu un nodefinē mainīgos · 2. uzdevums (~25 min) - uzraksti spēles loģiku ar millis() · 3. uzdevums (~20 min) - pievieno 3 raundus, vidējo un false start. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> atver tinkercad.com, sagatavo zaļu LED, 220 omu rezistoru un divas spiedpogas - visu spēli vispirms pārbaudīsi simulācijā.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: reakcijas spēle no LED, pogas un laika mērījuma</h2>
-    <div class='logic-box'>
-        <p>Spēle sākas, kad spēlētājs ar pirmo pogas piespiedienu signalizē "esmu gatavs". LED diode pēc nejauša laika (1–4 sekundes) iedegas zaļa. Spēlētājam jānospiež otra poga pēc iespējas ātrāk. Mikrokontrolieris izmēra reakcijas laiku milisekundēs un pārraida to caur sērijas portu (Serial Monitor). Pēc 3 raundiem tiek aprēķināts vidējais reakcijas laiks. Ja spēlētājs nospiež pogu pirms LED iedegas - fiksēts <i>false start</i>.</p>
-    </div>
-    <div class="code-example">
+<link href="../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+<link href="../lesson.css" rel="stylesheet"/><script defer="" src="../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="robotika.html">Robotika</a>
+<a href="../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Robotika</div>
+<h3>2. Tēma - Ievads Arduino un elektronikas pamatos</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/robotika/rbtk7_2main">Tēmas sākums</a>
+<a href="/robotika/rbtk7_21">2.1 Ievads Arduino un Tinkercad</a>
+<a href="/robotika/rbtk7_22">2.2 Pogas un If-Else loģika</a>
+<a href="/robotika/rbtk7_23">2.3 Analogie signāli (Potenciometrs)</a>
+<a href="/robotika/rbtk7_24">2.4 Servo motors</a>
+<a aria-current="page" class="active" href="/robotika/rbtk7_25">2.5 Noslēguma projekts: Reakcijas spēle</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/robotika/rbtk7_2main">2. tēma</a> / 2.5</p>
+<h1>2.5 Noslēguma projekts: Reakcijas spēle</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveidot Arduino reakcijas spēli, apvienojot iepriekš apgūto LED izvadi, pogas ievadi, <code>if/else</code>, mainīgos un Serial Monitor rezultātu izvadi.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">D.7.1.1. Sintakse un mainīgie</a>
+<a href="/sasnRez">D.7.2.1. Elektriskā ķēde</a>
+<a href="/sasnRez">D.7.3.1. Signāli un loģika</a>
+<a href="/sasnRez">D.7.6.1. Komponenšu integrācija</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - saslēdz shēmu un nodefinē mainīgos · 2. uzdevums (~25 min) - uzraksti spēles loģiku ar millis() · 3. uzdevums (~20 min) - pievieno 3 raundus, vidējo un false start. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> atver tinkercad.com, sagatavo zaļu LED, 220 omu rezistoru un divas spiedpogas - visu spēli vispirms pārbaudīsi simulācijā.</p>
+</div>
+</section><section>
+<h2>Teorija: reakcijas spēle no LED, pogas un laika mērījuma</h2>
+<div class="logic-box">
+<p>Spēle sākas, kad spēlētājs ar pirmo pogas piespiedienu signalizē "esmu gatavs". LED diode pēc nejauša laika (1–4 sekundes) iedegas zaļa. Spēlētājam jānospiež otra poga pēc iespējas ātrāk. Mikrokontrolieris izmēra reakcijas laiku milisekundēs un pārraida to caur sērijas portu (Serial Monitor). Pēc 3 raundiem tiek aprēķināts vidējais reakcijas laiks. Ja spēlētājs nospiež pogu pirms LED iedegas - fiksēts <i>false start</i>.</p>
+</div>
+<div class="code-example">
 <pre><code class="language-cpp">unsigned long sakums = millis();
 
 if (digitalRead(POGA_REAGE) == LOW) {
   unsigned long reakcija = millis() - sakums;
   Serial.println(reakcija);
 }</code></pre>
-        <div class="result">Jaunais fragments ir skaidrots pirms uzdevuma: <code>millis()</code> atgriež laiku kopš programmas palaišanas.</div>
-    </div>
-</section>
+<div class="result">Jaunais fragments ir skaidrots pirms uzdevuma: <code>millis()</code> atgriež laiku kopš programmas palaišanas.</div>
+</div>
+</section><section>
+<h2>Darba uzdevuma gaita</h2>
 
-<section class='section'>
-    <h2>Darba uzdevuma gaita</h2>
 
-    <div class='logic-box'>
-        <h3>1. uzdevums - Saslēdz shēmu un nodefinē mainīgos</h3>
-        <p>Beigās tava shēma būs gatava un kods zinās, kurā portā ir katra detaļa.</p>
-        <ol class="step-list">
-            <li><b>Saslēdz</b> uz maketo plates: zaļo LED ar 220Ω rezistoru pie pin 9, divas spiedpogas pie pin 2 un pin 3 (ar <code>INPUT_PULLUP</code>).</li>
-            <li><b>Nodefinē</b> mainīgos <b>virs</b> <code>setup()</code>: <code>const int LED = 9;</code>, <code>const int POGA_START = 2;</code>, <code>const int POGA_REAGE = 3;</code>.</li>
-            <li><b>Ieraksti</b> funkcijā <code>setup()</code> abu pogu <code>pinMode(..., INPUT_PULLUP);</code> un LED <code>pinMode(LED, OUTPUT);</code>.</li>
-            <li><b>Pievieno</b> <code>Serial.begin(9600);</code>, lai varētu redzēt rezultātus datorā.</li>
-            <li><b>Palaid</b> simulāciju un pārbaudi, ka kods kompilējas bez kļūdām.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> kods kompilējas un mainīgie ir virs <code>setup()</code>, nevis iekšā tajā - citādi <code>loop()</code> tos neredz.</p>
-    </div>
 
-    <div class='logic-box'>
-        <h3>2. uzdevums - Uzraksti spēles loģiku ar millis()</h3>
-        <p>Beigās Serial Monitor parādīs tavu reakcijas laiku milisekundēs.</p>
-        <ol class="step-list">
-            <li>Funkcijā <code>loop()</code> <b>gaidi</b>, līdz tiek nospiesta START poga (LOW signāls).</li>
-            <li><b>Pievieno</b> nejaušu pauzi: <code>delay(random(1000, 4001));</code> - Arduino gaidīs no 1 līdz 4 sekundēm.</li>
-            <li><b>Iededz</b> LED un saglabā laiku ar <code>unsigned long sakums = millis();</code>.</li>
-            <li><b>Gaidi</b> otrās pogas nospiešanu un aprēķini reakciju: <code>laiks = millis() - sakums;</code>.</li>
-            <li><b>Izvadi</b> rezultātu: <code>Serial.print("Reakcija: "); Serial.print(laiks); Serial.println(" ms");</code>.</li>
-            <li><b>Palaid</b> simulāciju un izspēlē vienu raundu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc pogas nospiešanas Serial Monitor parāda skaitli, kas ir aptuveni 200-500 ms.</p>
-    </div>
 
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pievieno 3 raundus, vidējo un false start</h3>
-        <p>Beigās spēle nospēlēs trīs raundus un pateiks tavu vidējo reakcijas laiku.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code>for</code> ciklu, kas izpilda 3 raundus.</li>
-            <li><b>Saglabā</b> katra raunda laiku masīvā <code>int laiki[3];</code>.</li>
-            <li>Pēc cikla <b>aprēķini</b> vidējo: <code>summa / 3</code> un izvadi to.</li>
-            <li><b>Pievieno</b> pārbaudi: ja spēlētājs nospiež pogu, kamēr LED vēl nav iedegusies - paziņo "FALSE START!" un sāc raundu no jauna.</li>
-            <li><b>Pārbaudi</b> abus scenārijus: godīgu raundu un apzinātu false start.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc trim raundiem parādās vidējais laiks, bet par agru nospiesta poga dod "FALSE START!" un raunds sākas no jauna.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Skaņas signāls</h3>
-        <p>Ja pamatdarbs ir gatavs, pievieno pīkstuli, kas apstiprina startu un brīdina par false start.</p>
-        <ol class="step-list">
-            <li><b>Ievelc</b> shēmā komponenti "Piezo" un savieno to ar 8. portu un GND.</li>
-            <li><b>Pievieno</b> LED iedegšanās brīdī rindu <code>tone(8, 1000, 100);</code>.</li>
-            <li><b>Pievieno</b> false start gadījumā <code>tone(8, 300, 400);</code> - zemāku un garāku signālu.</li>
-            <li><b>Palaid</b> spēli un pārbaudi abas skaņas.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> starts un false start skan atšķirīgi, un tu vari tos atšķirt ar aizvērtām acīm.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Biežākās kļūdas (un kā tās labot)</h2>
-    <ul>
-        <li><b>Poga darbojas otrādi:</b> ar <code>INPUT_PULLUP</code> nospiesta poga nozīmē <code>LOW</code>.</li>
-        <li><b>LED nedeg:</b> pārbaudi rezistoru, polaritāti un pareizo pin numuru.</li>
-        <li><b>Reakcijas laiks ir milzīgs:</b> saglabā <code>sakums</code> tieši LED iedegšanās brīdī.</li>
-        <li><b>False start nav pamanīts:</b> pārbaudi pogu pirms LED iedegšanas un raundu sāc no jauna.</li>
-    </ul>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (false start un millis() - grūtākā daļa)</h2>
-    <div class='code-example'>
-        <pre><code class="language-cpp">// Grūtākā daļa nav laika mērīšana, bet GAIDĪŠANA.
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Saslēdz shēmu un nodefinē mainīgos</h2>
+<p>Beigās tava shēma būs gatava un kods zinās, kurā portā ir katra detaļa.</p>
+<ol class="step-list">
+<li><b>Saslēdz</b> uz maketo plates: zaļo LED ar 220Ω rezistoru pie pin 9, divas spiedpogas pie pin 2 un pin 3 (ar <code>INPUT_PULLUP</code>).</li>
+<li><b>Nodefinē</b> mainīgos <b>virs</b> <code>setup()</code>: <code>const int LED = 9;</code>, <code>const int POGA_START = 2;</code>, <code>const int POGA_REAGE = 3;</code>.</li>
+<li><b>Ieraksti</b> funkcijā <code>setup()</code> abu pogu <code>pinMode(..., INPUT_PULLUP);</code> un LED <code>pinMode(LED, OUTPUT);</code>.</li>
+<li><b>Pievieno</b> <code>Serial.begin(9600);</code>, lai varētu redzēt rezultātus datorā.</li>
+<li><b>Palaid</b> simulāciju un pārbaudi, ka kods kompilējas bez kļūdām.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> kods kompilējas un mainīgie ir virs <code>setup()</code>, nevis iekšā tajā - citādi <code>loop()</code> tos neredz.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Uzraksti spēles loģiku ar millis()</h2>
+<p>Beigās Serial Monitor parādīs tavu reakcijas laiku milisekundēs.</p>
+<ol class="step-list">
+<li>Funkcijā <code>loop()</code> <b>gaidi</b>, līdz tiek nospiesta START poga (LOW signāls).</li>
+<li><b>Pievieno</b> nejaušu pauzi: <code>delay(random(1000, 4001));</code> - Arduino gaidīs no 1 līdz 4 sekundēm.</li>
+<li><b>Iededz</b> LED un saglabā laiku ar <code>unsigned long sakums = millis();</code>.</li>
+<li><b>Gaidi</b> otrās pogas nospiešanu un aprēķini reakciju: <code>laiks = millis() - sakums;</code>.</li>
+<li><b>Izvadi</b> rezultātu: <code>Serial.print("Reakcija: "); Serial.print(laiks); Serial.println(" ms");</code>.</li>
+<li><b>Palaid</b> simulāciju un izspēlē vienu raundu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pēc pogas nospiešanas Serial Monitor parāda skaitli, kas ir aptuveni 200-500 ms.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pievieno 3 raundus, vidējo un false start</h2>
+<p>Beigās spēle nospēlēs trīs raundus un pateiks tavu vidējo reakcijas laiku.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> <code>for</code> ciklu, kas izpilda 3 raundus.</li>
+<li><b>Saglabā</b> katra raunda laiku masīvā <code>int laiki[3];</code>.</li>
+<li>Pēc cikla <b>aprēķini</b> vidējo: <code>summa / 3</code> un izvadi to.</li>
+<li><b>Pievieno</b> pārbaudi: ja spēlētājs nospiež pogu, kamēr LED vēl nav iedegusies - paziņo "FALSE START!" un sāc raundu no jauna.</li>
+<li><b>Pārbaudi</b> abus scenārijus: godīgu raundu un apzinātu false start.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pēc trim raundiem parādās vidējais laiks, bet par agru nospiesta poga dod "FALSE START!" un raunds sākas no jauna.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Skaņas signāls</summary>
+<p>Ja pamatdarbs ir gatavs, pievieno pīkstuli, kas apstiprina startu un brīdina par false start.</p>
+<ol class="step-list">
+<li><b>Ievelc</b> shēmā komponenti "Piezo" un savieno to ar 8. portu un GND.</li>
+<li><b>Pievieno</b> LED iedegšanās brīdī rindu <code>tone(8, 1000, 100);</code>.</li>
+<li><b>Pievieno</b> false start gadījumā <code>tone(8, 300, 400);</code> - zemāku un garāku signālu.</li>
+<li><b>Palaid</b> spēli un pārbaudi abas skaņas.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> starts un false start skan atšķirīgi, un tu vari tos atšķirt ar aizvērtām acīm.</p>
+</details><section>
+<h2>Biežākās kļūdas (un kā tās labot)</h2>
+<ul>
+<li><b>Poga darbojas otrādi:</b> ar <code>INPUT_PULLUP</code> nospiesta poga nozīmē <code>LOW</code>.</li>
+<li><b>LED nedeg:</b> pārbaudi rezistoru, polaritāti un pareizo pin numuru.</li>
+<li><b>Reakcijas laiks ir milzīgs:</b> saglabā <code>sakums</code> tieši LED iedegšanās brīdī.</li>
+<li><b>False start nav pamanīts:</b> pārbaudi pogu pirms LED iedegšanas un raundu sāc no jauna.</li>
+</ul>
+</section><section>
+<h2>Koda piemērs (false start un millis() - grūtākā daļa)</h2>
+<div class="code-example">
+<pre><code class="language-cpp">// Grūtākā daļa nav laika mērīšana, bet GAIDĪŠANA.
 // Ja nejaušās pauzes laikā lieto delay(), Arduino tajā brīdī ir "kurls"
 // un false start palaiž garām. Tāpēc gaidīt vajag ciklā, kas VIENLAIKUS
 // skatās pulksteni UN pogu.
@@ -195,72 +166,77 @@ if (!falseStart) {
   Serial.print(laiks);
   Serial.println(" ms");
 }</code></pre>
-        <div class='result'>
+<div class="result">
             Godīgā raundā Serial Monitor rāda, piemēram, "Reakcija: 284 ms". Ja pogu nospiež, kamēr LED vēl ir tumša, parādās "FALSE START!" un raunds netiek ieskaitīts. Ja nejaušo pauzi taisa ar <code>delay()</code>, false start netiek pamanīts vispār.
         </div>
-    </div>
 </div>
+</section><section>
+<h2>Vērtēšanas kritēriji</h2>
+<div aria-label="Tabula" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>Kritērijs</th>
+<th class="level-header">Sācis (1-3)</th>
+<th class="level-header">Turpina (4-6)</th>
+<th class="level-header">Apguvis (7-8)</th>
+<th class="level-header">Padziļināti (9-10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Shēma</b></td>
+<td>Pieslēgumi nestabili vai īssavienojumā.</td>
+<td>Shēma darbojas, bet vadi haotiski.</td>
+<td>Stabila shēma, loģisks vadu izkārtojums.</td>
+<td>Izcils kabeļu menedžments, krāsu kodējums (sarkans/melns).</td>
+</tr>
+<tr>
+<td><b>Programmēšana un mainīgie</b></td>
+<td>Sintakses kļūdas, kods nekompilējas.</td>
+<td>Kods strādā, bet bez mainīgajiem (cietkodēti skaitļi).</td>
+<td>Lieto mainīgos un funkcijas, kods bez kļūdām.</td>
+<td>Patstāvīgi izveidotas papildu funkcijas, kods optimizēts.</td>
+</tr>
+<tr>
+<td><b>Spēles loģika</b></td>
+<td>Reakcija netiek mērīta.</td>
+<td>Mēra laiku, bet rezultāti neuzkrājas.</td>
+<td>3 raundi un vidējais aprēķins darbojas.</td>
+<td>Pievienota false-start pārbaude un papildu uzlabojumi.</td>
+</tr>
+<tr>
+<td><b>Izpratne</b></td>
+<td>Nespēj paskaidrot koda darbību.</td>
+<td>Pamatkomandas paskaidrojamas, bet loģika apjucīga.</td>
+<td>Pilnībā izprot savu kodu un shēmu.</td>
+<td>Brīvi modificē kodu pēc lūguma, palīdz citiem.</td>
+</tr>
+</tbody>
+</table></div>
+</section><section>
+<h2>Pašpārbaudes saraksts</h2>
+<ul>
+<li>Pirms reālā Arduino kods pārbaudīts Tinkercad simulācijā.</li>
+<li>LED diodei pievienots 220Ω rezistors.</li>
+<li>Pogas izmanto <code>INPUT_PULLUP</code> un kods pārbauda <code>LOW</code> signālu.</li>
+<li>Reakcijas laiks tiek izvadīts caur <code>Serial Monitor</code>.</li>
+<li>Pēc 3 raundiem tiek izvadīts vidējais rezultāts.</li>
+<li>False start tiek atpazīts un raunds restartējas.</li>
+</ul>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/robotika/rbtk7_24">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/robotika/rbtk7_2main">Tēmas apkopojums ➡</a>
+</nav></main>
 
-<section class='section'>
-    <h2>Vērtēšanas kritēriji</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Kritērijs</th>
-                <th class="level-header">Sācis (1-3)</th>
-                <th class="level-header">Turpina (4-6)</th>
-                <th class="level-header">Apguvis (7-8)</th>
-                <th class="level-header">Padziļināti (9-10)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><b>Shēma</b></td>
-                <td>Pieslēgumi nestabili vai īssavienojumā.</td>
-                <td>Shēma darbojas, bet vadi haotiski.</td>
-                <td>Stabila shēma, loģisks vadu izkārtojums.</td>
-                <td>Izcils kabeļu menedžments, krāsu kodējums (sarkans/melns).</td>
-            </tr>
-            <tr>
-                <td><b>Programmēšana un mainīgie</b></td>
-                <td>Sintakses kļūdas, kods nekompilējas.</td>
-                <td>Kods strādā, bet bez mainīgajiem (cietkodēti skaitļi).</td>
-                <td>Lieto mainīgos un funkcijas, kods bez kļūdām.</td>
-                <td>Patstāvīgi izveidotas papildu funkcijas, kods optimizēts.</td>
-            </tr>
-            <tr>
-                <td><b>Spēles loģika</b></td>
-                <td>Reakcija netiek mērīta.</td>
-                <td>Mēra laiku, bet rezultāti neuzkrājas.</td>
-                <td>3 raundi un vidējais aprēķins darbojas.</td>
-                <td>Pievienota false-start pārbaude un papildu uzlabojumi.</td>
-            </tr>
-            <tr>
-                <td><b>Izpratne</b></td>
-                <td>Nespēj paskaidrot koda darbību.</td>
-                <td>Pamatkomandas paskaidrojamas, bet loģika apjucīga.</td>
-                <td>Pilnībā izprot savu kodu un shēmu.</td>
-                <td>Brīvi modificē kodu pēc lūguma, palīdz citiem.</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
 
-<section class='section'>
-    <h2>Pašpārbaudes saraksts</h2>
-    <ul>
-        <li>Pirms reālā Arduino kods pārbaudīts Tinkercad simulācijā.</li>
-        <li>LED diodei pievienots 220Ω rezistors.</li>
-        <li>Pogas izmanto <code>INPUT_PULLUP</code> un kods pārbauda <code>LOW</code> signālu.</li>
-        <li>Reakcijas laiks tiek izvadīts caur <code>Serial Monitor</code>.</li>
-        <li>Pēc 3 raundiem tiek izvadīts vidējais rezultāts.</li>
-        <li>False start tiek atpazīts un raunds restartējas.</li>
-    </ul>
-</section>
 
-<div class="stundas-navigacija">
-    <a href="/robotika/rbtk7_24" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/robotika/rbtk7_2main" class="nav-btn">Tēmas apkopojums ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+<footer class="course-footer"><a href="robotika.html">Kursa pārskats</a> ·
+      <a href="../paligm.html">Palīgmateriāli</a> ·
+      <a href="../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

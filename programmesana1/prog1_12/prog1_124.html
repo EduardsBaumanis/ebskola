@@ -1,89 +1,68 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>12.4 Front-end + API integrācija - ebSkola</title>
-<meta name="description" content="Savienot HTML/CSS/JS priekšgalu ar Flask backend, lai izveidotu pilnvērtīgu lietotni.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_12/prog1_124">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="12.4 Front-end + API integrācija">
-<meta property="og:description" content="Savienot HTML/CSS/JS priekšgalu ar Flask backend, lai izveidotu pilnvērtīgu lietotni.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_12/prog1_124">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="12.4 Front-end + API integrācija">
-<meta name="twitter:description" content="Savienot HTML/CSS/JS priekšgalu ar Flask backend, lai izveidotu pilnvērtīgu lietotni.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Savienot HTML/CSS/JS priekšgalu ar Flask backend, lai izveidotu pilnvērtīgu lietotni." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana1/prog1_12/prog1_124" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="12.4 Front-end + API integrācija" property="og:title"/>
+<meta content="Savienot HTML/CSS/JS priekšgalu ar Flask backend, lai izveidotu pilnvērtīgu lietotni." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana1/prog1_12/prog1_124" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="12.4 Front-end + API integrācija" name="twitter:title"/>
+<meta content="Savienot HTML/CSS/JS priekšgalu ar Flask backend, lai izveidotu pilnvērtīgu lietotni." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "12.4 Front-end + API integrācija", "description": "Savienot HTML/CSS/JS priekšgalu ar Flask backend, lai izveidotu pilnvērtīgu lietotni.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_12/prog1_124", "isPartOf": {"@type": "Course", "name": "ebSkola - programmesana1", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana1/programmesana1">Prog I</a>
-      <a href="/programmesana1/prog1_12/prog1_12main">12. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana1/prog1_12/prog1_123">← 12.3</a>
-    <a class="btn primary" href="/programmesana1/prog1_12/prog1_125">12.5 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana I</div>
-  <h3>12. Tēma - Pilnvērtīga izstrāde un izvietošana</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana1/prog1_12/prog1_12main">Tēmas sākums</a>
-    <a href="/programmesana1/prog1_12/prog1_121">12.1 Front-end un back-end arhitektūra</a>
-    <a href="/programmesana1/prog1_12/prog1_122">12.2 Flask: Python kā web serveris</a>
-    <a href="/programmesana1/prog1_12/prog1_123">12.3 REST API izstrāde</a>
-    <a class="active" aria-current="page" href="/programmesana1/prog1_12/prog1_124">12.4 Front-end + API integrācija</a>
-    <a href="/programmesana1/prog1_12/prog1_125">12.5 Izvietošana mākonī un drošība</a>
-    <a href="/programmesana1/prog1_12/prog1_126">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>12.4 Front-end + API integrācija</h1>
-    <p><b>Stundas uzdevums:</b> Savienot HTML/CSS/JS priekšgalu ar Flask backend, lai izveidotu pilnvērtīgu lietotni.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.7. Lietotāja saskarne</a>
-        <a href="/sasnRez">SR 2.4.11. Standartizētas bibliotēkas un API</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izsauc savu API ar fetch · 2. uzdevums (~25 min) - parādi datus tabulā · 3. uzdevums (~20 min) - nosūti formu ar POST. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-        <p><b>Pirms sāc:</b> palaid savu 12.3 stundas Flask serveri un atstāj to darbojamies. HTML failu atver otrā cilnē - abi strādās vienlaikus.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: fetch() un async - pārlūks runā ar serveri</h2>
-    <div class='logic-box'>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana1.html">Programmēšana I</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>12. Tēma - Pilnvērtīga izstrāde un izvietošana</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_12/prog1_12main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_12/prog1_121">12.1 Front-end un back-end arhitektūra</a>
+<a href="/programmesana1/prog1_12/prog1_122">12.2 Flask: Python kā web serveris</a>
+<a href="/programmesana1/prog1_12/prog1_123">12.3 REST API izstrāde</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_12/prog1_124">12.4 Front-end + API integrācija</a>
+<a href="/programmesana1/prog1_12/prog1_125">12.5 Izvietošana mākonī un drošība</a>
+<a href="/programmesana1/prog1_12/prog1_126">12.6 Noslēguma projekts: Daudzspēlētāju Krustiņi un nullītes</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_12/prog1_12main">12. tēma</a> / 12.4</p>
+<h1>12.4 Front-end + API integrācija</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Savienot HTML/CSS/JS priekšgalu ar Flask backend, lai izveidotu pilnvērtīgu lietotni.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.7. Lietotāja saskarne</a>
+<a href="/sasnRez">SR 2.4.11. Standartizētas bibliotēkas un API</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izsauc savu API ar fetch · 2. uzdevums (~25 min) - parādi datus tabulā · 3. uzdevums (~20 min) - nosūti formu ar POST. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
+<p><b>Pirms sāc:</b> palaid savu 12.3 stundas Flask serveri un atstāj to darbojamies. HTML failu atver otrā cilnē - abi strādās vienlaikus.</p>
+</div>
+</section><section>
+<h2>Teorija: fetch() un async - pārlūks runā ar serveri</h2>
+<div class="logic-box">
 <p>JavaScript <code>fetch()</code> API ļauj nosūtīt HTTP pieprasījumus no pārlūka uz serveri.</p>
 <pre><code class="language-javascript">// GET pieprasījums
 async function ielādētRezultātus() {
@@ -108,95 +87,90 @@ async function pievienot(vards, punkti) {
 <p><b>CORS:</b> Ja frontend ir uz <code>http://localhost:8080</code>, bet backend uz <code>:5000</code>, pārlūks bloķē pieprasījumus drošības dēļ. Risinājums Flask pusē:</p>
 <pre><code class="language-python">from flask_cors import CORS
 CORS(app)  # atļauj visiem; produkcijā konkrēti norādi atļautos domēnus</code></pre>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Izsauc savu API ar fetch</h3>
-        <p>Beigās pārlūks pats paņems datus no tava servera.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> failu <code>index.html</code> ar tukšu <code>&lt;script&gt;</code> bloku.</li>
-            <li><b>Uzraksti</b> <code class="language-javascript">async function ielade() {</code>.</li>
-            <li><b>Ieraksti</b> tajā <code class="language-javascript">const r = await fetch("http://localhost:5000/api/rezultati");</code>.</li>
-            <li><b>Pievieno</b> <code class="language-javascript">const dati = await r.json();</code> un <code class="language-javascript">console.log(dati);</code>.</li>
-            <li><b>Izsauc</b> funkciju un atver lapu pārlūkā.</li>
-            <li><b>Atver</b> F12 konsoli un pārbaudi, vai dati parādījās.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> konsolē redzams masīvs ar rezultātiem, nevis kļūdas paziņojums.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Parādi datus tabulā</h3>
-        <p>Beigās dati būs redzami lapā, nevis tikai konsolē.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> HTML failā <code class="language-html">&lt;table id="saraksts"&gt;&lt;/table&gt;</code>.</li>
-            <li><b>Izveido</b> ciklu <code class="language-javascript">for (const r of dati) {</code>.</li>
-            <li><b>Uzbūvē</b> katrai rindai HTML tekstu ar vārdu un punktiem.</li>
-            <li><b>Ieliec</b> to tabulā ar <code class="language-javascript">document.getElementById("saraksts").innerHTML = ...</code>.</li>
-            <li><b>Pārlādē</b> lapu un pārbaudi tabulu.</li>
-            <li><b>Pievieno</b> pārbaudi <code class="language-javascript">if (!r.ok)</code> ar paziņojumu par kļūdu.</li>
-            <li><b>Apturi</b> serveri un pārlādē lapu, lai redzētu kļūdas apstrādi.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> ar ieslēgtu serveri tabula ir aizpildīta, bet ar izslēgtu parādās tavs kļūdas paziņojums.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Nosūti formu ar POST</h3>
-        <p>Beigās lietotājs varēs pievienot rezultātu tieši no lapas.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> formu ar diviem ievades laukiem un pogu.</li>
-            <li><b>Pārtver</b> formas nosūtīšanu ar <code class="language-javascript">e.preventDefault();</code>.</li>
-            <li><b>Izsauc</b> <code>fetch</code> ar <code class="language-javascript">method: "POST"</code>.</li>
-            <li><b>Pievieno</b> galveni <code class="language-javascript">headers: {"Content-Type": "application/json"}</code>.</li>
-            <li><b>Nosūti</b> datus ar <code class="language-javascript">body: JSON.stringify({vards, punkti})</code>.</li>
-            <li><b>Izsauc</b> pēc tam <code>ielade()</code>, lai tabula atjaunotos.</li>
-            <li><b>Pieraksti</b> vienu secinājumu: kāpēc bez <code>preventDefault()</code> lapa pārlādējas.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc pogas nospiešanas jaunais rezultāts parādās tabulā, un lapa nepārlādējas.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Atrisini CORS kļūdu</h3>
-        <p>Ja pamatdarbs ir gatavs, uzzini, kāpēc pārlūks bloķē svešus pieprasījumus.</p>
-        <ol class="step-list">
-            <li><b>Atver</b> HTML failu no diska un mēģini izsaukt API.</li>
-            <li><b>Izlasi</b> konsolē kļūdu, kurā minēts vārds <code>CORS</code>.</li>
-            <li><b>Instalē</b> serverī <code class="language-bash">pip install flask-cors</code>.</li>
-            <li><b>Pievieno</b> kodam <code class="language-python">CORS(app)</code>.</li>
-            <li><b>Pārlādē</b> lapu un pārbaudi, ka kļūda pazuda.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pirms labojuma konsolē ir CORS kļūda, pēc tā dati ielādējas.</p>
-    </div>
-</section>
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>CORS bloķē:</b> Pārliecinies, ka frontend un backend ir uz tā paša domēna vai izmanto Flask-CORS.</li>
-        <li><b>Forma pārlādē lapu:</b> Aizmirsts <code>e.preventDefault()</code> - vienmēr pirmais POST handler-ī.</li>
-        <li><b>JSON nav valid:</b> Ja serveris atgriež HTML kļūdu lapu, <code>r.json()</code> mestu izņēmumu.</li>
-        </ul>
-    </div>
-</section>
 
-<div class='section'>
-    <h2>Koda piemērs</h2>
-    <div class='code-example'>
-        <pre><code class="language-python"><!-- index.html -->
-<form id="forma">
-  <input id="vards" placeholder="Vārds">
-  <input id="punkti" type="number" placeholder="Punkti">
-  <button>Saglabāt</button>
-</form>
-<table id="saraksts"></table>
 
-<script>
+
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Izsauc savu API ar fetch</h2>
+<p>Beigās pārlūks pats paņems datus no tava servera.</p>
+<ol class="step-list">
+<li><b>Izveido</b> failu <code>index.html</code> ar tukšu <code>&lt;script&gt;</code> bloku.</li>
+<li><b>Uzraksti</b> <code class="language-javascript">async function ielade() {</code>.</li>
+<li><b>Ieraksti</b> tajā <code class="language-javascript">const r = await fetch("http://localhost:5000/api/rezultati");</code>.</li>
+<li><b>Pievieno</b> <code class="language-javascript">const dati = await r.json();</code> un <code class="language-javascript">console.log(dati);</code>.</li>
+<li><b>Izsauc</b> funkciju un atver lapu pārlūkā.</li>
+<li><b>Atver</b> F12 konsoli un pārbaudi, vai dati parādījās.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> konsolē redzams masīvs ar rezultātiem, nevis kļūdas paziņojums.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Parādi datus tabulā</h2>
+<p>Beigās dati būs redzami lapā, nevis tikai konsolē.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> HTML failā <code class="language-html">&lt;table id="saraksts"&gt;&lt;/table&gt;</code>.</li>
+<li><b>Izveido</b> ciklu <code class="language-javascript">for (const r of dati) {</code>.</li>
+<li><b>Uzbūvē</b> katrai rindai HTML tekstu ar vārdu un punktiem.</li>
+<li><b>Ieliec</b> to tabulā ar <code class="language-javascript">document.getElementById("saraksts").innerHTML = ...</code>.</li>
+<li><b>Pārlādē</b> lapu un pārbaudi tabulu.</li>
+<li><b>Pievieno</b> pārbaudi <code class="language-javascript">if (!r.ok)</code> ar paziņojumu par kļūdu.</li>
+<li><b>Apturi</b> serveri un pārlādē lapu, lai redzētu kļūdas apstrādi.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar ieslēgtu serveri tabula ir aizpildīta, bet ar izslēgtu parādās tavs kļūdas paziņojums.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Nosūti formu ar POST</h2>
+<p>Beigās lietotājs varēs pievienot rezultātu tieši no lapas.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> formu ar diviem ievades laukiem un pogu.</li>
+<li><b>Pārtver</b> formas nosūtīšanu ar <code class="language-javascript">e.preventDefault();</code>.</li>
+<li><b>Izsauc</b> <code>fetch</code> ar <code class="language-javascript">method: "POST"</code>.</li>
+<li><b>Pievieno</b> galveni <code class="language-javascript">headers: {"Content-Type": "application/json"}</code>.</li>
+<li><b>Nosūti</b> datus ar <code class="language-javascript">body: JSON.stringify({vards, punkti})</code>.</li>
+<li><b>Izsauc</b> pēc tam <code>ielade()</code>, lai tabula atjaunotos.</li>
+<li><b>Pieraksti</b> vienu secinājumu: kāpēc bez <code>preventDefault()</code> lapa pārlādējas.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pēc pogas nospiešanas jaunais rezultāts parādās tabulā, un lapa nepārlādējas.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Atrisini CORS kļūdu</summary>
+<p>Ja pamatdarbs ir gatavs, uzzini, kāpēc pārlūks bloķē svešus pieprasījumus.</p>
+<ol class="step-list">
+<li><b>Atver</b> HTML failu no diska un mēģini izsaukt API.</li>
+<li><b>Izlasi</b> konsolē kļūdu, kurā minēts vārds <code>CORS</code>.</li>
+<li><b>Instalē</b> serverī <code class="language-bash">pip install flask-cors</code>.</li>
+<li><b>Pievieno</b> kodam <code class="language-python">CORS(app)</code>.</li>
+<li><b>Pārlādē</b> lapu un pārbaudi, ka kļūda pazuda.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pirms labojuma konsolē ir CORS kļūda, pēc tā dati ielādējas.</p>
+</details><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>CORS bloķē:</b> Pārliecinies, ka frontend un backend ir uz tā paša domēna vai izmanto Flask-CORS.</li>
+<li><b>Forma pārlādē lapu:</b> Aizmirsts <code>e.preventDefault()</code> - vienmēr pirmais POST handler-ī.</li>
+<li><b>JSON nav valid:</b> Ja serveris atgriež HTML kļūdu lapu, <code>r.json()</code> mestu izņēmumu.</li>
+</ul>
+</div>
+</section><section>
+<h2>Koda piemērs</h2>
+<div class="code-example">
+<pre><code class="language-html">&lt;!-- index.html --&gt;
+&lt;form id="forma"&gt;
+  &lt;input id="vards" placeholder="Vārds"&gt;
+  &lt;input id="punkti" type="number" placeholder="Punkti"&gt;
+  &lt;button&gt;Saglabāt&lt;/button&gt;
+&lt;/form&gt;
+&lt;table id="saraksts"&gt;&lt;/table&gt;
+
+&lt;script&gt;
 async function atjaunot() {
   const dati = await (await fetch("/api/rezultati")).json();
   document.getElementById("saraksts").innerHTML =
-    dati.map(r => `<tr><td>${r.vards}</td><td>${r.punkti}</td></tr>`).join("");
+    dati.map(r =&gt; `&lt;tr&gt;&lt;td&gt;${r.vards}&lt;/td&gt;&lt;td&gt;${r.punkti}&lt;/td&gt;&lt;/tr&gt;`).join("");
 }
 
-document.getElementById("forma").onsubmit = async (e) => {
+document.getElementById("forma").onsubmit = async (e) =&gt; {
   e.preventDefault();
   await fetch("/api/rezultati", {
     method: "POST",
@@ -211,14 +185,21 @@ document.getElementById("forma").onsubmit = async (e) => {
 };
 
 atjaunot();
-</script></code></pre>
-        <div class='result'>Lapa rāda dinamisku tabulu;<br>Forma pievieno datus;<br>Tabula atjaunojas automātiski.</div>
-    </div>
+&lt;/script&gt;</code></pre>
+<div class="result">Lapa rāda dinamisku tabulu;<br/>Forma pievieno datus;<br/>Tabula atjaunojas automātiski.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_12/prog1_123">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_12/prog1_125">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana1/prog1_12/prog1_123" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana1/prog1_12/prog1_125" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana1.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

@@ -1,93 +1,72 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>2.3 Vadības struktūras spēles loģikā - ebSkola</title>
-<meta name="description" content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_2/prog2_23">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="2.3 Vadības struktūras spēles loģikā">
-<meta property="og:description" content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_2/prog2_23">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2.3 Vadības struktūras spēles loģikā">
-<meta name="twitter:description" content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_2/prog2_23" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="2.3 Vadības struktūras spēles loģikā" property="og:title"/>
+<meta content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_2/prog2_23" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="2.3 Vadības struktūras spēles loģikā" name="twitter:title"/>
+<meta content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org","@type": "LearningResource","name": "2.3 Vadības struktūras spēles loģikā","description": "Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_2/prog2_23","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_2/prog2_2main">2. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_2/prog2_22">← 2.2</a>
-    <a class="btn primary" href="/programmesana2/prog2_2/prog2_24">2.4 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>2. Tēma - Kustība un sadursmes</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_2/prog2_2main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_2/prog2_21">2.1 Process un fizikas cikli</a>
-    <a href="/programmesana2/prog2_2/prog2_22">2.2 Input apstrāde un Input Map</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_2/prog2_23">2.3 Vadības struktūras spēles loģikā</a>
-    <a href="/programmesana2/prog2_2/prog2_24">2.4 Sadursmju noteikšana</a>
-    <a href="/programmesana2/prog2_2/prog2_25">2.5 Gravitācija un platformas mehānika</a>
-    <a href="/programmesana2/prog2_2/prog2_26">2.6 Noslēguma projekts: Platformas spēle</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>2.3 Vadības struktūras spēles loģikā</h1>
-    <p><b>Stundas uzdevums:</b> Izmantot if/else, switch un cikli spēles uzvedības loģikā.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.14. Vadības struktūras</a>
-        <a href="/sasnRez">SR 2.4.13. Mainīgie</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārraksti Python if C# sintaksē · 2. uzdevums (~25 min) - izveido enum un switch priekšmetu veidiem · 3. uzdevums (~20 min) - pievieno ciklu, kas pārbauda visus priekšmetus · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atceries no Programmēšanas I: <code>if</code>, <code>elif</code>, <code>else</code> un <code>for</code> cikls. C# dara to pašu, bet ar figūriekavām un semikoliem. Šodien pārtulkosi jau zināmo.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: C# vadības struktūras</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>2. Tēma - Kustība un sadursmes</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_2/prog2_2main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_2/prog2_21">2.1 Process un fizikas cikli</a>
+<a href="/programmesana2/prog2_2/prog2_22">2.2 Input apstrāde un Input Map</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_2/prog2_23">2.3 Vadības struktūras spēles loģikā</a>
+<a href="/programmesana2/prog2_2/prog2_24">2.4 Sadursmju noteikšana</a>
+<a href="/programmesana2/prog2_2/prog2_25">2.5 Gravitācija un platformas mehānika</a>
+<a href="/programmesana2/prog2_2/prog2_26">2.6 Noslēguma projekts: Platformas spēle</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_2/prog2_2main">2. tēma</a> / 2.3</p>
+<h1>2.3 Vadības struktūras spēles loģikā</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Izmantot if/else, switch un cikli spēles uzvedības loģikā.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.14. Vadības struktūras</a>
+<a href="/sasnRez">SR 2.4.13. Mainīgie</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārraksti Python if C# sintaksē · 2. uzdevums (~25 min) - izveido enum un switch priekšmetu veidiem · 3. uzdevums (~20 min) - pievieno ciklu, kas pārbauda visus priekšmetus · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atceries no Programmēšanas I: <code>if</code>, <code>elif</code>, <code>else</code> un <code>for</code> cikls. C# dara to pašu, bet ar figūriekavām un semikoliem. Šodien pārtulkosi jau zināmo.</p>
+</div>
+</section><section>
+<h2>Teorija: C# vadības struktūras</h2>
+<div class="logic-box">
 <p>C# vadības struktūras ir gandrīz identiskas Python ekvivalentiem, bet ar atšķirīgu sintaksi:</p>
 <pre><code class="language-csharp">// If / else if / else
 if (player.Health &lt;= 0)
@@ -129,15 +108,12 @@ while (health &gt; 0 &amp;&amp; levelActive)
 {
     ProcessCombat();
 }</code></pre>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C# klasēm, kas lieto _PhysicsProcess, Input, CharacterBody2D, Area2D vai MoveAndSlide.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C# klasēm, kas lieto _PhysicsProcess, Input, CharacterBody2D, Area2D vai MoveAndSlide.</p>
 <pre><code class="language-csharp">public class PhysicsCheckpoint
 {
     public string Lesson = "2.3 Vadības struktūras spēles loģikā";
@@ -146,113 +122,100 @@ while (health &gt; 0 &amp;&amp; levelActive)
     public bool UsesDeltaTime = true;
     public bool ChecksCollisions = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Pārraksti Python if C# sintaksē</h3>
-        <p>Beigās tu redzēsi, ka loģika ir tā pati, tikai pieraksts cits.</p>
-        <ol class="step-list">
-            <li><b>Uzraksti</b> README.md failā Python nosacījumu: ja enerģija zem 0, varonis mirst; ja zem 30, brīdinājums; citādi viss labi.</li>
-            <li><b>Izveido</b> C# klasē lauku <code class="language-csharp">int health = 100;</code>.</li>
-            <li><b>Ieraksti</b> <code class="language-csharp">if (health &lt;= 0) { ... }</code> ar figūriekavām.</li>
-            <li><b>Pievieno</b> <code class="language-csharp">else if (health &lt; 30) { ... }</code> - ievēro, ka tas ir divi vārdi, nevis <code>elif</code>.</li>
-            <li><b>Pievieno</b> <code class="language-csharp">else { ... }</code> un katrā zarā izdruku.</li>
-            <li><b>Kompilē</b> un pārbaudi ar trim dažādām <code>health</code> vērtībām.</li>
-            <li><b>Pieraksti</b> trīs atšķirības starp Python un C# pierakstu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> visi trīs zari nostrādā pareizi, un README.md failā ir trīs pierakstītas atšķirības.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Izveido enum un switch priekšmetu veidiem</h3>
-        <p>Beigās priekšmetu veidi būs nosaukumi, nevis nesaprotami skaitļi.</p>
-        <ol class="step-list">
-            <li><b>Ieraksti</b> virs klases <code class="language-csharp">public enum PickupType { Coin, Gem, Key }</code>.</li>
-            <li><b>Uzraksti</b> metodi <code class="language-csharp">private void OnPickup(PickupType type)</code>.</li>
-            <li><b>Ieraksti</b> tajā <code class="language-csharp">switch (type) {</code>.</li>
-            <li><b>Pievieno</b> katram veidam <code class="language-csharp">case PickupType.Coin:</code> ar savu darbību.</li>
-            <li><b>Pievieno</b> katram <code>case</code> beigās <code class="language-csharp">break;</code>.</li>
-            <li><b>Izdzēs</b> vienu <code>break;</code>, kompilē un pieraksti, kas notiek.</li>
-            <li><b>Ieliec</b> <code>break;</code> atpakaļ un pārbaudi visus trīs veidus.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> katrs priekšmeta veids dod savu rezultātu, un tu zini, ka bez <code>break</code> izpildās arī nākamais <code>case</code>.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pievieno ciklu, kas pārbauda visus priekšmetus</h3>
-        <p>Beigās viena cilpa apstrādās visu priekšmetu sarakstu.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> faila sākumā <code class="language-csharp">using System.Collections.Generic;</code>.</li>
-            <li><b>Izveido</b> <code class="language-csharp">List&lt;PickupType&gt; items = new() { PickupType.Coin, PickupType.Gem, PickupType.Coin };</code>.</li>
-            <li><b>Uzraksti</b> ciklu <code class="language-csharp">foreach (PickupType item in items) { OnPickup(item); }</code>.</li>
-            <li><b>Kompilē</b> un pārbaudi, ka izdrukājas trīs rindas.</li>
-            <li><b>Pievieno</b> sarakstam vēl vienu priekšmetu un palaid vēlreiz.</li>
-            <li><b>Pārbaudi</b>, vai cikls bija jāmaina.</li>
-            <li><b>Pieraksti</b>, ar ko šis cikls līdzinās Python <code>for</code> ciklam.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> cikls apstrādā visus saraksta priekšmetus, un pievienojot ceturto, kods nav jāmaina.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Saskaiti katra veida priekšmetus</h3>
-        <p>Ja pamatdarbs ir gatavs, izveido kopsavilkumu.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> trīs skaitītājus - pa vienam katram veidam.</li>
-            <li><b>Palielini</b> attiecīgo skaitītāju katrā <code>case</code> zarā.</li>
-            <li><b>Izdrukā</b> pēc cikla visu trīs skaitītāju vērtības.</li>
-            <li><b>Pārbaudi</b>, vai summa sakrīt ar saraksta garumu.</li>
-            <li><b>Pievieno</b> sarakstam dublikātus un pārbaudi vēlreiz.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> skaitītāju summa vienmēr sakrīt ar priekšmetu skaitu sarakstā.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tu proti C# sintaksē uzrakstīt <code>if/else if/else</code>, izveidot <code>enum</code> ar <code>switch</code> un apstrādāt priekšmetu sarakstu ar <code>foreach</code>, un vari nosaukt galvenās atšķirības no Python.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>C# fails ar visiem trim uzdevumiem.</li>
-            <li>Ekrānuzņēmums ar Output paneli, kurā redzamas cikla izdrukas.</li>
-            <li>README.md: trīs atšķirības starp Python un C# pierakstu un viens teikums, kas notiek bez <code>break</code>.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>The name 'items' does not exist:</b> saraksts izveidots citā metodē vai ārpus redzamības zonas.</li>
-        <li><b>Collection was modified:</b> nedzēs elementus no <code>List&lt;T&gt;</code> tajā pašā <code>foreach</code> ciklā; dzēs pēc cikla vai lieto parastu <code>for</code>.</li>
-        <li><b>switch case nestrādā:</b> Aizmirsts <code>break;</code> - kods iet uz nākamo case.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic2_pickups.png" alt="Spēles logs ar punktu žetoniem, zaļām uzlīmēm un dzeltenu finiša kartīti uz platformām." loading="lazy">
-            <figcaption>Spēles logs ar punktu žetoniem, zaļām uzlīmēm un dzeltenu finiša kartīti uz platformām.</figcaption>
-        </figure>
-        <figure class="screenshot">
-            <img src="../img/topic2_score_hud.png" alt="Spēles HUD ar Score: 25 augšējā labajā stūrī un sirdiņu HP indikators kreisajā." loading="lazy">
-            <figcaption>Spēles HUD ar Score: 25 augšējā labajā stūrī un sirdiņu HP indikators kreisajā.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using Godot;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Pārraksti Python if C# sintaksē</h2>
+<p>Beigās tu redzēsi, ka loģika ir tā pati, tikai pieraksts cits.</p>
+<ol class="step-list">
+<li><b>Uzraksti</b> README.md failā Python nosacījumu: ja enerģija zem 0, varonis mirst; ja zem 30, brīdinājums; citādi viss labi.</li>
+<li><b>Izveido</b> C# klasē lauku <code class="language-csharp">int health = 100;</code>.</li>
+<li><b>Ieraksti</b> <code class="language-csharp">if (health &lt;= 0) { ... }</code> ar figūriekavām.</li>
+<li><b>Pievieno</b> <code class="language-csharp">else if (health &lt; 30) { ... }</code> - ievēro, ka tas ir divi vārdi, nevis <code>elif</code>.</li>
+<li><b>Pievieno</b> <code class="language-csharp">else { ... }</code> un katrā zarā izdruku.</li>
+<li><b>Kompilē</b> un pārbaudi ar trim dažādām <code>health</code> vērtībām.</li>
+<li><b>Pieraksti</b> trīs atšķirības starp Python un C# pierakstu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> visi trīs zari nostrādā pareizi, un README.md failā ir trīs pierakstītas atšķirības.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Izveido enum un switch priekšmetu veidiem</h2>
+<p>Beigās priekšmetu veidi būs nosaukumi, nevis nesaprotami skaitļi.</p>
+<ol class="step-list">
+<li><b>Ieraksti</b> virs klases <code class="language-csharp">public enum PickupType { Coin, Gem, Key }</code>.</li>
+<li><b>Uzraksti</b> metodi <code class="language-csharp">private void OnPickup(PickupType type)</code>.</li>
+<li><b>Ieraksti</b> tajā <code class="language-csharp">switch (type) {</code>.</li>
+<li><b>Pievieno</b> katram veidam <code class="language-csharp">case PickupType.Coin:</code> ar savu darbību.</li>
+<li><b>Pievieno</b> katram <code>case</code> beigās <code class="language-csharp">break;</code>.</li>
+<li><b>Izdzēs</b> vienu <code>break;</code>, kompilē un pieraksti, kas notiek.</li>
+<li><b>Ieliec</b> <code>break;</code> atpakaļ un pārbaudi visus trīs veidus.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> katrs priekšmeta veids dod savu rezultātu, un tu zini, ka bez <code>break</code> izpildās arī nākamais <code>case</code>.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pievieno ciklu, kas pārbauda visus priekšmetus</h2>
+<p>Beigās viena cilpa apstrādās visu priekšmetu sarakstu.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> faila sākumā <code class="language-csharp">using System.Collections.Generic;</code>.</li>
+<li><b>Izveido</b> <code class="language-csharp">List&lt;PickupType&gt; items = new() { PickupType.Coin, PickupType.Gem, PickupType.Coin };</code>.</li>
+<li><b>Uzraksti</b> ciklu <code class="language-csharp">foreach (PickupType item in items) { OnPickup(item); }</code>.</li>
+<li><b>Kompilē</b> un pārbaudi, ka izdrukājas trīs rindas.</li>
+<li><b>Pievieno</b> sarakstam vēl vienu priekšmetu un palaid vēlreiz.</li>
+<li><b>Pārbaudi</b>, vai cikls bija jāmaina.</li>
+<li><b>Pieraksti</b>, ar ko šis cikls līdzinās Python <code>for</code> ciklam.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> cikls apstrādā visus saraksta priekšmetus, un pievienojot ceturto, kods nav jāmaina.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Saskaiti katra veida priekšmetus</summary>
+<p>Ja pamatdarbs ir gatavs, izveido kopsavilkumu.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> trīs skaitītājus - pa vienam katram veidam.</li>
+<li><b>Palielini</b> attiecīgo skaitītāju katrā <code>case</code> zarā.</li>
+<li><b>Izdrukā</b> pēc cikla visu trīs skaitītāju vērtības.</li>
+<li><b>Pārbaudi</b>, vai summa sakrīt ar saraksta garumu.</li>
+<li><b>Pievieno</b> sarakstam dublikātus un pārbaudi vēlreiz.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> skaitītāju summa vienmēr sakrīt ar priekšmetu skaitu sarakstā.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tu proti C# sintaksē uzrakstīt <code>if/else if/else</code>, izveidot <code>enum</code> ar <code>switch</code> un apstrādāt priekšmetu sarakstu ar <code>foreach</code>, un vari nosaukt galvenās atšķirības no Python.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>C# fails ar visiem trim uzdevumiem.</li>
+<li>Ekrānuzņēmums ar Output paneli, kurā redzamas cikla izdrukas.</li>
+<li>README.md: trīs atšķirības starp Python un C# pierakstu un viens teikums, kas notiek bez <code>break</code>.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>The name 'items' does not exist:</b> saraksts izveidots citā metodē vai ārpus redzamības zonas.</li>
+<li><b>Collection was modified:</b> nedzēs elementus no <code>List&lt;T&gt;</code> tajā pašā <code>foreach</code> ciklā; dzēs pēc cikla vai lieto parastu <code>for</code>.</li>
+<li><b>switch case nestrādā:</b> Aizmirsts <code>break;</code> - kods iet uz nākamo case.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Spēles logs ar punktu žetoniem, zaļām uzlīmēm un dzeltenu finiša kartīti uz platformām." loading="lazy" src="../img/topic2_pickups.png"/>
+<figcaption>Spēles logs ar punktu žetoniem, zaļām uzlīmēm un dzeltenu finiša kartīti uz platformām.</figcaption>
+</figure>
+<figure class="screenshot">
+<img alt="Spēles HUD ar Score: 25 augšējā labajā stūrī un sirdiņu HP indikators kreisajā." loading="lazy" src="../img/topic2_score_hud.png"/>
+<figcaption>Spēles HUD ar Score: 25 augšējā labajā stūrī un sirdiņu HP indikators kreisajā.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using Godot;
 
 public enum PickupType { Coin, Gem, Key }
 
@@ -285,13 +248,23 @@ public partial class Player : CharacterBody2D
         }
     }
 }</code></pre>
-        <div class='result'>Spēlētājs savāc 3 dažādus tipus pickup objektus, score atjauninās terminālī.</div>
-    </div>
+<div class="result">Spēlētājs savāc 3 dažādus tipus pickup objektus, score atjauninās terminālī.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_2/prog2_22">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_2/prog2_24">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_2/prog2_22" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_2/prog2_24" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>

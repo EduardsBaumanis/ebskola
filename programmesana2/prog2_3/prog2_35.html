@@ -1,93 +1,72 @@
 <!DOCTYPE html>
+
 <html lang="lv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>3.5 Statistikas sistēma un struct - ebSkola</title>
-<meta name="description" content="Izmantot struct datu grupēšanai un kompozīciju (composition) klašu organizēšanai.">
-<meta name="author" content="Eduards Baumanis">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_3/prog2_35">
-<meta property="og:type" content="article">
-<meta property="og:locale" content="lv_LV">
-<meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="3.5 Statistikas sistēma un struct">
-<meta property="og:description" content="Izmantot struct datu grupēšanai un kompozīciju (composition) klašu organizēšanai.">
-<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_3/prog2_35">
-<meta property="og:image" content="https://ebskola.lv/og-image.svg">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="3.5 Statistikas sistēma un struct">
-<meta name="twitter:description" content="Izmantot struct datu grupēšanai un kompozīciju (composition) klašu organizēšanai.">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg">
-<link rel="manifest" href="../../manifest.json">
-<meta name="theme-color" content="#222831">
+<meta content="Izmantot struct datu grupēšanai un kompozīciju (composition) klašu organizēšanai." name="description"/>
+<meta content="Eduards Baumanis" name="author"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://ebskola.lv/programmesana2/prog2_3/prog2_35" rel="canonical"/>
+<meta content="article" property="og:type"/>
+<meta content="lv_LV" property="og:locale"/>
+<meta content="ebSkola" property="og:site_name"/>
+<meta content="3.5 Statistikas sistēma un struct" property="og:title"/>
+<meta content="Izmantot struct datu grupēšanai un kompozīciju (composition) klašu organizēšanai." property="og:description"/>
+<meta content="https://ebskola.lv/programmesana2/prog2_3/prog2_35" property="og:url"/>
+<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="3.5 Statistikas sistēma un struct" name="twitter:title"/>
+<meta content="Izmantot struct datu grupēšanai un kompozīciju (composition) klašu organizēšanai." name="twitter:description"/>
+<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="../../manifest.json" rel="manifest"/>
+<meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "LearningResource", "name": "3.5 Statistikas sistēma un struct", "description": "Izmantot struct datu grupēšanai un kompozīciju (composition) klašu organizēšanai.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_3/prog2_35", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
-<link rel="stylesheet" type="text/css" href="../../style.css">
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<link href="../../style.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-</head>
-<body class="page-reference has-sidebar">
-<header class="topbar">
-  <div class="wrap row">
-    <a class="brand" href="/">
-      <span class="glyph">›_</span>
-      <span class="name">ebskola<span>.lv</span></span>
-    </a>
-    <nav class="nav" aria-label="Stundu navigācija">
-      <a href="/programmesana2/programmesana2">Prog II</a>
-      <a href="/programmesana2/prog2_3/prog2_3main">3. Tēma</a>
-      <a href="/sasnRez">rezultāti</a>
-      <a href="/paligm">palīgmateriāli</a>
-    </nav>
-    <div class="spacer"></div>
-    <a class="btn" href="/programmesana2/prog2_3/prog2_34">← 3.4</a>
-    <a class="btn primary" href="/programmesana2/prog2_3/prog2_36">3.6 →</a>
-  </div>
-</header>
-
-
-
-<aside class="sidebar-nav" aria-label="Tēmas navigācija">
-  <div class="sidebar-kicker">Programmēšana II</div>
-  <h3>3. Tēma - Objektorientētā programmēšana</h3>
-  <div class="sidebar-links">
-    <a class="topic-main" href="/programmesana2/prog2_3/prog2_3main">Tēmas sākums</a>
-    <a href="/programmesana2/prog2_3/prog2_31">3.1 C# klases pamati</a>
-    <a href="/programmesana2/prog2_3/prog2_32">3.2 Mantošana C# un Godot</a>
-    <a href="/programmesana2/prog2_3/prog2_33">3.3 Signāli un objektu komunikācija</a>
-    <a href="/programmesana2/prog2_3/prog2_34">3.4 Custom C# klases editorā redzamas</a>
-    <a class="active" aria-current="page" href="/programmesana2/prog2_3/prog2_35">3.5 Statistikas sistēma un struct</a>
-    <a href="/programmesana2/prog2_3/prog2_36">3.6 Noslēguma projekts: Klases turnīra simulators</a>
-  </div>
-</aside>
-<section class='section'>
-    <h1>3.5 Statistikas sistēma un struct</h1>
-    <p><b>Stundas uzdevums:</b> Izmantot struct datu grupēšanai un kompozīciju (composition) klašu organizēšanai.</p>
-    <div class="lesson-meta">
-        <a href="/sasnRez">SR 2.4.16. Saliktas datu struktūras</a>
-        <a href="/sasnRez">SR 2.4.18. OOP</a>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="info-box">
-        <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido struct statistikai · 2. uzdevums (~25 min) - ieliec struct klasē un pievieno metodes · 3. uzdevums (~20 min) - pievieno pagaidu bonusus sarakstā · Iesniegšana (~5 min).</p>
-        <p><b>Pirms sāc:</b> atver savu dalībnieku klasi. Šodien sakārtosi tās laukus: tā vietā, lai klasē būtu desmit atsevišķi skaitļi, tie visi dzīvos vienā <code>struct</code>.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Teorija: struct un kompozīcija</h2>
-    <div class='logic-box'>
+<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana II</div>
+<h3>3. Tēma - Objektorientētā programmēšana</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana2/prog2_3/prog2_3main">Tēmas sākums</a>
+<a href="/programmesana2/prog2_3/prog2_31">3.1 C# klases pamati</a>
+<a href="/programmesana2/prog2_3/prog2_32">3.2 Mantošana C# un Godot</a>
+<a href="/programmesana2/prog2_3/prog2_33">3.3 Signāli un objektu komunikācija</a>
+<a href="/programmesana2/prog2_3/prog2_34">3.4 Custom C# klases editorā redzamas</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_3/prog2_35">3.5 Statistikas sistēma un struct</a>
+<a href="/programmesana2/prog2_3/prog2_36">3.6 Noslēguma projekts: Klases turnīra simulators</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_3/prog2_3main">3. tēma</a> / 3.5</p>
+<h1>3.5 Statistikas sistēma un struct</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Izmantot struct datu grupēšanai un kompozīciju (composition) klašu organizēšanai.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.16. Saliktas datu struktūras</a>
+<a href="/sasnRez">SR 2.4.18. OOP</a>
+</div>
+<section>
+<div class="info-box">
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido struct statistikai · 2. uzdevums (~25 min) - ieliec struct klasē un pievieno metodes · 3. uzdevums (~20 min) - pievieno pagaidu bonusus sarakstā · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu dalībnieku klasi. Šodien sakārtosi tās laukus: tā vietā, lai klasē būtu desmit atsevišķi skaitļi, tie visi dzīvos vienā <code>struct</code>.</p>
+</div>
+</section><section>
+<h2>Teorija: struct un kompozīcija</h2>
+<div class="logic-box">
 <p><b>struct</b> ir vienkāršāka klase - visi lauki ir <code>public</code> pēc noklusējuma. Lietojama datu grupēšanai.</p>
 <pre><code class="language-csharp">using System;
 
@@ -127,15 +106,12 @@ public class Participant
     public ref Stats GetStats() =&gt; ref stats;  // atgriež references
 }</code></pre>
 <p><b>Kompozīcija</b> (klase satur citu klasi) bieži ir labāka par mantošanu - fleksiblāka un mazāk saistīta.</p>
-    </div>
-</section>
-
-
-<section class='section'>
-    <h2>Kā šo izmantot projektā</h2>
-    <div class='logic-box'>
-        <p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-        <p><b>Pārbaudi:</b> katrai būtiskai turnīra lomai ir C# klase vienā <code>.cs</code> failā, ar konstruktoriem, metodēm, signāliem vai mantošanu.</p>
+</div>
+</section><section>
+<h2>Kā šo izmantot projektā</h2>
+<div class="logic-box">
+<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
+<p><b>Pārbaudi:</b> katrai būtiskai turnīra lomai ir C# klase vienā <code>.cs</code> failā, ar konstruktoriem, metodēm, signāliem vai mantošanu.</p>
 <pre><code class="language-csharp">public class OopCheckpoint
 {
     public string Lesson = "3.5 Statistikas sistēma un struct";
@@ -144,109 +120,96 @@ public class Participant
     public bool HasSingleResponsibility = true;
     public bool UsesGodotInspector = true;
 }</code></pre>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Praktiskie uzdevumi</h2>
-    <div class='logic-box'>
-        <h3>1. uzdevums - Izveido struct statistikai</h3>
-        <p>Beigās visi dalībnieka skaitļi būs vienuviet.</p>
-        <ol class="step-list">
-            <li><b>Uzraksti</b> failā <code>Stats.cs</code> <code class="language-csharp">public struct Stats {</code>.</li>
-            <li><b>Pievieno</b> laukus <code class="language-csharp">public int Energy;</code> un <code class="language-csharp">public int MaxEnergy;</code>.</li>
-            <li><b>Pievieno</b> arī <code class="language-csharp">public int Focus;</code>, <code class="language-csharp">public int Calm;</code> un <code class="language-csharp">public int Speed;</code>.</li>
-            <li><b>Ievēro</b>, ka C# <code>struct</code> laukiem jāraksta <code>public</code>, ja tos vajag lietot ārpus struktūras.</li>
-            <li><b>Izveido</b> objektu <code class="language-csharp">Stats s = new Stats();</code> un izdrukā visus laukus.</li>
-            <li><b>Nomaini</b> vienu lauku un izdrukā vēlreiz.</li>
-            <li><b>Pieraksti</b>, ar ko <code>struct</code> atšķiras no <code>class</code>.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> izdrukā redzamas visas noklusējuma vērtības, un tu vari nosaukt atšķirību no <code>class</code>.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>2. uzdevums - Ieliec struct klasē un pievieno metodes</h3>
-        <p>Beigās klase glabās statistiku vienā laukā, nevis piecos.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code>Participant</code> klasei privātu lauku <code class="language-csharp">private Stats stats = new Stats();</code>.</li>
-            <li><b>Izdzēs</b> vecos atsevišķos skaitļu laukus.</li>
-            <li><b>Pievieno</b> <code>Stats</code> struktūrai metodi <code class="language-csharp">public void Heal(int amount)</code>.</li>
-            <li><b>Ieraksti</b> tajā <code class="language-csharp">Energy = Math.Min(MaxEnergy, Energy + amount);</code>.</li>
-            <li><b>Pievieno</b> klasei publisku metodi <code class="language-csharp">public ref Stats GetStats() =&gt; ref stats;</code>.</li>
-            <li><b>Izsauc</b> <code class="language-csharp">p.GetStats().Heal(30);</code> un izdrukā enerģiju.</li>
-            <li><b>Pārbaudi</b>, ka enerģija nepārsniedz maksimumu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> pēc lielas dziedināšanas enerģija apstājas tieši uz <code>max_energy</code>, nevis to pārsniedz.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>3. uzdevums - Pievieno pagaidu bonusus sarakstā</h3>
-        <p>Beigās dalībniekam varēs uzlikt bonusus, kas summējas.</p>
-        <ol class="step-list">
-            <li><b>Izveido</b> <code class="language-csharp">public struct Buff { public string Name; public int FocusBonus; }</code>.</li>
-            <li><b>Pievieno</b> <code>Stats</code> klasei lauku <code class="language-csharp">public List&lt;Buff&gt; Buffs = new();</code>.</li>
-            <li><b>Uzraksti</b> metodi <code class="language-csharp">public int GetTotalFocus()</code>.</li>
-            <li><b>Saskaiti</b> tajā ciklā pamata <code>Focus</code> plus visu bonusu summu.</li>
-            <li><b>Pievieno</b> divus bonusus un izdrukā kopējo fokusu.</li>
-            <li><b>Izdzēs</b> vienu bonusu un izdrukā vēlreiz.</li>
-            <li><b>Pieraksti</b>, kāpēc kopējo vērtību labāk rēķināt, nevis glabāt atsevišķā laukā.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> kopējais fokuss mainās, pievienojot un noņemot bonusus, un vienmēr sakrīt ar summu.</p>
-    </div>
-    <div class='logic-box'>
-        <h3>Papildu uzdevums - Pievieno bonusiem ilgumu</h3>
-        <p>Ja pamatdarbs ir gatavs, liec bonusiem beigties pēc dažām kārtām.</p>
-        <ol class="step-list">
-            <li><b>Pievieno</b> <code>Buff</code> struktūrai lauku <code class="language-csharp">public int TurnsLeft;</code>.</li>
-            <li><b>Uzraksti</b> metodi, kas samazina visiem bonusiem <code>TurnsLeft</code> par vienu.</li>
-            <li><b>Izdzēs</b> no saraksta tos, kuriem tas sasniedzis nulli.</li>
-            <li><b>Izsauc</b> šo metodi trīs reizes pēc kārtas.</li>
-            <li><b>Izdrukā</b> pēc katras reizes kopējo fokusu.</li>
-        </ol>
-        <p class="done-when"><b>Gatavs, kad:</b> bonusi pazūd paši pēc norādītā kārtu skaita, un fokuss atgriežas sākuma vērtībā.</p>
-    </div>
-</section>
-
-<section class='section'>
-    <div class="hand-in-box">
-        <h2>Ko sagatavo</h2>
-        <p class="merkis"><b>Stundas mērķis:</b> Tu proti izveidot <code>struct</code> datu grupēšanai, ielikt to klasē kā lauku (kompozīcija) un rēķināt kopējo vērtību no saraksta, nevis glabāt to atsevišķi.</p>
-        <p><b>GitHub krātuvē jābūt:</b></p>
-        <ol class="step-list">
-            <li>Faili <code>Stats.cs</code> un atjauninātais <code>Participant.cs</code>.</li>
-            <li>Ekrānuzņēmums ar Output paneli, kurā redzams kopējais fokuss pirms un pēc bonusa noņemšanas.</li>
-            <li>README.md: ar ko <code>struct</code> atšķiras no <code>class</code> un kāpēc kopējo fokusu labāk rēķināt.</li>
-        </ol>
-        <p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-    </div>
-</section>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
 
 
 
 
-<section class='section'>
-    <h2>Biežākās kļūdas</h2>
-    <div class='logic-box'>
-        <ul>
-        <li><b>Stats noklusējuma vērtības neuzstādās:</b> C# struct bez konstruktora dod 0 vērtības. Inicializē ar konstruktoru.</li>
-        <li><b>List iteration kļūda:</b> nemaini <code>List&lt;Buff&gt;</code> tajā pašā <code>foreach</code>; lieto <code>for</code> vai <code>RemoveAll</code>.</li>
-        <li><b>Slow buff lookup:</b> lielam bonusu skaitam lieto <code>Dictionary&lt;string, Buff&gt;</code> vai atsevišķu indeksu.</li>
-        </ul>
-    </div>
-</section>
-
-<section class='section'>
-    <h2>Godot ekrānuzņēmumi</h2>
-    <div class='logic-box'>
-        <figure class="screenshot">
-            <img src="../img/topic3_stats_panel.png" alt="Spēles HUD ar varoņa Stats panelu: ENERGY 80/100, FOCUS 15 (+5 buff), CALM 5, SPD 5, aktīvi buffs sarakstā." loading="lazy">
-            <figcaption>Spēles HUD ar varoņa Stats panelu: ENERGY 80/100, FOCUS 15 (+5 buff), CALM 5, SPD 5, aktīvi buffs sarakstā.</figcaption>
-        </figure>
-    </div>
-</section>
-
-<div class='section'>
-    <h2>Koda piemērs (paplašināts)</h2>
-    <div class='code-example'>
-        <pre><code class="language-csharp">using System;
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Izveido struct statistikai</h2>
+<p>Beigās visi dalībnieka skaitļi būs vienuviet.</p>
+<ol class="step-list">
+<li><b>Uzraksti</b> failā <code>Stats.cs</code> <code class="language-csharp">public struct Stats {</code>.</li>
+<li><b>Pievieno</b> laukus <code class="language-csharp">public int Energy;</code> un <code class="language-csharp">public int MaxEnergy;</code>.</li>
+<li><b>Pievieno</b> arī <code class="language-csharp">public int Focus;</code>, <code class="language-csharp">public int Calm;</code> un <code class="language-csharp">public int Speed;</code>.</li>
+<li><b>Ievēro</b>, ka C# <code>struct</code> laukiem jāraksta <code>public</code>, ja tos vajag lietot ārpus struktūras.</li>
+<li><b>Izveido</b> objektu <code class="language-csharp">Stats s = new Stats();</code> un izdrukā visus laukus.</li>
+<li><b>Nomaini</b> vienu lauku un izdrukā vēlreiz.</li>
+<li><b>Pieraksti</b>, ar ko <code>struct</code> atšķiras no <code>class</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> izdrukā redzamas visas noklusējuma vērtības, un tu vari nosaukt atšķirību no <code>class</code>.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Ieliec struct klasē un pievieno metodes</h2>
+<p>Beigās klase glabās statistiku vienā laukā, nevis piecos.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> <code>Participant</code> klasei privātu lauku <code class="language-csharp">private Stats stats = new Stats();</code>.</li>
+<li><b>Izdzēs</b> vecos atsevišķos skaitļu laukus.</li>
+<li><b>Pievieno</b> <code>Stats</code> struktūrai metodi <code class="language-csharp">public void Heal(int amount)</code>.</li>
+<li><b>Ieraksti</b> tajā <code class="language-csharp">Energy = Math.Min(MaxEnergy, Energy + amount);</code>.</li>
+<li><b>Pievieno</b> klasei publisku metodi <code class="language-csharp">public ref Stats GetStats() =&gt; ref stats;</code>.</li>
+<li><b>Izsauc</b> <code class="language-csharp">p.GetStats().Heal(30);</code> un izdrukā enerģiju.</li>
+<li><b>Pārbaudi</b>, ka enerģija nepārsniedz maksimumu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pēc lielas dziedināšanas enerģija apstājas tieši uz <code>max_energy</code>, nevis to pārsniedz.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pievieno pagaidu bonusus sarakstā</h2>
+<p>Beigās dalībniekam varēs uzlikt bonusus, kas summējas.</p>
+<ol class="step-list">
+<li><b>Izveido</b> <code class="language-csharp">public struct Buff { public string Name; public int FocusBonus; }</code>.</li>
+<li><b>Pievieno</b> <code>Stats</code> klasei lauku <code class="language-csharp">public List&lt;Buff&gt; Buffs = new();</code>.</li>
+<li><b>Uzraksti</b> metodi <code class="language-csharp">public int GetTotalFocus()</code>.</li>
+<li><b>Saskaiti</b> tajā ciklā pamata <code>Focus</code> plus visu bonusu summu.</li>
+<li><b>Pievieno</b> divus bonusus un izdrukā kopējo fokusu.</li>
+<li><b>Izdzēs</b> vienu bonusu un izdrukā vēlreiz.</li>
+<li><b>Pieraksti</b>, kāpēc kopējo vērtību labāk rēķināt, nevis glabāt atsevišķā laukā.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> kopējais fokuss mainās, pievienojot un noņemot bonusus, un vienmēr sakrīt ar summu.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno bonusiem ilgumu</summary>
+<p>Ja pamatdarbs ir gatavs, liec bonusiem beigties pēc dažām kārtām.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> <code>Buff</code> struktūrai lauku <code class="language-csharp">public int TurnsLeft;</code>.</li>
+<li><b>Uzraksti</b> metodi, kas samazina visiem bonusiem <code>TurnsLeft</code> par vienu.</li>
+<li><b>Izdzēs</b> no saraksta tos, kuriem tas sasniedzis nulli.</li>
+<li><b>Izsauc</b> šo metodi trīs reizes pēc kārtas.</li>
+<li><b>Izdrukā</b> pēc katras reizes kopējo fokusu.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> bonusi pazūd paši pēc norādītā kārtu skaita, un fokuss atgriežas sākuma vērtībā.</p>
+</details><section>
+<div class="hand-in-box">
+<h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Tu proti izveidot <code>struct</code> datu grupēšanai, ielikt to klasē kā lauku (kompozīcija) un rēķināt kopējo vērtību no saraksta, nevis glabāt to atsevišķi.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list">
+<li>Faili <code>Stats.cs</code> un atjauninātais <code>Participant.cs</code>.</li>
+<li>Ekrānuzņēmums ar Output paneli, kurā redzams kopējais fokuss pirms un pēc bonusa noņemšanas.</li>
+<li>README.md: ar ko <code>struct</code> atšķiras no <code>class</code> un kāpēc kopējo fokusu labāk rēķināt.</li>
+</ol>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+</div>
+</section><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Stats noklusējuma vērtības neuzstādās:</b> C# struct bez konstruktora dod 0 vērtības. Inicializē ar konstruktoru.</li>
+<li><b>List iteration kļūda:</b> nemaini <code>List&lt;Buff&gt;</code> tajā pašā <code>foreach</code>; lieto <code>for</code> vai <code>RemoveAll</code>.</li>
+<li><b>Slow buff lookup:</b> lielam bonusu skaitam lieto <code>Dictionary&lt;string, Buff&gt;</code> vai atsevišķu indeksu.</li>
+</ul>
+</div>
+</section><section>
+<h2>Godot ekrānuzņēmumi</h2>
+<div class="logic-box">
+<figure class="screenshot">
+<img alt="Spēles HUD ar varoņa Stats panelu: ENERGY 80/100, FOCUS 15 (+5 buff), CALM 5, SPD 5, aktīvi buffs sarakstā." loading="lazy" src="../img/topic3_stats_panel.png"/>
+<figcaption>Spēles HUD ar varoņa Stats panelu: ENERGY 80/100, FOCUS 15 (+5 buff), CALM 5, SPD 5, aktīvi buffs sarakstā.</figcaption>
+</figure>
+</div>
+</section><section>
+<h2>Koda piemērs (paplašināts)</h2>
+<div class="code-example">
+<pre><code class="language-csharp">using System;
 using System.Collections.Generic;
 
 public struct Buff
@@ -292,13 +255,23 @@ public class Stats
         Buffs.RemoveAll(buff =&gt; buff.Duration &lt;= 0);
     }
 }</code></pre>
-        <div class='result'>Participant get_total_focus atgriež 15 (10 base + 5 buff), pēc 30 sec - atkal 10.</div>
-    </div>
+<div class="result">Participant get_total_focus atgriež 15 (10 base + 5 buff), pēc 30 sec - atkal 10.</div>
 </div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_3/prog2_34">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_3/prog2_36">Nākamā stunda ➡</a>
+</nav></main>
 
-<div class="stundas-navigacija">
-    <a href="/programmesana2/prog2_3/prog2_34" class="nav-btn">⬅ Iepriekšējā stunda</a>
-    <a href="/programmesana2/prog2_3/prog2_36" class="nav-btn">Nākamā stunda ➡</a>
-</div>
-</body>
+
+
+
+
+
+
+
+
+
+<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
+      <a href="../../paligm.html">Palīgmateriāli</a> ·
+      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
 </html>
