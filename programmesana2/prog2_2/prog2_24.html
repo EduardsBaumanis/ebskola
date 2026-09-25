@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>2.4 Sadursmju noteikšana - ebSkola</title>
-<meta content="Salīdzināt CharacterBody2D, Area2D un RigidBody2D, veidojot sadursmes, savācamos objektus un fizikas uzvedību." name="description"/>
+<meta content="Uzbūvēt līmeņa platformas un ar Area2D savākt punktus un atslēgu." name="description"/>
 <meta content="Eduards Baumanis" name="author"/>
 <meta content="index, follow" name="robots"/>
 <link href="https://ebskola.lv/programmesana2/prog2_2/prog2_24" rel="canonical"/>
@@ -13,28 +13,23 @@
 <meta content="lv_LV" property="og:locale"/>
 <meta content="ebSkola" property="og:site_name"/>
 <meta content="2.4 Sadursmju noteikšana" property="og:title"/>
-<meta content="Salīdzināt CharacterBody2D, Area2D un RigidBody2D, veidojot sadursmes, savācamos objektus un fizikas uzvedību." property="og:description"/>
+<meta content="Uzbūvēt līmeņa platformas un ar Area2D savākt punktus un atslēgu." property="og:description"/>
 <meta content="https://ebskola.lv/programmesana2/prog2_2/prog2_24" property="og:url"/>
 <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
 <meta content="summary" name="twitter:card"/>
 <meta content="2.4 Sadursmju noteikšana" name="twitter:title"/>
-<meta content="Salīdzināt CharacterBody2D, Area2D un RigidBody2D, veidojot sadursmes, savācamos objektus un fizikas uzvedību." name="twitter:description"/>
+<meta content="Uzbūvēt līmeņa platformas un ar Area2D savākt punktus un atslēgu." name="twitter:description"/>
 <link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="../../manifest.json" rel="manifest"/>
 <meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
-{"@context": "https://schema.org","@type": "LearningResource","name": "2.4 Sadursmju noteikšana","description": "Salīdzināt CharacterBody2D, Area2D un RigidBody2D, veidojot sadursmes, savācamos objektus un fizikas uzvedību.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_2/prog2_24","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "2.4 Sadursmju noteikšana","description": "Uzbūvēt līmeņa platformas un ar Area2D savākt punktus un atslēgu.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_2/prog2_24","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link href="../../style.css" rel="stylesheet" type="text/css"/>
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-<style>
-.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
-.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
-.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
-</style>
 <link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
 <body class="page-reference course-lesson has-sidebar">
 <a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
@@ -54,159 +49,54 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_2/prog2_2main">2. tēma</a> / 2.4</p>
 <h1>2.4 Sadursmju noteikšana</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Apgūt CharacterBody2D, Area2D un RigidBody2D atšķirības un to lietojumu.</p>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Uzbūvēt līmeņa platformas un ar Area2D savākt punktus un atslēgu.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.14. Vadības struktūras</a>
 <a href="/sasnRez">SR 2.4.7. UI</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pievieno sienu un pārbaudi sadursmi · 2. uzdevums (~25 min) - izveido savācamu monētu ar Area2D · 3. uzdevums (~20 min) - iestati Collision Layers · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu projektu ar vadāmu objektu no 2.2 stundas. Šodien objekts vairs nevarēs iet cauri sienām.</p>
-</div>
-</section><section>
-<h2>Teorija: Sadursmju nodes Godot</h2>
-<div class="logic-box">
-<p>Godot piedāvā trīs galvenos sadursmju nodes:</p>
-<div aria-label="Tabula" class="table-scroll" role="region" tabindex="0"><table>
-<thead><tr><th>Node</th><th>Lietojums</th></tr></thead>
-<tbody>
-<tr><td><code>StaticBody2D</code></td><td>Nekustīgi šķēršļi (siena, grīda).</td></tr>
-<tr><td><code>CharacterBody2D</code></td><td>Spēlētāji un AI ar pielāgotu kustību (ne fiziku).</td></tr>
-<tr><td><code>RigidBody2D</code></td><td>Pilna fizika - gravitācija, masa, spēks.</td></tr>
-<tr><td><code>Area2D</code></td><td>Detektē ieiešanu/iziešanu zonā (trigger, pickup).</td></tr>
+<section><div class="info-box"><p><b>80 min plāns:</b> Ievads (~10 min) · grīda un platformas (~20 min) · priekšmeti (~25 min) · sadursmju pārbaudes (~20 min) · saglabāšana (~5 min).</p>
+<p><b>Pirms sāc:</b> vajadzīgi 2.3 <code>Player.cs</code> ar publisku <code>OnPickup</code> un <code>Level1.tscn</code>. Noņem pagaidu priekšmetu piešķiršanu _Ready metodē. Šodien vēl kustamies četros virzienos, lai ērti pārbaudītu visu laukumu.</p>
+<p><b>Darba ritms:</b> pēc katra uzdevuma saglabā, nospied <b>Build</b> un pārbaudi rezultātu. Kļūdu gadījumā sāc ar pirmo sarkano kļūdu, nevis nākamo uzdevumu.</p>
+</div></section>
+<section><h2>Teorija: šķērslis un notikuma zona</h2>
+<div class="logic-box"><p><code>StaticBody2D</code> aptur spēlētāju, <code>Area2D</code> pamana ieiešanu zonā, bet neaiztur kustību. Abiem vajadzīga <code>CollisionShape2D</code> forma; redzamam izskatam atsevišķi vajag Visual.</p>
+<p><b>Layer</b> norāda, kurā slānī objekts atrodas. <b>Mask</b> norāda, kurus slāņus tas pārbauda. Lai monētas <code>BodyEntered</code> pamanītu spēlētāju 2. slānī, <b>pašas monētas Mask jābūt 2</b>, Monitoring jābūt ieslēgtam. Skati <a href="https://docs.godotengine.org/en/stable/classes/class_area2d.html">Area2D dokumentāciju</a>.</p>
+<div class="table-scroll" role="region" aria-label="Mezgls" tabindex="0"><table><thead><tr><th scope="col">Mezgls</th><th scope="col">Layer ķeksīši</th><th scope="col">Mask ķeksīši</th></tr>
+</thead>
+<tbody><tr><td>Ground un Platform (StaticBody2D)</td><td>tikai 1</td><td>neviens</td></tr>
+<tr><td>Player (CharacterBody2D)</td><td>tikai 2</td><td>tikai 1</td></tr>
+<tr><td>Pickup, vēlāk Finish un Hazard (Area2D)</td><td>tikai 3</td><td>tikai 2</td></tr>
 </tbody>
-</table></div>
-<p><b>Collision Layers un Masks:</b> nosaka, kas var sadurties ar ko.</p>
-<pre><code class="language-csharp">// Area2D signāls C#
-public partial class Pickup : Area2D
-{
-    public override void _Ready()
-    {
-        BodyEntered += OnBodyEntered;
-    }
-
-    private void OnBodyEntered(Node2D body)
-    {
-        if (body.IsInGroup("player"))
-        {
-            // savākt pickup
-            GetParent().Call("ScoreUp", 1);
-            QueueFree();  // dzēst sevi
-        }
-    }
-}</code></pre>
-</div>
-</section><section>
-<h2>Kā šo izmantot projektā</h2>
-<div class="logic-box">
-<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-<p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C# klasēm, kas lieto _PhysicsProcess, Input, CharacterBody2D, Area2D vai MoveAndSlide.</p>
-<pre><code class="language-csharp">public class PhysicsCheckpoint
-{
-    public string Lesson = "2.4 Sadursmju noteikšana";
-    public bool UsesCSharp = true;
-    public bool UsesPhysicsProcess = true;
-    public bool UsesDeltaTime = true;
-    public bool ChecksCollisions = true;
-}</code></pre>
-</div>
-</section><section>
-<h2>Praktiskie uzdevumi</h2>
-
-
-
-
-</section><section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums - </p><h2>Pievieno sienu un pārbaudi sadursmi</h2>
-<p>Beigās tavs objekts apstāsies pie sienas, nevis ies tai cauri.</p>
-<ol class="step-list">
-<li><b>Nomaini</b> sava vadāmā objekta tipu uz <code>CharacterBody2D</code>.</li>
-<li><b>Pievieno</b> tam bērnu <code>CollisionShape2D</code> ar taisnstūra formu.</li>
-<li><b>Pievieno</b> scēnai <code>StaticBody2D</code> ar nosaukumu <code>Siena</code> un tās sadursmes formu.</li>
-<li><b>Nomaini</b> kodā kustību uz <code class="language-csharp">Velocity = dir * Speed;</code> un <code class="language-csharp">MoveAndSlide();</code>.</li>
-<li><b>Kompilē</b> un mēģini iebraukt sienā.</li>
-<li><b>Izdzēs</b> sienas <code>CollisionShape2D</code> un pamēģini vēlreiz.</li>
-<li><b>Ieliec</b> to atpakaļ un pieraksti, kāpēc bez formas sadursmes nav.</li>
+</table>
+</div><p>Tabulā ir Inspector <b>ķeksīšu numuri</b>. Failā .tscn tie glabājas kā bitu maskas: 1. slānis = 1, 2. = 2, 3. = 4. Noņem visus liekos noklusējuma ķeksīšus.</p>
+</div></section>
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
+<h2>Uzbūvē grīdu un trīs sasniedzamas platformas</h2>
+<ol class="step-list"><li>Atver <code>Level1.tscn</code>. Pievieno saknes bērnu <code>StaticBody2D</code> ar nosaukumu <code>Ground</code>, Position = <code>(640,660)</code>.</li>
+<li>Ground pievieno <code>CollisionShape2D</code>: New RectangleShape2D, Size = <code>(1280,40)</code>. Bērna Position = <code>(0,0)</code>. Pievieno <code>Polygon2D</code> bērnu Visual ar punktiem <code>(-640,-20), (640,-20), (640,20), (-640,20)</code> un redzamu krāsu.</li>
+<li>Līdzīgi izveido <code>StaticBody2D</code> Platform1: Position = <code>(280,560)</code>, formas Size = <code>(160,20)</code>, Visual punkti <code>(-80,-10), (80,-10), (80,10), (-80,10)</code>. Saknes Scale atstāj (1,1).</li>
+<li>Dublē Platform1 par Platform2 un Platform3; Position attiecīgi <code>(480,470)</code> un <code>(680,380)</code>. Ja kādai kopijai maini formas izmēru, Shape resursam vispirms izvēlies <b>Make Unique</b>, lai neizmainītu visas kopijas.</li>
+<li>Iestati Layer un Mask visām platformām, grīdai un Player pēc tabulas. F5 laikā ar S mēģini iebraukt grīdā, ar D — platformas sānos.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> objekts apstājas pie sienas, bet bez <code>CollisionShape2D</code> iet tai cauri.</p>
-</section><section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums - </p><h2>Izveido savācamu monētu ar Area2D</h2>
-<p>Beigās monēta pazudīs, kad tai pieskarsies.</p>
-<ol class="step-list">
-<li><b>Pievieno</b> scēnai <code>Area2D</code> ar nosaukumu <code>Monēta</code> un tās sadursmes formu.</li>
-<li><b>Izveido</b> C# klasi <code>Coin</code>, kas manto no <code>Area2D</code>.</li>
-<li><b>Uzraksti</b> apstrādātāju <code class="language-csharp">private void OnBodyEntered(Node2D body)</code>.</li>
-<li><b>Savieno</b> <code>_Ready()</code> metodē signālu ar <code class="language-csharp">BodyEntered += OnBodyEntered;</code>.</li>
-<li><b>Ieraksti</b> apstrādātājā izdruku un <code class="language-csharp">QueueFree();</code>.</li>
-<li><b>Būvē</b> projektu un uzbrauc monētai virsū.</li>
-<li><b>Pieraksti</b>, ar ko <code>Area2D</code> atšķiras no <code>StaticBody2D</code>.</li>
+<p class="done-when"><b>Gatavs, kad:</b> spēlētājs apstājas pie fiziskajiem šķēršļiem un līmenī ir redzama grīda un trīs platformas.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums - </p>
+<h2>Savieno priekšmetu ar spēlētāja punktiem</h2>
+<ol class="step-list"><li>Izveido jaunu scēnu ar <code>Area2D</code> sakni <code>Pickup</code>, saglabā <code>res://Scenes/Pickup.tscn</code>. Pievieno CollisionShape2D ar CircleShape2D, Radius = <code>12</code>.</li>
+<li>Pievieno Polygon2D bērnu Visual: punkti <code>(0,-12), (12,0), (0,12), (-12,0)</code>. Izvēlies dzeltenu krāsu. Iestati Pickup Layer tikai 3, Mask tikai 2, Monitoring = On.</li>
+<li>Pickup saknei pievieno <code>res://Scripts/Pickup.cs</code> un ievieto zemāk doto pilno kodu. Tas pats savieno signālu; editorā BodyEntered otrreiz nepievieno.</li>
+<li>Build, tad Level1 scēnā ievelc Pickup instanci: nosaukums Coin1, Position = <code>(150,600)</code>, Inspector Type = <code>Coin</code>. Ar F5 piebrauc tai klāt.</li>
+<li>Pārbaudi: priekšmets pazūd un Output ir 1 punkts. <code>body is Player player</code> nodrošina, ka savāc tikai spēlētājs; <code>collected</code> aizsargā pret atkārtotu pieskaitīšanu pirms QueueFree pabeigšanas.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> uzbraucot monētai, tā pazūd un Output panelī parādās izdruka, bet objekts neapstājas.</p>
-</section><section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums - </p><h2>Iestati Collision Layers</h2>
-<p>Beigās tu noteiksi, kurš objekts ar kuru drīkst sadurties.</p>
-<ol class="step-list">
-<li><b>Atver</b> sienas Inspector sadaļu <b>Collision</b>.</li>
-<li><b>Iestati</b> sienai <code>Layer</code> 1 un noņem visus <code>Mask</code> ķeksīšus.</li>
-<li><b>Iestati</b> spēlētājam <code>Layer</code> 2 un <code>Mask</code> 1 un 3.</li>
-<li><b>Iestati</b> monētai <code>Layer</code> 3.</li>
-<li><b>Palaid</b> un pārbaudi, ka spēlētājs joprojām apstājas pie sienas un savāc monētu.</li>
-<li><b>Noņem</b> spēlētājam <code>Mask</code> 1 un pārbaudi, kas notiek ar sienu.</li>
-<li><b>Ieliec</b> ķeksīti atpakaļ un pieraksti, ko nozīmē Layer un ko Mask.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> noņemot Mask 1, spēlētājs sāk iet cauri sienai, un tu vari izskaidrot, kāpēc.</p>
-</section><details class="course-help extra-task">
-<summary>Papildu uzdevums - Saskaiti savāktās monētas</summary>
-<p>Ja pamatdarbs ir gatavs, pievieno rezultāta skaitītāju.</p>
-<ol class="step-list">
-<li><b>Nokopē</b> monētu vēl trīs reizes dažādās vietās.</li>
-<li><b>Pievieno</b> spēlētāja klasei lauku <code class="language-csharp">int score = 0;</code>.</li>
-<li><b>Palielini</b> to, kad monēta tiek savākta.</li>
-<li><b>Izdrukā</b> rezultātu pēc katras savāktās monētas.</li>
-<li><b>Savāc</b> visas monētas un pārbaudi gala skaitli.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> pēc visu monētu savākšanas izdrukātais skaitlis sakrīt ar monētu skaitu.</p>
-</details><section>
-<div class="hand-in-box">
-<h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tavā projektā spēlētājs apstājas pie <code>StaticBody2D</code> sienas, savāc <code>Area2D</code> monētu, kas pazūd, un tu proti ar Collision Layers un Masks noteikt, kurš objekts ar kuru sadursies.</p>
-<p><b>GitHub krātuvē jābūt:</b></p>
-<ol class="step-list">
-<li>Īss video vai divi ekrānuzņēmumi: objekts pie sienas un monētas savākšanas brīdis.</li>
-<li>Fails <code>Coin.cs</code> ar signāla savienojumu.</li>
-<li>README.md: ar ko <code>Area2D</code> atšķiras no <code>StaticBody2D</code> un ko nozīmē Layer un Mask.</li>
-</ol>
-<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-</div>
-</section><section>
-<h2>Biežākās kļūdas</h2>
-<div class="logic-box">
-<ul>
-<li><b>Spēlētājs iziet cauri grīdai:</b> CollisionShape2D nav vai forma 0 izmērā.</li>
-<li><b>Area2D signāls nestrādā:</b> aizmirsts <code>BodyEntered += OnBodyEntered;</code> vai apstrādātāja parametra tips nav <code>Node2D</code>.</li>
-<li><b>RigidBody2D negravitē:</b> Gravity Scale = 0 vai <i>Project Settings → Physics → 2D → Default Gravity</i> = 0.</li>
-</ul>
-</div>
-</section><section>
-<h2>Godot ekrānuzņēmumi</h2>
-<div class="logic-box">
-<figure class="screenshot">
-<img alt="Project Settings → Layer Names → 2D Physics ar trim nosauktiem slāņiem: world, player, pickup." loading="lazy" src="../img/topic2_collision_layers.png"/>
-<figcaption>Project Settings → Layer Names → 2D Physics ar trim nosauktiem slāņiem: world, player, pickup.</figcaption>
-</figure>
-<figure class="screenshot">
-<img alt="Spēles aina pirms un pēc spēlētāja pieskaršanās monētai - monēta pazūd, score palielinās par 1." loading="lazy" src="../img/topic2_pickups_collected.png"/>
-<figcaption>Spēles aina pirms un pēc spēlētāja pieskaršanās monētai - monēta pazūd, score palielinās par 1.</figcaption>
-</figure>
-</div>
-</section><section>
-<h2>Koda piemērs (paplašināts)</h2>
-<div class="code-example">
+<details class="course-help"><summary>2.4 Pickup.cs — pilns fails salīdzināšanai</summary>
+<p><a href="platformer/Scripts/Pickup.cs" download>Lejupielādēt Pickup.cs</a>. Aizstāj tikai atbilstošā faila saturu; neveido otru tāda paša nosaukuma klasi.</p>
 <pre><code class="language-csharp">using Godot;
 
-public partial class Coin : Area2D
+public partial class Pickup : Area2D
 {
+    [Export] public PickupType Type = PickupType.Coin;
+    private bool collected = false;
+
     public override void _Ready()
     {
         BodyEntered += OnBodyEntered;
@@ -214,17 +104,58 @@ public partial class Coin : Area2D
 
     private void OnBodyEntered(Node2D body)
     {
-        if (body.IsInGroup("player"))
-        {
-            // Pavadi ziņu vecākam ar score
-            GetTree().CallGroup("game", "AddScore", 1);
-            QueueFree();
-        }
+        if (collected || body is not Player player || !player.IsActive)
+            return;
+
+        collected = true;
+        player.OnPickup(Type);
+        QueueFree();
     }
 }</code></pre>
-<div class="result">Spēlētājs pārvietojas pa platformām, savācot punktu žetonus, kuri pazūd pēc savākšanas.</div>
-</div>
-</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+</details>
+<p class="done-when"><b>Gatavs, kad:</b> reāla sadursme izsauc 2.3 izveidoto OnPickup un priekšmets dod punktus tikai vienreiz.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums - </p>
+<h2>Pievieno atlīdzības un atslēgu, pārbaudi slāņus</h2>
+<ol class="step-list"><li>Level1 pievieno pārējās Pickup instances pēc tabulas. Type maini katrai instancei Inspector, nevis visai Pickup scēnai. Gem un Key vari atšķirt ar instances <b>Modulate</b> krāsu.</li>
+<li>Savāc visus priekšmetus: 4 Coin dod 4 punktus, Gem — 5, kopā 9. Key iestata HasKey = true. Šajā stundā tos sasniedz ar četru virzienu kustību.</li>
+<li>Uz laiku Coin1 noņem Mask 2: tā vairs nepamana spēlētāju. Atjauno Mask 2. Tad Player noņem Mask 1: tas iet cauri platformām. <b>Atjauno Mask 1</b>.</li>
+<li>Palaid vēlreiz: visi priekšmeti ir atpakaļ, punkti sākas ar 0 un atslēga nav savākta. Saglabā strādājošo stāvokli.</li>
+</ol>
+<div class="table-scroll" role="region" aria-label="Instances nosaukums" tabindex="0"><table><thead><tr><th scope="col">Instances nosaukums</th><th scope="col">Position</th><th scope="col">Type</th></tr>
+</thead>
+<tbody><tr><td>Coin2</td><td>(280,525)</td><td>Coin</td></tr>
+<tr><td>Gem</td><td>(480,435)</td><td>Gem</td></tr>
+<tr><td>Coin3</td><td>(600,600)</td><td>Coin</td></tr>
+<tr><td>Coin4</td><td>(1050,600)</td><td>Coin</td></tr>
+<tr><td>Key</td><td>(680,345)</td><td>Key</td></tr>
+</tbody>
+</table>
+</div><p class="done-when"><b>Gatavs, kad:</b> ir 5 punktus dodoši priekšmeti un atslēga; savākšana un fiziskās sadursmes darbojas pēc eksperimentu atcelšanas.</p>
+</section>
+<details class="course-help extra-task"><summary>Papildu uzdevums — izveido savu priekšmeta simbolu</summary>
+<p>Maini Visual virsotnes vai pievieno savu Sprite2D attēlu. Saglabā Pickup Area2D sakni, skriptu un sadursmes formu. Pārbaudi, ka redzamais simbols un savākšanas zona atrodas vienā vietā.</p>
+</details>
+<section><div class="hand-in-box"><h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> redzamie priekšmeti spēlē izmanto jau pārbaudīto punktu un atslēgas loģiku.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list"><li><code>Pickup.tscn</code>, <code>Pickup.cs</code> un papildināts <code>Level1.tscn</code>.</li>
+<li>Video vai attēli ar sadursmi un savākšanas rezultātu; README.md skaidrojums par abām Mask pārbaudēm.</li>
+</ol>
+<p>Saglabā visu projektu: <code>project.godot</code>, <code>.csproj</code>, scēnas, skriptus un izmantotos attēlus. <code>.gitignore</code> ieraksti <code>.godot/</code>, <code>bin/</code> un <code>obj/</code> katru savā rindā.</p>
+<p><b>Kā iesniedz:</b> veic commit un push. Skolotāja norādītajā vietā iesniedz GitHub krātuves saiti; README.md un pārbaudes pierādījumiem jābūt krātuvē.</p>
+</div></section>
+<section><h2>Ja kaut kas nestrādā</h2>
+<div class="logic-box"><div class="table-scroll" role="region" aria-label="Pazīme" tabindex="0"><table><thead><tr><th scope="col">Pazīme</th><th scope="col">Ko pārbaudīt</th></tr>
+</thead>
+<tbody><tr><td>Monēta nepazūd</td><td>Pārbaudi pašas Pickup Mask 2, Monitoring, formu un signāla pieslēgumu _Ready.</td></tr>
+<tr><td>Pazūd, bet punkti nepieaug</td><td>Pickup apstrādātājam jāizsauc <code>player.OnPickup(Type)</code> pirms QueueFree.</td></tr>
+<tr><td>Nav Type izvēlnes</td><td>Saglabā Pickup.cs, nospied Build un atlasi Pickup sakni vai tās instanci.</td></tr>
+<tr><td>Sadursme strādā tikai vienai kopijai</td><td>Pārbaudi katras instances CollisionShape2D un Mask; formai jābūt ar nenulles izmēru.</td></tr>
+</tbody>
+</table>
+</div></div></section>
+<nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
 <a class="nav-btn" href="/programmesana2/prog2_2/prog2_23">⬅ Iepriekšējā stunda</a>
 <a class="nav-btn" href="/programmesana2/prog2_2/prog2_25">Nākamā stunda ➡</a>
 </nav></main>

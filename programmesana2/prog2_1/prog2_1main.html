@@ -66,7 +66,7 @@
 </h1>
 <p class="lede">
           Iepazīsti <code>Godot 4</code> spēļu dzinēju un raksti spēles loģiku <code>C#</code> valodā
-          Godot <code>.NET</code> vidē. Tēma noslēdzas ar klasiskās arkādes spēles <code>Pong</code> izveidi.
+          Godot <code>.NET</code> vidē. Sešās stundās izveido pabeigtu <code>Pong</code> spēli ar savu dizainu un sacensības stāstu.
         </p>
 <div class="cta-row">
 <a class="btn primary" href="/programmesana2/prog2_1/prog2_11"><span>›</span> Sākt 1.1 stundu</a>
@@ -83,10 +83,10 @@
 <div aria-hidden="true" class="editor">
 <div class="titlebar">
 <span class="dots"><i></i><i></i><i></i></span>
-<span class="crumb"><em>prog2_1/</em>PongBall.cs</span>
+<span class="crumb"><em>prog2_1/</em>Ball.cs</span>
 </div>
 <div class="tabs">
-<span class="tab active"><span class="ic">●</span> PongBall.cs</span>
+<span class="tab active"><span class="ic">●</span> Ball.cs</span>
 <span class="tab">Paddle.cs</span>
 <span class="tab">Pong.csproj</span>
 <span class="spacer"></span>
@@ -107,16 +107,16 @@
 13
 14
 15</div>
-<div class="code"><span class="tok-com">// PongBall.cs - Godot C#</span>
-<span class="tok-kw">using</span> <span class="tok-typ">Godot</span>;
-
-<span class="tok-kw">public partial class</span> <span class="tok-typ">PongBall</span> : <span class="tok-typ">CharacterBody2D</span> {
-    <span class="tok-kw">private</span> <span class="tok-typ">Vector2</span> speed = <span class="tok-kw">new</span>(420, 160);
-
-    <span class="tok-kw">public override void</span> <span class="tok-fn">_PhysicsProcess</span>(<span class="tok-typ">double</span> d) {
-        <span class="tok-fn">MoveAndCollide</span>(speed * (<span class="tok-typ">float</span>)d);
-    }
-}<span class="cursor"></span></div>
+<div class="code"><span class="tok-com">// Ball.cs fragments: atlēkšana</span>
+<span class="tok-kw">public override void</span> <span class="tok-fn">_PhysicsProcess</span>(<span class="tok-typ">double</span> delta) {
+    <span class="tok-kw">if</span> (!IsMoving) <span class="tok-kw">return</span>;
+    <span class="tok-kw">var</span> collision = <span class="tok-fn">MoveAndCollide</span>(
+        Velocity * (<span class="tok-typ">float</span>)delta);
+    <span class="tok-kw">if</span> (collision != <span class="tok-kw">null</span>)
+        Velocity = Velocity.<span class="tok-fn">Bounce</span>(
+            collision.<span class="tok-fn">GetNormal</span>());
+}
+<span class="cursor"></span></div>
 </div>
 <div class="statusbar">
 <span class="ok">● C# · Godot 4</span>
@@ -133,19 +133,20 @@
 </div>
 </div>
 </div>
-</section><section id="lessons">
+</section>
+<section id="lessons">
 <div class="wrap">
 <div class="sec-head">
 <div>
 <div class="sec-eyebrow"><span class="hash">#</span> <span class="num">01</span> stundas</div>
 <h2 class="sec-title">6 stundas - tēmas saturs</h2>
-<p class="sec-sub">No Godot instalācijas un Scene Tree līdz Pong spēles C# implementācijai.</p>
+<p class="sec-sub">Viens projekts no pirmās scēnas līdz partijai ar punktiem, uzvaru un atkārtotu spēli.</p>
 </div>
 <a class="sec-link" href="/programmesana2/programmesana2">kursa pārskats <span>→</span></a>
 </div>
 <div class="info-box">
 <p><b>Kā strādāt ar šo tēmu:</b> katrā stundā vispirms ir īsa teorija, pēc tam uzreiz viena redzama darbība Godot projektā. Nevajag turēt galvā visu projektu - pietiek pabeigt nākamo mazo kontrolpunktu.</p>
-<p><b>Fokusa kārtība:</b> uzstādi vidi → atpazīsti editoru → saliec mezglus → uzraksti mazu C# skriptu → novieto objektus → apvieno visu Pong spēlē. Ja kaut kas nobrūk, atgriezies pie pēdējā <b>Gatavs, kad</b> punkta.</p>
+<p><b>Fokusa kārtība:</b> izveido projektu → saliec redzamus objektus → pārbaudi C# vidi → apraksti raketes datus → ievies kustību → pabeidz spēli un savu noformējumu. Ja kaut kas nobrūk, atgriezies pie pēdējā <b>Gatavs, kad</b> punkta.</p>
 </div>
 <div class="projects">
 <a class="project" href="/programmesana2/prog2_1/prog2_11">
@@ -233,7 +234,7 @@
 <div class="body">
 <div class="meta-top"><span class="lang"><span class="d typ"></span> Scene · Node</span><span>struktūra</span></div>
 <h3>Scene Tree un Node sistēma</h3>
-<p>Iepazīsti Godot mezglu hierarhiju, kā Scene Tree organizē spēles objektus.</p>
+<p>Izveido redzamas rakešu un bumbas scēnas, sadursmju formas un instances.</p>
 <div class="foot"><span>1.2 stunda</span><span class="open">atvērt ↗</span></div>
 </div>
 </a>
@@ -279,7 +280,7 @@
 <div class="body">
 <div class="meta-top"><span class="lang"><span class="d str"></span> C# · .NET</span><span>build</span></div>
 <h3>C# un .NET sagatavošana</h3>
-<p>Uzstādi .NET SDK, izveido diagnostikas C# skriptu un pārbaudi Godot Build pogu.</p>
+<p>Pārbaudi .NET SDK un izveido BuildCheck.cs; kompilē un palaid savu kodu.</p>
 <div class="foot"><span>1.3 stunda</span><span class="open">atvērt ↗</span></div>
 </div>
 </a>
@@ -316,7 +317,7 @@
 <div class="body">
 <div class="meta-top"><span class="lang"><span class="d fn"></span> C# · skripts</span><span>pamati</span></div>
 <h3>Pirmais C# skripts: mainīgie un izvade</h3>
-<p>Raksti pirmo Godot C# skriptu ar mainīgajiem, <code>_Ready()</code> un <code>GD.Print()</code>.</p>
+<p>Izveido Paddle.cs ar datiem, izdruku un atšķirīgiem abu spēlētāju iestatījumiem.</p>
 <div class="foot"><span>1.4 stunda</span><span class="open">atvērt ↗</span></div>
 </div>
 </a>
@@ -348,7 +349,7 @@
 <div class="body">
 <div class="meta-top"><span class="lang"><span class="d num"></span> Godot · 2D</span><span>dizains</span></div>
 <h3>Spēles laukuma izveide</h3>
-<p>Izveido Pong laukumu ar CollisionShape2D, robežām un spēlētāja paleti.</p>
+<p>Pievieno sienas, abu rakešu vadību un bumbas kustību ar atlēkšanu.</p>
 <div class="foot"><span>1.5 stunda</span><span class="open">atvērt ↗</span></div>
 </div>
 </a>
@@ -381,155 +382,45 @@
 <div class="body">
 <div class="meta-top"><span class="lang"><span class="d fn"></span> C# · Godot</span><span>projekts</span></div>
 <h3>Noslēguma projekts: Pong</h3>
-<p>Izveido pilnu Pong spēli ar C# klašu loģiku, paddles kustību un punktu sistēmu.</p>
+<p>Pabeidz punktus, servi, uzvaru un jaunu partiju; veido savu dizainu un stāstu.</p>
 <div class="foot"><span>1.6 projekts</span><span class="open">atvērt ↗</span></div>
 </div>
 </a>
 </div>
 </div>
-</section><section id="cheatsheet"><div class="wrap">
-<div class="sec-head"><div>
-<div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div>
-<h2 class="sec-title">1. tēmas špikeris - Godot un C# pamati</h2>
-<p class="sec-sub">Viss, ko apgūsti šajā tēmā, vienuviet: no projekta izveides līdz Pong spēles kodam. Katrs bloks atbilst vienai stundai.</p>
-</div></div>
-<div class="logic-box">
-<h3>1.1 Projekta sagatavošana un build komandas</h3>
-<pre><code class="language-bash"># Godot .NET projekta izveide: Project Manager -&gt; New Project -&gt; Pong
-# Loga izmērs: Project -&gt; Project Settings -&gt; Display -&gt; Window
-#   Viewport Width = 1280 , Viewport Height = 720
-
-# .gitignore projekta mapē
-.godot/
-bin/
-obj/
-
-# C# build vide (1.3 stunda)
-dotnet --version
-# Pēc pirmā C# skripta Godot izveido .sln un .csproj failus.
-
-# Katru reizi pēc C# koda maiņas:
-dotnet build</code></pre>
-<p class="cheat-note">Ja terminālis neatrod <code>dotnet</code>, pārbaudi .NET SDK instalāciju un atver termināli no jauna.</p>
-</div>
-<div class="logic-box">
-<h3>1.2 Scene Tree - biežāk lietotie mezgli</h3>
-<pre><code>Main (Node2D)              &lt;- scēnas sakne, tur visu kopā
-├── PaddleLeft              (CharacterBody2D) + CollisionShape2D
-├── PaddleRight             (CharacterBody2D) + CollisionShape2D
-├── Ball                    (CharacterBody2D) + CollisionShape2D
-├── SienaAugsa              (StaticBody2D)    + CollisionShape2D
-├── SienaApaksa             (StaticBody2D)    + CollisionShape2D
-├── VidusLinija             (Line2D)
-├── Punkti                  (Label)
-└── Camera2D
-
-Mezglu tipi:
-  Node2D            bāzes 2D objekts, ir pozīcija un rotācija
-  Sprite2D          parāda attēlu
-  Label             parāda tekstu
-  CharacterBody2D   kustīgs objekts, kuram kustību raksti pats
-  StaticBody2D      nekustīgs šķērslis (siena, grīda)
-  Area2D            zona, kas pamana ieiešanu (monēta, finišs)
-  CollisionShape2D  BEZ ŠĪ nav nekādu sadursmju
-
-Atkārtoti lietojams objekts: labais klikšķis -&gt; Save Branch as Scene</code></pre>
-<p class="cheat-note">Katram mezglam dod nosaukumu, no kura var saprast, kas tas ir. <code>Node2D2</code> pēc nedēļas neko nepateiks.</p>
-</div>
-<div class="logic-box">
-<h3>1.3-1.4 C# skripts Godot .NET projektā</h3>
-<pre><code class="language-csharp">// ---------- Hello.cs : viena C# klase, ko Godot redz kā skriptu ----------
-using Godot;
-
-public partial class Hello : Node
-{
-    private int counter = 0;
-    private string playerName = "Pong Player";
-
-    public override void _Ready()
-    {
-        GD.Print(playerName, " / ", counter);   // = print() Python
-        SayHello();
-    }
-
-    public void SayHello()
-    {
-        counter++;
-        GD.Print("Sveiciens Nr. ", counter);
-    }
-}</code></pre>
-<p class="cheat-note">C# skripta faila nosaukumam jāsakrīt ar klases nosaukumu: <code>Hello.cs</code> satur <code>public partial class Hello</code>.</p>
-</div>
-<div class="logic-box">
-<h3>1.5 Koordinātes - Y iet uz LEJU</h3>
-<pre><code>(0,0) ─────────────── X aug pa labi ──────────────► (1280, 0)
-  │
-  │        SienaAugsa      y = 10
-  │
-  │   PaddleLeft                        PaddleRight
-  │   (60, 360)          Ball           (1220, 360)
-  │                     (640, 360)  &lt;- laukuma centrs
-  │
-  │        SienaApaksa     y = 710
-  ▼
-Y aug uz LEJU                                    (0, 720)
-
-Centrs = (platums / 2, augstums / 2) = (1280/2, 720/2) = (640, 360)
-
-// C# pozīcijas maiņa
-Vector2 pos = Position;
-pos.X += 10;                 // pa labi
-pos.Y -= 10;                 // UZ AUGŠU (mīnus!)
-Position = pos;</code></pre>
-<p class="cheat-note">Tāpēc lēciena spēks vienmēr ir <b>negatīvs</b> skaitlis - uz augšu nozīmē mazāku Y.</p>
-</div>
-<div class="logic-box">
-<h3>1.6 Pong: kustība, atlēkšana, punkti</h3>
-<pre><code class="language-csharp">// --- Paddle.cs: vadība ar taustiņiem ---
-using Godot;
-
-public partial class Paddle : CharacterBody2D
-{
-    [Export] public string InputUp = "p1_up";
-    [Export] public string InputDown = "p1_down";
-    [Export] public float Speed = 420.0f;
-
-    public override void _PhysicsProcess(double delta)
-    {
-        Vector2 v = Vector2.Zero;
-        if (Input.IsActionPressed(InputUp)) v.Y -= Speed;
-        if (Input.IsActionPressed(InputDown)) v.Y += Speed;
-        Velocity = v;
-        MoveAndSlide();
-    }
-}
-
-// --- Ball.cs: lidojums un atlēkšana ---
-public partial class Ball : CharacterBody2D
-{
-    [Export] public float BaseSpeed = 420.0f;
-    private Vector2 velocity;
-
-    public override void _Ready()
-    {
-        ResetBall();
-    }
-
-    public void ResetBall()
-    {
-        Position = new Vector2(640, 360);
-        velocity = new Vector2(BaseSpeed, (float)GD.RandRange(-180.0, 180.0));
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
-        KinematicCollision2D col = MoveAndCollide(velocity * (float)delta);
-        if (col != null) velocity = velocity.Bounce(col.GetNormal());
-    }
-}</code></pre>
-<p class="cheat-note">Taustiņu nosaukumus (<code>p1_up</code>, <code>p1_down</code>, <code>p2_up</code>, <code>p2_down</code>) definē <b>Project Settings -&gt; Input Map</b>, nevis kodā.</p>
-</div>
-</div></section><section class="cta-strip">
+</section>
+<section id="projekta-cels"><div class="wrap"><h2>Sešu stundu ceļš līdz savai Pong spēlei</h2>
+<p>Katrā stundā turpini to pašu projektu. Trīs pamatuzdevumiem ir pārbaudāms rezultāts; izvēles paplašinājumu veic pēc pamatdarba.</p>
+<div class="table-scroll" role="region" aria-label="Stunda" tabindex="0"><table><thead><tr><th scope="col">Stunda</th><th scope="col">Ko pievieno</th><th scope="col">Pārbaudes rezultāts</th></tr>
+</thead>
+<tbody><tr><td><a href="prog2_11.html">1.1</a></td><td>Pong projekts, Main.tscn, Git</td><td>F5 atver spēles logu, projekta faili saglabāti GitHub.</td></tr>
+<tr><td><a href="prog2_12.html">1.2</a></td><td>Paddle.tscn, Ball.tscn un instances</td><td>Redzamas divas raketes un bumba, formas sakrīt ar izskatu.</td></tr>
+<tr><td><a href="prog2_13.html">1.3</a></td><td>SDK un BuildCheck.cs</td><td>Build izdodas, F5 laikā ir C# izdruka.</td></tr>
+<tr><td><a href="prog2_14.html">1.4</a></td><td>Paddle.cs dati</td><td>Katra rakete izdrukā savu nosaukumu un ievades darbības.</td></tr>
+<tr><td><a href="prog2_15.html">1.5</a></td><td>Sienas, Input Map, kustība un atlēkšana</td><td>Abi spēlētāji vada raketes; bumba atlec un pamana iziešanu.</td></tr>
+<tr><td><a href="prog2_16.html">1.6</a></td><td>Game.cs, HUD, savs dizains un stāsts</td><td>Partija līdz 5 punktiem, pareizs uzvarētājs, R jaunai partijai.</td></tr>
+</tbody>
+</table>
+</div><p><b>Pamatdarbs:</b> pilna divu spēlētāju spēle ar redzamām norādēm, Space pirms serves un R restartēšanai. Papildu izvēlnes, skaņas vai datorvadīts pretinieks ir turpmāki paplašinājumi.</p>
+<p><b>Tava izvēle:</b> nosaukums, komandas, pasaule, bumbas nozīme, krāsas un uzvaras stāsts. <a href="prog2_16.html#apkopojums">6. stundas apkopojumā</a> pamato savu dizainu un to, kā ideja redzama spēlē.</p>
+<p><a class="btn" href="pong.zip" download>Pilns Pong piemērs (ZIP)</a> · <a href="prog2_16.html#piemers">Palaišanas norādes</a> · <a href="SKOLOTAJAM.md">Skolotājam: izvērtējums</a></p>
+</div></section>
+<section id="cheatsheet"><div class="wrap"><div class="sec-head"><div><div class="sec-eyebrow"><span class="hash">#</span> <span class="num">02</span> špikeris</div><h2 class="sec-title">1. tēmas špikeris — projekta noteikumi</h2>
+<p class="sec-sub">Pilnos koda failus un precīzas ievietošanas vietas skati attiecīgajās stundās.</p>
+</div></div><div class="logic-box"><h3>1.1 Saglabā projektu</h3>
+<p>Godot .NET; 1280 × 720; Compatibility; canvas_items ar keep proporcijām. Galvenā scēna <code>res://Scenes/Main.tscn</code>. F5 palaiž projektu, F6 atvērto scēnu. Git saglabā iestatījumus, scēnas, skriptus un resursus; .godot, bin un obj ignorē. Commit ir lokāls, Publish/Push nosūta uz GitHub.</p>
+</div><div class="logic-box"><h3>1.2 Scēna un instance</h3>
+<p><code>Paddle.tscn</code> un <code>Ball.tscn</code> saknes ir CharacterBody2D, bērni — Visual (Polygon2D) un CollisionShape2D. Main instancēm pozīcijas (60,360), (1220,360), (640,360). Scēnas izmaiņa attiecas uz abām raketēm; instances iestatījums — uz konkrēto raketi.</p>
+</div><div class="logic-box"><h3>1.3 C# vide</h3>
+<p>Vajadzīgs atsevišķs .NET SDK. <code>dotnet --list-sdks</code> pārbauda instalāciju. Pirmais C# skripts izveido projekta failus; tikai tad lieto <code>dotnet build</code> no mapes ar .csproj. Faila un klases nosaukumiem jāsakrīt; klasei vajag <code>partial</code> un atbilstošu Godot bāzes tipu.</p>
+</div><div class="logic-box"><h3>1.4 Dati un Inspector</h3>
+<p><code>float</code> — Speed; <code>string</code> — InputUp/InputDown; <code>bool</code> — IsActive; <code>int</code> — punkti; <code>Vector2</code> — pozīcija vai ātrums. Pēc Export maiņas nospied Build. Inspector saglabāta vērtība var pārrakstīt koda noklusējumu.</p>
+</div><div class="logic-box"><h3>1.5 Kustība un sadursmes</h3>
+<p>W/S → p1_up/p1_down; ↑/↓ → p2_up/p2_down. Rakete lieto Velocity un MoveAndSlide bez papildu delta. Bumba lieto MoveAndCollide(Velocity × delta) un Bounce. Sienas: Layer 1, Mask nav; raketes: Layer 2, Mask 1; bumba: Layer 3, Mask 1 un 2. Tie ir Inspector ķeksīšu numuri.</p>
+</div><div class="logic-box"><h3>1.6 Pilns spēles cikls</h3>
+<p>Bumba pa labi → punkts kreisajam; pa kreisi → labajam. ResetBall nodzēš ExitSide un atgriež bumbu centrā. Space sāk nākamo izspēli. Pie 5 punktiem parādās uzvarētājs un kustība apstājas; R pārlādē scēnu ar 0 : 0. Main laukos pielāgo nosaukumu, komandas un stāsta tekstus; veido savu noformējumu.</p>
+</div></div></section>
+<section class="cta-strip">
 <div class="wrap">
 <div class="cta-panel">
 <div class="cta-code">
@@ -542,7 +433,8 @@ public partial class Ball : CharacterBody2D
 </div>
 </div>
 </div>
-</section></main>
+</section>
+</main>
 <!-- Lessons -->
 
 <!-- Cheatsheet -->

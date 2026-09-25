@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>2.3 Vadības struktūras spēles loģikā - ebSkola</title>
-<meta content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā." name="description"/>
+<meta content="Papildināt spēlētāju ar punktu un atslēgas loģiku, pārbaudot if, switch un foreach." name="description"/>
 <meta content="Eduards Baumanis" name="author"/>
 <meta content="index, follow" name="robots"/>
 <link href="https://ebskola.lv/programmesana2/prog2_2/prog2_23" rel="canonical"/>
@@ -13,28 +13,23 @@
 <meta content="lv_LV" property="og:locale"/>
 <meta content="ebSkola" property="og:site_name"/>
 <meta content="2.3 Vadības struktūras spēles loģikā" property="og:title"/>
-<meta content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā." property="og:description"/>
+<meta content="Papildināt spēlētāju ar punktu un atslēgas loģiku, pārbaudot if, switch un foreach." property="og:description"/>
 <meta content="https://ebskola.lv/programmesana2/prog2_2/prog2_23" property="og:url"/>
 <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
 <meta content="summary" name="twitter:card"/>
 <meta content="2.3 Vadības struktūras spēles loģikā" name="twitter:title"/>
-<meta content="Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā." name="twitter:description"/>
+<meta content="Papildināt spēlētāju ar punktu un atslēgas loģiku, pārbaudot if, switch un foreach." name="twitter:description"/>
 <link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="../../manifest.json" rel="manifest"/>
 <meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
-{"@context": "https://schema.org","@type": "LearningResource","name": "2.3 Vadības struktūras spēles loģikā","description": "Izmantot if/else, switch un ciklus, lai vadītu spēles objektu uzvedību un punktu vākšanas loģiku Godot projektā.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_2/prog2_23","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "2.3 Vadības struktūras spēles loģikā","description": "Papildināt spēlētāju ar punktu un atslēgas loģiku, pārbaudot if, switch un foreach.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_2/prog2_23","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link href="../../style.css" rel="stylesheet" type="text/css"/>
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-<style>
-.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
-.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
-.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
-</style>
 <link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
 <body class="page-reference course-lesson has-sidebar">
 <a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
@@ -54,203 +49,138 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_2/prog2_2main">2. tēma</a> / 2.3</p>
 <h1>2.3 Vadības struktūras spēles loģikā</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Izmantot if/else, switch un cikli spēles uzvedības loģikā.</p>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Papildināt spēlētāju ar punktu un atslēgas loģiku, pārbaudot if, switch un foreach.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.14. Vadības struktūras</a>
 <a href="/sasnRez">SR 2.4.13. Mainīgie</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārraksti Python if C# sintaksē · 2. uzdevums (~25 min) - izveido enum un switch priekšmetu veidiem · 3. uzdevums (~20 min) - pievieno ciklu, kas pārbauda visus priekšmetus · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atceries no Programmēšanas I: <code>if</code>, <code>elif</code>, <code>else</code> un <code>for</code> cikls. C# dara to pašu, bet ar figūriekavām un semikoliem. Šodien pārtulkosi jau zināmo.</p>
-</div>
-</section><section>
-<h2>Teorija: C# vadības struktūras</h2>
-<div class="logic-box">
-<p>C# vadības struktūras ir gandrīz identiskas Python ekvivalentiem, bet ar atšķirīgu sintaksi:</p>
-<pre><code class="language-csharp">// If / else if / else
-if (player.Health &lt;= 0)
+<section><div class="info-box"><p><b>80 min plāns:</b> Ievads (~10 min) · nosacījumi (~20 min) · priekšmetu loģika (~25 min) · cikla pārbaude (~20 min) · saglabāšana (~5 min).</p>
+<p><b>Pirms sāc:</b> turpini 2.2 projekta <code>Player.cs</code>. Šodien priekšmetus pārbaudīsim ar kodu; nākamajā stundā tos savāksim spēlē. Kustības metode paliek tajā pašā klasē.</p>
+<p><b>Darba ritms:</b> pēc katra uzdevuma saglabā, nospied <b>Build</b> un pārbaudi rezultātu. Kļūdu gadījumā sāc ar pirmo sarkano kļūdu, nevis nākamo uzdevumu.</p>
+</div></section>
+<section><h2>Teorija: if, switch un foreach</h2>
+<div class="logic-box"><p>C# nosacījumu raksta apaļajās iekavās, darbību bloku — figūriekavās. Python <code>elif</code> vietā lieto <code>else if</code>. <code>enum</code> dod priekšmetu veidiem nosaukumus, bet <code>switch</code> izvēlas attiecīgo darbību.</p>
+<p><b>C# automātiski nepāriet uz nākamo netukšo case.</b> Ja piemērā pēc punktu pieskaitīšanas izņem <code>break;</code>, rodas kompilācijas kļūda; to atjauno pirms palaišanas. Skati <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements">Microsoft skaidrojumu par switch</a>.</p>
+<p><code>foreach</code> apstrādā katru masīva elementu vienu reizi. Eksperimentu izsaucam <code>_Ready()</code>, ne katrā fizikas solī; citādi punkti pieaugtu nepārtraukti. Spēles gaidīšanai nelieto bezgalīgu <code>while</code> ciklu.</p>
+</div></section>
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
+<h2>Pārbaudi trīs nosacījuma zarus</h2>
+<ol class="step-list"><li>Player klases iekšpusē pievieno zemāk doto pagaidu <code>_Ready()</code> metodi. Tā darbojas vienu reizi, kad Player nonāk scēnā.</li>
+<li>Pārbaudi <code>health</code> vērtības 100, 20 un 0, katru reizi būvējot un palaižot spēli no jauna. Pieraksti rezultātus.</li>
+<li>README.md uzraksti tā paša nosacījuma Python versiju un trīs sintakses atšķirības. Šis ir nosacījumu eksperiments; dzīvību sistēma pamatspēlei nav vajadzīga.</li>
+<li>Pēc pārbaudes noņem šo pagaidu <code>_Ready()</code>, lai to nesajauktu ar 3. uzdevuma pārbaudi.</li>
+</ol>
+<pre><code class="language-csharp">public override void _Ready()
 {
-    player.Die();
-}
-else if (player.Health &lt; 30)
-{
-    PlayWarningSound();
-}
-else
-{
-    ShowNormalStatus();
-}
-
-// Switch (kā Python match-case)
-switch (state)
-{
-    case PlayerState.Idle:    PlayIdle(); break;
-    case PlayerState.Running: PlayRun();  break;
-    case PlayerState.Jumping: PlayJump(); break;
-    default: break;
-}
-
-// For cikls
-for (int i = 0; i &lt; enemies.Count; i++)
-{
-    enemies[i].UpdateEnemy();
-}
-
-// Foreach cikls
-foreach (Enemy enemy in enemies)
-{
-    enemy.UpdateEnemy();
-}
-
-// While
-while (health &gt; 0 &amp;&amp; levelActive)
-{
-    ProcessCombat();
+    int health = 100;
+    if (health &lt;= 0)
+        GD.Print(&quot;Spēle beigusies&quot;);
+    else if (health &lt; 30)
+        GD.Print(&quot;Uzmanību!&quot;);
+    else
+        GD.Print(&quot;Viss kārtībā&quot;);
 }</code></pre>
-</div>
-</section><section>
-<h2>Kā šo izmantot projektā</h2>
-<div class="logic-box">
-<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-<p><b>Pārbaudi:</b> spēlētājs, objekti un sadursmes darbojas ar C# klasēm, kas lieto _PhysicsProcess, Input, CharacterBody2D, Area2D vai MoveAndSlide.</p>
-<pre><code class="language-csharp">public class PhysicsCheckpoint
-{
-    public string Lesson = "2.3 Vadības struktūras spēles loģikā";
-    public bool UsesCSharp = true;
-    public bool UsesPhysicsProcess = true;
-    public bool UsesDeltaTime = true;
-    public bool ChecksCollisions = true;
-}</code></pre>
-</div>
-</section><section>
-<h2>Praktiskie uzdevumi</h2>
-
-
-
-
-</section><section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums - </p><h2>Pārraksti Python if C# sintaksē</h2>
-<p>Beigās tu redzēsi, ka loģika ir tā pati, tikai pieraksts cits.</p>
-<ol class="step-list">
-<li><b>Uzraksti</b> README.md failā Python nosacījumu: ja enerģija zem 0, varonis mirst; ja zem 30, brīdinājums; citādi viss labi.</li>
-<li><b>Izveido</b> C# klasē lauku <code class="language-csharp">int health = 100;</code>.</li>
-<li><b>Ieraksti</b> <code class="language-csharp">if (health &lt;= 0) { ... }</code> ar figūriekavām.</li>
-<li><b>Pievieno</b> <code class="language-csharp">else if (health &lt; 30) { ... }</code> - ievēro, ka tas ir divi vārdi, nevis <code>elif</code>.</li>
-<li><b>Pievieno</b> <code class="language-csharp">else { ... }</code> un katrā zarā izdruku.</li>
-<li><b>Kompilē</b> un pārbaudi ar trim dažādām <code>health</code> vērtībām.</li>
-<li><b>Pieraksti</b> trīs atšķirības starp Python un C# pierakstu.</li>
+<p class="done-when"><b>Gatavs, kad:</b> 100 dod “Viss kārtībā”, 20 — brīdinājumu un 0 — “Spēle beigusies”.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums - </p>
+<h2>Pievieno spēlētājam punktus un atslēgu</h2>
+<ol class="step-list"><li>Virs Player klases (pēc <code>using Godot;</code>) deklarē <code>public enum PickupType { Coin, Gem, Key }</code>. Projektā šo enum deklarē tikai vienu reizi.</li>
+<li>Player klases iekšpusē pievieno <code>Score</code>, <code>HasKey</code> un <code>IsActive</code> īpašības un publisko metodi <code>OnPickup</code> no pilnā faila zemāk. Saglabā esošo kustības metodi.</li>
+<li>Paskaidro katru <code>switch</code> zaru: Coin dod 1 punktu, Gem — 5, Key iestata <code>HasKey = true</code>. <code>private set</code> ļauj citiem skriptiem nolasīt punktus, bet mainīt tos drīkst Player klase.</li>
+<li>Uz laiku izņem viena netukša <code>case</code> beigu <code>break;</code>, nospied Build un izlasi kompilācijas kļūdu. <b>Atjauno break</b> un atkārto Build.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> visi trīs zari nostrādā pareizi, un README.md failā ir trīs pierakstītas atšķirības.</p>
-</section><section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums - </p><h2>Izveido enum un switch priekšmetu veidiem</h2>
-<p>Beigās priekšmetu veidi būs nosaukumi, nevis nesaprotami skaitļi.</p>
-<ol class="step-list">
-<li><b>Ieraksti</b> virs klases <code class="language-csharp">public enum PickupType { Coin, Gem, Key }</code>.</li>
-<li><b>Uzraksti</b> metodi <code class="language-csharp">private void OnPickup(PickupType type)</code>.</li>
-<li><b>Ieraksti</b> tajā <code class="language-csharp">switch (type) {</code>.</li>
-<li><b>Pievieno</b> katram veidam <code class="language-csharp">case PickupType.Coin:</code> ar savu darbību.</li>
-<li><b>Pievieno</b> katram <code>case</code> beigās <code class="language-csharp">break;</code>.</li>
-<li><b>Izdzēs</b> vienu <code>break;</code>, kompilē un pieraksti, kas notiek.</li>
-<li><b>Ieliec</b> <code>break;</code> atpakaļ un pārbaudi visus trīs veidus.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> katrs priekšmeta veids dod savu rezultātu, un tu zini, ka bez <code>break</code> izpildās arī nākamais <code>case</code>.</p>
-</section><section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums - </p><h2>Pievieno ciklu, kas pārbauda visus priekšmetus</h2>
-<p>Beigās viena cilpa apstrādās visu priekšmetu sarakstu.</p>
-<ol class="step-list">
-<li><b>Pievieno</b> faila sākumā <code class="language-csharp">using System.Collections.Generic;</code>.</li>
-<li><b>Izveido</b> <code class="language-csharp">List&lt;PickupType&gt; items = new() { PickupType.Coin, PickupType.Gem, PickupType.Coin };</code>.</li>
-<li><b>Uzraksti</b> ciklu <code class="language-csharp">foreach (PickupType item in items) { OnPickup(item); }</code>.</li>
-<li><b>Kompilē</b> un pārbaudi, ka izdrukājas trīs rindas.</li>
-<li><b>Pievieno</b> sarakstam vēl vienu priekšmetu un palaid vēlreiz.</li>
-<li><b>Pārbaudi</b>, vai cikls bija jāmaina.</li>
-<li><b>Pieraksti</b>, ar ko šis cikls līdzinās Python <code>for</code> ciklam.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> cikls apstrādā visus saraksta priekšmetus, un pievienojot ceturto, kods nav jāmaina.</p>
-</section><details class="course-help extra-task">
-<summary>Papildu uzdevums - Saskaiti katra veida priekšmetus</summary>
-<p>Ja pamatdarbs ir gatavs, izveido kopsavilkumu.</p>
-<ol class="step-list">
-<li><b>Pievieno</b> trīs skaitītājus - pa vienam katram veidam.</li>
-<li><b>Palielini</b> attiecīgo skaitītāju katrā <code>case</code> zarā.</li>
-<li><b>Izdrukā</b> pēc cikla visu trīs skaitītāju vērtības.</li>
-<li><b>Pārbaudi</b>, vai summa sakrīt ar saraksta garumu.</li>
-<li><b>Pievieno</b> sarakstam dublikātus un pārbaudi vēlreiz.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> skaitītāju summa vienmēr sakrīt ar priekšmetu skaitu sarakstā.</p>
-</details><section>
-<div class="hand-in-box">
-<h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tu proti C# sintaksē uzrakstīt <code>if/else if/else</code>, izveidot <code>enum</code> ar <code>switch</code> un apstrādāt priekšmetu sarakstu ar <code>foreach</code>, un vari nosaukt galvenās atšķirības no Python.</p>
-<p><b>GitHub krātuvē jābūt:</b></p>
-<ol class="step-list">
-<li>C# fails ar visiem trim uzdevumiem.</li>
-<li>Ekrānuzņēmums ar Output paneli, kurā redzamas cikla izdrukas.</li>
-<li>README.md: trīs atšķirības starp Python un C# pierakstu un viens teikums, kas notiek bez <code>break</code>.</li>
-</ol>
-<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-</div>
-</section><section>
-<h2>Biežākās kļūdas</h2>
-<div class="logic-box">
-<ul>
-<li><b>The name 'items' does not exist:</b> saraksts izveidots citā metodē vai ārpus redzamības zonas.</li>
-<li><b>Collection was modified:</b> nedzēs elementus no <code>List&lt;T&gt;</code> tajā pašā <code>foreach</code> ciklā; dzēs pēc cikla vai lieto parastu <code>for</code>.</li>
-<li><b>switch case nestrādā:</b> Aizmirsts <code>break;</code> - kods iet uz nākamo case.</li>
-</ul>
-</div>
-</section><section>
-<h2>Godot ekrānuzņēmumi</h2>
-<div class="logic-box">
-<figure class="screenshot">
-<img alt="Spēles logs ar punktu žetoniem, zaļām uzlīmēm un dzeltenu finiša kartīti uz platformām." loading="lazy" src="../img/topic2_pickups.png"/>
-<figcaption>Spēles logs ar punktu žetoniem, zaļām uzlīmēm un dzeltenu finiša kartīti uz platformām.</figcaption>
-</figure>
-<figure class="screenshot">
-<img alt="Spēles HUD ar Score: 25 augšējā labajā stūrī un sirdiņu HP indikators kreisajā." loading="lazy" src="../img/topic2_score_hud.png"/>
-<figcaption>Spēles HUD ar Score: 25 augšējā labajā stūrī un sirdiņu HP indikators kreisajā.</figcaption>
-</figure>
-</div>
-</section><section>
-<h2>Koda piemērs (paplašināts)</h2>
-<div class="code-example">
+<details class="course-help"><summary>2.3 Player.cs — pilns fails salīdzināšanai</summary>
+<p><a href="kods/2_3/Player.cs" download>Lejupielādēt Player.cs</a>. Aizstāj tikai atbilstošā faila saturu; neveido otru tāda paša nosaukuma klasi.</p>
 <pre><code class="language-csharp">using Godot;
 
 public enum PickupType { Coin, Gem, Key }
 
 public partial class Player : CharacterBody2D
 {
-    private int score = 0;
-    private bool hasKey = false;
+    [Export] public float Speed = 300.0f;
+
+    public int Score { get; private set; } = 0;
+    public bool HasKey { get; private set; } = false;
+    public bool IsActive { get; set; } = true;
+
+    public override void _PhysicsProcess(double delta)
+    {
+        Vector2 direction = Vector2.Zero;
+        if (Input.IsActionPressed(&quot;move_left&quot;)) direction.X -= 1;
+        if (Input.IsActionPressed(&quot;move_right&quot;)) direction.X += 1;
+        if (Input.IsActionPressed(&quot;move_up&quot;)) direction.Y -= 1;
+        if (Input.IsActionPressed(&quot;move_down&quot;)) direction.Y += 1;
+
+        Velocity = direction.Normalized() * Speed;
+        MoveAndSlide();
+    }
 
     public void OnPickup(PickupType type)
     {
+        if (!IsActive) return;
+
         switch (type)
         {
             case PickupType.Coin:
-                score += 1;
-                GD.Print("Coin! Score: ", score);
+                Score += 1;
                 break;
             case PickupType.Gem:
-                score += 5;
-                GD.Print("Gem! Score: ", score);
+                Score += 5;
                 break;
             case PickupType.Key:
-                hasKey = true;
-                GD.Print("Got the key!");
+                HasKey = true;
                 break;
         }
 
-        if (score &gt;= 100)
-        {
-            GD.Print("Level complete!");
-        }
+        GD.Print($&quot;Punkti: {Score}; atslēga: {HasKey}&quot;);
     }
 }</code></pre>
-<div class="result">Spēlētājs savāc 3 dažādus tipus pickup objektus, score atjauninās terminālī.</div>
-</div>
-</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+</details>
+<p class="done-when"><b>Gatavs, kad:</b> projekts kompilējas, saglabāta kustība un priekšmetu loģika ir vienā Player.cs.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums - </p>
+<h2>Izmēģini savākšanu ar foreach</h2>
+<ol class="step-list"><li>Player klasē uz laiku pievieno zemāk doto <code>_Ready()</code> metodi.</li>
+<li>Palaid F5. Pēc trim priekšmetiem rezultātam jābūt 2 punktiem un atslēgai. Tas pārbauda gan punktu pieskaitīšanu, gan <code>if/else</code>.</li>
+<li>Masīvam pievieno <code>PickupType.Gem</code>, palaid no jauna; rezultātam jābūt 7 punktiem, atslēga joprojām ir. Cikls nav jāmaina.</li>
+<li>Uzņem izdrukas ekrānuzņēmumu un <b>izdzēs visu pagaidu _Ready() pārbaudi</b>. Pēc nākamās palaišanas Score jābūt 0 un HasKey — false; turpmāk punktus iegūs tikai spēlējot.</li>
+</ol>
+<pre><code class="language-csharp">public override void _Ready()
+{
+    PickupType[] items = { PickupType.Coin, PickupType.Coin, PickupType.Key };
+    foreach (PickupType item in items)
+        OnPickup(item);
+
+    if (HasKey)
+        GD.Print(&quot;Atslēga ir — finišu varēs atvērt.&quot;);
+    else
+        GD.Print(&quot;Vēl jāatrod atslēga.&quot;);
+}</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> cikls ir pārbaudīts ar 3 un 4 elementiem, bet pārbaudes priekšmeti vairs netiek piešķirti, sākot spēli.</p>
+</section>
+<details class="course-help extra-task"><summary>Papildu uzdevums — sasaisti priekšmetus ar stāstu</summary>
+<p>README.md apraksti, ko tavā pasaulē nozīmēs Coin, Gem un Key: piemēram, sēklas, reta puķe un meža vārtu atslēga. Koda enum nosaukumus pagaidām saglabā; izskatu un spēlētājam redzamos nosaukumus var mainīt.</p>
+</details>
+<section><div class="hand-in-box"><h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> priekšmetu loģika ir pārbaudīta un gatava Area2D savākšanai.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list"><li><code>Player.cs</code> ar saglabātu kustību, OnPickup un vienu PickupType deklarāciju.</li>
+<li>README.md: nosacījumu pārbaudes, 2/7 punktu rezultāti un pareizs skaidrojums par trūkstošu break.</li>
+</ol>
+<p>Saglabā visu projektu: <code>project.godot</code>, <code>.csproj</code>, scēnas, skriptus un izmantotos attēlus. <code>.gitignore</code> ieraksti <code>.godot/</code>, <code>bin/</code> un <code>obj/</code> katru savā rindā.</p>
+<p><b>Kā iesniedz:</b> veic commit un push. Skolotāja norādītajā vietā iesniedz GitHub krātuves saiti; README.md un pārbaudes pierādījumiem jābūt krātuvē.</p>
+</div></section>
+<section><h2>Ja kaut kas nestrādā</h2>
+<div class="logic-box"><div class="table-scroll" role="region" aria-label="Pazīme" tabindex="0"><table><thead><tr><th scope="col">Pazīme</th><th scope="col">Ko pārbaudīt</th></tr>
+</thead>
+<tbody><tr><td>Player vai PickupType jau definēts</td><td>Neveido Player2.cs ar otru Player klasi. Aizstāj vai papildini esošo failu.</td></tr>
+<tr><td>Kustība pazudusi</td><td>Atjauno _PhysicsProcess; OnPickup ir jauna metode, nevis aizvietojums kustībai.</td></tr>
+<tr><td>Spēle sākas ar atslēgu</td><td>Noņem 3. uzdevuma _Ready eksperimentu.</td></tr>
+<tr><td>OnPickup nav pieejams</td><td>Metodei jābūt <code>public</code>, lai Pickup skripts nākamajā stundā to varētu izsaukt.</td></tr>
+</tbody>
+</table>
+</div></div></section>
+<nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
 <a class="nav-btn" href="/programmesana2/prog2_2/prog2_22">⬅ Iepriekšējā stunda</a>
 <a class="nav-btn" href="/programmesana2/prog2_2/prog2_24">Nākamā stunda ➡</a>
 </nav></main>

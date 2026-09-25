@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>1.1 Godot instalācija un projekta sagatavošana - ebSkola</title>
-<meta content="Instalēt Godot 4, izveidot pirmo projektu un saprast Godot editor (redaktora) galvenās daļas." name="description"/>
+<meta content="Sagatavot Godot .NET Pong projektu, palaist galveno scēnu un saglabāt sākumpunktu GitHub." name="description"/>
 <meta content="Eduards Baumanis" name="author"/>
 <meta content="index, follow" name="robots"/>
 <link href="https://ebskola.lv/programmesana2/prog2_1/prog2_11" rel="canonical"/>
@@ -13,28 +13,23 @@
 <meta content="lv_LV" property="og:locale"/>
 <meta content="ebSkola" property="og:site_name"/>
 <meta content="1.1 Godot instalācija un projekta sagatavošana" property="og:title"/>
-<meta content="Instalēt Godot 4, izveidot pirmo projektu un saprast Godot editor (redaktora) galvenās daļas." property="og:description"/>
+<meta content="Sagatavot Godot .NET Pong projektu, palaist galveno scēnu un saglabāt sākumpunktu GitHub." property="og:description"/>
 <meta content="https://ebskola.lv/programmesana2/prog2_1/prog2_11" property="og:url"/>
 <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
 <meta content="summary" name="twitter:card"/>
 <meta content="1.1 Godot instalācija un projekta sagatavošana" name="twitter:title"/>
-<meta content="Instalēt Godot 4, izveidot pirmo projektu un saprast Godot editor (redaktora) galvenās daļas." name="twitter:description"/>
+<meta content="Sagatavot Godot .NET Pong projektu, palaist galveno scēnu un saglabāt sākumpunktu GitHub." name="twitter:description"/>
 <link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="../../manifest.json" rel="manifest"/>
 <meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "1.1 Godot instalācija un projekta sagatavošana", "description": "Instalēt Godot 4, izveidot pirmo projektu un saprast Godot editor (redaktora) galvenās daļas.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_1/prog2_11", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "1.1 Godot instalācija un projekta sagatavošana", "description": "Sagatavot Godot .NET Pong projektu, palaist galveno scēnu un saglabāt sākumpunktu GitHub.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_1/prog2_11", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
 <link href="../../style.css" rel="stylesheet" type="text/css"/>
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-<style>
-.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
-.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
-.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
-</style>
 <link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
 <body class="page-reference course-lesson has-sidebar">
 <a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
@@ -54,173 +49,77 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_1/prog2_1main">1. tēma</a> / 1.1</p>
 <h1>1.1 Godot instalācija un projekta sagatavošana</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Instalēt Godot 4 .NET, izveidot pirmo projektu un saprast Godot editor (redaktora) galvenās daļas.</p>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Sagatavot Godot .NET Pong projektu, palaist galveno scēnu un saglabāt sākumpunktu GitHub.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.12. Programmēšanas vide</a>
 <a href="/sasnRez">SR 3.1.2. Darba vides riski</a>
 <a href="/sasnRez">SR 2.3.1. Datorikas nozares attīstība padziļinātos projektos</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un editora apskats (~10 min) · 1. uzdevums (~20 min) - uzstādi Godot 4 .NET un izveido Pong projektu · 2. uzdevums (~25 min) - atrodi piecas editora daļas · 3. uzdevums (~20 min) - iestati logu un saglabā projektu Git · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> šī ir pirmā stunda ar Godot. Neko no tā tev nav jāzina iepriekš - visu, kas vajadzīgs, uzstādīsi šodien. Vajadzēs internetu un tiesības instalēt programmas.</p>
-<p><b>Fokuss:</b> dari tikai vienu bloku reizē: vispirms programma atveras, tad tu atrodi paneļus, tad saglabā projektu Git. Pēc katra bloka pārbaudi <b>Gatavs, kad</b> rindu un tikai tad ej tālāk.</p>
-</div>
-</section><section>
-<h2>Teorija: Godot Engine un editor (redaktors)</h2>
-<div class="logic-box">
-<p><b>Godot 4 Engine</b> (Godot dzinējs) ir bezmaksas, atvērtā koda spēļu dzinējs ar visu nepieciešamo 2D un 3D spēļu izstrādei. Šajā kursā Godot tiek lietots kā vizuālais redaktors, scēnu pārvaldnieks un spēles izpildes vide, bet spēles loģika tiek rakstīta <b>C#</b> Godot .NET vidē.</p>
-<p>Godot projektā jāatšķir trīs slāņi: <b>projekta iestatījumi</b> nosaka logu un palaišanu, <b>scēnas</b> glabā objektu struktūru, bet <b>C# klases</b> piešķir objektiem uzvedību. Ja šie slāņi tiek jaukti, vēlāk ir grūti saprast, vai kļūda ir editorā, resursā vai kodā.</p>
-<p><b>Editor (redaktora) galvenās daļas:</b></p>
-<ul>
-<li><b>Scene Tree</b> (Skatu koks) - kreisajā augšā; spēles objektu hierarhija.</li>
-<li><b>FileSystem</b> (Failu sistēma) - kreisajā apakšā; projekta faili.</li>
-<li><b>Viewport</b> (Skatlogs) - centrā; vizuālais redaktors.</li>
-<li><b>Inspector</b> (Inspektors) - labajā; aktīvā Node īpašības.</li>
-<li><b>Output / Debugger</b> (Atkļūdotājs) - apakšā; izvades konsole.</li>
-</ul>
-<p><b>Renderera izvēle:</b> ja dators ir jauns un grafikas draiveri ir atjaunināti, izvēlies <i>Forward+</i>. Ja skolā ir vecāki datori vai virtuālās mašīnas, <i>Compatibility</i> bieži ir drošāka izvēle. Pong ir 2D projekts, tāpēc mācību rezultātu tas praktiski nemaina.</p>
-<pre><code class="language-bash"># Godot 4 instalācija
-# 1. Lejupielādē Godot 4 .NET no godotengine.org/download
-# 2. Izpako ZIP
-# 3. Palaiž godot.exe (Windows) vai ./godot (Linux/Mac)
-# 4. Project Manager → New Project</code></pre>
-<pre><code class="language-csharp">public class PongProjectReadiness
-{
-    private bool godotInstalled = false;
-    private bool projectCreated = false;
-    private bool gitInitialized = false;
-
-    public bool IsReadyForCSharp()
-    {
-        return godotInstalled &amp;&amp; projectCreated &amp;&amp; gitInitialized;
-    }
-}</code></pre>
-</div>
-</section><section>
-<h2>Praktiskie uzdevumi</h2>
-
-
-
-
-</section><section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums - </p><h2>Uzstādi Godot 4 .NET un izveido Pong projektu</h2>
-<p>Beigās tavā datorā būs atvērts tukšs Godot projekts ar nosaukumu Pong.</p>
-<p><b>Ko šis māca:</b> atšķirt Godot .NET versiju no parastās Godot versijas un saprast, ka projekts sākas ar pareizu darba vidi.</p>
-<ol class="step-list">
-<li><b>Atver</b> <code>godotengine.org/download</code> un lejupielādē <b>Godot 4 .NET</b> savai sistēmai.</li>
-<li><b>Izpako</b> ZIP arhīvu mapē, kuras ceļā nav garumzīmju un atstarpju.</li>
-<li><b>Palaid</b> <code>godot.exe</code> (Windows) vai <code>./godot</code> (Linux/macOS).</li>
-<li><b>Nospied</b> Project Manager logā pogu <b>New Project</b>.</li>
-<li><b>Ieraksti</b> projekta nosaukumu <code>Pong</code> un izvēlies tukšu mapi.</li>
-<li><b>Izvēlies</b> renderer <i>Compatibility</i>, ja dators ir vecāks, citādi <i>Forward+</i>.</li>
-<li><b>Nospied</b> <b>Create &amp; Edit</b> un pagaidi, līdz atveras editors.</li>
+<section><div class="info-box"><p><b>80 min plāns:</b> Ievads (~10 min) · darba vide (~20 min) · pirmais projekts (~25 min) · Git saglabāšana (~20 min) · pašpārbaude (~5 min).</p>
+<p><b>Pirms sāc:</b> šī ir pirmā Godot nodarbība. Vajadzīgs dators, internets, iespēja uzstādīt programmas un skolotāja norādīts GitHub konts. Šajā tēmā visas sešas stundas turpināsi vienu <code>Pong</code> projektu.</p>
+<p><b>Darba ritms:</b> pēc katra uzdevuma saglabā un pārbaudi rezultātu. Kad projektam pievienots C# skripts, pirms palaišanas nospied <b>Build</b>. Kļūdu gadījumā sāc ar pirmo sarkano kļūdu, nevis nākamo uzdevumu.</p>
+</div></section>
+<section><h2>Ko izveidosi sešās stundās</h2>
+<div class="logic-box"><p>Divi spēlētāji ar vienu tastatūru vada raketes un atsit bumbu. Par pretinieka neatsistu bumbu saņem punktu; pirmais līdz 5 punktiem uzvar. Spēle parāda vadību, gaida Space pirms serves un ļauj ar R sākt jaunu partiju.</p>
+<p>1.1 sagatavosi projektu; 1.2 izveidosi redzamus objektus; 1.3 pārbaudīsi C# vidi; 1.4 aprakstīsi raketi ar mainīgajiem; 1.5 ieviesīsi kustību un atlēkšanu; 1.6 pabeigsi spēles ciklu un savu noformējumu. Tu izvēlēsies nosaukumu, komandas, pasauli un sacensības stāstu.</p>
+</div></section>
+<section><h2>Teorija: kur atrodas projekts</h2>
+<div class="logic-box"><p><b>Godot .NET</b> ir spēles redaktors ar C# atbalstu. <b>.NET SDK</b> kompilē C# kodu; to pārbaudīsim 1.3 stundā. <b>VS Code</b> ir koda redaktors, <b>Git</b> saglabā izmaiņu vēsturi, bet <b>GitHub</b> glabā krātuves kopiju internetā.</p>
+<p><code>project.godot</code> glabā iestatījumus; <code>.tscn</code> faili — scēnas; <code>.cs</code> faili — C# klases. Ceļš <code>res://</code> nozīmē tava projekta mapi. Mape <code>.godot</code> ir ģenerēta kešatmiņa.</p>
+</div></section>
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
+<h2>Atver Godot .NET un izveido Pong projektu</h2>
+<ol class="step-list"><li>Atver <a href="https://godotengine.org/download/">Godot lejupielādi</a> un izvēlies <b>.NET</b> variantu savai operētājsistēmai. Kursa piemērs pārbaudīts ar Godot <b>4.7.2 .NET</b>; klasē izmantojiet skolotāja izvēlētu vienotu Godot 4 .NET versiju.</li>
+<li>Windows vai Linux izpako visu lejupielādēto arhīvu un palaid tajā esošo Godot izpildfailu; macOS atver lejupielādēto lietotni. Saglabā arī blakus esošo <code>GodotSharp</code> mapi, ja tā ir pievienota.</li>
+<li>Project Manager izvēlies <b>New Project</b>, nosaukums <code>Pong</code>, tukša projekta mape, piemēram, <code>Documents/Godot/Pong</code>. Izvēlies <b>Compatibility</b> renderētāju un Create &amp; Edit.</li>
+<li>Uzstādi vai pārbaudi <a href="https://code.visualstudio.com/download">VS Code</a> un <a href="https://git-scm.com/downloads">Git</a>. VS Code terminālī <code>git --version</code> jāparāda versija. Ja tikko uzstādīji Git, atver VS Code no jauna.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> ekrānā ir atvērts Godot editors, un loga augšā redzams projekta nosaukums <code>Pong</code>.</p>
-</section><section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums - </p><h2>Atrodi piecas editora daļas</h2>
-<p>Beigās tu zināsi, kur editorā ko meklēt, un vairs neapmaldīsies.</p>
-<p><b>Ko šis māca:</b> sasaistīt teorijas vārdus <code>Scene Tree</code>, <code>FileSystem</code>, <code>Viewport</code>, <code>Inspector</code> un <code>Output</code> ar konkrētu vietu ekrānā.</p>
-<ol class="step-list">
-<li><b>Atrodi</b> kreisajā augšā paneli <b>Scene</b> - tur veidosi objektu koku.</li>
-<li><b>Atrodi</b> kreisajā apakšā paneli <b>FileSystem</b> - tur ir visi projekta faili.</li>
-<li><b>Atrodi</b> centrā <b>Viewport</b> - tur redzēsi spēles laukumu.</li>
-<li><b>Atrodi</b> labajā pusē paneli <b>Inspector</b> - tur maina izvēlētā objekta īpašības.</li>
-<li><b>Atrodi</b> apakšā cilni <b>Output</b> - tur parādīsies tavas programmas izdrukas.</li>
-<li><b>Izveido</b> README.md failā loga shēmu un ieraksti tajā visu piecu daļu nosaukumus pareizajās vietās.</li>
-<li><b>Paslēp</b> un atkal parādi vienu paneli, lai pārliecinātos, ka atradīsi to no jauna.</li>
+<p class="done-when"><b>Gatavs, kad:</b> atvērts tieši Pong projekts Godot .NET redaktorā un Git ir pieejams.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums - </p>
+<h2>Izveido un palaid pirmo scēnu</h2>
+<ol class="step-list"><li>Atrodi Scene paneli (mezglu koks), FileSystem (faili), 2D skatlogu, Inspector (īpašības) un Output (izdruka). README.md vēlāk pieraksti katram vienu pielietojumu.</li>
+<li>FileSystem panelī ar labo pogu uz <code>res://</code> izveido mapes <code>Scenes</code> un <code>Scripts</code>. Scene panelī izvēlies <b>2D Scene</b>; saknes Node2D nosauc <code>Main</code>. Saglabā <code>res://Scenes/Main.tscn</code>.</li>
+<li><b>Project → Project Settings → Display → Window</b>: Viewport Width = <code>1280</code>, Viewport Height = <code>720</code>, Stretch Mode = <code>canvas_items</code>, Stretch Aspect = <code>keep</code>. Ja kāds lauks nav redzams, ieslēdz Advanced Settings.</li>
+<li>Nospied <b>F5</b>, izvēlies Select Current vai norādi Main.tscn kā galveno scēnu. Tukšs spēles logs šodien ir pareizs rezultāts — vēl nav redzamu objektu. Apturi ar F8.</li>
+<li>Aizver un atkal atver projektu no Project Manager. Pārbaudi, ka Main.tscn un loga iestatījumi ir saglabāti. F5 palaiž galveno scēnu; F6 — pašlaik redaktorā atvērto scēnu.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> tavā README.md failā ir shēma, kurā visas piecas editora daļas atzīmētas pareizajās vietās.</p>
-</section><section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums - </p><h2>Iestati logu un saglabā projektu Git</h2>
-<p>Beigās tavs projekts būs pareizā izmērā un saglabāts krātuvē.</p>
-<p><b>Ko šis māca:</b> atšķirt projekta iestatījumus no projekta failiem un saglabāt darba sākumstāvokli tā, lai pie tā varētu atgriezties.</p>
-<ol class="step-list">
-<li><b>Atver</b> izvēlni <b>Project -&gt; Project Settings</b>.</li>
-<li><b>Atrodi</b> sadaļu <b>Display -&gt; Window</b>.</li>
-<li><b>Ieraksti</b> <code>Viewport Width</code> vērtību <code>1280</code> un <code>Viewport Height</code> vērtību <code>720</code>.</li>
-<li><b>Aizver</b> iestatījumus un saglabā projektu ar <code>Ctrl+S</code>.</li>
-<li><b>Izveido</b> projekta mapē failu <code>.gitignore</code> ar rindām <code>.godot/</code> un <code>*.tmp</code>.</li>
-<li><b>Izpildi</b> mapē <code class="language-bash">git init</code>, <code class="language-bash">git add .</code> un <code class="language-bash">git commit -m "Pong projekta sakums"</code>.</li>
-<li><b>Izveido</b> GitHub krātuvi <code>pong-godot</code> un izpildi <code class="language-bash">git push</code>.</li>
+<p class="done-when"><b>Gatavs, kad:</b> F5 atver spēles logu, un pēc projekta atkārtotas atvēršanas var turpināt tajā pašā scēnā.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums - </p>
+<h2>Saglabā sākumpunktu GitHub</h2>
+<ol class="step-list"><li>VS Code izvēlies <b>File → Open Folder</b> un atver tieši mapi, kurā atrodas <code>project.godot</code>. Izveido README.md ar projekta nosaukumu, Godot versiju un piecu editora paneļu aprakstu.</li>
+<li>Izveido <code>.gitignore</code> vai papildini esošo: katru savā rindā ieraksti <code>.godot/</code>, <code>bin/</code>, <code>obj/</code>, <code>*.tmp</code>.</li>
+<li>Atver <b>Source Control</b>. Ja krātuves vēl nav, izvēlies <b>Initialize Repository</b>. Pārskati izmaiņas: jābūt project.godot, Scenes/Main.tscn, README.md un .gitignore, bet ne kešatmiņas saturam.</li>
+<li>Pievieno izmaiņas ar <b>Stage All Changes</b>, ievadi ziņu “Pong projekta sākums” un veic <b>Commit</b>. Ja Git prasa autora vārdu un e-pastu, norādi savus vai skolotāja noteiktos Git iestatījumus; tad atkārto Commit.</li>
+<li>Izvēlies <b>Publish to GitHub</b>, pieraksties un izveido krātuvi <code>pong-godot</code> ar skolotāja prasīto pieejamību. Ja projektam jau ir GitHub attālā krātuve, izmanto Push/Sync Changes. Pārlūkā pārbaudi, ka faili ir augšupielādēti.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> GitHub krātuvē redzams fails <code>project.godot</code>, bet mape <code>.godot/</code> tur nav nonākusi.</p>
-</section><details class="course-help extra-task">
-<summary>Papildu uzdevums - Saglabā savu editora izkārtojumu</summary>
-<p>Ja pamatdarbs ir gatavs, pielāgo editoru sev un saglabā šo izkārtojumu.</p>
-<p><b>Ko šis māca:</b> lietot Godot palīdzību un pielāgot darba vidi tā, lai nākamajā stundā vieglāk atrast vajadzīgo.</p>
-<ol class="step-list">
-<li><b>Pārvieto</b> paneļus tā, kā tev ērtāk strādāt.</li>
-<li><b>Atver</b> <b>Editor -&gt; Editor Layout -&gt; Save Layout</b>.</li>
-<li><b>Ieraksti</b> izkārtojuma nosaukumu <code>Mans</code>.</li>
-<li><b>Atver</b> <b>Help -&gt; Search Help</b> un atrodi tajā <code>Node2D</code>.</li>
-<li><b>Pieraksti</b> vienā teikumā, ko dara <code>Node2D</code>.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> izvēlnē Editor Layout ir tavs izkārtojums <code>Mans</code>, un README.md failā ir <code>Node2D</code> apraksts.</p>
-</details><section>
-<div class="hand-in-box">
-<h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tev ir uzstādīts Godot 4 .NET un izveidots tukšs Pong projekts pareizā loga izmērā, kas saglabāts, un tu proti nosaukt piecas editora galvenās daļas.</p>
+<p>Detalizētās darbības: <a href="https://code.visualstudio.com/docs/sourcecontrol/quickstart">VS Code versiju pārvaldības pamācība</a>. Saglabāšanas darbības turpmākajās stundās atkārto tajā pašā krātuvē.</p>
+<p class="done-when"><b>Gatavs, kad:</b> GitHub redzams pirmais commit un Main.tscn; kešatmiņa nav iekļauta. Privātai krātuvei skolotājam ir piešķirta piekļuve.</p>
+</section>
+<details class="course-help extra-task"><summary>Papildu uzdevums — izdomā spēles pasauli</summary>
+<p>README.md ieraksti vienu teikumu par savu spēles ieceri: kas ir abas komandas un par ko tās sacenšas? Piemēram, zemūdenes sargā pērli vai kosmosa kuģi sacenšas par enerģiju.</p>
+</details>
+<section><div class="hand-in-box"><h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> ir atverams Pong projekts, galvenā scēna un pirmā versija GitHub.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
-<ol class="step-list">
-<li>Saite uz savu GitHub krātuvi <code>pong-godot</code>.</li>
-<li>Ekrānuzņēmums ar atvērtu Godot editoru, kurā loga augšā redzams projekta nosaukums <code>Pong</code>.</li>
-<li>README.md sadaļa ar editora shēmu, kurā atzīmētas piecas daļas.</li>
+<ol class="step-list"><li><code>project.godot</code>, <code>Scenes/Main.tscn</code>, <code>.gitignore</code>.</li>
+<li>README.md: Godot versija un piecu redaktora paneļu pielietojums; palaistā loga ekrānuzņēmums.</li>
 </ol>
-<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-</div>
-</section><section>
-<h2>Pašpārbaude pirms iesniegšanas</h2>
-<p>Ātri pārbaudi, vai nākamajā stundā varēsi turpināt bez meklēšanas.</p>
-<div class="logic-box">
-<ul>
-<li><b>Atver vēlreiz</b> Pong projektu no Project Manager un pārliecinies, ka tas ielādējas bez kļūdām.</li>
-<li><b>Parādi ar pirkstu</b> visas piecas editora daļas, neskatoties pierakstos.</li>
-<li><b>Pārbaudi GitHub</b>: tur jābūt <code>project.godot</code>, README pierakstiem un ekrānuzņēmumam.</li>
-</ul>
-</div>
-</section><section>
-<h2>Biežākās kļūdas</h2>
-<div class="logic-box">
-<ul>
-<li><b>Editor neatveras:</b> Pārbaudi, vai sistēma atbalsta Godot 4 (Windows 10+, macOS 10.15+, Linux).</li>
-<li><b>Lēna darbība:</b> Forward+ prasa atjauninātus grafikas draiverus. Vecākiem datoriem mēģini <i>Compatibility</i>.</li>
-<li><b>Saglabājot crashojas:</b> Mapes ceļā nevajadzētu lietot diakritiskās zīmes, speciālos simbolus vai ļoti garus nosaukumus.</li>
-</ul>
-</div>
-</section><section>
-<h2>Godot ekrānuzņēmumi</h2>
-<div class="logic-box">
-<figure class="screenshot">
-<img alt="Godot 4 Project Manager logs ar tukšo projektu sarakstu un 'New Project' pogu pa labi." loading="lazy" src="../img/topic1_godot_pm.png"/>
-<figcaption>Godot 4 Project Manager logs ar tukšo projektu sarakstu un 'New Project' pogu pa labi.</figcaption>
-</figure>
-<figure class="screenshot">
-<img alt="Godot editor pirmā atvēršana - kreisajā Scene Tree un FileSystem, centrā Viewport, labajā Inspector." loading="lazy" src="../img/topic1_editor_layout.png"/>
-<figcaption>Godot editor pirmā atvēršana - kreisajā Scene Tree un FileSystem, centrā Viewport, labajā Inspector.</figcaption>
-</figure>
-</div>
-</section><section>
-<h2>Koda piemērs (paplašināts)</h2>
-<div class="code-example">
-<pre><code class="language-csharp">public class ProjectSetupReport
-{
-    public string ProjectName = "Pong";
-    public string GodotVersion = "Godot 4 .NET";
-    public bool UsesCSharpScripts = true;
-    public bool HasGitRepository = true;
-
-    public bool CanContinueToLesson12()
-    {
-        return ProjectName == "Pong"
-            &amp;&amp; GodotVersion.Contains(".NET")
-            &amp;&amp; UsesCSharpScripts
-            &amp;&amp; HasGitRepository;
-    }
-}</code></pre>
-<div class="result">Projekts ir gatavs nākamajai stundai: Godot .NET atveras, Git sākumstāvoklis ir saglabāts un ir skaidrs mērķis lietot C#.</div>
-</div>
-</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<p>Saglabā projekta iestatījumus, izveidotās scēnas un resursus; no 1.3 stundas arī C# skriptus un projekta failus (<code>.csproj</code> u.c.). <code>.gitignore</code> ieraksti <code>.godot/</code>, <code>bin/</code> un <code>obj/</code> katru savā rindā.</p>
+<p><b>Kā iesniedz:</b> veic commit un push. Skolotāja norādītajā vietā iesniedz GitHub krātuves saiti; README.md un pārbaudes pierādījumiem jābūt krātuvē.</p>
+</div></section>
+<section><h2>Ja kaut kas nestrādā</h2>
+<div class="logic-box"><div class="table-scroll" role="region" aria-label="Pazīme" tabindex="0"><table><thead><tr><th scope="col">Pazīme</th><th scope="col">Ko pārbaudīt</th></tr>
+</thead>
+<tbody><tr><td>Godot neatveras</td><td>Pārbaudi savai sistēmai paredzēto .NET lejupielādi un vai izpakota visa mape. Skolas datorā instalāciju var veikt skolotājs vai administrators.</td></tr>
+<tr><td>F5 prasa scēnu</td><td>Saglabā Main.tscn un FileSystem ar labo pogu izvēlies Set as Main Scene.</td></tr>
+<tr><td>git nav atrasts</td><td>Uzstādi Git un atver termināli no jauna.</td></tr>
+<tr><td>GitHub nav failu</td><td>Commit ir lokāls; izpildi arī Publish/Push. Pārliecinies, ka VS Code atvērta īstā projekta mape.</td></tr>
+</tbody>
+</table>
+</div></div></section>
+<nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
 <a class="nav-btn" href="/programmesana2/prog2_1/prog2_1main">⬅ Tēmas apkopojums</a>
 <a class="nav-btn" href="/programmesana2/prog2_1/prog2_12">Nākamā stunda ➡</a>
 </nav></main>
