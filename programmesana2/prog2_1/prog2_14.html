@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>1.4 Pirmais C# skripts: mainīgie un izvade - ebSkola</title>
-<meta content="Uzrakstīt pirmo C# klasi Godot projektā, piesaistīt to Node objektam un izvadīt vērtības spēles izpildes laikā." name="description"/>
+<meta content="Izveidot Paddle C# klasi, pārbaudīt datu tipus un atsevišķu scēnas instanču īpašības." name="description"/>
 <meta content="Eduards Baumanis" name="author"/>
 <meta content="index, follow" name="robots"/>
 <link href="https://ebskola.lv/programmesana2/prog2_1/prog2_14" rel="canonical"/>
@@ -13,28 +13,23 @@
 <meta content="lv_LV" property="og:locale"/>
 <meta content="ebSkola" property="og:site_name"/>
 <meta content="1.4 Pirmais C# skripts: mainīgie un izvade" property="og:title"/>
-<meta content="Uzrakstīt pirmo C# klasi Godot projektā, piesaistīt to Node objektam un izvadīt vērtības spēles izpildes laikā." property="og:description"/>
+<meta content="Izveidot Paddle C# klasi, pārbaudīt datu tipus un atsevišķu scēnas instanču īpašības." property="og:description"/>
 <meta content="https://ebskola.lv/programmesana2/prog2_1/prog2_14" property="og:url"/>
 <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
 <meta content="summary" name="twitter:card"/>
 <meta content="1.4 Pirmais C# skripts: mainīgie un izvade" name="twitter:title"/>
-<meta content="Uzrakstīt pirmo C# klasi Godot projektā, piesaistīt to Node objektam un izvadīt vērtības spēles izpildes laikā." name="twitter:description"/>
+<meta content="Izveidot Paddle C# klasi, pārbaudīt datu tipus un atsevišķu scēnas instanču īpašības." name="twitter:description"/>
 <link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="../../manifest.json" rel="manifest"/>
 <meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
-{"@context": "https://schema.org","@type": "LearningResource","name": "1.4 Pirmais C# skripts: mainīgie un izvade","description": "Uzrakstīt pirmo C# klasi Godot projektā, piesaistīt to Node objektam un izvadīt vērtības spēles izpildes laikā.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_1/prog2_14","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org","@type": "LearningResource","name": "1.4 Pirmais C# skripts: mainīgie un izvade","description": "Izveidot Paddle C# klasi, pārbaudīt datu tipus un atsevišķu scēnas instanču īpašības.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_1/prog2_14","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
 </script>
 <link href="../../style.css" rel="stylesheet" type="text/css"/>
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-<style>
-.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
-.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
-.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
-</style>
 <link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
 <body class="page-reference course-lesson has-sidebar">
 <a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
@@ -54,182 +49,95 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_1/prog2_1main">1. tēma</a> / 1.4</p>
 <h1>1.4 Pirmais C# skripts: mainīgie un izvade</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Uzrakstīt pirmo strādājošu C# klasi un attiecināt to uz Godot Node.</p>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveidot Paddle C# klasi, pārbaudīt datu tipus un atsevišķu scēnas instanču īpašības.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.13. Mainīgie un datu tipi</a>
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido <code>Hello.cs</code> skriptu · 2. uzdevums (~25 min) - piesaisti skriptu mezglam un būvē projektu · 3. uzdevums (~20 min) - pievieno mainīgos un izdrukā tos Godot · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu Godot .NET projektu no 1.3 stundas. <code>BuildCheck.cs</code> var palikt kā vides pārbaude, bet šodien strādāsi ar jaunu <code>Hello.cs</code> skriptu. Atceries no Python: <code>print()</code> izdrukā tekstu. C# Godot vidē to dara <code>GD.Print()</code>.</p>
-<p><b>Fokuss:</b> nemēģini uzreiz rakstīt spēli. Vispirms panāc vienu izdruku, tad pievieno vienu mainīgo, tad pārbaudi, kā izmaiņa parādās Output panelī.</p>
-</div>
-</section><section>
-<h2>Teorija: C# skripta struktūra Godot</h2>
-<div class="logic-box">
-<p>Godot C# skripts ir viens <code>.cs</code> fails ar klasi, kas manto no Godot mezgla, piemēram, <code>Node</code>, <code>Node2D</code> vai <code>CharacterBody2D</code>. Faila nosaukumam un klases nosaukumam jāsakrīt: <code>Hello.cs</code> satur klasi <code>Hello</code>.</p>
-<p>C# skriptos Godot metodes raksta ar lielajiem sākuma burtiem: <code>_Ready()</code>, <code>_Process(double delta)</code>, <code>_PhysicsProcess(double delta)</code>. Lai klase būtu piesaistāma mezglam, tā parasti ir <code>public partial class</code> un izmanto <code>using Godot;</code>.</p>
-<pre><code class="language-csharp">using Godot;
-
-public partial class Hello : Node
-{
-    private int counter = 0;
-    private string playerName = "Pong Player";
-
-    public override void _Ready()
-    {
-        GD.Print("Hello, Godot! No C#.");
-        SayHello();
-    }
-
-    public void SayHello()
-    {
-        counter++;
-        GD.Print("Sveiciens Nr. ", counter, " spēlētājam ", playerName);
-    }
-}</code></pre>
-<p><b>Pamata C# datu tipi:</b></p>
-<div aria-label="Tabula" class="table-scroll" role="region" tabindex="0"><table>
-<thead><tr><th>Tips</th><th>Apraksts</th></tr></thead>
-<tbody>
-<tr><td><code>int</code></td><td>Vesels skaitlis</td></tr>
-<tr><td><code>float</code></td><td>Decimālskaitlis 32-bit</td></tr>
-<tr><td><code>bool</code></td><td>true/false</td></tr>
-<tr><td><code>string</code></td><td>Teksta virkne</td></tr>
-<tr><td><code>Vector2</code></td><td>2D vektors (x, y)</td></tr>
+<section><div class="info-box"><p><b>80 min plāns:</b> Ievads (~10 min) · raketes klase (~20 min) · mainīgie un instances (~25 min) · pārbaude un skaidrojums (~20 min) · saglabāšana (~5 min).</p>
+<p><b>Pirms sāc:</b> BuildCheck izdruka no 1.3 darbojas. Tagad rakstīsi C# klasi pašai raketei. Šodien pārbaudīsi tās datus; kustības metodi pievienosi 1.5 stundā.</p>
+<p><b>Darba ritms:</b> pēc katra uzdevuma saglabā un pārbaudi rezultātu. Kad projektam pievienots C# skripts, pirms palaišanas nospied <b>Build</b>. Kļūdu gadījumā sāc ar pirmo sarkano kļūdu, nevis nākamo uzdevumu.</p>
+</div></section>
+<section><h2>Teorija: klase un dati, kurus izmantos spēle</h2>
+<div class="logic-box"><p><code>using Godot;</code> ļauj izmantot Godot tipus. <code>public partial class Paddle : CharacterBody2D</code> deklarē klasi, kas atbilst Paddle scēnas saknes tipam. Faila nosaukums ir Paddle.cs, bet šīs klases instances Main scēnā drīkst saukties PaddleLeft un PaddleRight.</p>
+<p><code>_Ready()</code> darbojas, kad mezgls ir gatavs scēnā. <code>GD.Print</code> izvada tekstu; <code>$"...{Speed}..."</code> ievieto mainīgā vērtību virknē. <code>[Export]</code> ļauj mainīt vērtību Inspector pēc Build. Inspector saglabāta vērtība ir svarīgāka par koda noklusējumu.</p>
+<div class="table-scroll" role="region" aria-label="Tips" tabindex="0"><table><thead><tr><th scope="col">Tips</th><th scope="col">Piemērs spēlē</th></tr>
+</thead>
+<tbody><tr><td><code>float</code></td><td><code>Speed = 420.0f</code> — ātrums; f norāda float literāli.</td></tr>
+<tr><td><code>string</code></td><td><code>InputUp = "p1_up"</code> — darbības nosaukums.</td></tr>
+<tr><td><code>bool</code></td><td><code>IsActive = true</code> — vai rakete drīkst kustēties.</td></tr>
+<tr><td><code>int</code></td><td>Vesels punktu skaits, ko 1.6 glabās Game klase.</td></tr>
+<tr><td><code>Vector2</code></td><td><code>Position</code> vai <code>Velocity</code> ar X un Y komponentēm.</td></tr>
 </tbody>
-</table></div>
-<p><b>Dzīves cikls:</b> konstruktors sagatavo C# objektu, <code>_Ready()</code> tiek izsaukts, kad mezgls jau ir scēnā, bet <code>_Process(double delta)</code> darbojas katrā kadrā. Spēles sākumā visdrošāk testēt izvadi ar <code>GD.Print()</code>.</p>
-</div>
-</section><section>
-<h2>Praktiskie uzdevumi</h2>
-
-
-
-
-</section><section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums - </p><h2>Izveido Hello.cs skriptu</h2>
-<p>Beigās tev būs pirmā C# klase, kas var kļūt par Godot mezglu.</p>
-<p><b>Ko šis māca:</b> saprast C# faila un klases saikni: Godot meklē klasi pēc tā paša nosaukuma, kāds ir failam.</p>
-<ol class="step-list">
-<li><b>Izveido</b> scēnā jaunu mezglu <code>Node</code> un nosauc to <code>Hello</code>.</li>
-<li><b>Nospied</b> <b>Attach Script</b> un izvēlies valodu <b>C#</b>.</li>
-<li><b>Saglabā</b> skriptu kā <code>Hello.cs</code>.</li>
-<li><b>Pārbaudi</b>, ka failā ir <code class="language-csharp">using Godot;</code> un <code class="language-csharp">public partial class Hello : Node</code>.</li>
-<li><b>Ieraksti</b> <code>_Ready()</code> metodē <code class="language-csharp">GD.Print("Sveiks no C#!");</code>.</li>
-<li><b>Saglabā</b> failu un atgriezies Godot editorā.</li>
-<li><b>Pieraksti</b>, kāpēc <code>Hello.cs</code> un <code>Hello</code> nosaukumiem jāsakrīt.</li>
+</table>
+</div></div></section>
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
+<h2>Pievieno Paddle.cs kopīgajai raketes scēnai</h2>
+<ol class="step-list"><li>Atver <code>Paddle.tscn</code>, izvēlies tās CharacterBody2D sakni un Attach Script → C# → <code>res://Scripts/Paddle.cs</code>. Aizstāj automātiski ģenerēto kustības paraugu ar pilno kodu zemāk.</li>
+<li>Pārbaudi Speed, InputUp, InputDown un IsActive. <code>{ get; set; }</code> ir īpašība, kuru cits skripts vēlāk varēs nolasīt un mainīt, lai pēc uzvaras apturētu raketes.</li>
+<li>Saglabā un Build. Atver Main.tscn un ar F5 pārbaudi Output: jābūt divām rindām, vienai no PaddleLeft, otrai no PaddleRight.</li>
+<li>Pārliecinies, ka projektā ir tikai <b>viens Paddle.cs</b>; abas scēnas instances izmanto vienu klasi, bet katrai ir savas vērtības.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> <code>Hello.cs</code> satur klasi <code>Hello</code>, kas manto no <code>Node</code>, un tajā ir <code>GD.Print()</code> izsaukums.</p>
-</section><section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums - </p><h2>Būvē un palaid skriptu</h2>
-<p>Beigās tava C# klase būs piesaistīta mezglam un izpildīsies spēles palaišanas brīdī.</p>
-<p><b>Ko šis māca:</b> atšķirt koda saglabāšanu no būvēšanas. C# izmaiņas Godot redz droši tikai pēc <b>Build</b>.</p>
-<ol class="step-list">
-<li><b>Nospied</b> Godot pogu <b>Build</b>.</li>
-<li><b>Pārbaudi</b>, ka Output panelī nav sarkanu C# kļūdu.</li>
-<li><b>Palaid</b> projektu ar <code>F5</code>.</li>
-<li><b>Atver</b> apakšā cilni <b>Output</b>.</li>
-<li><b>Pārbaudi</b>, ka redzi tekstu <code>Sveiks no C#!</code>.</li>
-<li><b>Atver</b> projektu VS Code un palaid terminālī <code class="language-bash">dotnet build</code>.</li>
-<li><b>Pieraksti</b>, kura kļūda parādās, ja izdzēs semikolu pēc <code>GD.Print(...)</code> rindas.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> Godot Output panelī parādās tava C# izdruka un <code>dotnet build</code> beidzas bez kļūdām.</p>
-</section><section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums - </p><h2>Pievieno mainīgo un izdrukā to Godot</h2>
-<p>Beigās tava klase izdrukās tekstu Output panelī, kad palaidīsi spēli.</p>
-<p><b>Ko šis māca:</b> lietot skaidrus datu tipus (<code>int</code>, <code>string</code>, <code>Vector2</code>) un redzēt to vērtības spēles palaišanas laikā.</p>
-<ol class="step-list">
-<li><b>Pievieno</b> klasē privātu lauku <code class="language-csharp">private int counter = 0;</code>.</li>
-<li><b>Pievieno</b> arī lauku <code class="language-csharp">private string playerName = "Pong Player";</code>.</li>
-<li><b>Pievieno</b> lauku <code class="language-csharp">private Vector2 spawnPosition = new Vector2(640, 360);</code>.</li>
-<li><b>Izdrukā</b> <code>_Ready()</code> metodē visus trīs laukus.</li>
-<li><b>Būvē</b> projektu ar Godot <b>Build</b> pogu un palaid spēli ar <code>F5</code>.</li>
-<li><b>Paskaties</b> cilnē <b>Output</b> un pieraksti izdrukāto tekstu.</li>
-<li><b>Nomaini</b> <code>playerName</code> vērtību, būvē vēlreiz un pārbaudi izmaiņu.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> palaižot spēli, Output panelī parādās tavs teksts ar spēlētāja vārdu, skaitli 0 un sākuma pozīciju.</p>
-</section><details class="course-help extra-task">
-<summary>Papildu uzdevums - Salīdzini ar Python</summary>
-<p>Ja pamatdarbs ir gatavs, pieraksti, ar ko C# atšķiras no jau zināmā.</p>
-<p><b>Ko šis māca:</b> pārcelt jau zināmo Python domāšanu uz C# sintaksi, nezaudējot jēgu.</p>
-<ol class="step-list">
-<li><b>Uzraksti</b> README.md failā tabulu ar divām kolonnām: Python un C#.</li>
-<li><b>Ieraksti</b> tajā, kā abās valodās izdrukā tekstu.</li>
-<li><b>Ieraksti</b>, kā abās valodās pieteic mainīgo ar veselu skaitli.</li>
-<li><b>Ieraksti</b>, kas C# ir obligāts katras komandas beigās.</li>
-<li><b>Pieraksti</b> vienu lietu, kas C# ir jādara, bet Python nav.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> tabulā ir vismaz trīs rindas, un tu vari nosaukt vienu C# prasību, kuras Python nav.</p>
-</details><section>
-<div class="hand-in-box">
-<h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tev ir uzrakstīts pirmais C# skripts <code>Hello.cs</code>, tas ir piesaistīts Godot mezglam, projekts ir uzbūvēts, un palaižot spēli tas izdrukā tekstu Output panelī.</p>
-<p><b>GitHub krātuvē jābūt:</b></p>
-<ol class="step-list">
-<li>Fails <code>Hello.cs</code>.</li>
-<li>Ekrānuzņēmums ar Godot <b>Output</b> paneli, kurā redzama tava izdruka.</li>
-<li>Viens teikums README.md failā: kāpēc C# faila nosaukumam jāsakrīt ar klases nosaukumu.</li>
-</ol>
-<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-</div>
-</section><section>
-<h2>Pašpārbaude pirms iesniegšanas</h2>
-<p>Pārbaudi, vai skripts tiešām izpildās un dati nav tikai ierakstīti failā.</p>
-<div class="logic-box">
-<ul>
-<li><b>Godot Output</b> panelī redzama izdruka no <code>Hello.cs</code>, nevis tikai vecais <code>BuildCheck.cs</code> teksts.</li>
-<li><b>Maini</b> <code>playerName</code> vērtību, uzbūvē projektu un pārbaudi, ka Output teksts mainās.</li>
-<li><b>README.md</b> ir viens teikums par to, kāpēc faila un klases nosaukumam jāsakrīt.</li>
-</ul>
-</div>
-</section><section>
-<h2>Biežākās kļūdas</h2>
-<div class="logic-box">
-<ul>
-<li><b>C# opcija neparādās:</b> projekts atvērts parastajā Godot, nevis Godot .NET versijā.</li>
-<li><b>Cannot find class Hello:</b> faila nosaukums un klases nosaukums nesakrīt.</li>
-<li><b>Build kļūda pēc maiņas:</b> pārbaudi semikolus, figūriekavas un precīzu metodes nosaukumu <code>_Ready()</code>.</li>
-</ul>
-</div>
-</section><section>
-<h2>Godot ekrānuzņēmumi</h2>
-<div class="logic-box">
-<figure class="screenshot">
-<img alt="Godot Output panelis pēc spēles palaišanas, kurā redzams 'Hello, Godot! No C#.' un 'Sveicieni Nr. 1' izvads." loading="lazy" src="../img/topic1_csharp_output.png"/>
-<figcaption>Godot Output panelis pēc spēles palaišanas, kurā redzams 'Hello, Godot! No C#.' un 'Sveicieni Nr. 1' izvads.</figcaption>
-</figure>
-<figure class="screenshot">
-<img alt="Godot Add Child Node dialogs ar pielāgoto 'Hello' klasi sarakstā zem 'Node' kategorijas." loading="lazy" src="../img/topic1_create_node.png"/>
-<figcaption>Godot Add Child Node dialogs ar pielāgoto 'Hello' klasi sarakstā zem 'Node' kategorijas.</figcaption>
-</figure>
-</div>
-</section><section>
-<h2>Koda piemērs (paplašināts)</h2>
-<div class="code-example">
+<details class="course-help"><summary>1.4 Paddle.cs — pilns fails salīdzināšanai</summary>
+<p><a href="kods/1_4/Paddle.cs" download>Lejupielādēt Paddle.cs</a>. Aizstāj tikai atbilstošā faila saturu; neveido otru tāda paša nosaukuma klasi.</p>
 <pre><code class="language-csharp">using Godot;
 
-public partial class Hello : Node
+public partial class Paddle : CharacterBody2D
 {
-    private int counter = 0;
-    private string playerName = "Pong Player";
+    [Export] public float Speed = 420.0f;
+    [Export] public string InputUp = &quot;p1_up&quot;;
+    [Export] public string InputDown = &quot;p1_down&quot;;
+    public bool IsActive { get; set; } = true;
 
     public override void _Ready()
     {
-        GD.Print("Hello, Godot! No C#.");
-        SayHello();
-    }
-
-    public void SayHello()
-    {
-        counter++;
-        GD.Print("Sveiciens Nr. ", counter, " spēlētājam ", playerName);
+        GD.Print($&quot;{Name}: ātrums {Speed}, vadība {InputUp}/{InputDown}, aktīva {IsActive}&quot;);
     }
 }</code></pre>
-<div class="result">Godot Output panelis rāda, ka pielāgota C# klase ir ielādēta, reģistrēta un izpilda metodi no _Ready().</div>
-</div>
-</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+</details>
+<p class="done-when"><b>Gatavs, kad:</b> abas raketes izdrukā savu mezgla nosaukumu un datus; izskats Main scēnā ir saglabāts.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums - </p>
+<h2>Iestati katrai raketei savus datus</h2>
+<ol class="step-list"><li>Main scēnā atlasi PaddleLeft. Inspector pēc Build redzami skripta lauki: Speed = <code>420</code>, Input Up = <code>p1_up</code>, Input Down = <code>p1_down</code>.</li>
+<li>Atlasi PaddleRight un tikai šai instancei iestati Input Up = <code>p2_up</code>, Input Down = <code>p2_down</code>. Pati Input Map tiks izveidota 1.5 stundā.</li>
+<li>Uz laiku PaddleRight Speed maini uz 300. Palaid F5: izdrukā kreisajai paliek 420, labajai ir 300. <b>Atjauno labajai 420</b>. Tas apliecina, ka kopīgs skripts nenozīmē kopīgu lauka vērtību.</li>
+<li>Paddle.cs _Ready beigās pievieno <code>GD.Print($"Pozīcija: {Position}");</code>. Main scēnā pozīcijām jābūt (60,360) un (1220,360). Pārbaudi ar F5, tad šo papildu izdruku noņem.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> abām instancēm ir atšķirīgi ievades nosaukumi, vienāds ātrums un pareizas pozīcijas.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums - </p>
+<h2>Paskaidro vērtības un saglabā strādājošo versiju</h2>
+<ol class="step-list"><li>README.md izveido tabulu: lauks, tips, vērtība kreisajai raketei, vērtība labajai raketei un tā nozīme spēlē.</li>
+<li>_Ready sākumā uz laiku ievieto <code>int testScore = 0;</code>, tad <code>testScore += 1;</code> un <code>GD.Print(testScore);</code>. Katrā jaunā F5 palaišanā katra rakete izdrukā 1, nevis turpina iepriekšējo skaitu. Pieraksti, kāpēc. Pēc tam šīs trīs pārbaudes rindas noņem.</li>
+<li>Paskaidro atšķirību starp Speed noklusējumu C# kodā un Inspector saglabāto vērtību. Ja koda maiņa neparādās, apskati instances īpašības; ar atiestatīšanas ikonu var atjaunot noklusējumu.</li>
+<li>No Main.tscn noņem diagnostikas BuildCheck mezglu, jo vide jau pārbaudīta; BuildCheck.cs failu drīkst paturēt. Saglabā, Build, F5 un pārliecinies, ka palikušas divas raketes izdrukas. Veic Commit un Push.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> projekts paliek bez pagaidu eksperimentiem, un katras raketes dati ir saprotami un pārbaudīti.</p>
+</section>
+<details class="course-help extra-task"><summary>Papildu uzdevums — salīdzini ar Python</summary>
+<p>README.md salīdzini <code>print</code> un GD.Print, mainīgā tipa deklarēšanu, <code>true</code> un <code>True</code>, figūriekavas un atkāpes. Pie katra C# piemēra paskaidro, ko tas dara tavas raketes klasē.</p>
+</details>
+<section><div class="hand-in-box"><h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> raketes scēnai ir reāla C# klase ar nākamajā stundā izmantojamiem datiem.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list"><li><code>Scripts/Paddle.cs</code>, atjaunināti Paddle.tscn un Main.tscn.</li>
+<li>README.md datu tabula un Inspector skaidrojums; abu rakešu izdrukas.</li>
+</ol>
+<p>Saglabā projekta iestatījumus, izveidotās scēnas un resursus; no 1.3 stundas arī C# skriptus un projekta failus (<code>.csproj</code> u.c.). <code>.gitignore</code> ieraksti <code>.godot/</code>, <code>bin/</code> un <code>obj/</code> katru savā rindā.</p>
+<p><b>Kā iesniedz:</b> veic commit un push. Skolotāja norādītajā vietā iesniedz GitHub krātuves saiti; README.md un pārbaudes pierādījumiem jābūt krātuvē.</p>
+</div></section>
+<section><h2>Ja kaut kas nestrādā</h2>
+<div class="logic-box"><div class="table-scroll" role="region" aria-label="Pazīme" tabindex="0"><table><thead><tr><th scope="col">Pazīme</th><th scope="col">Ko pārbaudīt</th></tr>
+</thead>
+<tbody><tr><td>Inspector lauki neparādās</td><td>Saglabā failu, Build un atlasi raketes sakni, nevis Visual.</td></tr>
+<tr><td>Abas izdrukā p1_up</td><td>PaddleRight instancei Main scēnā iestati p2_up/p2_down; kopīgajai Paddle.tscn scēnai atstāj p1 nosaukumus.</td></tr>
+<tr><td>Cannot find class Paddle</td><td>Fails Paddle.cs, klase Paddle, mantojums CharacterBody2D; pārbaudi partial un pirmo Build kļūdu.</td></tr>
+<tr><td>Redzama tikai viena raketes izdruka</td><td>Palaid Main ar F5, nevis vienu Paddle.tscn ar F6.</td></tr>
+</tbody>
+</table>
+</div></div></section>
+<nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
 <a class="nav-btn" href="/programmesana2/prog2_1/prog2_13">⬅ Iepriekšējā stunda</a>
 <a class="nav-btn" href="/programmesana2/prog2_1/prog2_15">Nākamā stunda ➡</a>
 </nav></main>
