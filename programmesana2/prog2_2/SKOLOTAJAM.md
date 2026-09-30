@@ -2,16 +2,29 @@
 
 Sākotnējie uzdevumi trenēja atsevišķas prasmes, bet bez skolotāja papildu koda un skaidrojumiem negarantēja funkcionālu platformas spēli. Pārstrādātā tēma veido vienu projektu sešās nodarbībās; katrā saglabāti trīs pamatuzdevumi, izvēles paplašinājums, pārbaudes un iesniegšanas kritēriji. Saglabāts esošais 80 minūšu nodarbības plānojums.
 
+## Uzsvars uz darbu Godot logā
+
+Stundu valoda un virsraksti vienkāršoti. Norādījumi vispirms nosauc Scene panelī atlasāmo objektu, tad Inspector lauku vai pogu un sagaidāmo rezultātu. Godot angļu nosaukumi saglabāti, lai skolēns tos varētu atrast savā ekrānā. 2.1 stundā ir paneļu atgādne, bet tēmas pārskatā — biežāko klikšķu tabula.
+
+- 2.1 skolēns maina Speed un Physics Ticks per Second, aplūko Output un pieraksta novērojumus; četru aprēķinu vietā pietiek ar īsu kustības salīdzinājumu.
+- 2.2 skolēns pievieno taustiņus Input Map, maina Speed un salīdzina kustību pa diagonāli. Kvadrātsaknes aprēķins nav iesniegšanas prasība.
+- 2.3 saglabāti if, switch un foreach piemēri ar Output pārbaudēm. Python pārrakstīšana un apzināta break izņemšana vairs nav pamatuzdevumi.
+- 2.4 Layer un Mask skaidro ar Inspector numurētajiem kvadrātiņiem; faila bitu masku vērtības skolēnam nav jāiegaumē.
+- 2.5 lēcienu salīdzina, mainot Jump Velocity Inspector panelī. Lēciena augstuma formulas vietā pārbauda, vai platformas un atslēgu var sasniegt.
+- 2.6 tekstu ievietošana un izskata maiņa aprakstīta ar konkrētiem laukiem. Papildu uzdevums ir Label teksta krāsa un izmērs.
+
+Pilnie C# piemēri, spēles faili un ZIP nav mainīti. Vērtē skolēna veikto izmaiņu rezultātu un īsu skaidrojumu; jaunās iesniegšanas prasības skati katras stundas sadaļā “Ko sagatavo”.
+
 ## Konstatētie šķēršļi un ieviestās izmaiņas
 
 | Sākotnējā problēma | Ieviestais risinājums |
 |---|---|
 | Node2D/Mover un CharacterBody2D/Player mainījās bez skaidras pārejas; trūka redzamā objekta un scēnu iestatījumu. | MovementLab ir atsevišķs eksperiments. No 2.2 lieto vienu Player.tscn un Player.cs; norādītas formas, izmēri, pozīcijas, mapes un F5 galvenā scēna. |
 | Delta tika skaidrots kā obligāts jebkurai kustībai, monitora Hz sajaukts ar fizikas biežumu. | Nošķirta Position pārbīde, Velocity un gravitācija; eksperiments maina Physics Ticks per Second un beigās atjauno 60 Hz. |
-| C# switch kļūdaini aprakstīja automātisku pāreju uz nākamo netukšo case. | Skaidrota kompilācijas kļūda, dots pārbaudāms break eksperiments ar atjaunošanas soli. |
+| C# switch kļūdaini aprakstīja automātisku pāreju uz nākamo netukšo case. | Pilnajā kodā katrs case beidzas ar break; skolēns pārbauda katra priekšmeta rezultātu Output panelī. |
 | Atsevišķie Player piemēri pārrakstīja kustību vai priekšmetu loģiku. | Pilni savstarpēji saderīgi faili katram būtiskajam posmam; skaidri norādīts, kad aizstāt metodi un kad papildināt klasi. |
 | Monētas pazušana nebija sasaistīta ar punktiem; atsauces uz ScoreUp, grupām vai Game nebija izveidotas. | Pickup pārbauda Player tipu un tieši izsauc publisku OnPickup. Vienreizējas savākšanas aizsardzība; punkti un atslēga saglabājas Player instancē. |
-| Area2D Mask nebija saskaņota ar Player Layer. | Vienota ķeksīšu tabula visām fizikas un notikumu zonām; skaidrota atšķirība no .tscn bitu maskas vērtības. |
+| Area2D Mask nebija saskaņota ar Player Layer. | Vienota Inspector kvadrātiņu tabula grīdai, spēlētājam un priekšmetiem; skolēns ieslēdz un izslēdz Mask un pārbauda rezultātu. |
 | Lēciena norādījumos atšķīrās mainīgie, trūka eksperimentu atcelšanas, papildu dubultlēciens nebija korekti definēts. | Vienots Velocity, Gravity, JumpVelocity; pārbaudāms pamatlēciens. Mainīgs augstums un coyote time ir izvēles uzlabojums, pēc lēciena patērējot toleranci. |
 | 6. stundā prasīti gan 3 līmeņi, gan tikai 1; vienlaikus jauns ienaidnieks, HP, taimeris un līmeņu pārvaldnieks. | Pamatprasība visur ir viens pabeigts līmenis. Sarežģītākas sistēmas ir izvēles paplašinājumi. |
 | Nebija pilna uzvaras, zaudējuma un restartēšanas ceļa; piemērs uzvarot aizvēra spēli. | Level.cs ar redzamu uzvaru/zaudējumu, atslēgas pārbaudi, bīstamu zonu, kritiena pārbaudi un pilnu scēnas atjaunošanu ar R. |
