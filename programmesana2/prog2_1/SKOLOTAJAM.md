@@ -9,7 +9,7 @@ Sākotnējā tēma labi sadalīja vides apgūšanu, taču uzdevumi paši par sev
 | Object (objektiem) trūka precīzu izmēru, redzamā element (elementa) novietojuma un main scene (galvenās scēnas) izvēles. | Skaidri Scenes/Main.tscn, Paddle.tscn, Ball.tscn, position (pozīcijas), Polygon2D (2D daudzstūris) virsotnes, formas un F5. Pirmo scene (scēnu) palaida jau 1.1. |
 | Git push (nosūtīšana uz attālo krātuvi) bija dots bez remote repository (attālās krātuves) un pirmās publishing (publicēšanas) secības. | VS Code Initialize, Stage, Commit (izmaiņu fiksējums), Publish to GitHub (publicēt GitHub)/Push (nosūtīšana uz attālo krātuvi) un rezultāta pārbaude browser (pārlūkā). |
 | Build (būvēt projektu) button (poga) prasīta pirms pirmā C# script (skripta) izveides. | 1.3 pārbauda SDK (programmatūras izstrādes komplekts), izveido BuildCheck.cs, tad kompilē un palaiž; diagnostika balstās reālā rezultātā. |
-| Atkārtoti Hello piemēri maz palīdzēja noslēguma spēlei. | 1.4 veido tieši Paddle class (klasi), tās type (tipus), Export (eksportēt) field (laukus) un atšķirīgus instance (instanču) settings (iestatījumus). |
+| Atkārtoti Hello piemēri maz palīdzēja noslēguma spēlei. | 1.4 veido tieši Paddle class (klasi), tās type (tipus), Export (eksportēt) field (laukus) un atšķirīgus instance (eksemplāru) settings (iestatījumus). |
 | Nosaukumi un koka ceļi mainījās: Punkti, UI (lietotāja saskarne)/Punkti, Main, Game un citi nesaskaņoti varianti. | Viens koks un viena class (klašu) secība; HUD (spēles informācijas panelis)/Score, HUD (spēles informācijas panelis)/Message, HUD (spēles informācijas panelis)/Instructions. Main node (mezglam) piesaista Game.cs. |
 | Formas un renderētie object (objekti) atšķīrās; Collision Layers (sadursmju slānis)/Masks nebija konkretizētas. | Vienādi fiziskie/vizuālie izmēri un kopīga slāņu tabula; object (objektu) root (saknes) un child node (bērnu) koordinātes skaidri nodalītas. |
 | Visa spēles kustība palika 1.6, neatstājot laiku patstāvīgai pārbaudei. | 1.5 ir gatavs laukums, divu spēlētāju vadība, bumbas atlēkšana un iziešanas noteikšana. |
@@ -23,7 +23,7 @@ Sākotnējā tēma labi sadalīja vides apgūšanu, taču uzdevumi paši par sev
 1. Godot .NET project (projekts) atveras, Main scene (scēna) palaižas un sākumpunkts publicēts GitHub.
 2. Divas raketes un bumba ir redzamas, ar atbilstošām collision (sadursmes) formām un kopīgām scene (scēnām).
 3. BuildCheck.cs kompilējas un izpildās; skolēns prot nolasīt un novērst vienu compiler error (kompilācijas kļūdu).
-4. Paddle.cs izdrukā instance (instanču) data (datus); skolēns saprot type (tipus) un Inspector (īpašību panelis) pārrakstījumus.
+4. Paddle.cs izdrukā instance (eksemplāru) data (datus); skolēns saprot type (tipus) un Inspector (īpašību panelis) pārrakstījumus.
 5. Raketes vada ar saviem key (taustiņiem) un aptur pie sienām. Bumba atlec, iziešanas brīdī apstājas. Šis posms vēl neskaita punktus.
 6. Game.cs apvieno pilnu partiju, HUD (spēles informācijas panelis) un jaunu spēli. Skolēns veido savu dizainu/stāstu un testē ar citiem spēlētājiem.
 

@@ -33,7 +33,7 @@ Collision (sadursme) Inspector (īpašību panelis) checkbox (ķeksīši): platf
 
 ## Individualizēšana
 
-Pēc Build (būvēt projektu) atlasi Level1 root (sakni) un nomaini `Game Title`, `Mission`, `Win Text`, `Lose Text`, `Locked Text`. Izvēlies savu varoni, pasauli un mērķi. Maini Polygon2D (2D daudzstūris) figūras vai aizstāj tās ar saviem Sprite2D (2D attēla mezgls) attēliem. Pielāgo collision shape (sadursmes formas), saglabājot fizikas sakņu Scale (mērogs) (1,1). Izmaini maršrutu un izspēlē to pēc katras izmaiņas.
+Pēc Build (būvēt projektu) atlasi Level1 root (sakni) un nomaini `Game Title` (spēles nosaukums), `Mission` (mērķis), `Win Text` (uzvaras teksts), `Lose Text` (zaudējuma teksts), `Locked Text` (norāde pirms atslēgas iegūšanas). Izvēlies savu varoni, pasauli un mērķi. Maini Polygon2D (2D daudzstūris) figūras vai aizstāj tās ar saviem Sprite2D (2D attēla mezgls) attēliem. Pielāgo collision shape (sadursmes formas), saglabājot fizikas sakņu Scale (mērogs) (1,1). Izmaini maršrutu un izspēlē to pēc katras izmaiņas.
 
 Ja atslēgu attēlo kā citu priekšmetu, pielāgo arī HUD (spēles informācijas panelis) vārdu `Atslēga` method (metodē) `UpdateHud`. Iesniegšanai README papildini ar savu stāstu, trīs dizaina izvēļu pamatojumu, resource (resursu) avotiem un testing (testēšanas) rezultātiem.
 
