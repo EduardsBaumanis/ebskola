@@ -1,7 +1,7 @@
-# Programmēšana II - Godot ekrānuzņēmumi
+# Programmēšana II - Godot screenshot (ekrānuzņēmumi)
 
-Šajā mapē jāievieto Godot editor un spēles ekrānuzņēmumi, kas tiek atsauktas
-lessoni HTML failos. Katrs attēls ir aprakstīts ar `alt` atribūtu attiecīgajā
+Šajā folder (mapē) jāievieto Godot editor (redaktors) un spēles screenshot (ekrānuzņēmumi), kas tiek atsauktas
+lessoni HTML (hiperteksta iezīmēšanas valoda) file (failos). Katrs attēls ir aprakstīts ar `alt` attribute (atribūtu) attiecīgajā
 `<img>` tagā.
 
 ## Standarta nosaukumu konvencija
@@ -9,7 +9,7 @@ lessoni HTML failos. Katrs attēls ir aprakstīts ar `alt` atribūtu attiecīgaj
 
 Piemērs: `topic1_godot_pm.png`, `topic2_player_moving.png`, ...
 
-Attēlus jāveido 1280×720 vai augstākā izšķirtspējā, PNG vai WebP formātā.
+Attēlus jāveido 1280×720 vai augstākā izšķirtspējā, PNG (bezzudumu attēlu formāts) vai WebP (tīmekļa attēlu formāts) format (formātā).
 
-Skat. `SOURCES.md` pašreizējam placeholder audita un internetā atrasto avotu
-sarakstam.
+Skat. `SOURCES.md` pašreizējam placeholder audita un internet (internetā) atrasto avotu
+list (sarakstam).

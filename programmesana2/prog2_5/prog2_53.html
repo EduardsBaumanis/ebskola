@@ -4,26 +4,26 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>5.3 Save/Load arhitektūra - ebSkola</title>
-<meta content="Izveidot spēles saglabāšanas sistēmu ar vairākiem slotiem, autosave loģiku un datu ielādi pēc spēles restartēšanas." name="description"/>
+<title>5.3 Save/Load (saglabāšana/ielāde) architecture (arhitektūra) - ebSkola</title>
+<meta content="Izveidot spēles save (saglabāšanas) system (sistēmu) ar vairākiem save slot (saglabāšanas vietām), autosave (automātiskā saglabāšana) logic (loģiku) un data (datu) load (ielādi) pēc spēles restartēšanas." name="description"/>
 <meta content="Eduards Baumanis" name="author"/>
 <meta content="index, follow" name="robots"/>
 <link href="https://ebskola.lv/programmesana2/prog2_5/prog2_53" rel="canonical"/>
 <meta content="article" property="og:type"/>
 <meta content="lv_LV" property="og:locale"/>
 <meta content="ebSkola" property="og:site_name"/>
-<meta content="5.3 Save/Load arhitektūra" property="og:title"/>
-<meta content="Izveidot spēles saglabāšanas sistēmu ar vairākiem slotiem, autosave loģiku un datu ielādi pēc spēles restartēšanas." property="og:description"/>
+<meta content="5.3 Save/Load (saglabāšana/ielāde) architecture (arhitektūra)" property="og:title"/>
+<meta content="Izveidot spēles save (saglabāšanas) system (sistēmu) ar vairākiem save slot (saglabāšanas vietām), autosave (automātiskā saglabāšana) logic (loģiku) un data (datu) load (ielādi) pēc spēles restartēšanas." property="og:description"/>
 <meta content="https://ebskola.lv/programmesana2/prog2_5/prog2_53" property="og:url"/>
 <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
 <meta content="summary" name="twitter:card"/>
-<meta content="5.3 Save/Load arhitektūra" name="twitter:title"/>
-<meta content="Izveidot spēles saglabāšanas sistēmu ar vairākiem slotiem, autosave loģiku un datu ielādi pēc spēles restartēšanas." name="twitter:description"/>
+<meta content="5.3 Save/Load (saglabāšana/ielāde) architecture (arhitektūra)" name="twitter:title"/>
+<meta content="Izveidot spēles save (saglabāšanas) system (sistēmu) ar vairākiem save slot (saglabāšanas vietām), autosave (automātiskā saglabāšana) logic (loģiku) un data (datu) load (ielādi) pēc spēles restartēšanas." name="twitter:description"/>
 <link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="../../manifest.json" rel="manifest"/>
 <meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
-{"@context": "https://schema.org","@type": "LearningResource","name": "5.3 Save/Load arhitektūra","description": "Izveidot spēles saglabāšanas sistēmu ar vairākiem slotiem, autosave loģiku un datu ielādi pēc spēles restartēšanas.","inLanguage": "lv","url": "https://ebskola.lv/programmesana2/prog2_5/prog2_53","isPartOf": {"@type": "Course","name": "ebSkola - Programmēšana II","url": "https://ebskola.lv/"},"learningResourceType": "Lesson","educationalLevel": "Vidējā izglītība (padziļinātais kurss)","isAccessibleForFree": true,"license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "5.3 Save/Load (saglabāšana/ielāde) architecture (arhitektūra)", "description": "Izveidot spēles save (saglabāšanas) system (sistēmu) ar vairākiem save slot (saglabāšanas vietām), autosave (automātiskā saglabāšana) logic (loģiku) un data (datu) load (ielādi) pēc spēles restartēšanas.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_5/prog2_53", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
 <link href="../../style.css" rel="stylesheet" type="text/css"/>
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
@@ -38,41 +38,41 @@
 <link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
 <body class="page-reference course-lesson has-sidebar">
 <a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
-<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
+<nav aria-label="Kursa navigation (navigācija)"><a href="../programmesana2.html">Programmēšana II</a>
 <a href="../../paligm.html">Palīgmateriāli</a></nav></header>
-<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<aside aria-label="Tēmas navigation (navigācija)" class="sidebar-nav">
 <div class="sidebar-kicker">Programmēšana II</div>
-<h3>5. Tēma - Datu pastāvība un algoritmi</h3>
+<h3>5. Tēma - Data persistence (datu pastāvība) un algorithm (algoritmi)</h3>
 <nav aria-label="Tēmas nodarbības" class="sidebar-links">
 <a class="topic-main" href="/programmesana2/prog2_5/prog2_5main">Tēmas sākums</a>
-<a href="/programmesana2/prog2_5/prog2_51">5.1 Failu I/O Godot vidē</a>
-<a href="/programmesana2/prog2_5/prog2_52">5.2 JSON serializācija un Resource sistēma</a>
-<a aria-current="page" class="active" href="/programmesana2/prog2_5/prog2_53">5.3 Save/Load arhitektūra</a>
-<a href="/programmesana2/prog2_5/prog2_54">5.4 Procedural generation</a>
-<a href="/programmesana2/prog2_5/prog2_55">5.5 Algoritmu efektivitāte</a>
-<a href="/programmesana2/prog2_5/prog2_56">5.6 Noslēguma projekts: Procedurālais klases labirints</a>
+<a href="/programmesana2/prog2_5/prog2_51">5.1 File I/O (failu ievade un izvade) Godot vidē</a>
+<a href="/programmesana2/prog2_5/prog2_52">5.2 JSON (JavaScript objektu pieraksts) serialization (serializācija) un Resource (resurss) system (sistēma)</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_5/prog2_53">5.3 Save/Load (saglabāšana/ielāde) architecture (arhitektūra)</a>
+<a href="/programmesana2/prog2_5/prog2_54">5.4 Procedural generation (procedurālā ģenerēšana)</a>
+<a href="/programmesana2/prog2_5/prog2_55">5.5 Algorithm efficiency (algoritmu efektivitāte)</a>
+<a href="/programmesana2/prog2_5/prog2_56">5.6 Noslēguma project (projekts): Procedural (procedurālais) klases labirints</a>
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_5/prog2_5main">5. tēma</a> / 5.3</p>
-<h1>5.3 Save/Load arhitektūra</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem slotiem un autosave.</p>
+<h1>5.3 Save/Load (saglabāšana/ielāde) architecture (arhitektūra)</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveidot pilnvērtīgu save (saglabāšanas) system (sistēmu) ar vairākiem save slot (saglabāšanas vietām) un autosave (automātiskā saglabāšana).</p>
 <div class="lesson-meta">
-<a href="/sasnRez">SR 2.4.17. Failu I/O</a>
+<a href="/sasnRez">SR 2.4.17. File I/O (failu ievade un izvade)</a>
 <a href="/sasnRez">SR 2.4.6. Plāno izstrādes procesu</a>
 </div>
 <section>
 <div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido SaveManager ar slotiem · 2. uzdevums (~25 min) - liec objektiem saglabāt sevi pašiem · 3. uzdevums (~20 min) - pievieno autosave un versiju · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu projektu ar JSON saglabāšanu no 5.2 stundas. Šodien no vienas funkcijas taisīsi sistēmu, kas der visai spēlei.</p>
+<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido SaveManager ar save slot (saglabāšanas vietām) · 2. uzdevums (~25 min) - liec object (objektiem) saglabāt sevi pašiem · 3. uzdevums (~20 min) - pievieno autosave (automātiskā saglabāšana) un version (versiju) · Iesniegšana (~5 min).</p>
+<p><b>Pirms sāc:</b> atver savu project (projektu) ar JSON (JavaScript objektu pieraksts) save (saglabāšanu) no 5.2 stundas. Šodien no vienas function (funkcijas) taisīsi system (sistēmu), kas der visai spēlei.</p>
 </div>
 </section><section>
-<h2>Teorija: Save sistēmas arhitektūra</h2>
+<h2>Teorija: Save (saglabāt) system (sistēmas) architecture (arhitektūra)</h2>
 <div class="logic-box">
-<p>Profesionāla save sistēma sastāv no vairākiem komponentiem:</p>
+<p>Profesionāla save (saglabāt) system (sistēma) sastāv no vairākiem komponentiem:</p>
 <ul>
 <li><b>SaveManager</b> - galvenais koordinators.</li>
-<li><b>Saveable interfeiss</b> - visi saglabājami objekti to implementē.</li>
-<li><b>Save slots</b> - vairāki saglabāšanas faili (slot1.json, slot2.json, ...).</li>
-<li><b>Autosave</b> - automātiska saglabāšana ik pa N minūtēm vai pie checkpoint.</li>
+<li><b>Saveable interfeiss</b> - visi saglabājami object (objekti) to implementē.</li>
+<li><b>Save slots (saglabāšanas vieta)</b> - vairāki save file (saglabāšanas faili) (slot1.json, slot2.json, ...).</li>
+<li><b>Autosave (automātiskā saglabāšana)</b> - automātiska save (saglabāšana) ik pa N minūtēm vai pie checkpoint.</li>
 </ul>
 <pre><code class="language-csharp">using Godot;
 using Godot.Collections;
@@ -98,10 +98,10 @@ public partial class SaveManager : Node
 }</code></pre>
 </div>
 </section><section>
-<h2>Kā šo izmantot projektā</h2>
+<h2>Kā šo izmantot project (projektā)</h2>
 <div class="logic-box">
-<p><b>Atceries:</b> ar redzamu efektu editorā nepietiek. Paskaidro, kura C# klase glabā stāvokli, kura metode to maina un kā Godot node struktūra izmanto šo kodu.</p>
-<p><b>Pārbaudi:</b> C# kods pārbauda failu kļūdas, validē datus, izmanto versijas lauku un pamato algoritmu sarežģītību.</p>
+<p><b>Atceries:</b> ar redzamu efektu editor (redaktorā) nepietiek. Paskaidro, kura C# class (klase) glabā state (stāvokli), kura method (metode) to maina un kā Godot node (mezgls) structure (struktūra) izmanto šo code (kodu).</p>
+<p><b>Pārbaudi:</b> C# code (kods) pārbauda file (failu) kļūdas, validē data (datus), izmanto version (versijas) field (lauku) un pamato time complexity (algoritmu sarežģītību).</p>
 <pre><code class="language-csharp">public class PersistenceCheckpoint
 {
     public string Lesson = "5.3 Save/Load arhitektūra";
@@ -118,87 +118,87 @@ public partial class SaveManager : Node
 
 
 </section><section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums - </p><h2>Izveido SaveManager ar slotiem</h2>
+<p class="task-number">1. uzdevums - </p><h2>Izveido SaveManager ar save slot (saglabāšanas vietām)</h2>
 <p>Beigās spēlētājs varēs izvēlēties, kurā vietā saglabāt.</p>
 <ol class="step-list">
-<li><b>Izveido</b> klasi <code>SaveManager</code> ar metodi <code class="language-csharp">private string SlotPath(int slot)</code>.</li>
-<li><b>Atgriez</b> tajā ceļu <code>user://slot1.json</code> atbilstoši numuram.</li>
-<li><b>Uzraksti</b> metodes <code class="language-csharp">public void Save(int slot)</code> un <code class="language-csharp">public bool Load(int slot)</code>.</li>
-<li><b>Saglabā</b> dažādus datus slotos 1 un 2.</li>
-<li><b>Ielādē</b> slotu 1 un pārbaudi, ka dati ir pareizie.</li>
-<li><b>Ielādē</b> slotu 2 un salīdzini.</li>
-<li><b>Uzraksti</b> metodi, kas pasaka, kuri sloti vispār eksistē.</li>
+<li><b>Izveido</b> class (klasi) <code>SaveManager</code> ar method (metodi) <code class="language-csharp">private string SlotPath(int slot)</code>.</li>
+<li><b>Atgriez</b> tajā path (ceļu) <code>user://slot1.json</code> atbilstoši numuram.</li>
+<li><b>Uzraksti</b> method (metodes) <code class="language-csharp">public void Save(int slot)</code> un <code class="language-csharp">public bool Load(int slot)</code>.</li>
+<li><b>Saglabā</b> dažādus data (datus) slotos 1 un 2.</li>
+<li><b>Ielādē</b> save slot (saglabāšanas vietu) 1 un pārbaudi, ka data (dati) ir pareizie.</li>
+<li><b>Ielādē</b> save slot (saglabāšanas vietu) 2 un salīdzini.</li>
+<li><b>Uzraksti</b> method (metodi), kas pasaka, kuri sloti vispār eksistē.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> abi sloti glabā atšķirīgus datus, un metode pareizi pasaka, kuri sloti ir aizpildīti.</p>
+<p class="done-when"><b>Gatavs, kad:</b> abi sloti glabā atšķirīgus data (datus), un method (metode) pareizi pasaka, kuri sloti ir aizpildīti.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums - </p><h2>Liec objektiem saglabāt sevi pašiem</h2>
-<p>Beigās katrs objekts pats zinās, ko par sevi saglabāt.</p>
+<p class="task-number">2. uzdevums - </p><h2>Liec object (objektiem) saglabāt sevi pašiem</h2>
+<p>Beigās katrs object (objekts) pats zinās, ko par sevi saglabāt.</p>
 <ol class="step-list">
-<li><b>Izveido</b> interfeisu <code class="language-csharp">public interface ISaveable</code> ar divām metodēm.</li>
+<li><b>Izveido</b> interfeisu <code class="language-csharp">public interface ISaveable</code> ar divām method (metodēm).</li>
 <li><b>Pieteic</b> tajā <code class="language-csharp">Dictionary SaveState();</code>.</li>
 <li><b>Pieteic</b> arī <code class="language-csharp">void LoadState(Dictionary state);</code>.</li>
-<li><b>Liec</b> spēlētāja klasei implementēt <code>ISaveable</code> un abas metodes.</li>
-<li><b>Liec</b> arī inventāra klasei to pašu.</li>
-<li><b>Savāc</b> <code>SaveManager</code> visus <code>ISaveable</code> objektus vienā sarakstā.</li>
-<li><b>Izsauc</b> ciklā katram <code>SaveState()</code> un saliec rezultātus vienā <code>Dictionary</code>.</li>
+<li><b>Liec</b> spēlētāja class (klasei) implementēt <code>ISaveable</code> un abas method (metodes).</li>
+<li><b>Liec</b> arī inventory (inventāra) class (klasei) to pašu.</li>
+<li><b>Savāc</b> <code>SaveManager</code> visus <code>ISaveable</code> object (objektus) vienā list (sarakstā).</li>
+<li><b>Izsauc</b> loop (ciklā) katram <code>SaveState()</code> un saliec rezultātus vienā <code>Dictionary</code> (vārdnīca).</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> viens <code>Save()</code> izsaukums saglabā gan spēlētāju, gan inventāru, un <code>SaveManager</code> nezina to iekšējo uzbūvi.</p>
+<p class="done-when"><b>Gatavs, kad:</b> viens <code>Save()</code> izsaukums saglabā gan spēlētāju, gan inventory (inventāru), un <code>SaveManager</code> nezina to iekšējo uzbūvi.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums - </p><h2>Pievieno autosave un versiju</h2>
-<p>Beigās spēle saglabāsies pati, un vecie faili neradīs kļūdas.</p>
+<p class="task-number">3. uzdevums - </p><h2>Pievieno autosave (automātiskā saglabāšana) un version (versiju)</h2>
+<p>Beigās spēle saglabāsies pati, un vecie file (faili) neradīs kļūdas.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> saglabātajam <code>Dictionary</code> lauku <code>version</code> ar vērtību 1.</li>
-<li><b>Pārbaudi</b> ielādējot, vai versija sakrīt.</li>
-<li><b>Izdrukā</b> brīdinājumu un lieto noklusējumus, ja versija ir citāda.</li>
-<li><b>Pievieno</b> <code>Timer</code> mezglu, kas ik pēc 60 sekundēm izsauc autosave.</li>
-<li><b>Saglabā</b> autosave atsevišķā slotā, lai tas nepārrakstītu spēlētāja slotu.</li>
-<li><b>Palaid</b> spēli un pagaidi vienu autosave ciklu.</li>
-<li><b>Nomaini</b> failā versiju uz 2 un pārbaudi brīdinājumu.</li>
+<li><b>Pievieno</b> saglabātajam <code>Dictionary</code> (vārdnīca) field (lauku) <code>version</code> ar value (vērtību) 1.</li>
+<li><b>Pārbaudi</b> ielādējot, vai version (versija) sakrīt.</li>
+<li><b>Izdrukā</b> brīdinājumu un lieto noklusējumus, ja version (versija) ir citāda.</li>
+<li><b>Pievieno</b> <code>Timer</code> (taimeris) node (mezglu), kas ik pēc 60 sekundēm izsauc autosave (automātiskā saglabāšana).</li>
+<li><b>Saglabā</b> autosave (automātiskā saglabāšana) atsevišķā save slot (saglabāšanas vietā), lai tas nepārrakstītu spēlētāja save slot (saglabāšanas vietu).</li>
+<li><b>Palaid</b> spēli un pagaidi vienu autosave (automātiskā saglabāšana) loop (ciklu).</li>
+<li><b>Nomaini</b> file (failā) version (versiju) uz 2 un pārbaudi brīdinājumu.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> autosave fails parādās pats, un ar nepareizu versiju spēle brīdina, nevis avarē.</p>
+<p class="done-when"><b>Gatavs, kad:</b> autosave (automātiskā saglabāšana) file (fails) parādās pats, un ar nepareizu version (versiju) spēle brīdina, nevis avarē.</p>
 </section><details class="course-help extra-task">
-<summary>Papildu uzdevums - Parādi slotu izvēlni</summary>
-<p>Ja pamatdarbs ir gatavs, ļauj slotus izvēlēties uz ekrāna.</p>
+<summary>Papildu uzdevums - Parādi save slot (saglabāšanas vietu) menu (izvēlni)</summary>
+<p>Ja pamatdarbs ir gatavs, ļauj slotus izvēlēties uz screen (ekrāna).</p>
 <ol class="step-list">
-<li><b>Izveido</b> UI ar trim pogām - pa vienai katram slotam.</li>
-<li><b>Parādi</b> pie katras, vai slots ir tukšs vai aizpildīts.</li>
-<li><b>Ielādē</b> attiecīgo slotu, nospiežot pogu.</li>
-<li><b>Pievieno</b> pogu slota dzēšanai.</li>
-<li><b>Pārbaudi</b>, ka pēc dzēšanas slots rāda 'tukšs'.</li>
+<li><b>Izveido</b> UI (lietotāja saskarne) ar trim button (pogām) - pa vienai katram slotam.</li>
+<li><b>Parādi</b> pie katras, vai slots (saglabāšanas vietas) ir tukšs vai aizpildīts.</li>
+<li><b>Ielādē</b> attiecīgo save slot (saglabāšanas vietu), nospiežot button (pogu).</li>
+<li><b>Pievieno</b> button (pogu) slota dzēšanai.</li>
+<li><b>Pārbaudi</b>, ka pēc dzēšanas slots (saglabāšanas vietas) rāda 'tukšs'.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> izvēlnē redzams katra slota statuss, un slotus var ielādēt un dzēst ar pogām.</p>
+<p class="done-when"><b>Gatavs, kad:</b> menu (izvēlnē) redzams katra slota statuss, un slotus var ielādēt un dzēst ar button (pogām).</p>
 </details><section>
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē ir <code>SaveManager</code> ar vairākiem slotiem, objekti paši saglabā savus datus caur <code>ISaveable</code> interfeisu, darbojas autosave, un saglabātajam failam ir versijas pārbaude.</p>
-<p><b>GitHub krātuvē jābūt:</b></p>
+<p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē ir <code>SaveManager</code> ar vairākiem save slot (saglabāšanas vietām), object (objekti) paši saglabā savus data (datus) caur <code>ISaveable</code> interfeisu, darbojas autosave (automātiskā saglabāšana), un saglabātajam file (failam) ir version (versijas) pārbaude.</p>
+<p><b>GitHub repository (krātuvē) jābūt:</b></p>
 <ol class="step-list">
-<li>Faili <code>SaveManager.cs</code> un <code>ISaveable.cs</code>.</li>
-<li>Divi paraugi saglabāto JSON failu no dažādiem slotiem.</li>
-<li>Ekrānuzņēmums ar brīdinājumu par nepareizu versiju.</li>
+<li>File (faili) <code>SaveManager.cs</code> un <code>ISaveable.cs</code>.</li>
+<li>Divi paraugi saglabāto JSON (JavaScript objektu pieraksts) file (failu) no dažādiem save slot (saglabāšanas vietām).</li>
+<li>Screenshot (ekrānuzņēmums) ar brīdinājumu par nepareizu version (versiju).</li>
 <li>README.md: kāpēc <code>SaveManager</code> nav jāzina, kas tieši ir spēlētāja iekšienē.</li>
 </ol>
-<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+<p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub repository (krātuves) link (saiti); visiem prasītajiem file (failiem), README.md pierakstiem un pierādījumiem jābūt pašā repository (krātuvē).</p>
 </div>
 </section><section>
 <h2>Biežākās kļūdas</h2>
 <div class="logic-box">
 <ul>
-<li><b>Save fails fragmented:</b> Save daļas atsevišķos failos vs viens - izvēlies vienu pieeju.</li>
-<li><b>Race condition:</b> Save un load notiek vienlaikus - lieto mutex vai sekvenciāli.</li>
-<li><b>Slot UI nesinhronizējas:</b> Pārbaudi metadata refresh pēc save.</li>
+<li><b>Save (saglabāt) file (fails) fragmented:</b> Save (saglabāt) daļas atsevišķos file (failos) vs viens - izvēlies vienu pieeju.</li>
+<li><b>Race condition (sacensības stāvoklis):</b> Save (saglabāt) un load (ielādēt) notiek vienlaikus - lieto mutex (savstarpējās izslēgšanas slēdzene) vai sekvenciāli.</li>
+<li><b>Slot (saglabāšanas vieta) UI (lietotāja saskarne) nesinhronizējas:</b> Pārbaudi metadata (metadati) refresh pēc save (saglabāt).</li>
 </ul>
 </div>
 </section><section>
-<h2>Godot ekrānuzņēmumi</h2>
+<h2>Godot screenshot (ekrānuzņēmumi)</h2>
 <div class="logic-box">
 <figure class="screenshot">
-<img alt="Save/Load UI: 3 slot kartiņas, katra ar 'Slot 1: Procedurālais klases labirints Lv 5, 1h 23m, 2026-05-15', un poga 'Save'/'Load'/'Delete'." loading="lazy" src="../img/topic5_save_slots.png"/>
-<figcaption>Save/Load UI: 3 slot kartiņas, katra ar 'Slot 1: Procedurālais klases labirints Lv 5, 1h 23m, 2026-05-15', un poga 'Save'/'Load'/'Delete'.</figcaption>
+<img alt="Save/Load (saglabāšana/ielāde) UI (lietotāja saskarne): 3 slot (saglabāšanas vieta) kartiņas, katra ar &#x27;Slot (saglabāšanas vieta) 1: Procedural (procedurālais) klases labirints Lv 5, 1h 23m, 2026-05-15&#x27;, un button (poga) &#x27;Save (saglabāt)&#x27;/&#x27;Load (ielādēt)&#x27;/&#x27;Delete (dzēst)&#x27;." loading="lazy" src="../img/topic5_save_slots.png"/>
+<figcaption>Save/Load (saglabāšana/ielāde) UI (lietotāja saskarne): 3 slot (saglabāšanas vieta) kartiņas, katra ar 'Slot (saglabāšanas vieta) 1: Procedural (procedurālais) klases labirints Lv 5, 1h 23m, 2026-05-15', un button (poga) 'Save (saglabāt)'/'Load (ielādēt)'/'Delete (dzēst)'.</figcaption>
 </figure>
 </div>
 </section><section>
-<h2>Koda piemērs (paplašināts)</h2>
+<h2>Code sample (koda piemērs) (paplašināts)</h2>
 <div class="code-example">
 <pre><code class="language-csharp">using Godot;
 using Godot.Collections;
@@ -237,9 +237,9 @@ public partial class SaveManager : Node
         file?.StoreString(Json.Stringify(allData, "  "));
     }
 }</code></pre>
-<div class="result">3 save slot ar metadatu (level, time played, last save), autosave ik 5 min, korekta load.</div>
+<div class="result">3 save slot (saglabāšanas vieta) ar metadata (metadatu) (level, time played, last save (saglabāt)), autosave (automātiskā saglabāšana) ik 5 min, korekta load (ielādēt).</div>
 </div>
-</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+</section><nav aria-label="Nodarbību navigation (navigācija)" class="stundas-navigacija">
 <a class="nav-btn" href="/programmesana2/prog2_5/prog2_52">⬅ Iepriekšējā stunda</a>
 <a class="nav-btn" href="/programmesana2/prog2_5/prog2_54">Nākamā stunda ➡</a>
 </nav></main>
