@@ -33,19 +33,19 @@
 <link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
 <body class="page-reference course-lesson has-sidebar">
 <a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
-<nav aria-label="Kursa navigation (navigācija)"><a href="../programmesana2.html">Programmēšana II</a>
+<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
 <a href="../../paligm.html">Palīgmateriāli</a></nav></header>
-<aside aria-label="Tēmas navigation (navigācija)" class="sidebar-nav">
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
 <div class="sidebar-kicker">Programmēšana II</div>
 <h3>1. Tēma - Ievads Godot un C#</h3>
 <nav aria-label="Tēmas nodarbības" class="sidebar-links">
 <a class="topic-main" href="/programmesana2/prog2_1/prog2_1main">Tēmas sākums</a>
-<a href="/programmesana2/prog2_1/prog2_11">1.1 Godot installation (instalācija) un project (projekta) sagatavošana</a>
-<a href="/programmesana2/prog2_1/prog2_12">1.2 Scene Tree (scēnu koks) un Node (mezgls) system (sistēma)</a>
+<a href="/programmesana2/prog2_1/prog2_11">1.1 Godot instalācija un projekta sagatavošana</a>
+<a href="/programmesana2/prog2_1/prog2_12">1.2 Scene Tree un Node sistēma</a>
 <a href="/programmesana2/prog2_1/prog2_13">1.3 C# un .NET sagatavošana</a>
-<a href="/programmesana2/prog2_1/prog2_14">1.4 Pirmais C# script (skripts): variable (mainīgie) un output (izvade)</a>
+<a href="/programmesana2/prog2_1/prog2_14">1.4 Pirmais C# skripts: variable un izvade</a>
 <a aria-current="page" class="active" href="/programmesana2/prog2_1/prog2_15">1.5 Spēles laukuma izveide</a>
-<a href="/programmesana2/prog2_1/prog2_16">1.6 Noslēguma project (projekts): Pong</a>
+<a href="/programmesana2/prog2_1/prog2_16">1.6 Noslēguma projekts: Pong</a>
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_1/prog2_1main">1. tēma</a> / 1.5</p>
 <h1>1.5 Spēles laukuma izveide</h1>
@@ -54,43 +54,43 @@
 <a href="/sasnRez">SR 2.4.7. UI (Lietotāja saskarne)</a>
 <a href="/sasnRez">SR 2.4.13. Data type (datu tipi)</a>
 </div>
-<section><div class="info-box"><p><b>80 min plāns:</b> Ievads (~10 min) · laukuma robežas (~20 min) · rakešu vadība (~25 min) · bumbas atlēkšana (~20 min) · save (saglabāšana) (~5 min).</p>
-<p><b>Pirms sāc:</b> vajadzīgas 1.4 scene (scēnas) un Paddle.cs ar Speed (ātrums) un input (ievades) nosaukumiem. Šodien laukums kļūs kustīgs: pārbaudīsi raketes un bumbu. Punktu uzskaite un spēles vadība būs 1.6 stundā.</p>
-<p><b>Darba ritms:</b> pēc katra uzdevuma saglabā un pārbaudi rezultātu. Kad project (projektam) pievienots C# script (skripts), pirms palaišanas nospied <b>Build (būvēt projektu)</b>. Kļūdu gadījumā sāc ar pirmo sarkano kļūdu, nevis nākamo uzdevumu.</p>
+<section><div class="info-box"><p><b>80 min plāns:</b> Ievads (~10 min) · laukuma robežas (~20 min) · rakešu vadība (~25 min) · bumbas atlēkšana (~20 min) · saglabāšana (~5 min).</p>
+<p><b>Pirms sāc:</b> vajadzīgas 1.4 scēnas un Paddle.cs ar Speed (ātrums) un ievades nosaukumiem. Šodien laukums kļūs kustīgs: pārbaudīsi raketes un bumbu. Punktu uzskaite un spēles vadība būs 1.6 stundā.</p>
+<p><b>Darba ritms:</b> pēc katra uzdevuma saglabā un pārbaudi rezultātu. Kad projektam pievienots C# skripts, pirms palaišanas nospied <b>Build</b>. Kļūdu gadījumā sāc ar pirmo sarkano kļūdu, nevis nākamo uzdevumu.</p>
 </div></section>
-<section><h2>Teorija: koordinātes, ātrums un collision (sadursme)</h2>
-<div class="logic-box"><p>1280 × 720 laukumā centrs ir (640,360). X pieaug pa labi, Y — uz leju. <b>Root (saknes) Position (pozīcija)</b> novieto object (objektu) laukumā, bet tās child node (bērnu) Visual un CollisionShape2D (2D sadursmes forma) position (pozīcijas) paliek (0,0). Fizikas root (saknes) Scale (mērogs) atstāj (1,1); izmēru maina formā.</p>
-<p><code>Velocity</code> (ātrums) glabā ātrumu pikseļos sekundē. Raketei <code>MoveAndSlide()</code> laiku ņem vērā pats. Bumbai <code>MoveAndCollide(Velocity * (float)delta)</code> nododam viena soļa pārbīdi. Tāpēc delta (soļa ilgums) šajās divās method (metodēs) lieto atšķirīgi.</p>
-<p>Ja MoveAndCollide atgriež collision (sadursmi), <code>Velocity.Bounce(collision.GetNormal())</code> aprēķina atlēkušo ātrumu. Bez collision (sadursmes) rezultāts ir <code>null</code> (tukša atsauce). Fizikas kustība notiek <code>_PhysicsProcess</code>. <a href="https://docs.godotengine.org/en/stable/tutorials/physics/using_character_body_2d.html">Godot kustības un atlēkšanas dokumentācija</a>.</p>
-<div class="table-scroll" role="region" aria-label="Object (objekts)" tabindex="0"><table><thead><tr><th scope="col">Object (objekts)</th><th scope="col">Layer (slānis) checkbox (ķeksīši)</th><th scope="col">Mask (maska) checkbox (ķeksīši)</th></tr>
+<section><h2>Teorija: koordinātes, ātrums un sadursme</h2>
+<div class="logic-box"><p>1280 × 720 laukumā centrs ir (640,360). X pieaug pa labi, Y — uz leju. <b>Saknes Position</b> novieto objektu laukumā, bet tās child node (bērnu) Visual un CollisionShape2D (2D sadursmes forma) pozīcijas paliek (0,0). Fizikas saknes Mērogs atstāj (1,1); izmēru maina formā.</p>
+<p><code>Velocity</code> glabā ātrumu pikseļos sekundē. Raketei <code>MoveAndSlide()</code> laiku ņem vērā pats. Bumbai <code>MoveAndCollide(Velocity * (float)delta)</code> nododam viena soļa pārbīdi. Tāpēc delta (soļa ilgums) šajās divās method (metodēs) lieto atšķirīgi.</p>
+<p>Ja MoveAndCollide atgriež sadursmi, <code>Velocity.Bounce(collision.GetNormal())</code> aprēķina atlēkušo ātrumu. Bez sadursmes rezultāts ir <code>null</code> (tukša atsauce). Fizikas kustība notiek <code>_PhysicsProcess</code>. <a href="https://docs.godotengine.org/en/stable/tutorials/physics/using_character_body_2d.html">Godot kustības un atlēkšanas dokumentācija</a>.</p>
+<div class="table-scroll" role="region" aria-label="Objekts" tabindex="0"><table><thead><tr><th scope="col">Objekts</th><th scope="col">Slānis ķeksīši</th><th scope="col">Maska ķeksīši</th></tr>
 </thead>
 <tbody><tr><td>WallTop, WallBottom (StaticBody2D (nekustīga 2D ķermeņa mezgls))</td><td>tikai 1</td><td>neviens</td></tr>
 <tr><td>PaddleLeft, PaddleRight (CharacterBody2D (vadāma 2D tēla mezgls))</td><td>tikai 2</td><td>tikai 1</td></tr>
-<tr><td>Ball (CharacterBody2D (vadāma 2D tēla mezgls))</td><td>tikai 3</td><td>1 un 2</td></tr>
+<tr><td>Ball (CharacterBody2D)</td><td>tikai 3</td><td>1 un 2</td></tr>
 </tbody>
 </table>
-</div><p>Tabulā ir Inspector (īpašību panelis) checkbox (ķeksīšu) numuri. .tscn file (failā) 3. slāņa bit (bitu) value (vērtība) ir 4. Ball Mask (maska) 1 un 2 bit (bitu) value (vērtība) ir 3. Raketēm bumbas slāni Mask (maska) neieslēdzam: bumba pati nosaka collision (sadursmi) ar raketi.</p>
+</div><p>Tabulā ir Inspector ķeksīšu numuri. .tscn failā 3. slāņa bit (bitu) vērtība ir 4. Ball Mask 1 un 2 bit vērtība ir 3. Raketēm bumbas slāni Mask neieslēdzam: bumba pati nosaka sadursmi ar raketi.</p>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Izveido redzamas laukuma robežas</h2>
-<ol class="step-list"><li>Atver Main.tscn. Pārbaudi PaddleLeft (60,360), PaddleRight (1220,360), Ball (640,360). Main root (sakne) paliek (0,0).</li>
-<li>Main pievieno <code>StaticBody2D</code> (nekustīga 2D ķermeņa mezgls) child node (bērnu) <code>WallTop</code>, Position (pozīcija) = <code>(640,10)</code>. Tam pievieno CollisionShape2D (2D sadursmes forma) ar New RectangleShape2D (jauna 2D taisnstūra forma), Size (izmērs) = <code>(1280,20)</code>; <b>formas node (mezgla)</b> Position (pozīcija) = (0,0).</li>
-<li>WallTop pievieno Polygon2D (2D daudzstūris) child node (bērnu) Visual ar punktiem <code>(-640,-10), (640,-10), (640,10), (-640,10)</code> un redzamu krāsu. Sienas fizikas forma viena pati spēlē nav redzama.</li>
-<li>Dublē visu WallTop par <code>WallBottom</code>, root (saknes) Position (pozīcija) = <code>(640,710)</code>. Abām sienām Layer (slānis) tikai 1, Mask (maska) neviena ķeksīša. No dublēšanas kopīgs Shape (forma) ir derīgs, kamēr abām vajadzīgs vienāds izmērs.</li>
-<li>Pievieno Main child node (bērnu) <code>Line2D</code> (2D līnija) ar nosaukumu <code>CenterLine</code>, Points = <code>(640,20)</code> un <code>(640,700)</code>, Width = 2, neuzkrītošu krāsu. Tā ir dekorācija un nedrīkst apturēt bumbu.</li>
-<li>Pārbaudi visu object (objektu) Layer (slānis) un Mask (maska) pēc tabulas. Palaid F5: redzamas divas sienas, raketes un bumba. Šim fiksētajam laukumam Camera2D (2D kamera) nav vajadzīga.</li>
+<ol class="step-list"><li>Atver Main.tscn. Pārbaudi PaddleLeft (60,360), PaddleRight (1220,360), Ball (640,360). Main sakne paliek (0,0).</li>
+<li>Main pievieno <code>StaticBody2D</code> child node <code>WallTop</code>, Pozīcija = <code>(640,10)</code>. Tam pievieno CollisionShape2D ar New RectangleShape2D (jauna 2D taisnstūra forma), Izmērs = <code>(1280,20)</code>; <b>formas node (mezgla)</b> Pozīcija = (0,0).</li>
+<li>WallTop pievieno Polygon2D (2D daudzstūris) child node Visual ar punktiem <code>(-640,-10), (640,-10), (640,10), (-640,10)</code> un redzamu krāsu. Sienas fizikas forma viena pati spēlē nav redzama.</li>
+<li>Dublē visu WallTop par <code>WallBottom</code>, saknes Pozīcija = <code>(640,710)</code>. Abām sienām Slānis tikai 1, Maska neviena ķeksīša. No dublēšanas kopīgs Shape ir derīgs, kamēr abām vajadzīgs vienāds izmērs.</li>
+<li>Pievieno Main child node <code>Line2D</code> (2D līnija) ar nosaukumu <code>CenterLine</code>, Points = <code>(640,20)</code> un <code>(640,700)</code>, Width = 2, neuzkrītošu krāsu. Tā ir dekorācija un nedrīkst apturēt bumbu.</li>
+<li>Pārbaudi visu objektu Slānis un Maska pēc tabulas. Palaid F5: redzamas divas sienas, raketes un bumba. Šim fiksētajam laukumam Camera2D (2D kamera) nav vajadzīga.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> attēls un collision (sadursmes) ir vienā vietā, sienas iet gar augšu un apakšu, sānu malas paliek atvērtas punktiem.</p>
+<p class="done-when"><b>Gatavs, kad:</b> attēls un sadursmes ir vienā vietā, sienas iet gar augšu un apakšu, sānu malas paliek atvērtas punktiem.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums - </p>
 <h2>Pievieno vadību abām raketēm</h2>
-<ol class="step-list"><li><b>Project (projekts) → Project Settings (projekta iestatījumi) → Input Map (ievades darbību karte)</b> ar Add (pievienot) izveido visas sešas tabulas darbības; ar + pievieno attiecīgo key (taustiņu). Pārbaudi mazos burtus un pasvītrojumus.</li>
-<li>Paddle.cs saglabā _Ready un esošos field (laukus). Class (klases) iekšpusē pievieno <code>_PhysicsProcess</code> no pilnā file (faila) zemāk. Ja izmanto visu file (failu), aizstāj esošo saturu, neveido otru Paddle class (klasi).</li>
-<li>Saglabā un Build (būvēt projektu). Main scene (scēnā) PaddleRight Input (ievade) Up/Down joprojām jābūt p2_up/p2_down, kreisajai — p1_up/p1_down; Speed (ātrums) abām 420.</li>
-<li>Ar F5 pārbaudi W/S un ↑/↓ atsevišķi un vienlaikus. Turot abus viena spēlētāja pretējos virzienus, rakete apstājas. Atlaižot key (taustiņus), tai arī jāapstājas.</li>
+<ol class="step-list"><li><b>Project → Project Settings → Input Map</b> ar Add izveido visas sešas tabulas darbības; ar + pievieno attiecīgo taustiņu. Pārbaudi mazos burtus un pasvītrojumus.</li>
+<li>Paddle.cs saglabā _Ready un esošos laukus. Class (klases) iekšpusē pievieno <code>_PhysicsProcess</code> no pilnā faila zemāk. Ja izmanto visu failu, aizstāj esošo saturu, neveido otru Paddle class.</li>
+<li>Saglabā un Build. Main scēnā PaddleRight Input Up/Down joprojām jābūt p2_up/p2_down, kreisajai — p1_up/p1_down; Speed abām 420.</li>
+<li>Ar F5 pārbaudi W/S un ↑/↓ atsevišķi un vienlaikus. Turot abus viena spēlētāja pretējos virzienus, rakete apstājas. Atlaižot taustiņus, tai arī jāapstājas.</li>
 <li>Turi katru raketi pret augšējo un apakšējo sienu. Tām jāpaliek laukumā: raketes centra Y robežas ir aptuveni 80 un 640 (siena 20 px + raketes pusaugstums 60 px).</li>
 </ol>
-<div class="table-scroll" role="region" aria-label="Darbība" tabindex="0"><table><thead><tr><th scope="col">Darbība</th><th scope="col">Key (taustiņš)</th></tr>
+<div class="table-scroll" role="region" aria-label="Darbība" tabindex="0"><table><thead><tr><th scope="col">Darbība</th><th scope="col">Taustiņš</th></tr>
 </thead>
 <tbody><tr><td><code>p1_up</code></td><td>W</td></tr>
 <tr><td><code>p1_down</code></td><td>S</td></tr>
@@ -100,8 +100,8 @@
 <tr><td><code>restart</code></td><td>R — izmantosim 1.6</td></tr>
 </tbody>
 </table>
-</div><details class="course-help"><summary>1.5 Paddle.cs ar kustību — pilns file (fails) salīdzināšanai</summary>
-<p><a href="pong/Scripts/Paddle.cs" download>Lejupielādēt Paddle.cs</a>. Aizstāj tikai atbilstošā file (faila) saturu; neveido otru tāda paša nosaukuma class (klasi).</p>
+</div><details class="course-help"><summary>1.5 Paddle.cs ar kustību — pilns fails salīdzināšanai</summary>
+<p><a href="pong/Scripts/Paddle.cs" download>Lejupielādēt Paddle.cs</a>. Aizstāj tikai atbilstošā faila saturu; neveido otru tāda paša nosaukuma class.</p>
 <pre><code class="language-csharp">using Godot;
 
 public partial class Paddle : CharacterBody2D
@@ -134,14 +134,14 @@ public partial class Paddle : CharacterBody2D
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums - </p>
 <h2>Pievieno bumbas kustību un atlēkšanu</h2>
-<ol class="step-list"><li>Atver Ball.tscn un tās root (saknei) pievieno <code>res://Scripts/Ball.cs</code>. Aizstāj saturu ar pilno file (failu) zemāk. Base (bāzes klase) Speed (ātrums) = 420, Motion Mode (kustības režīms) = Floating. Saglabā un Build (būvēt projektu).</li>
+<ol class="step-list"><li>Atver Ball.tscn un tās saknei pievieno <code>res://Scripts/Ball.cs</code>. Aizstāj saturu ar pilno failu zemāk. Base (bāzes klase) Speed = 420, Motion Mode = Floating. Saglabā un Build.</li>
 <li>Palaid Main ar F5. Ball _Ready sāk bumbas kustību pa labi ar nelielu nejaušu vertikālo komponenti. Normalized saglabā kopējo ātrumu 420 px/s.</li>
 <li>Pārbaudi atlēkšanu no abām raketēm un abām sienām. Redzamā viduslīnija bumbu neaptur. Ja vajag, atkārto F5 vairākas reizes, lai novērotu abus vertikālos virzienus.</li>
-<li>Ļauj bumbai iziet aiz labās vai kreisās malas. Kad tā pilnībā atstāj laukumu, tā apstājas; ExitSide kļūst par 1 vai -1. Šajā stundā turpināšanai apturi un palaid F5 no jauna. Nākamajā stundā šo value (vērtību) nolasīs Game, piešķirs punktu un sagatavos jaunu servi.</li>
-<li>README.md pieraksti, kāpēc bumbai pārbīdi reizina ar delta (soļa ilgums), bet raketes Velocity (ātrums) pirms MoveAndSlide — ne. Saglabā video ar vadību un atlēkšanu.</li>
+<li>Ļauj bumbai iziet aiz labās vai kreisās malas. Kad tā pilnībā atstāj laukumu, tā apstājas; ExitSide kļūst par 1 vai -1. Šajā stundā turpināšanai apturi un palaid F5 no jauna. Nākamajā stundā šo vērtību nolasīs Game, piešķirs punktu un sagatavos jaunu servi.</li>
+<li>README.md pieraksti, kāpēc bumbai pārbīdi reizina ar delta, bet raketes Velocity pirms MoveAndSlide — ne. Saglabā video ar vadību un atlēkšanu.</li>
 </ol>
-<details class="course-help"><summary>1.5 Ball.cs — pilns file (fails) salīdzināšanai</summary>
-<p><a href="pong/Scripts/Ball.cs" download>Lejupielādēt Ball.cs</a>. Aizstāj tikai atbilstošā file (faila) saturu; neveido otru tāda paša nosaukuma class (klasi).</p>
+<details class="course-help"><summary>1.5 Ball.cs — pilns fails salīdzināšanai</summary>
+<p><a href="pong/Scripts/Ball.cs" download>Lejupielādēt Ball.cs</a>. Aizstāj tikai atbilstošā faila saturu; neveido otru tāda paša nosaukuma class.</p>
 <pre><code class="language-csharp">using Godot;
 
 public partial class Ball : CharacterBody2D
@@ -202,29 +202,29 @@ public partial class Ball : CharacterBody2D
 <p class="done-when"><b>Gatavs, kad:</b> abas raketes kustas, bumba atlec un pēc iziešanas apstājas; punktu sistēmai ir skaidri definēts ExitSide.</p>
 </section>
 <details class="course-help extra-task"><summary>Papildu uzdevums — izmēģini spēles tempu</summary>
-<p>Ball instance (eksemplāram) pamēģini Base (bāzes klase) Speed (ātrums) 350 un 500, katru reizi izspēlējot vairākas atlēkšanas. Pieraksti, kuru ātrumu ir vieglāk spēlēt. Pirms nākamās stundas atjauno 420; vēlāk savu izvēli vari pamatot kā dizaina lēmumu.</p>
+<p>Ball instance (eksemplāram) pamēģini Base Speed 350 un 500, katru reizi izspēlējot vairākas atlēkšanas. Pieraksti, kuru ātrumu ir vieglāk spēlēt. Pirms nākamās stundas atjauno 420; vēlāk savu izvēli vari pamatot kā dizaina lēmumu.</p>
 </details>
 <section><div class="hand-in-box"><h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> pirms noslēguma stundas fizika un input (ievade) jau ir pārbaudītas.</p>
-<p><b>GitHub repository (krātuvē) jābūt:</b></p>
-<ol class="step-list"><li><code>Paddle.cs</code>, <code>Ball.cs</code>, atjauninātas scene (scēnas) un Input Map (ievades darbību karte).</li>
-<li>Video ar abām vadībām un atlēkšanām; README.md delta (soļa ilgums) un sānu iziešanas skaidrojums.</li>
+<p class="merkis"><b>Stundas mērķis:</b> pirms noslēguma stundas fizika un ievade jau ir pārbaudītas.</p>
+<p><b>GitHub krātuvē jābūt:</b></p>
+<ol class="step-list"><li><code>Paddle.cs</code>, <code>Ball.cs</code>, atjauninātas scēnas un Input Map.</li>
+<li>Video ar abām vadībām un atlēkšanām; README.md delta un sānu iziešanas skaidrojums.</li>
 </ol>
-<p>Saglabā project (projekta) settings (iestatījumus), izveidotās scene (scēnas) un resource (resursus); no 1.3 stundas arī C# script (skriptus) un project (projekta) file (failus) (<code>.csproj</code> u.c.). <code>.gitignore</code> ieraksti <code>.godot/</code>, <code>bin/</code> un <code>obj/</code> katru savā rindā.</p>
-<p><b>Kā iesniedz:</b> veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā iesniedz GitHub repository (krātuves) link (saiti); README.md un pārbaudes pierādījumiem jābūt repository (krātuvē).</p>
+<p>Saglabā projekta iestatījumus, izveidotās scēnas un resursus; no 1.3 stundas arī C# skriptus un projekta failus (<code>.csproj</code> u.c.). <code>.gitignore</code> ieraksti <code>.godot/</code>, <code>bin/</code> un <code>obj/</code> katru savā rindā.</p>
+<p><b>Kā iesniedz:</b> veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā iesniedz GitHub krātuves saiti; README.md un pārbaudes pierādījumiem jābūt krātuvē.</p>
 </div></section>
 <section><h2>Ja kaut kas nestrādā</h2>
 <div class="logic-box"><div class="table-scroll" role="region" aria-label="Pazīme" tabindex="0"><table><thead><tr><th scope="col">Pazīme</th><th scope="col">Ko pārbaudīt</th></tr>
 </thead>
-<tbody><tr><td>Rakete vai bumba iziet cauri sienai</td><td>Pārbaudi CollisionShape2D (2D sadursmes forma) Shape (forma), izmēru, Layer (slānis)/Mask (maska) un to, vai position (pozīcija) piešķirta root (saknei) tikai vienreiz.</td></tr>
-<tr><td>Abas raketes vada W/S</td><td>Main scene (scēnā) PaddleRight input (ievades) field (laukus) maini uz p2_up/p2_down.</td></tr>
-<tr><td>Rakete ļoti lēna</td><td>Velocity (ātrums) pirms MoveAndSlide papildus ar delta (soļa ilgums) nereizina.</td></tr>
+<tbody><tr><td>Rakete vai bumba iziet cauri sienai</td><td>Pārbaudi CollisionShape2D Shape, izmēru, Slānis/Maska un to, vai pozīcija piešķirta saknei tikai vienreiz.</td></tr>
+<tr><td>Abas raketes vada W/S</td><td>Main scēnā PaddleRight ievades laukus maini uz p2_up/p2_down.</td></tr>
+<tr><td>Rakete ļoti lēna</td><td>Velocity pirms MoveAndSlide papildus ar delta nereizina.</td></tr>
 <tr><td>Bumba pazūd pēc iziešanas</td><td>1.5 posmā tas ir paredzēts: tā gaida punktu apstrādi, ko pievienosi 1.6. Pārbaudi ar jaunu F5 palaišanu.</td></tr>
-<tr><td>Izmēri vai position (pozīcijas) neatbilst</td><td>Pārbaudi 1280 × 720, sakņu Scale (mērogs) (1,1) un child node (bērnu) Position (pozīcija) (0,0).</td></tr>
+<tr><td>Izmēri vai pozīcijas neatbilst</td><td>Pārbaudi 1280 × 720, sakņu Mērogs (1,1) un child node Pozīcija (0,0).</td></tr>
 </tbody>
 </table>
 </div></div></section>
-<nav aria-label="Nodarbību navigation (navigācija)" class="stundas-navigacija">
+<nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
 <a class="nav-btn" href="/programmesana2/prog2_1/prog2_14">⬅ Iepriekšējā stunda</a>
 <a class="nav-btn" href="/programmesana2/prog2_1/prog2_16">Nākamā stunda ➡</a>
 </nav></main>
