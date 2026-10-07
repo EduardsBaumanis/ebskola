@@ -9,6 +9,7 @@ Pārstrādāts pēc skolotāja sniegtajiem nosacījumiem 2026. gada 14. septembr
 - Atlikušās 10 minūtes ir palīdzībai un atgriezeniskajai saitei. Visi obligātie darbi paredzēti stundās.
 - Katrā tēmā 1.–4. nodarbība māca prasmes, 5.–6. nodarbība ir noslēguma projekta pirmā un otrā daļa. Projektam kopā paredzētas četras mācību stundas, ieskaitot nepieciešamo teoriju un demonstrējumu.
 - Vērtē tikai trešā uzdevuma iesniegto rezultātu: ir vai nav pilnībā izpildīti tā pārbaudes punkti. Pirmie divi uzdevumi veido šo rezultātu; papildu uzdevums nav ieskaites nosacījums.
+- 1. tēmas noslēguma projektam šo vērtēšanas kārtību aizstāj [1.6. nodarbības SLA tabula](dat9_16.html#vertesana) ar četriem apguves līmeņiem. Vērtē 3. uzdevumā iesniegto `index.html`, `README.md`, GitHub versiju un parādīto darba procesu. README ietver trīs ekrānu pārbaudes ierakstus un klasesbiedra atsauksmi ar veikto precizējumu vai pamatojumu, kāpēc tas nebija vajadzīgs. Augstākajam līmenim vajadzīga precīza pamatdarba izpilde un pārbaude; papildu uzdevums, CSS pārveide un spēles loģikas programmēšana nav prasīta. 1.1.–1.5. nodarbībā saglabājas ieskaites pārbaudes punkti.
 - Ikdienā skolēns iesniedz izpildāmu HTML failu. Ja darbam vajadzīgi attēli, skaņas vai README, iesniedz arī tos. 2.5. nodarbībā iesniedz ZIP, kura izvilktajā kopijā darbojas HTML lapa un resursi.
 - Tēmas beigās iesniedz GitHub projekta saiti, kursa beigās arī GitHub Pages spēles saiti. Konkrēto iesniegšanas vietu nosaka skolotājs.
 
