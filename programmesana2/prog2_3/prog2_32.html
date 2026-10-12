@@ -4,37 +4,32 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>3.2 Inheritance C# un Godot - ebSkola</title>
-<meta content="Izveidot specializētas dalībnieku class ar inheritance, lai kopīgā loģika paliktu bāzes class, bet atšķirības būtu apakšklasēs." name="description"/>
+<title>3.2 Mantošana: kopīgais kods un atšķirīgas lomas - ebSkola</title>
+<meta content="Izveido dalībnieku lomas, kuras izmanto kopīgu kodu, bet uz vienādu sodu reaģē atšķirīgi." name="description"/>
 <meta content="Eduards Baumanis" name="author"/>
 <meta content="index, follow" name="robots"/>
 <link href="https://ebskola.lv/programmesana2/prog2_3/prog2_32" rel="canonical"/>
 <meta content="article" property="og:type"/>
 <meta content="lv_LV" property="og:locale"/>
 <meta content="ebSkola" property="og:site_name"/>
-<meta content="3.2 Inheritance C# un Godot" property="og:title"/>
-<meta content="Izveidot specializētas dalībnieku class ar inheritance, lai kopīgā loģika paliktu bāzes class, bet atšķirības būtu apakšklasēs." property="og:description"/>
+<meta content="3.2 Mantošana: kopīgais kods un atšķirīgas lomas" property="og:title"/>
+<meta content="Izveido dalībnieku lomas, kuras izmanto kopīgu kodu, bet uz vienādu sodu reaģē atšķirīgi." property="og:description"/>
 <meta content="https://ebskola.lv/programmesana2/prog2_3/prog2_32" property="og:url"/>
 <meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
 <meta content="summary" name="twitter:card"/>
-<meta content="3.2 Inheritance C# un Godot" name="twitter:title"/>
-<meta content="Izveidot specializētas dalībnieku class ar inheritance, lai kopīgā loģika paliktu bāzes class, bet atšķirības būtu apakšklasēs." name="twitter:description"/>
+<meta content="3.2 Mantošana: kopīgais kods un atšķirīgas lomas" name="twitter:title"/>
+<meta content="Izveido dalībnieku lomas, kuras izmanto kopīgu kodu, bet uz vienādu sodu reaģē atšķirīgi." name="twitter:description"/>
 <link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="../../manifest.json" rel="manifest"/>
 <meta content="#222831" name="theme-color"/>
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "3.2 Inheritance C# un Godot", "description": "Izveidot specializētas dalībnieku class ar inheritance, lai kopīgā loģika paliktu bāzes class, bet atšķirības būtu apakšklasēs.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_3/prog2_32", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
+{"@context": "https://schema.org", "@type": "LearningResource", "name": "3.2 Mantošana: kopīgais kods un atšķirīgas lomas", "description": "Izveido dalībnieku lomas, kuras izmanto kopīgu kodu, bet uz vienādu sodu reaģē atšķirīgi.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_3/prog2_32", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
 </script>
 <link href="../../style.css" rel="stylesheet" type="text/css"/>
 <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
 <script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
-<style>
-.screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
-.screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
-.screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
-</style>
 <link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
 <body class="page-reference course-lesson has-sidebar">
 <a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
@@ -42,207 +37,184 @@
 <a href="../../paligm.html">Palīgmateriāli</a></nav></header>
 <aside aria-label="Tēmas navigācija" class="sidebar-nav">
 <div class="sidebar-kicker">Programmēšana II</div>
-<h3>3. Tēma - Object-oriented programming</h3>
+<h3>3. tēma — Klases un objekti</h3>
 <nav aria-label="Tēmas nodarbības" class="sidebar-links">
 <a class="topic-main" href="/programmesana2/prog2_3/prog2_3main">Tēmas sākums</a>
-<a href="/programmesana2/prog2_3/prog2_31">3.1 C# class pamati</a>
-<a aria-current="page" class="active" href="/programmesana2/prog2_3/prog2_32">3.2 Inheritance C# un Godot</a>
-<a href="/programmesana2/prog2_3/prog2_33">3.3 Signal un object communication</a>
-<a href="/programmesana2/prog2_3/prog2_34">3.4 C# class Godot redaktorā</a>
-<a href="/programmesana2/prog2_3/prog2_35">3.5 Statistikas sistēma un struct</a>
+<a href="/programmesana2/prog2_3/prog2_31">3.1 C# klases un objekti</a>
+<a aria-current="page" class="active" href="/programmesana2/prog2_3/prog2_32">3.2 Mantošana: kopīgais kods un atšķirīgas lomas</a>
+<a href="/programmesana2/prog2_3/prog2_33">3.3 Signāli: paziņo par notikumu</a>
+<a href="/programmesana2/prog2_3/prog2_34">3.4 Klases un iestatījumi Godot redaktorā</a>
+<a href="/programmesana2/prog2_3/prog2_35">3.5 Dalībnieka dati un pagaidu bonusi</a>
 <a href="/programmesana2/prog2_3/prog2_36">3.6 Noslēguma projekts: Klases turnīra simulators</a>
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_3/prog2_3main">3. tēma</a> / 3.2</p>
-<h1>3.2 Inheritance (mantošana) C# un Godot</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveidot specializētas dalībnieku class (klases), izmantojot inheritance.</p>
+<h1>3.2 Mantošana: kopīgais kods un atšķirīgas lomas</h1>
+<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveido dalībnieku lomas, kuras izmanto kopīgu kodu, bet uz vienādu sodu reaģē atšķirīgi.</p>
 <div class="lesson-meta">
-<a href="/sasnRez">SR 2.4.18. OOP (objektorientētā programmēšana)</a>
+<a href="/sasnRez">SR 2.4.18. Objektorientētā programmēšana</a>
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido derived class (bērna klasi) · 2. uzdevums (~25 min) - pārraksti method (metodi) ar override (metodes pārrakstīšana) · 3. uzdevums (~20 min) - izsauc visas lomas vienā loop (ciklā) · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu <code>Participant</code> class no 3.1 stundas. Šodien no vienas class taisīsi vairākas lomas, nekopējot kodu.</p>
-</div>
-</section><section>
-<h2>Teorija: Inheritance un virtual function (virtuālas funkcijas)</h2>
-<div class="logic-box">
-<p><b>Inheritance</b> ļauj bērna class pārmantot vecāka attribute (atribūtus) un method, pievienojot vai pārrakstot.</p>
-<pre><code class="language-csharp">public class Participant { /* base klase */ }
-
-public class Captain : Participant
+<section><div class="info-box"><p><b>Pirms sāc:</b> atver 3.1. projekta gala versiju. Šajā stundā Participant un tā lomas vēl ir parastas C# klases; pārbaudes vada LessonDemo mezgls.</p><p><b>Darba secība:</b> izlasi skaidrojumu pie attiecīgā uzdevuma, paredzi piemēra rezultātu un tad pārbaudi to. Pēc C# izmaiņām saglabā failus, Godot nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Rezultātus skaties <b>Output</b> panelī.</p></div></section>
+<section id="teorija"><h2>Teorija ar piemēriem</h2>
+<h3 id="kopigais">1. Kādas darbības lomām ir kopīgas?</h3>
+<p>Koda nosaukumus lasi šādi: <code>Participant</code> — dalībnieks, <code>Captain</code> — kapteinis, <code>Presenter</code> — prezentētājs. Nosaukumi palīdz atpazīt katras klases lomu.</p>
+<p>Visiem turnīra dalībniekiem ir vārds un enerģija. Visiem jāmāk saņemt sodu un pateikt, vai viņi vēl piedalās. Kapteinis arī ir dalībnieks, tikai viņam ir īpašs noteikums: pozitīvu sodu samazina par 10 punktiem, atstājot vismaz 1 punktu.</p>
+<p><b>Mantošana</b> ļauj jaunajai klasei izmantot kopīgo kodu no esošās klases. <code>Participant</code> saucam par bāzes klasi, bet <code>Captain</code> — par atvasināto klasi. Pieraksts <code>Captain : Participant</code> nozīmē “kapteinis ir dalībnieks”.</p>
+<p>Ja kapteinis būtu atsevišķs nokopēts Participant fails, enerģijas pārbaudes kļūda būtu jālabo vairākās vietās. Ar mantošanu kopīgo enerģijas samazināšanu labojam Participant klasē.</p>
+<h3 id="base">2. Kā kapteinis iegūst sākuma datus?</h3>
+<pre><code class="language-csharp">public class Captain : Participant
 {
-    public int Stability;
-
-    public Captain(string name) : base(name, 150, 18, 12)  // izsauc vecāku konstruktoru
+    public Captain(string name) : base(name, 150)
     {
-        Stability = 10;
-    }
-
-    // Pārraksta (override) vecāka metodi
-    public override void ApplyPenalty(int amount)
-    {
-        amount -= Stability;  // stabilitāte samazina soda punktus
-        base.ApplyPenalty(amount);
-    }
-}
-
-public class Presenter : Participant
-{
-    public int Ideas = 100;
-
-    public Presenter(string name) : base(name, 80, 25, 3) { }
-
-    public void PresentBonus(Participant target)
-    {
-        if (Ideas &gt;= 20)
-        {
-            Ideas -= 20;
-            target.ApplyPenalty(40);
-        }
     }
 }</code></pre>
-<p><code>virtual</code> (pārrakstāma metode) keyword (atslēgvārds) ļauj izsaukt bērna method caur vecāka pointer (rādītājs) (polymorphism (polimorfisms)).</p>
-</div>
-</section><section>
-<h2>Kā šo izmantot projektā</h2>
-<div class="logic-box">
-<p><b>Atceries:</b> ar redzamu efektu redaktorā nepietiek. Paskaidro, kura C# class glabā stāvokli, kura method to maina un kā Godot node (mezgls) struktūra izmanto šo kodu.</p>
-<p><b>Pārbaudi:</b> katrai būtiskai turnīra lomai ir C# class vienā <code>.cs</code> failā, ar constructor (konstruktoriem), method, signal (signāliem) vai inheritance.</p>
-<pre><code class="language-csharp">public class OopCheckpoint
-{
-    public string Lesson = "3.2 Mantošana C# un Godot";
-    public bool UsesCSharp = true;
-    public bool HasScriptFile = true;
-    public bool HasSingleResponsibility = true;
-    public bool UsesGodotInspector = true;
-}</code></pre>
-</div>
-</section><section>
-<h2>Praktiskie uzdevumi</h2>
-
-
-
-
-</section><section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums - </p><h2>Izveido derived class</h2>
-<p>Beigās jaunā class mantos visu no vecāku class.</p>
-<ol class="step-list">
-<li><b>Izveido</b> failu <code>Captain.cs</code>.</li>
-<li><b>Ieraksti</b> <code class="language-csharp">public class Captain : Participant { }</code>.</li>
-<li><b>Pievieno</b> constructor <code class="language-csharp">public Captain(string name) : base(name, 150) { }</code>.</li>
-<li><b>Pievieno</b> privātu field (lauku) <code class="language-csharp">private int stability = 10;</code>.</li>
-<li><b>Izveido</b> object (objektu) <code class="language-csharp">Captain c = new Captain("Anna");</code> un izsauc tam <code>IsActive()</code>.</li>
-<li><b>Pieraksti</b>, no kurienes šī method radās, ja tu to <code>Captain</code> class nerakstīji.</li>
-<li><b>Izdzēs</b> <code>: base(name, 150)</code> daļu, būvē projektu un izlasi kļūdu.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> bērna object strādā vecāka method, bet bez vecāka constructor izsaukuma kods nekompilējas.</p>
-</section><section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums - </p><h2>Pārraksti method ar override</h2>
-<p>Beigās kapteinis sodu izturēs labāk nekā parasts dalībnieks.</p>
-<ol class="step-list">
-<li><b>Pievieno</b> vecāka class keyword <code class="language-csharp">virtual</code> pirms <code>ApplyPenalty</code>.</li>
-<li><b>Pievieno</b> <code>Captain</code> class <code class="language-csharp">public override void ApplyPenalty(int amount)</code>.</li>
-<li><b>Ieraksti</b> tajā <code class="language-csharp">amount = Math.Max(1, amount - stability);</code>.</li>
-<li><b>Izsauc</b> pēc tam vecāka versiju ar <code class="language-csharp">base.ApplyPenalty(amount);</code>.</li>
-<li><b>Izmēģini</b> vienādu sodu abiem: parastam dalībniekam un kapteinim.</li>
-<li><b>Pieraksti</b>, cik enerģijas katrs zaudēja.</li>
-<li><b>Izdzēs</b> <code>virtual</code> vārdu, būvē projektu un pieraksti, kas mainās.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> ar vienādu sodu kapteinis zaudē mazāk enerģijas nekā parasts dalībnieks.</p>
-</section><section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums - </p><h2>Izsauc visas lomas vienā loop</h2>
-<p>Beigās viens loop apkalpos jebkuru lomu skaitu.</p>
-<ol class="step-list">
-<li><b>Izveido</b> vēl vienu derived class <code>Presenter</code> ar citu enerģiju.</li>
-<li><b>Pārraksti</b> arī tai <code>ApplyPenalty</code> savā veidā.</li>
-<li><b>Izveido</b> <code class="language-csharp">List&lt;Participant&gt; party = new();</code>.</li>
-<li><b>Pievieno</b> tam pa vienam object no katras class.</li>
-<li><b>Uzraksti</b> loop, kas katram izsauc <code>ApplyPenalty(20)</code>.</li>
-<li><b>Izdrukā</b> pēc loop katra vārdu un atlikušo enerģiju.</li>
-<li><b>Pieraksti</b>, kāpēc loop nezina, kura loma tam tiek padota.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> viens loop apstrādā visas lomas, un katra zaudē atšķirīgu enerģijas daudzumu.</p>
-</section><details class="course-help extra-task">
-<summary>Papildu uzdevums - Pievieno trešo lomu</summary>
-<p>Ja pamatdarbs ir gatavs, paplašini hierarhiju.</p>
-<ol class="step-list">
-<li><b>Izveido</b> class <code>TimeKeeper</code> ar mazāku enerģiju, bet lielāku ātrumu.</li>
-<li><b>Pārraksti</b> tai <code>ApplyPenalty</code> tā, lai tā zaudētu vairāk.</li>
-<li><b>Pievieno</b> to sarakstam.</li>
-<li><b>Palaid</b> loop vēlreiz un pārbaudi, vai kods bija jāmaina.</li>
-<li><b>Pieraksti</b>, cik rindu bija jāpieraksta loop.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> trešā loma darbojas loop, un pašā loop nebija jāmaina neviena rinda.</p>
-</details><section>
-<div class="hand-in-box">
-<h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tu proti izveidot derived class ar C# inheritance, izsaukt vecāka constructor, pārrakstīt method ar <code>virtual</code> un <code>override</code> un apstrādāt visas lomas vienā loop.</p>
-<p><b>GitHub krātuvē jābūt:</b></p>
-<ol class="step-list">
-<li>Faili <code>Captain.cs</code> un <code>Presenter.cs</code>.</li>
-<li>Ekrānuzņēmums ar Output paneli, kurā redzams, ka pēc vienāda soda lomām palikusi atšķirīga enerģija.</li>
-<li>README.md: kas notiek, ja no vecāka method noņem <code>virtual</code>.</li>
-</ol>
-<p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
-</div>
-</section><section>
-<h2>Biežākās kļūdas</h2>
-<div class="logic-box">
-<ul>
-<li><b>Cannot call base constructor (nevar izsaukt bāzes konstruktoru):</b> Trūkst initializer list (inicializēšanas saraksts) ar <code>: Participant(...)</code>.</li>
-<li><b>'override' was not declared (override nav deklarēts):</b> C#11+ vajadzīgs (Godot prasa C#17).</li>
-<li><b>Slicing problem (objekta daļas nogriešanas problēma):</b> Pieliecot Participant object, ne Participant*, polymorphism nedarbojas.</li>
-</ul>
-</div>
-</section><section>
-<h2>Godot ekrānuzņēmumi</h2>
-<div class="logic-box">
-<figure class="screenshot">
-<img alt="Class hierarchy koks: Participant (base) → Captain, Presenter, TimeKeeper (visi public mantojuma)." loading="lazy" src="../img/topic3_inheritance_tree.png"/>
-<figcaption>Class hierarchy (klašu hierarhijas) koks: Participant (base (bāzes klase)) → Captain, Presenter, TimeKeeper (visi public (publiska piekļuve) mantojuma).</figcaption>
-</figure>
-</div>
-</section><section>
-<h2>Koda piemērs (paplašināts)</h2>
-<div class="code-example">
-<pre><code class="language-csharp">using Godot;
-using System;
+<p>Šo kodu liec <code>Captain.cs</code>. Izsaukums <code>new Captain("Anna")</code> nodod vārdu Captain konstruktoram. Daļa <code>base(name, 150)</code> tālāk izsauc Participant konstruktoru ar vārdu un enerģiju 150. Tāpēc jaunajam kapteinim jau darbojas <code>GetEnergy()</code> un <code>IsActive()</code>.</p>
+<p>Ja izdzēs <code>: base(name, 150)</code>, C# mēģina izsaukt Participant konstruktoru bez argumentiem. Mūsu iepriekšējās stundas klasē tāda nav, tāpēc Build parāda kļūdu. Pēc izmēģinājuma atjauno šo koda daļu.</p>
+<p>Privātais <code>energy</code> joprojām pieder Participant kodam: Captain nevar to tieši mainīt. Tas izmanto mantotās publiskās metodes.</p>
+<h3 id="override">3. Kā vienai darbībai piešķirt citu noteikumu?</h3>
+<p>Participant metodes sākumā pievieno <code>virtual</code>: <code>public virtual void ApplyPenalty(int amount)</code>. Tas ļauj atvasinātajai klasei definēt savu šīs darbības versiju. Captain lieto to pašu nosaukumu un parametrus, bet raksta <code>override</code>.</p>
+<pre><code class="language-csharp">using System;
 
 public class Captain : Participant
 {
     private int stability = 10;
 
-    public Captain(string name) : base(name, 150, 18, 12) { }
+    public Captain(string name) : base(name, 150) { }
 
     public override void ApplyPenalty(int amount)
     {
-        amount = Math.Max(1, amount - stability);
-        base.ApplyPenalty(amount);
+        if (amount &lt;= 0) return;
+        int reduced = Math.Max(1, amount - stability);
+        base.ApplyPenalty(reduced);
     }
-}
+}</code></pre>
+<p><code>Math.Max(1, amount - stability)</code> izvēlas lielāko no diviem skaitļiem. Ja sods ir 20, izvēle ir starp 1 un 10 — kapteinim piemēro 10. Ja sods ir 6, izvēle ir starp 1 un −4 — piemēro 1. Šajā simulatorā katrs pozitīvs sods patērē vismaz vienu enerģijas punktu.</p>
+<p><code>base.ApplyPenalty(reduced)</code> izsauc Participant versiju, kas samazina enerģiju un neļauj tai kļūt negatīvai. Rakstot tikai <code>ApplyPenalty(reduced)</code>, metode izsauktu pati sevi atkal un atkal. Vārds <code>base</code> šeit ir būtisks.</p>
+<div class="table-scroll" role="region" aria-label="Vienāds sods dažādām lomām" tabindex="0"><table><thead><tr><th scope="col">Loma</th><th scope="col">Sākums</th><th scope="col">Sods 20 nozīmē</th><th scope="col">Pēc soda</th></tr></thead><tbody>
+<tr><td>Parasts dalībnieks</td><td>100</td><td>Zaudē 20</td><td>80</td></tr>
+<tr><td>Captain</td><td>150</td><td>Zaudē 20 − 10 = 10</td><td>140</td></tr>
+<tr><td>Presenter šīs stundas piemērā</td><td>80</td><td>Zaudē 20 + 5 = 25</td><td>55</td></tr>
+</tbody></table></div>
+<p>Presenter noteikums ir mūsu izvēlēts spēles noteikums, nevis C# īpašība. Lomu atšķirību pārbaudi pēc <b>zaudēto punktu skaita</b>, jo arī sākuma enerģijas atšķiras.</p>
+<h3 id="viena-komanda">4. Viena komanda var saturēt dažādas lomas</h3>
+<p><code>List&lt;Participant&gt;</code> ir dalībnieku saraksts. Tajā drīkst ievietot arī Captain un Presenter, jo abi ir Participant. <code>Add</code> pievieno vienu dalībnieku, bet <code>foreach</code> paņem katru saraksta dalībnieku pēc kārtas.</p>
+<pre><code class="language-csharp">List&lt;Participant&gt; party = new List&lt;Participant&gt;();
+party.Add(new Captain("Anna"));
+party.Add(new Presenter("Jānis"));
 
-public class Presenter : Participant
+foreach (Participant p in party)
 {
-    private int ideas = 100;
+    p.ApplyPenalty(20);
+    GD.Print(p.Name, ": ", p.GetEnergy());
+}</code></pre>
+<p>Šīs rindas liec LessonDemo metodes <code>_Ready()</code> iekšienē; faila augšā vajag <code>using System.Collections.Generic;</code>. Mainīgais <code>p</code> katrā reizē norāda uz citu objektu. C# izvēlas šī objekta ApplyPenalty versiju: Annai — Captain, Jānim — Presenter.</p>
+<p>Šo iespēju vienā vārdā sauc par <b>polimorfismu</b>. Svarīgākais ir rezultāts: ciklā rakstām vienu darbību, bet katra loma to izpilda pēc saviem noteikumiem.</p>
+<details class="course-help"><summary>Pašpārbaude: Vai kapteinim jāpārraksta arī GetEnergy()?</summary><p>Nē. Ja nolasīšanas noteikums visām lomām ir vienāds, pietiek ar mantoto Participant metodi. Atšķirīgo uzvedību raksta tikai tur, kur tā ir vajadzīga.</p></details>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Izveido kapteiņa lomu</h2><p><b>Atbalsts:</b> <a href="#base">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<li>Turpini 3.1. gala versiju ar privātu energy un divu parametru konstruktoru.</li>
+<li>Failā Captain.cs izveido <a href="#base">īso mantošanas piemēru</a>. LessonDemo izveido kapteini un izdrukā vārdu, enerģiju un IsActive().</li>
+<li>Uz brīdi noņem base konstruktora izsaukumu un izpēti Build kļūdu. Atjauno izsaukumu.</li>
+</ol><p class="done-when"><b>Gatavs, kad:</b> kapteinis sāk ar 150 punktiem un lieto mantotās metodes.</p></section>
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Maini kapteiņa reakciju uz sodu</h2><p><b>Atbalsts:</b> <a href="#override">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<li>Participant metodē ApplyPenalty pievieno virtual. Captain pievieno stability lauku un override metodi no piemēra.</li>
+<li>Pārbaudi atsevišķi sodu 20 un sodu 6. Katrā pārbaudē izveido jaunu kapteini, lai sākuma enerģija būtu 150.</li>
+<li>Izdrukā vērtību pirms un pēc soda. Paredzamie rezultāti: 140 un 149.</li>
+<li>Uz brīdi noņem virtual, pieraksti kļūdas iemeslu un pēc tam to atjauno.</li>
+</ol><p class="done-when"><b>Gatavs, kad:</b> kapteinis zaudē attiecīgi 10 un 1 punktu; enerģija nekļūst negatīva.</p></section>
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Pārbaudi dažādas lomas vienā sarakstā</h2><p><b>Atbalsts:</b> <a href="#viena-komanda">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<li>Izveido Presenter.cs. Tā sākuma enerģija ir 80, un pozitīvam sodam tas pieskaita 5; izmanto pilno piemēru.</li>
+<li>Sarakstā ievieto parastu dalībnieku, Captain un Presenter.</li>
+<li>Vienā foreach ciklā katram piemēro sodu 20 un izdrukā enerģiju pirms un pēc.</li>
+<li>Salīdzini rezultātus ar teorijas tabulu. README paskaidro, kāpēc ciklā nevajag atsevišķu if katrai lomai.</li>
+</ol><p class="done-when"><b>Gatavs, kad:</b> viens cikls dod visus trīs tabulā paredzētos rezultātus.</p></section>
+<details class="course-help extra-task"><summary>Papildu uzdevums — Pievieno TimeKeeper lomu</summary><p>Izveido vēl vienu atvasināto klasi ar sākuma enerģiju 100. Tās ApplyPenalty pozitīvam sodam pieskaita 10 un izsauc bāzes metodi. Pievieno sarakstam: pēc soda 20 jāpaliek 70. Noslēguma projektā izmantosim arī šo lomu; tās piemērs būs dots.</p></details>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>Participant.cs</h3>
+<pre><code class="language-csharp" id="kods-participant-cs">public class Participant
+{
+    public string Name;
+    public int Level = 1;
+    private int energy;
 
-    public Presenter(string name) : base(name, 80, 25, 3) { }
-
-    public void PresentBonus(Participant target)
+    public Participant(string name, int energy)
     {
-        if (ideas &gt;= 20)
+        Name = name;
+        this.energy = energy;
+        if (this.energy &lt; 0) this.energy = 0;
+    }
+
+    public virtual void ApplyPenalty(int amount)
+    {
+        if (amount &lt; 0) return;
+        energy -= amount;
+        if (energy &lt; 0) energy = 0;
+    }
+
+    public int GetEnergy()
+    {
+        return energy;
+    }
+
+    public bool IsActive()
+    {
+        return energy &gt; 0;
+    }
+}</code></pre>
+<h3>Captain.cs</h3>
+<pre><code class="language-csharp" id="kods-captain-cs">using System;
+
+public class Captain : Participant
+{
+    private int stability = 10;
+
+    public Captain(string name) : base(name, 150) { }
+
+    public override void ApplyPenalty(int amount)
+    {
+        if (amount &lt;= 0) return;
+        int reduced = Math.Max(1, amount - stability);
+        base.ApplyPenalty(reduced);
+    }
+}</code></pre>
+<h3>Presenter.cs</h3>
+<pre><code class="language-csharp" id="kods-presenter-cs">public class Presenter : Participant
+{
+    public Presenter(string name) : base(name, 80) { }
+
+    public override void ApplyPenalty(int amount)
+    {
+        if (amount &lt;= 0) return;
+        base.ApplyPenalty(amount + 5);
+    }
+}</code></pre>
+<h3>LessonDemo.cs</h3>
+<pre><code class="language-csharp" id="kods-lessondemo-cs">using Godot;
+using System.Collections.Generic;
+
+public partial class LessonDemo : Node
+{
+    public override void _Ready()
+    {
+        List&lt;Participant&gt; party = new List&lt;Participant&gt;();
+        party.Add(new Participant("Ieva", 100));
+        party.Add(new Captain("Anna"));
+        party.Add(new Presenter("Jānis"));
+
+        foreach (Participant p in party)
         {
-            ideas -= 20;
-            GD.Print(Name, " izmanto prezentācijas bonusu pret ", target.Name);
-            target.ApplyPenalty(40);
+            int before = p.GetEnergy();
+            p.ApplyPenalty(20);
+            GD.Print(p.Name, ": ", before, " -&gt; ", p.GetEnergy());
         }
     }
 }</code></pre>
-<div class="result">Captain zaudē par 10 punktiem mazāk enerģijas, Presenter izmanto prezentācijas bonusu, kas samazina šķēršļa enerģiju par 40 punktiem.</div>
-</div>
-</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
-<a class="nav-btn" href="/programmesana2/prog2_3/prog2_31">⬅ Iepriekšējā stunda</a>
-<a class="nav-btn" href="/programmesana2/prog2_3/prog2_33">Nākamā stunda ➡</a>
+</details>
+<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2><p>GitHub krātuvē saglabā projektu un šādus pierādījumus:</p><ul><li>Participant.cs, Captain.cs, Presenter.cs un pārbaudes skripts.</li><li>Izdruka ar sākuma enerģiju un rezultātu pēc vienāda soda.</li><li>README: base un override skaidrojums saviem vārdiem; virtual noņemšanas pārbaude.</li></ul><p>Saglabā failus, veic commit ar izmaiņu aprakstu un push. Skolotāja norādītajā vietā iesniedz krātuves saiti.</p></div></section>
+<section><h2>Ja kaut kas nestrādā</h2><ul><li><b>override kļūda:</b> Participant metodei jābūt virtual, un metodes nosaukumam, parametriem un atgriežamajam tipam abās klasēs jāsakrīt.</li><li><b>Math vai List nav atrasts:</b> faila sākumā pievieno attiecīgi using System; vai using System.Collections.Generic;.</li><li><b>Metode izsauc sevi:</b> pārbaudi, vai atvasinātā klase lieto base.ApplyPenalty(...).</li></ul></section>
+<details class="course-help"><summary>Izmantotā dokumentācija</summary><p><a href="https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/inheritance">Microsoft: mantošana</a></p></details>
+<nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana2/prog2_3/prog2_31">← Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana2/prog2_3/prog2_33">Nākamā stunda →</a>
 </nav></main>
 
 
