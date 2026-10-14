@@ -93,38 +93,20 @@
     Vadi spēlētāju četros virzienos un parādi tā atrašanās vietu.
    </p>
    <section id="teorija">
-    <h2>
-     Īsā teorija
-    </h2>
-    <p>
-     JavaScript var atrast HTML elementu pēc
-     <code>
-      id
-     </code>
-     un mainīt tā tekstu vai stilu. Šādi strādājam ar lapas elementiem jeb DOM.
-    </p>
-    <p>
-     <code>
-      style.left
-     </code>
-     nosaka attālumu no kreisās malas;
-     <code>
-      style.top
-     </code>
-     — no augšas. Mazāks Y nozīmē augstāk.
-    </p>
-    <p>
-     <code>
-      kustinat(dx, dy)
-     </code>
-     saņem divas izmaiņas. Piemēram,
-     <code>
-      kustinat(0, -10)
-     </code>
-     kustina uz augšu.
-    </p>
-    <pre><code>speletajs.style.left = x + "px";
-speletajs.style.top = y + "px";</code></pre>
+<h2>Teorija ar piemēriem</h2>
+<h3 id="koordinates">Divi skaitļi pasaka varoņa vietu</h3>
+<p>Lai pārvietotos četros virzienos, vajag divas <b>koordinātes</b>. X pasaka attālumu no laukuma kreisās malas, Y — no augšējās malas. Šajā piemērā tās norāda spēlētāja kvadrāta kreiso augšējo stūri. X aug pa labi, bet Y aug <b>uz leju</b>.</p>
+<p>Uzdevumā sākuma vieta ir <code>x = 40</code>, <code>y = 100</code>. Funkcija <code>paradit()</code> šo vietu pārvērš CSS norādēs <code>left</code> un <code>top</code>, pievienojot mērvienību <code>"px"</code>. Tā arī atjauno koordinātu tekstu lapā.</p>
+<h3 id="divas-izmainas">kustinat(dx, dy) saņem abu koordinātu izmaiņu</h3>
+<p>Šajā nodarbībā abi skaitļi jau nozīmē pikseļus. Pirmais maina X, otrais — Y. Nulle nozīmē, ka attiecīgo koordināti nemaina. Katra tabulas rinda rāda atsevišķu kustību no sākuma vietas (40; 100).</p>
+<div class="table-scroll" role="region" aria-label="Četri kustības virzieni" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Izsaukums</th><th scope="col">Virziens</th><th scope="col">Jaunā vieta</th></tr></thead><tbody><tr><td><code>kustinat(10, 0)</code></td><td>Pa labi.</td><td>(50; 100)</td></tr><tr><td><code>kustinat(-10, 0)</code></td><td>Pa kreisi.</td><td>(30; 100)</td></tr><tr><td><code>kustinat(0, -10)</code></td><td>Uz augšu.</td><td>(40; 90)</td></tr><tr><td><code>kustinat(0, 10)</code></td><td>Uz leju.</td><td>(40; 110)</td></tr></tbody></table></div>
+<p>Šādu pogu uzdevumā pievieno HTML daļā blakus esošajām kustības pogām:</p>
+<pre><code>&lt;button onclick="kustinat(0, -10)"&gt;↑&lt;/button&gt;</code></pre>
+<h3 id="secigas-kustibas">Katra nākamā kustība sākas no jaunās vietas</h3>
+<p>Ja no (40; 100) vispirms nospied →, nonāc (50; 100). Pēc tam nospiežot ↑, nonāc (50; 90). Otrā kustība neatgriež X uz 40; tā maina tikai Y. Funkcija arī pārbauda abas laukuma malas un neļauj kvadrātam iziet ārpusē.</p>
+<p>Poga ar <code>location.reload()</code> pārlādē failu un no jauna izpilda sākuma kodu. Tāpēc atgriežas kodā saglabātās sākuma koordinātes (40; 100). Ja tās atkal ir (20; 160), pārbaudi, vai laboji un saglabāji īsto failu.</p>
+<details class="course-help"><summary>Pašpārbaude: kāpēc kustībai augšup Y jāsamazina?</summary><p>Y mēra attālumu no augšējās malas. Jo tuvāk tai atrodas spēlētājs, jo mazāks ir attālums un Y vērtība.</p>
+</details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -248,6 +230,8 @@ paradit();
     <h2>
      Maini sākuma vietu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#koordinates">Divi skaitļi pasaka varoņa vietu</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -288,6 +272,8 @@ paradit();
     <h2>
      Pievieno kustību augšup un lejup
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#divas-izmainas">kustinat(dx, dy) saņem abu koordinātu izmaiņu</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -324,6 +310,8 @@ paradit();
     <h2>
      Pārbaudi koordinātes un atjaunošanu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#secigas-kustibas">Katra nākamā kustība sākas no jaunās vietas</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>

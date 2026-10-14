@@ -93,43 +93,23 @@
     Pievieno vadību abos virzienos un pielāgo kustības soli.
    </p>
    <section id="teorija">
-    <h2>
-     Īsā teorija
-    </h2>
-    <p>
-     <code>
-      addEventListener
-     </code>
-     piesaista darbību notikumam.
-     <code>
-      click
-     </code>
-     ir klikšķis;
-     <code>
-      keydown
-     </code>
-     — taustiņa nospiešana.
-    </p>
-    <p>
-     <code>
-      notikums.key
-     </code>
-     pasaka taustiņa nosaukumu.
-     <code>
-      ArrowLeft
-     </code>
-     ir kreisā bultiņa.
-    </p>
-    <p>
-     <code>
-      preventDefault()
-     </code>
-     šajā piemērā aptur lapas ritināšanu ar izmantoto bultiņu.
-    </p>
-    <pre><code>if (notikums.key === "ArrowLeft") {
+<h2>Teorija ar piemēriem</h2>
+<h3 id="notikums">Kods gaida spēlētāja darbību</h3>
+<p>Klikšķis un taustiņa nospiešana ir <b>notikumi</b>. Ar <code>addEventListener</code> piesaista notikumam darbību. Sākuma kods gaida klikšķi uz pogas vai taustiņu; tikai tad izsauc <code>kustinat</code>. Kustība šajā nodarbībā vēl nenotiek pati pēc laika.</p>
+<p><code>click</code> nozīmē klikšķi, <code>keydown</code> — taustiņa nospiešanu. Kods saņem informāciju par notikumu; <code>notikums.key</code> pasaka taustiņa nosaukumu. Tādējādi viena darbība var reaģēt uz labo bultiņu, cita — uz kreiso.</p>
+<h3 id="kreisais-taustins">Pievieno darbību kreisajai bultiņai</h3>
+<p>2. uzdevumā šo bloku ievieto <b>esošajā</b> <code>keydown</code> darbībā komentāra <code>// ŠEIT KREISĀ BULTIŅA</code> vietā. Tas izmanto tur jau pieejamo <code>notikums</code>.</p>
+<pre><code>if (notikums.key === "ArrowLeft") {
   notikums.preventDefault();
   kustinat(-1);
 }</code></pre>
+<p>Nosacījums pārbauda tieši kreiso bultiņu. <code>preventDefault()</code> novērš pārlūka parasto reakciju uz šo taustiņu, piemēram, lapas ritināšanu. <code>kustinat(-1)</code> pārvieto spēlētāju pa kreisi; <code>kustinat(1)</code> — pa labi.</p>
+<h3 id="virziens-un-solis">Virziens un soļa lielums strādā kopā</h3>
+<p>Sākuma kodā izmanto <code>x = x + virziens * solis</code>. Virziens ir 1 vai −1, bet <code>solis</code> pasaka pikseļu skaitu. Gala uzdevumā tas ir 20: sākot pie X = 20, labā bultiņa dod <b>20 + 1 × 20 = 40</b>, kreisā pēc tam — <b>40 − 20 = 20</b>. Pārbaudei taustiņu nospied un atlaid; turot to nospiestu, dators var atkārtot taustiņa notikumu.</p>
+<h3 id="kustibas-robeza">Kāpēc apstājas pirms laukuma labās malas?</h3>
+<p>X norāda spēlētāja kreisās malas vietu. Lai 30 pikseļus platais kvadrāts viss paliktu laukumā, lielākais X ir laukuma iekšējais platums mīnus 30. Pie 300 pikseļu laukuma tas ir 270. Kodā platumu nolasa ar <code>clientWidth</code>, tāpēc robeža pielāgojas arī šaurākam laukumam. Kreisā robeža ir 0.</p>
+<details class="course-help"><summary>Pašpārbaude: vai piespiešana pie malas nozīmē, ka poga vairs nedarbojas?</summary><p>Nē. Darbība joprojām izpildās, bet robežas pārbaude neatļauj lielāku vai mazāku koordināti. Nospiežot pretējā virziena pogu, spēlētājs atkal pārvietojas.</p>
+</details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -252,6 +232,8 @@ document.addEventListener("keydown", function (notikums) {
     <h2>
      Izmēģini kustību
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#notikums">Kods gaida spēlētāja darbību</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>
@@ -284,6 +266,8 @@ document.addEventListener("keydown", function (notikums) {
     <h2>
      Pievieno kreiso bultiņu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#kreisais-taustins">Pievieno darbību kreisajai bultiņai</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -320,6 +304,8 @@ document.addEventListener("keydown", function (notikums) {
     <h2>
      Pielāgo vadību un pārbaudi robežas
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#kustibas-robeza">Kāpēc apstājas pirms laukuma labās malas?</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>

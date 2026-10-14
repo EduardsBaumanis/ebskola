@@ -96,39 +96,21 @@
     Tēmas projekts · 2. daļa no 2
    </p>
    <section id="teorija">
-    <h2>
-     Īsā teorija
-    </h2>
-    <p>
-     <code>
-      ===
-     </code>
-     salīdzina divas vērtības. Vietas nosaukumiem jāsakrīt arī pēc burtu lieluma.
-    </p>
-    <p>
-     <code>
-      beigas
-     </code>
-     glabā
-     <code>
-      true
-     </code>
-     vai
-     <code>
-      false
-     </code>
-     : vai spēle jau beigusies.
-    </p>
-    <p>
-     <code>
-      if (beigas) { return; }
-     </code>
-     pārtrauc funkciju, lai pēc beigām gājieni vairs nepieaugtu.
-    </p>
-    <pre><code>if (vieta === dargumuVieta) {
-  zina = "Uzvara!";
-  beigas = true;
+<h2>Teorija ar piemēriem</h2>
+<h3 id="speles-atmina">Spēlei jāatceras arī tas, vai tā ir beigusies</h3>
+<p>Teksta spēlē <code>vietas</code> glabā izvēles, <code>dargumuVieta</code> — pareizo vietu, bet <code>gajienuLimits</code> — atļauto mēģinājumu skaitu. <code>gajieni</code> skaita izdarītās izvēles. <code>beigas</code> glabā <code>false</code>, kamēr drīkst spēlēt, un kļūst <code>true</code> pēc uzvaras vai zaudējuma.</p>
+<h3 id="gajiena-seciba">Kādā secībā pārbauda vienu gājienu?</h3>
+<p>Funkcija <code>izveleties(vieta)</code> sākumā pārbauda, vai spēle jau beigusies. <code>return</code> šajā vietā nozīmē “beigt šīs funkcijas izpildi”. Tāpēc turpmāks klikšķis vairs nepieskaita gājienu.</p>
+<pre><code>if (beigas) {
+  return;
 }</code></pre>
+<p>Ja spēle turpinās, vispirms pieskaita vienu gājienu. Tad pārbauda, vai izvēlētā vieta sakrīt ar dārgumu vietu. Tikai tad, ja dārgumi nav atrasti, pārbauda gājienu limitu. Šāda secība ļauj uzvarēt arī pēdējā atļautajā gājienā.</p>
+<div class="table-scroll" role="region" aria-label="Sākuma piemērs: dārgumi pilī, limits 3" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Izvēles no jaunas spēles sākuma</th><th scope="col">Rezultāts</th></tr></thead><tbody><tr><td>Mežs → Upe</td><td>2 gājieni; spēle vēl turpinās.</td></tr><tr><td>Mežs → Upe → Pils</td><td>3 gājieni; uzvara.</td></tr><tr><td>Mežs → Upe → Mežs</td><td>3 gājieni; zaudējums.</td></tr><tr><td>Pils → vēl viens klikšķis</td><td>Uzvara jau pirmajā gājienā; skaits paliek 1.</td></tr></tbody></table></div>
+<h3 id="vietu-sakritiba">Dārgumu vietai jābūt sasniedzamai</h3>
+<p>Mainot spēles vietas, izvēlies dārgumu nosaukumu tieši no sava masīva. Salīdzinājums <code>vieta === dargumuVieta</code> prasa precīzu sakritību: “Pils” un “pils” ir dažādi teksti. Ja dārgumu vietas masīvā nav, neviena poga uz to nevedīs un uzvarēt nevarēs.</p>
+<p>Uzvaru un zaudējumu pārbaudi atsevišķos mēģinājumos, katru reizi sākot no jauna. Pieraksti konkrēto pogu secību un redzēto ziņu. Pārbaudi arī klikšķi pēc beigām un to, vai jauna spēle sākas ar nulli gājienu.</p>
+<details class="course-help"><summary>Pašpārbaude: kāpēc vispirms nevar vienkārši paziņot zaudējumu pie trešā gājiena?</summary><p>Tad spēlētājs zaudētu arī tad, ja tieši trešajā gājienā atrastu dārgumus. Šīs spēles noteikums ļauj izmantot visus trīs gājienus, tāpēc dārgumu atrašanu pārbauda pirms zaudējuma.</p>
+</details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -224,6 +206,8 @@ function izveleties(vieta) {
     <h2>
      Savieno savu ideju ar spēles paraugu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#vietu-sakritiba">Dārgumu vietai jābūt sasniedzamai</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -260,6 +244,8 @@ function izveleties(vieta) {
     <h2>
      Pielāgo spēles noteikumus
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#gajiena-seciba">Kādā secībā pārbauda vienu gājienu?</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -292,6 +278,8 @@ function izveleties(vieta) {
     <h2>
      Pārbaudi un iesniedz teksta spēli
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#speles-atmina">Spēlei jāatceras arī tas, vai tā ir beigusies</a>.</p>
+
     <p class="workplace">
      Vide: Pārlūks → VS Code → GitHub
     </p>

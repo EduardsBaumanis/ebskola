@@ -93,39 +93,24 @@
     Izmaini spēles datus kodā un parādi aprēķināto rezultātu lapā.
    </p>
    <section id="teorija">
-    <h2>
-     Īsā teorija
-    </h2>
-    <p>
-     <b>
-      JavaScript
-     </b>
-     veic darbības. To rakstām faila
-     <code>
-      &lt;script&gt;
-     </code>
-     daļā zem lapas satura.
-    </p>
-    <p>
-     <code>
-      let
-     </code>
-     izveido maināmu vērtību, piemēram, punktus.
-     <code>
-      const
-     </code>
-     lieto vērtībai, kuru šajā programmā nepārpiešķirsi.
-    </p>
-    <p>
-     Tekstu raksti pēdiņās; skaitli — bez tām.
-     <code>
-      punkti = punkti + 5;
-     </code>
-     pieskaita piecus punktus.
-    </p>
-    <pre><code>const nosaukums = "Zvaigžņu mednieks";
+<h2>Teorija ar piemēriem</h2>
+<h3 id="vertibas">Mainīgais glabā vienu spēlei vajadzīgu vērtību</h3>
+<p>Spēlei jāatceras tās nosaukums, punktu skaits un atlikušās dzīvības. <b>Mainīgais</b> ir nosaukums, ar kuru kodā piekļūsti saglabātai vērtībai. Piemēram, <code>punkti</code> glabā skaitli. Nosaukumu izvēlas programmētājs; tas palīdz saprast vērtības nozīmi.</p>
+<pre><code>const nosaukums = "Zvaigžņu mednieks";
 let punkti = 10;
-punkti = punkti + 5;</code></pre>
+let dzivibas = 3;
+punkti = punkti + 5;
+dzivibas = dzivibas - 1;</code></pre>
+<p>Šis ir piemērs 1. un 2. uzdevuma izmaiņām sākuma koda <code>&lt;script&gt;</code> daļā. Labo esošās rindas; neveido otru mainīgo ar to pašu nosaukumu. Ar <code>let</code> izveido mainīgo, kuram vēlāk piešķirsi citu vērtību. Ar <code>const</code> izveido tādu, kuram citu vērtību nepiešķirsi. Spēles nosaukums ir teksts pēdiņās; punktu un dzīvību skaits ir skaitļi bez pēdiņām.</p>
+<h3 id="pieskirsana">Vienādības zīme šeit nozīmē “saglabā vērtību”</h3>
+<p>Rindu <code>punkti = punkti + 5</code> nelasa kā matemātikas vienādību. Vispirms pa labi nolasa veco vērtību 10 un pieskaita 5. Tad rezultātu 15 saglabā mainīgajā pa kreisi. Veco vērtību aizstāj jaunā.</p>
+<div class="table-scroll" role="region" aria-label="Aprēķins pa rindām" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Pēc kuras darbības?</th><th scope="col">punkti</th><th scope="col">dzivibas</th></tr></thead><tbody><tr><td>Sākuma vērtību izveidošana.</td><td>10</td><td>3</td></tr><tr><td><code>punkti = punkti + 5;</code></td><td>15</td><td>3</td></tr><tr><td><code>dzivibas = dzivibas - 1;</code></td><td>15</td><td>2</td></tr></tbody></table></div>
+<h3 id="vertibas-paradisana">Vērtības maiņa un teksts lapā ir atsevišķas darbības</h3>
+<p>Sākuma kodā pēc aprēķiniem seko rindas ar <code>textContent</code>. Tās atrod HTML elementu pēc <code>id</code> un ieraksta tajā tekstu. Aprēķinus ievieto norādītajā vietā <b>pirms</b> šīm rindām, lai lapā nonāktu jaunās vērtības.</p>
+<pre><code>document.getElementById("punkti").textContent = "Punkti: " + punkti;</code></pre>
+<p>Šeit tekstam “Punkti: ” pievieno skaitļa pierakstu. Paraugā redzēsi “Punkti: 15”. Atjaunojot lapu, kods izpildās no sākuma; iepriekšējās mainīgo vērtības netiek saglabātas. Gala uzdevumā izmantosi sākuma skaitli 20 un pieaugumu 7, tāpēc rezultāts būs 27.</p>
+<details class="course-help"><summary>Pašpārbaude: ja pieskaiti 5 vēlreiz, kāda kļūst vērtība?</summary><p>Pēc pirmās pieskaitīšanas tā ir 15, pēc otrās — 20. Katrā reizē nolasa tā brīža vērtību. Lai lapā redzētu 20, teksta atjaunošanai jānotiek pēc otrās pieskaitīšanas.</p>
+</details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -241,6 +226,8 @@ document.getElementById("dzivibas").textContent = "Dzīvības: " + dzivibas;
     <h2>
      Maini spēles datus
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#vertibas">Mainīgais glabā vienu spēlei vajadzīgu vērtību</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -285,6 +272,8 @@ document.getElementById("dzivibas").textContent = "Dzīvības: " + dzivibas;
     <h2>
      Pievieno aprēķinu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#pieskirsana">Vienādības zīme šeit nozīmē “saglabā vērtību”</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -325,6 +314,8 @@ document.getElementById("dzivibas").textContent = "Dzīvības: " + dzivibas;
     <h2>
      Pielāgo un pārbaudi rezultātu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#vertibas-paradisana">Vērtības maiņa un teksts lapā ir atsevišķas darbības</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>

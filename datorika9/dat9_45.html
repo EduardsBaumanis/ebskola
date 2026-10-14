@@ -96,29 +96,20 @@
     Tēmas projekts · 1. daļa no 2
    </p>
    <section id="teorija">
-    <h2>
-     Īsā teorija
-    </h2>
-    <p>
-     Sadursme ir brīdis, kad abu kvadrātu laukumi pārklājas. Gatavā funkcija
-     <code>
-      saduras(a, b)
-     </code>
-     to pārbauda.
-    </p>
-    <p>
-     <code>
-      &amp;&amp;
-     </code>
-     nozīmē “un”. Funkcijā visām četrām pārbaudēm jāizpildās reizē.
-    </p>
-    <p>
-     Kad ir sadursme, apturi kustību un parādi spēlētājam saprotamu ziņu.
-    </p>
-    <pre><code>if (saduras(speletajs, pretinieks)) {
-  aktiva = false;
-  clearInterval(taimeris);
-}</code></pre>
+<h2>Teorija ar piemēriem</h2>
+<h3 id="sadursmes-ideja">Sadursme ir divu laukumu pārklāšanās</h3>
+<p>Spēlētājs un pretinieks ir redzami kvadrāti. Lai pamanītu sadursmi, kodam jāpārbauda to atrašanās vietas. Gatavā palīgfunkcija <code>saduras(a, b)</code> saņem abus lapas elementus un atdod <code>true</code>, ja tie pārklājas, vai <code>false</code>, ja nepārklājas.</p>
+<p><code>getBoundingClientRect()</code> nolasa elementa kreiso, labo, augšējo un apakšējo malu pārlūka logā. Abiem elementiem tās mēra vienādi, tāpēc malas var salīdzināt. Lai būtu pārklāšanās, kopīgai vietai jābūt gan pa horizontāli, gan pa vertikāli. Ar atrašanos vienā augstumā vien nepietiek.</p>
+<div class="table-scroll" role="region" aria-label="Sadursmes piemēri" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Situācija</th><th scope="col">Vai gatavā funkcija atrod sadursmi?</th></tr></thead><tbody><tr><td>Kvadrāti ir vienā augstumā, bet starp tiem ir atstarpe.</td><td>Nē.</td></tr><tr><td>Kvadrāti daļēji pārklājas gan platumā, gan augstumā.</td><td>Jā.</td></tr><tr><td>Kvadrāti saskaras tikai ar pašām malām.</td><td>Nē; šajā kodā pārbauda stingru pārklāšanos.</td></tr></tbody></table></div>
+<h3 id="sadursmes-sekas">Kas jādara pēc sadursmes?</h3>
+<p>Funkcijā <code>parbaudit()</code> sadursmes gadījumā <code>aktiva</code> kļūst <code>false</code>, taimeris apstājas un parādās beigu ziņa. <code>aktiva</code> pasaka, vai vadība vēl drīkst kustināt spēlētāju. Ar taimera apturēšanu vien nepietiktu: pogas joprojām varētu mainīt vietu, ja vadībā nebūtu šīs pārbaudes.</p>
+<p>Uzdevumā tajā pašā sadursmes <code>if</code> blokā pievieno krāsas maiņu:</p>
+<pre><code>speletajs.style.backgroundColor = "#6b1d1d";</code></pre>
+<p>Krāsa palīdz saskatīt sadursmi, bet teksta ziņa pasaka, kas noticis. Atsevišķā rinda funkcijā <code>sakt()</code> atjauno krāsu ar tukšu tekstu <code>""</code>: tā noņem JavaScript uzlikto krāsu, un atkal darbojas CSS noteikums.</p>
+<h3 id="sadursmes-parbaude">Pārbaude notiek pēc abu veidu kustības</h3>
+<p>Sadursmi var izraisīt gan spēlētāja solis, gan pretinieka automātiskā kustība. Tāpēc <code>parbaudit()</code> izsauc pēc abām. Vispirms atjauno elementu vietas ar <code>paradit()</code>, tad pārbauda to redzamo pārklāšanos. Palīgfunkcijas formula jau ir dota; tev jāsaprot, kad to izsauc un kādas sekas veido spēles beigas.</p>
+<details class="course-help"><summary>Pašpārbaude: vai sarkanā krāsa viena pati aptur spēli?</summary><p>Nē. Krāsa maina izskatu. Spēles darbību aptur aktiva = false kopā ar taimera apturēšanu un aktiva pārbaudi kustības funkcijā.</p>
+</details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -306,6 +297,8 @@ paradit();
     <h2>
      Palaid spēli un atrodi sadursmi
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#sadursmes-ideja">Sadursme ir divu laukumu pārklāšanās</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>
@@ -342,6 +335,8 @@ paradit();
     <h2>
      Parādi sadursmi ar krāsu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#sadursmes-sekas">Kas jādara pēc sadursmes?</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -382,6 +377,8 @@ paradit();
     <h2>
      Pielāgo spēli un pārbaudi restartu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#sadursmes-parbaude">Pārbaude notiek pēc abu veidu kustības</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>

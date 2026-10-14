@@ -93,38 +93,22 @@
     Izveido formu, kas no ievadītā skaita aprēķina spēlētāja punktus.
    </p>
    <section id="teorija">
-    <h2>
-     Īsā teorija
-    </h2>
-    <p>
-     <code>
-      &lt;input&gt;
-     </code>
-     ir ievades lauks.
-     <code>
-      .value
-     </code>
-     nolasa tajā ierakstīto tekstu.
-    </p>
-    <p>
-     <code>
-      Number(...)
-     </code>
-     pārvērš ievadi skaitlī.
-     <code>
-      *
-     </code>
-     nozīmē reizināšanu.
-    </p>
-    <p>
-     Gatavā funkcija
-     <code>
-      paradit()
-     </code>
-     izpildās, kad nospiež pogu. Šodien tajā mainīsi aprēķinu un rezultāta tekstu.
-    </p>
-    <pre><code>const skaits = Number(document.getElementById("skaits").value);
+<h2>Teorija ar piemēriem</h2>
+<h3 id="ievade-un-klikskis">Ievade → aprēķins → atbilde</h3>
+<p>Spēlētājs ievada vārdu un savākto zvaigžņu skaitu. Sākuma kodā poga izsauc funkciju <code>paradit()</code> — vairākas darbības, kas izpildās kopā. Tā nolasa abus laukus, aprēķina punktus un uzraksta atbildi. Mainot lauka saturu, atbilde vēl nemainās; šajā piemērā tā mainās pēc pogas nospiešanas.</p>
+<h3 id="teksts-un-skaitlis">Ievades lauka vērtība vispirms ir teksts</h3>
+<pre><code>const vards = document.getElementById("vards").value;
+const skaits = Number(document.getElementById("skaits").value);
 const punkti = skaits * 5;</code></pre>
+<p>Šīs rindas jau atrodas funkcijā <code>paradit</code>. <code>value</code> nolasa laukā ierakstīto. Pat lauks ar <code>type="number"</code> šo vērtību atdod kā tekstu. <code>Number(...)</code> to pārvērš skaitlī, lai varētu veikt skaitļu aprēķinus. Vārdu atstāj kā tekstu. Zvaigznīte <code>*</code> nozīmē reizināšanu, tāpēc sākuma piemērā divas zvaigznes dod <b>2 × 5 = 10 punktus</b>.</p>
+<p>Atšķirība īpaši redzama saskaitot: <code>"2" + 5</code> savieno tekstu un dod <code>"25"</code>, bet <code>Number("2") + 5</code> aprēķina skaitli <code>7</code>. Pēdiņas kodā maina vērtības veidu.</p>
+<h3 id="punktu-piemers">Kā mainās formula uzdevumā?</h3>
+<p>Uzdevumā vispirms vērtību par vienu zvaigzni mainīsi uz 10, tad pievienosi sākuma bonusu 5. Funkcijā aizstāj esošo punktu aprēķina rindu ar šo:</p>
+<pre><code>const punkti = skaits * 10 + 5;</code></pre>
+<div class="table-scroll" role="region" aria-label="Gala formulas pārbaude" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Zvaigžņu skaits</th><th scope="col">Aprēķins</th><th scope="col">Punkti</th></tr></thead><tbody><tr><td>0</td><td>0 × 10 + 5</td><td>5</td></tr><tr><td>2</td><td>2 × 10 + 5</td><td>25</td></tr><tr><td>3</td><td>3 × 10 + 5</td><td>35</td></tr></tbody></table></div>
+<p>Vispirms izpilda reizināšanu, pēc tam pieskaita pieci. Tāpēc bonuss ir viens par visu rezultātu. Ja vārds ir “Anna” un zvaigžņu skaits ir 3, gala atbilde ir “Anna: 35 punkti”. Pārbaudi arī nulli; pārbaude tikai ar vienu skaitli var paslēpt kļūdu.</p>
+<details class="course-help"><summary>Pašpārbaude: nomainīji vārdu, bet atbildē vēl ir vecais — ko darīt?</summary><p>Nospied aprēķina pogu vēlreiz. Tikai tad paradit() no jauna nolasa ievadi un aizstāj atbildes tekstu.</p>
+</details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -233,6 +217,8 @@ function paradit() {
     <h2>
      Izmēģini ievadi
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#ievade-un-klikskis">Ievade → aprēķins → atbilde</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>
@@ -273,6 +259,8 @@ function paradit() {
     <h2>
      Maini punktu vērtību
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#teksts-un-skaitlis">Ievades lauka vērtība vispirms ir teksts</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -317,6 +305,8 @@ function paradit() {
     <h2>
      Pievieno bonusu un pārbaudi
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#punktu-piemers">Kā mainās formula uzdevumā?</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>

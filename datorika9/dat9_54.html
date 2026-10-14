@@ -93,32 +93,20 @@
     Pielāgo bonusu, kas dod punktus un pēc savākšanas parādās citā vietā.
    </p>
    <section id="teorija">
-    <h2>
-     Īsā teorija
-    </h2>
-    <p>
-     Bonuss ir savācams priekšmets, kas dod papildu punktus. Šajā piemērā tas ir dzeltenais aplis.
-    </p>
-    <p>
-     <code>
-      bonusaPunkti
-     </code>
-     nosaka punktus par vienu bonusu.
-     <code>
-      irBonuss
-     </code>
-     ieslēdz vai izslēdz bonusu.
-    </p>
-    <p>
-     Gatavā palīdzība novieto bonusu nejaušā vietā.
-     <code>
-      irSkana = true
-     </code>
-     ieslēdz īsu savākšanas signālu.
-    </p>
-    <pre><code>const irBonuss = true;
-const bonusaPunkti = 10;
-const irSkana = true;</code></pre>
+<h2>Teorija ar piemēriem</h2>
+<h3 id="bonusa-notikums">Bonuss ir priekšmets, kuru sasniedz ar spēlētāju</h3>
+<p>Sākuma kodā bonuss ir elements ar <code>id="moneta"</code>. Iestatījums <code>irBonuss = true</code> to ieslēdz. Funkcija <code>parbaudit()</code> pārbauda, vai spēlētājs un bonuss pārklājas. Savākšanas brīdī pieskaita <code>bonusaPunkti</code>, atskaņo ieslēgto skaņu, novieto bonusu citur un atjauno rādītājus.</p>
+<h3 id="bonusa-vertiba">Vienā spēlē punktiem var būt vairāki avoti</h3>
+<p>Sākuma paraugā bonuss dod 10, bet uzdevumā to mainīsi uz 25 un uzvaras robežu uz 100. Pielāgo arī noteikumus, lai spēlētājs zina priekšmeta vērtību. Pretinieka aplis joprojām dod atsevišķus 5 punktus.</p>
+<div class="table-scroll" role="region" aria-label="Punktu pieauguma piemēri pēc izmaiņām" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Punkti pirms</th><th scope="col">Notikums</th><th scope="col">Punkti pēc</th></tr></thead><tbody><tr><td>0</td><td>Savākts viens bonuss.</td><td>25</td></tr><tr><td>25</td><td>Pretinieks pabeidz apli.</td><td>30</td></tr><tr><td>30</td><td>Savākts nākamais bonuss.</td><td>55</td></tr></tbody></table></div>
+<p>Vērtību salīdzini tieši pirms un pēc savākšanas. Ja tajā pašā laikā beidzas arī pretinieka aplis, kopējais pieaugums var būt 30. Tas ir 25 par bonusu un 5 par apli, nevis nepareiza bonusa vērtība.</p>
+<h3 id="bonusa-vieta">Nejauša vieta ar noteiktām robežām</h3>
+<p>Gatavā funkcija <code>novietotMonetu()</code> izvēlas X un Y laukuma iekšpusē. No laukuma izmēriem atņem 30, lai viss 30 × 30 pikseļu priekšmets ietilptu laukumā. Tāpēc šajā uzdevumā maini krāsu, bet saglabā doto izmēru. Ja izvēlētā vieta pārklājas ar spēlētāju, kods to koriģē.</p>
+<p>Nejauša izvēle nenozīmē “katru reizi vēl nebijusi vieta”: koordinātes var arī atkārtoties. Noapaļojot priekšmetu ar CSS, redzi apli, taču dotā sadursmes palīgfunkcija joprojām salīdzina elementu aptverošos taisnstūrus.</p>
+<h3 id="bonusa-skana">Skaņu veido jau dotais kods</h3>
+<p>Šajā paraugā skaņas signālam nav atsevišķa faila. Funkcija <code>skana()</code> rada īsu signālu, ja <code>irSkana = true</code>. Skaņas izmantošanu sagatavo pēc lietotāja nospiestas sākšanas pogas. Saglabā izmaiņu, atjauno lapu, sāc spēli un savāc bonusu. Ja signālu nedzirdi, pārbaudi skaļumu un iestatījumu; vizuāli joprojām var pārbaudīt punktus un vietas maiņu.</p>
+<details class="course-help"><summary>Pašpārbaude: kāpēc nepietiek tikai uzrakstīt noteikumos “bonuss dod 25”?</summary><p>Teksts informē spēlētāju, bet aprēķins izmanto bonusaPunkti vērtību. Jāmaina abi, lai skaidrojums un spēles darbība sakristu.</p>
+</details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -386,6 +374,8 @@ ekrans("sakumaEkrans");
     <h2>
      Izmēģini bonusu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#bonusa-notikums">Bonuss ir priekšmets, kuru sasniedz ar spēlētāju</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>
@@ -418,6 +408,8 @@ ekrans("sakumaEkrans");
     <h2>
      Pielāgo bonusa vērtību un izskatu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#bonusa-vertiba">Vienā spēlē punktiem var būt vairāki avoti</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -458,6 +450,8 @@ ekrans("sakumaEkrans");
     <h2>
      Ieslēdz skaņu un pārbaudi savākšanu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#bonusa-skana">Skaņu veido jau dotais kods</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>

@@ -93,26 +93,20 @@
     Izveido pretinieku, kura kustību var sākt, apturēt un atsākt.
    </p>
    <section id="teorija">
-    <h2>
-     Īsā teorija
-    </h2>
-    <p>
-     <code>
-      setInterval(solis, 30)
-     </code>
-     atkārto funkciju apmēram ik pēc 30 milisekundēm. 1000 milisekundes ir viena sekunde.
-    </p>
-    <p>
-     <code>
-      clearInterval(taimeris)
-     </code>
-     aptur atkārtošanu. Taimera vērtību glabājam ārpus funkcijām.
-    </p>
-    <p>
-     Pirms jauna taimera sākšanas apturam iepriekšējo. Tad atkārtots klikšķis nepaātrina spēli.
-    </p>
-    <pre><code>clearInterval(taimeris);
+<h2>Teorija ar piemēriem</h2>
+<h3 id="laika-atkartojums">Automātiska kustība rodas no maziem atkārtotiem soļiem</h3>
+<p>Poga var izmainīt vietu vienu reizi. Lai pretinieks kustētos pats, pārlūkam jālūdz nelielu darbību atkārtot. Sākuma kodā funkcija <code>solis()</code> palielina X, pārbauda labo malu un pārzīmē pretinieka vietu. Sasniedzot vietu aiz atļautās robežas, X kļūst 0.</p>
+<p>Sākuma ātruma vērtība ir 2; uzdevumā to mainīsi uz 3. Tad X pirms labās malas pārbaudes mainās šādi: <b>0 → 3 → 6 → 9 → 12</b>. Katrs solis pārvieto pretinieku par trim pikseļiem. Tā ir pārvietošanās vienā atkārtojumā, nevis trīs pikseļi sekundē.</p>
+<h3 id="taimeris">Kā ieslēdz atkārtošanu?</h3>
+<pre><code>clearInterval(taimeris);
 taimeris = setInterval(solis, 30);</code></pre>
+<p>Šīs rindas jau ir funkcijā <code>sakt()</code>. <code>setInterval</code> lūdz izsaukt <code>solis</code> atkārtoti aptuveni ik pēc 30 milisekundēm. 1000 milisekundes ir viena sekunde. Faktisko izpildes brīdi ietekmē arī pārlūka noslodze, tāpēc intervāls nav precīzs pulkstenis.</p>
+<p>Šeit raksta <code>solis</code> bez iekavām: pārlūkam nodod pašu darbību vēlākai izpildei. Savukārt <code>solis()</code> nozīmētu to izpildīt uzreiz. <code>taimeris</code> glabā ieslēgtās atkārtošanas apzīmējumu, lai <code>clearInterval</code> varētu apturēt tieši to.</p>
+<h3 id="saksana-un-apturesana">Kāpēc sākumā aptur iepriekšējo taimeri?</h3>
+<p>Ja katrs sākšanas klikšķis izveidotu vēl vienu atkārtošanu, viena un tā pati funkcija darbotos vairākas reizes un kustība kļūtu ātrāka. Tāpēc <code>sakt()</code> vispirms aptur iepriekšējo taimeri. Pieci sākšanas klikšķi nedrīkst radīt piecus reizē darbojošos taimerus.</p>
+<div class="table-scroll" role="region" aria-label="Apturēt un atjaunot nav viena darbība" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Darbība</th><th scope="col">Rezultāts</th></tr></thead><tbody><tr><td>Apturēt.</td><td>Taimeris apstājas; X un pretinieka vieta paliek pašreizējie.</td></tr><tr><td>Sākt pēc apturēšanas.</td><td>Kustība turpinās no saglabātās vietas.</td></tr><tr><td>Atjaunot ar location.reload().</td><td>Lapa sākas no jauna: X = 0, kustība apturēta.</td></tr></tbody></table></div>
+<details class="course-help"><summary>Pašpārbaude: vai clearInterval pats atgriež X uz nulli?</summary><p>Nē. Tas aptur turpmākos izsaukumus, bet nemaina X. Šajā uzdevumā sākuma vietu atjauno atsevišķā pārlādes poga.</p>
+</details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -239,6 +233,8 @@ document.getElementById("pretinieks").style.left = x + "px";
     <h2>
      Izmēģini sākšanu un apturēšanu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#saksana-un-apturesana">Kāpēc sākumā aptur iepriekšējo taimeri?</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>
@@ -279,6 +275,8 @@ document.getElementById("pretinieks").style.left = x + "px";
     <h2>
      Pielāgo kustību
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#laika-atkartojums">Automātiska kustība rodas no maziem atkārtotiem soļiem</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -319,6 +317,8 @@ document.getElementById("pretinieks").style.left = x + "px";
     <h2>
      Pievieno sākuma vietas pogu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#taimeris">Kā ieslēdz atkārtošanu?</a>.</p>
+
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>

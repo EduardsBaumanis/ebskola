@@ -93,33 +93,19 @@
     Pielāgo spēles datus un pārbaudi, ka jauna spēle sākas no sākuma.
    </p>
    <section id="teorija">
-    <h2>
-     Īsā teorija
-    </h2>
-    <p>
-     <b>
-      Objekts
-     </b>
-     glabā saistītas vērtības vienuviet.
-     <code>
-      spele.dzivibas
-     </code>
-     ir spēles atlikušo dzīvību skaits.
-    </p>
-    <p>
-     Sākuma iestatījumi nosaka noteikumus. Spēles laikā mainās objekta
-     <code>
-      spele
-     </code>
-     vērtības.
-    </p>
-    <p>
-     Pēc sadursmes atņem vienu dzīvību. Ja to vairs nav, beidz spēli.
-    </p>
-    <pre><code>spele.dzivibas = spele.dzivibas - 1;
-if (spele.dzivibas &lt;= 0) {
-  beigt("Dzīvības beigušās!");
-}</code></pre>
+<h2>Teorija ar piemēriem</h2>
+<h3 id="iestatijumi-un-dati">Sākuma iestatījums un pašreizējais rezultāts atšķiras</h3>
+<p><code>sakumaDzivibas</code> pasaka, cik dzīvību piešķirt jaunam mēģinājumam. <code>spele.dzivibas</code> glabā to, cik palicis pašlaik. Līdzīgi <code>uzvarasPunkti</code> ir mērķis, bet <code>spele.punkti</code> — savāktais skaits. Uzdevumā iestatīsi 2 sākuma dzīvības, uzvaras robežu 10 un 5 punktus par pretinieka apli.</p>
+<p><code>spele</code> ir saistītu datu kopums jeb <b>objekts</b>. Punkts pierakstā nozīmē “paņem šo vērtību no kopuma”: <code>spele.dzivibas</code> ir tieši spēles dzīvību skaits. Lai gan pats kopums izveidots ar <code>const</code>, tajā esošās vērtības drīkst mainīt.</p>
+<h3 id="dzivibu-mainisana">Sadursme atņem vienu dzīvību</h3>
+<pre><code>spele.dzivibas = spele.dzivibas - 1;</code></pre>
+<p>Šī rinda jau ir funkcijas <code>parbaudit()</code> sadursmes daļā. Pēc tās spēlētāju pārvieto prom no pretinieka ceļa un atjauno rādītāju. Tas neļauj vienai ilgstošai pārklāšanās reizei uzreiz atņemt visas dzīvības. Lai pārbaudītu nākamo sadursmi, ar vadību jāatgriežas pretinieka ceļā.</p>
+<div class="table-scroll" role="region" aria-label="Zaudējuma pārbaude pēc uzdevuma izmaiņām" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Darbība</th><th scope="col">Dzīvības</th><th scope="col">Rezultāts</th></tr></thead><tbody><tr><td>Sākt jaunu spēli.</td><td>2</td><td>Spēle notiek.</td></tr><tr><td>Pirmā sadursme.</td><td>1</td><td>Spēlētājs pārvietots drošākā vietā; var turpināt.</td></tr><tr><td>Atgriezties ceļā un sadurties vēlreiz.</td><td>0</td><td>Spēle beidzas ar zaudējumu.</td></tr><tr><td>Spēlēt vēlreiz.</td><td>2</td><td>Punkti atkal 0; sākas jauns mēģinājums.</td></tr></tbody></table></div>
+<h3 id="uzvaras-parbaude">Uzvara un zaudējums ir atsevišķi nosacījumi</h3>
+<p><code>spele.dzivibas &lt;= 0</code> nozīmē, ka vairs nav dzīvību. <code>spele.punkti &gt;= uzvarasPunkti</code> nozīmē, ka sasniegts vai pārsniegts mērķis. Lieto “vismaz”, jo punkti var pieaugt par vairākiem uzreiz un pārlēkt pāri precīzajam mērķa skaitlim.</p>
+<p>Uzvaru pārbaudi atsevišķā jaunā spēlē: pārvietojies virs pretinieka ceļa un nogaidi divus tā apļus. Punktu secība ir <b>0 → 5 → 10</b>; pie 10 jāparādās uzvarai. Abi beigu gadījumi aptur spēli un izmanto beigu ekrānu, bet to ziņas atšķiras.</p>
+<details class="course-help"><summary>Pašpārbaude: pēc pirmās sadursmes palikusi viena dzīvība — vai jāmaina sakumaDzivibas uz 1?</summary><p>Nē. Pašreizējās dzīvības maina spele.dzivibas. Sākuma iestatījums paliek 2, lai nākamais mēģinājums atkal sāktos ar divām dzīvībām.</p>
+</details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -387,6 +373,8 @@ ekrans("sakumaEkrans");
     <h2>
      Maini sākuma iestatījumus
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#iestatijumi-un-dati">Sākuma iestatījums un pašreizējais rezultāts atšķiras</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -435,6 +423,8 @@ ekrans("sakumaEkrans");
     <h2>
      Pielāgo zaudējuma ziņu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#dzivibu-mainisana">Sadursme atņem vienu dzīvību</a>.</p>
+
     <p class="workplace">
      Vide: VS Code
     </p>
@@ -475,6 +465,8 @@ ekrans("sakumaEkrans");
     <h2>
      Pārbaudi uzvaru, zaudējumu un restartu
     </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#uzvaras-parbaude">Uzvara un zaudējums ir atsevišķi nosacījumi</a>.</p>
+
     <p class="workplace">
      Vide: Pārlūks → VS Code
     </p>
