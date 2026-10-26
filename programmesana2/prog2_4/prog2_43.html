@@ -63,6 +63,9 @@
 <div class="info-box">
 <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido stāvokļu enum (uzskaitījuma tips) un pārslēgšanu · 2. uzdevums (~25 min) - pievieno pārejas noteikumus · 3. uzdevums (~20 min) - iztestē visus stāvokļus · Iesniegšana (~5 min).</p>
 <p><b>Pirms sāc:</b> atver savu projektu ar ienaidnieku. State machine nozīmē vienu vienkāršu noteikumu: ienaidnieks vienā brīdī var būt tikai vienā stāvoklī.</p>
+
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
+<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
 </div>
 </section><section>
 <h2>Teorija: State machine konceptu</h2>
@@ -132,6 +135,8 @@ public partial class Enemy : CharacterBody2D
 
 </section><section class="logic-box lesson-task" id="uzdevums-1">
 <p class="task-number">1. uzdevums - </p><h2>Izveido stāvokļu enum un pārslēgšanu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Papildini ienaidniekam piesaistīto <code>Scripts/Enemy.cs</code>. Enum un state lauku liec Enemy klases iekšienē, bet switch — tās metodē <code>_PhysicsProcess()</code>; esošu tāda paša nosaukuma metodi papildini.</p>
+
 <p>Beigās ienaidnieks zinās, kurā stāvoklī tas atrodas.</p>
 <ol class="step-list">
 <li><b>Ieraksti</b> <code class="language-csharp">private enum EnemyState { Idle, Patrol, Chase, Attack, Dead }</code>.</li>
@@ -145,6 +150,8 @@ public partial class Enemy : CharacterBody2D
 <p class="done-when"><b>Gatavs, kad:</b> Output panelī atkārtojas tikai viena stāvokļa nosaukums, nevis visi pieci.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-2">
 <p class="task-number">2. uzdevums - </p><h2>Pievieno pārejas noteikumus</h2>
+<p class="task-files"><b>Kur strādāt:</b> <code>ChangeState()</code> pievieno <code>Scripts/Enemy.cs</code> kā atsevišķu klases metodi. Attāluma aprēķinu un pāreju pārbaudes raksti esošajā <code>_PhysicsProcess()</code>.</p>
+
 <p>Beigās ienaidnieks pats pārslēgsies starp stāvokļiem.</p>
 <ol class="step-list">
 <li><b>Uzraksti</b> method <code class="language-csharp">private void ChangeState(EnemyState newState)</code>, kas izdrukā pāreju.</li>
@@ -158,6 +165,8 @@ public partial class Enemy : CharacterBody2D
 <p class="done-when"><b>Gatavs, kad:</b> pieejot tuvāk, ienaidnieks pāriet CHASE un ATTACK, bet aizejot - atgriežas PATROL.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums - </p><h2>Iztestē visus stāvokļus</h2>
+<p class="task-files"><b>Kur strādāt:</b> Pāreju uz Dead un pārbaudi, kas liedz to atstāt, raksti <code>Scripts/Enemy.cs</code>. Pāreju tabulu un testu rezultātus saglabā <code>README.md</code>.</p>
+
 <p>Beigās tu būsi pārliecinājies, ka neviens stāvoklis neiestrēgst.</p>
 <ol class="step-list">
 <li><b>Pieraksti</b> tabulu ar visiem pieciem stāvokļiem.</li>
@@ -171,6 +180,8 @@ public partial class Enemy : CharacterBody2D
 <p class="done-when"><b>Gatavs, kad:</b> tabulā katrai pārejai ir atzīme, un no <code>Dead</code> stāvokļa ienaidnieks vairs neatgriežas.</p>
 </section><details class="course-help extra-task">
 <summary>Papildu uzdevums - Pievieno stāvokļa timer (taimeri)</summary>
+<p class="task-files"><b>Kur strādāt:</b> State_time lauku pievieno <code>Scripts/Enemy.cs</code> klasei; laiku palielini <code>_PhysicsProcess()</code>, bet pārejas ierobežojumu un atiestatīšanu raksti <code>ChangeState()</code>.</p>
+
 <p>Ja pamatdarbs ir gatavs, neļauj stāvokļiem mainīties pārāk bieži.</p>
 <ol class="step-list">
 <li><b>Pievieno</b> lauku <code class="language-csharp">double state_time = 0.0;</code>.</li>

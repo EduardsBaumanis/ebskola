@@ -54,7 +54,10 @@
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
 <a href="/sasnRez">SR 2.4.18. Objektorientētā programmēšana</a>
 </div>
-<section><div class="info-box"><p><b>Pirms sāc:</b> izmanto 3.2. lomu projektu. Šodien mainās veids, kā dalībnieku izveidojam, tāpēc vispirms izlasi pārejas soļus.</p><p><b>Darba secība:</b> izlasi skaidrojumu pie attiecīgā uzdevuma, paredzi piemēra rezultātu un tad pārbaudi to. Pēc C# izmaiņām saglabā failus, Godot nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Rezultātus skaties <b>Output</b> panelī.</p></div></section>
+<section><div class="info-box"><p><b>Pirms sāc:</b> izmanto 3.2. lomu projektu. Šodien mainās veids, kā dalībnieku izveidojam, tāpēc vispirms izlasi pārejas soļus.</p><p><b>Darba secība:</b> izlasi skaidrojumu pie attiecīgā uzdevuma, paredzi piemēra rezultātu un tad pārbaudi to. Pēc C# izmaiņām saglabā failus, Godot nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Rezultātus skaties <b>Output</b> panelī.</p>
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
+<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
+</div></section>
 <section id="teorija"><h2>Teorija ar piemēriem</h2>
 <h3 id="notikums">1. Darbība un paziņojums nav viens un tas pats</h3>
 <p><code>ApplyPenalty(20)</code> ir lūgums dalībniekam veikt darbību: samazināt enerģiju. <code>Finished</code> ir paziņojums, ka kaut kas jau noticis: dalībnieka enerģija sasniegusi nulli. Šādu paziņojumu Godot sauc par <b>signālu</b>.</p>
@@ -105,25 +108,33 @@
 <p><code>anna.Finished -= OnParticipantFinished;</code> noņem tieši šo klausītāju. Lai salīdzinātu, palaid scēnu no jauna un ievieto atvienošanu pēc pieslēgšanas, bet pirms soda. Jau izstājies dalībnieks mūsu piemērā otru signālu neraidīs.</p>
 <details class="course-help"><summary>Pašpārbaude: Vai pēc atvienošanas Annas enerģija vairs nemainās?</summary><p>Enerģija joprojām mainās un signāls joprojām tiek raidīts. Tikai atvienotā saņēmēja metode vairs netiek izsaukta. Atvienošana nemaina pašu ApplyPenalty darbību.</p></details>
 </section>
-<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Sagatavo dalībnieka paziņojumu</h2><p><b>Atbalsts:</b> <a href="#node-pareja">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Sagatavo dalībnieka paziņojumu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Atjauno <code>Scripts/Participant.cs</code>, <code>Scripts/Captain.cs</code>, <code>Scripts/Presenter.cs</code> un, ja izveidots, <code>Scripts/TimeKeeper.cs</code>. Finished signālu pievieno Participant klasē, tā nosūtīšanu — <code>ApplyPenalty()</code>; vecās pārbaudes izņem no <code>Scripts/LessonDemo.cs</code> metodes <code>_Ready()</code>. Izveido <code>Scenes/Tournament.tscn</code>.</p>
+<p><b>Atbalsts:</b> <a href="#node-pareja">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Pirms izmaiņām saglabā iepriekšējā projekta kopiju ārpus šī projekta mapes. Pēc pārejas apraksta atjauno Participant.cs un visas izveidotās lomas. LessonDemo.cs izņem tikai vecās izmēģinājuma rindas no _Ready() iekšienes, saglabājot pašu klasi un tukšu metodi. Jauno pārbaudi rakstīsi TournamentManager.cs. Godot būvē visus projekta C# failus, arī tos, kuri nav pievienoti palaistajai scēnai.</li>
 <li>Izveido <a href="#scena">Tournament scēnu ar Anna un Janis mezgliem</a>.</li>
 <li>Pievieno Finished pieteikumu un nosūtīšanu brīdī, kad enerģija sasniedz nulli. Pirms soda pārbaudi IsActive().</li>
 <li>Nospied Build, atlasi dalībnieka mezglu un Signals sarakstā atrodi Finished signālu.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> projekts būvējas un dalībnieka signāls ir reģistrēts.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Saņem paziņojumu turnīra vadītājā</h2><p><b>Atbalsts:</b> <a href="#signala-seciba">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Saņem paziņojumu turnīra vadītājā</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/TournamentManager.cs</code> ar pilno piemēru un piesaisti to <code>Scenes/Tournament.tscn</code> saknei. Dalībnieku atrašanu, signālu pieslēgšanu un sodu izsaukumus raksti tā metodē <code>_Ready()</code>.</p>
+<p><b>Atbalsts:</b> <a href="#signala-seciba">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Saknei pievieno TournamentManager.cs no pilnā piemēra.</li>
 <li>Metodē _Ready atrod abus dalībniekus, izsauc Setup un ar += pieslēdz OnParticipantFinished.</li>
 <li>Palaid piemēru. Output jāparādās pa vienam izstāšanās paziņojumam Annai un Jānim.</li>
 <li>Annai piemēro vēl vienu sodu pēc izstāšanās un pārliecinies, ka trešā paziņojuma nav.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> enerģijas sasniegšana līdz nullei katram rada tieši vienu paziņojumu.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Atvieno vienu klausītāju un salīdzini</h2><p><b>Atbalsts:</b> <a href="#signala-dalas">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Atvieno vienu klausītāju un salīdzini</h2>
+<p class="task-files"><b>Kur strādāt:</b> Atvienošanas rindu un enerģijas izdruku pievieno <code>Scripts/TournamentManager.cs</code> metodē <code>_Ready()</code>; secinājumus raksti <code>README.md</code>.</p>
+<p><b>Atbalsts:</b> <a href="#signala-dalas">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Pirms sodu izsaukumiem pēc += pievieno Annas signāla atvienošanu ar -=.</li>
 <li>Palaid scēnu no jauna. Izdrukā arī Annas enerģiju: tai jābūt 0, bet izstāšanās teksts parādās tikai Jānim.</li>
 <li>Atjauno pieslēgumu. README salīdzini tiešu ApplyPenalty izsaukumu ar Finished paziņojumu.</li>
 <li>Paskaidro, kura klase atrod otru un kura tikai paziņo par notikumu.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> vari izskaidrot, kāpēc izdrukas trūkums nenozīmē, ka sods netika piemērots.</p></section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — Paziņo arī par katru sodu</summary><p>Pievieno PenaltyApplied signālu ar vienu int parametru. Pirms soda saglabā enerģiju, pēc soda aprēķini starpību un nosūti tieši zaudēto punktu skaitu. Piemēram, pie atlikušiem 5 punktiem sods 20 nozīmē faktiski zaudētus 5. Pieslēdz metodi, kas šo skaitli izdrukā.</p></details>
+<details class="course-help extra-task"><summary>Papildu uzdevums — Paziņo arī par katru sodu</summary>
+<p class="task-files"><b>Kur strādāt:</b> Signālu un zaudēto punktu aprēķinu pievieno <code>Scripts/Participant.cs</code> klasē un metodē <code>ApplyPenalty()</code>. Klausītāja metodi raksti <code>Scripts/TournamentManager.cs</code> klasē un pieslēdz to <code>_Ready()</code>.</p>
+<p>Pievieno PenaltyApplied signālu ar vienu int parametru. Pirms soda saglabā enerģiju, pēc soda aprēķini starpību un nosūti tieši zaudēto punktu skaitu. Piemēram, pie atlikušiem 5 punktiem sods 20 nozīmē faktiski zaudētus 5. Pieslēdz metodi, kas šo skaitli izdrukā.</p></details>
 <details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>Participant.cs</h3>
 <pre><code class="language-csharp" id="kods-participant-cs">using Godot;
 using System;

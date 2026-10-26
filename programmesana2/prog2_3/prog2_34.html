@@ -54,7 +54,10 @@
 <a href="/sasnRez">SR 2.4.7. UI (lietotāja saskarne)</a>
 <a href="/sasnRez">SR 2.4.18. Objektorientētā programmēšana</a>
 </div>
-<section><div class="info-box"><p><b>Pirms sāc:</b> atver esošo Godot .NET projektu. Šodien pievienosi šķēršļu datus; 3.3. dalībnieku signālus saglabā.</p><p><b>Darba secība:</b> izlasi skaidrojumu pie attiecīgā uzdevuma, paredzi piemēra rezultātu un tad pārbaudi to. Pēc C# izmaiņām saglabā failus, Godot nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Rezultātus skaties <b>Output</b> panelī.</p></div></section>
+<section><div class="info-box"><p><b>Pirms sāc:</b> atver esošo Godot .NET projektu. Šodien pievienosi šķēršļu datus; 3.3. dalībnieku signālus saglabā.</p><p><b>Darba secība:</b> izlasi skaidrojumu pie attiecīgā uzdevuma, paredzi piemēra rezultātu un tad pārbaudi to. Pēc C# izmaiņām saglabā failus, Godot nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Rezultātus skaties <b>Output</b> panelī.</p>
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
+<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
+</div></section>
 <section id="teorija"><h2>Teorija ar piemēriem</h2>
 <h3 id="viena-klase">1. Viens apraksts, trīs dažādi šķēršļi</h3>
 <p>Turnīrā var gadīties rinda pie printera, pazust internets vai marķieris. Katram šķērslim vajag nosaukumu un soda lielumu. Nav vajadzīgs jauns skripts katram nosaukumam: izveidosim vienu <code>Obstacle</code> klasi un trīs tās mezglus ar dažādiem iestatījumiem.</p>
@@ -97,24 +100,32 @@ public int Penalty
 <p>Izveido scēnu <code>ObstacleDemo.tscn</code> ar sakni Node un trim Obstacle bērniem. Palaid ar F6. Skaties uz trim izdrukām, nevis tikai Inspector: tā pārbaudi vērtības, kuras saņem darbojošā programma.</p>
 <details class="course-help"><summary>Pašpārbaude: Kāpēc pēc penalty = 30 ierakstīšanas kodā vienam mezglam joprojām ir 12?</summary><p>Scēnā šim mezglam jau saglabāts atsevišķs iestatījums. Maini tā Penalty Inspector panelī vai izmanto atgriešanos pie noklusējuma vērtības. Koda sākuma vērtība nepārraksta katru agrāk saglabāto izvēli.</p></details>
 </section>
-<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Pievieno savu mezgla tipu</h2><p><b>Atbalsts:</b> <a href="#redaktora-atzimes">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Pievieno savu mezgla tipu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Obstacle.cs</code> ar Obstacle klasi un Godot redaktorā saglabā scēnu <code>Scenes/ObstacleDemo.tscn</code>.</p>
+<p><b>Atbalsts:</b> <a href="#redaktora-atzimes">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Izveido Obstacle.cs ar <code>using Godot;</code>, <code>[GlobalClass]</code> un <code>public partial class Obstacle : Node</code>.</li>
 <li>Saglabā, nospied Build un ar Add Node atrodi Obstacle. Faila un klases nosaukumam jāsakrīt, arī lielajiem burtiem.</li>
 <li>Izveido ObstacleDemo.tscn ar sakni Node un pievieno vienu Obstacle.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> tavs mezgla tips ir atrodams un pievienojams scēnai.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Pievieno nosaukumu un soda iestatījumu</h2><p><b>Atbalsts:</b> <a href="#ipasiba">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Pievieno nosaukumu un soda iestatījumu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Visus laukus, īpašības un <code>_Ready()</code> metodi pievieno <code>Scripts/Obstacle.cs</code> klases iekšienē. Pagaidu piešķīrumu <code>Penalty = -5;</code> raksti šīs metodes sākumā.</p>
+<p><b>Atbalsts:</b> <a href="#ipasiba">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Pievieno ObstacleName īpašību ar [Export].</li>
 <li>Pievieno privāto penalty lauku un Penalty īpašību ar get, set un diapazona norādi.</li>
 <li>Nospied Build, atlasi Obstacle un Inspector atrodi Obstacle Name un Penalty.</li>
 <li>Pievieno _Ready izdruku. Uz vienu pārbaudes palaišanu pirms tās ieraksti <code>Penalty = -5;</code>: jāizdrukā sods 1. Pēc pārbaudes šo piešķīrumu izdzēs.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> sodu var mainīt Inspector, bet negatīvu piešķīrumu kods pārvērš par 1.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Salīdzini trīs viena tipa mezglus</h2><p><b>Atbalsts:</b> <a href="#inspector-vertibas">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Salīdzini trīs viena tipa mezglus</h2>
+<p class="task-files"><b>Kur strādāt:</b> Trīs mezglus un to Inspector vērtības maini <code>Scenes/ObstacleDemo.tscn</code>; visi izmanto vienu <code>Scripts/Obstacle.cs</code>. Novērojumus raksti <code>README.md</code>.</p>
+<p><b>Atbalsts:</b> <a href="#inspector-vertibas">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Scēnā izveido trīs Obstacle mezglus un nosauc tos kā teorijas tabulā.</li>
 <li>Iestati katram savu Obstacle Name un Penalty. Saglabā scēnu.</li>
 <li>Palaid un salīdzini trīs izdrukas ar iestatījumiem.</li>
 <li>Maini tikai PrinterQueue sodu, palaid vēlreiz un pieraksti, kuras izdrukas mainījās.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> trīs objekti lieto vienu skriptu un katrs saglabā savus datus.</p></section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — Pievieno apraksta tekstu</summary><p>Izveido vēl vienu eksportētu string īpašību <code>Description</code>. Katram šķērslim uzraksti īsu aprakstu un pievieno to izdrukai. Pārbaudi, vai jaunā īpašība parādās pēc Build.</p></details>
+<details class="course-help extra-task"><summary>Papildu uzdevums — Pievieno apraksta tekstu</summary>
+<p class="task-files"><b>Kur strādāt:</b> Īpašību Description pievieno <code>Scripts/Obstacle.cs</code>, un šī faila metodē <code>_Ready()</code> papildini izdruku. Aprakstu vērtības ievadi <code>Scenes/ObstacleDemo.tscn</code> Inspector panelī.</p>
+<p>Izveido vēl vienu eksportētu string īpašību <code>Description</code>. Katram šķērslim uzraksti īsu aprakstu un pievieno to izdrukai. Pārbaudi, vai jaunā īpašība parādās pēc Build.</p></details>
 <details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>Obstacle.cs</h3>
 <pre><code class="language-csharp" id="kods-obstacle-cs">using Godot;
 using System;

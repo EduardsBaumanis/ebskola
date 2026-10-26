@@ -63,6 +63,9 @@
 <div class="info-box">
 <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - sagatavo navigation region (navigācijas reģionu) · 2. uzdevums (~25 min) - liec ienaidniekam sekot ceļam · 3. uzdevums (~20 min) - salīdzini taisno kustību ar pathfinding · Iesniegšana (~5 min).</p>
 <p><b>Pirms sāc:</b> atver savu projektu ar state machine (stāvokļu mašīnu) no 4.3 stundas. Šodien ienaidnieks vairs neiestrēgs aiz sienas.</p>
+
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
+<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
 </div>
 </section><section>
 <h2>Teorija: A* algoritms un NavigationAgent2D (2D ceļa sekošanas mezgls)</h2>
@@ -122,6 +125,8 @@ public partial class Enemy : CharacterBody2D
 
 </section><section class="logic-box lesson-task" id="uzdevums-1">
 <p class="task-number">1. uzdevums - </p><h2>Sagatavo navigation region</h2>
+<p class="task-files"><b>Kur strādāt:</b> Godot redaktorā atver spēles līmeņa scēnu un šajā tēmā saglabā to kā <code>Scenes/Arena.tscn</code>. Tajā veido navigācijas reģionu un sienas.</p>
+
 <p>Beigās Godot zinās, pa kurām vietām drīkst staigāt.</p>
 <ol class="step-list">
 <li><b>Pievieno</b> scēnai node <code>NavigationRegion2D</code> (2D navigācijas reģions).</li>
@@ -135,6 +140,8 @@ public partial class Enemy : CharacterBody2D
 <p class="done-when"><b>Gatavs, kad:</b> navigation region aptver grīdu, bet ne sienas, un tā ir redzama redaktorā zilā krāsā.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-2">
 <p class="task-number">2. uzdevums - </p><h2>Liec ienaidniekam sekot ceļam</h2>
+<p class="task-files"><b>Kur strādāt:</b> NavigationAgent2D pievieno ienaidnieka scēnā <code>Scenes/Enemy.tscn</code> (saglabā tajā esošo ienaidnieku, ja atsevišķas scēnas vēl nav). Papildini <code>Scripts/Enemy.cs</code>: aģenta atsauci glabā klases laukā, atrodi to <code>_Ready()</code>, mērķa un kustības kodu pievieno <code>_PhysicsProcess()</code> dzīšanās stāvoklim.</p>
+
 <p>Beigās ienaidnieks apstaigās sienu, nevis iestrēgs tajā.</p>
 <ol class="step-list">
 <li><b>Pievieno</b> ienaidniekam child node (bērnu) <code>NavigationAgent2D</code>.</li>
@@ -148,6 +155,8 @@ public partial class Enemy : CharacterBody2D
 <p class="done-when"><b>Gatavs, kad:</b> ienaidnieks apiet sienu apkārt un nonāk pie spēlētāja, nevis spiežas sienā.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums - </p><h2>Salīdzini taisno kustību ar pathfinding</h2>
+<p class="task-files"><b>Kur strādāt:</b> Taisno kustību un ceļa sekošanu pārmaiņus izmēģini <code>Scripts/Enemy.cs</code> metodē <code>_PhysicsProcess()</code>. Spēlētāja vietu maini <code>Scenes/Arena.tscn</code>; rezultātus raksti <code>README.md</code>.</p>
+
 <p>Beigās tu redzēsi, ko tieši pathfinding atrisina.</p>
 <ol class="step-list">
 <li><b>Nomaini</b> kodu uz taisnu kustību tieši pret spēlētāju, bez agenta.</li>
@@ -161,6 +170,8 @@ public partial class Enemy : CharacterBody2D
 <p class="done-when"><b>Gatavs, kad:</b> bez pathfinding ienaidnieks iestrēgst pie sienas, bet ar to - apiet apkārt.</p>
 </section><details class="course-help extra-task">
 <summary>Papildu uzdevums - Zīmē ceļu uz ekrāna</summary>
+<p class="task-files"><b>Kur strādāt:</b> Line2D pievieno <code>Scenes/Enemy.tscn</code>. Tā atsauci un punktu atjaunošanu pievieno <code>Scripts/Enemy.cs</code>: mezglu atrodi <code>_Ready()</code>, ceļu atjauno <code>_PhysicsProcess()</code>.</p>
+
 <p>Ja pamatdarbs ir gatavs, parādi, pa kuru ceļu ienaidnieks iet.</p>
 <ol class="step-list">
 <li><b>Paņem</b> pilnu ceļu ar <code class="language-csharp">agent.GetCurrentNavigationPath();</code>.</li>

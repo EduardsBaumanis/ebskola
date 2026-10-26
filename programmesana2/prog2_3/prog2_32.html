@@ -54,7 +54,10 @@
 <a href="/sasnRez">SR 2.4.18. Objektorientētā programmēšana</a>
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
 </div>
-<section><div class="info-box"><p><b>Pirms sāc:</b> atver 3.1. projekta gala versiju. Šajā stundā Participant un tā lomas vēl ir parastas C# klases; pārbaudes vada LessonDemo mezgls.</p><p><b>Darba secība:</b> izlasi skaidrojumu pie attiecīgā uzdevuma, paredzi piemēra rezultātu un tad pārbaudi to. Pēc C# izmaiņām saglabā failus, Godot nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Rezultātus skaties <b>Output</b> panelī.</p></div></section>
+<section><div class="info-box"><p><b>Pirms sāc:</b> atver 3.1. projekta gala versiju. Šajā stundā Participant un tā lomas vēl ir parastas C# klases; pārbaudes vada LessonDemo mezgls.</p><p><b>Darba secība:</b> izlasi skaidrojumu pie attiecīgā uzdevuma, paredzi piemēra rezultātu un tad pārbaudi to. Pēc C# izmaiņām saglabā failus, Godot nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Rezultātus skaties <b>Output</b> panelī.</p>
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
+<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
+</div></section>
 <section id="teorija"><h2>Teorija ar piemēriem</h2>
 <h3 id="kopigais">1. Kādas darbības lomām ir kopīgas?</h3>
 <p>Koda nosaukumus lasi šādi: <code>Participant</code> — dalībnieks, <code>Captain</code> — kapteinis, <code>Presenter</code> — prezentētājs. Nosaukumi palīdz atpazīt katras klases lomu.</p>
@@ -111,24 +114,32 @@ foreach (Participant p in party)
 <p>Šo iespēju vienā vārdā sauc par <b>polimorfismu</b>. Svarīgākais ir rezultāts: ciklā rakstām vienu darbību, bet katra loma to izpilda pēc saviem noteikumiem.</p>
 <details class="course-help"><summary>Pašpārbaude: Vai kapteinim jāpārraksta arī GetEnergy()?</summary><p>Nē. Ja nolasīšanas noteikums visām lomām ir vienāds, pietiek ar mantoto Participant metodi. Atšķirīgo uzvedību raksta tikai tur, kur tā ir vajadzīga.</p></details>
 </section>
-<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Izveido kapteiņa lomu</h2><p><b>Atbalsts:</b> <a href="#base">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Izveido kapteiņa lomu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Captain.cs</code> ar Captain klasi. Kapteiņa izveidi un izdrukas pievieno esošā <code>Scripts/LessonDemo.cs</code> metodei <code>_Ready()</code>.</p>
+<p><b>Atbalsts:</b> <a href="#base">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Turpini 3.1. gala versiju ar privātu energy un divu parametru konstruktoru.</li>
 <li>Failā Captain.cs izveido <a href="#base">īso mantošanas piemēru</a>. LessonDemo izveido kapteini un izdrukā vārdu, enerģiju un IsActive().</li>
 <li>Uz brīdi noņem base konstruktora izsaukumu un izpēti Build kļūdu. Atjauno izsaukumu.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> kapteinis sāk ar 150 punktiem un lieto mantotās metodes.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Maini kapteiņa reakciju uz sodu</h2><p><b>Atbalsts:</b> <a href="#override">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Maini kapteiņa reakciju uz sodu</h2>
+<p class="task-files"><b>Kur strādāt:</b> <code>virtual</code> pievieno <code>Scripts/Participant.cs</code>; stability lauku un <code>override</code> metodi — <code>Scripts/Captain.cs</code>. Sodu pārbaudes raksti <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>.</p>
+<p><b>Atbalsts:</b> <a href="#override">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Participant metodē ApplyPenalty pievieno virtual. Captain pievieno stability lauku un override metodi no piemēra.</li>
 <li>Pārbaudi atsevišķi sodu 20 un sodu 6. Katrā pārbaudē izveido jaunu kapteini, lai sākuma enerģija būtu 150.</li>
 <li>Izdrukā vērtību pirms un pēc soda. Paredzamie rezultāti: 140 un 149.</li>
 <li>Uz brīdi noņem virtual, pieraksti kļūdas iemeslu un pēc tam to atjauno.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> kapteinis zaudē attiecīgi 10 un 1 punktu; enerģija nekļūst negatīva.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Pārbaudi dažādas lomas vienā sarakstā</h2><p><b>Atbalsts:</b> <a href="#viena-komanda">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Pārbaudi dažādas lomas vienā sarakstā</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Presenter.cs</code>. Sarakstu un <code>foreach</code> raksti <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>; <code>using System.Collections.Generic;</code> pievieno faila sākumā.</p>
+<p><b>Atbalsts:</b> <a href="#viena-komanda">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Izveido Presenter.cs. Tā sākuma enerģija ir 80, un pozitīvam sodam tas pieskaita 5; izmanto pilno piemēru.</li>
 <li>Sarakstā ievieto parastu dalībnieku, Captain un Presenter.</li>
 <li>Vienā foreach ciklā katram piemēro sodu 20 un izdrukā enerģiju pirms un pēc.</li>
 <li>Salīdzini rezultātus ar teorijas tabulu. README paskaidro, kāpēc ciklā nevajag atsevišķu if katrai lomai.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> viens cikls dod visus trīs tabulā paredzētos rezultātus.</p></section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — Pievieno TimeKeeper lomu</summary><p>Izveido vēl vienu atvasināto klasi ar sākuma enerģiju 100. Tās ApplyPenalty pozitīvam sodam pieskaita 10 un izsauc bāzes metodi. Pievieno sarakstam: pēc soda 20 jāpaliek 70. Noslēguma projektā izmantosim arī šo lomu; tās piemērs būs dots.</p></details>
+<details class="course-help extra-task"><summary>Papildu uzdevums — Pievieno TimeKeeper lomu</summary>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/TimeKeeper.cs</code> ar atvasināto klasi. Jauno objektu pievieno sarakstam <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>.</p>
+<p>Izveido vēl vienu atvasināto klasi ar sākuma enerģiju 100. Tās ApplyPenalty pozitīvam sodam pieskaita 10 un izsauc bāzes metodi. Pievieno sarakstam: pēc soda 20 jāpaliek 70. Noslēguma projektā izmantosim arī šo lomu; tās piemērs būs dots.</p></details>
 <details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>Participant.cs</h3>
 <pre><code class="language-csharp" id="kods-participant-cs">public class Participant
 {

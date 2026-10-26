@@ -65,6 +65,9 @@
 <div class="info-box">
 <p><b>80 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~20 min) - spēlētājs ar kustību un mērķēšanu · 2. uzdevums (~25 min) - divi ienaidnieku type (tipi) ar AI · 3. uzdevums (~20 min) - viļņu sistēma un rezultāts · Iesniegšana (~5 min).</p>
 <p><b>Pirms sāc:</b> šis ir 4. tēmas noslēguma projekts. Izmanto visu apgūto: sarakstus, dictionary (vārdnīcas), state machine (stāvokļu mašīnu), pathfinding (ceļa meklēšana) un object pool (lādiņu krātuvi). Sāc ar VIENU ienaidnieka type.</p>
+
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
+<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
 </div>
 </section><section>
 <h2>Teorija: Spēles apraksts un architecture (arhitektūra)</h2>
@@ -109,6 +112,8 @@ public partial class WaveManager : Node { /* spawns waves */ }</code></pre>
 
 </section><section class="logic-box lesson-task" id="uzdevums-1">
 <p class="task-number">1. uzdevums - </p><h2>Spēlētājs ar kustību un mērķēšanu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/Player.cs</code>, kas piesaistīts <code>Scenes/Player.tscn</code> saknei; kustību un mērķēšanu raksti <code>_PhysicsProcess()</code>. Izmanto esošos <code>Scripts/Bullet.cs</code>, <code>Scripts/BulletPool.cs</code> un <code>bullet.tscn</code> no 4.5.</p>
+
 <p>Beigās spēlētājs pārvietosies ar WASD un šaus peles virzienā.</p>
 <ol class="step-list">
 <li><b>Izveido</b> spēlētāja class ar 8 virzienu kustību un normalizētu vector (vektoru).</li>
@@ -122,6 +127,8 @@ public partial class WaveManager : Node { /* spawns waves */ }</code></pre>
 <p class="done-when"><b>Gatavs, kad:</b> spēlētājs kustas visos virzienos, vienmēr skatās uz peli un šauj tieši tajā virzienā.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-2">
 <p class="task-number">2. uzdevums - </p><h2>Divi ienaidnieku type ar AI</h2>
+<p class="task-files"><b>Kur strādāt:</b> Kopīgo ienaidnieka kodu turpini <code>Scripts/Enemy.cs</code>; atvasinātās klases izveido <code>Scripts/Chaser.cs</code> un <code>Scripts/Shooter.cs</code>. Kopīgo sarakstu un tā ciklu ievieto <code>Scripts/WaveManager.cs</code>, piesaistot to Node mezglam <code>Scenes/Arena.tscn</code>.</p>
+
 <p>Beigās ienaidnieki uzvedīsies atšķirīgi.</p>
 <ol class="step-list">
 <li><b>Izveido</b> base class (bāzes klasi) <code>Enemy</code> ar state machine no 4.3 stundas.</li>
@@ -135,6 +142,8 @@ public partial class WaveManager : Node { /* spawns waves */ }</code></pre>
 <p class="done-when"><b>Gatavs, kad:</b> viens ienaidnieku type dzenas pakaļ, otrs apstājas un šauj, un abus apstrādā viens loop.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums - </p><h2>Viļņu sistēma un rezultāts</h2>
+<p class="task-files"><b>Kur strādāt:</b> Viļņu izveidi, punktus un HUD atjaunošanu pievieno <code>Scripts/WaveManager.cs</code>; spēlētāja HP apstrādi — <code>Scripts/Player.cs</code>. HUD mezglus izveido <code>Scenes/Arena.tscn</code>.</p>
+
 <p>Beigās spēle kļūs arvien grūtāka un skaitīs punktus.</p>
 <ol class="step-list">
 <li><b>Izveido</b> class <code>WaveManager</code> ar lauku <code class="language-csharp">int wave = 1;</code>.</li>
@@ -148,6 +157,8 @@ public partial class WaveManager : Node { /* spawns waves */ }</code></pre>
 <p class="done-when"><b>Gatavs, kad:</b> spēle pāriet no viļņa uz vilni, katrā ir vairāk ienaidnieku, un beidzas, kad spēlētājs zaudē HP.</p>
 </section><details class="course-help extra-task">
 <summary>Papildu uzdevums - Pievieno savācamos bonusus</summary>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scenes/Bonus.tscn</code> ar Area2D sakni un piesaisti tai <code>Scripts/Bonus.cs</code> savākšanas kodam. Bonusu radi no <code>Scripts/WaveManager.cs</code>, bet HP un munīcijas maiņu pievieno <code>Scripts/Player.cs</code>.</p>
+
 <p>Ja pamatdarbs ir gatavs, ļauj spēlētājam atjaunot HP un munīciju.</p>
 <ol class="step-list">
 <li><b>Izveido</b> <code>Area2D</code> (2D saskares zona) bonusa scēnu ar veidu <code>HP</code> vai <code>AMMO</code>.</li>

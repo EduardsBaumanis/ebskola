@@ -54,7 +54,10 @@
 <a href="/sasnRez">SR 2.4.18. Objektorientētās programmēšanas pamati</a>
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
 </div>
-<section><div class="info-box"><p><b>Pirms sāc:</b> šajā tēmā veidosi klases turnīru. Sākumā rezultātus redzēsi teksta izdrukās, lai varētu izsekot katrai izmaiņai.</p><p><b>Darba secība:</b> izlasi skaidrojumu pie attiecīgā uzdevuma, paredzi piemēra rezultātu un tad pārbaudi to. Pēc C# izmaiņām saglabā failus, Godot nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Rezultātus skaties <b>Output</b> panelī.</p></div></section>
+<section><div class="info-box"><p><b>Pirms sāc:</b> šajā tēmā veidosi klases turnīru. Sākumā rezultātus redzēsi teksta izdrukās, lai varētu izsekot katrai izmaiņai.</p><p><b>Darba secība:</b> izlasi skaidrojumu pie attiecīgā uzdevuma, paredzi piemēra rezultātu un tad pārbaudi to. Pēc C# izmaiņām saglabā failus, Godot nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Rezultātus skaties <b>Output</b> panelī.</p>
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
+<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
+</div></section>
 <section id="teorija"><h2>Teorija ar piemēriem</h2>
 <h3 id="klase-objekts">1. Kāpēc dalībniekam vajadzīga klase?</h3>
 <p>Turnīrā piedalās Anna un Jānis. Katram ir vārds, enerģija un līmenis. Ja katram cilvēkam veidotu atsevišķus mainīgos, pie desmit dalībniekiem būtu grūti saprast, kuri dati pieder kopā. <b>Klase</b> apraksta, kādus datus glabā viens dalībnieks un kādas darbības ar to var veikt. C# to pieraksta ar <code>class</code>.</p>
@@ -105,25 +108,33 @@ public bool IsActive()
 <p>Godot izsauc <code>LessonDemo._Ready()</code>, kad scēna ir gatava. Tur ievieto izmēģinājuma rindas. Šajā Godot skriptā saglabā <code>using Godot;</code>, <code>partial</code> un <code>: Node</code>; to lietojumu sīkāk aplūkosim 3.3. stundā.</p>
 <details class="course-help"><summary>Pašpārbaude: Annas enerģija kļūst 0. Kas notiek ar Jāni?</summary><p>Ja abi izveidoti ar atsevišķiem <code>new Participant(...)</code> izsaukumiem, Jāņa enerģija paliek tāda pati. Katrs objekts glabā savus datus.</p></details>
 </section>
-<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Izveido dalībnieka datus</h2><p><b>Atbalsts:</b> <a href="#lauki">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Izveido dalībnieka datus</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Participant.cs</code> dalībnieka klasei un <code>Scripts/LessonDemo.cs</code> pārbaudēm. LessonDemo skriptu piesaisti <code>Scenes/LessonDemo.tscn</code> Node saknei; objektu izveidi un izdrukas raksti tā metodē <code>_Ready()</code>.</p>
+<p><b>Atbalsts:</b> <a href="#lauki">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Sagatavo <a href="#darba-vieta">LessonDemo scēnu un skriptu</a>.</li>
 <li>Failā <code>Participant.cs</code> ieraksti vienkāršo klasi ar publiskiem Name, Energy un Level laukiem.</li>
 <li>Metodē <code>_Ready()</code> izveido Annu un Jāni ar diviem atsevišķiem <code>new Participant()</code> izsaukumiem. Piešķir vārdus un dažādas enerģijas.</li>
 <li>Izdrukā abu datus. Maini tikai Annas enerģiju un izdrukā vēlreiz. README pieraksti, kas mainījās.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> vari parādīt vienu klasi un divus objektus ar atsevišķiem datiem.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Pievieno sākuma datus un darbības</h2><p><b>Atbalsts:</b> <a href="#metodes">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Pievieno sākuma datus un darbības</h2>
+<p class="task-files"><b>Kur strādāt:</b> Konstruktoru, <code>ApplyPenalty()</code> un <code>IsActive()</code> pievieno <code>Scripts/Participant.cs</code> klases iekšienē. Objektu izveidi un sodu pārbaudes maini <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>.</p>
+<p><b>Atbalsts:</b> <a href="#metodes">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Pievieno konstruktoru ar diviem parametriem. Atjauno abus objekta izveidošanas izsaukumus.</li>
 <li>Pievieno <code>ApplyPenalty</code> un <code>IsActive</code> pēc teorijas piemēra.</li>
 <li>Annai ar 100 punktiem piemēro 30 un pēc tam 100 punktu sodu. Pirms palaišanas pieraksti gaidāmos rezultātus.</li>
 <li>Salīdzini izdruku ar enerģijas maiņas tabulu.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> enerģija mainās 100 → 70 → 0, un aktīvais stāvoklis beigās ir false.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Pasargā enerģiju no nejaušas maiņas</h2><p><b>Atbalsts:</b> <a href="#piekļuve">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Pasargā enerģiju no nejaušas maiņas</h2>
+<p class="task-files"><b>Kur strādāt:</b> Lauku un metodes maini <code>Scripts/Participant.cs</code>. Nolasīšanu ar <code>GetEnergy()</code> un pagaidu rindu <code>anna.energy = 9999;</code> raksti <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>.</p>
+<p><b>Atbalsts:</b> <a href="#piekļuve">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Publisko Energy aizstāj ar <code>private int energy;</code> un visās šīs klases metodēs lieto jauno nosaukumu. Konstruktorā izmanto <code>this.energy</code>.</li>
 <li>Pievieno <code>GetEnergy()</code>, kas ar <code>return</code> atdod enerģiju. Ārpus klases enerģiju nolasi ar šo metodi.</li>
 <li>Izmēģini <code>anna.energy = 9999;</code> un nospied Build. Pieraksti kļūdas iemeslu, pēc tam šo rindu izdzēs.</li>
 <li>Salīdzini ar pilnajiem failiem un pārbaudi, ka projekts atkal būvējas.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> vari paskaidrot, kāpēc enerģiju var nolasīt, bet nevar tieši pārrakstīt no citas klases.</p></section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — Trīs dalībnieku saraksts</summary><p>Ar <code>using System.Collections.Generic;</code> pievieno <code>List&lt;Participant&gt;</code> sarakstu. Ievieto tajā trīs dalībniekus un ar <code>foreach</code> izdrukā katra vārdu un enerģiju. Saraksta piemērs būs arī <a href="prog2_32.html#viena-komanda">3.2. stundā</a>.</p></details>
+<details class="course-help extra-task"><summary>Papildu uzdevums — Trīs dalībnieku saraksts</summary>
+<p class="task-files"><b>Kur strādāt:</b> Faila <code>Scripts/LessonDemo.cs</code> sākumā pievieno <code>using System.Collections.Generic;</code>, bet sarakstu un ciklu — metodes <code>_Ready()</code> iekšienē.</p>
+<p>Ar <code>using System.Collections.Generic;</code> pievieno <code>List&lt;Participant&gt;</code> sarakstu. Ievieto tajā trīs dalībniekus un ar <code>foreach</code> izdrukā katra vārdu un enerģiju. Saraksta piemērs būs arī <a href="prog2_32.html#viena-komanda">3.2. stundā</a>.</p></details>
 <details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>Participant.cs</h3>
 <pre><code class="language-csharp" id="kods-participant-cs">public class Participant
 {

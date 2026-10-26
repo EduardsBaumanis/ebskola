@@ -57,6 +57,8 @@
 <section><div class="info-box"><p><b>80 min plāns:</b> Ievads (~10 min) · 1. uzdevums (~20 min) · 2. uzdevums (~25 min) · 3. uzdevums (~20 min) · saglabāšana (~5 min).</p>
 <p><b>Pirms sāc:</b> vajadzīga 1. tēmā sagatavotā Godot 4 <b>.NET</b> vide un .NET SDK (programmatūras izstrādes komplekts). Izveidosim jaunu <code>Platformer</code> projektu, kuru turpināsim visas sešas stundas. Ja C# failu nevar izveidot vai Build rāda kļūdu, atgriezies <a href="../prog2_1/prog2_13.html">C# vides sagatavošanā</a>.</p>
 <p><b>Pēc izmaiņām:</b> saglabā failus. Ja mainīji C# kodu, Godot augšējā labajā stūrī nospied <b>Build</b> (āmura ikona). Tad palaid spēli. Pirms nākamā uzdevuma izlabo pirmo parādīto kļūdu.</p>
+
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
 </div></section>
 <section><h2>Ko veidosim</h2>
 <div class="logic-box"><p>Šodien izveidosi kustīgu taisnstūri. Nākamajās stundās pievienosi vadību, punktus, platformas un lēcienu. Beigās būs viena spēle ar finišu, tavu nosaukumu un stāstu.</p>
@@ -78,6 +80,8 @@
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Izveido projektu un redzamu kustīgu objektu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scenes/MovementLab.tscn</code> un <code>Scripts/Mover.cs</code>. Doto pilno kodu ieraksti <code>Mover.cs</code> un piesaisti to scēnas mezglam <code>Mover</code>.</p>
+
 <ol class="step-list"><li>Godot sākuma logā (<b>Project Manager</b>) spied <b>Create</b>. Nosauc projektu <code>Platformer</code>, izvēlies tā mapi un <b>Compatibility</b>, tad <b>Create &amp; Edit</b>.</li>
 <li><b>FileSystem</b> panelī ar labo peles pogu klikšķini uz <code>res://</code> → <b>Create New → Folder</b>. Izveido mapi <code>Scenes</code>, pēc tam tāpat izveido <code>Scripts</code>.</li>
 <li>Augšējā izvēlnē atver <b>Project → Project Settings → Display → Window</b>. Sadaļā <b>Size</b> iestati <b>Viewport Width</b> = <code>1280</code> un <b>Viewport Height</b> = <code>720</code>. Sadaļā <b>Stretch</b> laukā <b>Mode</b> izvēlies <code>canvas_items</code>. Aizver iestatījumus.</li>
@@ -107,6 +111,8 @@ public partial class Mover : Node2D
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums - </p>
 <h2>Apskati koda ziņas Output panelī</h2>
+<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/Mover.cs</code>: <code>_Process()</code> pievieno klases iekšienē, bet otru izdruku — esošajā <code>_PhysicsProcess()</code> metodē.</p>
+
 <ol class="step-list"><li><b>FileSystem → Scripts</b> atver <code>Mover.cs</code>. Pirms faila pēdējās <code>}</code> pievieno zemāk doto <code>_Process</code> daļu. Tā izvadīs ziņu, bet nekustinās taisnstūri.</li>
 <li>Esošajā <code>_PhysicsProcess</code> uzreiz aiz atverošās <code>{</code> uz laiku ievieto <code>GD.Print($"Physics: {delta:F4}");</code>.</li>
 <li>Saglabā, nospied <b>Build</b>, tad <b>F6</b>. Pēc 1–2 sekundēm nospied <b>F8</b> un apakšā atver <b>Output</b>. Atrodi rindas, kas sākas ar <code>Process</code> un <code>Physics</code>.</li>
@@ -121,6 +127,8 @@ public partial class Mover : Node2D
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums - </p>
 <h2>Maini ātrumu un salīdzini kustību</h2>
+<p class="task-files"><b>Kur strādāt:</b> Kustības rindu maini <code>Scripts/Mover.cs</code> metodē <code>_PhysicsProcess()</code>. Speed maini <code>Scenes/MovementLab.tscn</code> Inspector panelī, fizikas biežumu — Project Settings; novērojumus raksti <code>README.md</code>.</p>
+
 <ol class="step-list"><li>Scene panelī atlasi <code>Mover</code>. Inspector laukā <b>Speed</b> ieraksti <code>100</code>, palaid ar <b>F6</b> un apskati kustību. Apturi, izmēģini <code>400</code>, tad atjauno <code>200</code>.</li>
 <li>Atver <b>Project → Project Settings</b>, ieslēdz <b>Advanced Settings</b> un atver <b>Physics → Common</b>. Lauku <b>Physics Ticks per Second</b> nomaini no <code>60</code> uz <code>30</code>. Tas nosaka, cik reižu sekundē Godot izpilda kustības kodu. Palaid scēnu: taisnstūrim ekrāns jāšķērso aptuveni tikpat ilgā laikā.</li>
 <li>Apturi spēli. Kustības rindā uz laiku izdzēs <code>* (float)delta</code>. Saglabā, nospied <b>Build</b> un palaid scēnu. Taisnstūris pārvietojas daudz ātrāk, jo tagad katrā solī pārlec par 200 pikseļiem.</li>
@@ -130,6 +138,8 @@ public partial class Mover : Node2D
 <p class="done-when"><b>Gatavs, kad:</b> eksperiments pabeigts, kodā atkal ir <code>delta</code> un projektā atjaunoti 60 fizikas soļi sekundē.</p>
 </section>
 <details class="course-help extra-task"><summary>Papildu uzdevums — izvēlies sava varoņa krāsu</summary>
+<p class="task-files"><b>Kur strādāt:</b> Krāsu maini <code>Scenes/MovementLab.tscn</code> mezglam <code>Mover/Visual</code>; varoņa ieceri raksti <code>README.md</code>.</p>
+
 <p>Scene panelī atlasi <code>Visual</code> un Inspector laukā <b>Color</b> izvēlies sava varoņa krāsu. README.md uzraksti, kas būs tavs varonis un ko viņš vēlas sasniegt. Šo ideju turpināsi 6. stundā.</p>
 </details>
 <section><div class="hand-in-box"><h2>Ko sagatavo</h2>

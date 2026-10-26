@@ -63,6 +63,9 @@
 <div class="info-box">
 <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido SaveManager ar saglabāšanas vietām · 2. uzdevums (~25 min) - liec objektiem saglabāt sevi pašiem · 3. uzdevums (~20 min) - pievieno automātiskā saglabāšana un versiju · Iesniegšana (~5 min).</p>
 <p><b>Pirms sāc:</b> atver savu projektu ar JSON (JavaScript objektu pieraksts) saglabāšanu no 5.2 stundas. Šodien no vienas function (funkcijas) taisīsi sistēmu, kas der visai spēlei.</p>
+
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
+<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
 </div>
 </section><section>
 <h2>Teorija: Saglabāt sistēmas architecture</h2>
@@ -119,6 +122,8 @@ public partial class SaveManager : Node
 
 </section><section class="logic-box lesson-task" id="uzdevums-1">
 <p class="task-number">1. uzdevums - </p><h2>Izveido SaveManager ar saglabāšanas vietām</h2>
+<p class="task-files"><b>Kur strādāt:</b> Papildini esošo <code>Scripts/SaveManager.cs</code> ar SlotPath, Save un Load. Šajā stundā SaveManager veido kā <code>public partial class SaveManager : Node</code> un piesaisti Node bērnam scēnā <code>Scenes/FileDemo.tscn</code>; <code>Scripts/FileDemo.cs</code> pārbaudes pielāgo šim mezglam. Slotu dati nonāk <code>user://slot1.json</code> un <code>user://slot2.json</code>.</p>
+
 <p>Beigās spēlētājs varēs izvēlēties, kurā vietā saglabāt.</p>
 <ol class="step-list">
 <li><b>Izveido</b> class <code>SaveManager</code> ar method <code class="language-csharp">private string SlotPath(int slot)</code>.</li>
@@ -132,6 +137,8 @@ public partial class SaveManager : Node
 <p class="done-when"><b>Gatavs, kad:</b> abi sloti glabā atšķirīgus datus, un method pareizi pasaka, kuri sloti ir aizpildīti.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-2">
 <p class="task-number">2. uzdevums - </p><h2>Liec objektiem saglabāt sevi pašiem</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/ISaveable.cs</code> tikai interfeisam. Metodes ievies <code>Scripts/Player.cs</code> un <code>Scripts/Inventory.cs</code>; reģistrēšanas sarakstu un saglabāšanas ciklu pievieno <code>Scripts/SaveManager.cs</code>.</p>
+
 <p>Beigās katrs objekts pats zinās, ko par sevi saglabāt.</p>
 <ol class="step-list">
 <li><b>Izveido</b> interfeisu <code class="language-csharp">public interface ISaveable</code> ar divām method.</li>
@@ -145,6 +152,8 @@ public partial class SaveManager : Node
 <p class="done-when"><b>Gatavs, kad:</b> viens <code>Save()</code> izsaukums saglabā gan spēlētāju, gan inventāru, un <code>SaveManager</code> nezina to iekšējo uzbūvi.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums - </p><h2>Pievieno automātiskā saglabāšana un versiju</h2>
+<p class="task-files"><b>Kur strādāt:</b> Versijas pārbaudi un Timer signāla apstrādātāju raksti <code>Scripts/SaveManager.cs</code>; Timer pievieno tā mezglam scēnā <code>Scenes/FileDemo.tscn</code>. Automātiskajai saglabāšanai rezervē slotu 0 (<code>user://slot0.json</code>).</p>
+
 <p>Beigās spēle saglabāsies pati, un vecie faili neradīs kļūdas.</p>
 <ol class="step-list">
 <li><b>Pievieno</b> saglabātajam <code>Dictionary</code> lauku <code>version</code> ar vērtību 1.</li>
@@ -158,6 +167,8 @@ public partial class SaveManager : Node
 <p class="done-when"><b>Gatavs, kad:</b> automātiskā saglabāšana fails parādās pats, un ar nepareizu versiju spēle brīdina, nevis avarē.</p>
 </section><details class="course-help extra-task">
 <summary>Papildu uzdevums - Parādi saglabāšanas vietu izvēlni</summary>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scenes/SaveMenu.tscn</code> ar Control sakni un piesaisti tai <code>Scripts/SaveMenu.cs</code>. Tajā raksti pogu apstrādātājus un statusa atjaunošanu; slota pārbaudes un dzēšanas metodes pievieno <code>Scripts/SaveManager.cs</code>.</p>
+
 <p>Ja pamatdarbs ir gatavs, ļauj slotus izvēlēties uz ekrāna.</p>
 <ol class="step-list">
 <li><b>Izveido</b> UI (lietotāja saskarne) ar trim pogām - pa vienai katram slotam.</li>

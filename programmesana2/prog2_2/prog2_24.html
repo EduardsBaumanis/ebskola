@@ -57,6 +57,8 @@
 <section><div class="info-box"><p><b>80 min plāns:</b> Ievads (~10 min) · grīda un platformas (~20 min) · priekšmeti (~25 min) · sadursmju pārbaudes (~20 min) · saglabāšana (~5 min).</p>
 <p><b>Pirms sāc:</b> atver savu <code>Level1.tscn</code> un izmanto 2.3 stundas <code>Player.cs</code>. Pagaidu <code>_Ready()</code> pārbaudei jābūt izdzēstai. Šodien vēl kustamies četros virzienos, lai ērti pārbaudītu visu laukumu.</p>
 <p><b>Pēc izmaiņām:</b> saglabā failus. Ja mainīji C# kodu, Godot augšējā labajā stūrī nospied <b>Build</b> (āmura ikona). Tad palaid spēli. Pirms nākamā uzdevuma izlabo pirmo parādīto kļūdu.</p>
+
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
 </div></section>
 <section><h2>Ko izvēlēties un kur likt ķeksīšus</h2>
 <div class="logic-box"><p>Grīdai un platformām izvēlies <code>StaticBody2D</code> (nekustīga 2D ķermeņa mezgls): tas aptur varoni. Priekšmetiem izvēlies <code>Area2D</code> (2D saskares zona): varonis tiem var pieskarties un tos savākt.</p>
@@ -72,6 +74,8 @@
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Uzbūvē grīdu un trīs sasniedzamas platformas</h2>
+<p class="task-files"><b>Kur strādāt:</b> Grīdu un platformas veido <code>Scenes/Level1.tscn</code> Godot redaktorā.</p>
+
 <ol class="step-list"><li><b>FileSystem → Scenes</b> ar dubultklikšķi atver <code>Level1.tscn</code>. Scene panelī atlasi <code>Level1</code>, spied <b>+</b>, meklē <code>StaticBody2D</code> un spied <b>Create</b>. Ar <b>F2</b> nosauc to <code>Ground</code>. Inspector sadaļā <b>Transform → Position</b> ievadi <code>(640,660)</code>.</li>
 <li>Atlasi <code>Ground</code> un ar <b>+</b> pievieno <code>CollisionShape2D</code>. Inspector laukā <b>Shape</b> izvēlies <b>New RectangleShape2D (jauna 2D taisnstūra forma)</b>. Klikšķini uz izveidotās formas un laukā <b>Size</b> ievadi <code>(1280,40)</code>. Pašam CollisionShape2D atstāj <b>Position</b> = <code>(0,0)</code>.</li>
 <li>Atkal atlasi <code>Ground</code> un ar <b>+</b> pievieno <code>Polygon2D</code> (2D daudzstūris), nosauc to <code>Visual</code>. Inspector sadaļā <b>Data → Polygon</b> ievadi četrus punktus: <code>(-640,-20)</code>, <code>(640,-20)</code>, <code>(640,20)</code>, <code>(-640,20)</code>. Laukā <b>Color</b> izvēlies redzamu krāsu.</li>
@@ -84,6 +88,8 @@
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums - </p>
 <h2>Izveido un savāc pirmo monētu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scenes/Pickup.tscn</code> un <code>Scripts/Pickup.cs</code>. Doto pilno kodu ieraksti skriptā un piesaisti to Pickup saknei; monētas eksemplāru pievieno <code>Scenes/Level1.tscn</code>.</p>
+
 <ol class="step-list"><li>Izvēlies <b>Scene → New Scene → Other Node</b>, meklē <code>Area2D</code> un spied <b>Create</b>. Nosauc to <code>Pickup</code> un saglabā <code>Scenes/Pickup.tscn</code>.</li>
 <li>Atlasi <code>Pickup</code> un ar <b>+</b> pievieno <code>CollisionShape2D</code>. Inspector laukā <b>Shape</b> izvēlies <b>New CircleShape2D (jauna 2D apļa forma)</b>. Klikšķini uz izveidotās formas un iestati <b>Radius</b> = <code>12</code>.</li>
 <li>Atkal atlasi <code>Pickup</code> un pievieno <code>Polygon2D</code> ar nosaukumu <code>Visual</code>. Sadaļā <b>Data → Polygon</b> ievadi četrus punktus: <code>(0,-12)</code>, <code>(12,0)</code>, <code>(0,12)</code>, <code>(-12,0)</code>. Laukā <b>Color</b> izvēlies dzeltenu krāsu.</li>
@@ -121,6 +127,8 @@ public partial class Pickup : Area2D
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums - </p>
 <h2>Kopē priekšmetus un izvēlies Type (tips)</h2>
+<p class="task-files"><b>Kur strādāt:</b> Priekšmetu eksemplārus, to Type un sadursmju ķeksīšus maini <code>Scenes/Level1.tscn</code> Inspector panelī.</p>
+
 <ol class="step-list"><li>Level1 Scene panelī ar labo peles pogu uz <code>Coin1</code> → <b>Duplicate</b>. Katru kopiju pārdēvē un Inspector laukos <b>Position</b> un <b>Type</b> ievadi tabulas vērtības. Maini izvēlēto kopiju Level1 cilnē.</li>
 <li>Lai atšķirtu <code>Gem</code> un <code>Key</code>, atlasi tos pa vienam un Inspector sadaļā <b>Visibility → Modulate</b> izvēlies atšķirīgas krāsas.</li>
 <li>Palaid ar <b>F5</b> un savāc visus priekšmetus. <b>Output</b> jāparādās 9 punktiem un <code>atslēga: True</code>. Šodien augšējos priekšmetus vēl sasniedz ar W.</li>
@@ -139,6 +147,8 @@ public partial class Pickup : Area2D
 </div><p class="done-when"><b>Gatavs, kad:</b> ir pieci punktu priekšmeti un atslēga; visi Maska ķeksīši ir atjaunoti un savākšana darbojas.</p>
 </section>
 <details class="course-help extra-task"><summary>Papildu uzdevums — izveido savu priekšmeta simbolu</summary>
+<p class="task-files"><b>Kur strādāt:</b> Atver <code>Scenes/Pickup.tscn</code> un maini mezgla <code>Visual</code> daudzstūra punktus.</p>
+
 <p>Atver Pickup.tscn, atlasi Visual un Inspector sadaļā Data → Polygon maini punktus. Atstāj Pickup un CollisionShape2D savās vietās. Pārbaudi, ka redzamais simbols un savākšanas zona atrodas vienā vietā.</p>
 </details>
 <section><div class="hand-in-box"><h2>Ko sagatavo</h2>

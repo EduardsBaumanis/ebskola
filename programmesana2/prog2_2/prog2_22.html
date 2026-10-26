@@ -57,6 +57,8 @@
 <section><div class="info-box"><p><b>80 min plāns:</b> Ievads (~10 min) · Input Map (~20 min) · spēlētāja scēna (~25 min) · kustības pārbaude (~20 min) · saglabāšana (~5 min).</p>
 <p><b>Pirms sāc:</b> turpini <code>Platformer</code> projektu no 2.1. <code>MovementLab.tscn</code> paliek kā eksperiments; spēlei izveidosim atsevišķus <code>Player.tscn</code> un <code>Level1.tscn</code>.</p>
 <p><b>Pēc izmaiņām:</b> saglabā failus. Ja mainīji C# kodu, Godot augšējā labajā stūrī nospied <b>Build</b> (āmura ikona). Tad palaid spēli. Pirms nākamā uzdevuma izlabo pirmo parādīto kļūdu.</p>
+
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
 </div></section>
 <section><h2>Kur šodien klikšķināsi</h2>
 <div class="logic-box"><p><b>Input Map</b> cilnē katrai darbībai pievienosi taustiņus. Piemēram, <code>move_left</code> nozīmēs kustību pa kreisi gan ar A, gan ar ←.</p>
@@ -65,6 +67,8 @@
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Input Map cilnē pievieno taustiņus</h2>
+<p class="task-files"><b>Kur strādāt:</b> Taustiņus pievieno Godot Project Settings → Input Map; Godot tos saglabā projekta <code>project.godot</code> failā.</p>
+
 <ol class="step-list"><li>Augšā atver <b>Project → Project Settings</b> un izvēlies cilni <b>Input Map</b>.</li>
 <li>Laukā <b>Add New Action</b> ieraksti <code>move_left</code> un spied <b>Add</b>. Sarakstā parādās jauna rinda.</li>
 <li>Šīs rindas labajā pusē spied <b>+</b>. Laukā <b>Listening for Input…</b> nospied tastatūras <b>A</b> un apstiprini ar <b>OK</b>. Tajā pašā rindā vēlreiz spied <b>+</b> un pievieno <b>←</b>.</li>
@@ -85,6 +89,8 @@
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums - </p>
 <h2>Izveido spēlētāju un līmeni</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scenes/Player.tscn</code>, <code>Scenes/Level1.tscn</code> un <code>Scripts/Player.cs</code>. Doto pilno kodu ieraksti <code>Player.cs</code> un piesaisti to Player scēnas saknei.</p>
+
 <ol class="step-list"><li>Izvēlies <b>Scene → New Scene</b>, tad <b>Other Node</b>. Meklē <code>CharacterBody2D</code> (vadāma 2D tēla mezgls) un spied <b>Create</b>. Ar <b>F2</b> nosauc to <code>Player</code>. Ar <b>Ctrl+S</b> saglabā mapē <code>Scenes</code> kā <code>Player.tscn</code>.</li>
 <li>Atlasi <code>Player</code>. Inspector sadaļā <b>Transform</b> atstāj <b>Position</b> = <code>(0,0)</code> un <b>Scale</b> = <code>(1,1)</code>.</li>
 <li>Ar <b>+</b> pievieno <code>Polygon2D</code> (2D daudzstūris), nosauc to <code>Visual</code>. Inspector sadaļā <b>Data → Polygon</b> ievadi četrus punktus tāpat kā 2.1 stundā: <code>(-16,-24)</code>, <code>(16,-24)</code>, <code>(16,24)</code>, <code>(-16,24)</code>. Laukā <b>Color</b> izvēlies gaišu krāsu.</li>
@@ -119,6 +125,8 @@ public partial class Player : CharacterBody2D
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums - </p>
 <h2>Izmēģini taustiņus un maini Speed (ātrums)</h2>
+<p class="task-files"><b>Kur strādāt:</b> Normalizācijas rindu maini <code>Scripts/Player.cs</code> metodē <code>_PhysicsProcess()</code>. Speed maini <code>Scenes/Level1.tscn</code> Player eksemplāra Inspector panelī; novērojumus raksti <code>README.md</code>.</p>
+
 <ol class="step-list"><li>Palaid ar <b>F5</b>. Izmēģini A/D, W/S un bultiņas. Atlaižot taustiņus, varonim jāapstājas. Turot A un D reizē, tas nekustas pa labi vai pa kreisi.</li>
 <li>Apturi ar <b>F8</b>. Level1 cilnē atlasi <code>Player</code> un Inspector laukā <b>Speed</b> izmēģini <code>150</code> un <code>450</code>. Pēc katras izmaiņas palaid spēli un salīdzini. Beigās atjauno <code>300</code>.</li>
 <li>Kodā uz laiku aizstāj <code>direction.Normalized() * Speed</code> ar <code>direction * Speed</code>. Saglabā, nospied <b>Build</b> un izmēģini D+S reizē: pa diagonāli varonis pārvietojas ātrāk. <b>Atjauno <code>Normalized()</code></b>, vēlreiz saglabā un nospied <b>Build</b>.</li>
@@ -128,6 +136,8 @@ public partial class Player : CharacterBody2D
 <p class="done-when"><b>Gatavs, kad:</b> darbojas WASD un bultiņas, kodā atjaunots Normalized() un Speed ir 300.</p>
 </section>
 <details class="course-help extra-task"><summary>Papildu uzdevums — skriešanas taustiņš</summary>
+<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/Player.cs</code> metodi <code>_PhysicsProcess()</code>: <code>currentSpeed</code> aprēķinu liec pirms <code>Velocity</code> piešķiršanas. Darbību <code>run</code> pievieno Project Settings → Input Map.</p>
+
 <p>Atver <b>Project → Project Settings → Input Map</b>. Pievieno <code>run</code> rindu un ar <b>+</b> tai piesaisti <b>Shift</b>. Pirms Velocity piešķiršanas aprēķini <code>float currentSpeed = Input.IsActionPressed("run") ? Speed * 1.5f : Speed;</code> un kustībai izmanto <code>currentSpeed</code>. Pārbaudi arī diagonāli.</p>
 </details>
 <section><div class="hand-in-box"><h2>Ko sagatavo</h2>

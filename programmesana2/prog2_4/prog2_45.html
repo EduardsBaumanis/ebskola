@@ -63,6 +63,9 @@
 <div class="info-box">
 <p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izšauj pirmo lādiņu · 2. uzdevums (~25 min) - izveido object pool (lādiņu krātuvi) · 3. uzdevums (~20 min) - salīdzini abas pieejas ar mērījumu · Iesniegšana (~5 min).</p>
 <p><b>Pirms sāc:</b> atver savu projektu. Šodien uztaisīsi šaušanu divos veidos un pats izmērīsi, kurš no tiem ir ātrāks.</p>
+
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
+<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
 </div>
 </section><section>
 <h2>Teorija: Object pooling</h2>
@@ -131,6 +134,8 @@ public class BulletPool
 
 </section><section class="logic-box lesson-task" id="uzdevums-1">
 <p class="task-number">1. uzdevums - </p><h2>Izšauj pirmo lādiņu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>bullet.tscn</code> projekta saknē un piesaisti tās Area2D saknei <code>Scripts/Bullet.cs</code>; tajā raksti kustību un dzīves ilgumu. Esošajā <code>Scripts/Player.cs</code> pievieno BulletScene lauku un šaušanas kodu; darbību shoot izveido Input Map.</p>
+
 <p>Beigās spēlētājs varēs šaut ar peles klikšķi.</p>
 <ol class="step-list">
 <li><b>Izveido</b> scēnu <code>bullet.tscn</code> ar <code>Area2D</code> (2D saskares zona) sakni un sadursmes formu.</li>
@@ -144,6 +149,8 @@ public class BulletPool
 <p class="done-when"><b>Gatavs, kad:</b> ar katru peles klikšķi parādās lādiņš, kas lido prom un pēc laika pazūd.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-2">
 <p class="task-number">2. uzdevums - </p><h2>Izveido object pool</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/BulletPool.cs</code> parastajai C# klasei. Esošajā <code>Scripts/Player.cs</code> izveido un lieto krātuvi; <code>Scripts/Bullet.cs</code> papildini ar aktīvo stāvokli un atgriešanu krātuvē laika beigās.</p>
+
 <p>Beigās lādiņi tiks izmantoti atkārtoti, nevis veidoti no jauna.</p>
 <ol class="step-list">
 <li><b>Izveido</b> class <code>BulletPool</code> ar lauku <code class="language-csharp">private readonly List&lt;Bullet&gt; pool = new();</code>.</li>
@@ -157,6 +164,8 @@ public class BulletPool
 <p class="done-when"><b>Gatavs, kad:</b> šaujot lādiņi parādās kā iepriekš, bet scēnas kokā node skaits vairs neaug.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums - </p><h2>Salīdzini abas pieejas ar mērījumu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Abas šaušanas pieejas pārslēdz <code>Scripts/Player.cs</code>; lādiņu dzīves ciklu pielāgo <code>Scripts/Bullet.cs</code>. Mērījumus un izvēlēto variantu pieraksti <code>README.md</code>.</p>
+
 <p>Beigās tev būs skaitļos pierādīts, kāpēc krātuve ir vērtīga.</p>
 <ol class="step-list">
 <li><b>Izšauj</b> 200 lādiņus ar pirmo pieeju un pieraksti FPS (kadri sekundē) rādījumu.</li>
@@ -170,6 +179,8 @@ public class BulletPool
 <p class="done-when"><b>Gatavs, kad:</b> ar krātuvi node skaits paliek nemainīgs, un tu vari nosaukt abu pieeju FPS atšķirību.</p>
 </section><details class="course-help extra-task">
 <summary>Papildu uzdevums - Pievieno šaušanas ātruma ierobežojumu</summary>
+<p class="task-files"><b>Kur strādāt:</b> Cooldown lauku un šaušanas intervāla pārbaudi pievieno <code>Scripts/Player.cs</code>. Laiku samazini tajā pašā <code>_Process()</code> vai <code>_PhysicsProcess()</code> metodē, kur pārbaudi šaušanas ievadi.</p>
+
 <p>Ja pamatdarbs ir gatavs, neļauj šaut bezgalīgi ātri.</p>
 <ol class="step-list">
 <li><b>Pievieno</b> lauku <code class="language-csharp">double cooldown = 0.0;</code>.</li>

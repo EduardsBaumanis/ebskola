@@ -56,7 +56,10 @@
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
 <a href="/sasnRez">SR 2.4.18. Objektorientētā programmēšana</a>
 </div>
-<section><div class="info-box"><p><b>Pirms sāc:</b> izveido projekta kopiju noslēguma darbam. Izmanto iepriekšējo stundu saderīgos failus un pārbaudi vispirms sākuma datus, tad vienu kārtu un tikai pēc tam visu turnīru.</p><p><b>Darba secība:</b> izlasi skaidrojumu pie attiecīgā uzdevuma, paredzi piemēra rezultātu un tad pārbaudi to. Pēc C# izmaiņām saglabā failus, Godot nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Rezultātus skaties <b>Output</b> panelī.</p></div></section>
+<section><div class="info-box"><p><b>Pirms sāc:</b> izveido projekta kopiju noslēguma darbam. Izmanto iepriekšējo stundu saderīgos failus un pārbaudi vispirms sākuma datus, tad vienu kārtu un tikai pēc tam visu turnīru.</p><p><b>Darba secība:</b> izlasi skaidrojumu pie attiecīgā uzdevuma, paredzi piemēra rezultātu un tad pārbaudi to. Pēc C# izmaiņām saglabā failus, Godot nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Rezultātus skaties <b>Output</b> panelī.</p>
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
+<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
+</div></section>
 <section id="teorija"><h2>Teorija ar piemēriem</h2>
 <h3 id="noteikumi">1. Ko šis simulators dara?</h3>
 <p>Simulators pats izspēlē turnīru un izdrukā notikumus. Sākumā ir trīs dalībnieki: Captain Anna ar 150 punktiem, Presenter Jānis ar 80 un TimeKeeper Ieva ar 100. Ir arī trīs šķēršļi ar Inspector iestatītu soda lielumu.</p>
@@ -109,19 +112,25 @@ Obstacle obstacle = obstacles[index];</code></pre>
 <p>Saglabā 3.5. Participant, Stats un Buff; lieto 3.3. lomu versijas bez parametru konstruktoriem. TimeKeeper un TournamentManager piemēri doti zem uzdevumiem. Vecos dalībnieku mezglus jaunajā scēnā manuāli nepievieno, jo vadītājs tos jau izveido.</p>
 <details class="course-help"><summary>Pašpārbaude: Kāpēc nevar katrā kārtā izvēlēties dalībnieku no visa party saraksta?</summary><p>Tad varētu atkal izvēlēties izstājušos dalībnieku. Viņa enerģija vairs nemainītos, tāpēc kārta neveicinātu turnīra noslēgumu. Izvēle no aktīvo saraksta nodrošina, ka katrā kārtā sodu saņem kāds, kurš vēl piedalās.</p></details>
 </section>
-<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Savieno projektu un pārbaudi sākuma datus</h2><p><b>Atbalsts:</b> <a href="#projekta-savienosana">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Savieno projektu un pārbaudi sākuma datus</h2>
+<p class="task-files"><b>Kur strādāt:</b> Atjauno esošo <code>Scripts/TournamentManager.cs</code> ar pilno piemēru un izveido vai atjauno <code>Scripts/TimeKeeper.cs</code>. Scēnas koku veido <code>Scenes/Tournament.tscn</code>; pārējo klašu versijas pārbaudi <code>Scripts/</code> mapē pēc iepriekšējās tabulas.</p>
+<p><b>Atbalsts:</b> <a href="#projekta-savienosana">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Sagatavo scēnu pēc koka. Pārbaudi visu failu versijas pēc iepriekšējā apraksta.</li>
 <li>Izveido TournamentManager no pilnā piemēra. Uz pirmo pārbaudi _Ready beigās aizkomentē <code>RunTournament();</code> rindu.</li>
 <li>Pievieno doto TimeKeeper.cs, ja šīs lomas vēl nav.</li>
 <li>Palaid scēnu un pārbaudi trīs dalībnieku un trīs šķēršļu nosaukumus un skaitļus.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> dalībnieku enerģijas ir 150, 80, 100; šķēršļu sodi — 20, 12, 8.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Izseko vienai kārtai un nejaušai izvēlei</h2><p><b>Atbalsts:</b> <a href="#viena-karta">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Izseko vienai kārtai un nejaušai izvēlei</h2>
+<p class="task-files"><b>Kur strādāt:</b> Indeksu izvēli maini <code>Scripts/TournamentManager.cs</code> metodē <code>PlayTurn()</code>, pagaidu izsaukumus pievieno tā paša faila metodei <code>_Ready()</code>.</p>
+<p><b>Atbalsts:</b> <a href="#viena-karta">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Izlasi PlayTurn un GetActiveParticipants. Pirmajā izmēģinājumā īslaicīgi norādi abus indeksus 0.</li>
 <li>_Ready beigās izsauc <code>PlayTurn();</code> vienreiz. Annai pēc 20 punktu šķēršļa jāpaliek 140.</li>
 <li>Atjauno nejaušo indeksu izvēli. Izsauc PlayTurn trīs reizes un izpēti katras kārtas izdruku.</li>
 <li>Pārbaudi vismaz vienu katras lomas soda aprēķinu ar zināmiem datiem. Atkārtojošs nejaušs rezultāts pats par sevi nav kļūda.</li>
 </ol><p class="done-when"><b>Gatavs, kad:</b> vari no izdrukas izskaidrot izvēlēto šķērsli, dalībnieku un enerģijas izmaiņu.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Pabeidz turnīru un pārbaudi rezultātu</h2><p><b>Atbalsts:</b> <a href="#cikla-beigas">skaidrojums un piemērs</a>.</p><ol class="step-list">
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Pabeidz turnīru un pārbaudi rezultātu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Atjauno <code>Scripts/TournamentManager.cs</code> metodes <code>_Ready()</code> beigas un signālu pieslēgumus. Turnīru rezultātus pieraksti <code>README.md</code>.</p>
+<p><b>Atbalsts:</b> <a href="#cikla-beigas">skaidrojums un piemērs</a>.</p><ol class="step-list">
 <li>Noņem pagaidu PlayTurn izsaukumus un _Ready beigās atjauno tikai RunTournament.</li>
 <li>Pārbaudi, ka signāli pieslēgti pirms pirmās kārtas.</li>
 <li>Palaid pilnu turnīru: divi dalībnieki izstājas, paliek viens uzvarētājs un redzams kārtu skaits.</li>
@@ -135,7 +144,9 @@ Obstacle obstacle = obstacles[index];</code></pre>
 <tr><td>Palicis viens aktīvs dalībnieks</td><td>Jauna kārta nesākas; izdrukā uzvarētāju un kārtu skaitu.</td></tr>
 <tr><td>Trīs jaunas scēnas palaišanas</td><td>Katrs turnīrs sākas no sākuma datiem un beidzas; rezultāti var atkārtoties.</td></tr>
 </tbody></table></div>
-</section><details class="course-help extra-task"><summary>Papildu uzdevums — Viena kārta ar pogu</summary><p>_Ready beigās izņem RunTournament izsaukumu. Pievieno Button un tā Pressed signālam pieslēdz metodi, kas izsauc PlayTurn vienu reizi un pēc tam atjauno Label tekstus. Kad palicis viens aktīvs dalībnieks, parādi uzvarētāju un atspējo pogu. Garš while cikls izpildās vienā piegājienā; ar pogu katru kārtu vari aplūkot atsevišķi.</p></details>
+</section><details class="course-help extra-task"><summary>Papildu uzdevums — Viena kārta ar pogu</summary>
+<p class="task-files"><b>Kur strādāt:</b> Pogu un Label mezglus pievieno <code>Scenes/Tournament.tscn</code>. Signāla apstrādātāju un tekstu atjaunošanu raksti <code>Scripts/TournamentManager.cs</code>; <code>_Ready()</code> nomaini automātisko turnīra palaišanu pret pogas signāla pieslēgšanu.</p>
+<p>_Ready beigās izņem RunTournament izsaukumu. Pievieno Button un tā Pressed signālam pieslēdz metodi, kas izsauc PlayTurn vienu reizi un pēc tam atjauno Label tekstus. Kad palicis viens aktīvs dalībnieks, parādi uzvarētāju un atspējo pogu. Garš while cikls izpildās vienā piegājienā; ar pogu katru kārtu vari aplūkot atsevišķi.</p></details>
 <details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>TimeKeeper.cs</h3>
 <pre><code class="language-csharp" id="kods-timekeeper-cs">public partial class TimeKeeper : Participant
 {

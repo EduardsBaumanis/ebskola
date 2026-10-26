@@ -61,6 +61,8 @@
 <section><div class="info-box"><p><b>80 min plāns:</b> Ievads (~10 min) · .NET pārbaude (~20 min) · pirmais Build (~25 min) · redaktors un kļūdu meklēšana (~20 min) · saglabāšana (~5 min).</p>
 <p><b>Pirms sāc:</b> atver savu 1.2 Pong projektu ar Main, abām raketēm un Ball. Šodien pārbaudīsi darba vidi ar mazu BuildCheck skriptu, lai kustības programmēšanā vēlāk netraucētu instalācijas kļūdas.</p>
 <p><b>Darba ritms:</b> pēc katra uzdevuma saglabā un pārbaudi rezultātu. Kad projektam pievienots C# skripts, pirms palaišanas nospied <b>Build</b>. Kļūdu gadījumā sāc ar pirmo sarkano kļūdu, nevis nākamo uzdevumu.</p>
+
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
 </div></section>
 <section><h2>Teorija: redaktors, SDK un compilation</h2>
 <div class="logic-box"><p>Godot <b>.NET</b> atver C# projektu, bet koda compilation nepieciešams atsevišķs <b>.NET SDK</b>. Tikai .NET Runtime (izpildlaiks) nav pietiekams. <code>dotnet --list-sdks</code> parāda uzstādītos SDK; <code>dotnet build</code> kompilē projektu mapē ar <code>.csproj</code>.</p>
@@ -68,6 +70,8 @@
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Pārbaudi .NET SDK un redaktora versiju</h2>
+<p class="task-files"><b>Kur strādāt:</b> Komandas izpildi VS Code terminālī, atverot Pong projekta mapi. Versijas pieraksti projekta <code>README.md</code>.</p>
+
 <ol class="step-list"><li>Godot izvēlnē Help → About pārbaudi, ka lieto .NET variantu. Parastā Godot versijā Attach Script valodu sarakstā C# nebūs.</li>
 <li>Atver VS Code terminal (termināli) un izpildi <code>dotnet --list-sdks</code> un <code>dotnet --version</code>. Sarakstam jābūt netukšam. Pieraksti Godot un SDK versiju README.md.</li>
 <li>Ja SDK nav, instalē to no <a href="https://dotnet.microsoft.com/download">oficiālās .NET lejupielādes</a>. Kursa piemērā izmantots .NET 8 SDK; citas Godot versijas gadījumā ievēro tās SDK prasības. Atver Godot un terminal no jauna.</li>
@@ -77,6 +81,8 @@
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums - </p>
 <h2>Izveido un palaid BuildCheck.cs</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/BuildCheck.cs</code>, aizstāj tā saturu ar doto pilno failu un piesaisti to <code>Scenes/Main.tscn</code> mezglam <code>BuildCheck</code>.</p>
+
 <ol class="step-list"><li>Main.tscn saknei pievieno <code>Node</code> child node (bērnu) ar nosaukumu <code>BuildCheck</code>. Atlasot šo node (mezglu), izvēlies Attach Script, valodu C# un ceļu <code>res://Scripts/BuildCheck.cs</code>.</li>
 <li>Aizstāj skripta saturu ar pilno failu zemāk. <code>BuildCheck.cs</code> satur <code>public partial class BuildCheck : Node</code>; class (klases) un faila nosaukumi sakrīt.</li>
 <li>Saglabā skriptu un scēnu. Nospied <b>Build</b>; ja package (pakotnes) jālejupielādē pirmo reizi, sagaidi procesa beigas. Turpini tikai tad, kad nav compiler error (kompilācijas kļūdu).</li>
@@ -99,6 +105,8 @@ public partial class BuildCheck : Node
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums - </p>
 <h2>Pieslēdz koda redaktoru un atrodi vienu kļūdu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Tekstu un pagaidu semikola kļūdu maini <code>Scripts/BuildCheck.cs</code> metodē <code>_Ready()</code>.</p>
+
 <ol class="step-list"><li>Godot <b>Editor → Editor Settings → Dotnet → Editor</b> kā External Editor izvēlies Visual Studio Code. VS Code uzstādi Microsoft <b>C#</b> extension (paplašinājumu). Veicot dubultklikšķi uz BuildCheck.cs, jāsākas rediģēšanai.</li>
 <li>Nomaini izdrukas tekstu, saglabā, Build un F5. Salīdzini jauno izdruku ar iepriekšējo. Saglabāts fails un veiksmīgi pārkompilēts kods ir divi atsevišķi soļi.</li>
 <li>Uz laiku izdzēs semikolu pēc GD.Print un nospied Build. Nokopē pirmās kļūdas tekstu ar failu un rindas numuru. <b>Atjauno semikolu</b>, tad atkārto Build un F5.</li>
@@ -107,6 +115,8 @@ public partial class BuildCheck : Node
 <p class="done-when"><b>Gatavs, kad:</b> proti rediģēt, kompilēt, nolasīt kļūdu un atgriezt projektu strādājošā stāvoklī.</p>
 </section>
 <details class="course-help extra-task"><summary>Papildu uzdevums — izveido savu BUILD.md atgādni</summary>
+<p class="task-files"><b>Kur strādāt:</b> Projekta saknes mapē izveido <code>BUILD.md</code> un ieraksti tajā atgādni.</p>
+
 <p>Pieraksti Godot un SDK versiju, projekta atvēršanas ceļu, Build/F5 darbības, komandas un atrastās kļūdas risinājumu. Palūdz klasesbiedram pēc pieraksta atrast, kur jālabo skripts.</p>
 </details>
 <section><div class="hand-in-box"><h2>Ko sagatavo</h2>

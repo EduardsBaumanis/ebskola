@@ -57,6 +57,8 @@
 <section><div class="info-box"><p><b>80 min plāns:</b> Ievads (~10 min) · laukuma robežas (~20 min) · rakešu vadība (~25 min) · bumbas atlēkšana (~20 min) · saglabāšana (~5 min).</p>
 <p><b>Pirms sāc:</b> vajadzīgas 1.4 scēnas un Paddle.cs ar Speed (ātrums) un ievades nosaukumiem. Šodien laukums kļūs kustīgs: pārbaudīsi raketes un bumbu. Punktu uzskaite un spēles vadība būs 1.6 stundā.</p>
 <p><b>Darba ritms:</b> pēc katra uzdevuma saglabā un pārbaudi rezultātu. Kad projektam pievienots C# skripts, pirms palaišanas nospied <b>Build</b>. Kļūdu gadījumā sāc ar pirmo sarkano kļūdu, nevis nākamo uzdevumu.</p>
+
+<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
 </div></section>
 <section><h2>Teorija: koordinātes, ātrums un sadursme</h2>
 <div class="logic-box"><p>1280 × 720 laukumā centrs ir (640,360). X pieaug pa labi, Y — uz leju. <b>Saknes Position</b> novieto objektu laukumā, bet tās child node (bērnu) Visual un CollisionShape2D (2D sadursmes forma) pozīcijas paliek (0,0). Fizikas saknes Mērogs atstāj (1,1); izmēru maina formā.</p>
@@ -73,6 +75,8 @@
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Izveido redzamas laukuma robežas</h2>
+<p class="task-files"><b>Kur strādāt:</b> Godot redaktorā papildini <code>Scenes/Main.tscn</code> ar sienām un viduslīniju.</p>
+
 <ol class="step-list"><li>Atver Main.tscn. Pārbaudi PaddleLeft (60,360), PaddleRight (1220,360), Ball (640,360). Main sakne paliek (0,0).</li>
 <li>Main pievieno <code>StaticBody2D</code> child node <code>WallTop</code>, Pozīcija = <code>(640,10)</code>. Tam pievieno CollisionShape2D ar New RectangleShape2D (jauna 2D taisnstūra forma), Izmērs = <code>(1280,20)</code>; <b>formas node (mezgla)</b> Pozīcija = (0,0).</li>
 <li>WallTop pievieno Polygon2D (2D daudzstūris) child node Visual ar punktiem <code>(-640,-10), (640,-10), (640,10), (-640,10)</code> un redzamu krāsu. Sienas fizikas forma viena pati spēlē nav redzama.</li>
@@ -84,6 +88,8 @@
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums - </p>
 <h2>Pievieno vadību abām raketēm</h2>
+<p class="task-files"><b>Kur strādāt:</b> Papildini esošo <code>Scripts/Paddle.cs</code>: <code>_PhysicsProcess()</code> pievieno klases iekšienē, ārpus <code>_Ready()</code>. Input Map maini Project Settings; rakešu vērtības — <code>Scenes/Main.tscn</code>.</p>
+
 <ol class="step-list"><li><b>Project → Project Settings → Input Map</b> ar Add izveido visas sešas tabulas darbības; ar + pievieno attiecīgo taustiņu. Pārbaudi mazos burtus un pasvītrojumus.</li>
 <li>Paddle.cs saglabā _Ready un esošos laukus. Class (klases) iekšpusē pievieno <code>_PhysicsProcess</code> no pilnā faila zemāk. Ja izmanto visu failu, aizstāj esošo saturu, neveido otru Paddle class.</li>
 <li>Saglabā un Build. Main scēnā PaddleRight Input Up/Down joprojām jābūt p2_up/p2_down, kreisajai — p1_up/p1_down; Speed abām 420.</li>
@@ -134,6 +140,8 @@ public partial class Paddle : CharacterBody2D
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums - </p>
 <h2>Pievieno bumbas kustību un atlēkšanu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Ball.cs</code> ar doto pilno saturu un piesaisti to <code>Scenes/Ball.tscn</code> saknei. Novērojumus raksti <code>README.md</code>.</p>
+
 <ol class="step-list"><li>Atver Ball.tscn un tās saknei pievieno <code>res://Scripts/Ball.cs</code>. Aizstāj saturu ar pilno failu zemāk. Base (bāzes klase) Speed = 420, Motion Mode = Floating. Saglabā un Build.</li>
 <li>Palaid Main ar F5. Ball _Ready sāk bumbas kustību pa labi ar nelielu nejaušu vertikālo komponenti. Normalized saglabā kopējo ātrumu 420 px/s.</li>
 <li>Pārbaudi atlēkšanu no abām raketēm un abām sienām. Redzamā viduslīnija bumbu neaptur. Ja vajag, atkārto F5 vairākas reizes, lai novērotu abus vertikālos virzienus.</li>
@@ -202,6 +210,8 @@ public partial class Ball : CharacterBody2D
 <p class="done-when"><b>Gatavs, kad:</b> abas raketes kustas, bumba atlec un pēc iziešanas apstājas; punktu sistēmai ir skaidri definēts ExitSide.</p>
 </section>
 <details class="course-help extra-task"><summary>Papildu uzdevums — izmēģini spēles tempu</summary>
+<p class="task-files"><b>Kur strādāt:</b> Atver <code>Scenes/Main.tscn</code> un Inspector maini tikai <code>Ball</code> eksemplāra <code>Base Speed</code>; salīdzinājumu raksti <code>README.md</code>.</p>
+
 <p>Ball instance (eksemplāram) pamēģini Base Speed 350 un 500, katru reizi izspēlējot vairākas atlēkšanas. Pieraksti, kuru ātrumu ir vieglāk spēlēt. Pirms nākamās stundas atjauno 420; vēlāk savu izvēli vari pamatot kā dizaina lēmumu.</p>
 </details>
 <section><div class="hand-in-box"><h2>Ko sagatavo</h2>
