@@ -74,10 +74,27 @@
 <section id="teorija"><h2>Teorija: redaktors, .NET SDK un compilation</h2>
 <div class="logic-box"><h3>Kāpēc ar redaktoru un Runtime vien nepietiek?</h3>
 <p>Godot <b>.NET</b> spēj atvērt un darbināt C# projektu, taču pirmkoda <code>compilation</code> (kompilācijai) datorā ir nepieciešams atsevišķs <b>.NET SDK (programmatūras izstrādes komplekts)</b>. Atšķirību var salīdzināt ar mūzikas atskaņotāju un ierakstu studiju: tikai <b>.NET Runtime (izpildlaiks)</b> prot atskaņot jau gatavu programmu, savukārt <b>.NET SDK</b> ietver arī kompilatoru un būvēšanas rīkus jaunas programmas izveidei no pirmkoda.</p>
-<p>Terminālī komanda <code>dotnet --list-sdks</code> parāda datorā uzstādītos izstrādes komplektus, bet <code>dotnet build</code> sakompilē projektu tajā mapē, kurā atrodas C# projekta apraksta fails (<code>.csproj</code>).</p>
+<p>Terminālī komanda <code>dotnet --list-sdks</code> parāda datorā uzstādītos izstrādes komplektus, bet <code>dotnet build</code> sakompilē projektu tajā mapē, kurā atrodas C# projekta apraksta fails (<code>.csproj</code>):</p>
+<pre><code class="language-bash"># Pārbauda datorā uzstādītos .NET SDK komplektus un aktīvo versiju
+dotnet --list-sdks
+dotnet --version
+
+# Kompilē C# projektu mapē, kurā atrodas .csproj fails
+dotnet build</code></pre>
 </div>
 <div class="logic-box"><h3>Kompilācijas cikls un projekta failu ģenerēšana</h3>
-<p>C# ir kompilējama valoda: saglabāts <code>.cs</code> fails pats par sevi ir tikai teksta dokuments — kā izmainīts rasējums uz papīra, pēc kura iekārta vēl nestrādā. Tikai nospiežot <b>Build</b>, kompilators pārbauda visu skriptu sintaksi un pārvērš pirmkodu binārā modulī, kuru dzinējs ielādē programmas izpildes laikā.</p>
+<p>C# ir kompilējama valoda: saglabāts <code>.cs</code> fails pats par sevi ir tikai teksta dokuments — kā izmainīts rasējums uz papīra, pēc kura iekārta vēl nestrādā. Tikai nospiežot <b>Build</b>, kompilators pārbauda visu skriptu sintaksi un pārvērš pirmkodu binārā modulī, kuru dzinējs ielādē programmas izpildes laikā:</p>
+<pre><code class="language-csharp">using Godot;
+
+// Faila nosaukumam (Sistema.cs) precīzi jāsakrīt ar klases nosaukumu
+public partial class Sistema : Node
+{
+    public override void _Ready()
+    {
+        // Build pārbauda sintaksi (piemēram, semikolu rindas beigās)
+        GD.Print("Kods veiksmīgi sakompilēts binārā modulī.");
+    }
+}</code></pre>
 <p>Godot automātiski izveido C# projekta failus (<code>.csproj</code> un risinājuma failu) brīdī, kad projektam pievieno pirmo C# skriptu — līdz tam projekts satur tikai scēnas, tāpēc <b>Build</b> rīki redaktorā vēl netiek rādīti. Papildu tehniskās detaļas skati <a href="https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_basics.html">Godot C# vides norādēs</a>.</p>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>

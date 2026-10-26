@@ -70,11 +70,21 @@
 <section id="teorija"><h2>Teorija: ievades darbību karte un virziena vektora normalizācija</h2>
 <div class="logic-box"><h3>Ievades abstrakcija ar <code>Input Map</code></h3>
 <p>Tā vietā, lai C# kodā pārbaudītu konkrētus fiziskus tastatūras taustiņus, Godot izmanto <b><code>Input Map</code> (ievades darbību karti)</b> — sarakstu ar loģiskiem darbību nosaukumiem (piemēram, <code>move_left</code>), kuriem var piesaistīt vienu vai vairākus taustiņus un vadības ierīces. Tas darbojas līdzīgi viedās mājas komandai „Ieslēgt apgaismojumu”, kuru var aktivizēt gan ar sienas slēdzi, gan no tālruņa, nepārbūvējot pašu elektrotīklu: ja vēlāk jāpievieno cits taustiņš, C# kods nav jāmaina.</p>
-<p>Metodē <code>_PhysicsProcess</code> īpašība <code>Input.IsActionPressed("darbiba")</code> atgriež <code>true</code> visos kadros, kamēr piesaistītais taustiņš ir turēts nospiests. Sākot katru soli no nulles vektora <code>Vector2.Zero</code> un pieskaitot vai atņemot <code>1</code> pa attiecīgo asi, vienlaikus nospiesti pretējie virzieni summējas par <code>0</code> (atceļ viens otru), bet atlaižot taustiņus, kustība uzreiz apstājas.</p>
+<p>Metodē <code>_PhysicsProcess</code> īpašība <code>Input.IsActionPressed("darbiba")</code> atgriež <code>true</code> visos kadros, kamēr piesaistītais taustiņš ir turēts nospiests. Sākot katru soli no nulles vektora <code>Vector2.Zero</code> un pieskaitot vai atņemot <code>1</code> pa attiecīgo asi, vienlaikus nospiesti pretējie virzieni summējas par <code>0</code> (atceļ viens otru), bet atlaižot taustiņus, kustība uzreiz apstājas:</p>
+<pre><code class="language-csharp">Vector2 virziens = Vector2.Zero; // Katrā solī sāk no (0, 0)
+
+if (Input.IsActionPressed("move_left"))  virziens.X -= 1;
+if (Input.IsActionPressed("move_right")) virziens.X += 1;
+if (Input.IsActionPressed("move_up"))    virziens.Y -= 1;
+if (Input.IsActionPressed("move_down"))  virziens.Y += 1;
+// Turot abus pretējos virzienus (-1 un +1), rezultāts attiecīgajā asī ir 0</code></pre>
 </div>
 <div class="logic-box"><h3>Diagonālā kustība un vektora <code>Normalized()</code></h3>
 <p>Ja objekts vienlaikus pārvietojas pa abām asīm — piemēram, pa labi (<code>X = 1</code>) un uz leju (<code>Y = 1</code>) —, iegūtā vektora <code>(1, 1)</code> garums pēc Pitagora teorēmas nav <code>1</code>, bet gan <code>√(1² + 1²) ≈ 1,41</code>. Bez korekcijas objekts pa diagonāli slīdētu par ~41 % ātrāk nekā taisni pa horizontāli vai vertikāli (līdzīgi kā šķērsot laukumu ar garākiem soļiem).</p>
-<p>Metode <code>direction.Normalized()</code> saglabā vektora virzienu, bet pārrēķina tā garumu par vieninieku (nulles vektoram <code>(0, 0)</code> tā droši atgriež <code>(0, 0)</code>). Reizinot normalizēto virzienu ar <code>Speed</code> un izsaucot <code>CharacterBody2D</code> metodi <code>MoveAndSlide()</code> (kas laika soli <code>delta</code> jau ņem vērā iekšēji), kustības ātrums visos virzienos ir vienāds.</p>
+<p>Metode <code>direction.Normalized()</code> saglabā vektora virzienu, bet pārrēķina tā garumu par vieninieku (nulles vektoram <code>(0, 0)</code> tā droši atgriež <code>(0, 0)</code>). Reizinot normalizēto virzienu ar <code>Speed</code> un izsaucot <code>CharacterBody2D</code> metodi <code>MoveAndSlide()</code> (kas laika soli <code>delta</code> jau ņem vērā iekšēji), kustības ātrums visos virzienos ir vienāds:</p>
+<pre><code class="language-csharp">// Pārvērš jebkura virziena garumu par 1.0 (vai saglabā (0, 0), ja stāv uz vietas)
+Velocity = virziens.Normalized() * Speed;
+MoveAndSlide(); // Iekšēji piemēro laika soli delta</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Input Map cilnē pievieno taustiņus</h2>

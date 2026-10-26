@@ -86,7 +86,19 @@
 </div>
 <div class="logic-box"><h3>Nepārtraukta atjaunināšana (<code>_Process</code> un <code>_PhysicsProcess</code>) un <code>delta</code></h3>
 <p>Lai objekts pārvietotos plūstoši, tā koordinātas maina pa nelielam solim desmitiem reižu sekundē — līdzīgi kā kino vai video rada kustības iespaidu no secīgiem nekustīgiem kadriem. Godot tam piedāvā divas metodes: <code>_Process(double delta)</code> izpildās katrā ekrāna pārzīmēšanas kadrā, bet <code>_PhysicsProcess(double delta)</code> darbojas vienmērīgos laika intervālos (pēc noklusējuma 60 reizes sekundē) un ir paredzēta kustībai un sadursmēm.</p>
-<p>Parametrs <code>delta</code> norāda, cik sekundes ilga iepriekšējais solis. Reizinot ātrumu ar <code>delta</code> (piemēram, <code>Position += new Vector2(Speed, 0) * (float)delta</code>), pārvietojums strādā pēc fizikas sakarības <i>ceļš = ātrums × laiks</i>: pat ja ierīce kadrus apstrādā retāk, lielāks <code>delta</code> to kompensē un objekts vienā sekundē joprojām nobīdās tieši par <code>Speed</code> pikseļiem. Savukārt nosacījums <code>if</code> ļauj pārbaudīt koordinātas robežu un vajadzības gadījumā atgriezt objektu sākumpunktā (kā slīdošai informācijas joslai ekrānā).</p>
+<p>Parametrs <code>delta</code> norāda, cik sekundes ilga iepriekšējais solis. Reizinot ātrumu ar <code>delta</code> (piemēram, <code>Position += new Vector2(Speed, 0) * (float)delta</code>), pārvietojums strādā pēc fizikas sakarības <i>ceļš = ātrums × laiks</i>: pat ja ierīce kadrus apstrādā retāk, lielāks <code>delta</code> to kompensē un objekts vienā sekundē joprojām nobīdās tieši par <code>Speed</code> pikseļiem. Savukārt nosacījums <code>if</code> ļauj pārbaudīt koordinātas robežu un vajadzības gadījumā atgriezt objektu sākumpunktā (kā slīdošai informācijas joslai ekrānā):</p>
+<pre><code class="language-csharp">public partial class Indikators : Node2D
+{
+    [Export] public float Speed = 180.0f;
+
+    public override void _PhysicsProcess(double delta)
+    {
+        // Nobīde vienā solī = ātrums (px/s) × laika solis delta (s)
+        Position += new Vector2(Speed, 0) * (float)delta;
+        if (Position.X &gt; 1200)
+            Position = new Vector2(0, Position.Y); // Atgriež sākumpunktā
+    }
+}</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Izveido projektu un redzamu kustīgu objektu</h2>

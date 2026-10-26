@@ -74,11 +74,37 @@
 <li><b><code>StaticBody2D</code> (nekustīga 2D ķermeņa mezgls)</b> — ciets šķērslis, kas fiziski aptur kustīgus ķermeņus un neļauj tiem iziet cauri.</li>
 <li><b><code>Area2D</code> (2D saskares zona)</b> — caurlaidīga zona, kas objektus fiziski neaptur, bet konstatē brīdi, kad tajā ieiet vai no tās iziet cits ķermenis. Lai zona aktīvi uztvertu citus objektus, tai jābūt ieslēgtai īpašībai <b><code>Monitoring</code></b>.</li>
 </ul>
-<p>Abiem mezglu veidiem ir nepieciešams gan <code>CollisionShape2D</code> (2D sadursmes forma) ģeometriskajai kontūrai, gan vizuālais bērnmezgls (piemēram, <code>Polygon2D</code>), kā arī saskaņoti <code>Collision Layer</code> (piederības slānis) un <code>Collision Mask</code> (novērojamo slāņu maska) iestatījumi.</p>
+<p>Abiem mezglu veidiem ir nepieciešams gan <code>CollisionShape2D</code> (2D sadursmes forma) ģeometriskajai kontūrai, gan vizuālais bērnmezgls (piemēram, <code>Polygon2D</code>), kā arī saskaņoti <code>Collision Layer</code> (piederības slānis) un <code>Collision Mask</code> (novērojamo slāņu maska) iestatījumi:</p>
+<pre><code>Siena (StaticBody2D)    → Layer: 1, Mask: —  (fiziski aptur kustīgu ķermeni)
+├── CollisionShape2D    → šķēršļa sadursmes kontūra
+└── Izskats (Polygon2D) → šķēršļa redzamā figūra
+
+DurvjuSensors (Area2D)  → Layer: 3, Mask: 2, Monitoring: ieslēgts (tikai pamana)
+├── CollisionShape2D    → uztveršanas zonas kontūra
+└── Izskats (Polygon2D) → zonas vizuālais marķieris</code></pre>
 </div>
 <div class="logic-box"><h3>Notikumu signāls <code>BodyEntered</code>, tipa pārbaude un <code>QueueFree()</code></h3>
 <p>Kad saderīga slāņa fizikas ķermenis ieiet <code>Area2D</code> zonā, zona izstaro signālu <code>BodyEntered</code>. C# skriptā apstrādes metodi šim notikumam pieslēdz ar pierakstu <code>BodyEntered += ApstradesMetode;</code> metodē <code>_Ready()</code> — tas darbojas kā automātisks paziņojums notikuma brīdī, nevis nepārtraukta pārbaude katrā kadrā.</p>
-<p>Tā kā parametrs saņem vispārīgu <code>Node2D</code> objektu, izteiksme <code>body is not KonkretsTips mainigais</code> droši atsijā svešus objektus un piešķir precīzu tipu tālākai metožu izsaukšanai. Lai objektu noņemtu no scēnas, lieto <code>QueueFree()</code> — tā droši izdzēš mezglu tekošā fizikas soļa beigās, bet papildu <code>bool</code> karodziņš novērš viena notikuma dubultu nostrādāšanu vienā kadrā.</p>
+<p>Tā kā parametrs saņem vispārīgu <code>Node2D</code> objektu, izteiksme <code>body is not KonkretsTips mainigais</code> droši atsijā svešus objektus un piešķir precīzu tipu tālākai metožu izsaukšanai. Lai objektu noņemtu no scēnas, lieto <code>QueueFree()</code> — tā droši izdzēš mezglu tekošā fizikas soļa beigās, bet papildu <code>bool</code> karodziņš novērš viena notikuma dubultu nostrādāšanu vienā kadrā:</p>
+<pre><code class="language-csharp">public partial class Kontrolpunkts : Area2D
+{
+    private bool irApstradats = false;
+
+    public override void _Ready()
+    {
+        BodyEntered += KadObjektsIeiet; // Pieslēdz apstrādātāju signālam
+    }
+
+    private void KadObjektsIeiet(Node2D body)
+    {
+        if (irApstradats || body is not KustigsObjekts objekts)
+            return;
+
+        irApstradats = true;
+        objekts.RegistretAtzimi();
+        QueueFree(); // Droši noņem mezglu fizikas soļa beigās
+    }
+}</code></pre>
 </div>
 <div class="logic-box"><h3>Kopīgoti formas resursi un <code>Make Unique</code></h3>
 <p>Dublējot mezglu redaktorā, jaunā kopija bieži saglabā atsauci uz to pašu iekšējo <code>Shape</code> resursu — līdzīgi kā divi dokumenti, kas piesaistīti vienai kopīgai veidnei. Ja vienai kopijai jāmaina sadursmes formas izmērs, neietekmējot pārējos eksemplārus, šo resursu vispirms atdala kā neatkarīgu (<b>Make Unique</b>).</p>

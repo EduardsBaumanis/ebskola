@@ -72,7 +72,30 @@
 </div>
 <div class="logic-box"><h3>Godot mezgls (<code>Node</code>), <code>partial</code> un sākuma datu iestatīšana</h3>
 <p>Lai objekts varētu atrasties scēnas kokā, būt atrodams pēc nosaukuma ar <code>GetNode&lt;Tips&gt;("Nosaukums")</code> un izmantot pielāgotus Godot signālus, klasei jāpieslēdz <code>using Godot;</code> un jāmanto no <b><code>Node</code></b> ar atslēgvārdu <b><code>partial</code></b> (piemēram, <code>public partial class Sensors : Node</code>). Vārds <code>partial</code> ļauj Godot kompilācijas (<b>Build</b>) laikā pievienot automātiski ģenerēto signālu apraksta kodu.</p>
-<p>Atšķirībā no parastām C# klasēm, scēnas mezglus Godot vienmēr izveido bez argumentiem, tāpēc konstruktoru ar parametriem aizstāj ar atsevišķu sākuma iestatīšanas metodi (piemēram, <code>Setup(...)</code>); ja mezglu veido kodā, to izveido ar <code>new</code>, pievieno kokam ar <code>AddChild(...)</code> un tad iestata datus. Tāpat jāņem vērā, ka <code>Node</code> klasē jau ir iebūvēta īpašība <code>Name</code> (mezgla identifikators scēnas kokā), tāpēc paša skripta teksta laukiem izvēlas citu, atšķirīgu nosaukumu.</p>
+<p>Atšķirībā no parastām C# klasēm, scēnas mezglus Godot vienmēr izveido bez argumentiem, tāpēc konstruktoru ar parametriem aizstāj ar atsevišķu sākuma iestatīšanas metodi (piemēram, <code>Setup(...)</code>); ja mezglu veido kodā, to izveido ar <code>new</code>, pievieno kokam ar <code>AddChild(...)</code> un tad iestata datus. Tāpat jāņem vērā, ka <code>Node</code> klasē jau ir iebūvēta īpašība <code>Name</code> (mezgla identifikators scēnas kokā), tāpēc paša skripta teksta laukiem izvēlas citu, atšķirīgu nosaukumu:</p>
+<pre><code class="language-csharp">using Godot;
+
+public partial class Sensors : Node
+{
+    public string SensoraNosaukums = "Noklusējums"; // Nevis Node.Name
+    private int limenis = 50;
+
+    public void Setup(string nosaukums, int sakumaLimenis)
+    {
+        SensoraNosaukums = nosaukums;
+        limenis = sakumaLimenis;
+    }
+
+    public bool IrAktivs() { return limenis &gt; 0; }
+}
+
+// Vadības mezgla metodē _Ready() — esošs vai kodā veidots mezgls:
+Sensors gaismas = GetNode&lt;Sensors&gt;("GaismasSensors");
+gaismas.Setup("Gaitenis", 40);
+
+Sensors dumu = new Sensors();
+AddChild(dumu);            // Pievieno mezglu scēnas kokam
+dumu.Setup("Virtuve", 25); // Iestata datus bez parametru konstruktora</code></pre>
 </div>
 <div class="logic-box" id="signala-dalas"><h3>Trīs signāla darbības C# kodā, secība un atvienošana</h3>
 <div class="table-scroll" role="region" aria-label="Signāla darbības" tabindex="0"><table><thead><tr><th scope="col">Darbība</th><th scope="col">C# pieraksts</th><th scope="col">Nozīme</th></tr></thead><tbody>
@@ -80,7 +103,22 @@
 <tr><td>Pieslēgt / atvienot</td><td><code>mezgls.RobezaSasniegta += ApstradesMetode;</code><br/><code>mezgls.RobezaSasniegta -= ApstradesMetode;</code></td><td>Reģistrē (<code>+=</code>) vai noņem (<code>-=</code>) saderīgu klausītāja metodi <b>bez iekavām</b>, norādot, kuru metodi izsaukt notikuma brīdī.</td></tr>
 <tr><td>Raidīt</td><td><code>EmitSignal(SignalName.RobezaSasniegta, dati);</code></td><td>Raidītājs nosūta paziņojumu un argumentus visiem pašlaik pieslēgtajiem klausītājiem.</td></tr>
 </tbody></table></div>
-<p>Signāli, kas izraidīti pirms pieslēgšanās, vēlāk automātiski neatkārtojas, tāpēc inicializācijā ievēro secību: <b>atrast mezglus → iestatīt sākuma datus → pieslēgt signālus (<code>+=</code>) → veikt darbības</b>. Atvienošana ar <code>-=</code> atslēdz konkrēto klausītāja metodi, bet nemaina paša raidītāja iekšējo stāvokli. Savukārt loģiska sākuma pārbaude (ar noliegumu <code>!</code> — „ne” un savienojumu <code>||</code> — „vai”) ļauj priekšlaicīgi iziet ar <code>return</code>, lai robežas sasniegšanas signāls tiktu nosūtīts tikai vienu reizi.</p>
+<p>Signāli, kas izraidīti pirms pieslēgšanās, vēlāk automātiski neatkārtojas, tāpēc inicializācijā ievēro secību: <b>atrast mezglus → iestatīt sākuma datus → pieslēgt signālus (<code>+=</code>) → veikt darbības</b>. Atvienošana ar <code>-=</code> atslēdz konkrēto klausītāja metodi, bet nemaina paša raidītāja iekšējo stāvokli. Savukārt loģiska sākuma pārbaude (ar noliegumu <code>!</code> — „ne” un savienojumu <code>||</code> — „vai”) ļauj priekšlaicīgi iziet ar <code>return</code>, lai robežas sasniegšanas signāls tiktu nosūtīts tikai vienu reizi:</p>
+<pre><code class="language-csharp">// Raidītāja klasē Sensors — vienreizējs signāls pie nulles robežas:
+public void SamazinatLimeni(int daudzums)
+{
+    if (!IrAktivs() || daudzums &lt;= 0) return;
+    limenis = Math.Max(0, limenis - daudzums);
+    if (limenis == 0)
+        EmitSignal(SignalName.RobezaSasniegta, SensoraNosaukums);
+}
+
+// Klausītāja klasē — secība metodē _Ready():
+Sensors s = GetNode&lt;Sensors&gt;("GaismasSensors"); // 1. Atrod mezglu
+s.Setup("Gaitenis", 30);                        // 2. Iestata datus
+s.RobezaSasniegta += ApstradesMetode;           // 3. Pieslēdz signālu
+s.SamazinatLimeni(30);                          // 4. Raida tieši 1 reizi
+s.RobezaSasniegta -= ApstradesMetode;           // Atvieno klausītāju</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Sagatavo dalībnieka paziņojumu</h2>
 <p class="task-files"><b>Kur strādāt:</b> Atjauno <code>Scripts/Participant.cs</code>, <code>Scripts/Captain.cs</code>, <code>Scripts/Presenter.cs</code> un, ja izveidots, <code>Scripts/TimeKeeper.cs</code>. Finished signālu pievieno Participant klasē, tā nosūtīšanu — <code>ApplyPenalty()</code>; vecās pārbaudes izņem no <code>Scripts/LessonDemo.cs</code> metodes <code>_Ready()</code>. Izveido <code>Scenes/Tournament.tscn</code>.</p>

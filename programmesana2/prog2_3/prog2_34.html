@@ -72,7 +72,18 @@
 <tr><td><code>[GlobalClass]</code> virs klases</td><td>Ļauj atrast <code>partial</code> klasi pēc nosaukuma <b>Add Node</b> logā (ja faila un klases nosaukumi sakrīt).</td><td>Neizveido un nepievieno mezglu scēnai izstrādātāja vietā.</td></tr>
 <tr><td><code>[Export]</code> virs lauka vai īpašības</td><td>Parāda vērtību <b>Inspector</b> panelī un saglabā to kopā ar konkrēto mezglu scēnā.</td><td>Neizpilda aprēķinus pats par sevi — to izmanto programmas kods.</td></tr>
 </tbody></table></div>
-<p>Parasts <code>public</code> padara datus pieejamus citam C# kodam, bet bez <code>[Export]</code> tie neparādās <b>Inspector</b> panelī. Pēc atribūtu pievienošanas fails jāsaglabā un jānospiež <b>Build</b>.</p>
+<p>Parasts <code>public</code> padara datus pieejamus citam C# kodam, bet bez <code>[Export]</code> tie neparādās <b>Inspector</b> panelī. Pēc atribūtu pievienošanas fails jāsaglabā un jānospiež <b>Build</b>:</p>
+<pre><code class="language-csharp">using Godot;
+
+[GlobalClass]
+public partial class Termostats : Node
+{
+    [Export]
+    public string TelpasNosaukums { get; set; } = "Kabinets";
+
+    // Bez [Export] lauks ir pieejams C# kodā, bet ne Inspector panelī:
+    public bool IrIeslegts = true;
+}</code></pre>
 </div>
 <div class="logic-box" id="ipasiba"><h3>C# īpašības (<code>get</code>, <code>set</code> un <code>value</code>) un diapazona norāde</h3>
 <p>Atšķirībā no parasta lauka, <b>īpašība (<code>property</code>)</b> apvieno vērtības nolasīšanu (<code>get</code>) un piešķiršanu (<code>set</code>). Ja papildu pārbaude nav vajadzīga, lieto īso pierakstu <code>[Export] public string Virsraksts { get; set; } = "Noklusējums";</code>, kur glabāšanas vietu C# izveido automātiski. Ja jāaizsargā derīgo vērtību robežas — līdzīgi kā digitālam termostatam, kas neļauj iestatīt temperatūru zem drošā minimuma —, datus glabā <code>private</code> laukā un piešķiršanu kontrolē caur <code>set</code>:</p>
@@ -88,7 +99,15 @@ public int Intensitate
 </div>
 <div class="logic-box"><h3>Scēnā saglabāto <code>Inspector</code> vērtību prioritāte un mezgla nosaukums</h3>
 <p>Kodā ierakstītā sākumvērtība kalpo kā noklusējums jauniem mezgliem. Ja konkrētam mezglam <b>Inspector</b> panelī iestata citu skaitli un saglabā scēnu, palaižot programmu, tieši šī scēnā saglabātā vērtība ir noteicošā (vēlāka noklusējuma maiņa C# failā nepārraksta jau saglabātu mezgla iestatījumu, kamēr to neatjauno <b>Inspector</b> panelī; arī pārējie tās pašas klases mezgli saglabā katrs savus datus).</p>
-<p>Tāpat jāatšķir mezgla tehniskais <code>Name</code> <b>Scene</b> kokā (pēc kura mezglu atrod kodā, piemēram, ar <code>GetNode</code>) no eksportētas teksta īpašības, ko izvada lasāmai saziņai ar lietotāju — tiem nav jāsakrīt, un patieso izpildes laika vērtību drošāk pārbaudīt ar <code>GD.Print</code> metodē <code>_Ready()</code>.</p>
+<p>Tāpat jāatšķir mezgla tehniskais <code>Name</code> <b>Scene</b> kokā (pēc kura mezglu atrod kodā, piemēram, ar <code>GetNode</code>) no eksportētas teksta īpašības, ko izvada lasāmai saziņai ar lietotāju — tiem nav jāsakrīt, un patieso izpildes laika vērtību drošāk pārbaudīt ar <code>GD.Print</code> metodē <code>_Ready()</code>:</p>
+<pre><code class="language-csharp">// Katrs Termostats mezgls izdrukā savu Scene vārdu un Inspector datus:
+public override void _Ready()
+{
+    GD.Print("[", Name, "] ", TelpasNosaukums, ": ", Intensitate);
+}
+
+// Vadības skriptā mezglu atrod pēc tā tehniskā Name scēnas kokā:
+Termostats pirmais = GetNode&lt;Termostats&gt;("Termostats1");</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Pievieno savu mezgla tipu</h2>
 <p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Obstacle.cs</code> ar Obstacle klasi un Godot redaktorā saglabā scēnu <code>Scenes/ObstacleDemo.tscn</code>.</p>

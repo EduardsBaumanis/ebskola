@@ -70,7 +70,13 @@
 <section id="teorija"><h2>Teorija: 2D koordinātes, ātrums un sadursmes</h2>
 <div class="logic-box"><h3>2D koordinātu plakne un fizikas objekta mērogs</h3>
 <p>Atšķirībā no matemātikas Dekarta plaknes, 2D datorgrafikā koordinātu sākumpunkts <code>(0, 0)</code> atrodas loga <b>kreisajā augšējā stūrī</b>: <code>X</code> pieaug pa labi, bet <code>Y</code> — <b>uz leju</b> (piemēram, <code>1280 × 720</code> pikseļu logā centrs ir <code>(640, 360)</code>).</p>
-<p><b>Saknes <code>Position</code></b> novieto visu objektu telpā, kamēr tās <code>child node</code> (bērnmezglu — vizuālā attēla un <code>CollisionShape2D</code> (2D sadursmes forma)) pozīcijas saglabā <code>(0, 0)</code>. Fizikas saknes mērogu (<code>Scale</code> / Mērogs) atstāj <code>(1, 1)</code> — objekta izmēru maina pašā sadursmes formā, lai fizikas aprēķini saglabātos precīzi.</p>
+<p><b>Saknes <code>Position</code></b> novieto visu objektu telpā, kamēr tās <code>child node</code> (bērnmezglu — vizuālā attēla un <code>CollisionShape2D</code> (2D sadursmes forma)) pozīcijas saglabā <code>(0, 0)</code>. Fizikas saknes mērogu (<code>Scale</code> / Mērogs) atstāj <code>(1, 1)</code> — objekta izmēru maina pašā sadursmes formā, lai fizikas aprēķini saglabātos precīzi:</p>
+<pre><code class="language-csharp">// 1280 × 720 loga centrs (X pieaug pa labi, Y pieaug uz leju)
+Position = new Vector2(640, 360);
+Scale = new Vector2(1, 1); // Fizikas saknei saglabā mērogu (1, 1)
+
+Vector2 uzAugsu = new Vector2(0, -1); // Negatīvs Y virza uz augšu
+Vector2 uzLeju = new Vector2(0, 1);   // Pozitīvs Y virza uz leju</code></pre>
 </div>
 <div class="logic-box"><h3>Fizikas cikls, <code>delta</code> un divas kustības metodes</h3>
 <p>Fizikas kustība notiek metodē <code>_PhysicsProcess(double delta)</code>, kur <code>delta</code> (soļa ilgums sekundēs) nodrošina vienādu pārvietošanās ātrumu neatkarīgi no datora jaudas (līdzīgi kā nobrauktais ceļš fizikas formulā ir ātrums, reizināts ar laiku). Īpašība <code>Velocity</code> glabā ātrumu pikseļos sekundē, taču divās <code>CharacterBody2D</code> <code>method</code> (metodēs) <code>delta</code> lieto atšķirīgi:</p>
@@ -79,10 +85,28 @@
 <li><code>MoveAndCollide(Velocity * (float)delta)</code> — pārvieto ķermeni līdz pirmajai sadursmei un prasa tieši <b>viena soļa pārbīdes vektoru</b>, tāpēc ātrumu reizina ar <code>(float)delta</code>.</li>
 </ul>
 <p>Ja sadursmes nav, <code>MoveAndCollide</code> rezultāts ir <code>null</code> (tukša atsauce). Ja sadursme notiek, <code>Velocity.Bounce(collision.GetNormal())</code> pēc virsmas perpendikula (normāles) aprēķina atlēkušo ātrumu — gluži kā gaismas stars atstarojas no spoguļa. Plašāk skati <a href="https://docs.godotengine.org/en/stable/tutorials/physics/using_character_body_2d.html">Godot kustības un atlēkšanas dokumentāciju</a>.</p>
+<pre><code class="language-csharp">// 1. variants (slīdošam ķermenim): MoveAndSlide jau iekšēji izmanto delta
+public override void _PhysicsProcess(double delta)
+{
+    float virziens = Input.GetAxis("move_up", "move_down");
+    Velocity = new Vector2(0, virziens * Speed);
+    MoveAndSlide();
+}
+
+// 2. variants (atlecošam ķermenim): pārbīdi reizina ar (float)delta
+public override void _PhysicsProcess(double delta)
+{
+    KinematicCollision2D sadursme = MoveAndCollide(Velocity * (float)delta);
+    if (sadursme != null)
+        Velocity = Velocity.Bounce(sadursme.GetNormal());
+}</code></pre>
 </div>
 <div class="logic-box"><h3>Sadursmju slāņi (<code>Layer</code>) un maskas (<code>Mask</code>)</h3>
 <p>Sadursmju filtrēšana darbojas līdzīgi rāciju kanāliem: <b><code>Collision Layer</code> (slānis)</b> nosaka, <i>kurā kanālā objekts pats atrodas</i> („kas es esmu”), bet <b><code>Collision Mask</code> (maska)</b> — <i>kurus kanālus objekts uzmana kā šķēršļus</i> („ar ko es saskaros”).</p>
-<p><b>Inspector</b> panelī atzīmē slāņu kārtas numurus (<code>1</code>, <code>2</code>, <code>3</code>...), savukārt <code>.tscn</code> teksta failā tie glabājas kā bināri <code>bit</code> (bitu) karodziņi divnieka pakāpēs (<code>2<sup>0</sup> = 1</code>, <code>2<sup>1</sup> = 2</code>, <code>2<sup>2</sup> = 4</code> — piemēram, 3. slāņa bitu vērtība ir <code>4</code>, bet vienlaikus ieslēgtu 1. un 2. slāņa maskas summa ir <code>3</code>).</p>
+<p><b>Inspector</b> panelī atzīmē slāņu kārtas numurus (<code>1</code>, <code>2</code>, <code>3</code>...), savukārt <code>.tscn</code> teksta failā tie glabājas kā bināri <code>bit</code> (bitu) karodziņi divnieka pakāpēs (<code>2<sup>0</sup> = 1</code>, <code>2<sup>1</sup> = 2</code>, <code>2<sup>2</sup> = 4</code> — piemēram, 3. slāņa bitu vērtība ir <code>4</code>, bet vienlaikus ieslēgtu 1. un 2. slāņa maskas summa ir <code>3</code>):</p>
+<pre><code class="language-csharp">// Slāņu iestatīšana C# kodā: pēc kārtas numura vai kā bitu summa
+SetCollisionLayerValue(3, true); // 3. slāņa ķeksītis (bitu vērtība: 2² = 4)
+CollisionMask = 1 + 2;           // 1. un 2. slāņa maska kopā (vērtība: 3)</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Izveido redzamas laukuma robežas</h2>

@@ -69,15 +69,48 @@
 </div></section>
 <section id="teorija"><h2>Teorija: zarošanās, pārskaitījumi un cikls <code>foreach</code></h2>
 <div class="logic-box"><h3>Nosacījumu zarošanās (<code>if / else if / else</code>)</h3>
-<p>Programmas uzvedību atkarībā no datu stāvokļa vada ar <code>if</code> (nosacījuma pārbaude — „ja”) un <code>else</code> (pretējais gadījums — „citādi”). Virknējot vairākas pārbaudes ar <code>else if</code>, C# tās izvērtē secīgi no augšas uz leju un izpilda <b>tikai pirmo zaru</b>, kura nosacījums ir <code>true</code> (patiess), pārējos izlaižot — līdzīgi kā automātiskais termostats vispirms pārbauda kritisko pārkaršanas robežu un tikai tad parasto darba režīmu.</p>
+<p>Programmas uzvedību atkarībā no datu stāvokļa vada ar <code>if</code> (nosacījuma pārbaude — „ja”) un <code>else</code> (pretējais gadījums — „citādi”). Virknējot vairākas pārbaudes ar <code>else if</code>, C# tās izvērtē secīgi no augšas uz leju un izpilda <b>tikai pirmo zaru</b>, kura nosacījums ir <code>true</code> (patiess), pārējos izlaižot — līdzīgi kā automātiskais termostats vispirms pārbauda kritisko pārkaršanas robežu un tikai tad parasto darba režīmu:</p>
+<pre><code class="language-csharp">int temperatura = 85;
+
+if (temperatura &gt;= 90)
+    GD.Print("Kritiska pārkaršana — izslēdz iekārtu!");
+else if (temperatura &gt;= 70)
+    GD.Print("Paaugstināta temperatūra — ieslēdz dzesēšanu.");
+else
+    GD.Print("Normāls darba režīms.");</code></pre>
 </div>
 <div class="logic-box"><h3>Pārskaitījuma tips <code>enum</code> un izvēle <code>switch</code></h3>
 <p>Ja mainīgajam drīkst būt tikai dažas iepriekš zināmas kategorijas, brīva teksta vietā C# definē <b><code>enum</code> (pārskaitījuma tipu)</b> — stingru nosauktu vērtību sarakstu (piemēram, <code>enum Size { Small, Medium, Large }</code>). Tas pasargā no drukas kļūdām jau kompilācijas laikā.</p>
-<p>Lai katrai kategorijai noteiktu savu darbību, ērti lietot konstrukciju <code>switch</code> (izvēle pēc vērtības): tā salīdzina saņemto vērtību ar <code>case</code> (izvēles gadījums) zariem — gluži kā šķirošanas līnija pakomātā novirza katra izmēra sūtījumu savā nodalījumā. Katra <code>case</code> zara darbības noslēdz atslēgvārds <code>break;</code>.</p>
+<p>Lai katrai kategorijai noteiktu savu darbību, ērti lietot konstrukciju <code>switch</code> (izvēle pēc vērtības): tā salīdzina saņemto vērtību ar <code>case</code> (izvēles gadījums) zariem — gluži kā šķirošanas līnija pakomātā novirza katra izmēra sūtījumu savā nodalījumā. Katra <code>case</code> zara darbības noslēdz atslēgvārds <code>break;</code>:</p>
+<pre><code class="language-csharp">public enum Size { Small, Medium, Large }
+
+public void RegistretSutijumu(Size izmers)
+{
+    switch (izmers)
+    {
+        case Size.Small:
+            aiznemtasVienibas += 1;
+            break;
+        case Size.Medium:
+            aiznemtasVienibas += 2;
+            break;
+        case Size.Large:
+            irLielgabarita = true;
+            break;
+    }
+}</code></pre>
 </div>
 <div class="logic-box"><h3>Kolekcijas apstrāde ar <code>foreach</code> un kontrolētas īpašības</h3>
 <p>Vienāda tipa vērtību virkni var glabāt masīvā (piemēram, <code>int[] values = { 10, 20, 30 };</code>), bet konstrukcija <code>foreach</code> (katra elementa cikls) secīgi paņem katru saraksta elementu pa vienam no pirmā līdz pēdējam — tāpat kā kasieris noskenē visas preces uz lentes pēc kārtas.</p>
-<p>Savukārt klases īpašība ar pierakstu <code>{ get; private set; }</code> ļauj citiem skriptiem vērtību droši nolasīt, bet izmainīt to drīkst tikai pašas klases iekšējās metodes (kā rādītājs aiz aizslēgta stikla, kuru nevar patvaļīgi pagriezt no ārpuses).</p>
+<p>Savukārt klases īpašība ar pierakstu <code>{ get; private set; }</code> ļauj citiem skriptiem vērtību droši nolasīt, bet izmainīt to drīkst tikai pašas klases iekšējās metodes (kā rādītājs aiz aizslēgta stikla, kuru nevar patvaļīgi pagriezt no ārpuses):</p>
+<pre><code class="language-csharp">public int Kopsumma { get; private set; } = 0; // Ārpusē tikai nolasāma īpašība
+
+public void SaskaititMerijumus()
+{
+    int[] values = { 10, 20, 30 };
+    foreach (int vertiba in values)
+        Kopsumma += vertiba; // Pēc cikla Kopsumma ir 60
+}</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Palaid spēli un izlasi trīs dažādas ziņas</h2>

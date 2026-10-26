@@ -70,11 +70,26 @@
 <section id="teorija"><h2>Teorija: C# class, datu tipi un Inspector īpašības</h2>
 <div class="logic-box"><h3>C# skripta saistība ar mezglu</h3>
 <p>Direktīva <code>using Godot;</code> faila sākumā pieslēdz dzinēja bibliotēku un ļauj izmantot tā iebūvētos <code>type</code> (tipus). Deklarācija, piemēram, <code>public partial class KustigsObjekts : CharacterBody2D</code>, apraksta C# <code>class</code> (klasi), kuras nosaukumam precīzi jāsakrīt ar faila nosaukumu (<code>KustigsObjekts.cs</code>), atslēgvārdam <code>partial</code> (pa failiem sadalāma klase) jāļauj dzinējam kompilācijas laikā pievienot savu palīgkodu, bet bāzes tipam aiz kola <code>:</code> jāatbilst scēnas mezgla tipam.</p>
-<p>Savukārt šīs klases <code>instance</code> (eksemplāriem) citā scēnā var dot atšķirīgus mezglu vārdus — gluži kā viena modeļa viedierīcēm darbojas vienāda programmatūra, taču katrai ierīcei var piešķirt savu nosaukumu.</p>
+<p>Savukārt šīs klases <code>instance</code> (eksemplāriem) citā scēnā var dot atšķirīgus mezglu vārdus — gluži kā viena modeļa viedierīcēm darbojas vienāda programmatūra, taču katrai ierīcei var piešķirt savu nosaukumu:</p>
+<pre><code class="language-csharp">// Fails: res://Scripts/KustigsObjekts.cs
+using Godot;
+
+public partial class KustigsObjekts : CharacterBody2D
+{
+    // Vienu klasi var izmantot vairāki scēnas eksemplāri ar dažādiem vārdiem
+}</code></pre>
 </div>
 <div class="logic-box"><h3>Sākuma metode <code>_Ready()</code>, teksta izvade un <code>[Export]</code></h3>
 <p>Metodi <code>_Ready()</code> Godot automātiski izsauc vienreiz brīdī, kad <code>node</code> (mezgls) ir sagatavots scēnā. <code>GD.Print</code> izvada tekstu <code>Output</code> panelī, bet teksta interpolācija <code>$"...{Speed}..."</code> (simbols <code>$</code> pirms pēdiņām) ievieto <code>variable</code> (mainīgā) vērtību tieši <code>string</code> (virknē).</p>
-<p>Atribūts <code>[Export]</code> (Inspector pieejamas īpašības atribūts) ļauj mainīt vērtību <b>Inspector</b> panelī pēc veiksmīga <b>Build</b>. Koda noklusējuma vērtība darbojas kā ierīces rūpnīcas iestatījums, bet <b>Inspector</b> panelī saglabātā vērtība — kā konkrētam eksemplāram iestatīts profils: izpildes laikā <b>Inspector</b> saglabātā vērtība ir svarīgāka par koda noklusējumu.</p>
+<p>Atribūts <code>[Export]</code> (Inspector pieejamas īpašības atribūts) ļauj mainīt vērtību <b>Inspector</b> panelī pēc veiksmīga <b>Build</b>. Koda noklusējuma vērtība darbojas kā ierīces rūpnīcas iestatījums, bet <b>Inspector</b> panelī saglabātā vērtība — kā konkrētam eksemplāram iestatīts profils: izpildes laikā <b>Inspector</b> saglabātā vērtība ir svarīgāka par koda noklusējumu:</p>
+<pre><code class="language-csharp">[Export] public float Speed = 250.0f; // Noklusējums kodā (maināms Inspector)
+public bool IsActive { get; set; } = true;
+
+public override void _Ready()
+{
+    // Name atgriež konkrētā eksemplāra mezgla nosaukumu scēnā
+    GD.Print($"{Name}: ātrums = {Speed}, aktīvs = {IsActive}");
+}</code></pre>
 </div>
 <div class="logic-box"><h3>Biežākie datu tipi (<code>data type</code>)</h3>
 <p>C# ir statiski tipizēta valoda — katram mainīgajam deklarējot norāda tipu kā marķētu konteineru noteikta veida datiem:</p>
@@ -87,7 +102,15 @@
 <tr><td><code>Vector2</code> (divdimensiju vektors)</td><td><code>Position</code> vai <code>Velocity</code> — vērtību pāris ar <code>X</code> un <code>Y</code> komponentēm 2D plaknē.</td></tr>
 </tbody>
 </table>
-</div></div></section>
+</div>
+<p>Mainīgo deklarēšana un pamatdarbības C# kodā:</p>
+<pre><code class="language-csharp">float atrums = 250.0f;                       // Daļskaitlim pievieno f
+string darbibasKods = "move_up";             // Teksta virkne pēdiņās
+bool irAktivs = true;                        // Loģiska vērtība (true/false)
+int skaititajs = 0;                          // Vesels skaitlis
+skaititajs += 1;                             // Palielina vērtību par 1
+Vector2 sakumaVieta = new Vector2(640, 360); // 2D koordinātas (X, Y)</code></pre>
+</div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Pievieno Paddle.cs kopīgajai raketes scēnai</h2>
 <p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Paddle.cs</code>, aizstāj tā saturu ar doto pilno failu un piesaisti to <code>Scenes/Paddle.tscn</code> saknei.</p>

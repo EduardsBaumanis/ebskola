@@ -68,7 +68,30 @@
 <section id="teorija"><h2>Teorija: datu struktūras (<code>struct</code>), vērtību kopēšana un kompozīcija</h2>
 <div class="logic-box"><h3>Struktūra (<code>struct</code>) saistītu datu grupēšanai</h3>
 <p>Ja vairāki skaitliski rādītāji (piemēram, pašreizējais apjoms, maksimālā ietilpība un bāzes koeficients) loģiski pieder kopā, tos ērti apvienot vieglā lietotāja definētā datu tipā ar atslēgvārdu <b><code>struct</code> (struktūra)</b>. Jāievēro, ka C# struktūras lauki pēc noklusējuma <b>nav publiski</b> — laukiem, kurus lasīs vai mainīs ārpus struktūras, priekšā skaidri raksta <code>public</code>.</p>
-<p>Izsaukums <code>new Struktura()</code> bez argumentiem visus skaitliskos laukus aizpilda ar nullēm. Pievienojot struktūrai konstruktoru ar parametriem, jau izveidošanas brīdī var piešķirt jēgpilnas sākuma vērtības, savukārt nelielām struktūrām publiskos laukus var aizpildīt arī ar inicializatora pierakstu <code>new Pielikums { Nosaukums = "...", Vertiba = 5 }</code>.</p>
+<p>Izsaukums <code>new Struktura()</code> bez argumentiem visus skaitliskos laukus aizpilda ar nullēm. Pievienojot struktūrai konstruktoru ar parametriem, jau izveidošanas brīdī var piešķirt jēgpilnas sākuma vērtības, savukārt nelielām struktūrām publiskos laukus var aizpildīt arī ar inicializatora pierakstu <code>new Pielikums { Nosaukums = "...", Vertiba = 5 }</code>:</p>
+<pre><code class="language-csharp">public struct Merijums
+{
+    public int Apjoms;
+    public int MaxApjoms;
+    public int Baze;
+
+    public Merijums(int apjoms, int baze)
+    {
+        Apjoms = apjoms;
+        MaxApjoms = apjoms;
+        Baze = baze;
+    }
+}
+
+public struct Pielikums
+{
+    public string Nosaukums;
+    public int Vertiba;
+}
+
+// Tukšs izsaukums aizpilda skaitļus ar 0, inicializators — ar norādīto:
+Merijums tukss = new Merijums(); // Apjoms = 0, MaxApjoms = 0, Baze = 0
+Pielikums p = new Pielikums { Nosaukums = "Filtrs", Vertiba = 5 };</code></pre>
 </div>
 <div class="logic-box" id="kopija"><h3>Vērtību kopēšana (<code>struct</code>) pret atsauci uz objektu (<code>class</code>)</h3>
 <p>Atšķirību starp <code>struct</code> un <code>class</code> var salīdzināt ar <b>papīra fotokopiju</b> un <b>koplietota tiešsaistes dokumenta saiti</b>. Struktūra, kas satur skaitļus, ir <b>vērtību tips (<code>value type</code>)</b> — piešķirot to citam mainīgajam, visas vērtības tiek nokopētas jaunā, neatkarīgā vietā:</p>
@@ -76,11 +99,35 @@
 Merijums kopija = originals;
 kopija.Apjoms = 40;
 // originals.Apjoms joprojām ir 100, bet kopija.Apjoms ir 40.</code></pre>
-<p>Tāpat arī metode, kuras atgriežamais tips ir <code>struct</code>, izsaucējam atdod neatkarīgu datu <b>kopiju</b> (tās izmainīšana neietekmē oriģinālo objektu). Turpretī <code>class</code> ir <b>atsauces tips (<code>reference type</code>)</b>: pieraksts <code>Klase otrs = pirmais;</code> neizveido jaunu objektu, bet liek abiem mainīgajiem norādīt uz vienu un to pašu eksemplāru atmiņā, tāpēc caur vienu mainīgo veiktās izmaiņas redzamas arī caur otru.</p>
+<p>Tāpat arī metode, kuras atgriežamais tips ir <code>struct</code>, izsaucējam atdod neatkarīgu datu <b>kopiju</b> (tās izmainīšana neietekmē oriģinālo objektu). Turpretī <code>class</code> ir <b>atsauces tips (<code>reference type</code>)</b>: pieraksts <code>Klase otrs = pirmais;</code> neizveido jaunu objektu, bet liek abiem mainīgajiem norādīt uz vienu un to pašu eksemplāru atmiņā, tāpēc caur vienu mainīgo veiktās izmaiņas redzamas arī caur otru:</p>
+<pre><code class="language-csharp">Konts pirmais = new Konts("Līga", 100);
+Konts otrs = pirmais; // Abi mainīgie norāda uz vienu un to pašu objektu
+otrs.Atlikums = 40;
+// Arī pirmais.Atlikums tagad ir 40.</code></pre>
 </div>
 <div class="logic-box"><h3>Kompozīcija, robežas ierobežošana (<code>Math.Min</code>) un dinamisku modifikatoru summēšana</h3>
 <p>Ja klase savā iekšienē glabā <code>private</code> struktūru vai sarakstu, veidojas <b>kompozīcija</b> — attiecība „objektam <i>ir</i> dati” (pretstatā mantošanas attiecībai „objekts <i>ir</i> bāzes tips”). Lai iekšējo struktūru droši atjauninātu, izmaiņas veic caur pašas klases metodi, bet augšējo griestu nepārsniegšanai izmanto <code>Math.Min(maksimums, tekosais + pielikums)</code>, kas izvēlas mazāko no diviem skaitļiem.</p>
-<p>Ja gala rādītājs jāaprēķina no bāzes vērtības un mainīga saraksta <code>List&lt;T&gt;</code> ar pagaidu modifikatoriem (saraksta indeksi sākas ar <code>0</code>, un <code>RemoveAt(index)</code> izņem attiecīgo elementu), aprēķinu katrā izsaukumā sāk lokālā mainīgajā (<code>int kopsumma = baze;</code>) un ciklā <code>foreach</code> pieskaita aktīvos pielikumus. Tas darbojas kā pirkumu grozs, kur preces pamatcenai katrā apskatē pieskaita spēkā esošos atlaižu vai bonusu kuponus: ja pielikumu pieskaitītu tieši glabātajam bāzes laukam, atkārtoti metodes izsaukumi vienu un to pašu vērtību kļūdaini uzkrātu arvien no jauna.</p>
+<p>Ja gala rādītājs jāaprēķina no bāzes vērtības un mainīga saraksta <code>List&lt;T&gt;</code> ar pagaidu modifikatoriem (saraksta indeksi sākas ar <code>0</code>, un <code>RemoveAt(index)</code> izņem attiecīgo elementu), aprēķinu katrā izsaukumā sāk lokālā mainīgajā (<code>int kopsumma = baze;</code>) un ciklā <code>foreach</code> pieskaita aktīvos pielikumus. Tas darbojas kā pirkumu grozs, kur preces pamatcenai katrā apskatē pieskaita spēkā esošos atlaižu vai bonusu kuponus: ja pielikumu pieskaitītu tieši glabātajam bāzes laukam, atkārtoti metodes izsaukumi vienu un to pašu vērtību kļūdaini uzkrātu arvien no jauna:</p>
+<pre><code class="language-csharp">private Merijums dati = new Merijums(100, 10);
+private List&lt;Pielikums&gt; pielikumi = new List&lt;Pielikums&gt;();
+
+public void Papildinat(int daudzums)
+{
+    if (daudzums &lt;= 0) return;
+    dati.Apjoms = Math.Min(dati.MaxApjoms, dati.Apjoms + daudzums);
+}
+
+public void NonemtPielikumu(int indekss) { pielikumi.RemoveAt(indekss); }
+
+public int AprekinatKopapjomu()
+{
+    int kopsumma = dati.Baze; // Sāk no bāzes lokālā mainīgajā
+    foreach (Pielikums p in pielikumi)
+    {
+        kopsumma += p.Vertiba;
+    }
+    return kopsumma;          // dati.Baze paliek nemainīgs (10)
+}</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Pārbaudi struktūras sākuma vērtības un kopiju</h2>
 <p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Stats.cs</code> struktūrai un <code>Scripts/StatsDemo.cs</code> pārbaudēm. StatsDemo skriptu piesaisti <code>Scenes/StatsDemo.tscn</code> Node saknei; izdrukas un kopijas izmēģinājumu raksti tā metodē <code>_Ready()</code>.</p>

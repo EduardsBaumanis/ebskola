@@ -70,21 +70,47 @@
 <section id="teorija"><h2>Teorija: modulāras sistēmas uzbūve, nejauša izvēle un cikla drošība</h2>
 <div class="logic-box"><h3>Modulāras sistēmas dekompozīcija un mezglu dinamiska izveide</h3>
 <p>Apjomīgākās programmās visus noteikumus neraksta vienā garā skriptā, bet pielieto <b>dekompozīciju</b> — pienākumu sadali pa atsevišķām klasēm un datu struktūrām. Līdzīgi kā pasākuma tehniskajā komandā katram speciālistam ir sava atbildība, objektorientētā sistēmā datu struktūras glabā skaitļus, bāzes un atvasinātās klases caur polimorfismu (<code>virtual</code> un <code>override</code>) izpilda specifiskos noteikumus, <b>Inspector</b> konfigurēti mezgli glabā vides parametrus, bet centrālais vadītājs organizē soļus un klausās signālus (<code>+=</code>).</p>
-<p>Veidojot Godot mezglus dinamiski C# kodā ar <code>new</code>, jāatšķir divas dažādas darbības: <code>AddChild(mezgls)</code> pievieno objektu Godot <b>Scene</b> kokam, savukārt <code>saraksts.Add(mezgls)</code> saglabā atsauci C# sarakstā <code>List&lt;T&gt;</code> ērtai apstrādei ciklos.</p>
+<p>Veidojot Godot mezglus dinamiski C# kodā ar <code>new</code>, jāatšķir divas dažādas darbības: <code>AddChild(mezgls)</code> pievieno objektu Godot <b>Scene</b> kokam, savukārt <code>saraksts.Add(mezgls)</code> saglabā atsauci C# sarakstā <code>List&lt;T&gt;</code> ērtai apstrādei ciklos:</p>
+<pre><code class="language-csharp">private List&lt;Vienums&gt; visiVienumi = new List&lt;Vienums&gt;();
+
+public override void _Ready()
+{
+    Vienums pirmais = new Vienums();
+    AddChild(pirmais);               // Pievieno mezglu Godot Scene kokam
+    pirmais.Setup("Modulis A", 50);  // Iestata objekta sākuma datus
+    pirmais.Pabeigts += KadPabeigts; // Pieslēdz notikuma signālu
+    visiVienumi.Add(pirmais);        // Saglabā atsauci C# sarakstā cikliem
+}</code></pre>
 </div>
 <div class="logic-box"><h3>Aktīvo objektu atlasīšana un nejauša izvēle (<code>GD.RandRange</code>)</h3>
 <p>Daudzsoļu procesos objekti, kas savu darbību jau beiguši, bieži paliek kopējā sarakstā vēstures vai pārskata vajadzībām. Ja nākamo kandidātu izvēlētos no visa saraksta, programma varētu atkārtoti trāpīt uz neaktīvu objektu, nemainot kopējo stāvokli. Tāpēc pirms katra soļa ar palīgmetodi atlasa atsevišķu <code>List&lt;T&gt;</code> tikai ar tiem elementiem, kuriem pārbaudes metode atgriež <code>true</code>.</p>
 <p>Sarakstam ar <code>Count</code> elementiem derīgie indeksi ir no <code>0</code> līdz <code>Count - 1</code>. Kad saraksts nav tukšs, nejaušu elementu izvēlas ar abpusēji ieskaitošu intervālu:</p>
-<pre><code class="language-csharp">int indekss = (int)GD.RandRange(0, elementi.Count - 1);
+<pre><code class="language-csharp">private List&lt;Vienums&gt; GetAktivos()
+{
+    List&lt;Vienums&gt; aktivie = new List&lt;Vienums&gt;();
+    foreach (Vienums v in visiVienumi)
+    {
+        if (v.IrAktivs()) aktivie.Add(v);
+    }
+    return aktivie;
+}
+
+// Kad aktīvo saraksts nav tukšs, izvēlas nejaušu elementu:
+List&lt;Vienums&gt; elementi = GetAktivos();
+int indekss = (int)GD.RandRange(0, elementi.Count - 1);
 Vienums izveletais = elementi[indekss];</code></pre>
 <p>Jēdziens „nejauši” nenozīmē „katrā reizē cits” — gluži kā metot spēļu kauliņu, viens skaitlis var uzkrist trīs reizes pēc kārtas, arī vairākās programmas palaišanās var atkārtoties viens un tas pats iznākums. Tāpēc aprēķinu formulas vispirms pārbauda ar fiksētiem, zināmiem indeksiem (piemēram, <code>0</code>), un tikai pēc tam ieslēdz <code>GD.RandRange</code>.</p>
 </div>
 <div class="logic-box" id="cikla-beigas"><h3>Nosacījuma cikls <code>while</code>, izbeigšanās garantija un drošības skaitītājs</h3>
 <p>Cikls <code>while</code> pirms katra soļa pārbauda loģisko nosacījumu un atkārto darbību, kamēr tas ir patiess. Lai cikls <b>garantēti beigtos</b>, nosacījumā jāpārbauda mainīgais <i>aktīvo</i> objektu skaits (nevis nemainīgais sākuma saraksta garums), un katram cikla solim sistēma neatgriezeniski jāpietuvina gala stāvoklim — piemēram, katrā solī vismaz par <code>1</code> vienību samazinot ierobežotu pozitīvu resursu bez tā papildināšanas ciklā.</p>
-<pre><code class="language-csharp">while (GetAktivos().Count &gt; 1 &amp;&amp; solis &lt; 1000)
+<pre><code class="language-csharp">int solis = 0;
+while (GetAktivos().Count &gt; 1 &amp;&amp; solis &lt; 1000)
 {
+    solis++;
     IzpilditSoli();
-}</code></pre>
+}
+if (solis &gt;= 1000)
+    GD.Print("Sasniegts drošības limits — pārbaudi samazināšanu!");</code></pre>
 <p>Loģiskais „un” (<code>&amp;&amp;</code>) pieprasa, lai izpildītos abi nosacījumi vienlaikus. Papildu robeža (piemēram, <code>solis &lt; 1000</code>) kalpo kā drošības bremze pret kļūdainu bezgalīgu ciklu: ja sasniegts skaitītāja griestu limits, programma neuzkaras, bet apstājas un izvada diagnostikas brīdinājumu.</p>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Savieno projektu un pārbaudi sākuma datus</h2>

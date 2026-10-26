@@ -69,15 +69,39 @@
 </div></section>
 <section id="teorija"><h2>Teorija: gravitācijas paātrinājums, impulss un balsta pārbaude</h2>
 <div class="logic-box"><h3>Gravitācija kā vertikāls paātrinājums</h3>
-<p>Brīvā kritienā objekts nepārvietojas ar nemainīgu ātrumu — katrā sekundē tā vertikālais ātrums pieaug par noteiktu lielumu jeb paātrinājumu. Tā kā 2D ekrāna koordinātu sistēmā <code>Y</code> ass ir vērsta <b>uz leju</b>, krišanu simulē, katrā fizikas solī pieskaitot pozitīvu skaitli vertikālajam ātrumam: <code>velocity.Y += Gravity * (float)delta</code> (jo lielāka <code>Gravity</code> vērtība, jo straujāk ķermenis paātrinās lejup).</p>
+<p>Brīvā kritienā objekts nepārvietojas ar nemainīgu ātrumu — katrā sekundē tā vertikālais ātrums pieaug par noteiktu lielumu jeb paātrinājumu. Tā kā 2D ekrāna koordinātu sistēmā <code>Y</code> ass ir vērsta <b>uz leju</b>, krišanu simulē, katrā fizikas solī pieskaitot pozitīvu skaitli vertikālajam ātrumam: <code>velocity.Y += Gravity * (float)delta</code> (jo lielāka <code>Gravity</code> vērtība, jo straujāk ķermenis paātrinās lejup):</p>
+<pre><code class="language-csharp">[Export] public float Gravity = 1200.0f; // Paātrinājums lejup (px/s²)
+
+// Katrā brīvā kritiena solī vertikālais ātrums Y pieaug uz leju
+if (!IsOnFloor())
+    velocity.Y += Gravity * (float)delta;</code></pre>
 </div>
 <div class="logic-box"><h3>Vertikālais impulss un mīnusa zīme kustībai augšup</h3>
 <p>Atšķirībā no pakāpeniskas krišanas, atgrūšanās no pamatnes piešķir ķermenim tūlītēju sākuma ātrumu pretējā virzienā — <b>uz augšu</b>. Tāpēc vertikālā impulsa vērtībai priekšā ir mīnusa zīme (piemēram, <code>-550.0f</code> pikseļi sekundē; skaitlis <code>-650</code> dod stiprāku grūdienu un augstāku pacēlumu nekā <code>-550</code>).</p>
-<p>Pēc atgrūšanās gravitācija katrā nākamajā kadrā šo negatīvo ātrumu pakāpeniski samazina līdz <code>0</code> (trajektorijas augstākais punkts) un pēc tam sāk vilkt ķermeni atpakaļ uz leju — tieši tāpat kā vertikāli gaisā pamestam priekšmetam reālajā pasaulē.</p>
+<p>Pēc atgrūšanās gravitācija katrā nākamajā kadrā šo negatīvo ātrumu pakāpeniski samazina līdz <code>0</code> (trajektorijas augstākais punkts) un pēc tam sāk vilkt ķermeni atpakaļ uz leju — tieši tāpat kā vertikāli gaisā pamestam priekšmetam reālajā pasaulē:</p>
+<pre><code class="language-csharp">[Export] public float PushImpulse = -550.0f; // Negatīvs Y = kustība uz augšu
+
+// Piešķir tūlītēju ātrumu augšup; turpmākajos kadros Gravity to maina:
+// -550 (startā) → ... → 0 (augstākais punkts) → +400 (kritiens lejup)
+velocity.Y = PushImpulse;</code></pre>
 </div>
 <div class="logic-box"><h3>Balsta pārbaude (<code>IsOnFloor()</code>) un ass nolasīšana (<code>Input.GetAxis</code>)</h3>
 <p><code>CharacterBody2D</code> režīmā <code>Grounded</code> metode <code>IsOnFloor()</code> nosaka, vai ķermenis pēc pēdējā <code>MoveAndSlide()</code> soļa saskaras ar atbalsta virsmu zem tā. Apvienojot vienreizēju taustiņa nospiešanu ar šo pārbaudi (<code>Input.IsActionJustPressed(...) &amp;&amp; IsOnFloor()</code>), atgrūšanās notiek tikai no pamatnes, neļaujot atkārtoti atsperties gaisā.</p>
-<p>Horizontālās ass apstrādei metode <code>Input.GetAxis("negativa_darbiba", "pozitiva_darbiba")</code> vienā izteiksmē atgriež virzienu no <code>-1</code> līdz <code>1</code> (vai <code>0</code>, ja netiek turēts neviens virziens vai abi pretējie tiek turēti vienlaikus).</p>
+<p>Horizontālās ass apstrādei metode <code>Input.GetAxis("negativa_darbiba", "pozitiva_darbiba")</code> vienā izteiksmē atgriež virzienu no <code>-1</code> līdz <code>1</code> (vai <code>0</code>, ja netiek turēts neviens virziens vai abi pretējie tiek turēti vienlaikus):</p>
+<pre><code class="language-csharp">public override void _PhysicsProcess(double delta)
+{
+    Vector2 velocity = Velocity;
+
+    if (!IsOnFloor())
+        velocity.Y += Gravity * (float)delta;
+
+    if (Input.IsActionJustPressed("push_up") &amp;&amp; IsOnFloor())
+        velocity.Y = PushImpulse; // Nostrādā tikai uz atbalsta virsmas
+
+    velocity.X = Input.GetAxis("move_left", "move_right") * Speed;
+    Velocity = velocity;
+    MoveAndSlide(); // Izpilda kustību un atjauno IsOnFloor() stāvokli
+}</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Liec varonim nokrist uz grīdas</h2>

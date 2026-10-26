@@ -72,14 +72,55 @@
 <section id="teorija"><h2>Teorija: modulāra arhitektūra, mezglu saites un saskarnes slānis</h2>
 <div class="logic-box"><h3>Problēmas dekompozīcija un atbildību sadale</h3>
 <p>Apjomīgākās programmās visu loģiku neraksta vienā failā — sistēmu sadala neatkarīgos moduļos (<b>dekompozīcija</b>). Katra komponenta <code>class</code> (klase) atbild tikai par viena objekta uzvedību (piemēram, kustību vai sadursmju noteikšanu), savukārt atsevišķa <b>vadības klase</b> nolasa komponentu stāvokļus, atjaunina skaitītājus un pārvalda programmas posmus (gaidīšana, aktīva darbība, noslēgums).</p>
-<p>To var salīdzināt ar orķestri: katrs mūziķis atskaņo tikai savu partiju, bet diriģents koordinē sākumu, pauzes un finālu. Ja visa lietotne darbojas vienā galvenajā scēnā, šo koordināciju pilnībā veic saknes mezglam piesaistīts skripts, un globāla <code>Autoload</code> (automātiska ielāde) sistēma nav nepieciešama.</p>
+<p>To var salīdzināt ar orķestri: katrs mūziķis atskaņo tikai savu partiju, bet diriģents koordinē sākumu, pauzes un finālu. Ja visa lietotne darbojas vienā galvenajā scēnā, šo koordināciju pilnībā veic saknes mezglam piesaistīts skripts, un globāla <code>Autoload</code> (automātiska ielāde) sistēma nav nepieciešama:</p>
+<pre><code class="language-csharp">// Komponenta klase — atbild tikai par sava objekta lokālo stāvokli
+public partial class Sensors : Node2D
+{
+    public bool IrNostradajis { get; private set; } = false;
+    public void Atiestatit() { IrNostradajis = false; }
+}
+
+// Vadības klases loģika — nolasa stāvokli un koordinē kopējo procesu
+if (sensors.IrNostradajis)
+{
+    notikumuSkaits++;
+    sensors.Atiestatit();
+}</code></pre>
 </div>
 <div class="logic-box"><h3>Mezglu savienošana (<code>GetNode</code>), notikumu ievade un scēnas pārlāde</h3>
 <p>Lai vadības klase sazinātos ar scēnas bērnmezgliem, metodē <code>_Ready()</code> saglabā atsauces ar <code>GetNode&lt;Tips&gt;("Ceļš/Līdz/Mezglam")</code>. Ceļam precīzi jāsakrīt ar mezglu nosaukumiem un hierarhiju <code>Scene</code> kokā — gluži kā faila ceļam mapju struktūrā.</p>
-<p>Vispārējai stāvokļa uzraudzībai katrā kadrā izmanto metodi <code>_Process(double delta)</code>. Vienreizējām komandām (piemēram, procesa palaišanai vai atiestatīšanai) lieto <code>Input.IsActionJustPressed("darbiba")</code>, kas nostrādā tikai vienā kadrā taustiņa nospiešanas brīdī (kā durvju zvana poga, nevis nepārtraukti turēts slēdzis). Savukārt <code>GetTree().ReloadCurrentScene()</code> pilnībā pārlādē pašreizējo scēnu, atgriežot visus skaitītājus un objektus sākuma stāvoklī.</p>
+<p>Vispārējai stāvokļa uzraudzībai katrā kadrā izmanto metodi <code>_Process(double delta)</code>. Vienreizējām komandām (piemēram, procesa palaišanai vai atiestatīšanai) lieto <code>Input.IsActionJustPressed("darbiba")</code>, kas nostrādā tikai vienā kadrā taustiņa nospiešanas brīdī (kā durvju zvana poga, nevis nepārtraukti turēts slēdzis). Savukārt <code>GetTree().ReloadCurrentScene()</code> pilnībā pārlādē pašreizējo scēnu, atgriežot visus skaitītājus un objektus sākuma stāvoklī:</p>
+<pre><code class="language-csharp">private KustigsObjekts objekts;
+
+public override void _Ready()
+{
+    // Ceļam precīzi jāsakrīt ar mezgla vārdu un vietu Scene kokā
+    objekts = GetNode&lt;KustigsObjekts&gt;("KustigsObjekts");
+}
+
+public override void _Process(double delta)
+{
+    if (Input.IsActionJustPressed("reset_scene"))
+    {
+        GetTree().ReloadCurrentScene(); // Pilnībā pārlādē aktīvo scēnu
+        return;
+    }
+
+    if (Input.IsActionJustPressed("start_process"))
+        objekts.SaktDarbibu(); // Nostrādā vienreiz nospiešanas kadrā
+}</code></pre>
 </div>
 <div class="logic-box"><h3>Lietotāja saskarnes slānis (<code>CanvasLayer</code> un <code>Label</code>)</h3>
-<p>Skaitītājus un teksta norādes ekrānā attēlo ar <code>Label</code> (teksta etiķete) mezgliem, kurus grupē zem <code>CanvasLayer</code> (zīmēšanas slānis). <code>CanvasLayer</code> darbojas kā nekustīga, caurspīdīga stikla plāksne virs 2D telpas (līdzīgi kā kameras ekrāna indikatori viedtālrunī): uzraksti vienmēr paliek fiksētā ekrāna vietā un nepiedalās fiziskās sadursmēs ar 2D objektiem.</p>
+<p>Skaitītājus un teksta norādes ekrānā attēlo ar <code>Label</code> (teksta etiķete) mezgliem, kurus grupē zem <code>CanvasLayer</code> (zīmēšanas slānis). <code>CanvasLayer</code> darbojas kā nekustīga, caurspīdīga stikla plāksne virs 2D telpas (līdzīgi kā kameras ekrāna indikatori viedtālrunī): uzraksti vienmēr paliek fiksētā ekrāna vietā un nepiedalās fiziskās sadursmēs ar 2D objektiem. C# kodā etiķetes saturu atjaunina ar īpašību <code>Text</code>, norādot ceļu caur <code>CanvasLayer</code> mezglu:</p>
+<pre><code class="language-csharp">// Mezglu koks: Sakne → InfoSlanis (CanvasLayer) → Skaititajs (Label)
+private Label skaititajs;
+private int skaits = 0;
+
+public override void _Ready()
+{
+    skaititajs = GetNode&lt;Label&gt;("InfoSlanis/Skaititajs");
+    skaititajs.Text = $"Reģistrēti notikumi: {skaits}";
+}</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Savieno punktus, servi, uzvaru un jaunu partiju</h2>

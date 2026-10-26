@@ -68,7 +68,33 @@
 <section id="teorija"><h2>Teorija: mantošana, metožu pārrakstīšana un polimorfisms</h2>
 <div class="logic-box"><h3>Mantošana (<code>:</code>) un bāzes konstruktors (<code>base</code>)</h3>
 <p>Ja programmā ir vairāki radniecīgi objektu veidi ar kopīgiem datiem un pamatdarbībām, koda kopēšana atsevišķos failos rada risku — katra kļūdas labošana būtu jāatkārto visās kopijās. <b>Mantošana (<code>inheritance</code>)</b> ļauj no vispārīgās jeb <b>bāzes klases (<code>base class</code>)</b> izveidot specializētu jeb <b>atvasināto klasi (<code>derived class</code>)</b>. Pieraksts <code>public class SkolenaBilete : Bilete</code> izsaka attiecību „ir” — līdzīgi kā parasta sabiedriskā transporta e-biļete un skolēna biļete izmanto vienu un to pašu reģistrācijas sistēmu, atšķiroties tikai brauciena cenas aprēķinā.</p>
-<p>Atvasinātās klases konstruktorā izsaukums <code>: base(...)</code> nodod sākuma datus bāzes klases konstruktoram (ja bāzes klasei nav konstruktora bez parametriem, bez <code>: base(...)</code> kods nebūvējas). Savukārt bāzes klases <code>private</code> lauki joprojām ir pieejami tikai pašai bāzes klasei — atvasinātā klase ar tiem strādā caur mantotajām publiskajām metodēm.</p>
+<p>Atvasinātās klases konstruktorā izsaukums <code>: base(...)</code> nodod sākuma datus bāzes klases konstruktoram (ja bāzes klasei nav konstruktora bez parametriem, bez <code>: base(...)</code> kods nebūvējas). Savukārt bāzes klases <code>private</code> lauki joprojām ir pieejami tikai pašai bāzes klasei — atvasinātā klase ar tiem strādā caur mantotajām publiskajām metodēm:</p>
+<pre><code class="language-csharp">public class Bilete
+{
+    public string Ipashnieks;
+    private int atlikums;
+
+    public Bilete(string ipashnieks, int sakumaAtlikums)
+    {
+        Ipashnieks = ipashnieks;
+        atlikums = sakumaAtlikums;
+    }
+
+    public virtual void AprekinatMaksu(int summa)
+    {
+        if (summa &lt;= 0) return;
+        atlikums -= summa;
+        if (atlikums &lt; 0) atlikums = 0;
+    }
+
+    public int GetAtlikums() { return atlikums; }
+}
+
+// Atvasinātā klase nodod sākuma datus bāzes konstruktoram:
+public class DienasBilete : Bilete
+{
+    public DienasBilete(string ipashnieks) : base(ipashnieks, 100) { }
+}</code></pre>
 </div>
 <div class="logic-box" id="override"><h3>Metožu pārrakstīšana (<code>virtual</code>, <code>override</code> un <code>base.Metode</code>)</h3>
 <p>Lai atvasinātā klase varētu vienai mantotai darbībai noteikt citu aprēķina likumu, bāzes klasē šo metodi atzīmē ar atslēgvārdu <b><code>virtual</code></b>, bet atvasinātajā klasē raksta metodi ar precīzi tādu pašu nosaukumu, parametriem un atgriežamo tipu, pievienojot <b><code>override</code></b>:</p>
@@ -91,7 +117,18 @@ public class SkolenaBilete : Bilete
 </div>
 <div class="logic-box" id="viena-komanda"><h3>Polimorfisms un kopīgs objektu saraksts (<code>List&lt;T&gt;</code>)</h3>
 <p>Dinamiskajā sarakstā <code>List&lt;BazesTips&gt;</code> (pieslēdzot <code>using System.Collections.Generic;</code>) ar metodi <code>Add(...)</code> drīkst vienuviet ievietot gan pašas bāzes klases, gan jebkuras no tās atvasinātās klases objektus, jo katrs atvasinātais objekts vienlaikus pieder bāzes tipam.</p>
-<p>Šķērsojot šādu sarakstu ar <code>foreach</code> ciklu un izsaucot <code>virtual</code> metodi, C# izpildes laikā automātiski izvēlas katra konkrētā objekta īsto <code>override</code> versiju — šo īpašību sauc par <b>polimorfismu</b>. Gluži kā viedtālrunī nospiežot vienu komandu „Nosūtīt” dažādu paziņojumu sarakstam, e-pasta, īsziņas un lietotnes ziņojums katrs tiek piegādāts pēc sava kanāla noteikumiem bez atsevišķām <code>if</code> pārbaudēm ciklā.</p>
+<p>Šķērsojot šādu sarakstu ar <code>foreach</code> ciklu un izsaucot <code>virtual</code> metodi, C# izpildes laikā automātiski izvēlas katra konkrētā objekta īsto <code>override</code> versiju — šo īpašību sauc par <b>polimorfismu</b>. Gluži kā viedtālrunī nospiežot vienu komandu „Nosūtīt” dažādu paziņojumu sarakstam, e-pasta, īsziņas un lietotnes ziņojums katrs tiek piegādāts pēc sava kanāla noteikumiem bez atsevišķām <code>if</code> pārbaudēm ciklā:</p>
+<pre><code class="language-csharp">using System.Collections.Generic;
+
+List&lt;Bilete&gt; biletes = new List&lt;Bilete&gt;();
+biletes.Add(new Bilete("Kārlis", 100));  // Bāzes klases objekts
+biletes.Add(new SkolenaBilete("Līga"));  // Atvasināts objekts (sāk ar 150)
+
+foreach (Bilete b in biletes)
+{
+    b.AprekinatMaksu(20); // Katram izpildās tā tipam atbilstošā versija
+    GD.Print(b.Ipashnieks, ": ", b.GetAtlikums()); // 80 un 140
+}</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Izveido kapteiņa lomu</h2>
 <p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Captain.cs</code> ar Captain klasi. Kapteiņa izveidi un izdrukas pievieno esošā <code>Scripts/LessonDemo.cs</code> metodei <code>_Ready()</code>.</p>

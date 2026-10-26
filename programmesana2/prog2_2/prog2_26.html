@@ -73,13 +73,42 @@
 <section id="teorija"><h2>Teorija: centrālā stāvokļa vadība, globālās koordinātes un sargu nosacījumi</h2>
 <div class="logic-box"><h3>Vairāku zonu un saskarnes koordinācija vienā vadības klasē</h3>
 <p>Kad scēnā darbojas vairākas neatkarīgas <code>Area2D</code> saskares zonas, pašām zonām nav jāpārzina visi sistēmas noteikumi — galvenās scēnas vadības klase metodē <code>_Ready()</code> var pieslēgties bērnmezglu <code>BodyEntered</code> signāliem un vienuviet lemt gan par stāvokļa maiņu, gan par <code>CanvasLayer</code> saskarnes tekstu (<code>Label</code>) atjaunināšanu.</p>
-<p>Ikdienā tas darbojas kā ēkas apsardzes vadības pults: durvju un dūmu sensori tikai ziņo par robežas šķērsošanu, bet centrālais bloks pārbauda, vai lietotājam ir derīga piekļuves karte, un izlemj — atvērt ieeju, parādīt brīdinājumu vai ieslēgt trauksmi.</p>
+<p>Ikdienā tas darbojas kā ēkas apsardzes vadības pults: durvju un dūmu sensori tikai ziņo par robežas šķērsošanu, bet centrālais bloks pārbauda, vai lietotājam ir derīga piekļuves karte, un izlemj — atvērt ieeju, parādīt brīdinājumu vai ieslēgt trauksmi:</p>
+<pre><code class="language-csharp">public override void _Ready()
+{
+    // Vadības klase vienuviet pieslēdzas vairāku Area2D zonu signāliem
+    GetNode&lt;Area2D&gt;("IeejasZona").BodyEntered += KadSasniedzIeeju;
+    GetNode&lt;Area2D&gt;("BistamaZona").BodyEntered += KadSasniedzRobezu;
+}
+
+private void KadSasniedzIeeju(Node2D body)
+{
+    if (body != lietotajs || IsEnded) return;
+    pazinojumsLabel.Text = lietotajs.IrKarte ? "Piekļuve atļauta!" : "Nepieciešama karte.";
+}</code></pre>
 </div>
 <div class="logic-box"><h3>Lokālā <code>Position</code> pret pasaules <code>GlobalPosition</code></h3>
-<p>Katram 2D mezglam ir divi koordinātu pieraksti: <code>Position</code> glabā nobīdi attiecībā pret tiešo vecākmezglu, savukārt <code>GlobalPosition</code> atgriež objekta faktisko atrašanās vietu visas scēnas kopējā koordinātu telpā (līdzīgi kā kabineta numurs stāvā pret pilnu ēkas GPS koordinātu). Pārbaudot, vai kustīgs objekts nav šķērsojis ārējo darba telpas robežu (piemēram, <code>GlobalPosition.Y &gt; robeža</code>), vienmēr izmanto <code>GlobalPosition</code>, lai mērījums paliktu precīzs neatkarīgi no mezglu grupējuma.</p>
+<p>Katram 2D mezglam ir divi koordinātu pieraksti: <code>Position</code> glabā nobīdi attiecībā pret tiešo vecākmezglu, savukārt <code>GlobalPosition</code> atgriež objekta faktisko atrašanās vietu visas scēnas kopējā koordinātu telpā (līdzīgi kā kabineta numurs stāvā pret pilnu ēkas GPS koordinātu). Pārbaudot, vai kustīgs objekts nav šķērsojis ārējo darba telpas robežu (piemēram, <code>GlobalPosition.Y &gt; robeža</code>), vienmēr izmanto <code>GlobalPosition</code>, lai mērījums paliktu precīzs neatkarīgi no mezglu grupējuma:</p>
+<pre><code class="language-csharp">// Ja vecākmezgls Grupa atrodas (500, 200) un bērnmezgla Position ir (40, 10),
+// tad bērnmezgla GlobalPosition visas scēnas telpā ir (540, 210).
+if (!IsEnded &amp;&amp; objekts.GlobalPosition.Y &gt; 800.0f)
+{
+    NoslegtProcesu("Šķērsota darba telpas apakšējā robeža.");
+}</code></pre>
 </div>
 <div class="logic-box"><h3>Procesa noslēguma fiksēšana un aizsardzības nosacījumi</h3>
-<p>Kad programma sasniedz gala stāvokli, loģiskais karodziņš (piemēram, <code>bool IsEnded = true;</code>) kopā ar agru atgriešanās pārbaudi metodes sākumā (<code>if (IsEnded) return;</code>) kalpo kā drošības slēdzis. Tas neļauj pēc procesa beigām vienlaikus nostrādāt citiem notikumiem vai turpināties kustībai un skaitītāju izmaiņām. Savukārt <code>GetTree().ReloadCurrentScene()</code> pilnībā pārlādē scēnu, automātiski atjaunojot arī visus ar <code>QueueFree()</code> iepriekš noņemtos mezglus.</p>
+<p>Kad programma sasniedz gala stāvokli, loģiskais karodziņš (piemēram, <code>bool IsEnded = true;</code>) kopā ar agru atgriešanās pārbaudi metodes sākumā (<code>if (IsEnded) return;</code>) kalpo kā drošības slēdzis. Tas neļauj pēc procesa beigām vienlaikus nostrādāt citiem notikumiem vai turpināties kustībai un skaitītāju izmaiņām. Savukārt <code>GetTree().ReloadCurrentScene()</code> pilnībā pārlādē scēnu, automātiski atjaunojot arī visus ar <code>QueueFree()</code> iepriekš noņemtos mezglus:</p>
+<pre><code class="language-csharp">public bool IsEnded { get; private set; } = false;
+
+private void NoslegtProcesu(string zinojums)
+{
+    if (IsEnded) return; // Sarga nosacījums novērš atkārtotu izpildi
+
+    IsEnded = true;
+    objekts.IsActive = false;
+    objekts.Velocity = Vector2.Zero;
+    pazinojumsLabel.Text = zinojums;
+}</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Pievieno finišu, bīstamo zonu un tekstus</h2>

@@ -75,10 +75,21 @@
 <li><b>Scene Tree (scēnu koks)</b> un <b>scēna (<code>.tscn</code>)</b> — savstarpēji savienotu mezglu koks ar vienu galveno jeb saknes mezglu, kas saglabāts failā kā gatava objekta veidne.</li>
 <li><b>Instance (eksemplārs)</b> — konkrēts objekts, kas izveidots pēc saglabātās scēnas veidnes un ievietots citā scēnā (tāpat kā vienu un to pašu krēsla rasējumu telpas plānā var izvietot vairākās vietās). Mainot pašu scēnas veidni, izmaiņas parādās visos tās eksemplāros, turpretim katram eksemplāram atsevišķi var pielāgot individuālās īpašības, piemēram, novietojumu vai krāsas tonējumu.</li>
 </ul>
+<pre><code># Saglabāta scēnas veidne (Scenes/LampasModulis.tscn):
+LampasModulis (Node2D)
+└── Izskats (Polygon2D)
+
+# Galvenā scēna ar diviem tās pašas veidnes eksemplāriem (Scenes/Telpa.tscn):
+Telpa (Node2D)
+├── KreisaLampa (LampasModulis.tscn) → Position: (200, 150)
+└── LabaLampa   (LampasModulis.tscn) → Position: (800, 150), cita Modulate</code></pre>
 </div>
 <div class="logic-box"><h3>2D mezglu lomas un relatīvās koordinātas</h3>
 <p>Lai objekts 2D vidē gan būtu saskatāms, gan fiziski mijiedarbotos ar citiem ķermeņiem, vienā scēnā apvieno specializētus mezglus: <code>Node2D</code> (2D mezgls) kalpo kā konteiners objektu grupēšanai, <code>CharacterBody2D</code> (vadāma 2D tēla mezgls) ir kustīgs fizikas ķermenis, <code>CollisionShape2D</code> (2D sadursmes forma) piešķir tam fizisko kontūru, bet <code>Polygon2D</code> (2D daudzstūris) uzzīmē redzamo izskatu — pats fizikas ķermenis ekrānā nav redzams.</p>
-<p><code>Child node</code> (bērnmezglu) pozīcijas vienmēr tiek rēķinātas attiecībā pret to vecāku, nevis ekrāna malu — gluži kā pasažieris, kurš nekustīgi sēž savā vilciena sēdvietā <code>(0, 0)</code>, pārvietojas telpā kopā ar visu vagonu. Tāpēc, pārvietojot objekta saknes mezglu, precīzi kopā ar to pārvietojas arī tam pievienotais izskats un sadursmes forma.</p>
+<p><code>Child node</code> (bērnmezglu) pozīcijas vienmēr tiek rēķinātas attiecībā pret to vecāku, nevis ekrāna malu — gluži kā pasažieris, kurš nekustīgi sēž savā vilciena sēdvietā <code>(0, 0)</code>, pārvietojas telpā kopā ar visu vagonu. Tāpēc, pārvietojot objekta saknes mezglu, precīzi kopā ar to pārvietojas arī tam pievienotais izskats un sadursmes forma:</p>
+<pre><code>KustigsBloks (CharacterBody2D)   → Position: (400, 300) vecāka scēnā
+├── Izskats (Polygon2D)          → Position: (0, 0) pret KustigsBloks
+└── Kontura (CollisionShape2D)   → Position: (0, 0) pret KustigsBloks</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums - </p>
 <h2>Izveido atkārtoti izmantojamu raketi</h2>

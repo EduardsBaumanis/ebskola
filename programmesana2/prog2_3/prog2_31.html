@@ -68,7 +68,24 @@
 <section id="teorija"><h2>Teorija: C# klases, objekti un datu iekapsulēšana</h2>
 <div class="logic-box"><h3>Klase (<code>class</code>) un objekts (<code>new</code>)</h3>
 <p>Ja programmā jāapstrādā vairākas līdzīgas vienības, atsevišķu mainīgo veidošana katrai no tām ātri kļūst nepārskatāma. <b>Klase (<code>class</code>)</b> ir vienots apraksts jeb veidne, kas nosaka, kādus datus glabā viena vienība un kādas darbības ar to var veikt. Savukārt <b>objekts (<code>object</code> jeb eksemplārs)</b> ir konkrēts, patstāvīgs vienums, ko pēc šīs veidnes izveido atmiņā ar atslēgvārdu <code>new</code> — gluži kā bankas konta līguma veidlapa vēl nav naudas maciņš, bet katram klientam atvērtais konts glabā savu neatkarīgu atlikumu, un pirkums vienā kartē nemaina cita klienta kontu.</p>
-<p>Līdzīgi kā Python vārdnīca grupē saistītus datus zem atslēgām, arī C# klase apvieno viena objekta īpašības. Tomēr C# ir statiski tipizēta valoda: klasē datu nosaukumus un tipus (piemēram, <code>string</code> tekstam, <code>int</code> veselam skaitlim, <code>bool</code> loģiskai vērtībai) definē jau iepriekš un papildina ar metodēm.</p>
+<p>Līdzīgi kā Python vārdnīca grupē saistītus datus zem atslēgām, arī C# klase apvieno viena objekta īpašības. Tomēr C# ir statiski tipizēta valoda: klasē datu nosaukumus un tipus (piemēram, <code>string</code> tekstam, <code>int</code> veselam skaitlim, <code>bool</code> loģiskai vērtībai) definē jau iepriekš un papildina ar metodēm:</p>
+<pre><code class="language-csharp">public class Konts
+{
+    public string Ipashnieks = "";
+    public int Atlikums;
+    public bool IrAktivs = true;
+}
+
+// Divi neatkarīgi objekti pēc vienas klases veidnes:
+Konts pirmais = new Konts();
+pirmais.Ipashnieks = "Līga";
+pirmais.Atlikums = 50;
+
+Konts otrais = new Konts();
+otrais.Ipashnieks = "Māris";
+otrais.Atlikums = 120;
+
+pirmais.Atlikums -= 15; // Mainās tikai pirmais (35); otrais paliek 120.</code></pre>
 </div>
 <div class="logic-box"><h3>Lauki (<code>field</code>) un konstruktors (<code>constructor</code>)</h3>
 <p>Mainīgo, kas deklarēts tieši klases iekšienē, sauc par <b>lauku (<code>field</code>)</b>; tam var piešķirt arī noklusējuma sākumvērtību, un konkrēta objekta laukam piekļūst ar punkta pierakstu (<code>objekts.Lauks</code>). Lai izveidošanas brīdī neaizmirstu norādīt būtiskākos sākuma datus, klasē definē <b>konstruktoru (<code>constructor</code>)</b> — īpašu metodi ar precīzi tādu pašu nosaukumu kā klasei un bez atgriežamā tipa:</p>
@@ -88,7 +105,38 @@
 <div class="logic-box" id="metodes"><h3>Metodes, piekļuve (<code>public</code> pret <code>private</code>) un parasta klase Godot vidē</h3>
 <p><b>Metode (<code>method</code>)</b> ir klasē aprakstīta funkcija, kas darbojas ar konkrētā objekta datiem: <code>void</code> metode izpilda darbību, neatgriežot vērtību, savukārt metode ar tipu <code>int</code> vai <code>bool</code> aprēķina un ar <code>return</code> atdod rezultātu (<code>true</code> vai <code>false</code>).</p>
 <p>Ja lauks ir atzīmēts ar <code>public</code>, jebkura cita klase var tajā tieši ierakstīt kļūdainu skaitli (piemēram, negatīvu daudzumu) un apiet noteikumus. Paslēpjot lauku ar <b><code>private</code></b>, tam drīkst piekļūt tikai pašas klases kods — kā bankomātā, kur lietotājs nevar brīvi pārrakstīt konta atlikumu, bet drīkst tikai nolasīt to ar nolasīšanas metodi (piemēram, <code>Get...()</code>) vai mainīt caur pārbaudītu darbības metodi. Ja konstruktora vai metodes parametrs saucas tāpat kā lauks, pieraksts <code>this.lauks = lauks;</code> skaidri nošķir objekta lauku kreisajā pusē no saņemtā parametra labajā pusē.</p>
-<p>Godot projektā ne katrai C# klasei jābūt scēnas mezglam: tīras datu un loģikas klases raksta bez <code>: Node</code> un <code>partial</code>, nepievienojot tās scēnas kokam. Savukārt scēnas mezglam piesaistītais skripts saglabā <code>using Godot;</code>, <code>partial</code> un <code>: Node</code>, lai dzinējs varētu izsaukt <code>_Ready()</code> un tajā veidot vai pārbaudīt parastus C# objektus.</p>
+<p>Godot projektā ne katrai C# klasei jābūt scēnas mezglam: tīras datu un loģikas klases raksta bez <code>: Node</code> un <code>partial</code>, nepievienojot tās scēnas kokam. Savukārt scēnas mezglam piesaistītais skripts saglabā <code>using Godot;</code>, <code>partial</code> un <code>: Node</code>, lai dzinējs varētu izsaukt <code>_Ready()</code> un tajā veidot vai pārbaudīt parastus C# objektus:</p>
+<pre><code class="language-csharp">// Parasta C# datu un loģikas klase (bez : Node un partial):
+public class Konts
+{
+    public string Ipashnieks;
+    private int atlikums;
+
+    public Konts(string ipashnieks, int atlikums)
+    {
+        Ipashnieks = ipashnieks;
+        this.atlikums = atlikums;
+        if (this.atlikums &lt; 0) this.atlikums = 0;
+    }
+
+    public void Norekini(int summa)
+    {
+        if (summa &lt; 0) return;
+        atlikums -= summa;
+        if (atlikums &lt; 0) atlikums = 0;
+    }
+
+    public int GetAtlikums() { return atlikums; }
+    public bool IrPozitivs() { return atlikums &gt; 0; }
+}
+
+// Godot scēnas mezgla skriptā (using Godot;, partial un : Node):
+public override void _Ready()
+{
+    Konts konts = new Konts("Līga", 50);
+    konts.Norekini(20);
+    GD.Print(konts.Ipashnieks, ": ", konts.GetAtlikums()); // 30
+}</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Izveido dalībnieka datus</h2>
 <p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Participant.cs</code> dalībnieka klasei un <code>Scripts/LessonDemo.cs</code> pārbaudēm. LessonDemo skriptu piesaisti <code>Scenes/LessonDemo.tscn</code> Node saknei; objektu izveidi un izdrukas raksti tā metodē <code>_Ready()</code>.</p>
