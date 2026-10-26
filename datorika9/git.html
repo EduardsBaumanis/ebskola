@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="lv">
- <head>
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GitHub palīdzība VS Code vidē · Datorika 9 — ebSkola</title>
-<meta name="description" content="Praktiska VS Code un GitHub Source Control atgādne 9. klases datorikai bez termināļa: darba atvēršana, versiju saglabāšana un nosūtīšana uz GitHub.">
+<title>Git un GitHub špikeris VS Code vidē · Datorika 9 — ebSkola</title>
+<meta name="description" content="Praktisks VS Code Source Control špikeris un soli pa solim instrukcijas 9. klases datorikai bez termināļa: user.name un user.email iestatīšana, Commit, Sync Changes un Source Control pogu skaidrojums.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://ebskola.lv/datorika9/git">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="GitHub palīdzība VS Code vidē · Datorika 9">
-<meta property="og:description" content="Praktiska VS Code un GitHub Source Control atgādne 9. klases datorikai bez termināļa: darba atvēršana, versiju saglabāšana un nosūtīšana uz GitHub.">
+<meta property="og:title" content="Git un GitHub špikeris VS Code vidē · Datorika 9">
+<meta property="og:description" content="Praktisks VS Code Source Control špikeris un soli pa solim instrukcijas 9. klases datorikai bez termināļa: user.name un user.email iestatīšana, Commit, Sync Changes un Source Control pogu skaidrojums.">
 <meta property="og:url" content="https://ebskola.lv/datorika9/git">
 <meta property="og:image" content="https://ebskola.lv/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -29,344 +29,628 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../lesson.css">
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "GitHub palīdzība VS Code vidē · Datorika 9", "description": "Praktiska VS Code un GitHub Source Control atgādne 9. klases datorikai bez termināļa: darba atvēršana, versiju saglabāšana un nosūtīšana uz GitHub.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/git", "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība (9. klase)", "isPartOf": {"@type": "Course", "name": "Datorika 9. klasei", "url": "https://ebskola.lv/datorika9/datorika9"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Datorika 9. klasei", "item": "https://ebskola.lv/datorika9/datorika9"}, {"@type": "ListItem", "position": 3, "name": "GitHub palīdzība VS Code vidē · Datorika 9", "item": "https://ebskola.lv/datorika9/git"}]}]}</script>
+<style>
+.git-save-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+.git-save-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent-strong);
+  border-radius: var(--r-3);
+  padding: 16px;
+}
+.git-save-card.step-2 { border-top-color: var(--typ); }
+.git-save-card.step-3 { border-top-color: var(--success); }
+.git-save-card .save-step {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+.git-save-card h3 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+.git-save-card p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+.git-flow-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  padding: 14px 16px;
+  margin: 16px 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--success);
+  border-radius: var(--r-2);
+  font-size: 15px;
+}
+.git-flow-bar .flow-arrow {
+  color: var(--accent-strong);
+  font-family: var(--mono);
+  font-weight: 700;
+}
+.sc-guide {
+  display: grid;
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  margin-top: 20px;
+}
+.sc-guide-shot {
+  position: sticky;
+  top: 20px;
+}
+.sc-guide-shot .screenshot {
+  margin: 0;
+}
+.sc-guide-shot .screenshot img {
+  width: 100%;
+  height: auto;
+}
+.sc-guide-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.sc-part {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent-strong);
+  border-radius: var(--r-3);
+  padding: 16px 18px;
+}
+.sc-part.part-graph {
+  border-left-color: var(--typ);
+}
+.sc-part.part-status {
+  border-left-color: var(--success);
+}
+.sc-part h3 {
+  margin: 0 0 10px;
+  font-size: 19px;
+}
+.sc-part ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.sc-part li {
+  margin-bottom: 10px;
+}
+.sc-part li:last-child {
+  margin-bottom: 0;
+}
+.ui-chip {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.88em;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 4px;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  color: var(--text);
+  white-space: nowrap;
+}
+.ui-chip.btn-blue {
+  background: #1f6feb;
+  border-color: #388bfd;
+  color: #ffffff;
+}
+.ui-chip.pill-main {
+  background: #1f6feb;
+  border-color: #388bfd;
+  color: #ffffff;
+  border-radius: 999px;
+}
+.ui-chip.pill-cloud {
+  background: #8957e5;
+  border-color: #a371f7;
+  color: #ffffff;
+  border-radius: 999px;
+}
+.status-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.88em;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+}
+.status-badge.st-m { color: #e2c08d; }
+.status-badge.st-u,
+.status-badge.st-a { color: #73c991; }
+.status-badge.st-d,
+.status-badge.st-c { color: #f48771; }
+.split-cases {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.case-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-3);
+  padding: 18px;
+}
+.case-card h3 {
+  margin-top: 0;
+  font-size: 19px;
+}
+.case-card .step-list {
+  margin-bottom: 0;
+}
+.case-card .step-list li:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 780px) {
+  .git-save-grid,
+  .split-cases {
+    grid-template-columns: 1fr;
+  }
+  .sc-guide {
+    grid-template-columns: 1fr;
+  }
+  .sc-guide-shot {
+    position: static;
+    max-width: 310px;
+    margin: 0 auto;
+  }
+}
+@media print {
+  .sc-guide-shot {
+    position: static;
+    max-width: 240px;
+  }
+}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "Git un GitHub špikeris VS Code vidē · Datorika 9", "description": "Praktisks VS Code Source Control špikeris un soli pa solim instrukcijas 9. klases datorikai bez termināļa: user.name un user.email iestatīšana, Commit, Sync Changes un Source Control pogu skaidrojums.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/git", "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība (9. klase)", "isPartOf": {"@type": "Course", "name": "Datorika 9. klasei", "url": "https://ebskola.lv/datorika9/datorika9"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Datorika 9. klasei", "item": "https://ebskola.lv/datorika9/datorika9"}, {"@type": "ListItem", "position": 3, "name": "Git un GitHub špikeris VS Code vidē · Datorika 9", "item": "https://ebskola.lv/datorika9/git"}]}]}</script>
 <script defer src="../lesson.js"></script>
 </head>
- <body class="page-reference datorika-kurss course-lesson">
-  <a class="skip-link" href="#saturs">
-   Uz mācību saturu
-  </a>
+<body class="page-reference datorika-kurss course-lesson">
+  <a class="skip-link" href="#saturs">Uz mācību saturu</a>
   <header class="course-topbar">
-   <a href="/">
-    ebSkola
-   </a>
-   <nav aria-label="Kursa navigācija">
-    <a href="/datorika9/datorika9">
-     Datorika 9
-    </a>
-    <a href="/datorika9/git">
-     GitHub palīdzība
-    </a>
-   </nav>
+    <a href="/">ebSkola</a>
+    <nav aria-label="Kursa navigācija">
+      <a href="/datorika9/datorika9">Datorika 9</a>
+      <a href="/datorika9/git" aria-current="page">GitHub palīdzība</a>
+    </nav>
   </header>
   <main class="course-content" id="saturs">
-   <h1>
-    GitHub palīdzība
-   </h1>
-   <p class="lesson-goal">
-    Saglabā failu datorā, saglabā darba versiju un nosūti to uz GitHub.
-   </p>
-   <section>
-    <h2>
-     Trīs dažādas saglabāšanas darbības
-    </h2>
-    <ul>
-     <li>
-      <b>
-       Ctrl+S
-      </b>
-      saglabā pašreizējo failu datorā.
-     </li>
-     <li>
-      <b>
-       Commit
-      </b>
-      saglabā izvēlēto failu darba versiju datorā.
-     </li>
-     <li>
-      <b>
-       Sync Changes
-      </b>
-      nosūta versijas uz GitHub un saņem tur esošās izmaiņas.
-     </li>
-    </ul>
-   </section>
-   <section id="versijas-piemers"><h2>Piemērs: nomainīji spēles nosaukumu</h2><p>Failu vari uztvert kā pašreizējo darbu, bet Git versiju — kā saglabātu pieturpunktu ar izmaiņas aprakstu. GitHub glabā nosūtītos pieturpunktus, lai darbam varētu piekļūt arī ārpus šī datora.</p>
-<div class="table-scroll" role="region" aria-label="Darba saglabāšanas secība" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Solis</th><th scope="col">Kas notiek ar labojumu?</th></tr></thead><tbody><tr><td>Ctrl+S vai Save All.</td><td>Jaunais nosaukums ir failā datorā; pārlūks to nolasa pēc lapas atjaunošanas.</td></tr><tr><td>Stage Changes (+).</td><td>Izvēlies saglabātās izmaiņas, kuras iekļaut nākamajā versijā.</td></tr><tr><td>Commit ar ziņu “Precizēts spēles nosaukums”.</td><td>Izvēlētās izmaiņas saglabā Git versijā datorā.</td></tr><tr><td>Pirmoreiz Publish to GitHub, vēlāk Sync Changes.</td><td>Pēc veiksmīgas nosūtīšanas versija ir arī GitHub projektā.</td></tr><tr><td>Atver failu GitHub.</td><td>Pārbaudi, vai tur tiešām redzams jaunais nosaukums.</td></tr></tbody></table></div>
-<p>Ja pēc Stage Changes vēl kaut ko izlabo, saglabā un izvēlies jauno izmaiņu vēlreiz, lai arī tā nonāktu versijā. Pieslēgšanās kontam viena pati nenosūta darba failus. Nosūtīšanas darbībai jābeidzas veiksmīgi; kļūdas gadījumā izmanto šīs lapas palīdzību.</p>
-<details class="course-help"><summary>Pašpārbaude: vai Sync Changes nosūtīs nesaglabātu tekstu no redaktora?</summary><p>Nē. Vispirms saglabā failu, izvēlies izmaiņas ar Stage Changes un izveido Commit. Tikai tad nosūti versiju.</p>
-</details>
-</section>
-   <section>
-    <h2>
-     Atver savu darbu
-    </h2>
-    <p class="workplace">
-     Vide: VS Code
+    <h1>Git un GitHub špikeris</h1>
+    <p class="lesson-goal">
+      Praktiska <b>VS Code Source Control</b> atgādne un soli pa solim instrukcijas 9. klasei — visas ikdienas darbības veicam ar VS Code pogām, nevis terminālī.
     </p>
-    <ol class="step-list">
-     <li>
-      Ar
-      <b>
-       File → Open Folder
-      </b>
-      atver attiecīgās tēmas mapi uz
-      <b>
-       Desktop
-      </b>
-      .
-     </li>
-     <li>
-      Ja šajā datorā mapes nav, atver
-      <b>
-       Source Control → Clone Repository
-      </b>
-      . Ievieto sava GitHub projekta adresi un vietai izvēlies
-      <b>
-       Desktop
-      </b>
-      . Pēc lejupielādes spied
-      <b>
-       Open
-      </b>
-      .
-     </li>
-     <li>
-      Ja pirms stundas strādāji citā datorā un šajā mapē nav nesaglabātu izmaiņu, lieto
-      <b>
-       Source Control → … → Pull
-      </b>
-      , lai saņemtu savu jaunāko darbu.
-     </li>
-     <li>
-      Ja mape vēl nekad nav saglabāta GitHub, atver
-      <b>
-       Source Control
-      </b>
-      un spied
-      <b>
-       Initialize Repository
-      </b>
-      .
-     </li>
-    </ol>
-   </section>
-   <section>
-    <h2>
-     Pirmoreiz nosūti tēmas mapi
-    </h2>
-    <p class="workplace">
-     Vide: VS Code → GitHub pārlūkā → VS Code
-    </p>
-    <ol class="step-list">
-     <li>
-      Ar
-      <b>
-       File → Save All
-      </b>
-      saglabā failus. Atver
-      <b>
-       Source Control
-      </b>
-      .
-     </li>
-     <li>
-      Pie
-      <b>
-       Changes
-      </b>
-      spied
-      <b>
-       +
-      </b>
-      (Stage All Changes). Ziņas laukā ieraksti, ko paveici, un spied
-      <b>
-       Commit
-      </b>
-      .
-     </li>
-     <li>
-      Spied
-      <b>
-       Publish to GitHub
-      </b>
-      . Ja šī poga nav redzama, nospied
-      <b>
-       Ctrl+Shift+P
-      </b>
-      un meklē
-      <b>
-       Publish to GitHub
-      </b>
-      . Tas ir VS Code darbību meklētājs.
-     </li>
-     <li>
-      Pārlūkā pieslēdzies savam GitHub kontam un apstiprini VS Code piekļuvi. Atgriezies VS Code.
-     </li>
-     <li>
-      Izvēlies
-      <b>
-       Publish to GitHub public repository
-      </b>
-      . Nosauc projektu, piemēram,
-      <code>
-       datorika9-tema2
-      </code>
-      . Ja ir failu atlase, izvēlies mācību darba failus.
-     </li>
-     <li>
-      GitHub atver izveidoto projektu un pārbaudi failu sarakstu. Iestatījumu sinhronizēšana ar
-      <b>
-       Accounts
-      </b>
-      viena pati spēles failus nenosūta.
-     </li>
-    </ol>
-   </section>
-   <section>
-    <h2>
-     Nosūti nākamās izmaiņas
-    </h2>
-    <p class="workplace">
-     Vide: VS Code / Source Control → GitHub pārlūkā
-    </p>
-    <ol class="step-list">
-     <li>
-      <b>
-       File → Save All
-      </b>
-      .
-     </li>
-     <li>
-      <b>
-       Source Control → Changes → +
-      </b>
-      .
-     </li>
-     <li>
-      Ziņas laukā īsi ieraksti izmaiņu un spied
-      <b>
-       Commit
-      </b>
-      .
-     </li>
-     <li>
-      <b>
-       Sync Changes
-      </b>
-      . Ja pogas nav, izmanto
-      <b>
-       … → Push
-      </b>
-      .
-     </li>
-     <li>
-      GitHub failā pārbaudi, vai redzama pēdējā izmaiņa.
-     </li>
-    </ol>
-   </section>
-   <section>
-    <h2>
-     Atver rezultātu pārlūkā
-    </h2>
-    <p class="workplace">
-     Vide: Windows → pārlūks
-    </p>
-    <ol class="step-list">
-     <li>
-      Windows atver savu tēmas mapi uz darbvirsmas.
-     </li>
-     <li>
-      Uz HTML faila nospied peles labo pogu un izvēlies
-      <b>
-       Open with → Edge
-      </b>
-      .
-     </li>
-     <li>
-      Pēc koda maiņas VS Code saglabā ar
-      <b>
-       Ctrl+S
-      </b>
-      ; pārlūkā atjauno ar
-      <b>
-       Ctrl+R
-      </b>
-      .
-     </li>
-    </ol>
-   </section>
-   <section>
-    <h2>
-     Ja ir šķērslis
-    </h2>
-    <ul>
-     <li>
-      <b>
-       Git nav atrasts:
-      </b>
-      skolotājs palīdz uzstādīt Git; pēc tam aizver un atver VS Code.
-     </li>
-     <li>
-      <b>
-       Prasa user.name vai user.email:
-      </b>
-      skolotājs palīdz sagatavot Git autora iestatījumus. Tie nav tas pats, kas GitHub pieslēgšanās.
-     </li>
-     <li>
-      <b>
-       Nothing to commit:
-      </b>
-      iespējams, viss jau saglabāts. Ja veici labojumu, vispirms saglabā failu ar Ctrl+S un izvēlies pareizo mapi.
-     </li>
-     <li>
-      <b>
-       Nosūtīšana neizdodas:
-      </b>
-      pārbaudi internetu un pieslēgšanos savam GitHub kontam. Ja redzi konfliktu, lūdz skolotāja palīdzību, parādot šo paziņojumu.
-     </li>
-     <li>
-      <b>
-       GitHub rāda vecu failu:
-      </b>
-      pārbaudi, vai pēc Commit nospiedi Sync Changes un sagaidīji nosūtīšanas beigas.
-     </li>
-    </ul>
-   </section>
-   <details class="course-help">
-    <summary>
-     Skolotājam: sagatavošana un avoti
-    </summary>
-    <p>
-     Git jābūt uzstādītam un katra skolēna Windows kontā jāsagatavo Git autora vārds un e-pasts. Konta pieslēgšana neaizstāj šos iestatījumus. Skatīt
-     <a href="SKOLOTAJAM.md">
-      skolotāja piezīmes
-     </a>
-     .
-    </p>
-    <p>
-     VS Code darbību nosaukumi pārbaudīti pēc
-     <a href="https://code.visualstudio.com/docs/sourcecontrol/quickstart">
-      oficiālās Source Control pamācības
-     </a>
-     un
-     <a href="https://code.visualstudio.com/docs/sourcecontrol/overview">
-      pārskata
-     </a>
-     . Git konfigurācija:
-     <a href="https://git-scm.com/docs/git-config">
-      Git dokumentācija
-     </a>
-     . GitHub Pages:
-     <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">
-      publicēšanas avota iestatīšana
-     </a>
-     .
-    </p>
-   </details>
+
+    <nav class="cheat-toc" aria-label="Špikera saturs">
+      <h3>Ātrā pāreja uz sadaļu</h3>
+      <ul>
+        <li><a href="#atrais-spikeris">Ātrais špikeris un pogu kopsavilkums</a></li>
+        <li><a href="#source-control-ekrans">Source Control ekrāna skaidrojums</a></li>
+        <li><a href="#autora-iestatisana">1. Kā ievietot user.name un user.email</a></li>
+        <li><a href="#pirma-nosutisana">2. Pirmoreiz nosūtīt mapi uz GitHub</a></li>
+        <li><a href="#ikdienas-izmainas">3. Nosūtīt nākamās izmaiņas (ikdienā)</a></li>
+        <li><a href="#atversana-cits-dators">4. Atvērt darbu citā datorā (Clone / Pull)</a></li>
+        <li><a href="#parluks-un-saites">5. Pārlūks un iesniedzamās saites</a></li>
+        <li><a href="#problemu-risinasana">Ja parādās kļūda vai šķērslis</a></li>
+      </ul>
+    </nav>
+
+    <section id="atrais-spikeris">
+      <h2>Ātrais špikeris: trīs dažādas saglabāšanas darbības</h2>
+      <p>9. klasē visas Git darbības veic VS Code kreisās malas sadaļā <b>Source Control</b> (atverama arī ar <code>Ctrl+Shift+G</code>). Neatceries komandas no galvas — seko trīs soļu secībai:</p>
+
+      <div class="git-save-grid">
+        <div class="git-save-card step-1">
+          <p class="save-step">1. SOLIS · FAILĀ</p>
+          <h3>Ctrl+S</h3>
+          <p>Saglabā pašreizējo koda failu datorā. Pārlūks to redz pēc <b>Ctrl+R</b>, bet Git versija vēl nav izveidota.</p>
+        </div>
+        <div class="git-save-card step-2">
+          <p class="save-step">2. SOLIS · VERSIJĀ DATORĀ</p>
+          <h3>+ un Commit</h3>
+          <p>Izvēlas mainītos failus (<b>+</b>) un saglabā darba pieturpunktu ar aprakstu šajā datorā.</p>
+        </div>
+        <div class="git-save-card step-3">
+          <p class="save-step">3. SOLIS · INTERNETĀ</p>
+          <h3>Sync Changes</h3>
+          <p>Pirmoreiz <b>Publish</b>, vēlāk <b>Sync Changes</b> — nosūta saglabātās versijas uz tavu GitHub kontu.</p>
+        </div>
+      </div>
+
+      <div class="git-flow-bar" role="note" aria-label="Ikdienas darba ritms">
+        <b>Ikdienas ritms:</b>
+        <span><code>Ctrl+S</code> (saglabā failu)</span>
+        <span class="flow-arrow">→</span>
+        <span><b>Source Control</b> → pie <i>Changes</i> spied <b>+</b></span>
+        <span class="flow-arrow">→</span>
+        <span>ieraksti ziņu un spied <b>Commit</b></span>
+        <span class="flow-arrow">→</span>
+        <span>spied <b>Sync Changes</b></span>
+      </div>
+
+      <div class="table-scroll" role="region" aria-label="VS Code Source Control darbību špikeris" tabindex="0">
+        <table class="theory-table">
+          <thead>
+            <tr>
+              <th scope="col">Ko vēlies izdarīt?</th>
+              <th scope="col">Kur spiest VS Code?</th>
+              <th scope="col">Rezultāts</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Atvērt versiju vadību</td>
+              <td>Kreisajā joslā zaru ikona jeb <code>Ctrl+Shift+G</code></td>
+              <td>Atveras <b>Source Control</b> panelis.</td>
+            </tr>
+            <tr>
+              <td>Ieslēgt Git jaunai mapei</td>
+              <td><b>Source Control → Initialize Repository</b></td>
+              <td>Vienreiz sagatavo atvērto tēmas mapi darbam ar Git.</td>
+            </tr>
+            <tr>
+              <td>Sagatavot izmaiņas versijai</td>
+              <td>Pie <b>Changes</b> spied <b>+</b> (<i>Stage All Changes</i>)</td>
+              <td>Faili pāriet uz <b>Staged Changes</b> un tiks iekļauti nākamajā versijā.</td>
+            </tr>
+            <tr>
+              <td>Saglabāt darba versiju datorā</td>
+              <td>Ieraksti aprakstu laukā <b>Message</b> → spied <b>✓ Commit</b></td>
+              <td>Izveidots jauns pieturpunkts projekta vēsturē datorā.</td>
+            </tr>
+            <tr>
+              <td>Pirmoreiz publicēt mapi GitHub</td>
+              <td><b>Publish Branch</b> / <b>Publish to GitHub</b> → <i>public repository</i></td>
+              <td>Izveido jaunu GitHub projektu un augšupielādē failus.</td>
+            </tr>
+            <tr>
+              <td>Nosūtīt un saņemt izmaiņas</td>
+              <td><b>Sync Changes</b> (vai <b>… → Push</b> / <b>Pull</b>)</td>
+              <td>Sinhronizē datorā saglabātās versijas ar GitHub.</td>
+            </tr>
+            <tr>
+              <td>Lejupielādēt savu projektu citā datorā</td>
+              <td><b>Source Control → Clone Repository</b> (vai <b>… → Clone</b>)</td>
+              <td>Nokopē visu GitHub projektu uz <code>Desktop</code>.</td>
+            </tr>
+            <tr>
+              <td>Apskatīt, kas failā mainīts</td>
+              <td>Uzklikšķini uz faila nosaukuma sarakstā <b>Changes</b></td>
+              <td>Atver salīdzinājumu: sarkanā krāsā izdzēstais, zaļā — pievienotais.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="versijas-piemers">
+        <details class="course-help">
+          <summary>Piemērs un pašpārbaude: kāpēc Sync Changes nenosūta nesaglabātu tekstu no redaktora?</summary>
+          <p>Ja nomainīji spēles nosaukumu redaktorā, bet nenospiedi <b>Ctrl+S</b>, izmaiņa vēl nav ierakstīta pat failā datorā (pie cilnes nosaukuma redzams pelēks aplītis). Git strādā tikai ar saglabātiem failiem:</p>
+          <ol>
+            <li><b>Ctrl+S</b> — ieraksta jauno tekstu failā datorā.</li>
+            <li><b>Stage Changes (+)</b> — pasaka Git, kurus saglabātos failus likt versijā.</li>
+            <li><b>Commit</b> ar ziņu “Precizēts spēles nosaukums” — izveido versiju datorā.</li>
+            <li><b>Sync Changes</b> — nosūta izveidoto versiju uz GitHub.</li>
+          </ol>
+          <p>Ja pēc <b>+</b> nospiešanas failā vēl kaut ko izlabo, vēlreiz nospied <b>Ctrl+S</b> un <b>+</b>, lai arī jaunais labojums nonāktu versijā.</p>
+        </details>
+      </div>
+    </section>
+
+    <section id="source-control-ekrans">
+      <h2>VS Code Source Control sadaļa: ko nozīmē katra iespēja?</h2>
+      <p>Ekrānšāviņā redzams tipisks VS Code <b>Source Control</b> skats brīdī, kad viens fails (<code>git.html</code>) ir izmainīts un saglabāts ar <code>Ctrl+S</code>, bet vēl nav iekļauts jaunā <b>Commit</b> versijā. Salīdzini attēlu ar skaidrojumiem labajā pusē:</p>
+
+      <div class="sc-guide">
+        <div class="sc-guide-shot">
+          <figure class="screenshot">
+            <img src="img/vscode-source-control.png" width="368" height="1024" alt="VS Code Source Control sadaļas ekrānšāviņš ar kreiso rīkjoslu, Message ievades lauku, Commit pogu, Changes sarakstu ar failu git.html (statuss M) un Graph versiju vēstures koku." loading="lazy">
+            <figcaption>VS Code Source Control panelis: augšā pašreizējās izmaiņas (Changes), apakšā saglabāto versiju vēsture (Graph).</figcaption>
+          </figure>
+        </div>
+
+        <div class="sc-guide-notes">
+          <div class="sc-part">
+            <h3>1. Kreisā malu josla (Activity Bar)</h3>
+            <ul>
+              <li><b>Failu pārlūks (divu lapu ikona augšā, <code>Ctrl+Shift+E</code>):</b> atver projekta mapes un failu sarakstu (<code>index.html</code>, <code>README.md</code> u. c.), kur veido un labo failus.</li>
+              <li><b>Meklēšana (lupa, <code>Ctrl+Shift+F</code>):</b> atrod vārdu vai frāzi visos atvērtās mapes failos.</li>
+              <li><b>Source Control (zaru ikona ar zilu <span class="ui-chip btn-blue">1</span>, <code>Ctrl+Shift+G</code>):</b> 9. klasē galvenā Git darba vieta! Zilais skaitlis <b>1</b> rāda, cik failos pašlaik ir nesaglabātas Git izmaiņas.</li>
+              <li><b>Pārējās vidējās ikonas</b> (atkļūdošanas vabolīte, 4 klucīši paplašinājumiem, kolba, Python): 9. klases datorikas uzdevumos tās nav jāizmanto.</li>
+              <li><b>Apakšā — Accounts (cilvēka attēls) un zobrats (Settings):</b> caur <b>Accounts</b> pieslēdzies savam GitHub kontam, lai VS Code drīkstētu nosūtīt failus. <i>Atceries: pieslēgšanās šeit pati nenosūta failus un neaizstāj user.name / user.email!</i></li>
+            </ul>
+          </div>
+
+          <div class="sc-part">
+            <h3>2. Augšdaļa — Source Control un Changes (pašreizējais darbs)</h3>
+            <ul>
+              <li><b>Trīs punkti <span class="ui-chip">…</span> pie uzraksta Source Control:</b> atver pilno Git izvēlni (<i>Pull</i>, <i>Push</i>, <i>Sync</i>, <i>Clone</i>, <i>Commit</i>), ja kāda poga nav redzama tieši panelī.</li>
+              <li><b>Ievades lauks <span class="ui-chip">Message (Ctrl+Enter…)</span>:</b> šeit pirms katra Commit <b>obligāti</b> ieraksti īsu aprakstu, ko izdarīji (piemēram, <code>Pievienots spēles apraksts</code>). Zvaigznītes <span class="ui-chip">✨</span> labajā malā ir MI ziņu ģenerators — stundās ziņu raksti pats vienā īsā frāzē.</li>
+              <li><b>Zilā poga <span class="ui-chip btn-blue">✓ Commit</span> un bultiņa <span class="ui-chip btn-blue">▾</span>:</b> saglabā izvēlētās izmaiņas kā jaunu versiju datorā. Ar mazo bultiņu <b>▾</b> var izvēlēties arī <i>Commit &amp; Push</i> vai <i>Commit &amp; Sync</i> (saglabāt un uzreiz nosūtīt). Kad visi Commit ir saglabāti, šīs pogas vietā parādās <b>Publish Branch</b> (pirmoreiz) vai <b>Sync Changes</b>.</li>
+              <li><b>Sadaļa <span class="ui-chip">▾ Changes</span> un skaitlis <span class="ui-chip btn-blue">1</span>:</b> uzskaita visus failus, kas mainīti kopš pēdējā Commit. Uzvedot peles kursoru uz vārda <b>Changes</b> vai uz faila rindas, parādās slēptās darbību ikonas:
+                <ul>
+                  <li><b>+ (Stage Changes):</b> sagatavo failu iekļaušanai nākamajā Commit (fails pāriet uz grupu <i>Staged Changes</i>).</li>
+                  <li><b>↶ (Discard Changes):</b> <b>uzmanīgi!</b> Neatgriezeniski izdzēš pēdējos labojumus un atgriež failu uz pēdējo Commit versiju.</li>
+                  <li><b>Faila ikona ar bultiņu (Open File):</b> atver failu parastajā koda redaktorā.</li>
+                </ul>
+              </li>
+              <li><b>Faila rinda <code>&lt;&gt; git.html  datorika9  M</code>:</b> rāda faila tipu (<code>&lt;&gt;</code> — HTML), faila nosaukumu (<code>git.html</code>), apakšmapi (<code>datorika9</code>) un stāvokļa burtu <b>M</b>. Uzklikšķinot uz šīs rindas, atveras salīdzināšanas skats (vecais un jaunais teksts blakus).</li>
+            </ul>
+          </div>
+
+          <div class="sc-part part-status">
+            <h3>3. Ko nozīmē burti pie failiem labajā malā?</h3>
+            <ul>
+              <li><span class="status-badge st-m">M</span> <b>Modified (mainīts):</b> jau iepriekš saglabātā failā veikti jauni labojumi.</li>
+              <li><span class="status-badge st-u">U</span> <b>Untracked (jauns fails):</b> mapē izveidots pilnīgi jauns fails (piemēram, <code>12.html</code> vai attēls), kurš vēl nekad nav bijis nevienā Commit.</li>
+              <li><span class="status-badge st-a">A</span> <b>Added (pievienots):</b> jauns fails pēc <b>+</b> nospiešanas ir iekļauts <i>Staged Changes</i> un gatavs pirmajam Commit.</li>
+              <li><span class="status-badge st-d">D</span> <b>Deleted (izdzēsts):</b> fails ir izdzēsts no darba mapes.</li>
+              <li><span class="status-badge st-c">C</span> <b>Conflict (konflikts):</b> viena un tā pati vieta labota divos datoros vienlaikus — nespied nejaušas pogas un pasauc skolotāju.</li>
+            </ul>
+          </div>
+
+          <div class="sc-part part-graph">
+            <h3>4. Apakšdaļa — Graph (versiju vēstures grafiks un pogas)</h3>
+            <ul>
+              <li><b>Grafika augšējās rīkjoslas ikonas (no kreisās uz labo):</b>
+                <ul>
+                  <li><span class="ui-chip">⑂ All</span> — zaru filtrs (rāda visu zaru vēsturi).</li>
+                  <li><span class="ui-chip">◎</span> <b>Go to Current History Item:</b> aizritina vēsturi uz pašreizējo aktīvo versiju.</li>
+                  <li><span class="ui-chip">↓·</span> <b>Fetch (bultiņa uz punktu):</b> pārbauda, vai GitHub ir jaunas izmaiņas, tās vēl neielādējot tavos failos.</li>
+                  <li><span class="ui-chip">↓</span> <b>Pull (bultiņa lejup):</b> lejupielādē un ielādē tavā datorā jaunākās izmaiņas no GitHub.</li>
+                  <li><span class="ui-chip">↑</span> <b>Push (bultiņa augšup):</b> augšupielādē tavā datorā saglabātos Commit uz GitHub.</li>
+                  <li><span class="ui-chip">↻</span> <b>Refresh</b> un <span class="ui-chip">…</span> — atjauno grafika skatu un papildu iestatījumi.</li>
+                </ul>
+              </li>
+              <li><b>Katra rinda sarakstā ir viens saglabāts Commit</b> (no jaunākā augšā līdz vecākajam apakšā): gaišais teksts (<code>SEO</code>, <code>Changes</code>, <code>9.klase</code>, <code>Terminu fix</code> u. c.) ir <b>Commit ziņa</b>, bet pelēkais vārds blakus (<code>EduardsBaumanis</code>) ir autora <b><code>user.name</code></b>. Uzklikšķinot uz jebkuras rindas, var apskatīt tajā reizē mainītos failus.</li>
+              <li><b>Birkas <span class="ui-chip pill-main">◎ main</span> un mākonis <span class="ui-chip pill-cloud">☁</span>:</b> zilā birka <b>main</b> norāda pašreizējo galveno zaru datorā, bet violetais mākonis <b>☁</b> rāda, kura versija jau atrodas <b>GitHub</b> serverī. Ja <b>main</b> un <b>☁</b> stāv <b>vienā rindā</b> (kā attēlā pie <code>SEO</code>), visas saglabātās versijas jau ir veiksmīgi nosūtītas uz GitHub!</li>
+              <li><b>Krāsainās līnijas un punkti kreisajā malā:</b> zilā vertikālā līnija savieno versijas laika secībā. Dzeltenā un rozā blakus līnija ar ierakstiem <code>Merge …</code> parāda vietas, kur divos datoros vai zaros paralēli taisītas izmaiņas ir apvienotas kopā. 9. klasē tu strādā tikai vienā <code>main</code> zarā, tāpēc tava līnija parasti būs taisna un vienkrāsaina.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="autora-iestatisana">
+      <h2>1. Kā ievietot user.name un user.email (pirms pirmā Commit)</h2>
+      <p class="workplace">Vide: GitHub pārlūkā → VS Code</p>
+      <p>Katram Commit vēsturē jāzina autora vārds (<code>user.name</code>) un e-pasts (<code>user.email</code>). Ja tie šajā datora kontā vēl nav saglabāti, spiežot <b>Commit</b>, VS Code parāda paziņojumu <i>Make sure you configure your "user.name" and "user.email" in git</i>. Pieslēgšanās ar pogu <b>Accounts</b> šos laukus neaizpilda — tie jāieraksta Git iestatījumu failā.</p>
+
+      <div class="info-box">
+        <p><b>Kādu vārdu un e-pastu rakstīt?</b> Kā <code>name</code> raksti savu GitHub lietotājvārdu (piemēram, <code>JanisBerzins9a</code>). Kā <code>email</code> vari izmantot sava GitHub konta e-pastu vai privātumam drošāko GitHub <code>noreply</code> adresi: atver pārlūkā <b>GitHub → profila ikona augšā pa labi → Settings → Emails</b> un nokopē tur redzamo adresi formā <code>12345678+Lietotajvards@users.noreply.github.com</code>.</p>
+      </div>
+
+      <p><b>Paraugs ievietošanai (aizstāj labās puses tekstus ar saviem datiem):</b></p>
+      <pre><code id="git-user-paraugs">[user]
+	name = TavsGitHubLietotajvards
+	email = tavs-epasts@users.noreply.github.com</code></pre>
+      <div class="starter-actions">
+        <button class="btn" data-copy="git-user-paraugs" type="button">Kopēt [user] paraugu</button>
+      </div>
+      <p aria-live="polite" class="copy-status" role="status"></p>
+
+      <h3>Soli pa solim bez termināļa (vienreiz visām tēmām šajā datorā)</h3>
+      <ol class="step-list">
+        <li>Nospied pogu <b>Kopēt [user] paraugu</b> augstāk.</li>
+        <li>VS Code nospied <b>Ctrl+O</b> (<b>File → Open File…</b>). Apakšējā laukā <b>File name</b> kopā ar pēdiņām ieraksti <code>"%USERPROFILE%\.gitconfig"</code> un spied <b>Open</b>.</li>
+        <li><b>Ja Windows paziņo, ka šāda faila vēl nav:</b> spied <b>Cancel</b>, izveido tukšu lapu ar <b>Ctrl+N</b>, tad spied <b>Ctrl+Shift+S</b> (<b>File → Save As…</b>). Sarakstā <b>Save as type</b> izvēlies <b>All Files (*.*)</b>, laukā <b>File name</b> kopā ar pēdiņām ieraksti <code>"%USERPROFILE%\.gitconfig"</code> un spied <b>Save</b>.</li>
+        <li>Ja atvērtajā failā jau ir citas rindas (piemēram, <code>[core]</code>), <b>nedzēs tās</b> — pārej uz pašu faila apakšu jaunā rindā un ar <b>Ctrl+V</b> ielīmē nokopēto <code>[user]</code> bloku.</li>
+        <li>Aizstāj <code>TavsGitHubLietotajvards</code> ar savu GitHub lietotājvārdu un <code>tavs-epasts@users.noreply.github.com</code> ar savu e-pastu (bez pēdiņām).</li>
+        <li>Saglabā failu ar <b>Ctrl+S</b> un aizver <code>.gitconfig</code> cilni ar <b>×</b>.</li>
+      </ol>
+      <p class="done-when"><b>Gatavs, kad:</b> fails <code>.gitconfig</code> ir saglabāts (nav <code>.gitconfig.txt</code>), un, spiežot <b>Commit</b> sadaļā Source Control, kļūda par <code>user.name</code> vairs neparādās.</p>
+
+      <details class="course-help">
+        <summary>Rezerves varianti: tikai šīs tēmas mapē (.git\config) vai vienreiz caur VS Code Terminal</summary>
+        <p><b>A) Tikai atvērtās tēmas mapē bez termināļa</b> (ja lietotāja mape datorā ir ierobežota; sākot jaunu tēmu, šo soli atkārto):</p>
+        <ol class="step-list">
+          <li>Atver savu tēmas mapi VS Code un sadaļā <b>Source Control</b> nospied <b>Initialize Repository</b> (ja projekts tikko sākts).</li>
+          <li>VS Code spied <b>File → Open File…</b> (<code>Ctrl+O</code>) un ieej savā tēmas mapē (piemēram, <code>Desktop → datorika9-tema1</code>).</li>
+          <li>Laukā <b>File name</b> ieraksti <code>.git\config</code> un spied <b>Open</b> (mape <code>.git</code> ir paslēpta, tāpēc to ieraksta ar roku).</li>
+          <li>Neizdzēšot esošās rindas, pašās beigās ielīmē <code>[user]</code> bloku ar savu <code>name</code> un <code>email</code>, nospied <b>Ctrl+S</b> un aizver <code>config</code> cilni.</li>
+        </ol>
+        <p><b>B) Vienreiz ar divām komandām VS Code Terminal</b> (tikai šai sākotnējai iestatīšanai, ja skolā terminālis nav bloķēts — ikdienas darbam termināli 9. klasē neizmanto):</p>
+        <pre><code>git config --global user.name "TavsGitHubLietotajvards"
+git config --global user.email "tavs-epasts@users.noreply.github.com"</code></pre>
+        <p>Augšējā izvēlnē atver <b>Terminal → New Terminal</b>, ieraksti abas rindas ar saviem datiem, katras beigās nospied <b>Enter</b>, un aizver termināļa paneli ar <b>×</b>. Turpmāk visam darbam izmanto tikai <b>Source Control</b>.</p>
+      </details>
+    </section>
+
+    <section id="pirma-nosutisana">
+      <h2>2. Pirmoreiz izveido un nosūti tēmas mapi uz GitHub</h2>
+      <p class="workplace">Vide: VS Code / Source Control → GitHub pārlūkā → VS Code</p>
+      <p>Katras jaunas tēmas sākumā (piemēram, <code>datorika9-tema1</code> līdz <code>datorika9-tema5</code>) izpildi šos soļus, lai sasaistītu mapi ar jaunu GitHub projektu:</p>
+      <ol class="step-list">
+        <li>Ar <b>File → Open Folder</b> atver <b>tikai konkrētās tēmas mapi</b> uz darbvirsmas, piemēram, <code>Desktop/datorika9-tema1</code>. <i>Uzmanību: nekad neatver visu <code>Desktop</code> mapi kopumā!</i></li>
+        <li>Ar <b>File → Save All</b> pārliecinies, ka tavi darba faili ir saglabāti. Atver <b>Source Control</b> (<code>Ctrl+Shift+G</code>).</li>
+        <li>Ja redzi pogu <b>Initialize Repository</b>, nospied to.</li>
+        <li>Sadaļā <b>Changes</b> uzved kursoru uz vārda <b>Changes</b> un nospied <b>+</b> (<i>Stage All Changes</i>), lai tavi mācību faili pārietu uz <b>Staged Changes</b>.</li>
+        <li>Laukā <b>Message</b> ieraksti īsu aprakstu (piemēram, <code>Izveidota 1. tēmas mape</code>) un spied zilo pogu <b>✓ Commit</b>. (Ja prasa <code>user.name</code>, izpildi <a href="#autora-iestatisana">1. instrukciju</a>.)</li>
+        <li>Tagad parādās poga <b>Publish Branch</b> vai <b>Publish to GitHub</b> — nospied to. <i>(Ja pogas nav, nospied <code>Ctrl+Shift+P</code>, ieraksti <code>Publish to GitHub</code> un izvēlies to.)</i></li>
+        <li>Ja atveras pārlūks un prasa atļauju, pieslēdzies savam GitHub kontam, apstiprini piekļuvi (<i>Authorize Visual Studio Code</i>) un atgriezies VS Code.</li>
+        <li>VS Code augšējā izvēlnē izvēlies <b>Publish to GitHub public repository</b> (publisks mācību projekts, lai skolotājs var atvērt saiti un 5. tēmā darbotos GitHub Pages). Pārbaudi nosaukumu, piemēram, <code>datorika9-tema1</code>, un apstiprini.</li>
+        <li>Pārlūkā atver savu GitHub projektu un pārliecinies, ka tur redzami nosūtītie faili.</li>
+      </ol>
+      <p class="done-when"><b>Gatavs, kad:</b> GitHub projekta lapā internetā redzami tavi faili, bet VS Code <b>Graph</b> sadaļā birka <b>main</b> un mākonis <b>☁</b> stāv vienā rindā.</p>
+    </section>
+
+    <section id="ikdienas-izmainas">
+      <h2>3. Ikdienas darbs: saglabā un nosūti nākamās izmaiņas</h2>
+      <p class="workplace">Vide: VS Code / Source Control → GitHub pārlūkā</p>
+      <p>Kad tēmas mape jau ir publicēta GitHub, pēc katra pabeigta uzdevuma vai stundas beigās izpildi piecus soļus:</p>
+      <ol class="step-list">
+        <li>Saglabā visus atvērtos failus ar <b>Ctrl+S</b> vai <b>File → Save All</b>.</li>
+        <li>Atver <b>Source Control</b> (<code>Ctrl+Shift+G</code>). Pārskati sarakstu <b>Changes</b> un pie tā nospied <b>+</b> (<i>Stage All Changes</i>).</li>
+        <li>Laukā <b>Message</b> īsi uzraksti, ko izmainīji (piemēram, <code>Pievienota pogu pārslēgšana</code>), un nospied <b>✓ Commit</b>.</li>
+        <li>Nospied pogu <b>Sync Changes</b> (ja prasa apstiprinājumu logā, spied <b>OK</b>). Ja pogas nav, spied <b>↑</b> (<i>Push</i>) pie <b>Graph</b> vai <b>… → Push</b>.</li>
+        <li>Atver vai ar <b>Ctrl+R</b> atjauno savu projektu GitHub pārlūkā un pārbaudi, ka failā redzams jaunākais kods.</li>
+      </ol>
+      <p class="done-when"><b>Gatavs, kad:</b> saraksts <b>Changes</b> ir tukšs, pie Source Control ikonas vairs nav cipara, un GitHub lapā redzama pēdējā izmaiņa.</p>
+    </section>
+
+    <section id="atversana-cits-dators">
+      <h2>4. Kā atvērt savu darbu nākamajā stundā vai citā datorā</h2>
+      <p class="workplace">Vide: VS Code / Source Control</p>
+      <p>Izvēlies vienu no diviem gadījumiem atkarībā no tā, vai šajā datorā tava tēmas mape jau eksistē:</p>
+
+      <div class="split-cases">
+        <div class="case-card">
+          <h3>A) Mape jau ir uz šī datora Desktop</h3>
+          <ol class="step-list">
+            <li>VS Code spied <b>File → Open Folder</b> un atver savu tēmas mapi uz <b>Desktop</b>.</li>
+            <li>Atver <b>Source Control</b> (<code>Ctrl+Shift+G</code>).</li>
+            <li>Ja iepriekš strādāji mājās vai pie cita klases datora, <b>pirms koda labošanas</b> nospied <b>Sync Changes</b> vai <b>… → Pull</b> (vai <b>↓</b> pie <i>Graph</i>), lai saņemtu jaunāko versiju no GitHub.</li>
+          </ol>
+        </div>
+
+        <div class="case-card">
+          <h3>B) Šajā datorā mapes vēl nav</h3>
+          <ol class="step-list">
+            <li>Neveido tukšu mapi ar roku — atver VS Code un sadaļā <b>Source Control</b> spied <b>Clone Repository</b> (vai <b>… → Clone</b>).</li>
+            <li>Augšējā laukā ielīmē sava GitHub projekta adresi (piemēram, <code>https://github.com/lietotajs/datorika9-tema1</code>) un spied <b>Enter</b>.</li>
+            <li>Kā saglabāšanas vietu izvēlies <b>Desktop</b> un pēc lejupielādes nospied <b>Open</b>.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="parluks-un-saites">
+      <h2>5. Lapas pārbaude pārlūkā un kādu saiti iesniegt</h2>
+      <p class="workplace">Vide: Windows → pārlūks → GitHub</p>
+      <ol class="step-list">
+        <li>Windows failu pārlūkā atver savu tēmas mapi uz darbvirsmas (<code>Desktop</code>).</li>
+        <li>Uz sava HTML faila (piemēram, <code>11.html</code> vai <code>index.html</code>) nospied peles labo pogu un izvēlies <b>Open with → Microsoft Edge</b> (vai Chrome).</li>
+        <li>Katru reizi pēc koda izmaiņas VS Code nospied <b>Ctrl+S</b>, bet pārlūkā nospied <b>Ctrl+R</b>, lai ieraudzītu atjaunoto lapu.</li>
+      </ol>
+
+      <h3>Nesajauc trīs dažādas adreses iesniegšanas brīdī!</h3>
+      <div class="table-scroll" role="region" aria-label="Adrešu veidu salīdzinājums" tabindex="0">
+        <table class="theory-table">
+          <thead>
+            <tr>
+              <th scope="col">Adreses izskats</th>
+              <th scope="col">Kas tas ir?</th>
+              <th scope="col">Vai drīkst iesniegt kā saiti?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>file:///C:/Users/.../index.html</code></td>
+              <td>Ceļš uz failu tikai tavā datorā.</td>
+              <td><b>Nē!</b> Skolotāja datorā šī saite neatvērsies.</td>
+            </tr>
+            <tr>
+              <td><code>https://github.com/lietotajs/datorika9-tema1</code></td>
+              <td><b>GitHub projekta (krātuves) saite</b> — rāda koda failus, Commit vēsturi un <code>README.md</code>.</td>
+              <td><b>Jā</b> — iesniedz katras tēmas noslēgumā.</td>
+            </tr>
+            <tr>
+              <td><code>https://lietotajs.github.io/datorika9-tema5/</code></td>
+              <td><b>GitHub Pages spēles saite</b> — atver pašu spēli internetā kā gatavu mājaslapu.</td>
+              <td><b>Jā</b> — iesniedz 5. tēmas beigās kopā ar projekta saiti.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="course-help">
+        <summary>Atgādne 5.6. nodarbībai: kā ieslēgt GitHub Pages savai spēlei</summary>
+        <ol class="step-list">
+          <li>Pārliecinies, ka galvenais spēles fails saucas tieši <code>index.html</code> (ar mazajiem burtiem), atrodas tēmas pamatmapē un ir nosūtīts uz GitHub ar <b>Commit</b> un <b>Sync Changes</b>.</li>
+          <li>GitHub projekta lapā atver augšējo cilni <b>Settings</b> un kreisajā izvēlnē spied <b>Pages</b>.</li>
+          <li>Zem <b>Build and deployment → Source</b> atstāj <b>Deploy from a branch</b>, bet pie <b>Branch</b> izvēlies <b>main</b> un mapi <b>/(root)</b>, tad spied <b>Save</b>.</li>
+          <li>Pēc 1–2 minūtēm atjauno šo pašu <i>Pages</i> lapu ar <b>Ctrl+R</b> — augšdaļā parādīsies tava publiskā spēles saite (<i>Visit site</i>).</li>
+        </ol>
+      </details>
+    </section>
+
+    <section id="problemu-risinasana">
+      <h2>Ja parādās kļūda vai šķērslis</h2>
+      <div class="table-scroll" role="region" aria-label="Biežākās kļūdas un risinājumi" tabindex="0">
+        <table class="theory-table">
+          <thead>
+            <tr>
+              <th scope="col">Ko redzi ekrānā?</th>
+              <th scope="col">Ko darīt?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Prasa user.name vai user.email</b><br>(<i>Make sure you configure your "user.name" and "user.email" in git</i>)</td>
+              <td>Atver šīs lapas <a href="#autora-iestatisana">1. instrukciju</a>, ievieto <code>[user]</code> bloku ar savu vārdu un e-pastu failā <code>.gitconfig</code> (vai <code>.git\config</code>), saglabā ar <b>Ctrl+S</b> un mēģini <b>Commit</b> vēlreiz.</td>
+            </tr>
+            <tr>
+              <td><b>Source Control nerāda izmaiņas</b> vai saka <i>Nothing to commit</i></td>
+              <td>1) Redaktorā nospied <b>Ctrl+S</b> (ja pie faila cilnes ir aplītis, fails vēl nav saglabāts).<br>2) Pārbaudi, vai ar <b>File → Open Folder</b> esi atvēris tieši to mapi, kurā labo failu.</td>
+            </tr>
+            <tr>
+              <td><b>Pie Changes pēkšņi ir desmitiem vai simtiem svešu failu</b></td>
+              <td>Iespējams, nejauši atvēri un inicializēji visu <code>Desktop</code> vai lietotāja mapi! Nespied Commit un pasauc skolotāju — Git jāieslēdz tikai konkrētās tēmas mapē (piem., <code>Desktop/datorika9-tema1</code>).</td>
+            </tr>
+            <tr>
+              <td><b>Spiežot Commit, atveras jauns teksts <code>COMMIT_EDITMSG</code></b></td>
+              <td>Aizmirsi pirms tam ierakstīt ziņu laukā <b>Message</b>. Aizver <code>COMMIT_EDITMSG</code> cilni, ieraksti īsu aprakstu laukā <b>Message</b> kreisajā panelī un spied <b>✓ Commit</b> vēlreiz.</td>
+            </tr>
+            <tr>
+              <td><b>GitHub mājaslapā joprojām rāda veco kodu</b></td>
+              <td>Commit saglabā versiju tikai datorā! VS Code nospied <b>Sync Changes</b> (vai <b>↑ Push</b> pie <i>Graph</i>), sagaidi nosūtīšanas beigas un GitHub lapā nospied <b>Ctrl+R</b>.</td>
+            </tr>
+            <tr>
+              <td><b>Sync Changes / Push neizdodas</b> vai rāda konfliktu (<span class="status-badge st-c">C</span>)</td>
+              <td>Pārbaudi interneta savienojumu un to, vai apakšējā kreisajā stūrī pie <b>Accounts</b> esi pieslēdzies savam GitHub kontam. Ja ziņojumā minēts <i>conflict</i> vai <i>rejected</i>, neizvēlies nejaušas pogas — parādi paziņojumu skolotājam.</td>
+            </tr>
+            <tr>
+              <td><b>Sabojāji kodu un gribi atgriezties uz pēdējo Commit</b></td>
+              <td>Ja kļūdainais labojums vēl nav iekomitots, sadaļā <b>Changes</b> uzved peli uz faila un spied <b>↶</b> (<i>Discard Changes</i>). Uzmanību: viss kopš pēdējā Commit rakstītais šajā failā tiks dzēsts!</td>
+            </tr>
+            <tr>
+              <td><b>VS Code rāda <i>Git not found</i> / <i>Install Git</i></b></td>
+              <td>Datorā nav uzstādīts Git vai VS Code tika atvērts pirms uzstādīšanas. Palūdz skolotājam uzstādīt Git, pēc tam pilnībā aizver un no jauna atver VS Code.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <details class="course-help">
+      <summary>Skolotājam: sagatavošana un avoti</summary>
+      <p>
+        Pirms stundas datoros jābūt uzstādītam Git un katra skolēna Windows kontā (<code>%USERPROFILE%\.gitconfig</code>) vai tēmas mapē (<code>.git\config</code>) jāsagatavo Git autora vārds un e-pasts. GitHub konta pieslēgšana sadaļā <b>Accounts</b> neaizstāj šos iestatījumus. Skatīt
+        <a href="SKOLOTAJAM.md">skolotāja piezīmes</a>.
+      </p>
+      <p>
+        VS Code darbību nosaukumi pārbaudīti pēc
+        <a href="https://code.visualstudio.com/docs/sourcecontrol/quickstart">oficiālās Source Control pamācības</a>
+        un
+        <a href="https://code.visualstudio.com/docs/sourcecontrol/overview">pārskata</a>.
+        Git konfigurācija:
+        <a href="https://git-scm.com/docs/git-config">Git dokumentācija</a>.
+        GitHub Pages:
+        <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">publicēšanas avota iestatīšana</a>.
+      </p>
+    </details>
   </main>
   <footer class="course-footer">
-   <a href="/datorika9/datorika9">
-    Kursa pārskats
-   </a>
-   ·
-   <a href="/datorika9/git">
-    GitHub palīdzība
-   </a>
-   ·
-   <a href="/sasnRez#datorika9">
-    Sasniedzamie rezultāti
-   </a>
+    <a href="/datorika9/datorika9">Kursa pārskats</a>
+    ·
+    <a href="/datorika9/git">GitHub palīdzība</a>
+    ·
+    <a href="/sasnRez#datorika9">Sasniedzamie rezultāti</a>
   </footer>
- </body>
+</body>
 </html>
