@@ -2,44 +2,51 @@
 
 <html lang="lv">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>4.5 Šaušanas gameplay mehānika un object pooling - ebSkola</title>
-<meta content="Izveidot efektīvu šaušanas gameplay mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni." name="description"/>
-<meta content="Eduards Baumanis" name="author"/>
-<meta content="index, follow" name="robots"/>
-<link href="https://ebskola.lv/programmesana2/prog2_4/prog2_45" rel="canonical"/>
-<meta content="article" property="og:type"/>
-<meta content="lv_LV" property="og:locale"/>
-<meta content="ebSkola" property="og:site_name"/>
-<meta content="4.5 Šaušanas gameplay mehānika un object pooling" property="og:title"/>
-<meta content="Izveidot efektīvu šaušanas gameplay mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni." property="og:description"/>
-<meta content="https://ebskola.lv/programmesana2/prog2_4/prog2_45" property="og:url"/>
-<meta content="https://ebskola.lv/og-image.svg" property="og:image"/>
-<meta content="summary" name="twitter:card"/>
-<meta content="4.5 Šaušanas gameplay mehānika un object pooling" name="twitter:title"/>
-<meta content="Izveidot efektīvu šaušanas gameplay mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni." name="twitter:description"/>
-<link href="../../favicon.svg" rel="icon" type="image/svg+xml"/>
-<link href="../../manifest.json" rel="manifest"/>
-<meta content="#222831" name="theme-color"/>
-<script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "LearningResource", "name": "4.5 Šaušanas gameplay mehānika un object pooling", "description": "Izveidot efektīvu šaušanas gameplay mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_4/prog2_45", "isPartOf": {"@type": "Course", "name": "ebSkola - Programmēšana II", "url": "https://ebskola.lv/"}, "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss)", "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}
-</script>
-<link href="../../style.css" rel="stylesheet" type="text/css"/>
-<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet"/>
-<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
-<script defer="" src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4.5 Šaušanas gameplay mehānika un object pooling · C# — ebSkola</title>
+<meta name="description" content="Izveidot efektīvu šaušanas gameplay mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://ebskola.lv/programmesana2/prog2_4/prog2_45">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="4.5 Šaušanas gameplay mehānika un object pooling · C#">
+<meta property="og:description" content="Izveidot efektīvu šaušanas gameplay mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni.">
+<meta property="og:url" content="https://ebskola.lv/programmesana2/prog2_4/prog2_45">
+<meta property="og:image" content="https://ebskola.lv/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ebSkola — datorikas, programmēšanas un robotikas mācību materiāli">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="../../lesson.css">
 <style>
 .screenshot { margin: 12px 0; padding: 8px; background: #2a2c31; border-radius: 4px; }
 .screenshot img { max-width: 100%; height: auto; display: block; border: 1px solid #444; }
 .screenshot figcaption { font-size: 0.9em; color: #948979; padding: 6px 4px 0; font-style: italic; }
 </style>
-<link href="../../lesson.css" rel="stylesheet"/><script defer="" src="../../lesson.js"></script></head>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "4.5 Šaušanas gameplay mehānika un object pooling · C#", "description": "Izveidot efektīvu šaušanas gameplay mehāniku ar object pooling, lai lādiņi tiktu atkārtoti izmantoti un spēle strādātu plūdeni.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana2/prog2_4/prog2_45", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (padziļinātais kurss, 11.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana II — 4. tēma: Datu struktūras un AI", "url": "https://ebskola.lv/programmesana2/prog2_4/prog2_4main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana II", "item": "https://ebskola.lv/programmesana2/programmesana2"}, {"@type": "ListItem", "position": 3, "name": "4. tēma: Datu struktūras un AI", "item": "https://ebskola.lv/programmesana2/prog2_4/prog2_4main"}, {"@type": "ListItem", "position": 4, "name": "4.5 Šaušanas gameplay mehānika un object pooling · C#", "item": "https://ebskola.lv/programmesana2/prog2_4/prog2_45"}]}]}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-csharp.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+<script defer src="../../lesson.js"></script>
+</head>
 <body class="page-reference course-lesson has-sidebar">
-<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="../../index.html">ebSkola</a>
-<nav aria-label="Kursa navigācija"><a href="../programmesana2.html">Programmēšana II</a>
-<a href="../../paligm.html">Palīgmateriāli</a></nav></header>
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="course-topbar"><a href="/">ebSkola</a>
+<nav aria-label="Kursa navigācija"><a href="/programmesana2/programmesana2">Programmēšana II</a>
+<a href="/paligm">Palīgmateriāli</a></nav></header>
 <aside aria-label="Tēmas navigācija" class="sidebar-nav">
 <div class="sidebar-kicker">Programmēšana II</div>
 <h3>4. Tēma - Data structure un AI</h3>
@@ -67,52 +74,51 @@
 <p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
 <p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
 </div>
-</section><section>
-<h2>Teorija: Object pooling</h2>
-<div class="logic-box">
-<p><b>Object pooling</b> ir tehnika, kas atkārtoti izmanto objektus, nevis tos nepārtraukti veido un dzēš. Svarīgs veiktspējai šaušanas spēlēs, kur var būt 100+ lādiņu vienlaikus.</p>
-<pre><code class="language-csharp">using Godot;
-using System.Collections.Generic;
-
-public class BulletPool
+</section><section id="teorija"><h2>Teorija: dinamiska objektu dzīves cikla pārvaldība un <code>Object Pooling</code></h2>
+<div class="logic-box"><h3>Atkārtotas izveides (<code>Instantiate</code>) un dzēšanas (<code>QueueFree</code>) izmaksas</h3>
+<p>Kad programmā pēc lietotāja darbības uz īsu brīdi jāparāda jauns objekts no sagatavotas <code>.tscn</code> veidnes (<code>PackedScene</code>), vienkāršākā pieeja ir to katrā reizē izveidot ar <code>Instantiate&lt;T&gt;()</code>, pievienot scēnas kokam un pēc noteikta darbības laika izdzēst ar <code>QueueFree()</code> (lai darbība nenotiktu katrā kadrā pēc kārtas, ievieš arī <code>cooldown</code> laika atskaiti, ko ik kadrā samazina par <code>delta</code>).</p>
+<p>Ja šādi īslaicīgi objekti rodas un izzūd retumis, veiktspēja necieš. Taču, ja vienlaikus vai īsā laikā tiek radīti un iznīcināti simtiem eksemplāru, nepārtraukta atmiņas piešķiršana, mezglu pārkārtošana scēnas kokā un C# automātiskā <b>atkritumu savācēja (<code>Garbage Collector</code>)</b> darbība rada mikroaiztures un pazemina kadru skaitu sekundē (<code>FPS</code>).</p>
+</div>
+<div class="logic-box"><h3>Objektu krātuve (<code>Object Pooling</code>) un atkārtota izmantošana</h3>
+<p><b>Objektu atkārtota izmantošana jeb krātuve (<code>Object Pooling</code>)</b> aizstāj nepārtrauktu objektu radīšanu un dzēšanu ar fiksēta izmēra rezervi — līdzīgi kā ēdnīcā pusdienu laikā mazgā un lieto vienus un tos pašus 50 šķīvjus, nevis katram apmeklētājam izgatavo jaunu šķīvi un pēc maltītes to izmet. Krātuves darbība balstās uz trim posmiem:</p>
+<pre><code class="language-csharp">public class VienumuKratuve
 {
-    private readonly List&lt;Bullet&gt; pool = new();
-    private const int PoolSize = 50;
+    private readonly List&lt;Vienums&gt; kratuve = new();
+    private const int Izmers = 50;
 
-    public void Initialize(Node parent)
+    public void Sagatavot(Node vecaks, PackedScene veidne)
     {
-        for (int i = 0; i &lt; PoolSize; i++)
+        for (int i = 0; i &lt; Izmers; i++)
         {
-            Bullet bullet = new Bullet();
-            parent.AddChild(bullet);
-            bullet.Visible = false;
-            bullet.SetActive(false);
-            pool.Add(bullet);
+            Vienums v = veidne.Instantiate&lt;Vienums&gt;();
+            vecaks.AddChild(v);
+            Atgriezt(v);
+            kratuve.Add(v);
         }
     }
 
-    public Bullet GetBullet()
+    public Vienums SanemtBrivo()
     {
-        foreach (Bullet bullet in pool)
+        foreach (Vienums v in kratuve)
         {
-            if (!bullet.IsActive)
+            if (!v.IrAktivs)
             {
-                bullet.SetActive(true);
-                bullet.Visible = true;
-                return bullet;
+                v.IestatitAktivu(true);
+                v.Visible = true;
+                return v;
             }
         }
-        return null;  // pool tukšs
+        return null; // Visi eksemplāri pašlaik aizņemti.
     }
 
-    public void ReturnBullet(Bullet bullet)
+    public void Atgriezt(Vienums v)
     {
-        bullet.SetActive(false);
-        bullet.Visible = false;
+        v.IestatitAktivu(false);
+        v.Visible = false;
     }
 }</code></pre>
-</div>
-</section><section>
+<p>Sākumā visi rezerves mezgli vienreiz tiek izveidoti, pievienoti scēnai un paslēpti (<code>Visible = false</code>, atslēdzot fizikas apstrādi ar <code>SetPhysicsProcess(false)</code>). Kad objekts kļūst vajadzīgs, paņem pirmo neaktīvo eksemplāru (izsaucējam vienmēr jāpārbauda, vai metode nav atgriezusi <code>null</code>, ja krātuve pilnībā aizņemta), bet darbības beigās to atkal paslēpj — tādējādi mezglu skaits scēnas kokā paliek nemainīgs.</p>
+</div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">
 <p><b>Atceries:</b> ar redzamu efektu redaktorā nepietiek. Paskaidro, kura C# class (klase) glabā stāvokli, kura method (metode) to maina un kā Godot node (mezgls) struktūra izmanto šo kodu.</p>
@@ -161,6 +167,47 @@ public class BulletPool
 <li><b>Nomaini</b> šaušanas kodu tā, lai tas ņemtu lādiņu no krātuves.</li>
 <li><b>Atgriez</b> lādiņu krātuvē, kad tā laiks beidzas, nevis dzēs to.</li>
 </ol>
+<pre><code class="language-csharp">using Godot;
+using System.Collections.Generic;
+
+public class BulletPool
+{
+    private readonly List&lt;Bullet&gt; pool = new();
+    private readonly PackedScene bulletScene = GD.Load&lt;PackedScene&gt;("res://bullet.tscn");
+    private const int PoolSize = 50;
+
+    public void Initialize(Node parent)
+    {
+        for (int i = 0; i &lt; PoolSize; i++)
+        {
+            Bullet bullet = bulletScene.Instantiate&lt;Bullet&gt;();
+            parent.AddChild(bullet);
+            bullet.Visible = false;
+            bullet.SetActive(false);
+            pool.Add(bullet);
+        }
+    }
+
+    public Bullet GetBullet()
+    {
+        foreach (Bullet bullet in pool)
+        {
+            if (!bullet.IsActive)
+            {
+                bullet.SetActive(true);
+                bullet.Visible = true;
+                return bullet;
+            }
+        }
+        return null; // Krātuve pašlaik pilnībā aizņemta.
+    }
+
+    public void ReturnBullet(Bullet bullet)
+    {
+        bullet.SetActive(false);
+        bullet.Visible = false;
+    }
+}</code></pre>
 <p class="done-when"><b>Gatavs, kad:</b> šaujot lādiņi parādās kā iepriekš, bet scēnas kokā node skaits vairs neaug.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums - </p><h2>Salīdzini abas pieejas ar mērījumu</h2>
@@ -293,7 +340,7 @@ public partial class Player : CharacterBody2D
 
 
 
-<footer class="course-footer"><a href="../programmesana2.html">Kursa pārskats</a> ·
-      <a href="../../paligm.html">Palīgmateriāli</a> ·
-      <a href="../../sasnRez.html">Sasniedzamie rezultāti</a></footer></body>
+<footer class="course-footer"><a href="/programmesana2/programmesana2">Kursa pārskats</a> ·
+      <a href="/paligm">Palīgmateriāli</a> ·
+      <a href="/sasnRez">Sasniedzamie rezultāti</a></footer></body>
 </html>
