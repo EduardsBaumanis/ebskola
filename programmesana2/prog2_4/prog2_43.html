@@ -66,15 +66,7 @@
 <a href="/sasnRez">SR 2.4.18. OOP (objektorientētā programmēšana)</a>
 <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido stāvokļu enum (uzskaitījuma tips) un pārslēgšanu · 2. uzdevums (~25 min) - pievieno pārejas noteikumus · 3. uzdevums (~20 min) - iztestē visus stāvokļus · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu projektu ar ienaidnieku. State machine nozīmē vienu vienkāršu noteikumu: ienaidnieks vienā brīdī var būt tikai vienā stāvoklī.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: galīga stāvokļu mašīna (<code>State Machine</code>) un pāreju loģika</h2>
+<section id="teorija"><h2>Teorija: galīga stāvokļu mašīna (<code>State Machine</code>) un pāreju loģika</h2>
 <div class="logic-box"><h3>Stāvokļu mašīnas princips, <code>enum</code> un <code>switch</code> izvēle</h3>
 <p>Ja autonoma objekta uzvedību mēģina aprakstīt ar daudziem atsevišķiem <code>bool</code> karodziņiem un sazarotām <code>if-else</code> virknēm, noteikumi ātri sāk pretrunot cits citam. <b>Galīga stāvokļu mašīna (<code>Finite State Machine</code>)</b> ir uzvedības <b>projektēšanas paraugs (<code>design pattern</code>)</b>, kur objekts katrā laika brīdī atrodas <b>tieši vienā diskrētā stāvoklī</b> — līdzīgi kā robots putekļsūcējs vienlaikus neveic gan telpas tīrīšanu, gan uzlādi dokstacijā, bet darbojas vienā skaidrā režīmā.</p>
 <p>Pieļaujamos režīmus C# kodā apraksta ar <b><code>enum</code> (uzskaitījuma tipu)</b>, pašreizējo stāvokli glabā <code>private</code> laukā, bet cikliskajā metodē <code>_PhysicsProcess(double delta)</code> ar <b><code>switch</code></b> struktūru izpilda tikai aktīvajam <code>case</code> atbilstošās darbības (noslēdzot katru zaru ar <code>break;</code>):</p>
@@ -100,7 +92,30 @@ public override void _PhysicsProcess(double delta)
 </div>
 <div class="logic-box"><h3>Pārejas noteikumi, sliekšņu atstarpe un gala stāvoklis</h3>
 <p>Noteikumus, kas pārslēdz objektu no viena režīma citā (piemēram, pēc laika atskaites vai attāluma <code>Position.DistanceTo(merkis.Position)</code>, iepriekš pārliecinoties, ka <code>merkis != null</code>), sauc par <b>stāvokļu pārejām (<code>transitions</code>)</b>. Pārslēgšanu parasti izdala atsevišķā palīgmetodē, lai vienuviet fiksētu maiņu vai atiestatītu laika skaitītāju.</p>
-<p>Ja režīma ieslēgšanai un izslēgšanai izmanto vienu un to pašu attāluma robežu, sīkas svārstības uz šīs līnijas liek objektam raustīties starp diviem stāvokļiem katrā kadrā. Tāpēc ievieš <b>sliekšņu atstarpi jeb histerēzi</b> (vai minimālo stāvokļa noturēšanas laiku) — gluži kā telpas apkures termostats ieslēdz sildītāju pie <code>19 °C</code>, bet izslēdz tikai sasniedzot <code>21 °C</code>, lai pie <code>20 °C</code> relejs nepārtraukti neklikšķētu. Savukārt režīmu, no kura nav nevienas izejošas pārejas, sauc par <b>gala stāvokli (<code>terminal state</code>)</b>.</p>
+<p>Ja režīma ieslēgšanai un izslēgšanai izmanto vienu un to pašu attāluma robežu, sīkas svārstības uz šīs līnijas liek objektam raustīties starp diviem stāvokļiem katrā kadrā. Tāpēc ievieš <b>sliekšņu atstarpi jeb histerēzi</b> (vai minimālo stāvokļa noturēšanas laiku) — gluži kā telpas apkures termostats ieslēdz sildītāju pie <code>19 °C</code>, bet izslēdz tikai sasniedzot <code>21 °C</code>, lai pie <code>20 °C</code> relejs nepārtraukti neklikšķētu. Savukārt režīmu, no kura nav nevienas izejošas pārejas, sauc par <b>gala stāvokli (<code>terminal state</code>)</b>:</p>
+<pre><code class="language-csharp">private Node2D merkis;
+private double rezimaLaiks = 0.0;
+
+private void MainitStavokli(IericesStavoklis jaunais)
+{
+    if (stavoklis == IericesStavoklis.Izslegts || stavoklis == jaunais) return;
+    GD.Print(stavoklis, " -&gt; ", jaunais);
+    stavoklis = jaunais;
+    rezimaLaiks = 0.0; // Katrā pārejā atiestata režīma laika skaitītāju
+}
+
+private void ParbauditParejas(double delta)
+{
+    rezimaLaiks += delta;
+    if (merkis == null || stavoklis == IericesStavoklis.Izslegts) return;
+
+    float attalums = Position.DistanceTo(merkis.Position);
+    // Sliekšņu atstarpe: ieslēdz pie &lt; 300, atslēdz tikai pie &gt; 400
+    if (stavoklis == IericesStavoklis.Marsruts &amp;&amp; attalums &lt; 300.0f)
+        MainitStavokli(IericesStavoklis.Sekosana);
+    else if (stavoklis == IericesStavoklis.Sekosana &amp;&amp; attalums &gt; 400.0f)
+        MainitStavokli(IericesStavoklis.Marsruts);
+}</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

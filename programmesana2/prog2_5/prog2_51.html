@@ -66,21 +66,21 @@
 <a href="/sasnRez">SR 2.4.17. Failu un ārējās krātuves</a>
 <a href="/sasnRez">SR 2.4.4. Iegūst un apstrādā datus</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - ieraksti un nolasi failu · 2. uzdevums (~25 min) - saglabā spēles rezultātu · 3. uzdevums (~20 min) - apstrādā trūkstošu failu · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atceries no Programmēšanas I failu darbu: <code>with open("dati.txt", "w")</code>. Godot to dara <code>FileAccess</code> class. Galvenais jaunums: ceļš <code>user://</code>, nevis parasta mape.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: failu ievade un izvade (<code>File I/O</code>) ar <code>FileAccess</code></h2>
+<section id="teorija"><h2>Teorija: failu ievade un izvade (<code>File I/O</code>) ar <code>FileAccess</code></h2>
 <div class="logic-box"><h3>Virtuālie ceļi <code>res://</code> un <code>user://</code> Godot vidē</h3>
 <p>Lai programma darbotos vienādi dažādās operētājsistēmās (Linux, Windows, macOS vai mobilajās ierīcēs), Godot neizmanto konkrēta datora cietos diska ceļus (piemēram, <code>C:\...</code>), bet divus virtuālos prefiksus. To atšķirību var salīdzināt ar <b>tipogrāfijā iespiestu mācību grāmatu</b> un <b>personīgo pierakstu kladi</b>:</p>
 <ul>
 <li><b><code>res://</code> (<i>resources</i> — projekta resursi):</b> norāda uz projekta mapi izstrādes laikā. Kad lietotni eksportē gatavā izpildfailā, šie resursi tiek iepakoti vienotā <b>tikai lasāmā (<code>read-only</code>)</b> arhīvā, tāpēc programmas darbības laikā <code>res://</code> mapē rakstīt jaunus datus nedrīkst.</li>
-<li><b><code>user://</code> (lokālā lietotāja krātuve):</b> norāda uz operētājsistēmas piešķirtu mapi konkrētā lietotāja profilā, kurā lietotnei ir pilnas tiesības gan lasīt, gan rakstīt failus (Godot redaktorā šai mapei atbilst izvēlne <b>Project -&gt; Open User Data Folder</b>).</li>
+<li><b><code>user://</code> (lokālā lietotāja krātuve):</b> norāda uz operētājsistēmas piešķirtu mapi konkrētā lietotāja profilā, kurā lietotnei ir pilnas tiesības gan lasīt, gan rakstīt failus (Godot redaktorā šai mapei atbilst izvēlne <b>Project -&gt; Open User Data Folder</b>):</li>
 </ul>
+<pre><code class="language-csharp">// Nemainīgie projekta resursi (pēc eksportēšanas — tikai lasāmi):
+string veidnesCels = "res://Dati/noklusejums.txt";
+
+// Lietotāja datu mape (atļauta gan lasīšana, gan rakstīšana):
+string lietotajaFails = "user://piezimes.txt";
+
+// Ja atkļūdošanai vajag redzēt pilno ceļu operētājsistēmā:
+GD.Print(ProjectSettings.GlobalizePath("user://"));</code></pre>
 </div>
 <div class="logic-box"><h3>Teksta un bināro datu rakstīšana un nolasīšana (<code>FileAccess</code>)</h3>
 <p>Failu apstrādei Godot piedāvā klasi <b><code>FileAccess</code></b>, ko atver ar <code>FileAccess.Open(cels, rezims)</code>, norādot režīmu <code>ModeFlags.Write</code> (rakstīšanai — izveido jaunu vai pārraksta esošu failu) vai <code>ModeFlags.Read</code> (lasīšanai). C# priekšraksts <b><code>using</code></b> (līdzīgi kā Python <code>with open(...)</code>) nodrošina, ka bloka beigās fails tiek automātiski aizvērts un saglabāts diskā:</p>
@@ -103,7 +103,24 @@ if (FileAccess.FileExists("user://ieraksti.txt"))
         string vissTeksts = lasit.GetAsText(); // Vai pa rindām ar GetLine(), kamēr !lasit.EofReached()
     }
 }</code></pre>
-<p>Pirms lasīšanas vienmēr pārbauda <code>FileAccess.FileExists(...)</code> un <code>fails != null</code>, lai pirmajā programmas palaišanas reizē trūkstošs fails neizraisītu kļūdu (līdzīgi kā apstrādājot <code>FileNotFoundError</code>). Bez teksta metodēm (<code>StoreString</code>, <code>StoreLine</code>, <code>GetAsText</code>, <code>GetLine</code>) pieejamas arī <b>binārās metodes</b>, piemēram, <code>Store32(...)</code> un <code>Get32()</code> 32 bitu veseliem skaitļiem. Rakstot vairākas vērtības binārā plūsmā, tās tiek noliktas baitos cita aiz citas bez nosaukumiem — kā numurētas kastes šaurā koridorā, tāpēc nolasīšana jāveic <b>tieši tādā pašā secībā un ar tādiem pašiem tipiem</b> kā rakstot.</p>
+<p>Pirms lasīšanas vienmēr pārbauda <code>FileAccess.FileExists(...)</code> un <code>fails != null</code>, lai pirmajā programmas palaišanas reizē trūkstošs fails neizraisītu kļūdu (līdzīgi kā apstrādājot <code>FileNotFoundError</code>). Bez teksta metodēm (<code>StoreString</code>, <code>StoreLine</code>, <code>GetAsText</code>, <code>GetLine</code>) pieejamas arī <b>binārās metodes</b>, piemēram, <code>Store32(...)</code> un <code>Get32()</code> 32 bitu veseliem skaitļiem. Rakstot vairākas vērtības binārā plūsmā, tās tiek noliktas baitos cita aiz citas bez nosaukumiem — kā numurētas kastes šaurā koridorā, tāpēc nolasīšana jāveic <b>tieši tādā pašā secībā un ar tādiem pašiem tipiem</b> kā rakstot:</p>
+<pre><code class="language-csharp">string cels = "user://dati.bin";
+using (FileAccess bin = FileAccess.Open(cels, FileAccess.ModeFlags.Write))
+{
+    if (bin != null)
+    {
+        bin.Store32((uint)2026); // 1. ieraksta gadu
+        bin.Store32((uint)150);  // 2. ieraksta apjomu
+    }
+}
+
+if (!FileAccess.FileExists(cels)) return; // Droša izeja, ja faila vēl nav
+using FileAccess lasitBin = FileAccess.Open(cels, FileAccess.ModeFlags.Read);
+if (lasitBin != null)
+{
+    int gads = (int)lasitBin.Get32();   // 1. nolasa gadu (2026)
+    int apjoms = (int)lasitBin.Get32(); // 2. nolasa apjomu (150)
+}</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

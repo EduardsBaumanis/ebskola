@@ -66,33 +66,47 @@
 <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
 <a href="/sasnRez">SR 2.4.16. Data structure (datu struktūras)</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - sagatavo navigation region (navigācijas reģionu) · 2. uzdevums (~25 min) - liec ienaidniekam sekot ceļam · 3. uzdevums (~20 min) - salīdzini taisno kustību ar pathfinding · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu projektu ar state machine (stāvokļu mašīnu) no 4.3 stundas. Šodien ienaidnieks vairs neiestrēgs aiz sienas.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: ceļa meklēšanas algoritms A* un navigācijas tīkls</h2>
+<section id="teorija"><h2>Teorija: ceļa meklēšanas algoritms A* un navigācijas tīkls</h2>
 <div class="logic-box"><h3>Ceļa meklēšana (<code>pathfinding</code>) un A* novērtējuma funkcija</h3>
 <p>Virzoties taisnā līnijā tieši pret mērķa koordinātām, kustīgais objekts apstājas pie pirmās šķērssienas vai U veida norobežojuma. <b>Ceļa meklēšana (<code>pathfinding</code>)</b> pārvietošanās telpu attēlo kā savienotu punktu jeb virsotņu grafu un atrod tajā īsāko brīvo maršrutu — līdzīgi kā navigācijas lietotne telefonā nevelk taisnu līniju cauri ēkām un upei, bet izplāno ceļu pa pieejamajām ielām un tiltiem.</p>
 <p>Viens no efektīvākajiem maršruta meklēšanas algoritmiem ir <b>A* (<i>A-star</i>)</b>, kas katram kandidāta punktam <code>n</code> aprēķina trīs lielumus:</p>
 <ul>
 <li><b><code>g(n)</code></b> — faktiski jau veiktais ceļa garums no sākumpunkta līdz punktam <code>n</code>;</li>
 <li><b><code>h(n)</code></b> — <b>heuristika (<code>heuristic</code>)</b> jeb aptuvenais novērtējums (parasti taisnais attālums) no punkta <code>n</code> līdz galamērķim;</li>
-<li><b><code>f(n) = g(n) + h(n)</code></b> — kopējais novērtējums; algoritms vienmēr pirmo pārbauda to virzienu, kuram <code>f(n)</code> ir vismazākais, tāpēc lieki nepēta ceļus pretējā pusē.</li>
+<li><b><code>f(n) = g(n) + h(n)</code></b> — kopējais novērtējums; algoritms vienmēr pirmo pārbauda to virzienu, kuram <code>f(n)</code> ir vismazākais, tāpēc lieki nepēta ceļus pretējā pusē:</li>
 </ul>
+<pre><code class="language-csharp">Vector2 merkaPunkts = new Vector2(500, 100);
+
+// Kandidāts A (virzienā uz mērķi): veiktais ceļš g = 120 px
+Vector2 punktsA = new Vector2(200, 100);
+float fA = 120.0f + punktsA.DistanceTo(merkaPunkts); // 120 + 300 = 420
+
+// Kandidāts B (pretējā virzienā): veiktais ceļš g = 120 px
+Vector2 punktsB = new Vector2(0, 100);
+float fB = 120.0f + punktsB.DistanceTo(merkaPunkts); // 120 + 500 = 620
+
+// A* pirmo pārbauda punktsA, jo novērtējums fA (420) &lt; fB (620).</code></pre>
 </div>
 <div class="logic-box"><h3>Navigācijas reģions (<code>NavigationRegion2D</code>) un <code>NavigationAgent2D</code></h3>
 <p>Godot 4 vidē ceļa meklēšana ir sadalīta divās daļās: mezgls <b><code>NavigationRegion2D</code></b> ar resursu <code>NavigationPolygon</code> apraksta brīvi šķērsojamo laukumu, no kura ar darbību <b>Bake NavigationPolygon</b> izgriež nekustīgos šķēršļus, izveidojot <b>navigācijas tīklu (<code>navigation mesh</code>)</b> (ja mērķis nonāk ārpus šī tīkla, ceļš ved līdz tuvākajai sasniedzamajai malas vietai).</p>
 <p>Savukārt kustīgajam <code>CharacterBody2D</code> kā bērnmezglu pievieno <b><code>NavigationAgent2D</code></b>, kas A* aprēķinu veic automātiski: īpašībai <code>TargetPosition</code> uzdod mērķa koordinātas, ar <code>IsNavigationFinished()</code> pārbauda, vai maršruts jau pabeigts, bet ar <code>GetNextPathPosition()</code> katrā fizikas solī nolasa nākamo pagrieziena punktu:</p>
-<pre><code class="language-csharp">if (navAgents.IsNavigationFinished()) return;
+<pre><code class="language-csharp">private NavigationAgent2D navAgents;
+[Export] public float Atrums = 180.0f;
 
-Vector2 nakamaisPunkts = navAgents.GetNextPathPosition();
-Vector2 virziens = (nakamaisPunkts - Position).Normalized();
-Velocity = virziens * Atrums;
-MoveAndSlide();</code></pre>
+public override void _Ready()
+{
+    navAgents = GetNode&lt;NavigationAgent2D&gt;("NavigationAgent2D");
+}
+
+public override void _PhysicsProcess(double delta)
+{
+    navAgents.TargetPosition = merkaKoordinatas;
+    if (navAgents.IsNavigationFinished()) return;
+
+    Vector2 nakamaisPunkts = navAgents.GetNextPathPosition();
+    Velocity = (nakamaisPunkts - Position).Normalized() * Atrums;
+    MoveAndSlide();
+}</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

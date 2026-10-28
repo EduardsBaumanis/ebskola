@@ -68,15 +68,7 @@
 <a href="/sasnRez">SR 2.4.17. File I/O (failu ievade un izvade)</a>
 <a href="/sasnRez">SR 2.4.19. Algoritmi</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~20 min) - savieno labirintu ar spēlētāju · 2. uzdevums (~25 min) - pievieno savācamos un šķēršļus · 3. uzdevums (~20 min) - pievieno meta-progression un saglabāšanu · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> šis ir 5. tēmas noslēguma projekts. Izmanto 5.4 labirinta ģeneratoru un 5.3 saglabāšanas sistēmu. Sāc ar TRIM līmeņiem, nevis desmit.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: īslaicīgā un pastāvīgā stāvokļa nošķiršana procedurālās sistēmās</h2>
+<section id="teorija"><h2>Teorija: īslaicīgā un pastāvīgā stāvokļa nošķiršana procedurālās sistēmās</h2>
 <div class="logic-box"><h3>Īslaicīgie sesijas dati pret pastāvīgajiem datiem</h3>
 <p>Daudzposmu programmās datus pēc to dzīves cikla iedala divās kategorijās: <b>īslaicīgajā jeb sesijas stāvoklī (<code>transient / session state</code>)</b> un <b>pastāvīgajā stāvoklī (<code>persistent state</code>)</b>. To var salīdzināt ar treniņu lietotni telefonā — viena skrējiena hronometrs un pašreizējais temps darbojas tikai konkrētā treniņa laikā un nākamajā reizē sākas no nulles, turpretim kopējais mēneša kilometru skaits un personīgais rekords tiek saglabāti profilā starp visām sesijām:</p>
 <pre><code class="language-csharp">// Īslaicīgie sesijas dati — glabājas tikai operatīvajā atmiņā (RAM)
@@ -100,8 +92,26 @@ public class PastavigaisProgress
 <ul>
 <li><b>Ģenerēšana un sasniedzamības pārbaude:</b> katra jauna posma sākumā algoritms izveido 2D datu režģi un ar apgabala aizpildīšanu (<code>flood fill</code>) pārliecinās, ka ceļš no sākumpunkta līdz izejas zonai ir nepārtraukts, pirms scēnā tiek izvietoti vizuālie mezgli.</li>
 <li><b>Objektu izvietošana derīgajās koordinātās:</b> papildu interaktīvās zonas (<code>Area2D</code>) nekad nenovieto aklā nejaušībā pa visu laukumu — vispirms savāc brīvo šūnu koordinātas (<code>rezgis[x, y] == 0</code>, izņemot sākuma un beigu punktu) sarakstā un izvēlas pozīcijas tikai no šīs kopas, lai objekti neiesprūstu sienās.</li>
-<li><b>Droša pāreju un saglabāšanas secība:</b> noslēdzot posmu vai sesiju, vispirms pieskaita rezultātus pastāvīgajam progresam un ieraksta pārbaudītu <code>JSON</code> failu mapē <code>user://</code>, un tikai pēc tam notīra vai pārbūvē nākamā posma scēnu.</li>
+<li><b>Droša pāreju un saglabāšanas secība:</b> noslēdzot posmu vai sesiju, vispirms pieskaita rezultātus pastāvīgajam progresam un ieraksta pārbaudītu <code>JSON</code> failu mapē <code>user://</code>, un tikai pēc tam notīra vai pārbūvē nākamā posma scēnu:</li>
 </ul>
+<pre><code class="language-csharp">// 1. Savāc tikai brīvās šūnas (izlaižot sākumpunktu un izejas punktu):
+List&lt;Vector2I&gt; brivasSunas = new();
+for (int x = 0; x &lt; Platums; x++)
+{
+    for (int y = 0; y &lt; Augstums; y++)
+    {
+        Vector2I p = new Vector2I(x, y);
+        if (rezgis[x, y] == 0 &amp;&amp; p != sakums &amp;&amp; p != izeja)
+            brivasSunas.Add(p);
+    }
+}
+
+// 2. Vispirms saglabā pastāvīgo progresu, tad atiestata sesiju:
+progress.KopejiePunkti += sesija.SesijasPunkti;
+progress.AugstakaisPosms = Math.Max(
+    progress.AugstakaisPosms, sesija.PasreizejaisPosms);
+SaglabatProgresu(progress); // Ieraksta JSON failā mapē user://
+sesija.Atiestatit();        // Notīra tikai īslaicīgos sesijas datus</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

@@ -66,23 +66,23 @@
 <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
 <a href="/sasnRez">SR 2.4.16. Data structure (datu struktūras)</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - ģenerē labirintu ar Random Walk (nejaušā pastaiga) · 2. uzdevums (~25 min) - pārvērs režģi par spēles laukumu · 3. uzdevums (~20 min) - pārbaudi, vai labirints ir izejams · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu projektu. Šodien līmeņus vairs nezīmēsi ar roku - tos uzģenerēs kods. Sāc ar mazu režģi 15x15, nevis milzīgu.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: procedurālā ģenerēšana (<code>Procedural Generation</code>) un 2D režģa algoritmi</h2>
+<section id="teorija"><h2>Teorija: procedurālā ģenerēšana (<code>Procedural Generation</code>) un 2D režģa algoritmi</h2>
 <div class="logic-box"><h3>Algoritmiska struktūru radīšana un pseidogadījuma sēkla (<code>seed</code>)</h3>
 <p><b>Procedurālā ģenerēšana (<code>procedural generation</code>)</b> ir metode, kas telpiskus plānojumus, maršrutu tīklus vai reljefa kartes izveido ar algoritmu, nevis zīmējot katru šūnu manuāli. Tā darbojas līdzīgi kā matemātiska recepte — tā vietā, lai diskā glabātu simtiem gatavu shēmu, pietiek ar īsu algoritmu un vienu veselu sākumskaitli jeb <b>sēklu (<code>seed</code>)</b>. Inicializējot pseidogadījuma ģeneratoru ar <code>Random rng = new Random(seed)</code>, viena un tā pati sēkla vienmēr izveidos identisku skaitļu virkni un tieši tādu pašu struktūru, bet cita sēkla — pilnīgi jaunu izkārtojumu.</p>
 <p>Izplatītākās 2D režģa ģenerēšanas pieejas ir trīs:</p>
 <ul>
 <li><b><code>Random Walk</code> (nejaušā pastaiga):</b> sāk no izvēlēta punkta un katrā solī pārvietojas nejaušā no četriem pamatvirzieniem, atzīmējot apmeklētās šūnas kā brīvas ejas.</li>
 <li><b><code>BSP</code> (<i>Binary Space Partitioning</i> — binārā telpas sadalīšana):</b> taisnstūra apgabalu rekursīvi dala mazākās daļās un pēc tam savieno tās ar koridoriem.</li>
-<li><b><code>Cellular Automata</code> (šūnu automāti):</b> režģi sākumā aizpilda nejauši un pēc tam vairākās iterācijās izlīdzina pēc kaimiņu šūnu skaita noteikumiem (piemēram, organiskām salu vai alu kontūrām).</li>
+<li><b><code>Cellular Automata</code> (šūnu automāti):</b> režģi sākumā aizpilda nejauši un pēc tam vairākās iterācijās izlīdzina pēc kaimiņu šūnu skaita noteikumiem (piemēram, organiskām salu vai alu kontūrām):</li>
 </ul>
+<pre><code class="language-csharp">using System;
+
+Random pirmais = new Random(42);
+Random otrais = new Random(42);  // Tā pati sēkla (42)
+Random tresais = new Random(99); // Cita sēkla (99)
+
+// pirmais.Next(0, 100) un otrais.Next(0, 100) dod identiskus skaitļus,
+// bet tresais.Next(0, 100) veido pavisam citu virkni.</code></pre>
 </div>
 <div class="logic-box"><h3>Divdimensiju masīvs (<code>int[,]</code>), robežas un sasniedzamības validācija</h3>
 <p>2D telpisko režģi C# kodā ērti glabāt taisnstūra divdimensiju masīvā <code>int[,] rezgis = new int[Platums, Augstums]</code>, kur katrs skaitlis apzīmē šūnas tipu (piemēram, <code>1</code> — siena, <code>0</code> — brīva šūna), bet attēlošanas brīdī indeksus pārvērš ekrāna koordinātās <code>(x * sunasIzmers, y * sunasIzmers)</code>:</p>
@@ -105,7 +105,20 @@ for (int solis = 0; solis &lt; SoluSkaits; solis++)
     else if (virziens == 2 &amp;&amp; cy &gt; 1) cy--;
     else if (virziens == 3 &amp;&amp; cy &lt; Augstums - 2) cy++;
 }</code></pre>
-<p>Robežnosacījumi <code>&gt; 1</code> un <code>&lt; Platums - 2</code> neļauj algoritmam iziet ārpus masīva un saglabā neskartu ārējo malu. Tomēr nejaušība pati par sevi negarantē, ka divi attāli punkti būs savienoti, tāpēc pēc ģenerēšanas veic <b>sasniedzamības validāciju</b> ar <b>apgabala aizpildīšanu (<code>flood fill</code> jeb meklēšanu plašumā)</b> — līdzīgi kā ielejot ūdeni cauruļvadu ieejā un pārbaudot, vai tas aizplūst līdz izejai; ja mērķa šūna paliek nesasniegta, režģi uzģenerē atkārtoti.</p>
+<p>Robežnosacījumi <code>&gt; 1</code> un <code>&lt; Platums - 2</code> neļauj algoritmam iziet ārpus masīva un saglabā neskartu ārējo malu. Tomēr nejaušība pati par sevi negarantē, ka divi attāli punkti būs savienoti, tāpēc pēc ģenerēšanas veic <b>sasniedzamības validāciju</b> ar <b>apgabala aizpildīšanu (<code>flood fill</code> jeb meklēšanu plašumā)</b> — līdzīgi kā ielejot ūdeni cauruļvadu ieejā un pārbaudot, vai tas aizplūst līdz izejai; ja mērķa šūna paliek nesasniegta, režģi uzģenerē atkārtoti:</p>
+<pre><code class="language-csharp">// Rekursīva apgabala aizpildīšana (flood fill) pa brīvajām šūnām (0):
+private void AizpilditNo(int x, int y, bool[,] apmeklets)
+{
+    if (x &lt; 0 || x &gt;= Platums || y &lt; 0 || y &gt;= Augstums) return;
+    if (rezgis[x, y] != 0 || apmeklets[x, y]) return;
+
+    apmeklets[x, y] = true;
+    AizpilditNo(x + 1, y, apmeklets);
+    AizpilditNo(x - 1, y, apmeklets);
+    AizpilditNo(x, y + 1, apmeklets);
+    AizpilditNo(x, y - 1, apmeklets);
+}
+// Pēc izsaukuma no sākuma pārbauda: vai apmeklets[merkaX, merkaY] ir true.</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

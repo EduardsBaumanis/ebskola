@@ -66,15 +66,7 @@
 <a href="/sasnRez">SR 2.4.7. UI (lietotāja saskarne)</a>
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - atskaņo pirmo skaņu · 2. uzdevums (~25 min) - pievieno fona mūziku ar pāreju · 3. uzdevums (~20 min) - sakārto skaļumu ar skaņas kopnēm · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu spēli. Sagatavo divus skaņas failus: vienu īsu efektu un vienu garāku mūziku. Ja tādu nav, lejupielādē bezmaksas skaņas no <code>freesound.org</code> vai <code>opengameart.org</code>.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: skaņas atskaņošana, decibelu skala un skaņas kopnes (<code>Audio Buses</code>)</h2>
+<section id="teorija"><h2>Teorija: skaņas atskaņošana, decibelu skala un skaņas kopnes (<code>Audio Buses</code>)</h2>
 <div class="logic-box"><h3>Skaņas plūsmas (<code>AudioStreamPlayer</code>) un skaļums decibelos (<code>dB</code>)</h3>
 <p>Audio failu atskaņošanai Godot izmanto mezglu <b><code>AudioStreamPlayer</code></b> (vienmērīgai skaņai neatkarīgi no vietas ekrānā) vai <code>AudioStreamPlayer2D</code> (pozicionālai skaņai, kas kļūst klusāka attālinoties). Īpašībai <code>Stream</code> piešķir ielādētu skaņas resursu (piemēram, <code>.ogg</code> vai <code>.wav</code> failu) un atskaņošanu sāk ar metodi <code>Play()</code>; ja uz viena un tā paša mezgla <code>Play()</code> izsauc atkārtoti, pirms iepriekšējais ieraksts beidzies, skaņa tiek pārtraukta un sākta no sākuma.</p>
 <p>Cilvēka dzirde skaņas intensitātes izmaiņas uztver <b>logaritmiski</b>, nevis lineāri, tāpēc skaļumu programmēšanā regulē <b>decibelos (<code>VolumeDb</code>)</b>: <code>0 dB</code> atbilst oriģinālajam ieraksta līmenim bez pastiprinājuma, savukārt negatīvas vērtības (piemēram, <code>-10 dB</code> vai <code>-40 dB</code>) skaņu pakāpeniski klusina, ko var vienmērīgi animēt ar <code>Tween</code>:</p>
@@ -90,7 +82,18 @@ private void AtskanotArPareju(AudioStreamPlayer atskanotajs, string cels)
 </div>
 <div class="logic-box"><h3>Skaņas kopņu arhitektūra (<code>Audio Buses</code>) un <code>AudioServer</code></h3>
 <p>Ja lietotnē skan gan fona celiņš, gan īsi saskarnes paziņojumi, katra atskaņotāja individuāla regulēšana būtu neērta. Tāpēc Godot izmanto <b>skaņas kopņu (<code>Audio Bus</code>)</b> sistēmu — tā darbojas gluži kā koncertzāles skaņu pults, kur katrs mikrofons vai instruments vispirms ieplūst savā grupas kanālā (piemēram, <code>Music</code>, <code>SFX</code>, <code>Voice</code>), un visi grupu kanāli tālāk apvienojas galvenajā izejā <b><code>Master</code></b>.</p>
-<p>Piesaistot katram <code>AudioStreamPlayer</code> atbilstošo kopni, C# kodā ar <b><code>AudioServer</code></b> var neatkarīgi mainīt visas grupas skaļumu vienuviet (piemēram, ar <code>AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), vertibaDb)</code>), pilnībā apklusinot fona pavadījumu, kamēr īsie skaņas signāli citā kopnē turpina skanēt netraucēti.</p>
+<p>Piesaistot katram <code>AudioStreamPlayer</code> atbilstošo kopni, C# kodā ar <b><code>AudioServer</code></b> var neatkarīgi mainīt visas grupas skaļumu vienuviet (piemēram, ar <code>AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), vertibaDb)</code>), pilnībā apklusinot fona pavadījumu, kamēr īsie skaņas signāli citā kopnē turpina skanēt netraucēti:</p>
+<pre><code class="language-csharp">// Mezglus piesaista atbilstošajām kopnēm (var iestatīt arī Inspector panelī):
+fonaAtskanotajs.Bus = "Music";
+signaluAtskanotajs.Bus = "SFX";
+
+// Maina visas kopnes skaļumu vienuviet (piemēram, no HSlider.ValueChanged):
+private void IestatitKopnesSkalumu(string kopnesNosaukums, double vertibaDb)
+{
+    int indekss = AudioServer.GetBusIndex(kopnesNosaukums);
+    AudioServer.SetBusVolumeDb(indekss, (float)vertibaDb);
+    AudioServer.SetBusMute(indekss, vertibaDb &lt;= -40.0);
+}</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

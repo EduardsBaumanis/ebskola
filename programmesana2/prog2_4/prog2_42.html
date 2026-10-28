@@ -66,18 +66,24 @@
 <a href="/sasnRez">SR 2.4.16. Saliktas data structure</a>
 <a href="/sasnRez">SR 2.4.4. Iegūst un apstrādā datus</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido inventāru ar <code>Dictionary</code> · 2. uzdevums (~25 min) - pievieno drošu meklēšanu · 3. uzdevums (~20 min) - salīdzini C# un Godot dictionary · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atceries no Programmēšanas I dictionary: <code>inventars["zobens"] = 1</code>. C# tam lieto <code>Dictionary&lt;TKey, TValue&gt;</code>, bet Godot pusē - <code>Godot.Collections.Dictionary</code>.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: asociatīvās vārdnīcas C# un Godot vidē</h2>
+<section id="teorija"><h2>Teorija: asociatīvās vārdnīcas C# un Godot vidē</h2>
 <div class="logic-box"><h3>Atslēgas un vērtības pāri (<code>Dictionary&lt;TKey, TValue&gt;</code>)</h3>
 <p>Asociatīvā datu struktūra jeb <b>vārdnīca (<code>Dictionary&lt;TKey, TValue&gt;</code>)</b> glabā datus pāros <b>atslēga → vērtība (<code>key → value</code>)</b>. Atšķirībā no saraksta, kur meklējot jāpārbauda elementi pēc kārtas no indeksa <code>0</code>, vārdnīca ar jaukšanas (<i>hashing</i>) palīdzību uzreiz atrod vērtību pēc tās unikālās atslēgas — līdzīgi kā skolas garderobē doties tieši pie skapīša ar uzrakstu <code>"B-14"</code>, nevis vērt vaļā katras durtiņas pēc kārtas.</p>
-<p>Katra atslēga vārdnīcā var būt tikai vienā eksemplārā: piešķīrums <code>vardnica[atslega] = vertiba</code> izveido jaunu ierakstu, ja atslēgas vēl nav, vai pārraksta iepriekšējo vērtību, ja tā jau eksistē (tāpat pēc skaitliska identifikatora var glabāt arī veselus objektus, piemēram, <code>Dictionary&lt;int, Klients&gt;</code>). Tā kā parastais <code>Dictionary</code> ir veidots maksimāli ātrai meklēšanai, <code>foreach</code> ciklā tas negarantē alfabētisku secību — ja atslēgas vienmēr jāizvada sakārtoti, izmanto <code>SortedDictionary&lt;TKey, TValue&gt;</code>.</p>
+<p>Katra atslēga vārdnīcā var būt tikai vienā eksemplārā: piešķīrums <code>vardnica[atslega] = vertiba</code> izveido jaunu ierakstu, ja atslēgas vēl nav, vai pārraksta iepriekšējo vērtību, ja tā jau eksistē (tāpat pēc skaitliska identifikatora var glabāt arī veselus objektus, piemēram, <code>Dictionary&lt;int, Klients&gt;</code>). Tā kā parastais <code>Dictionary</code> ir veidots maksimāli ātrai meklēšanai, <code>foreach</code> ciklā tas negarantē alfabētisku secību — ja atslēgas vienmēr jāizvada sakārtoti, izmanto <code>SortedDictionary&lt;TKey, TValue&gt;</code>:</p>
+<pre><code class="language-csharp">using System.Collections.Generic;
+
+Dictionary&lt;string, string&gt; skapisi = new();
+skapisi["B-14"] = "Līga";
+skapisi["A-03"] = "Kārlis";
+skapisi["B-14"] = "Ieva"; // Pārraksta "B-14" vērtību (Count paliek 2).
+
+foreach (var paris in skapisi)
+{
+    GD.Print(paris.Key, " -&gt; ", paris.Value); // Secība nav garantēta
+}
+
+// Alfabētiski sakārtotām atslēgām ("A-03", pēc tam "B-14"):
+SortedDictionary&lt;string, string&gt; sakartoti = new(skapisi);</code></pre>
 </div>
 <div class="logic-box"><h3>Droša nolasīšana (<code>TryGetValue</code>) un <code>Godot.Collections.Dictionary</code></h3>
 <p>Mēģinot ar kvadrātiekavām nolasīt atslēgu, kuras vārdnīcā nav, programma apstājas ar kļūdu <code>KeyNotFoundException</code> (pati vārdnīca un tās <code>Count</code> nemainās). Tāpēc nezināmas atslēgas droši pārbauda ar metodi <b><code>TryGetValue</code></b>, kas vienā solī gan pārbauda esamību (<code>true</code> vai <code>false</code>), gan ievieto atrasto vērtību <code>out</code> mainīgajā:</p>
@@ -89,9 +95,9 @@ noliktava["Kabelis"] = 5;
 noliktava["Adapteris"] = 3;
 
 if (noliktava.TryGetValue("Kabelis", out int daudzums))
-{
-    GD.Print(daudzums);
-}
+    GD.Print("Pieejami: ", daudzums);
+else
+    GD.Print("Prece nav atrasta (0)"); // Neizraisa KeyNotFoundException
 
 Godot.Collections.Dictionary iestatijumi = new();
 iestatijumi["lietotajs"] = "Līga";

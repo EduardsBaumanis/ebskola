@@ -66,15 +66,7 @@
 <a href="/sasnRez">SR 2.4.17. Failu</a>
 <a href="/sasnRez">SR 2.4.16. Data structure</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - pārvērs Dictionary (vārdnīca) par JSON · 2. uzdevums (~25 min) - nolasi JSON atpakaļ · 3. uzdevums (~20 min) - apstrādā bojātu JSON · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atceries no Programmēšanas I JSON failus. Godot to dara <code>JSON</code> class. Priekšrocība pret 5.1 method (metodi): JSON failu var atvērt un izlasīt ar acīm.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: datu serializācija <code>JSON</code> formātā un Godot <code>Resource</code> sistēma</h2>
+<section id="teorija"><h2>Teorija: datu serializācija <code>JSON</code> formātā un Godot <code>Resource</code> sistēma</h2>
 <div class="logic-box"><h3>Serializācija (<code>Stringify</code>) un parsēšana (<code>Parse</code>) ar <code>JSON</code></h3>
 <p>Lai vārdnīcas vai sarakstus no operatīvās atmiņas varētu saglabāt failā vai pārsūtīt tīklā, veic <b>serializāciju (<code>serialization</code>)</b> — saliktu datu struktūru pārvēršanu vienotā teksta vai baitu virknē. <b><code>JSON</code> (<i>JavaScript Object Notation</i>)</b> ir gan cilvēkam, gan datoram lasāms teksta formāts — tas darbojas līdzīgi kā mēbeļu izjaukšana un sapakošana marķētā kastē, kur katrai detaļai pievienota skaidra etiķete (<code>"atslēga": vērtība</code>), lai pēc tam to varētu precīzi salikt atpakaļ.</p>
 <pre><code class="language-csharp">using Godot;
@@ -100,7 +92,22 @@ if (kluda == Error.Ok)
 </div>
 <div class="logic-box"><h3>Bojātu datu apstrāde un atšķirība no Godot <code>Resource</code></h3>
 <p>Tā kā <code>JSON</code> failu var atvērt un rediģēt jebkurā teksta redaktorā, to ir ļoti ērti pārbaudīt un atkļūdot. Vienlaikus tas rada divus riskus: lietotājs var failā patvaļīgi izmainīt skaitļus vai nejauši izdzēst kādu pēdiņu vai figūriekavu <code>}</code>. Tāpēc pirms datu nolasīšanas vienmēr pārbauda, vai <code>json.Parse(...)</code> atgrieza <b><code>Error.Ok</code></b>; kļūdas gadījumā programma nedrīkst avarēt, bet izvada brīdinājumu un ielādē drošas noklusējuma vērtības, savukārt nolasītos <code>Variant</code> laukus pārvērš vajadzīgajā tipā ar <code>.AsString()</code>, <code>.AsInt32()</code> vai <code>.AsSingle()</code>.</p>
-<p>Savukārt <b><code>Resource</code></b> ir Godot iebūvēta bāzes klase strukturētu resursu (attēlu, skaņu vai pielāgotu C# konfigurācijas klašu ar <code>[Export]</code> īpašībām) glabāšanai <code>.tres</code> (teksta) vai <code>.res</code> (bināros) failos. <code>Resource</code> faili ir cieši integrēti ar Godot <b>Inspector</b> paneli un lieliski der nemainīgiem sagatavju datiem mapē <code>res://</code>, turpretim ārējiem lietotāja datiem mapē <code>user://</code> drošāks un universālāks ir tīrs <code>JSON</code> teksts.</p>
+<p>Savukārt <b><code>Resource</code></b> ir Godot iebūvēta bāzes klase strukturētu resursu (attēlu, skaņu vai pielāgotu C# konfigurācijas klašu ar <code>[Export]</code> īpašībām) glabāšanai <code>.tres</code> (teksta) vai <code>.res</code> (bināros) failos. <code>Resource</code> faili ir cieši integrēti ar Godot <b>Inspector</b> paneli un lieliski der nemainīgiem sagatavju datiem mapē <code>res://</code>, turpretim ārējiem lietotāja datiem mapē <code>user://</code> drošāks un universālāks ir tīrs <code>JSON</code> teksts:</p>
+<pre><code class="language-csharp">// 1. Aizsardzība pret bojātu JSON — kļūdas gadījumā atgriež noklusējumus:
+Json json = new();
+if (json.Parse(teksts) != Error.Ok)
+{
+    GD.PrintErr("Bojāts JSON fails — tiek ielādēti noklusējumi.");
+    return new Dictionary { { "vards", "Viesis" }, { "kurss", 10 } };
+}
+
+// 2. Pielāgota Godot Resource klase sagatavju datiem (.tres mapē res://):
+[GlobalClass]
+public partial class ModulaApraksts : Resource
+{
+    [Export] public string Nosaukums { get; set; } = "Algoritmi";
+    [Export] public int StunduSkaits { get; set; } = 36;
+}</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

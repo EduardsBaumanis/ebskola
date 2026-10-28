@@ -66,21 +66,21 @@
 <a href="/sasnRez">SR 2.4.7. UI</a>
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - uztaisi pirmo Tween animāciju · 2. uzdevums (~25 min) - animē izvēlnes parādīšanos · 3. uzdevums (~20 min) - pievieno atsauksmes animāciju spēlē · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu izvēlni no 6.1 stundas. Animācija nav tikai skaistums - tā pasaka spēlētājam, ka viņa darbība tika pamanīta.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: vizuālā atgriezeniskā saite ar <code>AnimationPlayer</code> un <code>Tween</code></h2>
+<section id="teorija"><h2>Teorija: vizuālā atgriezeniskā saite ar <code>AnimationPlayer</code> un <code>Tween</code></h2>
 <div class="logic-box"><h3>Divas animēšanas pieejas: <code>AnimationPlayer</code> un <code>Tween</code></h3>
 <p>Plūdenas pārejas lietotāja saskarnē kalpo ne vien estētikai, bet arī kā tūlītēja <b>vizuālā atgriezeniskā saite (<code>visual feedback</code>)</b>, kas apstiprina, ka lietotāja klikšķis vai cita darbība ir uztverta. Godot piedāvā divus savstarpēji papildinošus rīkus — tos var salīdzināt ar <b>iepriekš samontētu videoklipu uz laika skalas</b> un <b>viedās spuldzes automātisko aptumšošanu (<i>dimmer</i>)</b>:</p>
 <ul>
 <li><b><code>AnimationPlayer</code>:</b> atsevišķs scēnas mezgls ar vizuālu laika skalas redaktoru (<code>timeline editor</code>), kurā manuāli atzīmē <b>atslēgkadrus (<code>keyframes</code>)</b> vairākām īpašībām vienlaikus. Piemērots sarežģītām, atkārtojamām secībām ar precīzi fiksētu ritmu.</li>
-<li><b><code>Tween</code> (<i>in-betweening</i>):</b> viegls C# kodā ar <code>CreateTween()</code> izveidojams palīgobjekts, kuram norāda tikai mērķa īpašību, gala vērtību un ilgumu sekundēs, bet visas starpvērtības no pašreizējā stāvokļa dzinējs aprēķina automātiski.</li>
+<li><b><code>Tween</code> (<i>in-betweening</i>):</b> viegls C# kodā ar <code>CreateTween()</code> izveidojams palīgobjekts, kuram norāda tikai mērķa īpašību, gala vērtību un ilgumu sekundēs, bet visas starpvērtības no pašreizējā stāvokļa dzinējs aprēķina automātiski:</li>
 </ul>
+<pre><code class="language-csharp">// 1. Iepriekš sagatavotas laika skalas animācijas palaišana:
+AnimationPlayer animAtskanotajs = GetNode&lt;AnimationPlayer&gt;("AnimAtskanotajs");
+animAtskanotajs.Play("PanelaAtversana");
+
+// 2. Dinamiska secīga pāreja ar Tween (palielina un atgriež sākuma izmērā):
+Tween tween = CreateTween();
+tween.TweenProperty(indikators, "scale", new Vector2(1.2f, 1.2f), 0.15);
+tween.TweenProperty(indikators, "scale", Vector2.One, 0.15);</code></pre>
 </div>
 <div class="logic-box"><h3>Īpašību interpolācija (<code>TweenProperty</code>), secīgums un pārtraukšana (<code>Kill</code>)</h3>
 <p>Ar metodi <code>TweenProperty(objekts, "ipasiba", galaVertiba, ilgums)</code> var plūdeni mainīt pozīciju (<code>"position"</code>), mērogu (<code>"scale"</code>), krāsu toni (<code>"modulate"</code>) vai tikai caurspīdīguma jeb alfa kanālu (<code>"modulate:a"</code> no <code>0.0</code> līdz <code>1.0</code>). Pēc noklusējuma visi viena <code>Tween</code> soļi izpildās <b>secīgi</b> cits pēc cita, bet izsaukums <b><code>SetParallel(true)</code></b> liek tiem norisināties <b>vienlaikus</b>; savukārt <b><code>SetTrans(...)</code></b> maina kustības raksturu (piemēram, <code>TransitionType.Elastic</code> rada atsperīgu svārstību mērķa punktā):</p>

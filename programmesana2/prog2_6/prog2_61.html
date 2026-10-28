@@ -66,15 +66,7 @@
 <a href="/sasnRez">SR 2.4.7. UI</a>
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - uzbūvē sākuma izvēlni · 2. uzdevums (~25 min) - savieno pogas ar kodu · 3. uzdevums (~20 min) - pievieno enkurus un pārbaudi izmērus · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu projektu. UI Godot lieto <code>Control</code> mezglus, nevis <code>Node2D</code> (2D mezgls) - tiem ir enkuri un container, kas paši kārto elementus.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: lietotāja saskarnes (<code>UI</code>) izkārtojums un <code>Control</code> mezgli</h2>
+<section id="teorija"><h2>Teorija: lietotāja saskarnes (<code>UI</code>) izkārtojums un <code>Control</code> mezgli</h2>
 <div class="logic-box"><h3><code>Control</code> mezglu hierarhija un konteineru automātiskais izkārtojums</h3>
 <p>Kamēr <code>Node2D</code> novieto objektus fiksētās pikseļu koordinātās, Godot lietotāja saskarnei (<code>UI</code>) izmanto <b><code>Control</code></b> saimes mezglus. Tiem piemīt elastīgs izkārtojums, <b>enkuri (<code>Anchors</code>)</b> un vienotas <b>noformējuma tēmas (<code>Themes</code>)</b> — līdzīgi kā mūsdienu tīmekļa lapās (<i>CSS Flexbox / Grid</i>), kur elementi paši pielāgojas dažādiem ekrāna izmēriem, nevis paliek iespiesti vienā stūrī:</p>
 <div aria-label="Biežāk lietotie Control mezgli" class="table-scroll" role="region" tabindex="0"><table>
@@ -87,19 +79,36 @@
 <tr><td><code>GridContainer</code> / <code>PanelContainer</code></td><td>Elementu izkārtojums vairāku kolonnu režģī un fona panelis ar iekšējām apmalēm.</td></tr>
 </tbody>
 </table></div>
+<p>Praksē saskarnes skatu veido kā ligzdotu konteineru koku, kur saknes mezgls aizņem visu logu, bet konteineri automātiski izlīdzina vadīklas:</p>
+<pre><code>SakumaSkats (Control — Anchors: Full Rect)
+├── GalvenaKolonna (VBoxContainer — Anchors: Center)
+│   ├── Virsraksts (Label)
+│   ├── AtvertPoga (Button)
+│   └── IzietPoga (Button)
+└── IestatijumuPanelis (PanelContainer — Visible: false)
+    └── SkalumaRinda (HBoxContainer)
+        ├── Nosaukums (Label)
+        └── SkalumaSlidnis (HSlider)</code></pre>
 </div>
 <div class="logic-box"><h3>Enkuri (<code>Anchors</code>) un saskarnes signālu savienošana C# kodā</h3>
 <p><b>Enkurs (<code>Anchor</code>)</b> nosaka, pie kuras vecākā rāmja daļas (piemēram, kreisā augšējā stūra <code>Top Left</code> vai ekrāna vidus <code>Center</code>) saskarnes elements ir piesaistīts, kad lietotājs maina loga izmēru. Ja konteineram uzstādīts <code>Center</code> enkurs, tas saglabā pozīciju loga vidū jebkurā izšķirtspējā.</p>
 <p>Lai saskarnes vadīklas reaģētu uz lietotāja klikšķiem, C# skripta metodē <code>_Ready()</code> atrod attiecīgo mezglu un ar operatoru <code>+=</code> abonē tā signālu (piemēram, pogas notikumu <b><code>Pressed</code></b>), apstrādātājā pārslēdzot aktīvo skatu ar <code>GetTree().ChangeSceneToFile(...)</code> vai korekti aizverot lietotni ar <code>GetTree().Quit()</code>:</p>
 <pre><code class="language-csharp">public override void _Ready()
 {
-    Button atvertPoga = GetNode&lt;Button&gt;("VBox/AtvertPoga");
+    Button atvertPoga = GetNode&lt;Button&gt;("GalvenaKolonna/AtvertPoga");
+    Button izietPoga = GetNode&lt;Button&gt;("GalvenaKolonna/IzietPoga");
     atvertPoga.Pressed += KadNospiestsAtvert;
+    izietPoga.Pressed += KadNospiestsIziet;
 }
 
 private void KadNospiestsAtvert()
 {
     GetTree().ChangeSceneToFile("res://Scenes/GalvenaisSkats.tscn");
+}
+
+private void KadNospiestsIziet()
+{
+    GetTree().Quit(); // Korekti aizver lietotnes logu.
 }</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>

@@ -71,23 +71,35 @@
 <a href="/sasnRez">SR 2.4.8. Koda dokumentēšana un noformēšana</a>
 <a href="/sasnRez">SR 2.4.11. Standartizētas library (bibliotēkas) un API (lietojumprogrammas saskarne)</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~20 min) - izvēlies puzli un uztaisi laukumu · 2. uzdevums (~25 min) - uzraksti uzvaras noteikumu un līmeņus · 3. uzdevums (~20 min) - pievieno izvēlni, skaņu un eksportē · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> šis ir visa kursa noslēguma projekts. Izvēlies VIENU puzles veidu un uztaisi to pilnībā - labāk viena pabeigta spēle nekā trīs iesāktas. Izmanto visu, ko esi apguvis.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: datu modeļa un saskarnes nošķiršana pabeigtā lietotnē</h2>
+<section id="teorija"><h2>Teorija: datu modeļa un saskarnes nošķiršana pabeigtā lietotnē</h2>
 <div class="logic-box"><h3>Loģiskā datu modeļa un vizuālā attēlojuma atdalīšana</h3>
 <p>Interaktīvās režģa lietotnēs patieso sistēmas stāvokli neglabā ekrāna attēlu koordinātās, bet atsevišķā C# <b>datu modelī</b> (piemēram, <code>int[,] rezgis</code>). Tas darbojas gluži kā elektroniskā izklājlapa (<i>Excel</i>): ekrānā redzamā diagramma ir tikai tabulas skaitļu vizuāls atspoguļojums — lai mainītu rezultātu, pārbauda un izmaina skaitli šūnā, un attēlojums pārzīmējas pēc tā.</p>
 <p>Katra lietotāja darbība iziet vienotu pārbaudes un atjaunošanas ciklu: ievades uztveršana → darbības atļautības pārbaude robežās → masīva datu maiņa → mērķa kritērija pārbaude → vizuālo mezglu, pāreju un skaņas atjaunošana:</p>
-<pre><code class="language-csharp">private bool VaiMekletaisStavoklisSasniegts(int[,] rezgis, int[,] merkaParaugs)
+<pre><code class="language-csharp">private int[,] rezgis = new int[4, 4];
+private int[,] merkaParaugs = new int[4, 4];
+
+public bool MainitSunu(int x, int y, int jaunaVertiba)
 {
-    for (int x = 0; x &lt; rezgis.GetLength(0); x++)
-        for (int y = 0; y &lt; rezgis.GetLength(1); y++)
-            if (rezgis[x, y] != merkaParaugs[x, y]) return false;
+    // 1. Pārbauda, vai koordinātas ir masīva robežās:
+    if (x &lt; 0 || x &gt;= rezgis.GetLength(0) || y &lt; 0 || y &gt;= rezgis.GetLength(1))
+        return false;
+
+    // 2. Atjauno loģisko datu modeli un pārzīmē saskarni:
+    rezgis[x, y] = jaunaVertiba;
+    AtjaunotSkatu(x, y);
+
+    // 3. Pārbauda, vai sasniegts meklētais gala stāvoklis:
+    if (VaiMekletaisStavoklisSasniegts(rezgis, merkaParaugs))
+        PazinotParPabeigsanu();
+
+    return true;
+}
+
+private bool VaiMekletaisStavoklisSasniegts(int[,] dati, int[,] paraugs)
+{
+    for (int x = 0; x &lt; dati.GetLength(0); x++)
+        for (int y = 0; y &lt; dati.GetLength(1); y++)
+            if (dati[x, y] != paraugs[x, y]) return false;
 
     return true; // Visas šūnas sakrīt ar mērķa stāvokli.
 }</code></pre>
@@ -99,6 +111,26 @@
 <li><b>Saskarnes un atgriezeniskās saites slānis:</b> pārbaudītajam kodolam caur skaidrām metodēm un signāliem piesaista <code>Control</code> navigācijas skatus, <code>Tween</code> pārejas, <code>AudioServer</code> skaņas kopnes un <code>user://</code> rezultātu saglabāšanu.</li>
 <li><b>Kvalitātes pārbaude un dokumentēšana:</b> pirms nodošanas pārbauda kompilēto darbvirsmas būvējumu ārpus izstrādes vides, apraksta uzbūvi un vadību <code>README.md</code> dokumentācijā un norāda izmantoto ārējo resursu licences.</li>
 </ul>
+<p>Šāda slāņu atdalīšana C# kodā ļauj datu kodolu uzturēt un testēt neatkarīgi no ekrāna vadīklām:</p>
+<pre><code class="language-csharp">// 1. slānis — tīrs C# datu kodols (neatkarīgs no ekrāna mezgliem un skaņas):
+public class RezgjaModelis
+{
+    public int DarbibuSkaits { get; private set; }
+    public bool LietotIzmainu(int x, int y) { DarbibuSkaits++; return true; }
+}
+
+// 2. slānis — Godot saskarnes mezgls, kas savieno kodolu ar skatu un audio:
+public partial class DarbaSkats : Control
+{
+    private readonly RezgjaModelis modelis = new();
+
+    private void KadNospiestaSuna(int x, int y)
+    {
+        if (!modelis.LietotIzmainu(x, y)) return;
+        statusaUzraksts.Text = $"Darbības: {modelis.DarbibuSkaits}";
+        klikskaAtskanotajs.Play();
+    }
+}</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

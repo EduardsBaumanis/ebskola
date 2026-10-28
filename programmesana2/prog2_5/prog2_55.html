@@ -66,15 +66,7 @@
 <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
 <a href="/sasnRez">SR 2.4.5. Datu analīze un vizualizācija</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izmēri divu algoritmu laiku · 2. uzdevums (~25 min) - atrodi un salabo lēno vietu savā spēlē · 3. uzdevums (~20 min) - pierādi uzlabojumu ar mērījumu · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu spēli no 4.6 vai 5.4 stundas. Šodien nemācīsimies jaunu gameplay mehāniku - padarīsim esošo ātrāku un to pierādīsim ar skaitļiem.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: algoritmu laika sarežģītība (<code>Big O</code>) un profilēšana</h2>
+<section id="teorija"><h2>Teorija: algoritmu laika sarežģītība (<code>Big O</code>) un profilēšana</h2>
 <div class="logic-box"><h3>Laika sarežģītība un lielā O notācija (<code>Big O notation</code>)</h3>
 <p>Viena un tā paša koda izpildes ilgums milisekundēs uz dažādiem datoriem atšķiras, tāpēc algoritmus salīdzina pēc <b>laika sarežģītības (<code>time complexity</code>)</b> jeb <b>lielās O notācijas (<code>Big O notation</code>)</b> — tā parāda, cik strauji pieaug darbību skaits, palielinoties ieejas datu apjomam <code>n</code>. To var salīdzināt ar informācijas meklēšanu: atvērt skapīti ar jau zināmu numuru prasa vienu darbību neatkarīgi no skapīšu skaita (<code>O(1)</code>), izlasīt nesakārtotu sarakstu no augšas līdz apakšai prasa līdz pat <code>n</code> pārbaudēm (<code>O(n)</code>), bet situācijā, kur zālē katrs cilvēks paspiež roku katram citam, 10 reižu lielāks cilvēku skaits rada aptuveni 100 reižu vairāk sarokošanos (<code>O(n²)</code>):</p>
 <div aria-label="Big O sarežģītības klašu salīdzinājums" class="table-scroll" role="region" tabindex="0"><table>
@@ -91,7 +83,10 @@
 </div>
 <div class="logic-box"><h3>Ciklu pieaugums, binārā meklēšana un profilēšana (<code>Profiling</code>)</h3>
 <p>Praksē lielāko veiktspējas atšķirību rada tas, vai problēmu izdodas atrisināt bez ligzdotiem cikliem vai ar sakārtotu datu struktūru:</p>
-<pre><code class="language-csharp">// O(n) — viens cikls: n pieaugot 10×, darbību skaits pieaug ~10×
+<pre><code class="language-csharp">// O(1) — konstanta piekļuve neatkarīgi no saraksta garuma n
+int pirmais = dati[0];
+
+// O(n) — viens cikls: n pieaugot 10×, darbību skaits pieaug ~10×
 for (int i = 0; i &lt; n; i++) { GD.Print(dati[i]); }
 
 // O(n²) — ligzdoti cikli: n pieaugot 10×, darbību skaits pieaug ~100×
@@ -112,7 +107,11 @@ int BinarySearch(List&lt;int&gt; sakartots, int merkis)
     }
     return -1;
 }</code></pre>
-<p>Pirms koda pārrakstīšanas praksē vienmēr izmanto <b>profilēšanu (<code>profiling</code>)</b> — reālu izpildes laika mērīšanu ar Godot <b>Debugger -&gt; Profiler</b> vai mikrosekunžu skaitītāju <code>Time.GetTicksUsec()</code>. Tādējādi optimizāciju vērts koncentrēt tieši uz tām metodēm, kuras mērījumos patērē visvairāk procesora laika (piemēram, liekiem aprēķiniem, kas izpildās katrā kadrā), nevis uz kodu, kas izpildās tikai vienreiz programmas sākumā.</p>
+<p>Pirms koda pārrakstīšanas praksē vienmēr izmanto <b>profilēšanu (<code>profiling</code>)</b> — reālu izpildes laika mērīšanu ar Godot <b>Debugger -&gt; Profiler</b> vai mikrosekunžu skaitītāju <code>Time.GetTicksUsec()</code>. Tādējādi optimizāciju vērts koncentrēt tieši uz tām metodēm, kuras mērījumos patērē visvairāk procesora laika (piemēram, liekiem aprēķiniem, kas izpildās katrā kadrā), nevis uz kodu, kas izpildās tikai vienreiz programmas sākumā:</p>
+<pre><code class="language-csharp">ulong sakums = Time.GetTicksUsec();
+ApstradatDatus(dati);
+ulong ilgumsUsec = Time.GetTicksUsec() - sakums;
+GD.Print("Izpildes laiks (μs): ", ilgumsUsec);</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

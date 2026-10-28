@@ -66,15 +66,7 @@
 <a href="/sasnRez">SR 2.4.16. Saliktas data structure</a>
 <a href="/sasnRez">SR 2.4.13. Data type (datu tipi)</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido ienaidnieku sarakstu ar <code>List&lt;T&gt;</code> · 2. uzdevums (~25 min) - pievieno un izņem elementus droši · 3. uzdevums (~20 min) - salīdzini <code>List&lt;T&gt;</code> ar Godot <code>Array</code> · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atceries no Programmēšanas I sarakstus: <code>materiali.append("x")</code> un <code>materiali.pop(0)</code>. C# tas pats parasti ir <code>List&lt;T&gt;</code>, ar <code>Add()</code> un <code>RemoveAt()</code>.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: dinamiskie saraksti C# un Godot vidē</h2>
+<section id="teorija"><h2>Teorija: dinamiskie saraksti C# un Godot vidē</h2>
 <div class="logic-box"><h3>Tipdrošs C# saraksts (<code>List&lt;T&gt;</code>) un Godot <code>Array</code></h3>
 <p>Kad programmā jāglabā mainīgs skaits viena veida datu, fiksēta garuma masīva vietā izmanto dinamisku sarakstu. Godot .NET vidē ir pieejamas divas sarakstu saimes — to atšķirību var salīdzināt ar <b>specializētu dokumentu mapi</b>, kurā ievieto tikai viena formāta veidlapas, un <b>universālu sūtījumu kasti</b>, kurā var salikt dažādus priekšmetus nodošanai kurjeram:</p>
 <div aria-label="Sarakstu tipu salīdzinājums" class="table-scroll" role="region" tabindex="0"><table>
@@ -85,7 +77,22 @@
 <tr><td><code>Godot.Collections.Array&lt;T&gt;</code></td><td>Tipdrošs Godot saraksts, ko var eksportēt redaktora <b>Inspector</b> panelī un nodot Godot API metodēm.</td><td><code>Godot.Collections.Array&lt;Node2D&gt; mezgli = new();</code></td></tr>
 </tbody>
 </table></div>
-<p>Tipdrošums (<code>type safety</code>) nozīmē, ka kompilators jau būvēšanas (<b>Build</b>) laikā neļauj <code>List&lt;int&gt;</code> sarakstā nejauši ievietot tekstu, savukārt netipizēts <code>Godot.Collections.Array</code> šādu sajaukumu atļauj, bet prasa uzmanību pie nolasīšanas.</p>
+<p>Tipdrošums (<code>type safety</code>) nozīmē, ka kompilators jau būvēšanas (<b>Build</b>) laikā neļauj <code>List&lt;int&gt;</code> sarakstā nejauši ievietot tekstu, savukārt netipizēts <code>Godot.Collections.Array</code> šādu sajaukumu atļauj, bet prasa uzmanību pie nolasīšanas:</p>
+<pre><code class="language-csharp">using Godot;
+using System.Collections.Generic;
+
+// 1. Tipdrošs C# saraksts iekšējiem aprēķiniem:
+List&lt;int&gt; merijumi = new();
+merijumi.Add(24);
+// merijumi.Add("kļūda"); // Build kļūda — teksts nav int!
+
+// 2. Tipdrošs Godot saraksts redaktora Inspector panelim:
+[Export] public Godot.Collections.Array&lt;Node2D&gt; Sensori = new();
+
+// 3. Universāls Variant saraksts dažādu tipu datiem:
+Godot.Collections.Array sutijums = new();
+sutijums.Add(105);
+sutijums.Add("Trausls");</code></pre>
 </div>
 <div class="logic-box"><h3>Pamatdarbības, indeksu robežas un droša elementu dzēšana</h3>
 <p>Gan <code>List&lt;T&gt;</code>, gan Godot <code>Array</code> elementu pievienošanai lieto <code>Add(...)</code>, kopējo skaitu nolasa ar īpašību <code>Count</code>, bet elementu noteiktā pozīcijā izņem ar <code>RemoveAt(index)</code>. Numerācija vienmēr sākas ar <code>0</code>, tāpēc pēdējais derīgais indekss ir <code>Count - 1</code> (pirms piekļuves pēc indeksa pārbauda <code>index &gt;= 0 &amp;&amp; index &lt; saraksts.Count</code>, lai neizraisītu <code>ArgumentOutOfRangeException</code>):</p>
@@ -96,8 +103,21 @@ pieturas.Add("Stacija");
 pieturas.Add("Centrs");
 pieturas.Add("Bibliotēka");
 
-pieturas.RemoveAt(2); // Izņem 3. elementu (indekss 2); Count kļūst 2.</code></pre>
-<p>Šķērsojot <code>List&lt;T&gt;</code> ar <code>foreach</code> ciklu, pašu sarakstu cikla iekšienē <b>nedrīkst mainīt</b> (ne pievienot, ne dzēst elementus) — tas ir kā izņemt pakāpienu no kāpnēm brīdī, kad kāds pa tām kāpj, jo visu nākamo elementu indeksi nobīdās un C# aptur izpildi ar <code>InvalidOperationException</code>. Lai elementus izņemtu droši, dzēšamos vienumus vispirms savāc atsevišķā pagaidu sarakstā un izdzēš pēc <code>foreach</code> beigām (vai izmanto metodi <code>RemoveAll(...)</code>).</p>
+pieturas.RemoveAt(2); // Izņem 3. elementu (indekss 2); Count kļūst 2.
+int indekss = 1;
+if (indekss &gt;= 0 &amp;&amp; indekss &lt; pieturas.Count)
+    GD.Print(pieturas[indekss]); // Droša piekļuve: "Centrs"</code></pre>
+<p>Šķērsojot <code>List&lt;T&gt;</code> ar <code>foreach</code> ciklu, pašu sarakstu cikla iekšienē <b>nedrīkst mainīt</b> (ne pievienot, ne dzēst elementus) — tas ir kā izņemt pakāpienu no kāpnēm brīdī, kad kāds pa tām kāpj, jo visu nākamo elementu indeksi nobīdās un C# aptur izpildi ar <code>InvalidOperationException</code>. Lai elementus izņemtu droši, dzēšamos vienumus vispirms savāc atsevišķā pagaidu sarakstā un izdzēš pēc <code>foreach</code> beigām (vai izmanto metodi <code>RemoveAll(...)</code>):</p>
+<pre><code class="language-csharp">// Droša dzēšana divos posmos — nemaina sarakstu foreach laikā:
+List&lt;string&gt; dzesamie = new();
+foreach (string pietura in pieturas)
+{
+    if (pietura == "Stacija") dzesamie.Add(pietura);
+}
+foreach (string pietura in dzesamie)
+{
+    pieturas.Remove(pietura);
+}</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

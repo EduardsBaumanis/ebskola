@@ -66,18 +66,29 @@
 <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
 <a href="/sasnRez">SR 2.4.16. Data structure (datu struktūras)</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izšauj pirmo lādiņu · 2. uzdevums (~25 min) - izveido object pool (lādiņu krātuvi) · 3. uzdevums (~20 min) - salīdzini abas pieejas ar mērījumu · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu projektu. Šodien uztaisīsi šaušanu divos veidos un pats izmērīsi, kurš no tiem ir ātrāks.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: dinamiska objektu dzīves cikla pārvaldība un <code>Object Pooling</code></h2>
+<section id="teorija"><h2>Teorija: dinamiska objektu dzīves cikla pārvaldība un <code>Object Pooling</code></h2>
 <div class="logic-box"><h3>Atkārtotas izveides (<code>Instantiate</code>) un dzēšanas (<code>QueueFree</code>) izmaksas</h3>
 <p>Kad programmā pēc lietotāja darbības uz īsu brīdi jāparāda jauns objekts no sagatavotas <code>.tscn</code> veidnes (<code>PackedScene</code>), vienkāršākā pieeja ir to katrā reizē izveidot ar <code>Instantiate&lt;T&gt;()</code>, pievienot scēnas kokam un pēc noteikta darbības laika izdzēst ar <code>QueueFree()</code> (lai darbība nenotiktu katrā kadrā pēc kārtas, ievieš arī <code>cooldown</code> laika atskaiti, ko ik kadrā samazina par <code>delta</code>).</p>
-<p>Ja šādi īslaicīgi objekti rodas un izzūd retumis, veiktspēja necieš. Taču, ja vienlaikus vai īsā laikā tiek radīti un iznīcināti simtiem eksemplāru, nepārtraukta atmiņas piešķiršana, mezglu pārkārtošana scēnas kokā un C# automātiskā <b>atkritumu savācēja (<code>Garbage Collector</code>)</b> darbība rada mikroaiztures un pazemina kadru skaitu sekundē (<code>FPS</code>).</p>
+<p>Ja šādi īslaicīgi objekti rodas un izzūd retumis, veiktspēja necieš. Taču, ja vienlaikus vai īsā laikā tiek radīti un iznīcināti simtiem eksemplāru, nepārtraukta atmiņas piešķiršana, mezglu pārkārtošana scēnas kokā un C# automātiskā <b>atkritumu savācēja (<code>Garbage Collector</code>)</b> darbība rada mikroaiztures un pazemina kadru skaitu sekundē (<code>FPS</code>):</p>
+<pre><code class="language-csharp">// 1. Jauna eksemplāra izveide ar intervāla ierobežojumu (cooldown):
+[Export] public PackedScene Veidne { get; set; }
+private double gaidisana = 0.0;
+
+public override void _PhysicsProcess(double delta)
+{
+    gaidisana -= delta;
+    if (Input.IsActionPressed("aktivizet") &amp;&amp; gaidisana &lt;= 0.0)
+    {
+        Vienums v = Veidne.Instantiate&lt;Vienums&gt;();
+        GetParent().AddChild(v); // Katrā reizē pievieno jaunu mezglu
+        v.GlobalPosition = GlobalPosition;
+        gaidisana = 0.2;
+    }
+}
+
+// 2. Paša Vienums mezgla skriptā — dzēšana pēc darbības laika beigām:
+dzivesLaiks -= (float)delta;
+if (dzivesLaiks &lt;= 0.0f) QueueFree(); // Atbrīvo mezglu (noslogo GC)</code></pre>
 </div>
 <div class="logic-box"><h3>Objektu krātuve (<code>Object Pooling</code>) un atkārtota izmantošana</h3>
 <p><b>Objektu atkārtota izmantošana jeb krātuve (<code>Object Pooling</code>)</b> aizstāj nepārtrauktu objektu radīšanu un dzēšanu ar fiksēta izmēra rezervi — līdzīgi kā ēdnīcā pusdienu laikā mazgā un lieto vienus un tos pašus 50 šķīvjus, nevis katram apmeklētājam izgatavo jaunu šķīvi un pēc maltītes to izmet. Krātuves darbība balstās uz trim posmiem:</p>

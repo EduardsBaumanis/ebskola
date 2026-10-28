@@ -68,29 +68,55 @@
 <a href="/sasnRez">SR 2.4.18. OOP (objektorientētā programmēšana)</a>
 <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~20 min) - spēlētājs ar kustību un mērķēšanu · 2. uzdevums (~25 min) - divi ienaidnieku type (tipi) ar AI · 3. uzdevums (~20 min) - viļņu sistēma un rezultāts · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> šis ir 4. tēmas noslēguma projekts. Izmanto visu apgūto: sarakstus, dictionary (vārdnīcas), state machine (stāvokļu mašīnu), pathfinding (ceļa meklēšana) un object pool (lādiņu krātuvi). Sāc ar VIENU ienaidnieka type.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: 2D orientācija plaknē un daudzkomponentu sistēmas arhitektūra</h2>
+<section id="teorija"><h2>Teorija: 2D orientācija plaknē un daudzkomponentu sistēmas arhitektūra</h2>
 <div class="logic-box"><h3>2D virziena vektora normalizācija un orientācija pret kursoru (<code>LookAt</code>)</h3>
 <p>Apvienojot horizontālo un vertikālo ievadi 2D plaknē, iegūst astoņu virzienu kustības vektoru. Virzoties pa diagonāli ar vektoru <code>(1, 1)</code>, tā garums pēc Pitagora teorēmas ir <code>√(1² + 1²) ≈ 1,41</code>, tāpēc bez korekcijas kustība slīpi būtu par aptuveni 41% ātrāka nekā taisni pa asi. Metode <b><code>.Normalized()</code></b> (uz nenulles vektora) samazina vektora garumu līdz precīzam vieninieka garumam <code>1</code>, saglabājot nemainīgu kustības ātrumu visos virzienos.</p>
 <p>Lai <code>Node2D</code> mezglu pagrieztu pret konkrētu punktu pasaules koordinātās, kursoru nolasa ar <b><code>GetGlobalMousePosition()</code></b> un izsauc <b><code>LookAt(merkaPunkts)</code></b>: mezgls pagriežas tā, lai tā lokālā priekšējā ass <code>+X</code> (<code>Transform.X</code>) rādītu tieši uz mērķi:</p>
-<pre><code class="language-csharp">Vector2 merkaPunkts = GetGlobalMousePosition();
+<pre><code class="language-csharp">// 1. Astoņu virzienu ievade un normalizācija vienādam ātrumam:
+Vector2 ievade = new Vector2(
+    Input.GetAxis("move_left", "move_right"),
+    Input.GetAxis("move_up", "move_down")
+);
+if (ievade != Vector2.Zero)
+    ievade = ievade.Normalized(); // Diagonāles garums 1.41 -&gt; 1.0
+Velocity = ievade * Atrums;
+MoveAndSlide();
+
+// 2. Pagriešana pret kursoru un priekšējā virziena nolasīšana:
+Vector2 merkaPunkts = GetGlobalMousePosition();
 LookAt(merkaPunkts);
-Vector2 prieksejaisVirziens = Transform.X; // Vienības vektors skatīšanās virzienā.</code></pre>
+Vector2 prieksejaisVirziens = Transform.X; // Vienības vektors (+X ass)</code></pre>
 </div>
 <div class="logic-box"><h3>Modulāra arhitektūra, polimorfisms un posmu pārvaldība</h3>
 <p>Apvienojot vairākas apakšsistēmas vienā reāllaika lietotnē, tīra <b>arhitektūra (<code>architecture</code>)</b> nošķir katras klases pienākumus — līdzīgi kā lidostas dispečeru tornis plāno reisu secību un atjauno informācijas tablo, bet katra tehniskā vienība uz skrejceļa pati apbrauc šķēršļus pēc savas lomas noteikumiem:</p>
 <ul>
 <li><b>Mantošana un polimorfisms:</b> kopīgo stāvokļu mašīnu un ceļa meklēšanu ievieto bāzes klasē, bet specializētos kustības vai darbības parametrus — atvasinātajās klasēs. Glabājot visus aktīvos objektus vienā <code>List&lt;BazesTips&gt;</code> sarakstā, tos apstrādā vienots cikls bez <code>if</code> pārbaudēm katram paveidam.</li>
 <li><b>Posmu pārvaldība un datu struktūras:</b> atsevišķs vadītāja mezgls sarakstā (piemēram, izmantojot kompaktu C# datu ierakstu <code>record</code> vai <code>struct</code>) glabā nākamo posmu parametrus un pāriet pie nākamā posma brīdī, kad aktīvo objektu skaits sasniedz nulli (<code>Count == 0</code>), vienlaikus atjaunojot lietotāja saskarnes (<code>UI</code>) rādītājus.</li>
-<li><b>Veiktspēja un slāņu izolācija:</b> pieaugot aktīvo objektu skaitam un <b>skaitļošanas sarežģītībai (<code>computational complexity</code>)</b>, objektu krātuve (<code>Object Pooling</code>) novērš atmiņas svārstības, savukārt sadursmju slāņi (<code>Collision Layer / Mask</code>) nodrošina, ka objekta radītās saskares zonas nereaģē pašas ar savu avotu.</li>
+<li><b>Veiktspēja un slāņu izolācija:</b> pieaugot aktīvo objektu skaitam un <b>skaitļošanas sarežģītībai (<code>computational complexity</code>)</b>, objektu krātuve (<code>Object Pooling</code>) novērš atmiņas svārstības, savukārt sadursmju slāņi (<code>Collision Layer / Mask</code>) nodrošina, ka objekta radītās saskares zonas nereaģē pašas ar savu avotu:</li>
 </ul>
+<pre><code class="language-csharp">// Kompakts datu ieraksts (record) posma konfigurācijai:
+public record PosmaPlans(int StandartaSkaits, int AtrasSkaits);
+
+public partial class Dispecers : Node
+{
+    private readonly List&lt;TehniskaVieniba&gt; aktivas = new(); // Polimorfs
+    private readonly List&lt;PosmaPlans&gt; posmi = new()
+    {
+        new PosmaPlans(3, 1),
+        new PosmaPlans(5, 2)
+    };
+    private int posmaIndekss = 0;
+
+    public override void _Process(double delta)
+    {
+        if (aktivas.Count == 0 &amp;&amp; posmaIndekss &lt; posmi.Count)
+        {
+            SaktPosmu(posmi[posmaIndekss]);
+            posmaIndekss++;
+            AtjaunotTablo(posmaIndekss, aktivas.Count);
+        }
+    }
+}</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

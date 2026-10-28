@@ -66,15 +66,7 @@
 <a href="/sasnRez">SR 2.4.17. File I/O (failu ievade un izvade)</a>
 <a href="/sasnRez">SR 2.4.6. Plāno izstrādes procesu</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - izveido SaveManager ar saglabāšanas vietām · 2. uzdevums (~25 min) - liec objektiem saglabāt sevi pašiem · 3. uzdevums (~20 min) - pievieno automātiskā saglabāšana un versiju · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu projektu ar JSON (JavaScript objektu pieraksts) saglabāšanu no 5.2 stundas. Šodien no vienas function (funkcijas) taisīsi sistēmu, kas der visai spēlei.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: modulāra saglabāšanas un ielādes arhitektūra</h2>
+<section id="teorija"><h2>Teorija: modulāra saglabāšanas un ielādes arhitektūra</h2>
 <div class="logic-box"><h3>Atbildību sadale ar C# saskarni (<code>interface</code>) un koordinatoru</h3>
 <p>Kad lietotnē ir vairākas neatkarīgas apakšsistēmas, viena centrālā klase nedrīkst tieši lasīt katra objekta privātos laukus — citādi jebkura izmaiņa vienā modulī liktu pārrakstīt arī failu saglabātāju. Tīra <b>arhitektūra (<code>architecture</code>)</b> šo problēmu atrisina ar <b>saskarni jeb interfeisu (<code>interface</code>)</b>, kas definē vienotu līgumu bez iekšējās realizācijas — līdzīgi kā pārvākšanās uzņēmuma kurjeram nav jāzina, kā izjaukt katras istabas mēbeles: katrs saimnieks pats sapako savas lietas standartizētā kastē un vēlāk tās izpako, bet koordinators tikai savāc marķētās kastes un nogādā noliktavā:</p>
 <pre><code class="language-csharp">using Godot;
@@ -100,8 +92,26 @@ public partial class DatuKoordinators : Node
 <ul>
 <li><b>Vairākas saglabāšanas vietas (<code>slots</code>):</b> datus sadala numurētos failos (piemēram, <code>user://vieta_1.json</code>, <code>user://vieta_2.json</code>), lai lietotājs varētu uzturēt vairākus neatkarīgus stāvokļus un pārbaudīt, kuri faili ar <code>FileAccess.FileExists(...)</code> jau ir aizpildīti.</li>
 <li><b>Atdalīta automātiskā saglabāšana (<code>autosave</code>):</b> ar <code>Timer</code> mezglu periodiski (vai pēc svarīga posma pabeigšanas) izsauc fona ierakstu atsevišķā vietā, piemēram, <code>vieta_0.json</code> — gluži kā mākoņdokumentu melnrakstu vēsture nepārraksta lietotāja manuāli nosaukto gala versiju.</li>
-<li><b>Formāta versija (<code>version</code>) un metadati:</b> kopējā vārdnīcā ietver lauku <code>"version": 1</code> (un pēc vajadzības laika zīmogu <code>Time.GetUnixTimeFromSystem()</code>). Kad programma nākotnē tiek atjaunināta un datu lauki mainās, versijas pārbaude ļauj savlaicīgi atpazīt novecojušu failu un izvairīties no avārijas.</li>
+<li><b>Formāta versija (<code>version</code>) un metadati:</b> kopējā vārdnīcā ietver lauku <code>"version": 1</code> (un pēc vajadzības laika zīmogu <code>Time.GetUnixTimeFromSystem()</code>). Kad programma nākotnē tiek atjaunināta un datu lauki mainās, versijas pārbaude ļauj savlaicīgi atpazīt novecojušu failu un izvairīties no avārijas:</li>
 </ul>
+<pre><code class="language-csharp">private const int Versija = 1;
+private string VietasCels(int vieta) =&gt; $"user://vieta_{vieta}.json";
+
+public bool VaiVietaAizpildita(int vieta) =&gt;
+    FileAccess.FileExists(VietasCels(vieta));
+
+// Timer signāla apstrādātājs — automātiski saglabā atsevišķā 0. vietā:
+private void KadPienakAutosaglabasana() =&gt; Saglabat(0);
+
+public bool ParbauditVersiju(Dictionary dati)
+{
+    if (!dati.ContainsKey("version") || dati["version"].AsInt32() != Versija)
+    {
+        GD.PrintErr("Nesaderīga faila versija — lieto noklusējumus.");
+        return false;
+    }
+    return true;
+}</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

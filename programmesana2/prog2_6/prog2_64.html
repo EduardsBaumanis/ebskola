@@ -67,21 +67,17 @@
 <a href="/sasnRez">SR 2.4.19. Algoritmi</a>
 <a href="/sasnRez">SR 2.4.5. Datu analīze un vizualizācija</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - atrodi kļūdu ar izdrukām · 2. uzdevums (~25 min) - lieto breakpoint un variable (mainīgo) skatu · 3. uzdevums (~20 min) - atrodi lēnāko vietu ar profiler (profileri) · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu spēli. Šodien apzināti salauzīsi kodu un tad mācīsies to atrast - tā ir prasme, ko vajadzēs katrā projektā.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: programmas atkļūdošana (<code>Debugging</code>) un veiktspējas profilēšana</h2>
+<section id="teorija"><h2>Teorija: programmas atkļūdošana (<code>Debugging</code>) un veiktspējas profilēšana</h2>
 <div class="logic-box"><h3>Diagnostikas izdrukas (<code>Output</code>), pašpārbaudes un <code>#if DEBUG</code></h3>
 <p>Kad programma uzvedas neparedzēti, pirmais solis ir padarīt tās iekšējo stāvokli redzamu. Godot <b>Output</b> panelī ziņojumus iedala trīs līmeņos: <code>GD.Print(...)</code> parastai vērtību izsekošanai, <code>GD.PushWarning(...)</code> dzeltenam brīdinājumam par aizdomīgiem datiem un <code>GD.PrintErr(...)</code> sarkanam kļūdas paziņojumam. Savukārt C# direktīva <b><code>#if DEBUG ... #endif</code></b> iekļauj diagnostikas izdrukas tikai izstrādes laikā, automātiski izslēdzot tās no gala laidiena:</p>
 <pre><code class="language-csharp">if (datuAvots == null)
 {
     GD.PrintErr("Kļūda: nepieciešamais mezgls nav atrasts!");
     return;
+}
+if (daudzums == 0)
+{
+    GD.PushWarning("Brīdinājums: saņemts tukšs datu apjoms.");
 }
 if (daudzums &lt; 0)
 {
@@ -98,6 +94,20 @@ GD.Print("Izsaukta metode: ", nameof(AtjaunotStavokli), ", pozīcija: ", Positio
 <li><b><code>Stack Variables / Locals</code> un <code>Call Stack</code>:</b> parāda visu lokālo mainīgo un objekta lauku pašreizējās vērtības bez vienas pašas <code>GD.Print</code> rindas, kā arī metožu izsaukumu ķēdi, kas noveda līdz šai vietai; ar pogām <b>Step Into</b> un <b>Step Over</b> kodu var izpildīt soli pa solim.</li>
 <li><b><code>Profiler</code>, <code>Visual Profiler</code> un <code>Network Profiler</code>:</b> mēra nevis pareizību, bet ātrumu — tabulā sakārto funkcijas pēc patērētā procesora laika (piemēram, salīdzinot <code>_Process</code> un <code>_PhysicsProcess</code> slodzi), kā arī vizualizē kadru aiztures un tīkla ziņojumu plūsmu.</li>
 </ul>
+<p>Piemēram, klusām loģikas kļūdām (kur programma neavarē, bet atgriež neprecīzu skaitli) pārtraukumpunkts uzreiz atklāj cēloni izsaukumu ķēdē:</p>
+<pre><code class="language-csharp">public void ApstradatIerakstus(int summa, int skaits)
+{
+    double vid = AprekinatVidejo(summa, skaits);
+    GD.Print("Vidējā vērtība: ", vid);
+}
+
+private double AprekinatVidejo(int summa, int skaits)
+{
+    // &lt;- Breakpoint šajā rindā:
+    // Call Stack rāda: ApstradatIerakstus() -&gt; AprekinatVidejo()
+    // Locals atklāj: summa = 75, skaits = 20 (veselu skaitļu dalījums = 3!)
+    return summa / skaits; // Labojums pēc pārbaudes: (double)summa / skaits
+}</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">

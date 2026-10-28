@@ -69,15 +69,7 @@
 <a href="/sasnRez">SR 2.3.2. Datorikas virzieni un profesijas</a>
 <a href="/sasnRez">SR 2.4.9. Versiju pārvaldība</a>
 </div>
-<section>
-<div class="info-box">
-<p><b>80 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~20 min) - eksportē spēli uz datoru · 2. uzdevums (~25 min) - pārbaudi build (būvējums) ārpus redaktora · 3. uzdevums (~20 min) - publicē lejupielādējamu versiju internetā · Iesniegšana (~5 min).</p>
-<p><b>Pirms sāc:</b> atver savu spēli. Šodien no projekta taisīsi failu, ko var iedot citam cilvēkam. Pirms sāc, lejupielādē export templates (eksporta veidnes): <b>Editor -&gt; Manage Export Templates</b>.</p>
-
-<p><b>Failu ceļi:</b> ceļi ir norādīti no tava Godot projekta mapes, kur atrodas <code>project.godot</code>; piemēram, <code>Scripts/Player.cs</code> Godot panelī ir <code>res://Scripts/Player.cs</code>. Ja norādītais fails jau ir izveidots, atver un papildini to.</p>
-<p>Jaunus C# failus veido mapē <code>Scripts</code>, scēnas — norādītajā ceļā; trūkstošās mapes izveido. Ja tavā projektā skripts glabājas citur, rediģē esošo failu. <code>using</code> direktīvas raksti faila sākumā, laukus un metodes — klases iekšienē. Esošu <code>_Ready()</code> vai <code>_PhysicsProcess()</code> papildini, neveido otru tāda paša nosaukuma metodi.</p>
-</div>
-</section><section id="teorija"><h2>Teorija: programmatūras būvēšana, eksportēšana un izplatīšana</h2>
+<section id="teorija"><h2>Teorija: programmatūras būvēšana, eksportēšana un izplatīšana</h2>
 <div class="logic-box"><h3>No pirmkoda līdz patstāvīgam būvējumam (<code>Export Presets</code> un <code>.pck</code>)</h3>
 <p>Projekts izstrādes vidē ir kā konditorejas virtuve ar visām izejvielām un krāsnīm, turpretim <b>eksportēts būvējums (<code>build</code>)</b> ir gatavs, iepakots produkts, ko lietotājs var darbināt savā datorā bez Godot redaktora un C# kompilatora. Eksportēšanas laikā notiek trīs saistīti procesi:</p>
 <ul>
@@ -85,6 +77,12 @@
 <li><b>Resursu sapakošana (<code>.pck</code>):</b> scēnas, attēli un skaņas no <code>res://</code> tiek apvienoti vienotā, tikai lasāmā resursu pakotnē.</li>
 <li><b>Platformas eksporta profils (<code>Export Preset</code> un <code>Export Templates</code>):</b> gatavā pakotne tiek savienota ar izvēlētās operētājsistēmas izpildfailu (<code>.exe</code> Windows, <code>.x86_64</code> Linux vai <code>.app</code> macOS vidē). Godot 4 <code>.NET (C#)</code> projektiem izmanto tieši šos darbvirsmas profilus, jo tīmekļa pārlūka eksports C# vidē netiek lietots.</li>
 </ul>
+<p>Pēc eksportēšanas mērķa mapē izveidojas savstarpēji saistītu failu komplekts, kurā visi trīs elementi ir nepieciešami lietotnes darbināšanai:</p>
+<pre><code>build/
+├── Lietotne.exe              # Izpildfails (Linux vidē: Lietotne.x86_64)
+├── Lietotne.pck              # Sapakotie res:// resursi (scēnas, audio)
+└── data_Lietotne_windows_x86_64/
+    └── Lietotne.dll          # Kompilētais C# kods un .NET bibliotēkas</code></pre>
 </div>
 <div class="logic-box"><h3>Pārbaude ārpus redaktora, versiju kontrole (<code>.gitignore</code>) un licences</h3>
 <p>Lai izplatāmā lietotne uzticami darbotos cita cilvēka datorā, ievēro trīs programmatūras inženierijas principus:</p>
@@ -93,6 +91,15 @@
 <li><b>Krātuves tīrība (<code>.gitignore</code>):</b> <code>Git</code> versiju kontrole ir paredzēta cilvēka rakstītam pirmkodam un scēnu aprakstiem, nevis desmitiem megabaitu lieliem kompilētiem binārajiem failiem, tāpēc mapi <code>build/</code> vienmēr iekļauj failā <code>.gitignore</code>.</li>
 <li><b>Dokumentācija un autortiesības (<code>IP rights</code>):</b> publiskojot programmu, pievieno skaidru palaišanas un vadības aprakstu, kā arī korekti norāda visu izmantoto trešo pušu resursu (skaņu, attēlu, fontu) autorus atbilstoši to <b>licencei</b> (piemēram, <code>MIT</code>, <code>CC0</code> vai <code>CC BY</code>).</li>
 </ul>
+<p>Minimāls <code>.gitignore</code> un resursu licenču norādes paraugs projekta saknes mapē:</p>
+<pre><code class="language-bash"># .gitignore — neiekļauj Git krātuvē ģenerētos un eksportētos failus:
+.godot/
+.mono/
+build/
+*.pck</code></pre>
+<pre><code># README.md — Izmantotie resursi un licences
+- Saskarnes ikonas: "UI Pack" (autors: Kenney, licence: CC0 1.0)
+- Fona ieraksts: "Ambient Loop" (autors: J. Bērziņš, licence: CC BY 4.0)</code></pre>
 </div></section><section>
 <h2>Kā šo izmantot projektā</h2>
 <div class="logic-box">
