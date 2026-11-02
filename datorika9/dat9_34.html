@@ -73,10 +73,10 @@
      3.4 Masīvs: spēlētāja priekšmetu saraksts
     </a>
     <a href="/datorika9/dat9_35">
-     3.5 Cikls izveido izvēles — projekta 1. daļa
+     3.5 Cikls: izveido izvēļu pogas un skaiti gājienus
     </a>
     <a href="/datorika9/dat9_36">
-     3.6 Pabeidz teksta spēli — projekta 2. daļa
+     3.6 Izveido teksta izvēļu spēli — tēmas noslēguma darbs
     </a>
    </nav>
   </aside>
@@ -94,33 +94,82 @@
     <b>
      Šodien:
     </b>
-    Izveido priekšmetu sarakstu, kuru spēlētājs papildina ar pogu.
+    Izveido spēlētāja priekšmetu masīvu, papildini to ar pogas klikšķi un parādi lapā gan visu sarakstu un skaitu, gan atsevišķi pirmo priekšmetu.
    </p>
    <section id="teorija">
-<h2>Teorija ar piemēriem</h2>
-<div class="logic-box" id="masivs">
-  <h3>Masīvs ir sakārtots vērtību saraksts</h3>
-<p>Ja spēlētājam ir vairāki priekšmeti, katram nav vajadzīgs savs atsevišķs mainīgais. <b>Masīvā</b> tos glabā kopā. Kvadrātiekavas aptver sarakstu, komati atdala vērtības, bet tekstus raksta pēdiņās.</p>
-<pre><code>const manta = ["karte", "lukturis", "atslēga"];</code></pre>
-<p>Tas ir piemērs ar trim sākuma priekšmetiem; savā failā labo esošo <code>manta</code> rindu. Masīvā katrai vietai ir numurs jeb <b>indekss</b>. Numerācija sākas ar nulli, tāpēc pirmais priekšmets ir <code>manta[0]</code>.</p>
-<div class="table-scroll" role="region" aria-label="Vietas un priekšmeti masīvā" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Indekss</th><th scope="col">Izteiksme</th><th scope="col">Vērtība</th></tr></thead><tbody><tr><td>0</td><td><code>manta[0]</code></td><td>karte</td></tr><tr><td>1</td><td><code>manta[1]</code></td><td>lukturis</td></tr><tr><td>2</td><td><code>manta[2]</code></td><td>atslēga</td></tr></tbody></table></div>
-<p><code>manta.length</code> atdod priekšmetu <b>skaitu</b>, šeit 3. Skaits un pēdējās vietas numurs atšķiras: trim priekšmetiem pēdējais indekss ir 2. Ja pieprasi <code>manta[3]</code>, šajā sarakstā tādas vērtības vēl nav.</p>
-</div>
-<div class="logic-box" id="saraksta-mainisana">
-  <h3>Pievienošana un parādīšana ir divi soļi</h3>
-<p>Šis ir funkcijas <code>pievienot()</code> darbību piemērs. Savā kodā maini esošās <code>push</code> rindas priekšmeta nosaukumu, bet atstāj tai sekojošo parādīšanu.</p>
-<pre><code>manta.push("virve");
-paradit();</code></pre>
-<p><code>push</code> pieliek jaunu priekšmetu beigās. Pēc tam <code>paradit()</code> atjauno lapas tekstu. Sākuma kodā tā izmanto <code>manta.join(", ")</code>, kas savieno priekšmetu nosaukumus vienā tekstā ar komatu un atstarpi. Masīvs pats joprojām paliek saraksts.</p>
-<p>Ja sākumā ir trīs priekšmeti un pogu nospied divreiz, sarakstā ir pieci. Ja poga abas reizes pievieno “virve”, sarakstā būs divas virves; <code>push</code> pats neatmet atkārtojumus. Ar <code>const</code> šeit aizliegts piešķirt citu masīvu nosaukumam <code>manta</code>, bet esošā masīva saturu mainīt drīkst.</p>
-</div>
-<div class="logic-box" id="pirma-prieksmeta-paradisana">
-  <h3>Kā parādīt tikai pirmo priekšmetu?</h3>
-<p>Kad uzdevumā izveidota rindkopa ar <code>id="pirmais"</code>, funkcijā <code>paradit()</code> vari atjaunot arī to:</p>
-<pre><code>document.getElementById("pirmais").textContent = "Pirmais: " + manta[0];</code></pre>
-</div>
-<details class="course-help"><summary>Pašpārbaude: vai pēc jauna priekšmeta pievienošanas beigās mainās manta[0]?</summary><p>Nē. Pirmajā vietā joprojām ir “karte”. Palielinās saraksta garums, bet esošo priekšmetu secība nemainās.</p>
-</details>
+    <h2>Teorija ar piemēriem</h2>
+    <div class="logic-box" id="masivs">
+     <h3>Masīvs (<code>[...]</code>), indeksi no <code>0</code> un garums <code>.length</code></h3>
+     <p>Ja spēlē jāglabā vairāki līdzīgi dati — piemēram, uzdevumu saraksts, kartes vietas vai spēlētāja somas priekšmeti — katram neveido atsevišķu mainīgo. Visus vienumus saliek vienā sakārtotā sarakstā jeb <b>masīvā</b>:</p>
+     <pre><code>const uzdevumi = ["atvērt vārtus", "šķērsot tiltu", "izpētīt torni"];</code></pre>
+     <ul>
+      <li><b>Kvadrātiekavas <code>[</code> un <code>]</code></b> pasaka JavaScript valodai, ka tas ir masīvs (sākumā var izveidot arī tukšu masīvu <code>[]</code>).</li>
+      <li>Katru teksta vienumu liek <b>pēdiņās <code>"..."</code></b>, bet vienumus savā starpā atdala ar <b>komatu <code>,</code></b>.</li>
+      <li>Katrai vietai masīvā ir savs kārtas numurs jeb <b>indekss</b>, un programmēšanā numerācija vienmēr <b>sākas ar <code>0</code></b>!</li>
+     </ul>
+     <div class="table-scroll" role="region" aria-label="Indeksu un vērtību piemērs masīvā uzdevumi" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Indekss (vietas numurs)</th>
+         <th scope="col">Pieraksts kodā</th>
+         <th scope="col">Nolasītā vērtība</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td><code>0</code> (pirmais!)</td>
+         <td><code>uzdevumi[0]</code></td>
+         <td><code>"atvērt vārtus"</code></td>
+        </tr>
+        <tr>
+         <td><code>1</code> (otrais)</td>
+         <td><code>uzdevumi[1]</code></td>
+         <td><code>"šķērsot tiltu"</code></td>
+        </tr>
+        <tr>
+         <td><code>2</code> (trešais / pēdējais)</td>
+         <td><code>uzdevumi[2]</code></td>
+         <td><code>"izpētīt torni"</code></td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p>Īpašība <code>uzdevumi.length</code> atdod kopējo vienumu <b>skaitu</b> (šajā piemērā <code>3</code>). Nepārsauc skaitu ar pēdējo indeksu: ja masīvā ir <code>3</code> vienumi, to indeksi ir <code>0</code>, <code>1</code> un <code>2</code> (tātad pēdējais indekss vienmēr ir <code>uzdevumi.length - 1</code>). Ja pieprasīsi neesošu vietu <code>uzdevumi[3]</code>, JavaScript atbildēs ar <code>undefined</code> (“nav definēts”).</p>
+    </div>
+    <div class="logic-box" id="saraksta-mainisana">
+     <h3>Saraksta papildināšana ar <code>.push(...)</code> un atjaunošana lapā</h3>
+     <p>Lai pogas klikšķis sarakstam pievienotu jaunu vienumu un spēlētājs to uzreiz ieraudzītu ekrānā, vajadzīgas divas darbības — <b>masīva papildināšana atmiņā</b> un <b>lapas teksta atjaunošana</b>:</p>
+     <pre><code>function atjaunotSarakstu() {
+  document.getElementById("zurnals").textContent = uzdevumi.join(", ");
+  document.getElementById("kopskaits").textContent = "Uzdevumu skaits: " + uzdevumi.length;
+}
+
+function pievienotUzdevumu() {
+  uzdevumi.push("atrast dārgumus");
+  atjaunotSarakstu();
+}
+
+atjaunotSarakstu();</code></pre>
+     <ul>
+      <li><code>.push("...")</code> pieliek jaunu vienumu masīva <b>pašās beigās</b>. Ja pogu nospiež divas reizes pēc kārtas, tas pats vienums tiks pievienots divreiz (skaits kļūs <code>4</code>, tad <code>5</code>), jo <code>.push(...)</code> automātiski neatmet atkārtojumus.</li>
+      <li><code>.join(", ")</code> salīmē visus masīva tekstus vienā glītā virknē, starp tiem ieliekot komatu un atstarpi (pats masīvs atmiņā paliek neskarts).</li>
+      <li>Funkciju <code>atjaunotSarakstu()</code> izsauc gan skripta beigās (lai parādītu sākuma datus, tiklīdz lapa atveras), gan pēc katra <code>.push(...)</code>.</li>
+      <li><b>Kāpēc te der <code>const</code>?</b> Atslēgvārds <code>const</code> aizliedz aizstāt visu mainīgo ar pavisam jaunu sarakstu (<code>uzdevumi = [...]</code>), bet jau izveidota masīva saturu papildināt ar <code>.push(...)</code> drīkst.</li>
+      <li><b>Kas notiek pēc <code>Ctrl+R</code>?</b> Pievienotie vienumi glabājas pārlūka cilnes pagaidu atmiņā, tāpēc lapas pārlāde atgriež sākotnējo sarakstu no faila koda.</li>
+     </ul>
+    </div>
+    <div class="logic-box" id="pirma-prieksmeta-paradisana">
+     <h3>Atsevišķa saraksta elementa nolasīšana pēc indeksa</h3>
+     <p>Bieži spēles panelī līdzās pilnajam sarakstam vajag izcelt vienu konkrētu vienumu — piemēram, pašu pirmo uzdevumu, ar kuru viss sākās, vai pašu pēdējo pievienoto ierakstu.</p>
+     <p>Ja HTML daļā izveidota atsevišķa rindkopa (piemēram, <code>&lt;p id="aktivais"&gt;&lt;/p&gt;</code>), to atjauno tajā pašā parādīšanas funkcijā, nolasot vērtību pēc indeksa kvadrātiekavās:</p>
+     <pre><code>document.getElementById("aktivais").textContent = "Sākuma uzdevums: " + uzdevumi[0];</code></pre>
+     <p>Tā kā <code>.push(...)</code> jaunos vienumus vienmēr pievieno saraksta <b>beigās</b>, pirmā elementa vērtība <code>uzdevumi[0]</code> pēc pogas spiešanas nemainās, savukārt pēdējo vienumu jebkurā brīdī var nolasīt ar <code>uzdevumi[uzdevumi.length - 1]</code>.</p>
+    </div>
+    <details class="course-help">
+     <summary>Pašpārbaude: masīvā sākumā ir 3 vienumi un spēlētājs divreiz nospiež pievienošanas pogu — kāda tagad ir <code>.length</code> vērtība, kāds ir pēdējā vienuma indekss, un vai mainās vienums ar indeksu <code>[0]</code>?</summary>
+     <p>Tagad <code>.length</code> ir <code>5</code>, pēdējā vienuma indekss ir <code>4</code> (jo skaitīšana sākas no <code>0</code>: 0, 1, 2, 3, 4), bet <code>[0]</code> vērtība nemainās, jo <code>.push(...)</code> jaunos vienumus pievieno saraksta beigās.</p>
+    </details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -192,30 +241,44 @@ paradit();</code></pre>
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
 &lt;title&gt;Mana spēle&lt;/title&gt;
 &lt;style&gt;
-body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
+/* Pamata izkārtojums — šīs rindas nemaini */
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+.panelis { background-color: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 18px; margin: 16px 0; }
+.panelis p { margin: 8px 0; }
+#soma { font-size: 18px; font-weight: bold; }
+button { font: inherit; padding: 10px 14px; margin-top: 10px; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
-
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;h1&gt;Spēlētāja soma&lt;/h1&gt;
-&lt;p id="soma"&gt;&lt;/p&gt;
-&lt;p id="skaits"&gt;&lt;/p&gt;
-&lt;button onclick="pievienot()"&gt;Paņemt atslēgu&lt;/button&gt;
+&lt;div class="panelis"&gt;
+  &lt;p id="soma"&gt;&lt;/p&gt;
+  &lt;!-- 3. UZDEVUMS: šeit pievieno &lt;p id="pirmais"&gt;&lt;/p&gt; pirmā priekšmeta parādīšanai --&gt;
+  &lt;p id="skaits"&gt;&lt;/p&gt;
+  &lt;!-- 2. UZDEVUMS: pielāgo pogas uzrakstu savam jaunajam priekšmetam --&gt;
+  &lt;button onclick="pievienot()"&gt;Paņemt atslēgu&lt;/button&gt;
+&lt;/div&gt;
 &lt;script&gt;
+// === 1. UZDEVUMS — MAINI ŠEIT: ieraksti 3 savas spēles sākuma priekšmetus ===
 const manta = ["karte", "lukturis"];
-// Gatava parādīšana. join savieno saraksta tekstus.
+
+// Funkcija atjauno somas saturu un skaitu lapā.
 function paradit() {
-  document.getElementById("soma").textContent = manta.join(", ");
+  document.getElementById("soma").textContent = "Somā ir: " + manta.join(", ");
   document.getElementById("skaits").textContent = "Priekšmetu skaits: " + manta.length;
+  // === 3. UZDEVUMS — PAPILDINI ŠEIT: parādi pirmo priekšmetu elementā "pirmais" ===
 }
+
+// Funkcija izpildās, kad spēlētājs nospiež pogu.
 function pievienot() {
+  // === 2. UZDEVUMS — MAINI ŠEIT: kuru priekšmetu pievieno poga ===
   manta.push("atslēga");
   paradit();
 }
+
+// === GATAVĀ DAĻA — parāda sākuma sarakstu uzreiz pēc lapas atvēršanas (nemaini) ===
 paradit();
 &lt;/script&gt;
 &lt;/body&gt;
@@ -228,33 +291,37 @@ paradit();
      1. uzdevums
     </p>
     <h2>
-     Izveido savu somu
+     Izpēti sākuma kodu un izveido 3 sākuma priekšmetu somu
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#masivs">Masīvs ir sakārtots vērtību saraksts</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#masivs">Masīvs ([...]), indeksi no 0 un garums .length</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: Windows File Explorer → pārlūks → VS Code
     </p>
     <ol class="step-list">
      <li>
-      Sāc ar
-      <code>
-       34.html
-      </code>
-      .
+      Windows mapē <code>Desktop/datorika9-tema3</code> atver saglabāto <code>34.html</code> pārlūkā (<b>Open with → Edge</b>) un novēro, ka sākumā somā redzami <code>2</code> priekšmeti un poga <b>Paņemt atslēgu</b>.
      </li>
      <li>
-      Saraksta pirmajā rindā ieraksti trīs savai spēlei vajadzīgus priekšmetus.
+      VS Code failā <code>34.html</code> nomaini <code>&lt;title&gt;</code> un <code>&lt;h1&gt;</code> uz savas spēles somas vai ekipējuma nosaukumu.
      </li>
      <li>
-      Starp tekstiem atstāj komatus un katru tekstu ieliec pēdiņās.
+      <code>&lt;script&gt;</code> daļas sākumā atrodi masīvu <code>const manta = ["karte", "lukturis"];</code>.
+     </li>
+     <li>
+      Nomaini un papildini šo sarakstu tā, lai tajā sākumā būtu <b>tieši trīs</b> tavai spēlei piemēroti priekšmeti (piemēram, kompass, virve, burvestību grāmata vai citi paša izdomāti nosaukumi).
+     </li>
+     <li>
+      Rūpīgi pārbaudi masīva sintaksi: sarakstu aptver kvadrātiekavas <code>[...]</code>, katrs priekšmeta nosaukums ir pēdiņās <code>"..."</code>, un starp nosaukumiem ir komats <code>,</code>.
+     </li>
+     <li>
+      Paredzi, ko tagad parādīs <code>manta.length</code>, saglabā failu ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un pārliecinies, ka uzreiz redzami visi trīs priekšmeti un <code>Priekšmetu skaits: 3</code>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Sākuma sarakstā ir trīs priekšmeti.
+     atverot lapu, somas masīvā ir trīs paša izvēlēti sākuma priekšmeti un skaits rāda <code>3</code>.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-2">
@@ -262,41 +329,37 @@ paradit();
      2. uzdevums
     </p>
     <h2>
-     Pielāgo priekšmeta pogu
+     Pielāgo priekšmeta pievienošanas pogu un pārbaudi <code>.push(...)</code>
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#saraksta-mainisana">Pievienošana un parādīšana ir divi soļi</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#saraksta-mainisana">Saraksta papildināšana ar .push(...) un atjaunošana lapā</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Funkcijā
-      <code>
-       pievienot()
-      </code>
-      nomaini
-      <code>
-       push
-      </code>
-      iekavās esošo tekstu.
+      Izdomā vēl vienu jaunu priekšmetu, kuru spēlētājs atradīs un ieliks somā, nospiežot pogu.
      </li>
      <li>
-      Nomaini pogas tekstu, lai tas pasaka, kuru priekšmetu pievienos.
+      Funkcijā <code>pievienot()</code> rindā <code>manta.push("atslēga");</code> nomaini pēdiņās rakstīto vārdu uz savu jauno priekšmetu, <b>atstājot neskartu</b> nākamo rindu <code>paradit();</code>.
      </li>
      <li>
-      Saglabā
-      <code>
-       paradit();
-      </code>
-      , kas atjauno sarakstu lapā.
+      HTML daļā pie <code>&lt;button onclick="pievienot()"&gt;</code> nomaini pogas redzamo tekstu tā, lai spēlētājs zinātu, kuru priekšmetu viņš paņems (saglabā atribūtu <code>onclick="pievienot()"</code>).
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un pārbaudi, ka redzams jaunais pogas uzraksts un sākuma skaits joprojām ir <code>3</code>.
+     </li>
+     <li>
+      Nospied pogu <b>vienu reizi</b> un tad <b>otro reizi</b> — pārliecinies, ka jaunais priekšmets parādās saraksta beigās un skaits secīgi pieaug uz <code>4</code> un <code>5</code>.
+     </li>
+     <li>
+      Pārlūkā vēlreiz nospied <b>Ctrl+R</b> un novēro, ka pēc pārlādes saraksts atgriežas sākuma stāvoklī ar <code>3</code> priekšmetiem.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Pogas teksts atbilst pievienotajam priekšmetam.
+     pogas uzraksts un <code>.push(...)</code> pievienotais priekšmets sakrīt, un katrs klikšķis palielina priekšmetu skaitu par <code>1</code>.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-3">
@@ -304,184 +367,62 @@ paradit();
      3. uzdevums
     </p>
     <h2>
-     Parādi pirmo priekšmetu un pārbaudi
+     Parādi pirmo priekšmetu ar <code>manta[0]</code> un pārbaudi darbību
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#pirma-prieksmeta-paradisana">Kā parādīt tikai pirmo priekšmetu?</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#pirma-prieksmeta-paradisana">Atsevišķa saraksta elementa nolasīšana pēc indeksa</a>.</p>
     <p class="workplace">
-     Vide: VS Code → pārlūks
+     Vide: VS Code → pārlūks (ar F12 Console)
     </p>
     <ol class="step-list">
      <li>
-      HTML zem virsraksta pievieno
-      <code>
-       &lt;p id="pirmais"&gt;&lt;/p&gt;
-      </code>
-      .
+      HTML daļā blokā <code>&lt;div class="panelis"&gt;</code> starp <code>&lt;p id="soma"&gt;&lt;/p&gt;</code> un <code>&lt;p id="skaits"&gt;&lt;/p&gt;</code> pievieno jaunu tukšu rindkopu <code>&lt;p id="pirmais"&gt;&lt;/p&gt;</code>.
      </li>
      <li>
-      Funkcijā
-      <code>
-       paradit()
-      </code>
-      pievieno
-      <code>
-       document.getElementById("pirmais").textContent = "Pirmais: " + manta[0];
-      </code>
-      .
+      <code>&lt;script&gt;</code> daļas funkcijā <code>paradit()</code> zem komentāra <code>// === 3. UZDEVUMS ... ===</code> pievieno rindu, kas elementam ar <code>id="pirmais"</code> īpašībā <code>.textContent</code> ieraksta paskaidrojošu sākumu un pirmo masīva vienumu <code>manta[0]</code>.
      </li>
      <li>
-      Atver lapu no jauna. Pārbaudi sākuma skaitu 3; pēc diviem klikšķiem jābūt 5. Pirmā priekšmeta nosaukumam jāsakrīt ar sarakstu.
+      Pirms atjauno pārlūku, pēc sava masīva pieraksta paredzi, kuram tieši priekšmetam jāparādās šajā rindkopā.
      </li>
      <li>
-      Saglabā un nosūti darbu uz GitHub.
+      Saglabā ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un pārbaudi sākuma stāvokli: pilnajā sarakstā ir <code>3</code> priekšmeti, skaits ir <code>3</code>, un rindkopa <code>id="pirmais"</code> nosauc tieši pašu pirmo priekšmetu.
+     </li>
+     <li>
+      Nospied pievienošanas pogu <b>divas reizes</b> un pārliecinies, ka priekšmetu skaits kļūst <code>5</code>, saraksta beigās ir divi jaunie priekšmeti, bet pirmā priekšmeta rinda joprojām rāda to pašu <code>manta[0]</code>.
+     </li>
+     <li>
+      Pārlūkā atver <b>F12 → Console</b> un pārbaudi, ka nav nevienas sarkanas kļūdas; ja nepieciešams, izlabo kodu un saglabā gala versiju ar <b>Ctrl+S</b>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Lapa parāda sarakstu, pirmo priekšmetu un pareizo skaitu.
+     lapa parāda pilno somas sarakstu, pirmo priekšmetu ar <code>manta[0]</code> un precīzu skaitu (sākumā <code>3</code>, pēc diviem klikšķiem <code>5</code>), un konsolē nav kļūdu.
     </p>
-    <div class="submission">
-     <h3>
-      Iesniedz 3. uzdevuma rezultātu
-     </h3>
-     <p>
-      Iesniedz pabeigto
-      <code>
-       34.html
-      </code>
-      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
-     </p>
-     <p>
-      <b>
-       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
-      </b>
-     </p>
-     <ul class="assessment-checks">
-      <li>
-       Sākumā ir trīs paša izvēlēti priekšmeti.
-      </li>
-      <li>
-       Poga pievieno tekstā norādīto priekšmetu; divi klikšķi palielina skaitu līdz 5.
-      </li>
-      <li>
-       Atsevišķi parādīts pirmais saraksta priekšmets ar manta[0].
-      </li>
-     </ul>
-     <p>
-      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
-     </p>
-    </div>
-    <details class="course-help">
-     <summary>
-      Saglabā un nosūti uz GitHub — pogu atgādne
-     </summary>
-     <p class="workplace">
-      Vide: VS Code / Source Control → GitHub pārlūkā
-     </p>
-     <ol class="step-list">
-      <li>
-       Ar
-       <b>
-        File → Save All
-       </b>
-       saglabā failus. Atver
-       <b>
-        Source Control
-       </b>
-       ar
-       <b>
-        Ctrl+Shift+G
-       </b>
-       .
-      </li>
-      <li>
-       Pie
-       <b>
-        Changes
-       </b>
-       nospied
-       <b>
-        +
-       </b>
-       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
-       <b>
-        Staged Changes
-       </b>
-       .
-      </li>
-      <li>
-       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
-       <code>
-        Pabeigts 3.4 darbs
-       </code>
-       . Spied
-       <b>
-        Commit
-       </b>
-       .
-      </li>
-      <li>
-       Ja šī tēmas mape vēl nav GitHub, spied
-       <b>
-        Publish to GitHub
-       </b>
-       un izveido publisku projektu
-       <code>
-        datorika9-tema3
-       </code>
-       . Jau publicētam projektam spied
-       <b>
-        Sync Changes
-       </b>
-       . Ja pogas nav, atver
-       <b>
-        … → Push
-       </b>
-       .
-      </li>
-      <li>
-       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
-      </li>
-     </ol>
-     <p>
-      Ja Source Control rāda
-      <b>
-       Initialize Repository
-      </b>
-      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
-      <a href="/datorika9/git">
-       palīdzību
-      </a>
-      un palūdz skolotāja atbalstu.
-     </p>
-    </details>
    </section>
    <details class="course-help extra-task">
     <summary>
-     Papildu uzdevums: Parādi pēdējo priekšmetu
+     Papildu uzdevums: Parādi arī pēdējo somā ielikto priekšmetu
     </summary>
     <p>
-     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+     Sāc, kad visi trīs pamatuzdevumi ir pabeigti.
     </p>
+    <p><b>Izmanto teoriju:</b> <a href="#masivs">Garums .length un pēdējais indekss</a> un <a href="#pirma-prieksmeta-paradisana">Elementa nolasīšana pēc indeksa</a>.</p>
     <ol class="step-list">
      <li>
-      Pievieno HTML rindkopu ar
-      <code>
-       id="pedejais"
-      </code>
-      .
+      HTML blokā <code>&lt;div class="panelis"&gt;</code> zem <code>&lt;p id="pirmais"&gt;&lt;/p&gt;</code> pievieno vēl vienu tukšu rindkopu <code>&lt;p id="pedejais"&gt;&lt;/p&gt;</code>.
      </li>
      <li>
-      Funkcijā parādi
-      <code>
-       manta[manta.length - 1]
-      </code>
-      pēc pirmā priekšmeta parauga.
+      Funkcijā <code>paradit()</code> pievieno rindu, kas elementā <code>id="pedejais"</code> ar <code>.textContent</code> parāda pēdējo masīva vienumu <code>manta[manta.length - 1]</code>.
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un pārliecinies, ka sākumā kā pēdējais redzams trešais sākuma priekšmets.
+     </li>
+     <li>
+      Nospied pievienošanas pogu un pārbaudi, ka pirmā priekšmeta rinda nemainās, bet pēdējā priekšmeta rinda uzreiz parāda tikko paņemto lietu.
      </li>
     </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> lapa vienlaikus pareizi rāda gan pirmo (<code>manta[0]</code>), gan pēdējo (<code>manta[manta.length - 1]</code>) priekšmetu gan sākumā, gan pēc pogas klikšķa.</p>
    </details>
    <details class="course-help">
     <summary>
@@ -490,42 +431,35 @@ paradit();
     <ul>
      <li>
       <b>
-       Neredzi izmaiņas?
+       Pirmā priekšmeta vietā rādās otrais vai uzraksts <code>undefined</code>?
       </b>
-      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
-      <code>
-       34.html
-      </code>
-      .
+      Atceries, ka masīva indeksācija sākas no nulles: pirmais vienums ir <code>manta[0]</code>, bet <code>manta[1]</code> jau ir otrais! Savukārt <code>undefined</code> parādās tad, ja kvadrātiekavās norādīts indekss ārpus saraksta robežām (piemēram, <code>manta[manta.length]</code> bez <code>- 1</code>).
      </li>
      <li>
       <b>
-       Kods redzams kā teksts?
+       Nospiežot pogu, nekas nemainās?
       </b>
-      Saglabā ar galotni .html. Windows ieslēdz
-      <b>
-       View → Show → File name extensions
-      </b>
-      un pārbaudi, ka beigās nav .txt.
+      Pārbaudi funkciju <code>pievienot()</code>: vai aiz <code>manta.push(...)</code> joprojām ir izsaukums <code>paradit();</code> ar iekavām <code>()</code> un vai pogai nav izdzēsts <code>onclick="pievienot()"</code>.
      </li>
      <li>
       <b>
-       Poga nestrādā?
+       Lapa rādās tukša un <code>F12 → Console</code> parāda sarkanu kļūdu?
       </b>
-      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+      Ja redzi <code>SyntaxError</code>, pārbaudi masīva <code>const manta = [...]</code> rindu — vai ap katru vārdu ir abas pēdiņas un starp vārdiem komats. Ja redzi <code>Cannot set properties of null</code>, pārbaudi, vai HTML daļā esi pievienojis <code>&lt;p id="pirmais"&gt;&lt;/p&gt;</code> ar precīzi tādu pašu <code>id</code>.
      </li>
      <li>
       <b>
-       Nesaproti nākamo soli?
+       Neredzi savas izmaiņas pārlūkā?
       </b>
-      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+      VS Code nospied <b>Ctrl+S</b> un pārlūkā nospied <b>Ctrl+R</b>. Pārbaudi, ka atvērts tieši <code>Desktop/datorika9-tema3/34.html</code>.
+     </li>
+     <li>
+      <b>
+       Kods pārlūkā redzams kā parasts teksts?
+      </b>
+      Saglabā ar galotni <code>.html</code>. Windows File Explorer ieslēdz <b>View → Show → File name extensions</b> un pārbaudi, ka faila beigās nav <code>.txt</code>.
      </li>
     </ul>
-    <p>
-     <a href="/datorika9/git">
-      Palīdzība Git, kontam un darba atvēršanai
-     </a>
-    </p>
    </details>
    <details class="course-help teacher-meta">
     <summary>

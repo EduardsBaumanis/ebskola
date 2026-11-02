@@ -73,10 +73,10 @@
      3.4 Masīvs: spēlētāja priekšmetu saraksts
     </a>
     <a href="/datorika9/dat9_35">
-     3.5 Cikls izveido izvēles — projekta 1. daļa
+     3.5 Cikls: izveido izvēļu pogas un skaiti gājienus
     </a>
     <a href="/datorika9/dat9_36">
-     3.6 Pabeidz teksta spēli — projekta 2. daļa
+     3.6 Izveido teksta izvēļu spēli — tēmas noslēguma darbs
     </a>
    </nav>
   </aside>
@@ -94,31 +94,113 @@
     <b>
      Šodien:
     </b>
-    Izveido formu, kas no ievadītā skaita aprēķina spēlētāja punktus.
+    Izveido ievades formu ar pogu, kas nolasa spēlētāja vārdu un savākto vienību skaitu, aprēķina punktus pēc formulas un parāda atbildi lapā.
    </p>
    <section id="teorija">
-<h2>Teorija ar piemēriem</h2>
-<div class="logic-box" id="ievade-un-klikskis">
-  <h3>Ievade → aprēķins → atbilde</h3>
-<p>Spēlētājs ievada vārdu un savākto zvaigžņu skaitu. Sākuma kodā poga izsauc funkciju <code>paradit()</code> — vairākas darbības, kas izpildās kopā. Tā nolasa abus laukus, aprēķina punktus un uzraksta atbildi. Mainot lauka saturu, atbilde vēl nemainās; šajā piemērā tā mainās pēc pogas nospiešanas.</p>
-</div>
-<div class="logic-box" id="teksts-un-skaitlis">
-  <h3>Ievades lauka vērtība vispirms ir teksts</h3>
-<pre><code>const vards = document.getElementById("vards").value;
-const skaits = Number(document.getElementById("skaits").value);
-const punkti = skaits * 5;</code></pre>
-<p>Šīs rindas jau atrodas funkcijā <code>paradit</code>. <code>value</code> nolasa laukā ierakstīto. Pat lauks ar <code>type="number"</code> šo vērtību atdod kā tekstu. <code>Number(...)</code> to pārvērš skaitlī, lai varētu veikt skaitļu aprēķinus. Vārdu atstāj kā tekstu. Zvaigznīte <code>*</code> nozīmē reizināšanu, tāpēc sākuma piemērā divas zvaigznes dod <b>2 × 5 = 10 punktus</b>.</p>
-<p>Atšķirība īpaši redzama saskaitot: <code>"2" + 5</code> savieno tekstu un dod <code>"25"</code>, bet <code>Number("2") + 5</code> aprēķina skaitli <code>7</code>. Pēdiņas kodā maina vērtības veidu.</p>
-</div>
-<div class="logic-box" id="punktu-piemers">
-  <h3>Kā mainās formula uzdevumā?</h3>
-<p>Uzdevumā vispirms vērtību par vienu zvaigzni mainīsi uz 10, tad pievienosi sākuma bonusu 5. Funkcijā aizstāj esošo punktu aprēķina rindu ar šo:</p>
-<pre><code>const punkti = skaits * 10 + 5;</code></pre>
-<div class="table-scroll" role="region" aria-label="Gala formulas pārbaude" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Zvaigžņu skaits</th><th scope="col">Aprēķins</th><th scope="col">Punkti</th></tr></thead><tbody><tr><td>0</td><td>0 × 10 + 5</td><td>5</td></tr><tr><td>2</td><td>2 × 10 + 5</td><td>25</td></tr><tr><td>3</td><td>3 × 10 + 5</td><td>35</td></tr></tbody></table></div>
-<p>Vispirms izpilda reizināšanu, pēc tam pieskaita pieci. Tāpēc bonuss ir viens par visu rezultātu. Ja vārds ir “Anna” un zvaigžņu skaits ir 3, gala atbilde ir “Anna: 35 punkti”. Pārbaudi arī nulli; pārbaude tikai ar vienu skaitli var paslēpt kļūdu.</p>
-</div>
-<details class="course-help"><summary>Pašpārbaude: nomainīji vārdu, bet atbildē vēl ir vecais — ko darīt?</summary><p>Nospied aprēķina pogu vēlreiz. Tikai tad paradit() no jauna nolasa ievadi un aizstāj atbildes tekstu.</p>
-</details>
+    <h2>Teorija ar piemēriem</h2>
+    <div class="logic-box" id="ievade-un-klikskis">
+     <h3>Ievades lauki (<code>&lt;input&gt;</code>), etiķetes (<code>&lt;label&gt;</code>) un pogas funkcija</h3>
+     <p>3.1. nodarbībā visi skaitļi bija ierakstīti kodā un aprēķins notika uzreiz, atverot lapu. Lai datus varētu ievadīt pats spēlētājs, HTML izmanto ievades laukus un pogu, kas klikšķa brīdī palaiž JavaScript <b>funkciju</b>:</p>
+     <pre><code>&lt;label for="vards"&gt;Spēlētāja vārds&lt;/label&gt;
+&lt;input id="vards" value="Ceļotājs"&gt;
+
+&lt;label for="kristali"&gt;Savākto kristālu skaits&lt;/label&gt;
+&lt;input id="kristali" type="number" min="0" value="3"&gt;
+
+&lt;button onclick="aprekinat()"&gt;Parādīt punktus&lt;/button&gt;</code></pre>
+     <div class="table-scroll" role="region" aria-label="HTML ievades un pogas atribūti" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Elements vai atribūts</th>
+         <th scope="col">Ko tas dara?</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td><code>&lt;label for="vards"&gt;</code></td>
+         <td>Paskaidrojošs uzraksts virs lauka; atribūtam <code>for</code> jāsakrīt ar attiecīgā <code>&lt;input&gt;</code> atribūtu <code>id</code>.</td>
+        </tr>
+        <tr>
+         <td><code>&lt;input id="..."&gt;</code></td>
+         <td>Aizpildāms lauciņš (tam nav aizverošās birkas <code>&lt;/input&gt;</code>). Pēc <code>id</code> to atrod gan <code>&lt;label&gt;</code>, gan JavaScript.</td>
+        </tr>
+        <tr>
+         <td><code>value="..."</code></td>
+         <td>Sākotnējā vērtība, kas jau ir ierakstīta laukā, atverot lapu.</td>
+        </tr>
+        <tr>
+         <td><code>type="number" min="0"</code></td>
+         <td>Atļauj laukā vadīt skaitļus un ar bultiņām neļauj noslīdēt zem <code>0</code>.</td>
+        </tr>
+        <tr>
+         <td><code>onclick="aprekinat()"</code></td>
+         <td>Norāda pārlūkam: kad uz pogas uzklikšķina, izpildi funkciju <code>aprekinat()</code> (iekavas <code>()</code> ir obligātas!).</td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p><b>Kas ir funkcija?</b> Pieraksts <code>function aprekinat() { ... }</code> sagrupē vairākas JavaScript komandas starp figūriekavām <code>{</code> un <code>}</code>. Atverot lapu, šīs rindas vēl neizpildās — pārlūks tās ielāgo un palaiž katru reizi, kad spēlētājs nospiež pogu. Tāpēc pēc teksta vai skaitļa pamainīšanas laukā poga ir jānospiež vēlreiz.</p>
+    </div>
+    <div class="logic-box" id="teksts-un-skaitlis">
+     <h3>Kā nolasīt <code>.value</code> un kāpēc skaitlim vajag <code>Number(...)</code></h3>
+     <p>Lai nolasītu to, ko lietotājs ierakstījis <code>&lt;input&gt;</code> laukā, izmanto īpašību <code>.value</code> (savukārt parastās rindkopās <code>&lt;p&gt;</code> tekstu joprojām maina ar <code>.textContent</code>):</p>
+     <pre><code>function aprekinat() {
+  const vards = document.getElementById("vards").value;
+  const kristali = Number(document.getElementById("kristali").value);
+  const punkti = kristali * 4;
+  document.getElementById("atbilde").textContent = vards + ": " + punkti + " punkti";
+}</code></pre>
+     <p><b>Svarīga JavaScript īpatnība:</b> īpašība <code>.value</code> no ievades lauka vienmēr atdod <b>tekstu</b> — pat tad, ja laukam norādīts <code>type="number"</code>! Piemēram, ierakstīts trijnieks ienāk kā teksts <code>"3"</code>.</p>
+     <ul>
+      <li>Ja ar tekstu mēģina saskaitīt (<code>"3" + 10</code>), JavaScript zīmes vienkārši salipina kopā un iegūst <code>"310"</code>.</li>
+      <li>Komanda <code>Number(...)</code> pārvērš tekstu īstā skaitlī, tāpēc <code>Number("3") + 10</code> izrēķina pareizo summu <code>13</code> (ja lauks atstāts tukšs, <code>Number("")</code> atdod <code>0</code>).</li>
+      <li>Reizināšanu JavaScript kodā vienmēr pieraksta ar <b>zvaigznīti <code>*</code></b> (nekad neraksti burtu <code>x</code> vai zīmi <code>×</code>!).</li>
+     </ul>
+    </div>
+    <div class="logic-box" id="punktu-piemers">
+     <h3>Salikta punktu formula un pārbaude ar vairākiem skaitļiem</h3>
+     <p>Spēlēs kopējo rezultātu bieži veido divas daļas: punkti par katru savākto priekšmetu un nemainīgs sākuma vai dalības bonuss. Apskati piemēru, kur katrs kristāls dod <code>4</code> punktus, bet par piedalīšanos piešķir vēl <code>10</code> bonusa punktus:</p>
+     <pre><code>const punkti = kristali * 4 + 10;</code></pre>
+     <p>Tāpat kā matemātikā, JavaScript <b>vispirms izpilda reizināšanu (<code>*</code>) un tikai pēc tam saskaitīšanu (<code>+</code>)</b>. Tāpēc bonuss <code>10</code> tiek pieskaitīts vienu reizi pašās beigās, nevis reizināts ar priekšmetu skaitu.</p>
+     <div class="table-scroll" role="region" aria-label="Piemēra formulas pārbaude ar dažādām ievadēm" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Ievadītais <code>kristali</code> skaits</th>
+         <th scope="col">Aprēķina gaita</th>
+         <th scope="col">Rezultāts (<code>punkti</code>)</th>
+         <th scope="col">Ko šis tests pārbauda?</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>0</td>
+         <td><code>0 * 4 + 10</code></td>
+         <td>10</td>
+         <td>Vai darbojas sākuma bonuss, ja nav savākts nekas.</td>
+        </tr>
+        <tr>
+         <td>2</td>
+         <td><code>2 * 4 + 10</code></td>
+         <td>18</td>
+         <td>Vai reizināšana un saskaitīšana notiek pareizā secībā.</td>
+        </tr>
+        <tr>
+         <td>5</td>
+         <td><code>5 * 4 + 10</code></td>
+         <td>30</td>
+         <td>Vai formula pareizi rēķina lielākam skaitam.</td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p>Vienmēr pārbaudi savu formulu vismaz ar <b>nullei vienādu</b> skaitu un ar <b>diviem dažādiem pozitīviem skaitļiem</b>, kā arī pārliecinies, ka noteikumu teikums HTML lapā pasaka spēlētājam tieši tos pašus skaitļus, kurus izmanto kods.</p>
+    </div>
+    <details class="course-help">
+     <summary>Pašpārbaude: spēlētājs nomainīja vārdu un skaitu ievades laukos, bet apakšā vēl rādās vecais rezultāts; savukārt citam skolēnam 3 + 5 aprēķinā parādījās 35 nevis 8 — kāpēc?</summary>
+     <p>1) Rezultāts mainās tikai pēc pogas nospiešanas, jo tieši <code>onclick</code> no jauna izsauc funkciju, kas nolasa <code>.value</code> un atjauno <code>#atbilde</code> tekstu. 2) Rezultāts <code>35</code> (no <code>"3" + 5</code>) parādās tad, ja ievades lauka vērtība nav ielikta <code>Number(...)</code> iekavās un JavaScript skaitļa vietā savieno tekstu.</p>
+    </details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -190,28 +272,42 @@ const punkti = skaits * 5;</code></pre>
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
 &lt;title&gt;Mana spēle&lt;/title&gt;
 &lt;style&gt;
-body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
+/* Pamata izkārtojums — šīs rindas nemaini */
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+.panelis { background-color: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 18px; margin: 16px 0; }
+label { display: block; font-weight: bold; margin-top: 10px; }
+button, input { font: inherit; padding: 10px 14px; margin: 6px 0; }
+input { display: block; width: 100%; max-width: 280px; box-sizing: border-box; }
+button { cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; margin-top: 12px; }
+#atbilde { font-size: 18px; font-weight: bold; margin: 14px 0 4px; }
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
-
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
-&lt;h1&gt;Spēlētāja dati&lt;/h1&gt;
-&lt;label for="vards"&gt;Spēlētāja vārds&lt;/label&gt;
-&lt;input id="vards" value="Spēlētājs"&gt;
-&lt;label for="skaits"&gt;Savākto zvaigžņu skaits&lt;/label&gt;
-&lt;input id="skaits" type="number" min="0" value="2"&gt;
-&lt;button onclick="paradit()"&gt;Parādīt rezultātu&lt;/button&gt;
-&lt;p id="atbilde"&gt;Nospied pogu.&lt;/p&gt;
+&lt;h1&gt;Spēlētāja punktu aprēķins&lt;/h1&gt;
+&lt;!-- 2. un 3. UZDEVUMS: šeit zem virsraksta pievieno &lt;p id="noteikumi"&gt; rindkopu ar punktu noteikumiem --&gt;
+&lt;div class="panelis"&gt;
+  &lt;label for="vards"&gt;Spēlētāja vārds&lt;/label&gt;
+  &lt;input id="vards" value="Spēlētājs"&gt;
+
+  &lt;label for="skaits"&gt;Savākto zvaigžņu skaits&lt;/label&gt;
+  &lt;input id="skaits" type="number" min="0" value="2"&gt;
+
+  &lt;button onclick="paradit()"&gt;Aprēķināt punktus&lt;/button&gt;
+  &lt;p id="atbilde"&gt;Nospied pogu, lai redzētu rezultātu.&lt;/p&gt;
+&lt;/div&gt;
 &lt;script&gt;
-// Gatava funkcija: poga izpilda rindas starp figūriekavām.
+// Funkcija izpildās katru reizi, kad spēlētājs nospiež pogu.
 function paradit() {
+  // === GATAVĀ DAĻA — nolasa abus ievades laukus (nemaini) ===
   const vards = document.getElementById("vards").value;
   const skaits = Number(document.getElementById("skaits").value);
+
+  // === 2. un 3. UZDEVUMS — MAINI ŠEIT: punktu aprēķina formula ===
   const punkti = skaits * 5;
+
+  // === GATAVĀ DAĻA — parāda aprēķināto atbildi lapā ===
   document.getElementById("atbilde").textContent = vards + ": " + punkti + " punkti";
 }
 &lt;/script&gt;
@@ -225,41 +321,37 @@ function paradit() {
      1. uzdevums
     </p>
     <h2>
-     Izmēģini ievadi
+     Izmēģini ievades formu un pielāgo spēles uzrakstus
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#ievade-un-klikskis">Ievade → aprēķins → atbilde</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#ievade-un-klikskis">Ievades lauki (&lt;input&gt;), etiķetes (&lt;label&gt;) un pogas funkcija</a>.</p>
     <p class="workplace">
-     Vide: VS Code → pārlūks
+     Vide: Windows File Explorer → pārlūks → VS Code
     </p>
     <ol class="step-list">
      <li>
-      Sāc ar
-      <code>
-       32.html
-      </code>
-      un atver to pārlūkā.
+      Windows mapē <code>Desktop/datorika9-tema3</code> atver saglabāto <code>32.html</code> pārlūkā (<b>Open with → Edge</b>) un apskati sākuma stāvokli: laukos jau ir vērtības <code>Spēlētājs</code> un <code>2</code>, bet apakšā redzams uzaicinājums nospiest pogu.
      </li>
      <li>
-      Ieraksti spēlētāja vārdu un skaitu
-      <code>
-       2
-      </code>
-      . Nospied pogu.
+      Nospied pogu <b>Aprēķināt punktus</b> un pārliecinies, ka funkcija <code>paradit()</code> nolasa abus laukus un parāda <code>Spēlētājs: 10 punkti</code>.
      </li>
      <li>
-      Pārliecinies, ka parādās ierakstītais vārds un
-      <b>
-       10 punkti
-      </b>
-      .
+      Laukā <b>Spēlētāja vārds</b> ieraksti <code>Lote</code> un novēro, ka atbilde vēl nemainās; pēc tam nospied pogu vēlreiz un pārliecinies, ka parādās <code>Lote: 10 punkti</code>.
+     </li>
+     <li>
+      VS Code failā <code>32.html</code> nomaini <code>&lt;title&gt;</code> un <code>&lt;h1&gt;</code> uz savas spēles punktu aprēķina virsrakstu.
+     </li>
+     <li>
+      HTML daļā pie <code>&lt;input id="vards" value="Spēlētājs"&gt;</code> nomaini sākuma atribūtu <code>value</code> uz izvēlētu varoņa vārdu (piemēram, <code>value="Lote"</code>), <b>atstājot neskartus</b> atribūtus <code>id="vards"</code>, <code>id="skaits"</code> un pogas <code>onclick="paradit()"</code>.
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b>, pārlūkā atjauno lapu (<b>Ctrl+F5</b> vai nospied <b>Enter</b> adreses joslā, lai ielādētos jaunā <code>value</code> vērtība) un nospied aprēķina pogu — pārbaudi, ka redzams jaunais virsraksts un sākuma vārds.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Esi pārbaudījis gatavo ievadi un aprēķinu.
+     esi pārbaudījis ievades un pogas klikšķa saistību, un lapai ir tavas spēles virsraksts un sākotnējais spēlētāja vārds.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-2">
@@ -267,45 +359,37 @@ function paradit() {
      2. uzdevums
     </p>
     <h2>
-     Maini punktu vērtību
+     Maini vienas zvaigznes punktu vērtību un pievieno noteikumu
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#teksts-un-skaitlis">Ievades lauka vērtība vispirms ir teksts</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#teksts-un-skaitlis">Kā nolasīt .value un kāpēc skaitlim vajag Number(...)</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Atrodi
-      <code>
-       const punkti = skaits * 5;
-      </code>
-      .
+      <code>&lt;script&gt;</code> daļas funkcijā <code>paradit()</code> izpēti rindu <code>const skaits = Number(document.getElementById("skaits").value);</code> un pārliecinies, ka tā paliek neskarta.
      </li>
      <li>
-      Nomaini vienas zvaigznes vērtību no
-      <code>
-       5
-      </code>
-      uz
-      <code>
-       10
-      </code>
-      .
+      Zem komentāra <code>// === 2. un 3. UZDEVUMS — MAINI ŠEIT: punktu aprēķina formula ===</code> atrodi rindu <code>const punkti = skaits * 5;</code> un nomaini vienas zvaigznes vērtību no <code>5</code> uz <code>10</code> (<code>const punkti = skaits * 10;</code>).
      </li>
      <li>
-      Virs pogas HTML daļā pievieno rindkopu
-      <code>
-       Viena zvaigzne dod 10 punktus.
-      </code>
-      .
+      Pirms atjauno pārlūku, aprēķini galvā rezultātu pie zvaigžņu skaita <code>2</code>; tad saglabā ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b>, nospied pogu un pārliecinies, ka parādās <b>20 punkti</b>.
+     </li>
+     <li>
+      HTML daļā tieši zem <code>&lt;h1&gt;</code> virsraksta (komentāra vietā virs <code>&lt;div class="panelis"&gt;</code>) pievieno rindkopu <code>&lt;p id="noteikumi"&gt;Viena zvaigzne dod 10 punktus.&lt;/p&gt;</code>.
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b> un pārlūkā ar <b>Ctrl+R</b> pārbaudi, ka noteikumu rindkopa ir skaidri izlasāma virs ievades formas.
+     </li>
+     <li>
+      Pārlūkā laukā <b>Savākto zvaigžņu skaits</b> ieraksti <code>4</code>, paredzi rezultātu, nospied aprēķina pogu un pārliecinies, ka atbildē parādās <code>40 punkti</code>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Aprēķins un norāde lapā izmanto 10 punktus.
+     gan aprēķina kods, gan paskaidrojuma rindkopa lapā izmanto <code>10</code> punktus par vienu zvaigzni.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-3">
@@ -313,184 +397,65 @@ function paradit() {
      3. uzdevums
     </p>
     <h2>
-     Pievieno bonusu un pārbaudi
+     Pievieno sākuma bonusu un pārbaudi formulu dažādos gadījumos
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#punktu-piemers">Kā mainās formula uzdevumā?</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#punktu-piemers">Salikta punktu formula un pārbaude ar vairākiem skaitļiem</a>.</p>
     <p class="workplace">
-     Vide: VS Code → pārlūks
+     Vide: VS Code → pārlūks (ar F12 Console)
     </p>
     <ol class="step-list">
      <li>
-      Aprēķinu papildini līdz
-      <code>
-       const punkti = skaits * 10 + 5;
-      </code>
-      .
+      Funkcijā <code>paradit()</code> papildini aprēķina rindu tā, lai reizinājumam ar <code>10</code> tiktu pieskaitīts <code>5</code> punktu sākuma bonuss: <code>const punkti = skaits * 10 + 5;</code>.
      </li>
      <li>
-      Rindkopā paskaidro, ka spēlētājs saņem arī 5 sākuma punktus.
+      HTML daļā atjauno rindkopu <code>&lt;p id="noteikumi"&gt;</code>, skaidri pasakot spēlētājam abus noteikumus: katra zvaigzne dod 10 punktus un spēlētājs saņem arī 5 sākuma punktus.
      </li>
      <li>
-      Pārlūkā pārbaudi ievadi
-      <code>
-       0
-      </code>
-      un
-      <code>
-       3
-      </code>
-      : jāparādās attiecīgi
-      <b>
-       5
-      </b>
-      un
-      <b>
-       35
-      </b>
-      punktiem.
+      Saglabā ar <b>Ctrl+S</b> un pārlūkā nospied <b>Ctrl+R</b>, lai ielādētu atjaunoto formulu un noteikumu aprakstu.
      </li>
      <li>
-      Pārbaudi ar citu spēlētāja vārdu. Saglabā un nosūti darbu uz GitHub.
+      Pārbaudi nulles gadījumu: skaita laukā ieraksti <code>0</code>, paredzi iznākumu (<code>0 × 10 + 5</code>), nospied pogu un pārliecinies, ka rezultātā redzami tieši <b>5 punkti</b>.
+     </li>
+     <li>
+      Vārda laukā ieraksti <code>Lote</code>, zvaigžņu skaitā ieraksti <code>3</code>, paredzi iznākumu (<code>3 × 10 + 5</code>), nospied pogu un pārbaudi, ka parādās <code>Lote: 35 punkti</code>.
+     </li>
+     <li>
+      Pārbaudi formu vēl ar cita spēlētāja vārdu un lielāku skaitu (piemēram, <code>7</code> → <code>75 punkti</code>), pārliecinoties, ka atbildes teikumā vārds un skaitlis nesalīp bez atstarpēm.
+     </li>
+     <li>
+      Pārlūkā atver <b>F12 → Console</b> un pārbaudi, ka sarakstā nav nevienas sarkanas kļūdas; ja nepieciešams, izlabo kodu un saglabā gala versiju ar <b>Ctrl+S</b>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Rezultāts izmanto ievadīto vārdu, skaitu un bonusu.
+     lapa izskaidro noteikumu <code>skaits × 10 + 5</code>, ievade <code>0</code> dod <b>5 punktus</b>, ievade <code>3</code> dod <b>35 punktus</b>, un konsolē nav kļūdu.
     </p>
-    <div class="submission">
-     <h3>
-      Iesniedz 3. uzdevuma rezultātu
-     </h3>
-     <p>
-      Iesniedz pabeigto
-      <code>
-       32.html
-      </code>
-      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
-     </p>
-     <p>
-      <b>
-       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
-      </b>
-     </p>
-     <ul class="assessment-checks">
-      <li>
-       Poga nolasa abus ievades laukus.
-      </li>
-      <li>
-       Aprēķins ir skaits × 10 + 5; lapā tas ir paskaidrots.
-      </li>
-      <li>
-       Ievade 0 dod 5 punktus, ievade 3 dod 35 punktus.
-      </li>
-     </ul>
-     <p>
-      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
-     </p>
-    </div>
-    <details class="course-help">
-     <summary>
-      Saglabā un nosūti uz GitHub — pogu atgādne
-     </summary>
-     <p class="workplace">
-      Vide: VS Code / Source Control → GitHub pārlūkā
-     </p>
-     <ol class="step-list">
-      <li>
-       Ar
-       <b>
-        File → Save All
-       </b>
-       saglabā failus. Atver
-       <b>
-        Source Control
-       </b>
-       ar
-       <b>
-        Ctrl+Shift+G
-       </b>
-       .
-      </li>
-      <li>
-       Pie
-       <b>
-        Changes
-       </b>
-       nospied
-       <b>
-        +
-       </b>
-       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
-       <b>
-        Staged Changes
-       </b>
-       .
-      </li>
-      <li>
-       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
-       <code>
-        Pabeigts 3.2 darbs
-       </code>
-       . Spied
-       <b>
-        Commit
-       </b>
-       .
-      </li>
-      <li>
-       Ja šī tēmas mape vēl nav GitHub, spied
-       <b>
-        Publish to GitHub
-       </b>
-       un izveido publisku projektu
-       <code>
-        datorika9-tema3
-       </code>
-       . Jau publicētam projektam spied
-       <b>
-        Sync Changes
-       </b>
-       . Ja pogas nav, atver
-       <b>
-        … → Push
-       </b>
-       .
-      </li>
-      <li>
-       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
-      </li>
-     </ol>
-     <p>
-      Ja Source Control rāda
-      <b>
-       Initialize Repository
-      </b>
-      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
-      <a href="/datorika9/git">
-       palīdzību
-      </a>
-      un palūdz skolotāja atbalstu.
-     </p>
-    </details>
    </section>
    <details class="course-help extra-task">
     <summary>
-     Papildu uzdevums: Maini savācamo priekšmetu
+     Papildu uzdevums: Pievieno otru ievades lauku retajiem dārgakmeņiem (+25 punkti)
     </summary>
     <p>
-     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+     Sāc, kad visi trīs pamatuzdevumi ir pabeigti.
     </p>
+    <p><b>Izmanto teoriju:</b> <a href="#ievade-un-klikskis">Ievades lauki</a> un <a href="#punktu-piemers">Salikta punktu formula</a>.</p>
     <ol class="step-list">
      <li>
-      Nomaini zvaigzni uz savai spēlei piemērotu priekšmetu.
+      HTML blokā <code>&lt;div class="panelis"&gt;</code> zem zvaigžņu <code>&lt;input&gt;</code> lauka (virs pogas) pievieno jaunu etiķeti <code>&lt;label for="dargakmeni"&gt;Atrastie dārgakmeņi&lt;/label&gt;</code> un skaitļa lauku <code>&lt;input id="dargakmeni" type="number" min="0" value="0"&gt;</code>.
      </li>
      <li>
-      Izvēlies citu punkta vērtību un saskaņo aprēķinu ar tekstu.
+      Funkcijā <code>paradit()</code> nolasīšanas daļā pievieno <code>const dargakmeni = Number(document.getElementById("dargakmeni").value);</code>.
+     </li>
+     <li>
+      Papildini punktu formulu līdz <code>const punkti = skaits * 10 + dargakmeni * 25 + 5;</code> un piemin dārgakmeņu vērtību arī <code>&lt;p id="noteikumi"&gt;</code> tekstā.
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b>, atjauno pārlūku ar <b>Ctrl+R</b> un pārbaudi abus gadījumus: pie <code>3</code> zvaigznēm un <code>0</code> dārgakmeņiem rezultāts joprojām ir <code>35</code>, bet pie <code>3</code> zvaigznēm un <code>2</code> dārgakmeņiem — <code>85 punkti</code>.
      </li>
     </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> forma nolasa trīs ievades laukus un precīzi aprēķina punktus gan ar dārgakmeņiem, gan bez tiem.</p>
    </details>
    <details class="course-help">
     <summary>
@@ -499,42 +464,35 @@ function paradit() {
     <ul>
      <li>
       <b>
-       Neredzi izmaiņas?
+       Nospiežot pogu, nekas nenotiek?
       </b>
-      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
-      <code>
-       32.html
-      </code>
-      .
+      Atver pārlūkā <b>F12 → Console</b>: pārbaudi, vai pogai saglabāts <code>onclick="paradit()"</code> ar iekavām <code>()</code>, vai funkcijai nav izdzēsta beigu figūriekava <code>}</code> un vai <code>getElementById("...")</code> pēdiņās esošie vārdi precīzi sakrīt ar HTML <code>id="vards"</code>, <code>id="skaits"</code> un <code>id="atbilde"</code>.
      </li>
      <li>
       <b>
-       Kods redzams kā teksts?
+       Rezultātā parādās salipināts skaitlis (piemēram, <code>305</code>) vai <code>NaN</code>?
       </b>
-      Saglabā ar galotni .html. Windows ieslēdz
-      <b>
-       View → Show → File name extensions
-      </b>
-      un pārbaudi, ka beigās nav .txt.
+      Salipināts teksts (<code>"30" + 5</code> → <code>"305"</code>) parādās, ja skaitlis nav ielikts <code>Number(...)</code> iekavās vai formulā ap skaitļiem uzliktas pēdiņas. Savukārt <code>NaN</code> (<i>Not a Number</i>) parādās, ja <code>Number(...)</code> iekavās kļūdaini nolasīts teksta lauks <code>"vards"</code> vai reizināšanā zvaigznītes <code>*</code> vietā ierakstīts burts <code>x</code>.
      </li>
      <li>
       <b>
-       Poga nestrādā?
+       Nomainīji skaitli vai vārdu laukā, bet rezultāts nemainās?
       </b>
-      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+      Pēc katras ievades izmaiņas nospied pogu vēlreiz — funkcija <code>paradit()</code> nolasa <code>.value</code> tikai pogas klikšķa brīdī.
      </li>
      <li>
       <b>
-       Nesaproti nākamo soli?
+       Neredzi savas koda izmaiņas pārlūkā?
       </b>
-      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+      VS Code nospied <b>Ctrl+S</b>, tad pārlūkā nospied <b>Ctrl+F5</b> (vai uzklikšķini adreses joslā un nospied <b>Enter</b>, lai pārlūks nepaturētu iepriekš ar roku ierakstīto lauka vērtību). Pārbaudi, ka atvērts tieši <code>Desktop/datorika9-tema3/32.html</code>.
+     </li>
+     <li>
+      <b>
+       Kods pārlūkā redzams kā parasts teksts?
+      </b>
+      Saglabā ar galotni <code>.html</code>. Windows File Explorer ieslēdz <b>View → Show → File name extensions</b> un pārbaudi, ka faila beigās nav <code>.txt</code>.
      </li>
     </ul>
-    <p>
-     <a href="/datorika9/git">
-      Palīdzība Git, kontam un darba atvēršanai
-     </a>
-    </p>
    </details>
    <details class="course-help teacher-meta">
     <summary>
@@ -550,6 +508,9 @@ function paradit() {
     <div class="lesson-meta">
      <a href="/sasnRez#datorika9">
       SR 2.6.1
+     </a>
+     <a href="/sasnRez#datorika9">
+      SR 2.6.2
      </a>
     </div>
     <p>

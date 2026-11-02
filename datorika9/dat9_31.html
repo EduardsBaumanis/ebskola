@@ -73,10 +73,10 @@
      3.4 Masīvs: spēlētāja priekšmetu saraksts
     </a>
     <a href="/datorika9/dat9_35">
-     3.5 Cikls izveido izvēles — projekta 1. daļa
+     3.5 Cikls: izveido izvēļu pogas un skaiti gājienus
     </a>
     <a href="/datorika9/dat9_36">
-     3.6 Pabeidz teksta spēli — projekta 2. daļa
+     3.6 Izveido teksta izvēļu spēli — tēmas noslēguma darbs
     </a>
    </nav>
   </aside>
@@ -94,33 +94,132 @@
     <b>
      Šodien:
     </b>
-    Izmaini spēles datus kodā un parādi aprēķināto rezultātu lapā.
+    Saglabā spēles datus JavaScript mainīgajos, veic punktu un dzīvību aprēķinus un parādi rezultātus HTML lapā.
    </p>
    <section id="teorija">
-<h2>Teorija ar piemēriem</h2>
-<div class="logic-box" id="vertibas">
-  <h3>Mainīgais glabā vienu spēlei vajadzīgu vērtību</h3>
-<p>Spēlei jāatceras tās nosaukums, punktu skaits un atlikušās dzīvības. <b>Mainīgais</b> ir nosaukums, ar kuru kodā piekļūsti saglabātai vērtībai. Piemēram, <code>punkti</code> glabā skaitli. Nosaukumu izvēlas programmētājs; tas palīdz saprast vērtības nozīmi.</p>
-<pre><code>const nosaukums = "Zvaigžņu mednieks";
+    <h2>Teorija ar piemēriem</h2>
+    <div class="logic-box" id="vertibas">
+     <h3>Mainīgie (<code>const</code> un <code>let</code>): kā spēle kodā glabā datus</h3>
+     <p>Pirmajās divās tēmās ar HTML izveidojām lapas daļas, bet ar CSS — to izskatu. <b>JavaScript</b> lapai piešķir loģiku: tas glabā spēles datus, veic aprēķinus un maina lapas saturu. Šajā tēmā JavaScript komandas rakstām starp <code>&lt;script&gt;</code> un <code>&lt;/script&gt;</code> birkām tieši pirms <code>&lt;/body&gt;</code>, lai pārlūks vispirms izveidotu visus HTML elementus un tikai pēc tam tos aizpildītu no koda.</p>
+     <p><b>Mainīgais</b> ir nosaukta atmiņas vieta, kurā programma glabā vienu vērtību — piemēram, spēles nosaukumu, pašreizējos punktus vai vairogu skaitu:</p>
+     <pre><code>// Spēles sākuma dati
+const vards = "Kosmosa kurjers";
 let punkti = 10;
-let dzivibas = 3;
+let vairogi = 4;</code></pre>
+     <div class="table-scroll" role="region" aria-label="JavaScript pieraksta pamatdaļas" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Pieraksts</th>
+         <th scope="col">Ko tas nozīmē?</th>
+         <th scope="col">Piemērs</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td><code>const</code></td>
+         <td>Izveido <b>nemainīgu</b> vērtību (konstanti), kurai vēlāk citu vērtību nepiešķirs.</td>
+         <td><code>const vards = "Kosmosa kurjers";</code></td>
+        </tr>
+        <tr>
+         <td><code>let</code></td>
+         <td>Izveido <b>maināmu</b> mainīgo, kura vērtību spēles gaitā rēķinās un atjaunos.</td>
+         <td><code>let punkti = 10;</code></td>
+        </tr>
+        <tr>
+         <td>Teksts pēdiņās</td>
+         <td>Vārdus un teikumus vienmēr liek pēdiņās <code>"..."</code> (tajos drīkst būt latviešu burti un atstarpes).</td>
+         <td><code>"Vēl 3 mēģinājumi"</code></td>
+        </tr>
+        <tr>
+         <td>Skaitlis bez pēdiņām</td>
+         <td>Skaitļus aprēķiniem raksta <b>bez pēdiņām</b> — pēdiņas tos pārvērstu par parastu tekstu.</td>
+         <td><code>10</code>, <code>4</code>, <code>50</code></td>
+        </tr>
+        <tr>
+         <td>Komentāri un <code>;</code></td>
+         <td>Komentārus cilvēkam JS raksta aiz <code>//</code> (HTML daļā — <code>&lt;!-- ... --&gt;</code>); komandas noslēdz ar semikolu <code>;</code>.</td>
+         <td><code>// Šo rindu pārlūks neizpilda</code></td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p><b>Mainīgo nosaukumu rakstība:</b> mainīgā nosaukumā nelieto garumzīmes, mīkstinājuma zīmes un atstarpes (raksta <code>dzivibas</code>, nevis <code>dzīvības</code>). Ja nosaukumā ir divi vārdi, otro vārdu sāk ar lielo burtu bez atstarpes — piemēram, <code>merkaPunkti</code>. JavaScript atšķir lielos un mazos burtus: <code>punkti</code> un <code>Punkti</code> programmai ir divi dažādi nosaukumi.</p>
+    </div>
+    <div class="logic-box" id="pieskirsana">
+     <h3>Vienādības zīme (<code>=</code>) nozīmē “izrēķini un saglabā vērtību”</h3>
+     <p>Programmēšanā zīmi <code>=</code> nelasa kā matemātikas vienādību. Pārlūks vispirms <b>labajā pusē</b> nolasa pašreizējās vērtības un izpilda aprēķinu (<code>+</code> saskaitīšanai, <code>-</code> atņemšanai), bet pēc tam iegūto rezultātu ieraksta <b>kreisajā pusē</b> norādītajā mainīgajā, aizstājot veco vērtību:</p>
+     <pre><code>let punkti = 10;
+let vairogi = 4;
+const rekords = 30;
+
 punkti = punkti + 5;
-dzivibas = dzivibas - 1;</code></pre>
-<p>Šis ir piemērs 1. un 2. uzdevuma izmaiņām sākuma koda <code>&lt;script&gt;</code> daļā. Labo esošās rindas; neveido otru mainīgo ar to pašu nosaukumu. Ar <code>let</code> izveido mainīgo, kuram vēlāk piešķirsi citu vērtību. Ar <code>const</code> izveido tādu, kuram citu vērtību nepiešķirsi. Spēles nosaukums ir teksts pēdiņās; punktu un dzīvību skaits ir skaitļi bez pēdiņām.</p>
-</div>
-<div class="logic-box" id="pieskirsana">
-  <h3>Vienādības zīme šeit nozīmē “saglabā vērtību”</h3>
-<p>Rindu <code>punkti = punkti + 5</code> nelasa kā matemātikas vienādību. Vispirms pa labi nolasa veco vērtību 10 un pieskaita 5. Tad rezultātu 15 saglabā mainīgajā pa kreisi. Veco vērtību aizstāj jaunā.</p>
-<div class="table-scroll" role="region" aria-label="Aprēķins pa rindām" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Pēc kuras darbības?</th><th scope="col">punkti</th><th scope="col">dzivibas</th></tr></thead><tbody><tr><td>Sākuma vērtību izveidošana.</td><td>10</td><td>3</td></tr><tr><td><code>punkti = punkti + 5;</code></td><td>15</td><td>3</td></tr><tr><td><code>dzivibas = dzivibas - 1;</code></td><td>15</td><td>2</td></tr></tbody></table></div>
-</div>
-<div class="logic-box" id="vertibas-paradisana">
-  <h3>Vērtības maiņa un teksts lapā ir atsevišķas darbības</h3>
-<p>Sākuma kodā pēc aprēķiniem seko rindas ar <code>textContent</code>. Tās atrod HTML elementu pēc <code>id</code> un ieraksta tajā tekstu. Aprēķinus ievieto norādītajā vietā <b>pirms</b> šīm rindām, lai lapā nonāktu jaunās vērtības.</p>
-<pre><code>document.getElementById("punkti").textContent = "Punkti: " + punkti;</code></pre>
-<p>Šeit tekstam “Punkti: ” pievieno skaitļa pierakstu. Paraugā redzēsi “Punkti: 15”. Atjaunojot lapu, kods izpildās no sākuma; iepriekšējās mainīgo vērtības netiek saglabātas. Gala uzdevumā izmantosi sākuma skaitli 20 un pieaugumu 7, tāpēc rezultāts būs 27.</p>
-</div>
-<details class="course-help"><summary>Pašpārbaude: ja pieskaiti 5 vēlreiz, kāda kļūst vērtība?</summary><p>Pēc pirmās pieskaitīšanas tā ir 15, pēc otrās — 20. Katrā reizē nolasa tā brīža vērtību. Lai lapā redzētu 20, teksta atjaunošanai jānotiek pēc otrās pieskaitīšanas.</p>
-</details>
+vairogi = vairogi - 2;
+let atlikums = rekords - punkti;</code></pre>
+     <div class="table-scroll" role="region" aria-label="Mainīgo vērtību izsekošana pa rindām" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Izpildītā koda rinda</th>
+         <th scope="col"><code>punkti</code></th>
+         <th scope="col"><code>vairogi</code></th>
+         <th scope="col"><code>atlikums</code></th>
+         <th scope="col">Kas notika?</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>Sākuma rindas ar <code>let</code> un <code>const</code></td>
+         <td>10</td>
+         <td>4</td>
+         <td>—</td>
+         <td>Izveido sākuma vērtības (<code>rekords</code> ir 30).</td>
+        </tr>
+        <tr>
+         <td><code>punkti = punkti + 5;</code></td>
+         <td>15</td>
+         <td>4</td>
+         <td>—</td>
+         <td>Nolasa 10, pieskaita 5 un saglabā 15.</td>
+        </tr>
+        <tr>
+         <td><code>vairogi = vairogi - 2;</code></td>
+         <td>15</td>
+         <td>2</td>
+         <td>—</td>
+         <td>Nolasa 4, atņem 2 un saglabā 2.</td>
+        </tr>
+        <tr>
+         <td><code>let atlikums = rekords - punkti;</code></td>
+         <td>15</td>
+         <td>2</td>
+         <td>15</td>
+         <td>No <code>rekords</code> (30) atņem tā brīža <code>punkti</code> (15).</td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p><b>Svarīgi:</b> vārdu <code>let</code> pie katra mainīgā nosaukuma raksta <b>tikai vienu reizi</b> — tad, kad mainīgo izveido pirmo reizi (piemēram, <code>let atlikums = ...;</code>). Kad maini jau esoša mainīgā vērtību (<code>punkti = punkti + 5;</code>), vārdu <code>let</code> otrreiz vairs neraksta — pretējā gadījumā skripts apstāsies ar kļūdu.</p>
+    </div>
+    <div class="logic-box" id="vertibas-paradisana">
+     <h3>Vērtības parādīšana lapā (<code>getElementById</code>) un kļūdu meklēšana konsolē</h3>
+     <p>Mainīgā aprēķināšana notiek datora atmiņā — ekrānā tā kļūst redzama tikai tad, kad kods atrod konkrētu HTML elementu pēc tā <code>id="..."</code> atribūta un nomaina tā tekstu ar <code>.textContent</code>:</p>
+     <pre><code>// HTML daļā ir &lt;p id="punkti"&gt; un &lt;p id="atlikums"&gt;
+document.getElementById("punkti").textContent = "Punkti: " + punkti;
+document.getElementById("atlikums").textContent = "Līdz rekordam vēl: " + atlikums + " punkti";</code></pre>
+     <p>Ievēro precīzu rakstību: komandā <code>document.getElementById("...")</code> lielie burti ir <code>E</code>, <code>B</code> un <code>I</code>, bet īpašībā <code>.textContent</code> lielais burts ir <code>C</code>. Pēdiņās rakstītajam <code>id</code> ir burts pa burtam jāsakrīt ar HTML birkas <code>id</code>.</p>
+     <p>Ja vienā no <code>+</code> pusēm ir teksts pēdiņās, JavaScript šīs daļas <b>savieno vienā teikumā</b>. Atstarpes vārdu malās jāieliek pašās pēdiņās (piemēram, <code>"Līdz rekordam vēl: "</code> un <code>" punkti"</code>), citādi skaitlis salips ar vārdiem (<code>Līdz rekordam vēl:15punkti</code>).</p>
+     <p><b>Izpildes secība un kļūdu pārbaude:</b></p>
+     <ul>
+      <li>Kods <code>&lt;script&gt;</code> blokā izpildās <b>no augšas uz leju</b> — visiem aprēķiniem jāatrodas <b>virs</b> <code>textContent</code> rindām, lai lapā tiktu ierakstītas jau izrēķinātās vērtības.</li>
+      <li>Nospiežot pārlūkā <b>Ctrl+R</b>, lapa un skripts tiek ielādēti no sākuma — aprēķins sākas no koda sākuma skaitļiem, nevis turpina skaitīt klāt iepriekšējai reizei.</li>
+      <li>Ja pārlūkā nekas nemainās, nospied <b>F12</b> (vai ar peles labo pogu izvēlies <b>Inspect</b>) un atver cilni <b>Console</b>: tur sarkanā krāsā redzēsi precīzu kļūdas iemeslu un rindas numuru.</li>
+     </ul>
+    </div>
+    <details class="course-help">
+     <summary>Pašpārbaude: skolēns vispirms atstāja rindu ar textContent un tikai pašās &lt;script&gt; beigās pierakstīja punkti = punkti + 5; — kādu skaitli parādīs lapa?</summary>
+     <p>Lapa parādīs <b>sākotnējo</b> punktu skaitu pirms pieskaitīšanas, jo JavaScript komandas izpildās pēc kārtas no augšas uz leju: brīdī, kad <code>textContent</code> nomainīja rindkopas tekstu, mainīgajam <code>punkti</code> vēl nebija pieskaitīti 5 punkti. Aprēķina rindai vienmēr jāatrodas <b>pirms</b> parādīšanas rindas.</p>
+    </details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -172,11 +271,11 @@ dzivibas = dzivibas - 1;</code></pre>
      </li>
     </ol>
     <p class="info-box">
-     Jauna tēma: izmanto atsevišķu mapi un GitHub projektu
+     Jauna tēma: visus 3. tēmas failus glabā atsevišķā mapē
      <code>
-      datorika9-tema3
+      Desktop/datorika9-tema3
      </code>
-     . Saglabājot pirmo darbu, izpildi Source Control atgādni zem 3. uzdevuma. Iepriekšējās tēmas mapi paturi.
+     . Iepriekšējo tēmu mapes paturi neskartas.
     </p>
     <div class="starter-actions">
      <button class="btn" data-copy="pilnais-kods" type="button">
@@ -199,28 +298,37 @@ dzivibas = dzivibas - 1;</code></pre>
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
 &lt;title&gt;Mana spēle&lt;/title&gt;
 &lt;style&gt;
-body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
+/* Pamata izkārtojums — šīs rindas nemaini */
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+.panelis { background-color: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 18px; margin: 16px 0; }
+.panelis p { margin: 8px 0; font-size: 18px; }
+button, input { font: inherit; padding: 10px 16px; margin: 4px; }
 button { cursor: pointer; }
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
-
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;h1 id="nosaukums"&gt;Mana spēle&lt;/h1&gt;
-&lt;p id="punkti"&gt;Punkti: 0&lt;/p&gt;
-&lt;p id="dzivibas"&gt;Dzīvības: 0&lt;/p&gt;
+&lt;p id="apraksts"&gt;Spēles mērķa apraksts.&lt;/p&gt;
+&lt;div class="panelis"&gt;
+  &lt;p id="punkti"&gt;Punkti: 0&lt;/p&gt;
+  &lt;p id="dzivibas"&gt;Dzīvības: 0&lt;/p&gt;
+  &lt;!-- 3. UZDEVUMS: šeit zemāk pievieno jaunu &lt;p id="merkis"&gt; rindkopu --&gt;
+&lt;/div&gt;
 &lt;script&gt;
-// MAINI ŠEIT: spēles dati.
+// === 1. UZDEVUMS — MAINI ŠEIT: spēles sākuma dati ===
 const nosaukums = "Zvaigžņu mednieks";
+const apraksts = "Savāc enerģijas kristālus un nosargā dzīvības.";
 let punkti = 0;
 let dzivibas = 3;
 
-// ŠEIT APRĒĶINS
+// === 2. UZDEVUMS — RAKSTI ŠEIT: punktu un dzīvību aprēķini ===
 
-// Gatavās rindas parāda vērtības lapā.
+
+// === GATAVĀ PARĀDĪŠANAS DAĻA (3. uzdevumā papildini ar mērķa rindu) ===
 document.getElementById("nosaukums").textContent = nosaukums;
+document.getElementById("apraksts").textContent = apraksts;
 document.getElementById("punkti").textContent = "Punkti: " + punkti;
 document.getElementById("dzivibas").textContent = "Dzīvības: " + dzivibas;
 &lt;/script&gt;
@@ -234,45 +342,40 @@ document.getElementById("dzivibas").textContent = "Dzīvības: " + dzivibas;
      1. uzdevums
     </p>
     <h2>
-     Maini spēles datus
+     Izpēti sākuma kodu un iestati savas spēles datus
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#vertibas">Mainīgais glabā vienu spēlei vajadzīgu vērtību</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#vertibas">Mainīgie (const un let): kā spēle kodā glabā datus</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: Windows File Explorer → pārlūks → VS Code
     </p>
     <ol class="step-list">
      <li>
-      Sāc ar
-      <code>
-       31.html
-      </code>
-      . Atrodi komentāru
-      <code>
-       // MAINI ŠEIT
-      </code>
-      .
+      Windows mapē <code>Desktop/datorika9-tema3</code> atver saglabāto <code>31.html</code> pārlūkā (ar peles labo pogu izvēlies <b>Open with → Edge</b>) un salīdzini redzamo lapu ar HTML birkām: HTML rakstīts <code>Mana spēle</code> un <code>Dzīvības: 0</code>, bet pārlūkā redzi <code>Zvaigžņu mednieks</code> un <code>Dzīvības: 3</code>, jo <code>&lt;script&gt;</code> bloks aizstāja tekstu.
      </li>
      <li>
-      Maini
-      <code>
-       nosaukums
-      </code>
-      tekstu un iestati
-      <code>
-       punkti = 10
-      </code>
-      .
+      VS Code faila <code>&lt;head&gt;</code> daļā atrodi <code>&lt;title&gt;Mana spēle&lt;/title&gt;</code> un ieraksti tajā savas spēles nosaukumu, lai tas parādītos pārlūka cilnē.
      </li>
      <li>
-      Atstāj gatavās parādīšanas rindas zemāk.
+      Ritini lejup līdz <code>&lt;script&gt;</code> blokam, atrodi komentāru <code>// === 1. UZDEVUMS — MAINI ŠEIT: spēles sākuma dati ===</code> un rindā <code>const nosaukums = "...";</code> pēdiņās ieraksti to pašu savas spēles nosaukumu (paturot pēdiņas un semikolu <code>;</code> rindas beigās).
+     </li>
+     <li>
+      Nākamajā rindā <code>const apraksts = "...";</code> pēdiņās uzraksti vienu teikumu par savas spēles galveno mērķi spēlētājam.
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b> un pārlūkā nospied <b>Ctrl+R</b> — pārbaudi, ka jaunais nosaukums parādās gan cilnē, gan virsrakstā <code>&lt;h1&gt;</code>, un zem tā redzams tavs apraksts.
+     </li>
+     <li>
+      Zem konstantu rindām nomaini <code>let punkti = 0;</code> uz <code>let punkti = 20;</code> (skaitli raksti <b>bez pēdiņām</b>) un pārliecinies, ka dzīvību sākuma rinda ir <code>let dzivibas = 3;</code>.
+     </li>
+     <li>
+      Vispirms paredzi, kādus skaitļus tagad parādīs lapa, tad saglabā ar <b>Ctrl+S</b> un atjauno pārlūku ar <b>Ctrl+R</b> — pārliecinies, ka kartītē redzams <code>Punkti: 20</code> un <code>Dzīvības: 3</code>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Spēles dati kodā ir mainīti.
+     pārlūkā redzams tavs spēles nosaukums un mērķa teikums, bet datu panelī parādās sākuma vērtības <code>Punkti: 20</code> un <code>Dzīvības: 3</code>.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-2">
@@ -280,41 +383,37 @@ document.getElementById("dzivibas").textContent = "Dzīvības: " + dzivibas;
      2. uzdevums
     </p>
     <h2>
-     Pievieno aprēķinu
+     Aprēķini jaunos punktus un dzīvības kodā
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#pieskirsana">Vienādības zīme šeit nozīmē “saglabā vērtību”</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#pieskirsana">Vienādības zīme (=) nozīmē “izrēķini un saglabā vērtību”</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Vietā
-      <code>
-       // ŠEIT APRĒĶINS
-      </code>
-      ieraksti
-      <code>
-       punkti = punkti + 5;
-      </code>
-      .
+      <code>&lt;script&gt;</code> blokā atrodi komentāru <code>// === 2. UZDEVUMS — RAKSTI ŠEIT: punktu un dzīvību aprēķini ===</code> un pārliecinies, ka šī vieta atrodas <b>virs</b> <code>document.getElementById</code> parādīšanas rindām.
      </li>
      <li>
-      Zem tā ieraksti
-      <code>
-       dzivibas = dzivibas - 1;
-      </code>
-      .
+      Jaunā rindā zem šī komentāra ieraksti punktu palielināšanu par 7 punktiem: <code>punkti = punkti + 7;</code> (bez vārda <code>let</code> sākumā, jo mainīgais <code>punkti</code> jau ir izveidots augstāk).
      </li>
      <li>
-      Saglabā failu.
+      Pirms pārslēdzies uz pārlūku, galvā aprēķini jauno <code>punkti</code> vērtību (<code>20 + 7</code>); pēc tam nospied <b>Ctrl+S</b> un pārlūkā <b>Ctrl+R</b>, pārbaudot, ka kartītē parādās <code>Punkti: 27</code>.
+     </li>
+     <li>
+      Zem punktu aprēķina nākamajā rindā pieraksti vienas dzīvības zaudēšanu: <code>dzivibas = dzivibas - 1;</code>.
+     </li>
+     <li>
+      Paredzi atlikušo dzīvību skaitu (<code>3 - 1</code>), saglabā failu ar <b>Ctrl+S</b> un pārlūkā nospied <b>Ctrl+R</b> — pārliecinies, ka lapā redzams <code>Punkti: 27</code> un <code>Dzīvības: 2</code>.
+     </li>
+     <li>
+      Pārlūkā vēl divas reizes pēc kārtas nospied <b>Ctrl+R</b> un novēro, ka skaitļi paliek <code>27</code> un <code>2</code>: katra lapas pārlāde izpilda skriptu no jauna, sākot no koda sākuma skaitļiem <code>20</code> un <code>3</code>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Pirms parādīšanas kods maina gan punktus, gan dzīvības.
+     kods pirms parādīšanas izrēķina abas izmaiņas un pārlūkā redzami <b>27 punkti</b> un <b>2 dzīvības</b>.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-3">
@@ -322,188 +421,65 @@ document.getElementById("dzivibas").textContent = "Dzīvības: " + dzivibas;
      3. uzdevums
     </p>
     <h2>
-     Pielāgo un pārbaudi rezultātu
+     Pievieno mērķa aprēķinu un savieno to ar jaunu HTML rindkopu
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#vertibas-paradisana">Vērtības maiņa un teksts lapā ir atsevišķas darbības</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#vertibas-paradisana">Vērtības parādīšana lapā (getElementById) un kļūdu meklēšana konsolē</a>.</p>
     <p class="workplace">
-     Vide: VS Code → pārlūks
+     Vide: VS Code → pārlūks (ar F12 Console)
     </p>
     <ol class="step-list">
      <li>
-      Nomaini punktu sākuma vērtību uz
-      <code>
-       20
-      </code>
-      , bet pieskaitāmo skaitli uz
-      <code>
-       7
-      </code>
-      .
+      Apskati gatavās parādīšanas rindas <code>&lt;script&gt;</code> beigās un pārbaudi, kā katrs vārds pēdiņās iekš <code>document.getElementById("...")</code> precīzi atbilst HTML birkas atribūtam <code>id="..."</code>.
      </li>
      <li>
-      Atver lapu pārlūkā. Pārbaudi, ka redzi savu nosaukumu,
-      <b>
-       27 punktus
-      </b>
-      un
-      <b>
-       2 dzīvības
-      </b>
-      .
+      HTML daļas blokā <code>&lt;div class="panelis"&gt;</code> (zem <code>&lt;p id="dzivibas"&gt;</code>, komentāra vietā) pievieno jaunu rindkopu <code>&lt;p id="merkis"&gt;Mērķis: nav aprēķināts&lt;/p&gt;</code>.
      </li>
      <li>
-      Ja skaitļi nesakrīt, pārbaudi sākuma vērtības un aprēķina rindas virs parādīšanas rindām.
+      <code>&lt;script&gt;</code> sākuma datu daļā (zem <code>let dzivibas = 3;</code>) izveido konstanti uzvarai vajadzīgajam punktu skaitam, piemēram, <code>const merkaPunkti = 50;</code> (izvēlies skaitli virs <code>30</code>, bez pēdiņām).
      </li>
      <li>
-      Nosūti failu uz GitHub.
+      Aprēķinu daļā (zem <code>dzivibas = dzivibas - 1;</code>) izveido jaunu mainīgo, kas aprēķina, cik punktu vēl pietrūkst līdz uzvarai: <code>let lidzMerkim = merkaPunkti - punkti;</code>.
+     </li>
+     <li>
+      Parādīšanas daļas beigās (tieši pirms <code>&lt;/script&gt;</code>) uzraksti rindu <code>document.getElementById("merkis").textContent = "Līdz uzvarai vēl: " + lidzMerkim + " punkti";</code>, ievērojot atstarpes pēdiņu iekšpusē.
+     </li>
+     <li>
+      Paredzi rezultātu (piemēram, pie mērķa <code>50</code> aprēķins ir <code>50 - 27 = 23</code>), saglabā ar <b>Ctrl+S</b> un atjauno pārlūku ar <b>Ctrl+R</b> — pārbaudi, ka panelī redzami <code>27</code> punkti, <code>2</code> dzīvības un pareizi aprēķināts atlikums līdz uzvarai.
+     </li>
+     <li>
+      Pārlūkā nospied <b>F12</b> (vai ar peles labo pogu izvēlies <b>Inspect</b>) un atver cilni <b>Console</b>: pārliecinies, ka tajā nav neviena sarkana kļūdas paziņojuma; ja parādās kļūda, izlabo norādīto koda rindu un saglabā ar <b>Ctrl+S</b>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Lapa parāda aprēķina rezultātu: 27 punkti un 2 dzīvības.
+     lapa parāda tavu spēles nosaukumu, aprakstu, <b>27 punktus</b>, <b>2 dzīvības</b> un aprēķinātos punktus līdz mērķim, un pārlūka <b>Console</b> cilnē nav nevienas kļūdas.
     </p>
-    <div class="submission">
-     <h3>
-      Iesniedz 3. uzdevuma rezultātu
-     </h3>
-     <p>
-      Iesniedz pabeigto
-      <code>
-       31.html
-      </code>
-      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
-     </p>
-     <p>
-      <b>
-       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
-      </b>
-     </p>
-     <ul class="assessment-checks">
-      <li>
-       Spēles nosaukums nāk no paša mainītas const vērtības.
-      </li>
-      <li>
-       Punktiem izmantots aprēķins 20 + 7, dzīvībām — 3 − 1.
-      </li>
-      <li>
-       Pārlūkā redzami 27 punkti un 2 dzīvības.
-      </li>
-     </ul>
-     <p>
-      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
-     </p>
-    </div>
-    <details class="course-help">
-     <summary>
-      Saglabā un nosūti uz GitHub — pogu atgādne
-     </summary>
-     <p class="workplace">
-      Vide: VS Code / Source Control → GitHub pārlūkā
-     </p>
-     <ol class="step-list">
-      <li>
-       Ar
-       <b>
-        File → Save All
-       </b>
-       saglabā failus. Atver
-       <b>
-        Source Control
-       </b>
-       ar
-       <b>
-        Ctrl+Shift+G
-       </b>
-       .
-      </li>
-      <li>
-       Pie
-       <b>
-        Changes
-       </b>
-       nospied
-       <b>
-        +
-       </b>
-       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
-       <b>
-        Staged Changes
-       </b>
-       .
-      </li>
-      <li>
-       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
-       <code>
-        Pabeigts 3.1 darbs
-       </code>
-       . Spied
-       <b>
-        Commit
-       </b>
-       .
-      </li>
-      <li>
-       Ja šī tēmas mape vēl nav GitHub, spied
-       <b>
-        Publish to GitHub
-       </b>
-       un izveido publisku projektu
-       <code>
-        datorika9-tema3
-       </code>
-       . Jau publicētam projektam spied
-       <b>
-        Sync Changes
-       </b>
-       . Ja pogas nav, atver
-       <b>
-        … → Push
-       </b>
-       .
-      </li>
-      <li>
-       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
-      </li>
-     </ol>
-     <p>
-      Ja Source Control rāda
-      <b>
-       Initialize Repository
-      </b>
-      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
-      <a href="/datorika9/git">
-       palīdzību
-      </a>
-      un palūdz skolotāja atbalstu.
-     </p>
-    </details>
    </section>
    <details class="course-help extra-task">
     <summary>
-     Papildu uzdevums: Pievieno līmeni
+     Papildu uzdevums: Pievieno spēles līmeni un pāreju uz nākamo līmeni
     </summary>
     <p>
-     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+     Sāc, kad visi trīs pamatuzdevumi ir pabeigti.
     </p>
+    <p><b>Izmanto teoriju:</b> <a href="#pieskirsana">Piešķiršana</a> un <a href="#vertibas-paradisana">Vērtības parādīšana lapā</a>.</p>
     <ol class="step-list">
      <li>
-      HTML pievieno
-      <code>
-       &lt;p id="limenis"&gt;&lt;/p&gt;
-      </code>
-      .
+      HTML blokā <code>&lt;div class="panelis"&gt;</code> zem <code>&lt;p id="merkis"&gt;</code> pievieno rindkopu <code>&lt;p id="limenis"&gt;Līmenis: 0&lt;/p&gt;</code>.
      </li>
      <li>
-      JS izveido
-      <code>
-       let limenis = 1;
-      </code>
-      un pēc punktu parādīšanas parauga parādi līmeni.
+      <code>&lt;script&gt;</code> sākuma datu daļā izveido mainīgo <code>let limenis = 1;</code>, bet aprēķinu daļā palielini to par vienu līmeni ar <code>limenis = limenis + 1;</code>.
+     </li>
+     <li>
+      Parādīšanas daļas beigās pievieno rindu <code>document.getElementById("limenis").textContent = "Līmenis: " + limenis;</code>.
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b>, atjauno pārlūku ar <b>Ctrl+R</b> un pārbaudi, ka panelī redzams <code>Līmenis: 2</code> un <b>F12 → Console</b> sarakstā nav kļūdu.
      </li>
     </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> spēles datu kartītē kopā ar pārējiem rādītājiem parādās aprēķinātais <code>Līmenis: 2</code>.</p>
    </details>
    <details class="course-help">
     <summary>
@@ -512,42 +488,39 @@ document.getElementById("dzivibas").textContent = "Dzīvības: " + dzivibas;
     <ul>
      <li>
       <b>
-       Neredzi izmaiņas?
+       Neredzi izmaiņas pārlūkā?
       </b>
-      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
-      <code>
-       31.html
-      </code>
-      .
+      VS Code nospied <b>Ctrl+S</b> (pie faila nosaukuma cilnē nedrīkst būt balts aplītis), pēc tam pārlūkā nospied <b>Ctrl+R</b>. Pārbaudi, ka atvērts tieši <code>Desktop/datorika9-tema3/31.html</code>.
      </li>
      <li>
       <b>
-       Kods redzams kā teksts?
+       Vērtības nemainās vai <code>&lt;script&gt;</code> pārstāja darboties?
       </b>
-      Saglabā ar galotni .html. Windows ieslēdz
-      <b>
-       View → Show → File name extensions
-      </b>
-      un pārbaudi, ka beigās nav .txt.
+      Pārlūkā nospied <b>F12 → Console</b> un izlasi sarkano paziņojumu:
+      <code>Identifier 'punkti' has already been declared</code> nozīmē, ka pie aprēķina otrreiz uzrakstīji vārdu <code>let</code>;
+      <code>Assignment to constant variable</code> nozīmē, ka mēģini mainīt <code>const</code> vērtību (jālieto <code>let</code>);
+      <code>is not defined</code> norāda uz drukas vai lielā/mazā burta kļūdu mainīgā nosaukumā vai aizmirstām pēdiņām ap tekstu;
+      <code>Cannot set properties of null</code> nozīmē, ka <code>getElementById("...")</code> pēdiņās ierakstītais vārds nesakrīt ne ar vienu HTML <code>id="..."</code>.
      </li>
      <li>
       <b>
-       Poga nestrādā?
+       Punktu skaitam rāda <code>20</code> (nevis <code>27</code>) vai <code>Mērķis: nav aprēķināts</code>?
       </b>
-      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+      Pārbaudi rindu secību <code>&lt;script&gt;</code> blokā: visām aprēķinu rindām jāatrodas <b>virs</b> <code>document.getElementById(...).textContent</code> rindām.
      </li>
      <li>
       <b>
-       Nesaproti nākamo soli?
+       Saskaitīšanas vietā parādās <code>207</code> (nevis <code>27</code>)?
       </b>
-      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+      Noņem pēdiņas ap skaitļiem (raksti <code>let punkti = 20;</code> un <code>punkti = punkti + 7;</code>, nevis <code>"20"</code> vai <code>"7"</code>). Pēdiņās skaitlis kļūst par tekstu un tiek piekabināts galā.
+     </li>
+     <li>
+      <b>
+       Kods pārlūkā redzams kā parasts teksts?
+      </b>
+      Saglabā ar galotni <code>.html</code>. Windows File Explorer ieslēdz <b>View → Show → File name extensions</b> un pārbaudi, ka faila beigās nav <code>.txt</code>.
      </li>
     </ul>
-    <p>
-     <a href="/datorika9/git">
-      Palīdzība Git, kontam un darba atvēršanai
-     </a>
-    </p>
    </details>
    <details class="course-help teacher-meta">
     <summary>

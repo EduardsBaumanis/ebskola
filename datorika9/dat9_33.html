@@ -73,10 +73,10 @@
      3.4 Masīvs: spēlētāja priekšmetu saraksts
     </a>
     <a href="/datorika9/dat9_35">
-     3.5 Cikls izveido izvēles — projekta 1. daļa
+     3.5 Cikls: izveido izvēļu pogas un skaiti gājienus
     </a>
     <a href="/datorika9/dat9_36">
-     3.6 Pabeidz teksta spēli — projekta 2. daļa
+     3.6 Izveido teksta izvēļu spēli — tēmas noslēguma darbs
     </a>
    </nav>
   </aside>
@@ -94,35 +94,130 @@
     <b>
      Šodien:
     </b>
-    Izveido punktu pārbaudi ar trim atšķirīgiem rezultātiem.
+    Izveido punktu pārbaudi ar <code>if / else if / else</code>, kas atpazīst negatīvu ievadi, parāda trūkstošos punktus līdz mērķim un paziņo par uzvaru.
    </p>
    <section id="teorija">
-<h2>Teorija ar piemēriem</h2>
-<div class="logic-box" id="nosacijuma-jautajums">
-  <h3>Nosacījums uzdod jautājumu ar divām iespējamām atbildēm</h3>
-<p>Programma var izvēlēties darbību pēc punktu skaita. Izteiksme <code>punkti &gt;= 10</code> jautā: “Vai punktu ir vismaz desmit?” Atbilde ir <code>true</code> jeb patiess vai <code>false</code> jeb aplams. <code>&gt;=</code> ietver arī vienādību: desmit punkti jau atbilst nosacījumam.</p>
-<p>Pieraksts <code>if</code> nozīmē “ja”, <code>else</code> — “citādi”. Zīme <code>&lt;</code> nozīmē “mazāks par”: piemēram, <code>punkti &lt; 0</code> pārbauda, vai ievadīts negatīvs skaitlis.</p>
-</div>
-<div class="logic-box" id="if-piemers">
-  <h3>Pārbaudi gadījumus noteiktā secībā</h3>
-<p>Sākuma koda funkcijā <code>parbaudit()</code> jau ir ievades nolasīšana un atbildes parādīšana. 2. uzdevumā aizstāj tikai esošo <code>if ... else</code> bloku ar šo piemēru. Šeit vērtība atrodas mainīgajā <code>punkti</code>.</p>
-<pre><code>if (punkti &lt; 0) {
-  zina = "Punkti nevar būt negatīvi.";
-} else if (punkti &gt;= 10) {
-  zina = "Uzvara!";
+    <h2>Teorija ar piemēriem</h2>
+    <div class="logic-box" id="nosacijuma-jautajums">
+     <h3>Salīdzināšana un divi nosacījuma zari (<code>if / else</code>)</h3>
+     <p>Spēlei ir jāprot pieņemt lēmumu atkarībā no skaitļa lieluma. JavaScript nosacījums apaļajās iekavās aiz vārda <code>if</code> (“ja”) uzdod jautājumu, uz kuru ir tikai divas iespējamas atbildes: <code>true</code> (patiess) vai <code>false</code> (aplams).</p>
+     <pre><code>if (energija &gt;= 15) {
+  zina = "Vārti atvērti!";
 } else {
-  zina = "Turpini spēli!";
+  zina = "Vēl trūkst enerģijas.";
 }</code></pre>
-<p><code>if</code> sāk pirmo pārbaudi. Ja tā ir patiesa, izpilda tās figūriekavās rakstīto un pārējos šīs ķēdes zarus izlaiž. <code>else if</code> pārbauda nākamo gadījumu tikai tad, ja pirmais nebija patiess. <code>else</code> ir atbilde visiem atlikušajiem gadījumiem. Tādējādi par vienu ievadītu vērtību iegūst vienu ziņu.</p>
-</div>
-<div class="logic-box" id="robezvertibas">
-  <h3>Pārbaudi skaitļus abās robežas pusēs</h3>
-<p>Gala uzdevumā uzvaras robežu mainīsi uz 20. Tad koda otrajā pārbaudē būs <code>punkti &gt;= 20</code>. Pārējā nosacījumu secība paliek tāda pati.</p>
-<div class="table-scroll" role="region" aria-label="Gala uzdevuma pārbaude ar robežu 20" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Ievade</th><th scope="col">Izvēlētā atbilde</th><th scope="col">Kāpēc?</th></tr></thead><tbody><tr><td>−1</td><td>Punkti nevar būt negatīvi.</td><td>Patiess jau pirmais nosacījums.</td></tr><tr><td>19</td><td>Turpini spēli!</td><td>Nav negatīvs, bet vēl nesasniedz 20.</td></tr><tr><td>20</td><td>Uzvara!</td><td>Sasniedz tieši robežu.</td></tr><tr><td>21</td><td>Uzvara!</td><td>Pārsniedz robežu.</td></tr></tbody></table></div>
-<p>Ja 20 vietā strādā tikai 21, pārbaudi, vai neesi uzrakstījis tikai <code>&gt;</code>. Ja vienmēr parādās viena atbilde, pārbaudi figūriekavas un to, vai labo tieši pogas izsaukto funkciju.</p>
-</div>
-<details class="course-help"><summary>Pašpārbaude: vai pēc negatīvās vērtības ziņas izpildās arī pēdējais else?</summary><p>Nē. Vienā if / else if / else ķēdē izpilda tikai pirmo atbilstošo zaru. Negatīvam skaitlim tas ir pirmais zars.</p>
-</details>
+     <ul>
+      <li>Ja salīdzinājums iekavās ir <code>true</code>, izpildās kods pirmajās figūriekavās <code>{ ... }</code> aiz <code>if</code>.</li>
+      <li>Ja salīdzinājums ir <code>false</code>, programma pāriet uz <code>else</code> (“citādi”) zaru. Ievēro: aiz <code>else</code> vairs <b>neraksta</b> apaļās iekavas ar nosacījumu, jo <code>else</code> uztver visus atlikušos gadījumus!</li>
+     </ul>
+     <div class="table-scroll" role="region" aria-label="Salīdzināšanas zīmes JavaScript valodā" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Pieraksts</th>
+         <th scope="col">Nozīme</th>
+         <th scope="col">Piemērs, kad rezultāts ir <code>true</code></th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td><code>&gt;=</code></td>
+         <td>Lielāks vai vienāds (ietver arī pašu robežu)</td>
+         <td><code>15 &gt;= 15</code> un <code>18 &gt;= 15</code></td>
+        </tr>
+        <tr>
+         <td><code>&gt;</code></td>
+         <td>Stingri lielāks (robežas skaitlis neder!)</td>
+         <td><code>16 &gt; 15</code> (bet <code>15 &gt; 15</code> ir <code>false</code>)</td>
+        </tr>
+        <tr>
+         <td><code>&lt;</code></td>
+         <td>Stingri mazāks (noder negatīvu skaitļu ķeršanai)</td>
+         <td><code>-2 &lt; 0</code></td>
+        </tr>
+        <tr>
+         <td><code>&lt;=</code></td>
+         <td>Mazāks vai vienāds</td>
+         <td><code>0 &lt;= 0</code></td>
+        </tr>
+        <tr>
+         <td><code>===</code></td>
+         <td>Precīzi vienāds (trīs vienādības zīmes!)</td>
+         <td><code>15 === 15</code> vai <code>"Pils" === "Pils"</code></td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p><b>Svarīgi:</b> salīdzināšanai nekad neizmanto vienu vienādības zīmi <code>=</code>! Viena <code>=</code> piešķir jaunu vērtību mainīgajam, bet vienādību pārbauda ar <code>===</code> (vai ar robežzīmēm <code>&gt;=</code> un <code>&lt;=</code>). Tāpat ievēro, ka skaitļa laukā <code>&lt;input type="number"&gt;</code> bez <code>min="0"</code> lietotājs var ierakstīt arī negatīvu skaitli (piemēram, <code>-3</code>).</p>
+    </div>
+    <div class="logic-box" id="if-piemers">
+     <h3>Vairāki gadījumi pēc kārtas (<code>if / else if / else</code>) un secības nozīme</h3>
+     <p>Kad ar diviem iznākumiem nepietiek, starp <code>if</code> un <code>else</code> var pievienot vienu vai vairākus <code>else if (...)</code> (“citādi, ja”) zarus. Apskati piemēru ar varoņa enerģiju, kur mērķis ir sakrāt vismaz <code>15</code> vienības:</p>
+     <pre><code>let zina = "";
+
+if (energija &lt; 0) {
+  zina = "Kļūda: enerģija nevar būt negatīva!";
+} else if (energija &gt;= 15) {
+  zina = "Vārti atvērti! Vari doties tālāk.";
+} else {
+  const pietrukst = 15 - energija;
+  zina = "Turpini meklēt! Vēl pietrūkst: " + pietrukst;
+}</code></pre>
+     <p><b>Kā darbojas šī nosacījumu ķēde?</b></p>
+     <ol>
+      <li>JavaScript pārbauda nosacījumus <b>stingri no augšas uz leju</b>.</li>
+      <li>Tiklīdz <b>pirmais</b> no nosacījumiem izrādās <code>true</code>, izpildās tā <code>{ ... }</code> bloks, un <b>visi pārējie šīs ķēdes zari tiek izlaisti</b>. Tāpēc par vienu ievadi vienmēr tiek izvēlēta tieši viena ziņa.</li>
+      <li>Ja nākotnē pievieno vēl augstāku sasniegumu (piemēram, superjaudu pie <code>energija &gt;= 50</code>), tas obligāti jāraksta <b>pirms</b> <code>energija &gt;= 15</code>. Pretējā gadījumā skaitlis <code>50</code> jau atbildīs nosacījumam <code>&gt;= 15</code> un līdz zemākajam zaram nekad netiks!</li>
+      <li>Katram zaram (<code>if</code>, <code>else if</code>, <code>else</code>) ir savs figūriekavu pāris <code>{</code> un <code>}</code>, un vēl viens ārējais pāris aptver visu <code>function ...() { ... }</code>.</li>
+     </ol>
+    </div>
+    <div class="logic-box" id="robezvertibas">
+     <h3>Robežvērtību pārbaude: kā pārliecināties, ka visi zari strādā</h3>
+     <p>Ja pārbaudi savu kodu tikai ar vienu nejaušu skaitli (piemēram, <code>40</code>), viegli nepamanīt kļūdu uz pašas robežas — piemēram, uzrakstītu <code>&gt;</code> zīmes <code>&gt;=</code> vietā. Tāpēc programmēšanā izmanto <b>robežvērtību testēšanu</b>: pārbauda skaitļus tieši uz robežas un par vienu vienību abās pusēs.</p>
+     <div class="table-scroll" role="region" aria-label="Robežvērtību testēšana enerģijas piemēram ar slieksni 15" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Testa ievade</th>
+         <th scope="col">Kurš zars nostrādā?</th>
+         <th scope="col">Ko šī pārbaude atklāj?</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td><code>-1</code></td>
+         <td><code>if (energija &lt; 0)</code></td>
+         <td>Vai pirmais negatīvais skaitlis tiek atpazīts kā kļūda.</td>
+        </tr>
+        <tr>
+         <td><code>0</code></td>
+         <td><code>else</code> (pietrūkst <code>15</code>)</td>
+         <td>Vai nulle netiek kļūdaini uzskatīta par negatīvu skaitli.</td>
+        </tr>
+        <tr>
+         <td><code>14</code></td>
+         <td><code>else</code> (pietrūkst <code>1</code>)</td>
+         <td>Vai skaitlis tieši zem mērķa (<code>15 - 1</code>) prasa turpināt.</td>
+        </tr>
+        <tr>
+         <td><code>15</code></td>
+         <td><code>else if (energija &gt;= 15)</code></td>
+         <td>Vai sasniegtā robeža jau dod uzvaru (atklāj <code>&gt;</code> kļūdu!).</td>
+        </tr>
+        <tr>
+         <td><code>16</code></td>
+         <td><code>else if (energija &gt;= 15)</code></td>
+         <td>Vai darbojas arī skaitļi virs mērķa (<code>15 + 1</code>).</td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p>Kad maini mērķa skaitli JavaScript kodā, vienmēr atjauno arī noteikumu rindkopu HTML lapā, lai spēlētājs redzētu patieso uzvaras slieksni.</p>
+    </div>
+    <details class="course-help">
+     <summary>Pašpārbaude: kāpēc ar nosacījumu <code>energija &gt; 15</code> pie ievades <code>15</code> parādās ziņa par trūkstošo enerģiju, un vai pie ievades <code>-1</code> izpildās arī beigu <code>else</code> zars?</summary>
+     <p>1) Izteiksme <code>15 &gt; 15</code> ir <code>false</code> (15 nav stingri lielāks par 15), tāpēc programma nokļūst <code>else</code> zarā; lai iekļautu pašu robežu, vajag <code>&gt;=</code>. 2) Pie <code>-1</code> izpildās jau pirmais <code>if (energija &lt; 0)</code> zars, un vienā <code>if / else if / else</code> ķēdē pārējie zari pēc tam tiek izlaisti.</p>
+    </details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -194,29 +289,41 @@
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
 &lt;title&gt;Mana spēle&lt;/title&gt;
 &lt;style&gt;
-body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
+/* Pamata izkārtojums — šīs rindas nemaini */
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+.panelis { background-color: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 18px; margin: 16px 0; }
+label { display: block; font-weight: bold; margin-top: 6px; }
+button, input { font: inherit; padding: 10px 14px; margin: 6px 0; }
+input { display: block; width: 100%; max-width: 240px; box-sizing: border-box; }
+button { cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; margin-top: 10px; }
+#atbilde { font-size: 18px; font-weight: bold; margin: 14px 0 4px; }
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
-
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;h1&gt;Pārbaudi punktus&lt;/h1&gt;
-&lt;label for="skaits"&gt;Punkti&lt;/label&gt;
-&lt;input id="skaits" type="number" value="0"&gt;
-&lt;button onclick="parbaudit()"&gt;Pārbaudīt&lt;/button&gt;
-&lt;p id="atbilde"&gt;Ievadi punktus un nospied pogu.&lt;/p&gt;
+&lt;!-- 3. UZDEVUMS: šeit zem virsraksta pievieno &lt;p id="noteikumi"&gt; rindkopu ar uzvaras mērķi --&gt;
+&lt;div class="panelis"&gt;
+  &lt;label for="skaits"&gt;Punkti&lt;/label&gt;
+  &lt;input id="skaits" type="number" value="0"&gt;
+  &lt;button onclick="parbaudit()"&gt;Pārbaudīt&lt;/button&gt;
+  &lt;p id="atbilde"&gt;Ievadi punktus un nospied pogu.&lt;/p&gt;
+&lt;/div&gt;
 &lt;script&gt;
 function parbaudit() {
+  // === GATAVĀ DAĻA — nolasa ievadīto punktu skaitu (nemaini) ===
   const punkti = Number(document.getElementById("skaits").value);
   let zina = "";
+
+  // === 2. un 3. UZDEVUMS — MAINI ŠEIT: punktu pārbaude ar if / else if / else ===
   if (punkti &gt;= 10) {
     zina = "Uzvara!";
   } else {
     zina = "Turpini spēli!";
   }
+
+  // === GATAVĀ DAĻA — parāda izvēlēto ziņu lapā (nemaini) ===
   document.getElementById("atbilde").textContent = zina;
 }
 &lt;/script&gt;
@@ -230,45 +337,37 @@ function parbaudit() {
      1. uzdevums
     </p>
     <h2>
-     Izmēģini robežu
+     Izmēģini divu zaru robežu un atrodi sākuma koda nepilnību
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#nosacijuma-jautajums">Nosacījums uzdod jautājumu ar divām iespējamām atbildēm</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#nosacijuma-jautajums">Salīdzināšana un divi nosacījuma zari (if / else)</a>.</p>
     <p class="workplace">
-     Vide: VS Code → pārlūks
+     Vide: Windows File Explorer → pārlūks → VS Code
     </p>
     <ol class="step-list">
      <li>
-      Sāc ar
-      <code>
-       33.html
-      </code>
-      .
+      Windows mapē <code>Desktop/datorika9-tema3</code> atver saglabāto <code>33.html</code> pārlūkā (<b>Open with → Edge</b>) un salīdzini redzamo formu ar sākuma koda funkciju <code>parbaudit()</code>.
      </li>
      <li>
-      Pārlūkā pārbaudi
-      <code>
-       9
-      </code>
-      un
-      <code>
-       10
-      </code>
-      punktus.
+      Laukā <b>Punkti</b> ievadi <code>9</code>, paredzi iznākumu pēc nosacījuma <code>punkti &gt;= 10</code>, nospied <b>Pārbaudīt</b> un pārliecinies, ka parādās <code>Turpini spēli!</code>.
      </li>
      <li>
-      Ievēro, ka pie 10 punktiem ziņa mainās uz
-      <b>
-       Uzvara!
-      </b>
-      .
+      Ievadi tieši robežas skaitli <code>10</code>, nospied <b>Pārbaudīt</b> un pārliecinies, ka ziņa nomainās uz <b>Uzvara!</b>.
+     </li>
+     <li>
+      Tagad ievadi negatīvu skaitli <code>-3</code> un nospied <b>Pārbaudīt</b> — pamani nepilnību: esošais divu zaru kods negatīvus punktus neatšķir no parastas spēles un rāda <code>Turpini spēli!</code>.
+     </li>
+     <li>
+      VS Code failā <code>33.html</code> nomaini <code>&lt;title&gt;</code>, <code>&lt;h1&gt;</code> un <code>&lt;label for="skaits"&gt;</code> uz savai spēlei piemērotiem uzrakstiem, <b>atstājot neskartus</b> <code>id="skaits"</code>, <code>id="atbilde"</code> un pogas <code>onclick="parbaudit()"</code>.
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b> un pārlūkā ar <b>Ctrl+R</b> pārbaudi, ka redzami jaunie uzraksti un poga joprojām darbojas.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Atpazīsti, pie kura skaita mainās rezultāts.
+     esi pārbaudījis sākuma robežu <code>10</code>, pamanījis negatīvās ievades nepilnību un pielāgojis lapas virsrakstu savai spēlei.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-2">
@@ -276,37 +375,37 @@ function parbaudit() {
      2. uzdevums
     </p>
     <h2>
-     Pievieno trešo rezultātu
+     Izveido trīs zaru pārbaudi ar <code>if / else if / else</code>
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#if-piemers">Pārbaudi gadījumus noteiktā secībā</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#if-piemers">Vairāki gadījumi pēc kārtas (if / else if / else) un secības nozīme</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Atrodi visu
-      <code>
-       if ... else
-      </code>
-      bloku.
+      <code>&lt;script&gt;</code> daļas funkcijā <code>parbaudit()</code> atrodi nosacījumu bloku zem komentāra <code>// === 2. un 3. UZDEVUMS — MAINI ŠEIT ... ===</code>.
      </li>
      <li>
-      Aizstāj to ar šīs lapas teorijas piemēru. Saglabā rindu, kas parāda
-      <code>
-       zina
-      </code>
-      .
+      Uzraksti <b>pirmo</b> zaru <code>if (punkti &lt; 0) { ... }</code>, kurā mainīgajam <code>zina</code> piešķir brīdinājumu par negatīviem punktiem (piemēram, <code>"Kļūda: punkti nevar būt negatīvi!"</code>).
      </li>
      <li>
-      Pārbaudi, ka visām figūriekavām ir pāris.
+      Uzreiz aiz pirmā zara aizverošās figūriekavas <code>}</code> pievieno <b>otro</b> zaru <code>else if (punkti &gt;= 10) { ... }</code>, kurā <code>zina</code> saņem uzvaras paziņojumu <code>"Uzvara!"</code>.
+     </li>
+     <li>
+      Noslēdz ķēdi ar <b>trešo</b> zaru <code>else { ... }</code> (bez apaļajām nosacījuma iekavām!), kurā <code>zina</code> saņem tekstu <code>"Turpini spēli!"</code>.
+     </li>
+     <li>
+      Pārskati figūriekavu pārus: katram no trim zariem jābūt savām <code>{</code> un <code>}</code>, un aiz rindas <code>document.getElementById("atbilde").textContent = zina;</code> jāpaliek noslēdzošajai <code>}</code> visai funkcijai <code>parbaudit()</code>.
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un secīgi pārbaudi visus trīs zarus ar vērtībām <code>-3</code>, <code>9</code> un <code>10</code>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Kodā ir negatīvu punktu, uzvaras un turpināšanas gadījums.
+     <code>if / else if / else</code> ķēde pārlūkā pareizi nodala negatīvu ievadi, turpināšanu un uzvaru.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-3">
@@ -314,184 +413,65 @@ function parbaudit() {
      3. uzdevums
     </p>
     <h2>
-     Maini mērķi un pārbaudi visus gadījumus
+     Nomaini uzvaras mērķi uz 20 un pārbaudi robežvērtības
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#robezvertibas">Pārbaudi skaitļus abās robežas pusēs</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#robezvertibas">Robežvērtību pārbaude: kā pārliecināties, ka visi zari strādā</a>.</p>
     <p class="workplace">
-     Vide: VS Code → pārlūks
+     Vide: VS Code → pārlūks (ar F12 Console)
     </p>
     <ol class="step-list">
      <li>
-      Uzvaras robežu nomaini uz
-      <code>
-       20
-      </code>
-      .
+      Funkcijā <code>parbaudit()</code> otrajā zarā nomaini uzvaras slieksni no <code>10</code> uz <code>20</code> (<code>else if (punkti &gt;= 20)</code>).
      </li>
      <li>
-      HTML daļā pievieno norādi, ka uzvarai vajag 20 punktus. Izvēlies savai spēlei piemērotas ziņas.
+      HTML daļā tieši zem <code>&lt;h1&gt;</code> virsraksta (komentāra vietā virs <code>&lt;div class="panelis"&gt;</code>) pievieno rindkopu <code>&lt;p id="noteikumi"&gt;</code>, kurā skaidri norādi spēlētājam, ka uzvarai nepieciešami vismaz <code>20</code> punkti.
      </li>
      <li>
-      Pārlūkā pārbaudi
-      <code>
-       -1
-      </code>
-      ,
-      <code>
-       19
-      </code>
-      un
-      <code>
-       20
-      </code>
-      . Jāparādās trim atbilstošajām ziņām.
+      Pielāgo visas trīs <code>zina</code> atbildes savai spēlei, turklāt <code>else</code> zarā aprēķini arī atlikušos punktus ar <code>20 - punkti</code> un iekļauj šo skaitli turpināšanas ziņā.
      </li>
      <li>
-      Saglabā un nosūti darbu uz GitHub.
+      Saglabā failu ar <b>Ctrl+S</b> un pārlūkā nospied <b>Ctrl+R</b>, lai lapā parādītos jaunie noteikumi.
+     </li>
+     <li>
+      Pārbaudi nulles robežu abās pusēs: ievadi <code>-1</code> (jāparādās negatīvu punktu brīdinājumam) un <code>0</code> (jāparādās turpināšanas ziņai, kur līdz mērķim pietrūkst <code>20</code>).
+     </li>
+     <li>
+      Pārbaudi uzvaras robežu abās pusēs: ievadi <code>19</code> (turpināšanas ziņa — pietrūkst <code>1</code>), tad <code>20</code> (uzvaras paziņojums!) un <code>21</code> (uzvaras paziņojums!).
+     </li>
+     <li>
+      Pārlūkā atver <b>F12 → Console</b> un pārbaudi, ka nav nevienas sarkanas kļūdas; ja nepieciešams, izlabo kodu un saglabā gala versiju ar <b>Ctrl+S</b>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Visi trīs pārbaudes gadījumi dod pareizo rezultātu.
+     gan lapas noteikumos, gan kodā uzvaras robeža ir <code>20</code>, ievade <code>-1</code> dod brīdinājumu, <code>19</code> rāda turpināšanu ar trūkstošo <code>1</code> punktu, <code>20</code> rāda uzvaru, un konsolē nav kļūdu.
     </p>
-    <div class="submission">
-     <h3>
-      Iesniedz 3. uzdevuma rezultātu
-     </h3>
-     <p>
-      Iesniedz pabeigto
-      <code>
-       33.html
-      </code>
-      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
-     </p>
-     <p>
-      <b>
-       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
-      </b>
-     </p>
-     <ul class="assessment-checks">
-      <li>
-       Kodā ir if, else if un else.
-      </li>
-      <li>
-       Uzvaras robeža kodā un lapas norādē ir 20.
-      </li>
-      <li>
-       −1 dod brīdinājumu, 19 — turpināšanu, 20 — uzvaru.
-      </li>
-     </ul>
-     <p>
-      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
-     </p>
-    </div>
-    <details class="course-help">
-     <summary>
-      Saglabā un nosūti uz GitHub — pogu atgādne
-     </summary>
-     <p class="workplace">
-      Vide: VS Code / Source Control → GitHub pārlūkā
-     </p>
-     <ol class="step-list">
-      <li>
-       Ar
-       <b>
-        File → Save All
-       </b>
-       saglabā failus. Atver
-       <b>
-        Source Control
-       </b>
-       ar
-       <b>
-        Ctrl+Shift+G
-       </b>
-       .
-      </li>
-      <li>
-       Pie
-       <b>
-        Changes
-       </b>
-       nospied
-       <b>
-        +
-       </b>
-       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
-       <b>
-        Staged Changes
-       </b>
-       .
-      </li>
-      <li>
-       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
-       <code>
-        Pabeigts 3.3 darbs
-       </code>
-       . Spied
-       <b>
-        Commit
-       </b>
-       .
-      </li>
-      <li>
-       Ja šī tēmas mape vēl nav GitHub, spied
-       <b>
-        Publish to GitHub
-       </b>
-       un izveido publisku projektu
-       <code>
-        datorika9-tema3
-       </code>
-       . Jau publicētam projektam spied
-       <b>
-        Sync Changes
-       </b>
-       . Ja pogas nav, atver
-       <b>
-        … → Push
-       </b>
-       .
-      </li>
-      <li>
-       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
-      </li>
-     </ol>
-     <p>
-      Ja Source Control rāda
-      <b>
-       Initialize Repository
-      </b>
-      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
-      <a href="/datorika9/git">
-       palīdzību
-      </a>
-      un palūdz skolotāja atbalstu.
-     </p>
-    </details>
    </section>
    <details class="course-help extra-task">
     <summary>
-     Papildu uzdevums: Pievieno lielo uzvaru
+     Papildu uzdevums: Pievieno meistara rekorda zaru no 100 punktiem
     </summary>
     <p>
-     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+     Sāc, kad visi trīs pamatuzdevumi ir pabeigti.
     </p>
+    <p><b>Izmanto teoriju:</b> <a href="#if-piemers">Nosacījumu secības nozīme</a> un <a href="#robezvertibas">Robežvērtību pārbaude</a>.</p>
     <ol class="step-list">
      <li>
-      Pirms parastās uzvaras pārbaudes pievieno gadījumu
-      <code>
-       punkti &gt;= 100
-      </code>
-      .
+      Atceries secības likumu: lielāks slieksnis (<code>100</code>) ir jāpārbauda <b>pirms</b> mazākā sliekšņa (<code>20</code>), citādi programma apstāsies jau pie parastās uzvaras.
      </li>
      <li>
-      Parādi īpašu ziņu un pārbaudi 99 un 100 punktus.
+      Funkcijā <code>parbaudit()</code> starp <code>if (punkti &lt; 0)</code> zaru un <code>else if (punkti &gt;= 20)</code> zaru pievieno jaunu zaru <code>else if (punkti &gt;= 100)</code> ar īpašu meistara rekorda ziņu.
+     </li>
+     <li>
+      Papildini <code>&lt;p id="noteikumi"&gt;</code> rindkopu ar informāciju par <code>100</code> punktu meistara titulu un saglabā ar <b>Ctrl+S</b>.
+     </li>
+     <li>
+      Pārlūkā nospied <b>Ctrl+R</b> un pārbaudi visas četras situācijas ar vērtībām <code>-1</code>, <code>19</code>, <code>20</code>, <code>99</code> un <code>100</code>.
      </li>
     </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> <code>20</code> un <code>99</code> rāda parasto uzvaru, <code>100</code> rāda meistara rekordu, un visi pārējie zari joprojām strādā pareizi.</p>
    </details>
    <details class="course-help">
     <summary>
@@ -500,42 +480,35 @@ function parbaudit() {
     <ul>
      <li>
       <b>
-       Neredzi izmaiņas?
+       Pie <code>20</code> punktiem rādās turpināšana, un uzvara sākas tikai no <code>21</code>?
       </b>
-      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
-      <code>
-       33.html
-      </code>
-      .
+      Pārbaudi nosacījuma zīmi: tev ir uzrakstīts stingri lielāks <code>&gt;</code>, bet, lai iekļautu arī pašu skaitli <code>20</code>, jāraksta <code>punkti &gt;= 20</code>.
      </li>
      <li>
       <b>
-       Kods redzams kā teksts?
+       Neatkarīgi no ievades vienmēr parādās viena un tā pati ziņa?
       </b>
-      Saglabā ar galotni .html. Windows ieslēdz
-      <b>
-       View → Show → File name extensions
-      </b>
-      un pārbaudi, ka beigās nav .txt.
+      Pārbaudi trīs biežākās vietas: 1) vai iekš <code>if (...)</code> neesi uzrakstījis vienu vienādības zīmi <code>=</code> salīdzināšanas zīmes vietā; 2) vai uzreiz aiz <code>if (...)</code> apaļajām iekavām nav kļūdaini ielikts semikols <code>;</code>; 3) vai lielāks slieksnis nav nejauši ielikts aiz mazāka sliekšņa.
      </li>
      <li>
       <b>
-       Poga nestrādā?
+       Nospiežot pogu, nekas nenotiek un <code>F12 → Console</code> rāda <code>SyntaxError</code>?
       </b>
-      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+      Pārbaudi, vai vārdi <code>else if</code> ir rakstīti ar atstarpi (nevis <code>elseif</code>), vai pie pēdējā <code>else</code> neesi pielicis apaļās nosacījuma iekavas un vai katrai atverošajai figūriekavai <code>{</code> ir sava aizverošā <code>}</code>.
      </li>
      <li>
       <b>
-       Nesaproti nākamo soli?
+       Neredzi savas izmaiņas pārlūkā?
       </b>
-      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+      VS Code nospied <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un pēc skaitļa ievadīšanas noteikti nospied pogu <b>Pārbaudīt</b>. Pārliecinies, ka atvērts tieši <code>Desktop/datorika9-tema3/33.html</code>.
+     </li>
+     <li>
+      <b>
+       Kods pārlūkā redzams kā parasts teksts?
+      </b>
+      Saglabā ar galotni <code>.html</code>. Windows File Explorer ieslēdz <b>View → Show → File name extensions</b> un pārbaudi, ka faila beigās nav <code>.txt</code>.
      </li>
     </ul>
-    <p>
-     <a href="/datorika9/git">
-      Palīdzība Git, kontam un darba atvēršanai
-     </a>
-    </p>
    </details>
    <details class="course-help teacher-meta">
     <summary>
