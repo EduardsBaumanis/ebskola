@@ -267,7 +267,57 @@ public partial class TournamentManager : Node
     }
 }</code></pre>
 </details>
-<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2><p>GitHub krātuvē saglabā projektu un šādus pierādījumus:</p><ul><li>Pilns Godot projekts ar scēnu, dalībnieku lomām, Stats, Buff, Obstacle un TournamentManager.</li><li>Output izdruka ar pilnu turnīru, diviem izstāšanās paziņojumiem un uzvarētāju.</li><li>README: palaišanas norādes, pārbaudes tabulas rezultāti, trīs turnīru novērojumi un skaidrojums, kā cikls beidzas.</li></ul><p>Saglabā failus, veic commit ar izmaiņu aprakstu un push. Skolotāja norādītajā vietā iesniedz krātuves saiti.</p></div></section>
+<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2><p>GitHub krātuvē saglabā projektu un šādus pierādījumus:</p><ul><li>Pilns Godot projekts ar scēnu, dalībnieku lomām, Stats, Buff, Obstacle un TournamentManager.</li><li>Output izdruka ar pilnu turnīru, diviem izstāšanās paziņojumiem un uzvarētāju.</li><li>README: palaišanas norādes, pārbaudes tabulas rezultāti, trīs turnīru novērojumi un skaidrojums, kā cikls beidzas.</li></ul><p>Saglabā failus, veic commit ar izmaiņu aprakstu un push. Skolotāja norādītajā vietā iesniedz krātuves saiti.</p><p>Pirms iesniegšanas salīdzini projektu, Output izdruku un README ar <a href="#vertesana">SLA tabulu</a>.</p></div></section>
+<section id="vertesana" aria-labelledby="vertesanas-virsraksts">
+<h2 id="vertesanas-virsraksts">Vērtēšanas kritēriji (SLA)</h2>
+<p>Snieguma līmeņu apraksts (SLA) attiecas uz 3. tēmas noslēguma projektu: klases turnīra simulatoru, tā Godot projektu, Output izdruku, <code>README.md</code> un GitHub versiju. Katru kritēriju pārbauda ar konkrētu darbību — palaid scēnu, apskati Output paneli vai atver norādīto failu.</p>
+<p>“Apguvis” apraksta pilnīgi izpildītas pamatprasības; “Apguvis padziļināti” — arī prasmi ar sava projekta piemēru pamatot, kāpēc kods darbojas tieši tā. Dotais kods ir atļauts atbalsts; vērtē, vai projekts darbojas un vai vari to izskaidrot. Papildu uzdevums ar pogu nav vajadzīgs nevienam līmenim.</p>
+<p>Šaurā ekrānā tabulu ritini horizontāli, lai apskatītu visus līmeņus.</p>
+<div class="table-scroll" role="region" aria-labelledby="vertesanas-virsraksts" tabindex="0">
+<table class="assessment-rubric">
+<caption>3. tēmas noslēguma projekts — klases turnīra simulators</caption>
+<thead>
+<tr>
+<th scope="col">Kritērijs</th>
+<th scope="col" class="level-header">Sācis apgūt (1–3)</th>
+<th scope="col" class="level-header">Turpina apgūt (4–6)</th>
+<th scope="col" class="level-header">Apguvis (7–8)</th>
+<th scope="col" class="level-header">Apguvis padziļināti (9–10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">Klases, objekti un datu aizsardzība<br><small><a href="#uzdevums-1">1. uzdevums</a> · <a href="#parbaudes">Pārbaudes</a></small></th>
+<td>Projekts nebūvējas vai Output neizdrukā dalībnieku un šķēršļu sākuma datus.</td>
+<td>Projekts būvējas, bet daļa sākuma datu nesakrīt (nav 150, 80, 100 vai 20, 12, 8), trūkst kāda dalībnieka vai šķēršļa, vai enerģiju var tieši mainīt no citas klases.</td>
+<td>Output rāda trīs dalībniekus ar enerģiju 150, 80, 100 un trīs Inspector panelī iestatītus šķēršļus ar sodiem 20, 12, 8. Dalībniekus izveido kods ar <code>new</code>, <code>AddChild</code> un <code>Setup</code>. Enerģija glabājas privātā <code>Stats</code> laukā, to nolasa ar <code>GetEnergy()</code>, un tā nekļūst negatīva.</td>
+<td>Izpildīts “Apguvis”; README ar sava projekta piemēru paskaidro klases un objekta atšķirību, kāpēc dalībnieka dati ir <code>private</code> un kā <code>Penalty</code> īpašības <code>set</code> neļauj sodu zem 1.</td>
+</tr>
+<tr>
+<th scope="row">Mantošana un lomu atšķirīgā reakcija<br><small><a href="#uzdevums-1">1. uzdevums</a> · <a href="#uzdevums-2">2. uzdevums</a></small></th>
+<td>Lomu klašu nav vai visi dalībnieki uz vienādu sodu reaģē vienādi.</td>
+<td>Lomas ir izveidotas, bet kādas lomas aprēķins nesakrīt ar tabulu, lomas apstrādā ar atsevišķiem <code>if</code> vai metode izsauc pati sevi.</td>
+<td><code>Captain</code>, <code>Presenter</code> un <code>TimeKeeper</code> manto no <code>Participant</code> un pārraksta <code>ApplyPenalty</code> ar <code>override</code>, izsaucot <code>base.ApplyPenalty(...)</code>. Fiksētās kārtas dod 150 → 140, 80 → 63 un 100 → 82. Visi dalībnieki ir vienā <code>List&lt;Participant&gt;</code>, un <code>PlayTurn</code> izsauc <code>ApplyPenalty</code> bez lomas pārbaudes.</td>
+<td>Izpildīts “Apguvis”; README katrai lomai pierakstīts paredzētais un iegūtais rezultāts un paskaidrots, kāpēc viens izsaukums <code>target.ApplyPenalty(...)</code> dod atšķirīgus rezultātus (<code>virtual</code> un <code>override</code>) un kas notiktu bez <code>base.</code>.</td>
+</tr>
+<tr>
+<th scope="row">Signāli un izstāšanās paziņojumi<br><small><a href="#uzdevums-2">2. uzdevums</a> · <a href="#uzdevums-3">3. uzdevums</a> · <a href="#parbaudes">Pārbaudes</a></small></th>
+<td><code>Finished</code> signāla nav vai izstāšanās paziņojums neparādās.</td>
+<td>Paziņojums parādās tikai daļai izstājušos dalībnieku, vienam dalībniekam atkārtojas vai signāls pieslēgts pēc pirmās kārtas.</td>
+<td><code>Finished</code> visiem dalībniekiem pieslēgts ar <code>+=</code> pirms turnīra. Pilnā turnīrā Output ir tieši divi izstāšanās paziņojumi — katram izstājušajam vienu reizi —, un viņa enerģija apstājas pie 0.</td>
+<td>Izpildīts “Apguvis”; README paskaidro, kura klase signālu raida un kura to saņem, kāpēc pieslēgšana jāveic pirms kārtām un kāpēc sods jau izstājušamies dalībniekam nerada otru paziņojumu.</td>
+</tr>
+<tr>
+<th scope="row">Turnīra vadība: nejauša izvēle un cikla beigas<br><small><a href="#uzdevums-2">2. uzdevums</a> · <a href="#uzdevums-3">3. uzdevums</a> · <a href="#parbaudes">Pārbaudes</a></small></th>
+<td>Turnīrs nesākas, uzkaras vai beidzas bez uzvarētāja.</td>
+<td>Turnīrs notiek, bet izstājies dalībnieks tiek izvēlēts vēlreiz, rodas indeksa kļūda, cikls apstājas tikai pie drošības limita vai neizdrukā uzvarētāju un kārtu skaitu.</td>
+<td>Katrā kārtā Output rāda kārtas numuru, šķērsli, dalībnieku un enerģiju pirms un pēc soda. Izvēle notiek tikai no aktīvajiem ar <code>GD.RandRange(0, Count - 1)</code>. Trīs palaišanās katrs turnīrs beidzas ar vienu uzvarētāju un kārtu skaitu; rezultāti pierakstīti README.</td>
+<td>Izpildīts “Apguvis”; README pamato, kāpēc <code>while</code> nosacījumā lieto aktīvo dalībnieku skaitu, nevis <code>party.Count</code>, kāpēc turnīrs garantēti beidzas (sākumā kopā 330 punktu, katrā kārtā zūd vismaz 1) un kāpēc atkārtots nejaušs iznākums nav kļūda.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 <section><h2>Ja kaut kas nestrādā</h2><ul><li><b>Neatrod šķērsli:</b> GetNode nosaukumiem precīzi jāsakrīt ar saknes bērnu mezgliem.</li><li><b>Turnīrs nebeidzas:</b> pārliecinies, ka sods ir pozitīvs, lomas patērē vismaz 1 punktu un izvēle notiek tikai no aktīvajiem.</li><li><b>Paziņojumu nav:</b> pārbaudi, vai Participant saglabāts Finished signāls un pieslēgums veikts pirms turnīra.</li><li><b>Scēnā redzams tukšs logs:</b> pamata projekta rezultāts ir Output panelī. Spēles saskarni veido papildu uzdevumā.</li></ul></section>
 <details class="course-help"><summary>Izmantotā dokumentācija</summary><p><a href="https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_signals.html">Godot: C# signāli</a></p></details>
 <nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
