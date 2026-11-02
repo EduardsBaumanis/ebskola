@@ -73,10 +73,10 @@
      2.4 Pievieno un pielāgo spēles skaņu
     </a>
     <a href="/datorika9/dat9_25">
-     2.5 Sakārto failus un arhīvu — projekta 1. daļa
+     2.5 Sakārto failus mapēs un ZIP arhīvā
     </a>
     <a href="/datorika9/dat9_26">
-     2.6 Pabeidz noformēto spēles lapu — projekta 2. daļa
+     2.6 Izveido noformētu spēles lapu — tēmas noslēguma darbs
     </a>
    </nav>
   </aside>
@@ -97,34 +97,99 @@
     Uzzīmē nelielu spēles varoni un ievieto to HTML lapā.
    </p>
    <section id="teorija">
-<h2>Teorija ar piemēriem</h2>
-<h3 id="attela-fails">Attēls ir atsevišķs projekta fails</h3>
-<p>Šajā nodarbībā Paint izveido savu 128 × 128 pikseļu varoni un saglabā to PNG formātā. Tīmekļa lapai vajag gan HTML failu, gan attēla failu. Attēla ievietošanas kods pats nesatur zīmējumu — tas norāda, kur to atrast.</p>
-<p>Sākuma kodā vietā <code>&lt;!-- ŠEIT ATTĒLS --&gt;</code> ievieto, piemēram, šo rindu. Aprakstu pielāgo savam zīmējumam.</p>
-<pre><code>&lt;img src="varonis.png" alt="Zils kosmosa robots" width="128"&gt;</code></pre>
-<div class="table-scroll" role="region" aria-label="Attēla norādes" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Koda daļa</th><th scope="col">Nozīme</th></tr></thead><tbody><tr><td><code>src="varonis.png"</code></td><td>Meklē attēlu tajā pašā mapē, kur ir HTML fails.</td></tr><tr><td><code>alt="Zils kosmosa robots"</code></td><td>Īss attēla satura apraksts, ko var izmantot arī ekrānlasītājs.</td></tr><tr><td><code>width="128"</code></td><td>Norāda attēla rādīšanas platumu lapā.</td></tr></tbody></table></div>
-<h3 id="attela-izmers">Faila izmēri un izmērs lapā</h3>
-<p>128 × 128 nozīmē 128 pikseļu platumu un 128 pikseļu augstumu pašā zīmējumā. Mainot HTML platumu uz 64, lapā redzēsi mazāku attēlu, bet saglabātajam PNG joprojām būs 128 × 128 pikseļi. Ļoti maza attēla palielināšana neveido jaunas detaļas.</p>
-<h3 id="attela-parbaude">Ja attēls neparādās</h3>
-<p>Pārbaudi, vai fails ir saglabāts pareizajā mapē un vai <code>src</code> precīzi sakrīt ar tā nosaukumu, ieskaitot paplašinājumu. <code>varonis.png</code> un <code>varonis.jpg</code> ir dažādi nosaukumi. Ar nosaukuma pārrakstīšanu JPG failu nepārvērš PNG formātā; formātu izvēlies attēlu programmas saglabāšanas logā.</p>
-<details class="course-help"><summary>Pašpārbaude: vai pietiek klasesbiedram aizsūtīt tikai HTML failu?</summary><p>Nē. Viņam vajag arī attēla failu ar tādu pašu nosaukumu un atrašanās vietu pret HTML failu. Citādi lapa nevarēs attēlu atrast.</p>
-</details>
+    <h2>Teorija ar piemēriem</h2>
+    <h3 id="attela-fails">Attēls ir atsevišķs projekta fails un <code>&lt;img&gt;</code> birka</h3>
+    <p>Šajā nodarbībā sasaistīsi divu programmu darbu: rastra grafikas redaktorā <b>Paint</b> uzzīmēsi savu spēles varoni un saglabāsi to kā attēla datni <code>varonis.png</code>, bet <b>VS Code</b> HTML failā ierakstīsi norādi uz šo datni. Pats HTML fails zīmējumu sevī neglabā — pārlūks attēlu ielādē no blakus esošā faila.</p>
+    <p><b>Kāpēc izvēlamies PNG formātu?</b> Spēļu varoņiem, ikonām un shēmām ar skaidrām kontūrām un vienmērīgiem krāsu laukumiem vispiemērotākais ir <b>PNG</b> (<code>.png</code>), jo tas saglabā asas malas bez saspiešanas plankumiem. Turpretī <b>JPG</b> (<code>.jpg</code>) ir paredzēts fotogrāfijām un pie asām līnijām var radīt izplūdušus punktus. Formātu vienmēr izvēlies saglabāšanas logā (<b>Save as → PNG picture</b>) — vienkārša faila nosaukuma pārrakstīšana formātu nepārveido.</p>
+    <p>HTML kodā attēlu ievieto ar nepāra tagu <code>&lt;img&gt;</code> (tam <b>nav</b> aizverošā <code>&lt;/img&gt;</code> taga):</p>
+    <pre><code>&lt;img src="varonis.png" alt="Zils kosmosa robots ar antenu" width="128"&gt;</code></pre>
+    <div class="table-scroll" role="region" aria-label="Attēla taga daļas" tabindex="0">
+     <table class="theory-table">
+      <thead>
+       <tr>
+        <th scope="col">Koda daļa</th>
+        <th scope="col">Nozīme</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td><code>&lt;img ...&gt;</code></td>
+        <td>Nepāra birka attēla parādīšanai lapā (aizverošo <code>&lt;/img&gt;</code> neraksta).</td>
+       </tr>
+       <tr>
+        <td><code>src="varonis.png"</code></td>
+        <td>Norāda attēla faila nosaukumu vai ceļu. Ja rakstīts tikai nosaukums, pārlūks to meklē tajā pašā mapē, kur atrodas HTML fails.</td>
+       </tr>
+       <tr>
+        <td><code>alt="Zils kosmosa robots ar antenu"</code></td>
+        <td>Alternatīvais teksts: īss zīmējuma apraksts ekrānlasītājiem un gadījumiem, kad attēla fails neielādējas.</td>
+       </tr>
+       <tr>
+        <td><code>width="128"</code></td>
+        <td>Attēla rādīšanas platums lapā pikseļos (HTML atribūtā raksta tikai skaitli pēdiņās bez <code>px</code>).</td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <h3 id="attela-izmers">Rastra attēla pikseļi un izmērs lapā</h3>
+    <p>Paint veido <b>rastra attēlu</b> — zīmējumu no sīku krāsainu kvadrātiņu jeb <b>pikseļu</b> režģa. Izmērs <code>128 × 128</code> nozīmē 128 pikseļus platumā un 128 pikseļus augstumā. Šo audekla izmēru Paint programmā iestata <b>pirms zīmēšanas</b> un ērtam darbam pietuvina skatu ar <b>Zoom</b> — ja vispirms uzzīmē uz liela taisnstūra audekla un tikai beigās to saspiež uz <code>128 × 128</code>, zīmējums tiek deformēts.</p>
+    <p>Atšķir faila pikseļus no attēlošanas izmēra lapā: ja HTML kodā <code>width="128"</code> nomaini uz <code>width="64"</code>, pārlūkā varonis izskatīsies divreiz mazāks, bet saglabātajam <code>varonis.png</code> failam mapē joprojām būs <code>128 × 128</code> pikseļi. Savukārt, ja mazu rastra attēlu lapā pārāk izstiepj (piemēram, <code>width="400"</code>), jaunas detaļas nerodas un kļūst redzami robaini pikseļi.</p>
+    <h3 id="attela-parbaude">Precīzi failu nosaukumi un kļūdu pārbaude</h3>
+    <p>Tīmekļa projektos failu nosaukumus raksti ar <b>mazajiem latīņu burtiem, bez atstarpēm un garumzīmēm</b> — piemēram, <code>varonis.png</code>, nevis <code>Mans Varonis.PNG</code>. Ja <code>src</code> vērtība kaut par vienu burtu vai paplašinājumu nesakrīt ar īsto failu (piemēram, <code>varonis.jpg</code> vai <code>varonis2.png</code>), pārlūks attēlu neatradīs un tā vietā parādīs salauzta attēla ikonu kopā ar <code>alt</code> tekstu.</p>
+    <details class="course-help">
+     <summary>Pašpārbaude: vai pietiek klasesbiedram aizsūtīt tikai 23.html failu, lai viņš savā datorā redzētu tavu varoni?</summary>
+     <p>Nē. HTML failā ir tikai teksta norāde <code>src="varonis.png"</code>, nevis pats zīmējums. Lai attēls parādītos citā datorā, vienā mapē jābūt gan <code>23.html</code>, gan attēla datnei <code>varonis.png</code> ar tieši tādu pašu nosaukumu.</p>
+    </details>
    </section>
    <section id="sakuma-kods">
     <h2>
      Sākuma kods un darba vieta
     </h2>
-    <p>
-     Sāc pēc 1. uzdevuma soļiem. Darba mape ir
-     <code>
-      Desktop/datorika9-tema2
-     </code>
-     ; šīs nodarbības fails ir
-     <code>
-      23.html
-     </code>
-     .
+    <p class="workplace">
+     Vide: mācību lapa → VS Code
     </p>
+    <ol class="step-list">
+     <li>
+      VS Code ar
+      <b>
+       File → Open Folder
+      </b>
+      atver
+      <code>
+       Desktop/datorika9-tema2
+      </code>
+      . Ja mapes nav, izveido to darbvirsmā.
+     </li>
+     <li>
+      Šajā mācību lapā nospied
+      <b>
+       Kopēt sākuma kodu
+      </b>
+      .
+     </li>
+     <li>
+      VS Code nospied
+      <b>
+       Ctrl+N
+      </b>
+      un ielīmē kodu ar
+      <b>
+       Ctrl+V
+      </b>
+      .
+     </li>
+     <li>
+      Saglabā ar
+      <b>
+       Ctrl+Shift+S
+      </b>
+      tēmas mapē kā
+      <code>
+       23.html
+      </code>
+      .
+     </li>
+    </ol>
     <div class="starter-actions">
      <button class="btn" data-copy="pilnais-kods" type="button">
       Kopēt sākuma kodu
@@ -144,20 +209,29 @@
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-&lt;title&gt;Mana spēle&lt;/title&gt;
+&lt;title&gt;Mans spēles varonis&lt;/title&gt;
 &lt;style&gt;
+/* Pamata izkārtojums — šīs rindas nemaini */
 body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
+button, input { font: inherit; padding: 10px; margin: 4px; cursor: pointer; }
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
 
+/* MAINI ŠEIT: varoņa kartītes izskats */
+.kartite {
+  background-color: #f8fafc;
+  border: 2px solid #cbd5e1;
+  padding: 16px;
+  box-sizing: border-box;
+}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
-&lt;h1&gt;Mana spēles varonis&lt;/h1&gt;
-&lt;p&gt;Attēlu pievienosi šajā nodarbībā.&lt;/p&gt;
-&lt;!-- ŠEIT ATTĒLS --&gt;
+&lt;h1&gt;Mans spēles varonis&lt;/h1&gt;
+&lt;div class="kartite"&gt;
+  &lt;p&gt;Šeit būs īss varoņa ievads.&lt;/p&gt;
+  &lt;!-- ŠEIT ATTĒLS --&gt;
+&lt;/div&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
@@ -168,60 +242,37 @@ img { max-width: 100%; height: auto; }
      1. uzdevums
     </p>
     <h2>
-     Uzzīmē varoni
+     Sagatavo audeklu un uzzīmē varoni programmā Paint
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#attela-izmers">Faila izmēri un izmērs lapā</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#attela-fails">PNG formāts</a> un <a href="#attela-izmers">Rastra attēla pikseļi</a>.</p>
     <p class="workplace">
-     Vide: Windows / Paint
+     Vide: Windows / Paint → VS Code
     </p>
     <ol class="step-list">
      <li>
-      Atver
-      <b>
-       Start
-      </b>
-      , ieraksti
-      <b>
-       Paint
-      </b>
-      un atver lietotni.
+      Atver izvēlni <b>Start</b>, ieraksti <b>Paint</b> un atver zīmēšanas lietotni.
      </li>
      <li>
-      Ar formām un otu uzzīmē vienkāršu varoni no trim vai četrām formām.
+      <b>Pirms sāc zīmēt</b>, nospied rīkjoslas pogu <b>Resize</b> (vai taustiņus <b>Ctrl+W</b>), pārslēdz uz <b>Pixels</b> (Pikseļi), atslēdz malu attiecības saglabāšanu (ķēdītes ikonu starp laukiem vai rūtiņu <b>Maintain aspect ratio</b>), abos laukos ieraksti <code>128</code> un apstiprini ar <b>OK</b>.
      </li>
      <li>
-      Izvēlies
-      <b>
-       Resize
-      </b>
-      (Mainīt izmēru) un
-      <b>
-       Pixels
-      </b>
-      (Pikseļi). Izslēdz malu attiecības saglabāšanu un iestati 128 × 128.
+      Paint loga apakšējā labajā stūrī palielini pietuvinājumu (<b>Zoom</b>) uz <code>400%</code> (vai turi <b>Ctrl</b> un pagriez peles rullīti uz augšu), lai nelielais <code>128 × 128</code> audekls uz ekrāna būtu liels un ērti zīmējams.
      </li>
      <li>
-      Ar
-      <b>
-       File → Save as → PNG picture
-      </b>
-      saglabā
-      <code>
-       varonis.png
-      </code>
-      savā
-      <code>
-       Desktop/datorika9-tema2
-      </code>
-      mapē.
+      Ar figūrām (<b>Shapes</b>), otu (<b>Brushes</b>) un krāsas aizpildīšanu (<b>Fill</b>) uzzīmē savas spēles varoni no skaidrām formām un vismaz trim krāsām.
+     </li>
+     <li>
+      Izvēlies <b>File → Save as → PNG picture</b>, atver mapi <code>Desktop/datorika9-tema2</code>, laukā <b>File name</b> ieraksti <code>varonis</code> (ar mazajiem burtiem, bez atstarpēm un garumzīmēm) un spied <b>Save</b>.
+     </li>
+     <li>
+      Pārslēdzies uz VS Code un kreisajā <b>Explorer</b> failu sarakstā pārliecinies, ka blakus <code>23.html</code> ir redzams fails <code>varonis.png</code>; noklikšķini uz tā, lai pārbaudītu saglabāto zīmējumu.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Tēmas mapē ir tavs varonis.png.
+     mapē <code>Desktop/datorika9-tema2</code> blakus <code>23.html</code> atrodas paša uzzīmēts <code>128 × 128</code> pikseļu fails <code>varonis.png</code>.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-2">
@@ -229,45 +280,37 @@ img { max-width: 100%; height: auto; }
      2. uzdevums
     </p>
     <h2>
-     Pievieno attēlu lapai
+     Pievieno attēlu un varoņa aprakstu HTML lapā
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#attela-fails">Attēls ir atsevišķs projekta fails</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#attela-fails">Attēls ir atsevišķs projekta fails un &lt;img&gt; birka</a>.</p>
     <p class="workplace">
-     Vide: Paint → VS Code
+     Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Atver sākuma kodu failā
-      <code>
-       23.html
-      </code>
-      tajā pašā mapē.
+      VS Code atver failu <code>23.html</code> un gan <code>&lt;title&gt;</code>, gan <code>&lt;h1&gt;</code> tagos ieraksti sava varoņa vārdu vai lomu spēlē.
      </li>
      <li>
-      Rindas
-      <code>
-       &lt;!-- ŠEIT ATTĒLS --&gt;
-      </code>
-      vietā ievieto teorijas
-      <code>
-       &lt;img&gt;
-      </code>
-      piemēru.
+      Bloka <code>&lt;div class="kartite"&gt;</code> iekšpusē nomaini <code>&lt;p&gt;Šeit būs īss varoņa ievads.&lt;/p&gt;</code> uz teikumu, kas iepazīstina ar varoni.
      </li>
      <li>
-      Nomaini
-      <code>
-       alt
-      </code>
-      tekstu, lai tas apraksta tavu varoni. Nomaini arī lapas virsrakstu.
+      Komentāra rindas <code>&lt;!-- ŠEIT ATTĒLS --&gt;</code> vietā ieraksti attēla birku <code>&lt;img src="varonis.png" alt="" width="128"&gt;</code> (atceries, ka <code>&lt;img&gt;</code> tagam nav aizverošā <code>&lt;/img&gt;</code>).
+     </li>
+     <li>
+      Atribūtā <code>alt=""</code> starp pēdiņām ieraksti konkrētu sava zīmējuma izskata aprakstu (piemēram, <code>Zaļš bruņurupucis ar sarkanu vairogu</code>).
+     </li>
+     <li>
+      Tajā pašā <code>&lt;div class="kartite"&gt;</code> blokā tieši zem <code>&lt;img&gt;</code> rindas pievieno vēl vienu <code>&lt;p&gt;...&lt;/p&gt;</code> rindkopu, kurā paskaidro, kādu uzdevumu vai spēju šis varonis veic spēlē.
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b>, atver <code>23.html</code> no mapes <code>Desktop/datorika9-tema2</code> pārlūkā (<b>Open with → Edge</b>) un pārliecinies, ka kartītē redzams tavs zīmējums un abas rindkopas.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     HTML kodā ir saite uz varonis.png un atbilstošs alt teksts.
+     pārlūkā redzams tavs <code>varonis.png</code> attēls, varoņa vārds un divas apraksta rindkopas, bet kodā aizpildīts precīzs <code>alt</code> teksts.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-3">
@@ -275,184 +318,62 @@ img { max-width: 100%; height: auto; }
      3. uzdevums
     </p>
     <h2>
-     Pabeidz varoņa lapu
+     Pārbaudi izmēru, <code>alt</code> tekstu un noformē varoņa kartīti
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#attela-parbaude">Ja attēls neparādās</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#attela-izmers">Faila pikseļi un izmērs lapā</a> un <a href="#attela-parbaude">Kļūdu pārbaude</a>.</p>
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Zem attēla pievieno rindkopu, kas pasaka, ko varonis dara spēlē.
+      VS Code birkā <code>&lt;img&gt;</code> nomaini <code>width="128"</code> uz <code>width="64"</code>, saglabā (<b>Ctrl+S</b>) un atjauno pārlūku (<b>Ctrl+R</b>) — novēro, ka zīmējums lapā kļuva mazāks, lai gan fails <code>varonis.png</code> mapē nemainījās.
      </li>
      <li>
-      Saglabā un atver
-      <code>
-       23.html
-      </code>
-      pārlūkā. Pārliecinies, ka redzi savu zīmējumu.
+      Atgriez platumu atpakaļ uz <code>width="128"</code>, saglabā un ar <b>Ctrl+R</b> pārliecinies, ka varonis atkal redzams pilnā <code>128</code> pikseļu platumā.
      </li>
      <li>
-      Ja attēla nav, pārbaudi, vai
-      <code>
-       23.html
-      </code>
-      un
-      <code>
-       varonis.png
-      </code>
-      ir vienā mapē un nosaukumi sakrīt.
+      Pārbaudi, kā darbojas <code>alt</code> teksts: īslaicīgi izmaini <code>src="varonis.png"</code> uz neesošu faila vārdu <code>src="varonis2.png"</code>, saglabā un atjauno pārlūku — pārliecinies, ka attēla vietā parādās tavs uzrakstītais <code>alt</code> apraksts.
      </li>
      <li>
-      Uz GitHub nosūti abus failus. Iesniedz HTML failu kopā ar PNG attēlu.
+      Izlabo atpakaļ uz <code>src="varonis.png"</code>, saglabā ar <b>Ctrl+S</b> un pārlūkā ar <b>Ctrl+R</b> pārbaudi, ka zīmējums atkal ielādējas bez kļūdām.
+     </li>
+     <li>
+      CSS blokā <code>.kartite { ... }</code> pielieto iepriekšējās stundās apgūto noformējumu: pieskaņo <code>background-color</code> un <code>border</code> krāsu savam varonim, kā arī pievieno <code>border-radius: 12px;</code>, <code>max-width: 360px;</code>, <code>margin: 20px auto;</code> un <code>text-align: center;</code>.
+     </li>
+     <li>
+      Virs <code>.kartite</code> bloka pievieno <code>h1 { text-align: center; }</code>, saglabā ar <b>Ctrl+S</b> un pārlūkā ar <b>Ctrl+R</b> pārliecinies, ka virsraksts un varoņa kartīte ir centrēti un viss teksts ir labi salasāms.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Pārlūkā ir tavs varonis, tā nosaukums un apraksts.
+     esi pārbaudījis attēla platuma un <code>alt</code> teksta darbību, un pārlūkā redzama centrēta, noformēta varoņa kartīte ar strādājošu <code>128 × 128</code> PNG attēlu.
     </p>
-    <div class="submission">
-     <h3>
-      Iesniedz 3. uzdevuma rezultātu
-     </h3>
-     <p>
-      Iesniedz pabeigto
-      <code>
-       23.html
-      </code>
-      un varonis.png skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
-     </p>
-     <p>
-      <b>
-       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
-      </b>
-     </p>
-     <ul class="assessment-checks">
-      <li>
-       varonis.png ir paša zīmējums 128 × 128 px izmērā.
-      </li>
-      <li>
-       23.html parāda šo attēlu un satur atbilstošu alt tekstu.
-      </li>
-      <li>
-       Iesniegts HTML un PNG; abi ir arī GitHub projektā.
-      </li>
-     </ul>
-     <p>
-      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
-     </p>
-    </div>
-    <details class="course-help">
-     <summary>
-      Saglabā un nosūti uz GitHub — pogu atgādne
-     </summary>
-     <p class="workplace">
-      Vide: VS Code / Source Control → GitHub pārlūkā
-     </p>
-     <ol class="step-list">
-      <li>
-       Ar
-       <b>
-        File → Save All
-       </b>
-       saglabā failus. Atver
-       <b>
-        Source Control
-       </b>
-       ar
-       <b>
-        Ctrl+Shift+G
-       </b>
-       .
-      </li>
-      <li>
-       Pie
-       <b>
-        Changes
-       </b>
-       nospied
-       <b>
-        +
-       </b>
-       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
-       <b>
-        Staged Changes
-       </b>
-       .
-      </li>
-      <li>
-       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
-       <code>
-        Pabeigts 2.3 darbs
-       </code>
-       . Spied
-       <b>
-        Commit
-       </b>
-       .
-      </li>
-      <li>
-       Ja šī tēmas mape vēl nav GitHub, spied
-       <b>
-        Publish to GitHub
-       </b>
-       un izveido publisku projektu
-       <code>
-        datorika9-tema2
-       </code>
-       . Jau publicētam projektam spied
-       <b>
-        Sync Changes
-       </b>
-       . Ja pogas nav, atver
-       <b>
-        … → Push
-       </b>
-       .
-      </li>
-      <li>
-       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
-      </li>
-     </ol>
-     <p>
-      Ja Source Control rāda
-      <b>
-       Initialize Repository
-      </b>
-      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
-      <a href="/datorika9/git">
-       palīdzību
-      </a>
-      un palūdz skolotāja atbalstu.
-     </p>
-    </details>
    </section>
    <details class="course-help extra-task">
     <summary>
-     Papildu uzdevums: Izveido otru varoni
+     Papildu uzdevums: Pievieno otru spēles objektu (draugs.png)
     </summary>
     <p>
-     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+     Sāc, kad visi trīs pamatuzdevumi ir pabeigti.
     </p>
+    <p><b>Izmanto teoriju:</b> <a href="#attela-fails">Attēla sagatavošana un &lt;img&gt; birka</a>.</p>
     <ol class="step-list">
      <li>
-      Paint izveido citu zīmējumu un saglabā kā
-      <code>
-       draugs.png
-      </code>
-      .
+      Programmā Paint izveido jaunu lapu (<b>File → New</b>), ar <b>Resize → Pixels</b> iestati <code>64 × 64</code> pikseļu audeklu (atslēdzot malu attiecību) un palielini <b>Zoom</b> uz <code>500%</code>.
      </li>
      <li>
-      Lapā pievieno otru
-      <code>
-       &lt;img&gt;
-      </code>
-      un savu alt tekstu.
+      Uzzīmē otru spēles elementu — sabiedroto, bonusu vai šķērsli — un ar <b>File → Save as → PNG picture</b> saglabā to mapē <code>Desktop/datorika9-tema2</code> kā <code>draugs.png</code>.
+     </li>
+     <li>
+      Failā <code>23.html</code> bloka <code>.kartite</code> apakšā pievieno otru <code>&lt;img src="draugs.png" alt="..." width="64"&gt;</code> ar precīzu <code>alt</code> tekstu un īsu <code>&lt;p&gt;</code> paskaidrojumu par šī objekta nozīmi.
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b> un pārlūkā ar <b>Ctrl+R</b> pārbaudi, ka lapā redzami abi zīmējumi atšķirīgos izmēros (<code>128</code> un <code>64</code> px).
      </li>
     </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> tēmas mapē ir <code>draugs.png</code> un lapā korekti attēlojas abi spēles objekti ar saviem <code>alt</code> aprakstiem.</p>
    </details>
    <details class="course-help">
     <summary>
@@ -461,42 +382,29 @@ img { max-width: 100%; height: auto; }
     <ul>
      <li>
       <b>
-       Neredzi izmaiņas?
+       Attēla vietā redzama salauzta ikona un <code>alt</code> teksts?
       </b>
-      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
-      <code>
-       23.html
-      </code>
-      .
+      Pārbaudi, vai <code>varonis.png</code> atrodas tieši mapē <code>Desktop/datorika9-tema2</code> blakus <code>23.html</code> un vai nosaukumā nav lielo burtu, atstarpju vai dubulta paplašinājuma (piemēram, <code>varonis.png.png</code>).
      </li>
      <li>
       <b>
-       Kods redzams kā teksts?
+       Neredzi, kāds ir īstais faila paplašinājums?
       </b>
-      Saglabā ar galotni .html. Windows ieslēdz
-      <b>
-       View → Show → File name extensions
-      </b>
-      un pārbaudi, ka beigās nav .txt.
+      Windows File Explorer augšējā joslā atver <b>View → Show → File name extensions</b> — tad pie katra faila redzēsi <code>.html</code>, <code>.png</code> vai <code>.jpg</code>.
      </li>
      <li>
       <b>
-       Poga nestrādā?
+       Paint audekls izskatās pārāk mazs vai zīmējums saspiests?
       </b>
-      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+      Izmēru <code>128 × 128</code> iestati <b>pirms</b> zīmēšanas ar <b>Ctrl+W → Pixels</b>. Lai zīmēt būtu ērti, palielini tikai <b>Zoom</b> slīdni loga apakšējā labajā stūrī (uz <code>400%</code>), nevis audekla pikseļu skaitu.
      </li>
      <li>
       <b>
-       Nesaproti nākamo soli?
+       Neredzi HTML vai CSS izmaiņas pārlūkā?
       </b>
-      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+      VS Code saglabā ar <b>Ctrl+S</b>, tad pārlūkā nospied <b>Ctrl+R</b> un pārliecinies, ka atvērts tieši <code>Desktop/datorika9-tema2/23.html</code>.
      </li>
     </ul>
-    <p>
-     <a href="/datorika9/git">
-      Palīdzība Git, kontam un darba atvēršanai
-     </a>
-    </p>
    </details>
    <details class="course-help teacher-meta">
     <summary>

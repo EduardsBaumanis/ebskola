@@ -73,10 +73,10 @@
      2.4 Pievieno un pielāgo spēles skaņu
     </a>
     <a href="/datorika9/dat9_25">
-     2.5 Sakārto failus un arhīvu — projekta 1. daļa
+     2.5 Sakārto failus mapēs un ZIP arhīvā
     </a>
     <a href="/datorika9/dat9_26">
-     2.6 Pabeidz noformēto spēles lapu — projekta 2. daļa
+     2.6 Izveido noformētu spēles lapu — tēmas noslēguma darbs
     </a>
    </nav>
   </aside>
@@ -97,21 +97,129 @@
     Noformē savas spēles lapu ar labi salasāmu tekstu un izceltu pogu.
    </p>
    <section id="teorija">
-<h2>Teorija ar piemēriem</h2>
-<h3 id="css-noteikums">CSS pasaka, kā izskatās HTML saturs</h3>
-<p>HTML veido virsrakstu, rindkopu un pogu. <b>CSS</b> nosaka to izskatu: krāsu, izmēru, atstarpes un apmali. Šajā failā CSS atrodas starp <code>&lt;style&gt;</code> un <code>&lt;/style&gt;</code>. Labojumus veic esošajos noteikumos, saglabā failu un pārlūkā atjauno lapu.</p>
-<pre><code>body {
-  background-color: #ffffff;
-  color: #222222;
+    <h2>Teorija ar piemēriem</h2>
+    <h3 id="css-noteikums">CSS noteikums: ko mainīt un kā mainīt</h3>
+    <p>HTML nosaka, <b>kādas daļas</b> ir lapā — virsraksts, rindkopa, noteikumu sadaļa un poga. <b>CSS</b> nosaka, <b>kā šīs daļas izskatās</b>: fona un burtu krāsu, teksta izmēru, izlīdzinājumu un stūru noapaļojumu. Šajā failā CSS noteikumi atrodas <code>&lt;head&gt;</code> daļā starp <code>&lt;style&gt;</code> un <code>&lt;/style&gt;</code>.</p>
+    <pre><code>body {
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+h1 {
+  color: #174ea6;
+  font-size: 36px;
+  text-align: center;
 }</code></pre>
-<p>Lasām pa daļām: <code>body</code> izvēlas lapas pamatdaļu. Figūriekavās ir tās izskata norādes. <code>background-color</code> maina fonu, <code>color</code> — teksta krāsu. Aiz īpašības nosaukuma ir kols, aiz vērtības — semikols. Krāsas kods <code>#ffffff</code> nozīmē baltu, <code>#222222</code> — ļoti tumši pelēku.</p>
-<h3 id="css-atlase">Kuru lapas daļu maini?</h3>
-<div class="table-scroll" role="region" aria-label="CSS atlases piemēri" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Pieraksts CSS</th><th scope="col">Uz ko tas attiecas?</th></tr></thead><tbody><tr><td><code>h1 { color: #174ea6; }</code></td><td>Uz visiem h1 virsrakstiem.</td></tr><tr><td><code>.noteikumi { padding: 12px; }</code></td><td>Uz elementiem, kuriem HTML ir class="noteikumi". Punkts CSS apzīmē klasi.</td></tr><tr><td><code>button { border-radius: 8px; }</code></td><td>Uz pogām; to stūri kļūst noapaļoti.</td></tr></tbody></table></div>
-<p>Lapai un pogai var būt atsevišķas krāsas. Ja maini lapas teksta krāsu, pogas teksts var palikt tāds, kādu nosaka tās pašas CSS noteikums. Izvēlies tumšu tekstu uz gaiša fona vai gaišu tekstu uz tumša fona un pārbaudi visu tekstu, arī pogas uzrakstu.</p>
-<h3 id="css-viena-izmaina">Pārbaudi vienu izmaiņu reizē</h3>
-<p>Vispirms nomaini fonu un aplūko rezultātu. Tad maini virsraksta krāsu. Ja maini vairākas vietas uzreiz, būs grūtāk saprast, kura rinda izraisīja negaidīto rezultātu. Pogas noformēšana nemaina tās klikšķa darbību; darbību nodrošina JavaScript.</p>
-<details class="course-help"><summary>Pašpārbaude: kā noapaļot tikai noteikumu bloku?</summary><p>Pievieno border-radius, piemēram, 10px, esošajam .noteikumi noteikumam. Pārliecinies, ka vajadzīgajam HTML elementam ir class="noteikumi".</p>
-</details>
+    <p>Lasām CSS bloku pa daļām: pirms atverošās figūriekavas <code>{</code> raksta, <b>kuru elementu</b> noformējam (piemēram, <code>body</code> — visu lapas pamatdaļu, <code>h1</code> — galveno virsrakstu). Starp <code>{</code> un <code>}</code> katrā rindā ir viena norāde formā <code>īpašība: vērtība;</code>. Aiz īpašības nosaukuma vienmēr ir <b>kols (<code>:</code>)</b>, bet rindas beigās — <b>semikols (<code>;</code>)</b>. Ja aizmirst semikolu, nākamā rinda tajā pašā blokā pārstāj darboties.</p>
+    <div class="table-scroll" role="region" aria-label="Šodien izmantojamās CSS īpašības" tabindex="0">
+     <table class="theory-table">
+      <thead>
+       <tr>
+        <th scope="col">Īpašība</th>
+        <th scope="col">Ko tā maina?</th>
+        <th scope="col">Piemērs</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td><code>background-color</code></td>
+        <td>Lapas, bloka vai pogas fona krāsu.</td>
+        <td><code>background-color: #f1f5f9;</code></td>
+       </tr>
+       <tr>
+        <td><code>color</code></td>
+        <td>Teksta (burtu) krāsu.</td>
+        <td><code>color: #1e293b;</code></td>
+       </tr>
+       <tr>
+        <td><code>font-size</code></td>
+        <td>Burtu augstumu pikseļos (bez atstarpes pirms <code>px</code>).</td>
+        <td><code>font-size: 36px;</code></td>
+       </tr>
+       <tr>
+        <td><code>text-align</code></td>
+        <td>Teksta novietojumu rindā (<code>left</code> — kreisajā malā, <code>center</code> — vidū).</td>
+        <td><code>text-align: center;</code></td>
+       </tr>
+       <tr>
+        <td><code>border-radius</code></td>
+        <td>Bloka vai pogas stūru noapaļojumu pikseļos.</td>
+        <td><code>border-radius: 12px;</code></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <p><b>Kā izvēlēties krāsas kodu?</b> Krāsu pieraksta ar restīti <code>#</code> un sešām zīmēm (piemēram, <code>#ffffff</code> ir balta, <code>#0f172a</code> — ļoti tumši zila). VS Code redaktorā blakus katram krāsas kodam parādās mazs krāsains kvadrātiņš: uzved uz tā peles kursoru, lai atvērtu krāsu paleti un izvēlētos jebkuru citu toni. Vari izmantot arī kādu no šiem pārbaudītajiem krāsu salikumiem:</p>
+    <div class="table-scroll" role="region" aria-label="Saskaņotu krāsu piemēri" tabindex="0">
+     <table class="theory-table">
+      <thead>
+       <tr>
+        <th scope="col">Noskaņa</th>
+        <th scope="col">Lapas fons un teksts (<code>body</code>)</th>
+        <th scope="col">Noteikumu bloks (<code>.noteikumi</code>)</th>
+        <th scope="col">Poga (<code>button</code>)</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td>Gaiša dienas tēma</td>
+        <td>Fons <code>#f1f5f9</code>, teksts <code>#1e293b</code></td>
+        <td>Fons <code>#dbeafe</code>, teksts <code>#1e3a8a</code></td>
+        <td>Fons <code>#174ea6</code>, teksts <code>#ffffff</code></td>
+       </tr>
+       <tr>
+        <td>Siltā piedzīvojumu tēma</td>
+        <td>Fons <code>#fffbeb</code>, teksts <code>#292524</code></td>
+        <td>Fons <code>#fef3c7</code>, teksts <code>#451a03</code></td>
+        <td>Fons <code>#b45309</code>, teksts <code>#ffffff</code></td>
+       </tr>
+       <tr>
+        <td>Tumšā kosmosa tēma</td>
+        <td>Fons <code>#0f172a</code>, teksts <code>#e2e8f0</code></td>
+        <td>Fons <code>#1e293b</code>, teksts <code>#f8fafc</code></td>
+        <td>Fons <code>#38bdf8</code>, teksts <code>#0f172a</code></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <h3 id="css-atlase">Kuru lapas daļu maini: tags un klase (<code>.noteikumi</code>)</h3>
+    <p>Ja raksti taga vārdu (piemēram, <code>p</code> vai <code>section</code>), stils maina visus šādus elementus lapā. Lai izceltu vienu konkrētu bloku — šeit noteikumu sadaļu —, HTML tagā pievieno atribūtu <code>class="noteikumi"</code>, bet CSS šo nosaukumu raksta <b>ar punktu priekšā</b>: <code>.noteikumi</code>.</p>
+    <div class="table-scroll" role="region" aria-label="CSS atlases piemēri" tabindex="0">
+     <table class="theory-table">
+      <thead>
+       <tr>
+        <th scope="col">Pieraksts CSS</th>
+        <th scope="col">Ko tas atrod HTML kodā?</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td><code>body { ... }</code></td>
+        <td>Visu <code>&lt;body&gt;</code> saturu — nosaka lapas fonu un noklusējuma teksta krāsu.</td>
+       </tr>
+       <tr>
+        <td><code>h1 { ... }</code></td>
+        <td>Galveno virsrakstu <code>&lt;h1&gt;...&lt;/h1&gt;</code>.</td>
+       </tr>
+       <tr>
+        <td><code>.noteikumi { ... }</code></td>
+        <td>Tikai elementu ar <code>class="noteikumi"</code> (punkts CSS nozīmē klasi).</td>
+       </tr>
+       <tr>
+        <td><code>button { ... }</code></td>
+        <td>Visas <code>&lt;button&gt;</code> pogas.</td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <p>Katram blokam var būt savas krāsas. Kad nomaini <code>body</code> teksta krāsu, mainās parastā mērķa rindkopa zem virsraksta, taču <code>h1</code>, <code>.noteikumi</code> un <code>button</code> saglabā krāsas, kuras tiem uzdotas viņu pašu CSS blokos.</p>
+    <h3 id="css-viena-izmaina">Kontrasts un pārbaude pa vienam solim</h3>
+    <p>Lai spēlētājs lapu varētu ērti izlasīt, ievēro <b>kontrastu</b> — skaidru gaišuma atšķirību starp fonu un burtiem. Uz gaiša fona raksti tumšu tekstu, bet uz tumša fona — gaišu tekstu. Vienmēr pārbaudi visas trīs zonas atsevišķi: lapas pamattekstu, noteikumu kastīti un pogas uzrakstu.</p>
+    <p>Strādā pa vienam solim: paredzi izmaiņu → izlabo vienu CSS bloku → saglabā ar <b>Ctrl+S</b> → atjauno pārlūku ar <b>Ctrl+R</b>. Tā uzreiz redzēsi katras rindas ietekmi un viegli pamanīsi, ja kaut kur pietrūkst semikola. Atceries, ka CSS maina tikai pogas <b>izskatu</b>; pogas klikšķa darbību vēlāk pievienosim ar JavaScript.</p>
+    <details class="course-help">
+     <summary>Pašpārbaude: uzliki tumšu lapas fonu un baltu body tekstu, bet noteikumu blokā burti kļuva nesalasāmi, kad nomainīji arī tā fonu uz tumšu — kāpēc?</summary>
+     <p>Blokam <code>.noteikumi</code> sākuma kodā ir pašam sava rinda <code>color: #222222;</code>, tāpēc tas nepārņem <code>body</code> balto teksta krāsu. Ja <code>.noteikumi</code> fonu nomaini uz tumšu, tajā pašā <code>.noteikumi { ... }</code> blokā nomaini arī <code>color</code> uz gaišu toni, piemēram, <code>#f8fafc</code>.</p>
+    </details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -163,11 +271,11 @@
      </li>
     </ol>
     <p class="info-box">
-     Jauna tēma: izmanto atsevišķu mapi un GitHub projektu
+     Jauna tēma: visus 2. tēmas failus glabā atsevišķā mapē
      <code>
-      datorika9-tema2
+      Desktop/datorika9-tema2
      </code>
-     . Saglabājot pirmo darbu, izpildi Source Control atgādni zem 3. uzdevuma. Iepriekšējās tēmas mapi paturi.
+     . Iepriekšējās tēmas mapi paturi neskartu.
     </p>
     <div class="starter-actions">
      <button class="btn" data-copy="pilnais-kods" type="button">
@@ -190,19 +298,39 @@
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
 &lt;title&gt;Mana spēle&lt;/title&gt;
 &lt;style&gt;
+/* Pamata izkārtojums — šīs rindas nemaini */
 body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
+button, input { font: inherit; padding: 10px 16px; margin: 8px 0; cursor: pointer; }
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
-body { background-color: #ffffff; color: #222222; }
-h1 { color: #245b91; }
-.noteikumi { background-color: #eeeeee; padding: 12px; }
-button { background-color: #245b91; color: #ffffff; border: 0; }
+
+/* MAINI ŠEIT: lapas krāsas un teksts */
+body {
+  background-color: #ffffff;
+  color: #222222;
+}
+
+h1 {
+  color: #245b91;
+  font-size: 32px;
+}
+
+.noteikumi {
+  background-color: #eeeeee;
+  color: #222222;
+  padding: 12px;
+}
+
+button {
+  background-color: #245b91;
+  color: #ffffff;
+  border: 0;
+}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;h1&gt;Mana spēle&lt;/h1&gt;
+&lt;p&gt;Īss spēles mērķa apraksts.&lt;/p&gt;
 &lt;section class="noteikumi"&gt;
   &lt;h2&gt;Noteikumi&lt;/h2&gt;
   &lt;p&gt;Savāc piecas zvaigznes.&lt;/p&gt;
@@ -218,45 +346,40 @@ button { background-color: #245b91; color: #ffffff; border: 0; }
      1. uzdevums
     </p>
     <h2>
-     Maini fonu un virsrakstu
+     Maini lapas fonu, pamattekstu un virsrakstu
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#css-noteikums">CSS pasaka, kā izskatās HTML saturs</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#css-noteikums">CSS noteikums: ko mainīt un kā mainīt</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Sāc ar
-      <code>
-       21.html
-      </code>
-      . Nomaini spēles nosaukumu.
+      Windows mapē <code>Desktop/datorika9-tema2</code> atver saglabāto <code>21.html</code> pārlūkā (ar peles labo pogu izvēlies <b>Open with → Edge</b>), lai pirms darba apskatītu sākuma izskatu.
      </li>
      <li>
-      Atrodi pēdējo
-      <code>
-       body
-      </code>
-      CSS rindu un nomaini fonu uz
-      <code>
-       #f1f5f9
-      </code>
-      .
+      VS Code HTML daļā ieraksti savas spēles nosaukumu gan <code>&lt;title&gt;</code>, gan <code>&lt;h1&gt;</code> tagos, bet rindkopā <code>&lt;p&gt;Īss spēles mērķa apraksts.&lt;/p&gt;</code> ieraksti savas spēles mērķi.
      </li>
      <li>
-      Atrodi
-      <code>
-       h1
-      </code>
-      CSS rindu un izvēlies virsraksta krāsu.
+      Atrodi komentāru <code>/* MAINI ŠEIT: lapas krāsas un teksts */</code> un zem tā esošajā <code>body { ... }</code> blokā nomaini <code>background-color</code> uz izvēlētu lapas fonu (piemēram, <code>#f1f5f9</code> vai tumšu <code>#0f172a</code>).
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b> un pārlūkā nospied <b>Ctrl+R</b>, lai pārliecinātos, ka mainījās visas lapas fons.
+     </li>
+     <li>
+      Tajā pašā <code>body { ... }</code> blokā pielāgo <code>color</code> vērtību tā, lai mērķa rindkopa skaidri izceltos uz jaunā fona; saglabā un pārlūkā ievēro, ka mērķa rindkopa mainīja krāsu, bet <code>.noteikumi</code> bloks un poga paturēja savas krāsas.
+     </li>
+     <li>
+      Atrodi <code>h1 { ... }</code> bloku: nomaini virsraksta <code>color</code>, pielāgo burtu izmēru <code>font-size</code> (piemēram, uz <code>36px</code>) un jaunā rindā pirms <code>}</code> pievieno <code>text-align: center;</code>.
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b> un atjauno pārlūku ar <b>Ctrl+R</b>, pārbaudot, ka virsraksts stāv lapas vidū un ir skaidri salasāms.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Kodā ir tava spēles nosaukums un jaunās krāsas.
+     pārlūkā redzams tavs spēles nosaukums un mērķis, centrēts <code>h1</code> virsraksts un saskaņotas <code>body</code> fona un pamatteksta krāsas.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-2">
@@ -264,37 +387,37 @@ button { background-color: #245b91; color: #ffffff; border: 0; }
      2. uzdevums
     </p>
     <h2>
-     Izcel noteikumus
+     Noformē noteikumu bloku ar klasi
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#css-atlase">Kuru lapas daļu maini?</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#css-atlase">Kuru lapas daļu maini: tags un klase (.noteikumi)</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Atrodi CSS rindu
-      <code>
-       .noteikumi
-      </code>
-      . Izvēlies tās fona krāsu.
+      HTML daļā atrodi <code>&lt;section class="noteikumi"&gt;</code> un salīdzini tā <code>class</code> nosaukumu ar CSS bloku <code>.noteikumi { ... }</code>.
      </li>
      <li>
-      Pievieno tai
-      <code>
-       border-radius: 12px;
-      </code>
-      , lai noapaļotu stūrus.
+      Sadaļas <code>&lt;section class="noteikumi"&gt;</code> iekšpusē nomaini pirmo <code>&lt;p&gt;</code> uz savas spēles punktu vai uzvaras noteikumu un zem tā pievieno otru <code>&lt;p&gt;</code> ar vadības teikumu (piemēram, kā spēlētājs kustas vai klikšķina).
      </li>
      <li>
-      HTML daļā papildini noteikumus ar vadības teikumu.
+      CSS blokā <code>.noteikumi { ... }</code> nomaini <code>background-color</code> uz toni, kas skaidri atšķiras no visas lapas fona, tad saglabā (<b>Ctrl+S</b>) un pārbaudi izmaiņu pārlūkā (<b>Ctrl+R</b>).
+     </li>
+     <li>
+      Tajā pašā <code>.noteikumi { ... }</code> blokā pielāgo <code>color</code> vērtību, lai gan <code>Noteikumi</code> apakšvirsraksts, gan abas rindkopas uz bloka fona būtu viegli salasāmas.
+     </li>
+     <li>
+      Pirms <code>.noteikumi</code> aizverošās iekavas <code>}</code> pievieno jaunu rindu <code>border-radius: 12px;</code>, kas noapaļo bloka stūrus.
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b> un pārlūkā ar <b>Ctrl+R</b> pārliecinies, ka abi noteikumi atrodas noapaļotā kartītē un izmaiņas skāra tikai <code>.noteikumi</code> bloku, nevis mērķa rindkopu virs tā.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Noteikumi ir atsevišķā, noapaļotā blokā.
+     noteikumu blokā ir divas ar spēli saistītas rindkopas, un pārlūkā tas izceļas ar savu fonu, salasāmu tekstu un noapaļotiem stūriem.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-3">
@@ -302,168 +425,62 @@ button { background-color: #245b91; color: #ffffff; border: 0; }
      3. uzdevums
     </p>
     <h2>
-     Pabeidz pogu un pārbaudi lasāmību
+     Izcel pogu un pārbaudi lasāmību
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#css-viena-izmaina">Pārbaudi vienu izmaiņu reizē</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#css-viena-izmaina">Kontrasts un pārbaude pa vienam solim</a>.</p>
     <p class="workplace">
      Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Nomaini pogas fonu un teksta krāsu. Izmanto skaidri atšķirīgas krāsas.
+      HTML daļā pārskati <code>&lt;button&gt;Sākt spēli&lt;/button&gt;</code> un pēc vēlēšanās precizē pogas uzrakstu atbilstoši savai spēlei (piemēram, <code>Sākt misiju</code>).
      </li>
      <li>
-      Atver lapu pārlūkā. Pārbaudi, vai var izlasīt virsrakstu, noteikumus un pogas tekstu.
+      CSS daļā atrodi <code>button { ... }</code> bloku un nomaini <code>background-color</code> uz pamanāmu akcenta krāsu, kas uzreiz izceļ pogu uz lapas fona.
      </li>
      <li>
-      Palūdz klasesbiedram atrast sākšanas pogu. Ja tā nav pamanāma, izlabo krāsas.
+      Tajā pašā <code>button { ... }</code> blokā iestati kontrastējošu <code>color</code> vērtību (gaišu tekstu tumšai pogai vai tumšu tekstu gaišai pogai), saglabā ar <b>Ctrl+S</b> un apskati pārlūkā ar <b>Ctrl+R</b>.
      </li>
      <li>
-      Saglabā un nosūti darbu uz GitHub.
+      Pirms <code>button</code> aizverošās iekavas <code>}</code> pievieno <code>border-radius: 8px;</code> un <code>font-size: 18px;</code>, saglabā failu un atjauno pārlūku.
+     </li>
+     <li>
+      Pārbaudi lasāmību visās trīs vietās: pārlasi mērķa rindkopu uz lapas fona, abus noteikumus <code>.noteikumi</code> blokā un uzrakstu uz pogas — ja kāds teksts saplūst ar fonu, izlabo tā krāsu.
+     </li>
+     <li>
+      Palūdz klasesbiedram paskatīties uz tavu atvērto lapu, atrast sākšanas pogu un skaļi nolasīt vadības noteikumu; ja kaut ko ir grūti pamanīt vai izlasīt, uzlabo kontrastu un saglabā gala izmaiņas ar <b>Ctrl+S</b>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Poga un viss teksts ir skaidri salasāmi.
+     poga ir noapaļota un vizuāli izcelta, visas trīs lapas daļas ir skaidri salasāmas, un klasesbiedrs bez piepūles izlasa noteikumus un pamana pogu.
     </p>
-    <div class="submission">
-     <h3>
-      Iesniedz 3. uzdevuma rezultātu
-     </h3>
-     <p>
-      Iesniedz pabeigto
-      <code>
-       21.html
-      </code>
-      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
-     </p>
-     <p>
-      <b>
-       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
-      </b>
-     </p>
-     <ul class="assessment-checks">
-      <li>
-       Lapā ir savs nosaukums un mainītas krāsas.
-      </li>
-      <li>
-       Noteikumu blokam ir fons un noapaļoti stūri.
-      </li>
-      <li>
-       Pogas teksts un noteikumi skaidri atšķiras no to fona.
-      </li>
-     </ul>
-     <p>
-      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
-     </p>
-    </div>
-    <details class="course-help">
-     <summary>
-      Saglabā un nosūti uz GitHub — pogu atgādne
-     </summary>
-     <p class="workplace">
-      Vide: VS Code / Source Control → GitHub pārlūkā
-     </p>
-     <ol class="step-list">
-      <li>
-       Ar
-       <b>
-        File → Save All
-       </b>
-       saglabā failus. Atver
-       <b>
-        Source Control
-       </b>
-       ar
-       <b>
-        Ctrl+Shift+G
-       </b>
-       .
-      </li>
-      <li>
-       Pie
-       <b>
-        Changes
-       </b>
-       nospied
-       <b>
-        +
-       </b>
-       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
-       <b>
-        Staged Changes
-       </b>
-       .
-      </li>
-      <li>
-       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
-       <code>
-        Pabeigts 2.1 darbs
-       </code>
-       . Spied
-       <b>
-        Commit
-       </b>
-       .
-      </li>
-      <li>
-       Ja šī tēmas mape vēl nav GitHub, spied
-       <b>
-        Publish to GitHub
-       </b>
-       un izveido publisku projektu
-       <code>
-        datorika9-tema2
-       </code>
-       . Jau publicētam projektam spied
-       <b>
-        Sync Changes
-       </b>
-       . Ja pogas nav, atver
-       <b>
-        … → Push
-       </b>
-       .
-      </li>
-      <li>
-       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
-      </li>
-     </ol>
-     <p>
-      Ja Source Control rāda
-      <b>
-       Initialize Repository
-      </b>
-      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
-      <a href="/datorika9/git">
-       palīdzību
-      </a>
-      un palūdz skolotāja atbalstu.
-     </p>
-    </details>
    </section>
    <details class="course-help extra-task">
     <summary>
-     Papildu uzdevums: Pogas izskats zem peles
+     Papildu uzdevums: Pogas izskats zem peles kursora (:hover)
     </summary>
     <p>
-     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+     Sāc, kad visi trīs pamatuzdevumi ir pabeigti.
     </p>
+    <p><b>Izmanto teoriju:</b> <a href="#css-atlase">CSS selektori</a>.</p>
     <ol class="step-list">
      <li>
-      CSS beigās pievieno
-      <code>
-       button:hover { background-color: #163b61; }
-      </code>
-      .
+      CSS daļas beigās (tieši virs <code>&lt;/style&gt;</code>) pievieno jaunu noteikumu <code>button:hover { background-color: #163b61; }</code>, izvēloties nedaudz tumšāku vai gaišāku toni par savu pogas pamatkrāsu.
      </li>
      <li>
-      Pārbaudi pogu pārlūkā ar peli.
+      Ja <code>:hover</code> stāvoklī fons kļuva daudz gaišāks vai tumšāks, tajā pašā <code>button:hover { ... }</code> blokā pievieno arī piemērotu <code>color</code> vērtību.
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b> un atjauno lapu pārlūkā ar <b>Ctrl+R</b>.
+     </li>
+     <li>
+      Uzved peles kursoru uz pogas un pārliecinies, ka poga maina toni un uzraksts paliek salasāms.
      </li>
     </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> uzvedot peles kursoru uz pogas, tās fons mainās un teksts joprojām ir skaidri salasāms.</p>
    </details>
    <details class="course-help">
     <summary>
@@ -472,42 +489,35 @@ button { background-color: #245b91; color: #ffffff; border: 0; }
     <ul>
      <li>
       <b>
-       Neredzi izmaiņas?
+       Neredzi izmaiņas pārlūkā?
       </b>
-      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
-      <code>
-       21.html
-      </code>
-      .
+      VS Code nospied <b>Ctrl+S</b> (pie faila nosaukuma cilnē nedrīkst būt balts aplītis), pēc tam pārlūkā nospied <b>Ctrl+R</b>. Pārbaudi, ka pārlūkā atvērts tieši <code>Desktop/datorika9-tema2/21.html</code>.
      </li>
      <li>
       <b>
-       Kods redzams kā teksts?
+       CSS rinda nedarbojas vai pazuda stils zem tās?
       </b>
-      Saglabā ar galotni .html. Windows ieslēdz
-      <b>
-       View → Show → File name extensions
-      </b>
-      un pārbaudi, ka beigās nav .txt.
+      Pārbaudi, vai aiz īpašības nosaukuma ir kols (<code>:</code>), rindas beigās ir semikols (<code>;</code>) un bloku noslēdz figūriekava (<code>}</code>). Krāsas kodam priekšā jābūt restītei (<code>#f1f5f9</code>), bet starp skaitli un <code>px</code> nedrīkst būt atstarpe (<code>36px</code>).
      </li>
      <li>
       <b>
-       Poga nestrādā?
+       Noteikumu bloks nemaina krāsu?
       </b>
-      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+      Pārbaudi, ka CSS selektoram priekšā ir punkts (<code>.noteikumi</code>), bet HTML tagā punkta nav (<code>class="noteikumi"</code>).
      </li>
      <li>
       <b>
-       Nesaproti nākamo soli?
+       Kods pārlūkā redzams kā parasts teksts?
       </b>
-      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+      Saglabā ar galotni <code>.html</code>. Windows ieslēdz <b>View → Show → File name extensions</b> un pārbaudi, ka faila beigās nav <code>.txt</code>.
+     </li>
+     <li>
+      <b>
+       Poga pēc klikšķa neko nedara?
+      </b>
+      Šajā nodarbībā veidojam tikai pogas izskatu ar CSS — klikšķa darbību pievienosim vēlāk ar JavaScript.
      </li>
     </ul>
-    <p>
-     <a href="/datorika9/git">
-      Palīdzība Git, kontam un darba atvēršanai
-     </a>
-    </p>
    </details>
    <details class="course-help teacher-meta">
     <summary>

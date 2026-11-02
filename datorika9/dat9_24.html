@@ -73,10 +73,10 @@
      2.4 Pievieno un pielāgo spēles skaņu
     </a>
     <a href="/datorika9/dat9_25">
-     2.5 Sakārto failus un arhīvu — projekta 1. daļa
+     2.5 Sakārto failus mapēs un ZIP arhīvā
     </a>
     <a href="/datorika9/dat9_26">
-     2.6 Pabeidz noformēto spēles lapu — projekta 2. daļa
+     2.6 Izveido noformētu spēles lapu — tēmas noslēguma darbs
     </a>
    </nav>
   </aside>
@@ -97,40 +97,111 @@
     Pievieno lapai skaņu un izveido īsu tās ierakstu.
    </p>
    <section id="teorija">
-<h2>Teorija ar piemēriem</h2>
-<h3 id="skanas-fails">Kā lapa atskaņo failu?</h3>
-<p>Skaņa glabājas atsevišķā failā. HTML <code>audio</code> elements ļauj to atskaņot pārlūkā, bet <code>src</code> norāda faila atrašanās vietu. Šajā nodarbībā lietotājs pats nospiež atskaņošanas pogu skaņas vadības joslā.</p>
-<pre><code>&lt;audio controls src="klikskis.wav"&gt;&lt;/audio&gt;</code></pre>
-<p><code>controls</code> parāda atskaņošanas, pauzes un citus pārlūka piedāvātos vadības rīkus. <code>src="klikskis.wav"</code> meklē failu blakus HTML failam. Audio tags neievieto skaņas faila saturu HTML failā, tāpēc abi faili jāsaglabā kopā.</p>
-<h3 id="skanas-ieraksts">Sagatavo īsu un saprotamu skaņu</h3>
-<p>Pirms ierakstīšanas izdomā skaņas nozīmi, piemēram, “punkts savākts”. Ieraksti īsu signālu un noklausies to. Ja sākumā vai beigās ir ilgs klusums vai skaņa ir pārāk klusa, ieraksti vēlreiz. Ja ierakstīt nevar, izmanto nodarbībā doto failu. Pārbaudi skaļumu un, strādājot klasē, lieto austiņas.</p>
-<p>Ieraksta programma var saglabāt citu formātu nekā WAV. Lieto īsto faila nosaukumu un paplašinājumu arī HTML kodā. Faila pārdēvēšana no <code>.m4a</code> uz <code>.wav</code> nepārveido tā saturu. Ja pārlūks failu nevar atskaņot, pārbaudi programmas saglabāšanas iespējas vai izmanto doto WAV piemēru.</p>
-<h3 id="skanas-nozime">Paskaidro, ko klausītājs dzirdēs</h3>
-<p>Blakus katrai skaņai pievieno rindkopu ar tās nolūku. Piemēram, “Īss signāls, kuru vēlāk izmantosim punkta saņemšanai.” Šajā darbā skaņa vēl nav sasaistīta ar spēles punktu pogu. Šāda saistība būtu jāizveido atsevišķi kodā.</p>
-<details class="course-help"><summary>Pašpārbaude: vadības josla ir redzama, bet skaņu nevar atskaņot — ko pārbaudīt?</summary><p>Pārbaudi, vai src sakrīt ar īstā faila nosaukumu un atrašanās vietu, vai fails atveras un vai nav izslēgta skaņa. Vadības joslas parādīšanās viena pati vēl neapliecina, ka audio fails ir atrasts.</p>
-</details>
+    <h2>Teorija ar piemēriem</h2>
+    <h3 id="skanas-fails">Skaņas fails un <code>&lt;audio&gt;</code> elements</h3>
+    <p>Tāpat kā attēls iepriekšējā stundā, arī skaņa glabājas <b>atsevišķā datnē</b> (piemēram, <code>klikskis.wav</code>), bet HTML kods tikai norāda, kur šo datni atrast. Lai skaņu varētu noklausīties pārlūkā, izmanto elementu <code>&lt;audio&gt;</code>:</p>
+    <pre><code>&lt;audio controls src="klikskis.wav"&gt;&lt;/audio&gt;</code></pre>
+    <p>Ievēro divas būtiskas atšķirības no <code>&lt;img&gt;</code> taga: pirmkārt, <code>&lt;audio&gt;...&lt;/audio&gt;</code> ir <b>pāra tags</b>, tāpēc beigās vienmēr jāraksta aizverošais <code>&lt;/audio&gt;</code>. Otrkārt, obligāti jāpievieno vārds <code>controls</code> — bez tā atskaņotāja josla lapā nemaz nav redzama.</p>
+    <div class="table-scroll" role="region" aria-label="Audio elementa daļas" tabindex="0">
+     <table class="theory-table">
+      <thead>
+       <tr>
+        <th scope="col">Koda daļa</th>
+        <th scope="col">Nozīme</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td><code>&lt;audio&gt;...&lt;/audio&gt;</code></td>
+        <td>Pāra birka skaņas ievietošanai lapā (vienmēr noslēdz ar <code>&lt;/audio&gt;</code>).</td>
+       </tr>
+       <tr>
+        <td><code>controls</code></td>
+        <td>Parāda pārlūka atskaņošanas joslu ar <b>Play</b> (<code>▶</code>), pauzes, laika un skaļuma pogām.</td>
+       </tr>
+       <tr>
+        <td><code>src="klikskis.wav"</code></td>
+        <td>Norāda skaņas faila nosaukumu vai ceļu. Ja rakstīts tikai vārds, meklē to blakus HTML failam.</td>
+       </tr>
+       <tr>
+        <td>Bez <code>autoplay</code></td>
+        <td>Atribūtu <code>autoplay</code> nepievienojam: pēkšņa automātiska skaņa traucē lietotājam, un pārlūki to bieži bloķē. Klausītājs pats nospiež <code>▶</code>.</td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+    <h3 id="skanas-ieraksts">Īsa efekta ierakstīšana un failu formāti</h3>
+    <p>Pirms ierakstīšanas izdomā, kurā spēles situācijā skaņa atskanēs — piemēram, savācot punktu, uzvarot līmeni vai aizskarot šķērsli. Labam spēles efektam pietiek ar <b>1–2 sekundēm</b>: sāc radīt skaņu uzreiz pēc ieraksta pogas nospiešanas un tūlīt pat apturi ierakstu, lai sākumā un beigās nebūtu garš klusums. Strādājot klasē, lieto austiņas vai klusu skaļumu.</p>
+    <p>Windows lietotne <b>Sound Recorder</b> parasti saglabā ierakstu <code>.m4a</code> formātā, bet tīmeklī tikpat labi darbojas arī <code>.wav</code> un <code>.mp3</code> datnes. Pārdēvējot failu savā projekta mapē, ievēro divus noteikumus:</p>
+    <ul>
+     <li>Vārda daļu pirms punkta raksti ar <b>mazajiem latīņu burtiem bez atstarpēm un garumzīmēm</b> (piemēram, no <code>Recording (1).m4a</code> pārdēvē uz <code>uzvara.m4a</code>).</li>
+     <li><b>Nemaini pašu paplašinājumu</b> — pārrakstot <code>.m4a</code> uz <code>.wav</code>, faila iekšējais formāts nemainās un skaņa var pārstāt darboties. Īsto nosaukumu ar visu paplašinājumu vienmēr ērti pārbaudīt VS Code kreisajā <b>Explorer</b> sarakstā.</li>
+    </ul>
+    <h3 id="skanas-nozime">Paskaidro lietotājam katras skaņas nozīmi</h3>
+    <p>Vienkārša pelēka vadības josla vēl nepasaka, ko klausītājs dzirdēs. Tāpēc katru skaņu kopā ar apakšvirsrakstu un īsu <code>&lt;p&gt;</code> paskaidrojumu ievietojam savā blokā <code>&lt;div class="skana"&gt;</code> — piemēram: <i>“Skan, kad varonis atver dārgumu lādi.”</i> Šajā nodarbībā skaņas klausāmies ar vadības joslas pogu <code>▶</code>; skaņas palaišanu no spēles pogas vēlāk var piesaistīt ar JavaScript.</p>
+    <details class="course-help">
+     <summary>Pašpārbaude: lapā ir redzama audio vadības josla ar 0:00, bet nospiežot ▶ nekas neskan — ko pārbaudīt?</summary>
+     <p>Vadības joslu uzzīmē atribūts <code>controls</code> pat tad, ja pats skaņas fails nav atrasts! Pārbaudi VS Code <b>Explorer</b> sarakstā, vai skaņas fails atrodas tajā pašā mapē blakus <code>24.html</code> un vai <code>src</code> vērtība precīzi (ieskaitot <code>.wav</code> vai <code>.m4a</code> galotni) sakrīt ar faila nosaukumu, kā arī vai datorā nav izslēgta skaņa.</p>
+    </details>
    </section>
    <section id="sakuma-kods">
     <h2>
      Sākuma kods un darba vieta
     </h2>
-    <p>
-     Sāc pēc 1. uzdevuma soļiem. Darba mape ir
-     <code>
-      Desktop/datorika9-tema2
-     </code>
-     ; šīs nodarbības fails ir
-     <code>
-      24.html
-     </code>
-     .
+    <p class="workplace">
+     Vide: mācību lapa → VS Code
     </p>
+    <ol class="step-list">
+     <li>
+      VS Code ar
+      <b>
+       File → Open Folder
+      </b>
+      atver
+      <code>
+       Desktop/datorika9-tema2
+      </code>
+      . Ja mapes nav, izveido to darbvirsmā.
+     </li>
+     <li>
+      Šajā mācību lapā nospied
+      <b>
+       Kopēt sākuma kodu
+      </b>
+      .
+     </li>
+     <li>
+      VS Code nospied
+      <b>
+       Ctrl+N
+      </b>
+      un ielīmē kodu ar
+      <b>
+       Ctrl+V
+      </b>
+      .
+     </li>
+     <li>
+      Saglabā ar
+      <b>
+       Ctrl+Shift+S
+      </b>
+      tēmas mapē kā
+      <code>
+       24.html
+      </code>
+      .
+     </li>
+    </ol>
     <div class="starter-actions">
      <button class="btn" data-copy="pilnais-kods" type="button">
       Kopēt sākuma kodu
      </button>
      <a class="btn" download="24.html" href="sakuma-kodi/24.html">
       Lejupielādēt 24.html
+     </a>
+     <a class="btn" download="klikskis.wav" href="sakuma-kodi/klikskis.wav">
+      Lejupielādēt klikskis.wav
      </a>
     </div>
     <p aria-live="polite" class="copy-status" role="status">
@@ -144,21 +215,33 @@
 &lt;head&gt;
 &lt;meta charset="UTF-8"&gt;
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-&lt;title&gt;Mana spēle&lt;/title&gt;
+&lt;title&gt;Spēles skaņas&lt;/title&gt;
 &lt;style&gt;
+/* Pamata izkārtojums — šīs rindas nemaini */
 body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
-img { max-width: 100%; height: auto; }
+button, input { font: inherit; padding: 10px; margin: 4px; cursor: pointer; }
+img, audio { max-width: 100%; }
 [hidden] { display: none !important; }
 
+/* MAINI ŠEIT: skaņas bloku izskats */
+.skana {
+  background-color: #f8fafc;
+  border: 2px solid #cbd5e1;
+  padding: 16px;
+  margin: 16px 0;
+  box-sizing: border-box;
+}
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
-&lt;h1&gt;Spēles skaņa&lt;/h1&gt;
-&lt;p&gt;Nospied atskaņošanas pogu.&lt;/p&gt;
-&lt;audio controls src="klikskis.wav"&gt;&lt;/audio&gt;
-&lt;p&gt;Šo skaņu dzirdēsi, kad savāksi zvaigzni.&lt;/p&gt;
+&lt;h1&gt;Spēles skaņas&lt;/h1&gt;
+&lt;p&gt;Noklausies spēles skaņas efektus ar atskaņošanas pogu.&lt;/p&gt;
+&lt;div class="skana"&gt;
+  &lt;h2&gt;1. skaņa&lt;/h2&gt;
+  &lt;p&gt;Šo skaņu dzirdēsi, kad savāksi zvaigzni.&lt;/p&gt;
+  &lt;audio controls src="klikskis.wav"&gt;&lt;/audio&gt;
+&lt;/div&gt;
+&lt;!-- ŠEIT OTRAIS SKAŅAS BLOKS --&gt;
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
@@ -169,37 +252,37 @@ img { max-width: 100%; height: auto; }
      1. uzdevums
     </p>
     <h2>
-     Pievieno gatavo skaņu
+     Pievieno gatavo skaņu un pārbaudi atskaņotāju
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#skanas-fails">Kā lapa atskaņo failu?</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#skanas-fails">Skaņas fails un &lt;audio&gt; elements</a>.</p>
     <p class="workplace">
-     Vide: Pārlūks / lejupielāde → VS Code
+     Vide: pārlūks → failu pārvaldnieks → VS Code
     </p>
     <ol class="step-list">
      <li>
-      Lejupielādē
-      <a download="" href="sakuma-kodi/klikskis.wav">
-       klikskis.wav
-      </a>
-      . Windows mapē Downloads nokopē failu savā tēmas mapē.
+      Atver saglabāto <code>24.html</code> no mapes <code>Desktop/datorika9-tema2</code> pārlūkā (<b>Open with → Edge</b>), <b>vēl pirms</b> esi nokopējis skaņas failu: ievēro, ka <code>controls</code> uzzīmē vadības joslu, taču atskaņošanas poga nedarbojas, jo <code>klikskis.wav</code> mapē vēl nav.
      </li>
      <li>
-      Atver sākuma kodu failā
-      <code>
-       24.html
-      </code>
-      šajā pašā mapē.
+      Lejupielādē parauga datni <a download="klikskis.wav" href="sakuma-kodi/klikskis.wav">klikskis.wav</a> un no Windows mapes <b>Downloads</b> iekopē to savā tēmas mapē <code>Desktop/datorika9-tema2</code> blakus <code>24.html</code>.
      </li>
      <li>
-      Nomaini virsrakstu un aprakstu atbilstoši savai spēlei.
+      VS Code kreisajā <b>Explorer</b> sarakstā pārliecinies, ka vienuviet redzami abi faili — <code>24.html</code> un <code>klikskis.wav</code>.
+     </li>
+     <li>
+      Uzliec austiņas (vai iestati nelielu skaļumu), pārlūkā nospied <b>Ctrl+R</b> un nospied atskaņošanas pogu <code>▶</code> — pārliecinies, ka tagad skaidri dzirdams klikšķa signāls.
+     </li>
+     <li>
+      VS Code HTML daļā pielāgo <code>&lt;title&gt;</code> un <code>&lt;h1&gt;</code> savas spēles nosaukumam, bet pirmajā <code>&lt;div class="skana"&gt;</code> blokā nomaini <code>&lt;h2&gt;</code> un <code>&lt;p&gt;</code> tekstu atbilstoši savai spēlei (piemēram, <code>Punkta iegūšana</code>).
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b> un atjauno pārlūku ar <b>Ctrl+R</b>, pārbaudot jauno tekstu un skaņas atskaņošanu.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     24.html norāda uz blakus esošo klikskis.wav.
+     <code>klikskis.wav</code> atrodas blakus <code>24.html</code>, atskaņojas pārlūkā pēc <code>▶</code> nospiešanas, un pirmajam skaņas blokam ir tavai spēlei pielāgots apraksts.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-2">
@@ -207,56 +290,37 @@ img { max-width: 100%; height: auto; }
      2. uzdevums
     </p>
     <h2>
-     Ieraksti īsu efektu
+     Ieraksti un pievieno otru skaņas efektu
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#skanas-ieraksts">Sagatavo īsu un saprotamu skaņu</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#skanas-ieraksts">Īsa efekta ierakstīšana un failu formāti</a>.</p>
     <p class="workplace">
      Vide: Windows / Sound Recorder → VS Code
     </p>
     <ol class="step-list">
      <li>
-      Atver
-      <b>
-       Sound Recorder
-      </b>
-      . Ja nav mikrofona vai lietotnes, izmanto gatavo
-      <code>
-       klikskis.wav
-      </code>
-      un turpini ar 3. soli.
+      Izdomā otrās skaņas notikumu savā spēlē — piemēram, līmeņa uzvaru, lēcienu vai sadursmi ar šķērsli — un sagatavo īsu, 1–2 sekunžu skaņu.
      </li>
      <li>
-      Ieraksti vienu īsu skaņu bez gara klusuma sākumā. Ar ieraksta izvēlni atrodi failu (
-      <b>
-       Show in folder
-      </b>
-      ) un nokopē tēmas mapē. Atstāj tā esošo faila galotni.
+      Atver <b>Start</b>, ieraksti <b>Sound Recorder</b> (<b>Skaņas ierakstītājs</b>) un atver lietotni (ja datoram nav mikrofona, mapē <code>Desktop/datorika9-tema2</code> nokopē <code>klikskis.wav</code> kā otru failu <code>otra-skana.wav</code> un pārej uz 6. soli).
      </li>
      <li>
-      VS Code lapā pievieno otru
-      <code>
-       &lt;audio controls src="..."&gt;&lt;/audio&gt;
-      </code>
-      . Norādi sava ieraksta precīzo faila nosaukumu; ja izmanto gatavo skaņu, norādi
-      <code>
-       klikskis.wav
-      </code>
-      .
+      Nospied sarkano ieraksta pogu, uzreiz bez klusuma pauzes ieraksti īso skaņas efektu un apturi ierakstu; turpat programmā noklausies rezultātu.
      </li>
      <li>
-      Virs katras skaņas ar
-      <code>
-       &lt;p&gt;
-      </code>
-      norādi tās nozīmi spēlē.
+      Pie izveidotā ieraksta atver izvēlni (<b>…</b> vai ar peles labo pogu), izvēlies <b>Show in folder</b> (<b>Rādīt mapē</b>) un nokopē audio datni uz <code>Desktop/datorika9-tema2</code>.
+     </li>
+     <li>
+      Tēmas mapē pārdēvē tikai vārdu pirms punkta uz īsu nosaukumu ar mazajiem burtiem bez atstarpēm un garumzīmēm (piemēram, <code>uzvara.m4a</code>), <b>atstājot sākotnējo paplašinājumu</b>, un VS Code <b>Explorer</b> sarakstā pārbaudi pilno faila vārdu.
+     </li>
+     <li>
+      Failā <code>24.html</code> rindas <code>&lt;!-- ŠEIT OTRAIS SKAŅAS BLOKS --&gt;</code> vietā pievieno otru <code>&lt;div class="skana"&gt;...&lt;/div&gt;</code> bloku ar <code>&lt;h2&gt;</code> virsrakstu, <code>&lt;p&gt;</code> skaidrojumu un <code>&lt;audio controls src="..."&gt;&lt;/audio&gt;</code>, kur <code>src</code> precīzi sakrīt ar otrā faila nosaukumu.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Lapā ir divi skaņas vadības bloki ar aprakstiem.
+     tēmas mapē atrodas otrs skaņas fails un <code>24.html</code> satur divus pilnus <code>.skana</code> blokus ar virsrakstiem, aprakstiem un <code>&lt;audio controls&gt;</code> elementiem.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-3">
@@ -264,168 +328,62 @@ img { max-width: 100%; height: auto; }
      3. uzdevums
     </p>
     <h2>
-     Pārbaudi skaņu un pabeidz lapu
+     Pārbaudi skaņas kvalitāti un noformē skaņu kartītes
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#skanas-nozime">Paskaidro, ko klausītājs dzirdēs</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#skanas-nozime">Paskaidro lietotājam katras skaņas nozīmi</a>.</p>
     <p class="workplace">
-     Vide: Pārlūks → VS Code
+     Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Atver lapu pārlūkā un uzliec austiņas. Atskaņo katru skaņu un pārbaudi apturēšanu.
+      Saglabā <code>24.html</code> ar <b>Ctrl+S</b>, atjauno pārlūku ar <b>Ctrl+R</b> un austiņās pēc kārtas pārbaudi abu skaņu atskaņošanu (<code>▶</code>) un apturēšanu.
      </li>
      <li>
-      Ja paša ieraksta sākumā ir garš klusums, ieraksti to vēlreiz un izlabo faila nosaukumu lapā.
+      Novērtē otrās skaņas ierakstu: ja sākumā ir garš klusums vai ieraksts ir nesadzirdami kluss, ieraksti to vēlreiz un aizstāj failu tēmas mapē.
      </li>
      <li>
-      Pārbaudi, ka skaņa nesākas pati: kodā nav
-      <code>
-       autoplay
-      </code>
-      .
+      Pārskati HTML kodu un pārliecinies, ka abiem <code>&lt;audio&gt;</code> elementiem ir gan <code>controls</code>, gan aizverošais <code>&lt;/audio&gt;</code>, un nevienā nav atribūta <code>autoplay</code>.
      </li>
      <li>
-      Nosūti HTML un izmantotos skaņas failus uz GitHub. Iesniedz tos kopā.
+      CSS blokā <code>.skana { ... }</code> pielāgo <code>background-color</code> un <code>border</code> krāsu savas spēles noskaņai un pievieno <code>border-radius: 12px;</code>.
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b> un pārlūkā ar <b>Ctrl+R</b> pārbaudi, ka abas skaņu kartītes ir glīti atdalītas viena no otras un visi teksti ir viegli salasāmi.
+     </li>
+     <li>
+      Palūdz klasesbiedram izlasīt tavu atvērto lapu un pateikt, kuros spēles brīžos skanēs abas skaņas; ja kāds apraksts ir neskaidrs, uzlabo <code>&lt;p&gt;</code> tekstu un saglabā ar <b>Ctrl+S</b>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Abas skaņas atskaņojas pēc spēlētāja darbības.
+     abas skaņas tīri atskaņojas pēc spēlētāja klikšķa (bez <code>autoplay</code>), un lapā ir divas vizuāli noformētas skaņu kartītes ar skaidriem aprakstiem.
     </p>
-    <div class="submission">
-     <h3>
-      Iesniedz 3. uzdevuma rezultātu
-     </h3>
-     <p>
-      Iesniedz pabeigto
-      <code>
-       24.html
-      </code>
-      un klikskis.wav un savs ieraksts, ja to izmanto skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
-     </p>
-     <p>
-      <b>
-       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
-      </b>
-     </p>
-     <ul class="assessment-checks">
-      <li>
-       24.html ir divi audio vadības bloki ar jēgpilniem aprakstiem.
-      </li>
-      <li>
-       Abu norādīto skaņas failu atskaņošana darbojas.
-      </li>
-      <li>
-       Skaņa nesākas automātiski; HTML un izmantotie skaņas faili iesniegti kopā.
-      </li>
-     </ul>
-     <p>
-      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
-     </p>
-    </div>
-    <details class="course-help">
-     <summary>
-      Saglabā un nosūti uz GitHub — pogu atgādne
-     </summary>
-     <p class="workplace">
-      Vide: VS Code / Source Control → GitHub pārlūkā
-     </p>
-     <ol class="step-list">
-      <li>
-       Ar
-       <b>
-        File → Save All
-       </b>
-       saglabā failus. Atver
-       <b>
-        Source Control
-       </b>
-       ar
-       <b>
-        Ctrl+Shift+G
-       </b>
-       .
-      </li>
-      <li>
-       Pie
-       <b>
-        Changes
-       </b>
-       nospied
-       <b>
-        +
-       </b>
-       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
-       <b>
-        Staged Changes
-       </b>
-       .
-      </li>
-      <li>
-       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
-       <code>
-        Pabeigts 2.4 darbs
-       </code>
-       . Spied
-       <b>
-        Commit
-       </b>
-       .
-      </li>
-      <li>
-       Ja šī tēmas mape vēl nav GitHub, spied
-       <b>
-        Publish to GitHub
-       </b>
-       un izveido publisku projektu
-       <code>
-        datorika9-tema2
-       </code>
-       . Jau publicētam projektam spied
-       <b>
-        Sync Changes
-       </b>
-       . Ja pogas nav, atver
-       <b>
-        … → Push
-       </b>
-       .
-      </li>
-      <li>
-       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
-      </li>
-     </ol>
-     <p>
-      Ja Source Control rāda
-      <b>
-       Initialize Repository
-      </b>
-      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
-      <a href="/datorika9/git">
-       palīdzību
-      </a>
-      un palūdz skolotāja atbalstu.
-     </p>
-    </details>
    </section>
    <details class="course-help extra-task">
     <summary>
-     Papildu uzdevums: Pievieno skaņas padomu
+     Papildu uzdevums: Skaļuma padoms un atkārtošanās (loop) izmēģinājums
     </summary>
     <p>
-     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+     Sāc, kad visi trīs pamatuzdevumi ir pabeigti.
     </p>
+    <p><b>Izmanto teoriju:</b> <a href="#skanas-fails">Audio elementa atribūti</a>.</p>
     <ol class="step-list">
      <li>
-      Lapā pievieno rindkopu par piemērotu skaļumu.
+      Zem lapas ievada pievieno īsu <code>&lt;p&gt;</code> ieteikumu spēlētājam par piemērotu skaļumu un austiņu lietošanu, un izmēģini skaļuma regulēšanu pašā audio vadības joslā.
      </li>
      <li>
-      Ar atskaņotāja vadību pārbaudi klusu un skaļāku atskaņošanu.
+      Pirmajam <code>&lt;audio&gt;</code> tagam aiz <code>controls</code> eksperimentam pievieno vārdu <code>loop</code> (<code>&lt;audio controls loop src="klikskis.wav"&gt;&lt;/audio&gt;</code>) — šis atribūts liek ierakstam skanēt pa apli un noder fona mūzikai.
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b>, atjauno pārlūku ar <b>Ctrl+R</b> un nospied <code>▶</code>: novēro, kā īsais signāls atkārtojas bez apstājas, līdz nospied pauzi.
+     </li>
+     <li>
+      Izņem vārdu <code>loop</code> no īsā efekta (lai punkta signāls atskanētu tikai vienu reizi), saglabā ar <b>Ctrl+S</b> un vēlreiz pārbaudi ar <b>Ctrl+R</b>.
      </li>
     </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> lapā ir skaļuma ieteikums un esi praktiski pārbaudījis atšķirību starp vienreizēju skaņas efektu un <code>loop</code> atkārtojumu.</p>
    </details>
    <details class="course-help">
     <summary>
@@ -434,42 +392,29 @@ img { max-width: 100%; height: auto; }
     <ul>
      <li>
       <b>
-       Neredzi izmaiņas?
+       Atskaņošanas josla lapā vispār nav redzama?
       </b>
-      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
-      <code>
-       24.html
-      </code>
-      .
+      Pārbaudi, vai atverošajā <code>&lt;audio&gt;</code> tagā ir ierakstīts vārds <code>controls</code> un vai beigās nav aizmirsts aizverošais <code>&lt;/audio&gt;</code>.
      </li>
      <li>
       <b>
-       Kods redzams kā teksts?
+       Josla ir redzama, bet poga <code>▶</code> ir neaktīva (pelēka)?
       </b>
-      Saglabā ar galotni .html. Windows ieslēdz
-      <b>
-       View → Show → File name extensions
-      </b>
-      un pārbaudi, ka beigās nav .txt.
+      Pārlūks neatrod skaņas failu. VS Code <b>Explorer</b> sarakstā pārbaudi, vai skaņas datne atrodas tieši mapē <code>Desktop/datorika9-tema2</code> un vai <code>src</code> precīzi sakrīt ar pilno faila vārdu un paplašinājumu (piemēram, <code>uzvara.m4a</code>, nevis <code>uzvara.wav</code> vai <code>uzvara.m4a.m4a</code>).
      </li>
      <li>
       <b>
-       Poga nestrādā?
+       Josla kustas, bet neko nedzirdi?
       </b>
-      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+      Pārbaudi datora skaļumu uzdevumjoslā, austiņu savienojumu un skaļuma ikonu pašā pārlūka audio joslā, kā arī cilnes skaļruņa ikonu augšpusē.
      </li>
      <li>
       <b>
-       Nesaproti nākamo soli?
+       Neredzi HTML vai CSS izmaiņas pārlūkā?
       </b>
-      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+      VS Code saglabā ar <b>Ctrl+S</b>, tad pārlūkā nospied <b>Ctrl+R</b> un pārliecinies, ka atvērts tieši <code>Desktop/datorika9-tema2/24.html</code>.
      </li>
     </ul>
-    <p>
-     <a href="/datorika9/git">
-      Palīdzība Git, kontam un darba atvēršanai
-     </a>
-    </p>
    </details>
    <details class="course-help teacher-meta">
     <summary>
