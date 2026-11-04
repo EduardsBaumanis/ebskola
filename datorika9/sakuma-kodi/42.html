@@ -5,43 +5,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mana spēle</title>
 <style>
-body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
-img { max-width: 100%; height: auto; }
-[hidden] { display: none !important; }
-#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
+/* Pamata izkārtojums un laukuma pozicionēšana — izmērus un position nemaini */
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; margin: 14px 0; background: #edf5ff; outline: 2px solid #245b91; border-radius: 4px; overflow: hidden; }
 #speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
-#speletajs { background: #245b91; left: 20px; top: 160px; }
+/* 1. UZDEVUMS: drīksti mainīt #speletajs krāsu (background) un noapaļojumu */
+#speletajs { background: #245b91; left: 20px; top: 160px; border-radius: 4px; }
 #pretinieks { background: #b3261e; left: 220px; top: 160px; }
 #moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+button { font: inherit; padding: 10px 14px; margin: 4px 6px 4px 0; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+#vieta { font-size: 18px; font-weight: bold; color: #1e3a8a; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
 </style>
 </head>
 <body>
 <h1>Vadi spēlētāju</h1>
-<p>Spied pogas vai labo bultiņu uz tastatūras.</p>
-<div id="laukums"><div id="speletajs"></div></div>
+<p id="noteikumi">Spied pogas vai labo bultiņu uz tastatūras.</p>
+
+<div id="laukums">
+  <div id="speletajs"></div>
+</div>
+
 <button id="paKreisi">← Pa kreisi</button>
 <button id="paLabi">Pa labi →</button>
 <p id="vieta">X: 20</p>
+
 <script>
+// === SPĒLĒTĀJA SĀKUMA VIETA UN KUSTĪBAS SOLIS (3. uzdevumā maini solis uz 20) ===
 let x = 20;
 const solis = 10;
 const speletajs = document.getElementById("speletajs");
+
+// === KUSTĪBAS UN ROBEŽU FUNKCIJA (šo daļu nemaini) ===
 function kustinat(virziens) {
   x = x + virziens * solis;
-  // Gatavas robežas: kvadrāts paliek laukumā.
   const robeza = document.getElementById("laukums").clientWidth - 30;
   if (x < 0) { x = 0; }
   if (x > robeza) { x = robeza; }
   speletajs.style.left = x + "px";
   document.getElementById("vieta").textContent = "X: " + x;
 }
-document.getElementById("paLabi").addEventListener("click", function () { kustinat(1); });
-document.getElementById("paKreisi").addEventListener("click", function () { kustinat(-1); });
+
+// === POGU KLIKŠĶU KLAUSĪTĀJI (šo daļu nemaini) ===
+document.getElementById("paLabi").addEventListener("click", function () {
+  kustinat(1);
+});
+document.getElementById("paKreisi").addEventListener("click", function () {
+  kustinat(-1);
+});
+
+// === TASTATŪRAS TAUSTIŅU KLAUSĪTĀJS ===
 document.addEventListener("keydown", function (notikums) {
-  if (notikums.key === "ArrowRight") { notikums.preventDefault(); kustinat(1); }
-  // ŠEIT KREISĀ BULTIŅA
+  if (notikums.key === "ArrowRight") {
+    notikums.preventDefault();
+    kustinat(1);
+  }
+  // 2. UZDEVUMS: šeit pievieno pārbaudi kreisajai bultiņai ("ArrowLeft")
 });
 </script>
 </body>

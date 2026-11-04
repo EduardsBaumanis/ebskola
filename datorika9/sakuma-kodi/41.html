@@ -5,29 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mana spēle</title>
 <style>
-body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
+/* Pamata izkārtojums — šīs rindas nemaini */
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+.panelis { background-color: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 18px; margin: 16px 0; }
+.panelis p { margin: 8px 0; font-size: 18px; }
+#punkti { font-size: 22px; font-weight: bold; color: #1e3a8a; }
+button { font: inherit; padding: 10px 14px; margin: 4px 6px 4px 0; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+button.secondary { background-color: #475569; }
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
-
 </style>
 </head>
 <body>
 <h1>Punktu pogas</h1>
-<p id="punkti">Punkti: 0</p>
-<button onclick="pieskaitit(1)">+1 punkts</button>
-<!-- ŠEIT OTRĀ POGA -->
-<button onclick="saktNoJauna()">Sākt no jauna</button>
+<p id="noteikumi">Nospied pogu, lai iegūtu punktus vai sāktu no jauna.</p>
+<div class="panelis">
+  <p id="punkti">Punkti: 0</p>
+  <!-- 3. UZDEVUMS: šeit pievieno <p id="darbibas">Darbības: 0</p> -->
+
+  <button onclick="pieskaitit(1)">+1 punkts</button>
+  <!-- 2. UZDEVUMS: šeit pievieno +5 un −2 punktu pogas -->
+  <button class="secondary" onclick="saktNoJauna()">Sākt no jauna</button>
+</div>
 <script>
+// === SPĒLES STĀVOKĻA MAINĪGIE (3. uzdevumā papildini ar darbibas) ===
 let punkti = 0;
+
+// === ATTĒLOŠANAS FUNKCIJA (3. uzdevumā papildini ar #darbibas izvadi) ===
 function paradit() {
   document.getElementById("punkti").textContent = "Punkti: " + punkti;
 }
+
+// === PUNKTU MAIŅAS FUNKCIJA AR PARAMETRU ===
 function pieskaitit(skaits) {
   punkti = punkti + skaits;
   paradit();
 }
+
+// === ATIESTATĪŠANAS FUNKCIJA ===
 function saktNoJauna() {
   punkti = 0;
   paradit();

@@ -5,44 +5,64 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mana spēle</title>
 <style>
-body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
+/* Pamata izkārtojums un laukuma pozicionēšana — izmērus un position nemaini */
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; margin: 14px 0; background: #edf5ff; outline: 2px solid #245b91; border-radius: 4px; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+/* 1. UZDEVUMS: drīksti mainīt #speletajs krāsu (background) un noapaļojumu */
+#speletajs { background: #245b91; left: 20px; top: 160px; border-radius: 4px; }
+#pretinieks { background: #b3261e; left: 220px; top: 160px; }
+/* PAPILDU UZDEVUMS: maini #moneta koordinātes left un top */
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+button { font: inherit; padding: 10px 14px; margin: 4px 6px 4px 0; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+button.secondary { background-color: #475569; }
+#vieta { font-size: 18px; font-weight: bold; color: #1e3a8a; }
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
-#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
-#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
-#speletajs { background: #245b91; left: 20px; top: 160px; }
-#pretinieks { background: #b3261e; left: 220px; top: 160px; }
-#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
 </style>
 </head>
 <body>
 <h1>Spēles koordinātes</h1>
-<p>Vadi kvadrātu ar pogām.</p>
-<div id="laukums"><div id="speletajs"></div></div>
+<p id="noteikumi">Vadi kvadrātu ar pogām.</p>
+
+<div id="laukums">
+  <!-- PAPILDU UZDEVUMS: šeit virs #speletajs vari pievienot <div id="moneta"></div> -->
+  <div id="speletajs"></div>
+</div>
+
 <button onclick="kustinat(-10, 0)">←</button>
 <button onclick="kustinat(10, 0)">→</button>
-<!-- ŠEIT VERTIKĀLĀS POGAS -->
+<!-- 2. UZDEVUMS: šeit pievieno pogas kustībai uz augšu (↑) un uz leju (↓) -->
+<!-- 3. UZDEVUMS: šeit pievieno pogu Sākuma vieta -->
+
 <p id="vieta"></p>
+
 <script>
+// === SPĒLĒTĀJA KOORDINĀTES (1. uzdevumā maini uz x = 40 un y = 100) ===
 let x = 20;
 let y = 160;
+
+// === ATTĒLOŠANAS FUNKCIJA (šo daļu nemaini) ===
 function paradit() {
   const speletajs = document.getElementById("speletajs");
   speletajs.style.left = x + "px";
   speletajs.style.top = y + "px";
   document.getElementById("vieta").textContent = "X: " + x + ", Y: " + y;
 }
+
+// === KUSTĪBAS UN ČETRU MALU ROBEŽU FUNKCIJA (šo daļu nemaini) ===
 function kustinat(dx, dy) {
   x = x + dx;
   y = y + dy;
-  // Gatavas robežas abiem virzieniem.
   const laukums = document.getElementById("laukums");
   x = Math.max(0, Math.min(laukums.clientWidth - 30, x));
   y = Math.max(0, Math.min(laukums.clientHeight - 30, y));
   paradit();
 }
+
+// === 3. UZDEVUMS: šeit izveido funkciju sakumaVieta() ===
+
+// Parāda sākotnējo atrašanās vietu uzreiz pēc lapas atvēršanas
 paradit();
 </script>
 </body>

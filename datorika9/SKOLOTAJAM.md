@@ -15,7 +15,7 @@ Pārstrādāts pēc skolotāja sniegtajiem nosacījumiem 2026. gada 14. septembr
 
 ## Norādes un atbalsts
 
-Visām lapām ir vienāda secība: mērķis, teorija ar piemēriem, pilns sākuma kods, trīs uzdevumi, iesniegšanas pārbaudes un izvēles papildu uzdevums. Laika sadalījums paliek skolotāja plānošanai; skolēnu lapās laika norādes un `small-note` bloki nav redzami. Pārejas starp programmām izceltas ar norādi “Vide”. Soļus var atzīmēt; atzīmes saglabājas konkrētajā pārlūkā, bet tās nav vērtējums.
+Visām lapām ir vienāda secība: mērķis, teorija ar piemēriem, pilns sākuma kods, trīs uzdevumi un izvēles papildu uzdevums. Laika sadalījums paliek skolotāja plānošanai; skolēnu lapās laika norādes un `small-note` bloki nav redzami. Pārejas starp programmām izceltas ar norādi “Vide”. Soļus var atzīmēt; atzīmes saglabājas konkrētajā pārlūkā, bet tās nav vērtējums.
 
 Visās 30 nodarbībās teorija papildināta ar jēdzienu skaidrojumiem, piemēriem no nodarbības koda un pašpārbaudes jautājumu ar atveramu atbildi. Tabulas rāda darbību secību, vērtības pirms un pēc izmaiņas vai sagaidāmo rezultātu. Tēmu sākumos ir īss pārskats ar saitēm uz skaidrojumiem. Pašpārbaude ir atbalsts izpratnei, nevis papildu ieskaites nosacījums.
 

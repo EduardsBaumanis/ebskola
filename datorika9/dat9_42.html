@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>4.2 Vadi spēlētāju ar pogām un taustiņiem · JavaScript — ebSkola</title>
-<meta name="description" content="Datorika 9. klasei (JavaScript): Pievieno vadību abos virzienos un pielāgo kustības soli.">
+<meta name="description" content="Datorika 9. klasei (JavaScript): Klausies pogu klikšķus un tastatūras taustiņus ar addEventListener, pārvieto spēlētāju abos virzienos un pārbaudi laukuma robežas.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://ebskola.lv/datorika9/dat9_42">
@@ -12,7 +12,7 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="4.2 Vadi spēlētāju ar pogām un taustiņiem · JavaScript">
-<meta property="og:description" content="Datorika 9. klasei (JavaScript): Pievieno vadību abos virzienos un pielāgo kustības soli.">
+<meta property="og:description" content="Datorika 9. klasei (JavaScript): Klausies pogu klikšķus un tastatūras taustiņus ar addEventListener, pārvieto spēlētāju abos virzienos un pārbaudi laukuma robežas.">
 <meta property="og:url" content="https://ebskola.lv/datorika9/dat9_42">
 <meta property="og:image" content="https://ebskola.lv/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../lesson.css">
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "4.2 Vadi spēlētāju ar pogām un taustiņiem · JavaScript", "description": "Datorika 9. klasei (JavaScript): Pievieno vadību abos virzienos un pielāgo kustības soli.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_42", "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība (9. klase)", "isPartOf": {"@type": "Course", "name": "Datorika 9. klasei — 4. tēma: Spēles dzinēja izstrāde un funkcijas", "url": "https://ebskola.lv/datorika9/dat9_4main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Datorika 9. klasei", "item": "https://ebskola.lv/datorika9/datorika9"}, {"@type": "ListItem", "position": 3, "name": "4. tēma: Spēles dzinēja izstrāde un funkcijas", "item": "https://ebskola.lv/datorika9/dat9_4main"}, {"@type": "ListItem", "position": 4, "name": "4.2 Vadi spēlētāju ar pogām un taustiņiem · JavaScript", "item": "https://ebskola.lv/datorika9/dat9_42"}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "4.2 Vadi spēlētāju ar pogām un taustiņiem · JavaScript", "description": "Datorika 9. klasei (JavaScript): Klausies pogu klikšķus un tastatūras taustiņus ar addEventListener, pārvieto spēlētāju abos virzienos un pārbaudi laukuma robežas.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_42", "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība (9. klase)", "isPartOf": {"@type": "Course", "name": "Datorika 9. klasei — 4. tēma: Spēles dzinēja izstrāde un funkcijas", "url": "https://ebskola.lv/datorika9/dat9_4main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Datorika 9. klasei", "item": "https://ebskola.lv/datorika9/datorika9"}, {"@type": "ListItem", "position": 3, "name": "4. tēma: Spēles dzinēja izstrāde un funkcijas", "item": "https://ebskola.lv/datorika9/dat9_4main"}, {"@type": "ListItem", "position": 4, "name": "4.2 Vadi spēlētāju ar pogām un taustiņiem · JavaScript", "item": "https://ebskola.lv/datorika9/dat9_42"}]}]}</script>
 <script defer src="../lesson.js"></script>
 </head>
  <body class="page-reference datorika-kurss course-lesson has-sidebar">
@@ -94,34 +94,131 @@
     <b>
      Šodien:
     </b>
-    Pievieno vadību abos virzienos un pielāgo kustības soli.
+    Savieno spēles vadību ar pogu klikšķiem un tastatūras bultiņu taustiņiem abos horizontālajos virzienos, pielāgo kustības soli un pārliecinies, ka spēlētājs paliek laukuma robežās.
    </p>
    <section id="teorija">
-<h2>Teorija ar piemēriem</h2>
-<div class="logic-box" id="notikums">
-  <h3>Kods gaida spēlētāja darbību</h3>
-<p>Klikšķis un taustiņa nospiešana ir <b>notikumi</b>. Ar <code>addEventListener</code> piesaista notikumam darbību. Sākuma kods gaida klikšķi uz pogas vai taustiņu; tikai tad izsauc <code>kustinat</code>. Kustība šajā nodarbībā vēl nenotiek pati pēc laika.</p>
-<p><code>click</code> nozīmē klikšķi, <code>keydown</code> — taustiņa nospiešanu. Kods saņem informāciju par notikumu; <code>notikums.key</code> pasaka taustiņa nosaukumu. Tādējādi viena darbība var reaģēt uz labo bultiņu, cita — uz kreiso.</p>
-</div>
-<div class="logic-box" id="kreisais-taustins">
-  <h3>Pievieno darbību kreisajai bultiņai</h3>
-<p>2. uzdevumā šo bloku ievieto <b>esošajā</b> <code>keydown</code> darbībā komentāra <code>// ŠEIT KREISĀ BULTIŅA</code> vietā. Tas izmanto tur jau pieejamo <code>notikums</code>.</p>
-<pre><code>if (notikums.key === "ArrowLeft") {
-  notikums.preventDefault();
-  kustinat(-1);
+    <h2>Teorija ar piemēriem</h2>
+    <div class="logic-box" id="notikums">
+     <h3>Notikumi (<code>click</code>, <code>keydown</code>) un klausītājs <code>addEventListener</code></h3>
+     <p>4.1. nodarbībā pogas izsauca funkciju ar HTML atribūtu <code>onclick="..."</code>. Spēlēs ar tastatūras vadību šāds atribūts neder, jo tastatūras taustiņš nav atsevišķa HTML poga ekrānā. Tāpēc JavaScript kodā izmanto <b>notikumu klausītāju</b> <code>addEventListener</code>, kas gaidīšanas režīmā novēro konkrētu elementu vai visu lapu (<code>document</code>):</p>
+     <pre><code>document.getElementById("lecPoga").addEventListener("click", function () {
+  pacelt(1);
+});
+
+document.addEventListener("keydown", function (notikums) {
+  // Šī funkcija izpildās katru reizi, kad nospiests jebkurš taustiņš
+});</code></pre>
+     <div class="table-scroll" role="region" aria-label="Notikumu klausītāja daļas" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Pieraksta daļa</th>
+         <th scope="col">Ko tā dara?</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td><code>element.addEventListener("click", ...)</code></td>
+         <td>Gaida peles klikšķi uz konkrētās HTML pogas (atrastas pēc <code>id</code>) un tad izpilda iekšējo funkciju.</td>
+        </tr>
+        <tr>
+         <td><code>document.addEventListener("keydown", ...)</code></td>
+         <td>Klausās taustiņa nospiešanu visā atvērtajā lapā. Lai pārlūks uztvertu taustiņus, lapai jābūt aktīvai (vienreiz uzklikšķini uz lapas fona).</td>
+        </tr>
+        <tr>
+         <td><code>function (notikums) { ... }</code></td>
+         <td>Funkcija, kuru pārlūks izsauc notikuma brīdī, automātiski iedodot parametru <code>notikums</code> ar ziņām par notikušo darbību.</td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p>Šajā nodarbībā kustība vēl nenotiek pati no sevis pēc laika — kods mierīgi gaida spēlētāja klikšķi vai taustiņa spiedienu un izpilda vienu soli.</p>
+    </div>
+    <div class="logic-box" id="kreisais-taustins">
+     <h3>Nospiestā taustiņa pārbaude (<code>notikums.key</code>) un <code>preventDefault()</code></h3>
+     <p>Kad spēlētājs nospiež taustiņu, parametra īpašība <code>notikums.key</code> satur nospiestā taustiņa precīzo nosaukumu tekstā. Vienā un tajā pašā <code>keydown</code> klausītājā ar vairākiem atsevišķiem <code>if</code> blokiem pārbauda visus vajadzīgos spēles taustiņus (piemēram, vertikālai pacelšanai un nolaišanai):</p>
+     <pre><code>document.addEventListener("keydown", function (notikums) {
+  if (notikums.key === "ArrowUp") {
+    notikums.preventDefault();
+    pacelt(1);
+  }
+  if (notikums.key === "ArrowDown") {
+    notikums.preventDefault();
+    pacelt(-1);
+  }
+});</code></pre>
+     <div class="table-scroll" role="region" aria-label="Biežāko spēles taustiņu nosaukumi īpašībā notikums.key" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Taustiņš uz tastatūras</th>
+         <th scope="col">Precīza <code>notikums.key</code> vērtība</th>
+         <th scope="col">Kam jāpievērš uzmanība?</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td>Labā bultiņa (<code>→</code>)</td>
+         <td><code>"ArrowRight"</code></td>
+         <td>Lielie burti <code>A</code> un <code>R</code>, bez atstarpes vidū!</td>
+        </tr>
+        <tr>
+         <td>Kreisā bultiņa (<code>←</code>)</td>
+         <td><code>"ArrowLeft"</code></td>
+         <td>Lielie burti <code>A</code> un <code>L</code>, bez atstarpes!</td>
+        </tr>
+        <tr>
+         <td>Augšējā / apakšējā bultiņa</td>
+         <td><code>"ArrowUp"</code> / <code>"ArrowDown"</code></td>
+         <td>Izmantosim kustībai četros virzienos.</td>
+        </tr>
+        <tr>
+         <td>Burtu taustiņi <code>A</code> un <code>D</code></td>
+         <td><code>"a"</code> un <code>"d"</code></td>
+         <td>Mazie un lielie burti atšķiras — izslēdz <b>Caps Lock</b>!</td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <ul>
+      <li><b>Kāpēc vajadzīgs <code>notikums.preventDefault()</code>?</b> Bultiņu taustiņu parastais uzdevums pārlūkā ir ritināt garāku lapu uz sāniem vai augšup/lejup. Izsaucot <code>notikums.preventDefault();</code>, šī noklusētā ritināšana tiek atcelta un kustas tikai spēles varonis.</li>
+      <li><b>Viens klausītājs visiem taustiņiem:</b> jaunu taustiņu vienmēr pievieno kā nākamo <code>if (...) { ... }</code> bloku <b>tā paša</b> <code>document.addEventListener("keydown", ...)</code> iekšpusē (vienu zem otra, neliekot vienu <code>if</code> otra <code>if</code> figūriekavās).</li>
+     </ul>
+    </div>
+    <div class="logic-box" id="virziens-un-solis">
+     <h3>Virziens, soļa lielums un pikseļu mērvienība (<code>+ "px"</code>)</h3>
+     <p>Lai kvadrātu varētu brīvi bīdīt spēles laukumā, CSS stilā laukumam <code>#laukums</code> ir uzlikts <code>position: relative</code>, bet spēlētājam <code>#speletajs</code> — <code>position: absolute</code>. Tas nozīmē, ka <code>left</code> mēra attālumu pikseļos no spēles laukuma kreisās iekšējās malas.</p>
+     <p>JavaScript pusē atrašanās vietu glabā parastā skaitlī <code>x</code>, un katrā solī to izmaina ar reizinājumu <code>x = x + virziens * solis;</code>:</p>
+     <pre><code>let x = 30;
+const solis = 15;
+
+function pabidit(virziens) {
+  x = x + virziens * solis;
+  elementaBloks.style.left = x + "px";
 }</code></pre>
-<p>Nosacījums pārbauda tieši kreiso bultiņu. <code>preventDefault()</code> novērš pārlūka parasto reakciju uz šo taustiņu, piemēram, lapas ritināšanu. <code>kustinat(-1)</code> pārvieto spēlētāju pa kreisi; <code>kustinat(1)</code> — pa labi.</p>
-</div>
-<div class="logic-box" id="virziens-un-solis">
-  <h3>Virziens un soļa lielums strādā kopā</h3>
-<p>Sākuma kodā izmanto <code>x = x + virziens * solis</code>. Virziens ir 1 vai −1, bet <code>solis</code> pasaka pikseļu skaitu. Gala uzdevumā tas ir 20: sākot pie X = 20, labā bultiņa dod <b>20 + 1 × 20 = 40</b>, kreisā pēc tam — <b>40 − 20 = 20</b>. Pārbaudei taustiņu nospied un atlaid; turot to nospiestu, dators var atkārtot taustiņa notikumu.</p>
-</div>
-<div class="logic-box" id="kustibas-robeza">
-  <h3>Kāpēc apstājas pirms laukuma labās malas?</h3>
-<p>X norāda spēlētāja kreisās malas vietu. Lai 30 pikseļus platais kvadrāts viss paliktu laukumā, lielākais X ir laukuma iekšējais platums mīnus 30. Pie 300 pikseļu laukuma tas ir 270. Kodā platumu nolasa ar <code>clientWidth</code>, tāpēc robeža pielāgojas arī šaurākam laukumam. Kreisā robeža ir 0.</p>
-</div>
-<details class="course-help"><summary>Pašpārbaude: vai piespiešana pie malas nozīmē, ka poga vairs nedarbojas?</summary><p>Nē. Darbība joprojām izpildās, bet robežas pārbaude neatļauj lielāku vai mazāku koordināti. Nospiežot pretējā virziena pogu, spēlētājs atkal pārvietojas.</p>
-</details>
+     <ul>
+      <li><b>Virziens <code>1</code> vai <code>-1</code>:</b> padodot <code>1</code>, pieskaitās <code>+1 * 15 = +15</code> (kustība pa labi, piemēram, <code>30 → 45 → 60</code>). Padodot <code>-1</code>, pieskaitās <code>-1 * 15 = -15</code> (kustība pa kreisi, <code>60 → 45</code>).</li>
+      <li><b>Konstante <code>const solis</code>:</b> mainīgais <code>x</code> mainās katrā gājienā (tāpēc raksta <code>let x</code>), turpretim soļa garums spēles gaitā paliek nemainīgs (<code>const solis</code>). Izmainot skaitli pie <code>const solis</code> vienā rindā, uzreiz mainās gan abu pogu, gan abu taustiņu ātrums!</li>
+      <li><b>Obligātais <code>+ "px"</code>:</b> aprēķinos <code>x</code> ir tīrs skaitlis (piemēram, <code>45</code>), bet CSS īpašībai <code>.style.left</code> vajadzīga mērvienība (<code>"45px"</code>). Ja aizmirst <code>+ "px"</code>, skaitlis tekstā gan mainās, bet kvadrāts uz ekrāna nekustas ne par milimetru!</li>
+      <li><b>Praktisks ieteikums pārbaudei:</b> pārbaudot vienu soli ar tastatūru, taustiņu īsi nospied un atlaid — turot taustiņu nospiestu, dators automātiski atkārto <code>keydown</code> notikumu vairākas reizes sekundē.</li>
+     </ul>
+    </div>
+    <div class="logic-box" id="kustibas-robeza">
+     <h3>Laukuma kreisā un labā robeža (<code>clientWidth</code>)</h3>
+     <p>Koordināte <code>x</code> norāda spēlētāja kvadrāta <b>kreisās malas</b> atrašanās vietu, nevis centru vai labo malu. Tāpēc pirms kvadrāta pārvietošanas ekrānā kods pārbauda abas laukuma sienas:</p>
+     <pre><code>const robeza = document.getElementById("laukums").clientWidth - 30;
+if (x &lt; 0) { x = 0; }
+if (x &gt; robeza) { x = robeza; }</code></pre>
+     <ul>
+      <li><b>Kreisā siena (<code>0</code>):</b> ja spēlētājs pie <code>x = 0</code> vēlreiz spiež pa kreisi, aprēķins uz mirkli dod negatīvu skaitli, bet <code>if (x &lt; 0) { x = 0; }</code> noliek to atpakaļ tieši pie kreisās malas.</li>
+      <li><b>Labā siena (<code>clientWidth - 30</code>):</b> īpašība <code>clientWidth</code> nolasa laukuma iekšējo platumu pikseļos (sākuma kodā tie ir <code>300</code> px). Ja <code>30</code> px platajam kvadrātam atļautu <code>x = 300</code>, tā kreisā mala nostātos uz laukuma labās līnijas un viss kvadrāts pazustu ārpus laukuma! Atņemot kvadrāta platumu (<code>300 - 30 = 270</code>), pie <code>x = 270</code> kvadrāta labā mala (<code>270 + 30 = 300</code>) precīzi pieskaras sienai.</li>
+      <li><b>Darbību secība funkcijā:</b> vispirms izrēķina jauno <code>x</code>, tad ar abiem <code>if</code> ierobežo to robežās un <b>tikai pēc tam</b> ieraksta <code>speletajs.style.left = x + "px"</code> un atjauno uzrakstu lapā.</li>
+     </ul>
+    </div>
+    <details class="course-help">
+     <summary>Pašpārbaude: kāpēc pie 300 px plata laukuma spēlētājs apstājas pie X = 270 (nevis 300), un vai piespiešana pie malas nozīmē, ka vadība vairs nestrādā?</summary>
+     <p>1) Koordināte <code>X</code> ir 30 px platā kvadrāta kreisā mala, tāpēc pie <code>X = 270</code> tā labā mala jau atrodas pie <code>270 + 30 = 300</code> px. 2) Vadība joprojām strādā katrā nospiešanas reizē — robežas pārbaude tikai neļauj pārsniegt <code>270</code>, un, nospiežot pretējo virzienu, kvadrāts uzreiz dodas atpakaļ.</p>
+    </details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -136,11 +233,11 @@
       <b>
        File → Open Folder
       </b>
-      atver
+      atver mapi
       <code>
        Desktop/datorika9-tema4
       </code>
-      . Ja mapes nav, izveido to darbvirsmā.
+      .
      </li>
      <li>
       Šajā mācību lapā nospied
@@ -193,43 +290,63 @@
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
 &lt;title&gt;Mana spēle&lt;/title&gt;
 &lt;style&gt;
-body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
-img { max-width: 100%; height: auto; }
-[hidden] { display: none !important; }
-#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
+/* Pamata izkārtojums un laukuma pozicionēšana — izmērus un position nemaini */
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; margin: 14px 0; background: #edf5ff; outline: 2px solid #245b91; border-radius: 4px; overflow: hidden; }
 #speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
-#speletajs { background: #245b91; left: 20px; top: 160px; }
+/* 1. UZDEVUMS: drīksti mainīt #speletajs krāsu (background) un noapaļojumu */
+#speletajs { background: #245b91; left: 20px; top: 160px; border-radius: 4px; }
 #pretinieks { background: #b3261e; left: 220px; top: 160px; }
 #moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+button { font: inherit; padding: 10px 14px; margin: 4px 6px 4px 0; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+#vieta { font-size: 18px; font-weight: bold; color: #1e3a8a; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;h1&gt;Vadi spēlētāju&lt;/h1&gt;
-&lt;p&gt;Spied pogas vai labo bultiņu uz tastatūras.&lt;/p&gt;
-&lt;div id="laukums"&gt;&lt;div id="speletajs"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p id="noteikumi"&gt;Spied pogas vai labo bultiņu uz tastatūras.&lt;/p&gt;
+
+&lt;div id="laukums"&gt;
+  &lt;div id="speletajs"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
 &lt;button id="paKreisi"&gt;← Pa kreisi&lt;/button&gt;
 &lt;button id="paLabi"&gt;Pa labi →&lt;/button&gt;
 &lt;p id="vieta"&gt;X: 20&lt;/p&gt;
+
 &lt;script&gt;
+// === SPĒLĒTĀJA SĀKUMA VIETA UN KUSTĪBAS SOLIS (3. uzdevumā maini solis uz 20) ===
 let x = 20;
 const solis = 10;
 const speletajs = document.getElementById("speletajs");
+
+// === KUSTĪBAS UN ROBEŽU FUNKCIJA (šo daļu nemaini) ===
 function kustinat(virziens) {
   x = x + virziens * solis;
-  // Gatavas robežas: kvadrāts paliek laukumā.
   const robeza = document.getElementById("laukums").clientWidth - 30;
   if (x &lt; 0) { x = 0; }
   if (x &gt; robeza) { x = robeza; }
   speletajs.style.left = x + "px";
   document.getElementById("vieta").textContent = "X: " + x;
 }
-document.getElementById("paLabi").addEventListener("click", function () { kustinat(1); });
-document.getElementById("paKreisi").addEventListener("click", function () { kustinat(-1); });
+
+// === POGU KLIKŠĶU KLAUSĪTĀJI (šo daļu nemaini) ===
+document.getElementById("paLabi").addEventListener("click", function () {
+  kustinat(1);
+});
+document.getElementById("paKreisi").addEventListener("click", function () {
+  kustinat(-1);
+});
+
+// === TASTATŪRAS TAUSTIŅU KLAUSĪTĀJS ===
 document.addEventListener("keydown", function (notikums) {
-  if (notikums.key === "ArrowRight") { notikums.preventDefault(); kustinat(1); }
-  // ŠEIT KREISĀ BULTIŅA
+  if (notikums.key === "ArrowRight") {
+    notikums.preventDefault();
+    kustinat(1);
+  }
+  // 2. UZDEVUMS: šeit pievieno pārbaudi kreisajai bultiņai ("ArrowLeft")
 });
 &lt;/script&gt;
 &lt;/body&gt;
@@ -242,33 +359,40 @@ document.addEventListener("keydown", function (notikums) {
      1. uzdevums
     </p>
     <h2>
-     Izmēģini kustību
+     Izpēti pogu un taustiņu notikumus un pielāgo spēles izskatu
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#notikums">Kods gaida spēlētāja darbību</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#notikums">Notikumi (click, keydown) un klausītājs addEventListener</a>.</p>
     <p class="workplace">
-     Vide: VS Code → pārlūks
+     Vide: Windows File Explorer → pārlūks → VS Code
     </p>
     <ol class="step-list">
      <li>
-      Sāc ar
-      <code>
-       42.html
-      </code>
-      .
+      Windows mapē <code>Desktop/datorika9-tema4</code> atver saglabāto <code>42.html</code> pārlūkā (<b>Open with → Edge</b>) un pārliecinies, ka laukumā redzams spēlētāja kvadrāts un zem pogām rakstīts <code>X: 20</code>.
      </li>
      <li>
-      Pārlūkā izmēģini abas pogas un labo bultiņu uz tastatūras.
+      Paredzi jauno koordināti un nospied ekrāna pogu <b>Pa labi →</b>, bet pēc tam <b>← Pa kreisi</b> — pārbaudi, kā <code>X</code> mainās pa <code>10</code> pikseļiem (<code>20 → 30 → 20</code>) reizē ar kvadrāta kustību.
      </li>
      <li>
-      Pārbaudi, ka X skaitlis mainās kopā ar kvadrātu.
+      Uzklikšķini uz lapas fona un nospied tastatūras <b>labo bultiņu (→)</b> un pēc tam <b>kreiso bultiņu (←)</b>: pārliecinies, ka labā bultiņa jau kustina spēlētāju, bet kreisā bultiņa vēl nereaģē.
+     </li>
+     <li>
+      VS Code atver <code>42.html</code> un izpēti <code>&lt;script&gt;</code> beigas: salīdzini, kā <code>addEventListener("click", ...)</code> jau ir pieslēgts abām pogām, kamēr <code>keydown</code> klausītājā pagaidām ir aprakstīts tikai <code>"ArrowRight"</code>.
+     </li>
+     <li>
+      Nomaini <code>&lt;title&gt;</code> un <code>&lt;h1&gt;</code> uz savas spēles nosaukumu (piemēram, vārtsarga, sargtorņa vai skrējēja vadībai).
+     </li>
+     <li>
+      <code>&lt;style&gt;</code> blokā pie <code>#speletajs</code> nomaini <code>background</code> krāsu uz sev tīkamu toni (<b>nemainot</b> <code>width: 30px</code>, <code>height: 30px</code>, <code>left: 20px</code> un <code>position</code> īpašības).
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un pārbaudi, ka redzams jaunais virsraksts, jaunā spēlētāja krāsa un sākuma kustība joprojām strādā.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Kvadrātu var kustināt ar pogām un labo bultiņu.
+     esi pārbaudījis sākuma pogu un labās bultiņas darbību un pielāgojis spēles virsrakstu un spēlētāja krāsu.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-2">
@@ -276,37 +400,40 @@ document.addEventListener("keydown", function (notikums) {
      2. uzdevums
     </p>
     <h2>
-     Pievieno kreiso bultiņu
+     Pievieno vadību ar tastatūras kreiso bultiņu (<code>ArrowLeft</code>)
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#kreisais-taustins">Pievieno darbību kreisajai bultiņai</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#kreisais-taustins">Nospiestā taustiņa pārbaude (notikums.key) un preventDefault()</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Atrodi komentāru
-      <code>
-       // ŠEIT KREISĀ BULTIŅA
-      </code>
-      .
+      <code>&lt;script&gt;</code> blokā atrodi esošo <code>document.addEventListener("keydown", function (notikums) { ... });</code> un komentāru <code>// 2. UZDEVUMS: šeit pievieno pārbaudi kreisajai bultiņai ("ArrowLeft")</code>.
      </li>
      <li>
-      Tā vietā ievieto teorijas piemēra
-      <code>
-       if
-      </code>
-      bloku.
+      Komentāra vietā (<b>tā paša</b> <code>keydown</code> klausītāja iekšpusē, tieši zem <code>"ArrowRight"</code> bloka aizverošās <code>}</code>) uzraksti jaunu <code>if</code> nosacījumu, kas salīdzina <code>notikums.key === "ArrowLeft"</code>.
      </li>
      <li>
-      Nemainot citus klausītājus, saglabā failu.
+      Jaunā <code>if</code> bloka figūriekavās kā pirmo rindu ieraksti pārlūka noklusētās ritināšanas atcelšanu ar <code>notikums.preventDefault();</code>.
+     </li>
+     <li>
+      Nākamajā rindā tajā pašā <code>if</code> blokā izsauc kustības funkciju kreisajā virzienā (padodot negatīvo virziena skaitli <code>-1</code>, gluži kā pogai <code>#paKreisi</code>).
+     </li>
+     <li>
+      HTML daļā atjauno rindkopu <code>&lt;p id="noteikumi"&gt;</code>, lai spēlētājam būtu pateikts, ka vadība darbojas gan ar abām ekrāna pogām, gan ar tastatūras bultiņām <code>←</code> un <code>→</code>.
+     </li>
+     <li>
+      Saglabā failu ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un vienreiz uzklikšķini uz lapas fona, lai tā kļūtu aktīva.
+     </li>
+     <li>
+      Divas reizes īsi nospied un atlaid labo bultiņu <code>→</code> (<code>X: 20 → 30 → 40</code>) un tad divas reizes kreiso bultiņu <code>←</code> (<code>X: 40 → 30 → 20</code>), pārliecinoties, ka abas bultiņas darbojas vienādi gludi.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Abiem bultiņu taustiņiem ir sava kustības darbība.
+     vienā kopīgā <code>keydown</code> klausītājā darbojas gan labā (<code>ArrowRight</code>), gan kreisā (<code>ArrowLeft</code>) tastatūras bultiņa.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-3">
@@ -314,172 +441,65 @@ document.addEventListener("keydown", function (notikums) {
      3. uzdevums
     </p>
     <h2>
-     Pielāgo vadību un pārbaudi robežas
+     Palielini kustības soli uz 20 px un pārbaudi abas laukuma robežas
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#kustibas-robeza">Kāpēc apstājas pirms laukuma labās malas?</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#virziens-un-solis">Virziens, soļa lielums un pikseļu mērvienība (+ "px")</a> un <a href="#kustibas-robeza">Laukuma kreisā un labā robeža (clientWidth)</a>.</p>
     <p class="workplace">
-     Vide: VS Code → pārlūks
+     Vide: VS Code → pārlūks (ar F12 Console)
     </p>
     <ol class="step-list">
      <li>
-      Maini
-      <code>
-       solis
-      </code>
-      no 10 uz 20. Pielāgo virsrakstu un vadības norādi.
+      <code>&lt;script&gt;</code> sākumā atrodi konstanti <code>const solis = 10;</code> un nomaini tās vērtību no <code>10</code> uz <code>20</code>.
      </li>
      <li>
-      Pārlūkā nospied pa labi vienu reizi: X jāmainās no 20 uz 40. Nospied pa kreisi: atkal 20.
+      Pirms pārbaudes pārlūkā aprēķini galvā: ja sākumā <code>x</code> ir <code>20</code> un <code>solis</code> ir <code>20</code>, kāda būs <code>X</code> vērtība pēc viena gājiena pa labi un kāda — pēc viena gājiena atpakaļ pa kreisi?
      </li>
      <li>
-      Ar pogām un taustiņiem sasniedz abas malas. Kvadrāts nedrīkst pazust ārpus laukuma.
+      Saglabā ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> (lai <code>X</code> atgrieztos uz <code>20</code>), vienreiz nospied <code>→</code> (jāparādās <code>X: 40</code>) un vienreiz <code>←</code> (atkal <code>X: 20</code>).
      </li>
      <li>
-      Saglabā un nosūti darbu uz GitHub.
+      Vēl divas reizes nospied <code>←</code> vai pogu <b>← Pa kreisi</b>: pārliecinies, ka pie kreisās malas koordināte apstājas pie <code>X: 0</code> un kvadrāts nepazūd aiz laukuma kreisās līnijas.
+     </li>
+     <li>
+      Funkcijā <code>kustinat(virziens)</code> apskati rindu <code>const robeza = document.getElementById("laukums").clientWidth - 30;</code> un izrēķini lielāko atļauto <code>X</code> šim <code>300</code> px platajam laukumam.
+     </li>
+     <li>
+      Ar bultiņu <code>→</code> vai pogu <b>Pa labi →</b> aizvadi spēlētāju līdz pašai labajai malai: pārliecinies, ka koordināte apstājas pie <code>X: 270</code> (no <code>260</code> nākamais solis tiek ierobežots uz <code>270</code>, nevis <code>280</code>) un ka pēc tam spiediens pa kreisi uzreiz atbīda kvadrātu uz <code>X: 250</code>.
+     </li>
+     <li>
+      Pārlūkā nospied <b>F12</b> un atver cilni <b>Console</b>: izmēģini abas pogas un abas bultiņas un pārliecinies, ka konsolē neparādās neviens sarkans kļūdas paziņojums.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Pogas un abi taustiņi pārvieto spēlētāju pa 20 px laukuma robežās.
+     abas pogas un abas tastatūras bultiņas pārvieto spēlētāju pa <b>20 px</b> vienā solī (<code>20 → 40 → 20</code>), kvadrāts precīzi apstājas pie <code>X: 0</code> un <code>X: 270</code>, un <b>Console</b> cilnē nav kļūdu.
     </p>
-    <div class="submission">
-     <h3>
-      Iesniedz 3. uzdevuma rezultātu
-     </h3>
-     <p>
-      Iesniedz pabeigto
-      <code>
-       42.html
-      </code>
-      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
-     </p>
-     <p>
-      <b>
-       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
-      </b>
-     </p>
-     <ul class="assessment-checks">
-      <li>
-       Darbojas abas pogas un abas tastatūras bultiņas.
-      </li>
-      <li>
-       Kustības solis ir 20 px un redzama pareizā X vērtība.
-      </li>
-      <li>
-       Spēlētājs paliek laukuma robežās.
-      </li>
-     </ul>
-     <p>
-      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
-     </p>
-    </div>
-    <details class="course-help">
-     <summary>
-      Saglabā un nosūti uz GitHub — pogu atgādne
-     </summary>
-     <p class="workplace">
-      Vide: VS Code / Source Control → GitHub pārlūkā
-     </p>
-     <ol class="step-list">
-      <li>
-       Ar
-       <b>
-        File → Save All
-       </b>
-       saglabā failus. Atver
-       <b>
-        Source Control
-       </b>
-       ar
-       <b>
-        Ctrl+Shift+G
-       </b>
-       .
-      </li>
-      <li>
-       Pie
-       <b>
-        Changes
-       </b>
-       nospied
-       <b>
-        +
-       </b>
-       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
-       <b>
-        Staged Changes
-       </b>
-       .
-      </li>
-      <li>
-       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
-       <code>
-        Pabeigts 4.2 darbs
-       </code>
-       . Spied
-       <b>
-        Commit
-       </b>
-       .
-      </li>
-      <li>
-       Ja šī tēmas mape vēl nav GitHub, spied
-       <b>
-        Publish to GitHub
-       </b>
-       un izveido publisku projektu
-       <code>
-        datorika9-tema4
-       </code>
-       . Jau publicētam projektam spied
-       <b>
-        Sync Changes
-       </b>
-       . Ja pogas nav, atver
-       <b>
-        … → Push
-       </b>
-       .
-      </li>
-      <li>
-       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
-      </li>
-     </ol>
-     <p>
-      Ja Source Control rāda
-      <b>
-       Initialize Repository
-      </b>
-      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
-      <a href="/datorika9/git">
-       palīdzību
-      </a>
-      un palūdz skolotāja atbalstu.
-     </p>
-    </details>
    </section>
    <details class="course-help extra-task">
     <summary>
-     Papildu uzdevums: Pievieno taustiņus A un D
+     Papildu uzdevums: Pievieno vadību arī ar taustiņiem A un D
     </summary>
     <p>
-     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+     Sāc, kad visi trīs pamatuzdevumi ir pabeigti.
     </p>
+    <p><b>Izmanto teoriju:</b> <a href="#kreisais-taustins">Burtu taustiņu nosaukumi īpašībā notikums.key</a>.</p>
     <ol class="step-list">
      <li>
-      Taustiņu funkcijā pievieno
-      <code>
-       if (notikums.key === "a") { kustinat(-1); }
-      </code>
-      un līdzīgu rindu burtam d.
+      <code>&lt;script&gt;</code> blokā tajā pašā <code>keydown</code> klausītājā zem bultiņu pārbaudēm pievieno vēl divus atsevišķus <code>if</code> nosacījumus: mazo burtu <code>"a"</code> kustībai pa kreisi un mazo burtu <code>"d"</code> kustībai pa labi.
      </li>
      <li>
-      Atjauno vadības norādi un pārbaudi abus mazos burtus.
+      Atjauno rindkopu <code>&lt;p id="noteikumi"&gt;</code>, lai spēlētājs redzētu, ka kustināšanai var izmantot gan bultiņas (<code>←</code>, <code>→</code>), gan taustiņus <code>A</code> un <code>D</code>.
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b>, atjauno pārlūku ar <b>Ctrl+R</b>, pārliecinies, ka uz tastatūras ir izslēgts <b>Caps Lock</b>, un pārbaudi kustību ar <code>A</code> un <code>D</code>.
+     </li>
+     <li>
+      Pamīšus izmēģini visas trīs vadības iespējas (ekrāna pogas, bultiņas un <code>A</code> / <code>D</code>) un pārliecinies, ka pie abām malām joprojām darbojas robežas <code>0</code> un <code>270</code>.
      </li>
     </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> spēlētāju var vadīt gan ar pogām un bultiņu taustiņiem, gan ar taustiņiem <code>A</code> un <code>D</code> laukuma robežās.</p>
    </details>
    <details class="course-help">
     <summary>
@@ -488,42 +508,35 @@ document.addEventListener("keydown", function (notikums) {
     <ul>
      <li>
       <b>
-       Neredzi izmaiņas?
+       Kreisā bultiņa nestrādā, lai gan pievienoji <code>if</code> pārbaudi?
       </b>
-      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
-      <code>
-       42.html
-      </code>
-      .
+      Pārbaudi trīs lietas: 1) vai pēdiņās ir precīzi <code>"ArrowLeft"</code> ar lielo <code>A</code> un lielo <code>L</code> bez atstarpēm; 2) vai <code>if</code> bloks ievietots <b>pirms</b> <code>keydown</code> klausītāja aizverošās <code>});</code> un nav nejauši ielikts <code>"ArrowRight"</code> figūriekavu iekšpusē; 3) vai pirms taustiņa spiešanas vienreiz uzklikšķināji uz lapas fona pārlūkā.
      </li>
      <li>
       <b>
-       Kods redzams kā teksts?
+       Konsolē (<code>F12 → Console</code>) parādās <code>ReferenceError: notikums is not defined</code>?
       </b>
-      Saglabā ar galotni .html. Windows ieslēdz
-      <b>
-       View → Show → File name extensions
-      </b>
-      un pārbaudi, ka beigās nav .txt.
+      Jauno <code>if (notikums.key === ...)</code> bloku esi ierakstījis <b>ārpus</b> <code>document.addEventListener("keydown", function (notikums) { ... });</code>. Pārvieto to šīs funkcijas iekšpusē, kur parametrs <code>notikums</code> ir pieejams.
      </li>
      <li>
       <b>
-       Poga nestrādā?
+       Skaitlis pie <code>X:</code> mainās, bet spēlētāja kvadrāts stāv uz vietas?
       </b>
-      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+      Pārbaudi, vai nav izdzēsta mērvienība rindā <code>speletajs.style.left = x + "px";</code> un vai <code>&lt;style&gt;</code> daļā pie <code>#speletajs</code> ir saglabāts <code>position: absolute;</code>.
      </li>
      <li>
       <b>
-       Nesaproti nākamo soli?
+       Papildu uzdevumā nereaģē taustiņi <code>A</code> un <code>D</code>?
       </b>
-      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+      Izslēdz <b>Caps Lock</b> — JavaScript atšķir mazo burtu <code>"a"</code> no lielā burta <code>"A"</code>.
+     </li>
+     <li>
+      <b>
+       Neredzi savas izmaiņas vai kods pārlūkā atveras kā teksts?
+      </b>
+      VS Code nospied <b>Ctrl+S</b>, tad pārlūkā nospied <b>Ctrl+R</b> un pārliecinies, ka atvērts tieši <code>Desktop/datorika9-tema4/42.html</code> (nevis <code>41.html</code> vai fails ar <code>.txt</code> galotni).
      </li>
     </ul>
-    <p>
-     <a href="/datorika9/git">
-      Palīdzība Git, kontam un darba atvēršanai
-     </a>
-    </p>
    </details>
    <details class="course-help teacher-meta">
     <summary>
