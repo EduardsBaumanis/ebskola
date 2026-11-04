@@ -5,45 +5,70 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mana spēle</title>
 <style>
-body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
+/* Pamata izkārtojums un laukuma pozicionēšana — izmērus un position nemaini */
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; margin: 14px 0; background: #edf5ff; outline: 2px solid #245b91; border-radius: 4px; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+#speletajs { background: #245b91; left: 20px; top: 160px; border-radius: 4px; }
+/* 1. UZDEVUMS: drīksti mainīt #pretinieks krāsu (background) un noapaļojumu */
+#pretinieks { background: #b3261e; left: 0px; top: 95px; border-radius: 4px; }
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+button { font: inherit; padding: 10px 14px; margin: 4px 6px 4px 0; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+button.secondary { background-color: #475569; }
+#stavoklis { font-size: 18px; font-weight: bold; color: #1e3a8a; margin-bottom: 4px; }
+#vieta { font-size: 16px; margin-top: 4px; }
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
-#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
-#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
-#speletajs { background: #245b91; left: 20px; top: 160px; }
-#pretinieks { background: #b3261e; left: 220px; top: 160px; }
-#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
 </style>
 </head>
 <body>
 <h1>Kustīgs pretinieks</h1>
-<p>Nospied Sākt vai Apturēt.</p>
-<div id="laukums"><div id="pretinieks"></div></div>
+<p id="noteikumi">Nospied Sākt vai Apturēt, lai vadītu pretinieka kustību.</p>
+
+<div id="laukums">
+  <div id="pretinieks"></div>
+</div>
+
 <button id="sakt">Sākt</button>
 <button id="apturet">Apturēt</button>
-<p id="stavoklis">Apturēts</p>
+<!-- 3. UZDEVUMS: šeit pievieno pogu <button class="secondary" id="atjaunot">Atjaunot</button> -->
+
+<p id="stavoklis">Stāvoklis: Apturēts</p>
+<p id="vieta">Pretinieka X: 0</p>
+
 <script>
+// === PRETINIEKA STĀVOKLIS UN ĀTRUMS (2. uzdevumā maini atrums uz 3) ===
 let x = 0;
 let taimeris = null;
 const atrums = 2;
+
+// === VIENA KUSTĪBAS SOĻA FUNKCIJA ===
 function solis() {
   x = x + atrums;
   const robeza = document.getElementById("laukums").clientWidth - 30;
-  if (x > robeza) { x = 0; }
+  if (x > robeza) {
+    x = 0;
+  }
   document.getElementById("pretinieks").style.left = x + "px";
+  // 2. UZDEVUMS: šeit atjauno #vieta tekstu ar pašreizējo x vērtību
 }
+
+// === TAIMERA SĀKŠANA UN APTURĒŠANA ===
 function sakt() {
-  clearInterval(taimeris);
+  // 3. UZDEVUMS: šeit vispirms apturi iepriekšējo taimeri ar clearInterval
   taimeris = setInterval(solis, 30);
-  document.getElementById("stavoklis").textContent = "Kustas";
+  document.getElementById("stavoklis").textContent = "Stāvoklis: Kustas";
 }
+
 function apturet() {
   clearInterval(taimeris);
   taimeris = null;
-  document.getElementById("stavoklis").textContent = "Apturēts";
+  document.getElementById("stavoklis").textContent = "Stāvoklis: Apturēts";
 }
+
+// === 3. UZDEVUMS: šeit izveido funkciju atjaunot() un piesaisti pogai #atjaunot ===
+
+// === POGU KLAUSĪTĀJI UN SĀKUMA NOVIETOJUMS (šo daļu nemaini) ===
 document.getElementById("sakt").addEventListener("click", sakt);
 document.getElementById("apturet").addEventListener("click", apturet);
 document.getElementById("pretinieks").style.left = x + "px";

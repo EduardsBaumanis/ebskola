@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>4.4 Laiks un automātiska kustība · JavaScript — ebSkola</title>
-<meta name="description" content="Datorika 9. klasei (JavaScript): Izveido pretinieku, kura kustību var sākt, apturēt un atsākt.">
+<meta name="description" content="Datorika 9. klasei (JavaScript): Vadi automātisku pretinieka kustību ar setInterval un clearInterval, novērs vairāku taimeru kļūdu un atjauno sākuma stāvokli.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://ebskola.lv/datorika9/dat9_44">
@@ -12,7 +12,7 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="4.4 Laiks un automātiska kustība · JavaScript">
-<meta property="og:description" content="Datorika 9. klasei (JavaScript): Izveido pretinieku, kura kustību var sākt, apturēt un atsākt.">
+<meta property="og:description" content="Datorika 9. klasei (JavaScript): Vadi automātisku pretinieka kustību ar setInterval un clearInterval, novērs vairāku taimeru kļūdu un atjauno sākuma stāvokli.">
 <meta property="og:url" content="https://ebskola.lv/datorika9/dat9_44">
 <meta property="og:image" content="https://ebskola.lv/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../lesson.css">
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "4.4 Laiks un automātiska kustība · JavaScript", "description": "Datorika 9. klasei (JavaScript): Izveido pretinieku, kura kustību var sākt, apturēt un atsākt.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_44", "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība (9. klase)", "isPartOf": {"@type": "Course", "name": "Datorika 9. klasei — 4. tēma: Spēles dzinēja izstrāde un funkcijas", "url": "https://ebskola.lv/datorika9/dat9_4main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Datorika 9. klasei", "item": "https://ebskola.lv/datorika9/datorika9"}, {"@type": "ListItem", "position": 3, "name": "4. tēma: Spēles dzinēja izstrāde un funkcijas", "item": "https://ebskola.lv/datorika9/dat9_4main"}, {"@type": "ListItem", "position": 4, "name": "4.4 Laiks un automātiska kustība · JavaScript", "item": "https://ebskola.lv/datorika9/dat9_44"}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "4.4 Laiks un automātiska kustība · JavaScript", "description": "Datorika 9. klasei (JavaScript): Vadi automātisku pretinieka kustību ar setInterval un clearInterval, novērs vairāku taimeru kļūdu un atjauno sākuma stāvokli.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_44", "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība (9. klase)", "isPartOf": {"@type": "Course", "name": "Datorika 9. klasei — 4. tēma: Spēles dzinēja izstrāde un funkcijas", "url": "https://ebskola.lv/datorika9/dat9_4main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Datorika 9. klasei", "item": "https://ebskola.lv/datorika9/datorika9"}, {"@type": "ListItem", "position": 3, "name": "4. tēma: Spēles dzinēja izstrāde un funkcijas", "item": "https://ebskola.lv/datorika9/dat9_4main"}, {"@type": "ListItem", "position": 4, "name": "4.4 Laiks un automātiska kustība · JavaScript", "item": "https://ebskola.lv/datorika9/dat9_44"}]}]}</script>
 <script defer src="../lesson.js"></script>
 </head>
  <body class="page-reference datorika-kurss course-lesson has-sidebar">
@@ -94,29 +94,110 @@
     <b>
      Šodien:
     </b>
-    Izveido pretinieku, kura kustību var sākt, apturēt un atsākt.
+    Vadi automātisku pretinieka kustību ar <code>setInterval</code> un <code>clearInterval</code>, parādi tā koordināti, novērs vairāku vienlaicīgu taimeru kļūdu un izveido pilnu sākuma stāvokļa atjaunošanu.
    </p>
    <section id="teorija">
-<h2>Teorija ar piemēriem</h2>
-<div class="logic-box" id="laika-atkartojums">
-  <h3>Automātiska kustība rodas no maziem atkārtotiem soļiem</h3>
-<p>Poga var izmainīt vietu vienu reizi. Lai pretinieks kustētos pats, pārlūkam jālūdz nelielu darbību atkārtot. Sākuma kodā funkcija <code>solis()</code> palielina X, pārbauda labo malu un pārzīmē pretinieka vietu. Sasniedzot vietu aiz atļautās robežas, X kļūst 0.</p>
-<p>Sākuma ātruma vērtība ir 2; uzdevumā to mainīsi uz 3. Tad X pirms labās malas pārbaudes mainās šādi: <b>0 → 3 → 6 → 9 → 12</b>. Katrs solis pārvieto pretinieku par trim pikseļiem. Tā ir pārvietošanās vienā atkārtojumā, nevis trīs pikseļi sekundē.</p>
-</div>
-<div class="logic-box" id="taimeris">
-  <h3>Kā ieslēdz atkārtošanu?</h3>
-<pre><code>clearInterval(taimeris);
-taimeris = setInterval(solis, 30);</code></pre>
-<p>Šīs rindas jau ir funkcijā <code>sakt()</code>. <code>setInterval</code> lūdz izsaukt <code>solis</code> atkārtoti aptuveni ik pēc 30 milisekundēm. 1000 milisekundes ir viena sekunde. Faktisko izpildes brīdi ietekmē arī pārlūka noslodze, tāpēc intervāls nav precīzs pulkstenis.</p>
-<p>Šeit raksta <code>solis</code> bez iekavām: pārlūkam nodod pašu darbību vēlākai izpildei. Savukārt <code>solis()</code> nozīmētu to izpildīt uzreiz. <code>taimeris</code> glabā ieslēgtās atkārtošanas apzīmējumu, lai <code>clearInterval</code> varētu apturēt tieši to.</p>
-</div>
-<div class="logic-box" id="saksana-un-apturesana">
-  <h3>Kāpēc sākumā aptur iepriekšējo taimeri?</h3>
-<p>Ja katrs sākšanas klikšķis izveidotu vēl vienu atkārtošanu, viena un tā pati funkcija darbotos vairākas reizes un kustība kļūtu ātrāka. Tāpēc <code>sakt()</code> vispirms aptur iepriekšējo taimeri. Pieci sākšanas klikšķi nedrīkst radīt piecus reizē darbojošos taimerus.</p>
-<div class="table-scroll" role="region" aria-label="Apturēt un atjaunot nav viena darbība" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Darbība</th><th scope="col">Rezultāts</th></tr></thead><tbody><tr><td>Apturēt.</td><td>Taimeris apstājas; X un pretinieka vieta paliek pašreizējie.</td></tr><tr><td>Sākt pēc apturēšanas.</td><td>Kustība turpinās no saglabātās vietas.</td></tr><tr><td>Atjaunot ar location.reload().</td><td>Lapa sākas no jauna: X = 0, kustība apturēta.</td></tr></tbody></table></div>
-</div>
-<details class="course-help"><summary>Pašpārbaude: vai clearInterval pats atgriež X uz nulli?</summary><p>Nē. Tas aptur turpmākos izsaukumus, bet nemaina X. Šajā uzdevumā sākuma vietu atjauno atsevišķā pārlādes poga.</p>
-</details>
+    <h2>Teorija ar piemēriem</h2>
+    <div class="logic-box" id="laika-atkartojums">
+     <h3>Automātiska kustība no maziem atkārtotiem soļiem un apļa atgriešanās</h3>
+     <p>4.2. un 4.3. nodarbībā spēlētājs izkustējās tikai tad, kad tika nospiesta poga vai taustiņš. Lai spēles <b>pretinieks</b> vai šķērslis slīdētu pār laukumu pats, pārlūkam jālūdz vienu un to pašu mazo kustības funkciju izsaukt daudzas reizes sekundē:</p>
+     <pre><code>let x = 0;
+const atrums = 4;
+
+function biditSkersli() {
+  x = x + atrums;
+  const robeza = document.getElementById("laukums").clientWidth - 30;
+  if (x &gt; robeza) {
+    x = 0;
+  }
+  document.getElementById("pretinieks").style.left = x + "px";
+  document.getElementById("vieta").textContent = "X: " + x;
+}</code></pre>
+     <ul>
+      <li><b>Pikseļi vienā solī:</b> konstante <code>atrums = 4</code> pasaka, par cik pikseļiem mainās <code>x</code> <b>vienā izsaukuma reizē</b> (<code>0 → 4 → 8 → 12 → 16...</code>), nevis sekundē. Cik ātri tas izskatās ekrānā, nosaka gan soļa garums (<code>atrums</code>), gan tas, cik bieži taimeris izsauc šo funkciju.</li>
+      <li><b>Atgriešanās sākumā aiz labās robežas:</b> spēlētājam pie sienas rakstījām <code>if (x &gt; robeza) { x = robeza; }</code>, lai tas apstātos. Turpretim pretiniekam rakstām <code>if (x &gt; robeza) { x = 0; }</code> — tiklīdz <code>30</code> px platais kvadrāts pārsniedz <code>270</code> px robežu, tas pārlec atpakaļ kreisajā malā pie <code>x = 0</code> un sāk jaunu apli!</li>
+      <li><b>Atsevišķi teksta lauki:</b> spēles režīmu (<code>Stāvoklis: Kustas</code> / <code>Apturēts</code>) un mainīgo koordināti (<code>#vieta</code>) glabā <b>divās atsevišķās</b> rindkopās, lai koordinātes atjaunošana ik pēc pāris milisekundēm neizdzēstu stāvokļa paziņojumu.</li>
+     </ul>
+    </div>
+    <div class="logic-box" id="taimeris">
+     <h3>Taimera ieslēgšana (<code>setInterval</code>), izslēgšana (<code>clearInterval</code>) un <code>null</code></h3>
+     <p>JavaScript iebūvētā komanda <code>setInterval</code> izveido atkārtotu laika taimeri un atdod tā numuru (identifikatoru), kuru saglabā mainīgajā, lai vēlāk taimeri varētu apturēt ar <code>clearInterval</code>:</p>
+     <pre><code>let pulkstenis = null;
+
+function palaist() {
+  pulkstenis = setInterval(biditSkersli, 50);
+}
+
+function apturet() {
+  clearInterval(pulkstenis);
+  pulkstenis = null;
+}</code></pre>
+     <div class="table-scroll" role="region" aria-label="Taimera komandu un pieraksta nozīme" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Pieraksts</th>
+         <th scope="col">Ko tas nozīmē?</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td><code>let pulkstenis = null;</code></td>
+         <td>Īpašā vērtība <code>null</code> nozīmē “tukšs — pašlaik neviens taimeris nedarbojas”.</td>
+        </tr>
+        <tr>
+         <td><code>setInterval(biditSkersli, 50)</code></td>
+         <td>Izsauc doto funkciju atkārtoti aptuveni ik pēc <code>50</code> milisekundēm (<code>1000</code> ms = <code>1</code> sekunde; jo <b>mazāks</b> milisekunžu skaitlis, jo <b>biežāki</b> soļi un ātrāka kustība!).</td>
+        </tr>
+        <tr>
+         <td>Funkcijas vārds <b>bez <code>()</code></b></td>
+         <td>Gan <code>setInterval(biditSkersli, 50)</code>, gan <code>addEventListener("click", palaist)</code> funkcijas vārdu padod <b>bez iekavām</b> — mēs nododam pārlūkam pašu darbību vēlākai izsaukšanai. Ar <code>biditSkersli()</code> tā izpildītos tikai vienu reizi uzreiz!</td>
+        </tr>
+        <tr>
+         <td><code>clearInterval(pulkstenis)</code></td>
+         <td>Atrod un aptur taimeri pēc mainīgajā saglabātā numura. Ja mainīgajā ir <code>null</code>, komanda droši neko nedara un kļūdu neizraisa.</td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="logic-box" id="saksana-un-apturesana">
+     <h3>Aizsardzība pret dubultu taimeri un atšķirība starp pauzi un atjaunošanu</h3>
+     <p>Kas notiek, ja spēlētājs nospiež pogu <b>Sākt</b> trīs vai piecas reizes pēc kārtas, kamēr funkcija <code>palaist()</code> tikai izsauc <code>setInterval</code>? Katrs klikšķis iedarbina <b>vēl vienu</b> paralēlu taimeri: objekts sāk traukties vairākkārt ātrāk, bet mainīgajā <code>pulkstenis</code> saglabājas tikai pēdējā taimera numurs — iepriekšējos taimerus poga <b>Apturēt</b> vairs nespēj izslēgt!</p>
+     <p>Lai jebkurā brīdī darbotos <b>ne vairāk kā viens</b> taimeris, sākšanas funkcijas pašā sākumā vienmēr vispirms izslēdz iepriekšējo taimeri:</p>
+     <pre><code>function palaist() {
+  clearInterval(pulkstenis);
+  pulkstenis = setInterval(biditSkersli, 50);
+}</code></pre>
+     <p>Spēlēs skaidri nošķir arī <b>pauzi</b> (apturēšanu uz vietas) no <b>pilnas atjaunošanas</b> sākuma pozīcijā:</p>
+     <div class="table-scroll" role="region" aria-label="Pauzes un pilnas atjaunošanas salīdzinājums" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Darbība</th>
+         <th scope="col">Kas notiek ar taimeri?</th>
+         <th scope="col">Kas notiek ar koordināti <code>x</code> un ekrānu?</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td><b>Apturēt</b> (pauze)</td>
+         <td><code>clearInterval</code> aptur taimeri.</td>
+         <td><code>x</code> nemainās — kvadrāts paliek turpat, un nākamais <b>Sākt</b> turpina no šīs vietas.</td>
+        </tr>
+        <tr>
+         <td><b>Atjaunot</b> (no sākuma)</td>
+         <td>Vispirms aptur taimeri (piemēram, izsaucot <code>apturet();</code>).</td>
+         <td>Noliek <code>x = 0;</code> un atjauno gan <code>.style.left</code> (<code>"0px"</code>), gan koordinātes tekstu lapā.</td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <details class="course-help">
+     <summary>Pašpārbaude: kāpēc iekš <code>setInterval(solis, 30)</code> vārdam <code>solis</code> galā neraksta iekavas <code>()</code>, un kāpēc bez <code>clearInterval</code> pieci klikšķi uz “Sākt” salauž pogu “Apturēt”?</summary>
+     <p>1) Bez iekavām pārlūkam nodod pašu funkciju atkārtotai izsaukšanai ik pēc 30 ms; ar iekavām <code>solis()</code> tā izpildītos tikai vienu reizi uzreiz. 2) Pieci klikšķi bez iepriekšējās izslēgšanas palaiž piecus taimerus vienlaikus, bet mainīgais <code>taimeris</code> atceras tikai piektā taimera numuru, tāpēc <code>clearInterval(taimeris)</code> vairs nespēj apturēt pirmos četrus.</p>
+    </details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -131,11 +212,11 @@ taimeris = setInterval(solis, 30);</code></pre>
       <b>
        File → Open Folder
       </b>
-      atver
+      atver mapi
       <code>
        Desktop/datorika9-tema4
       </code>
-      . Ja mapes nav, izveido to darbvirsmā.
+      .
      </li>
      <li>
       Šajā mācību lapā nospied
@@ -188,45 +269,70 @@ taimeris = setInterval(solis, 30);</code></pre>
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
 &lt;title&gt;Mana spēle&lt;/title&gt;
 &lt;style&gt;
-body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
+/* Pamata izkārtojums un laukuma pozicionēšana — izmērus un position nemaini */
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; margin: 14px 0; background: #edf5ff; outline: 2px solid #245b91; border-radius: 4px; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+#speletajs { background: #245b91; left: 20px; top: 160px; border-radius: 4px; }
+/* 1. UZDEVUMS: drīksti mainīt #pretinieks krāsu (background) un noapaļojumu */
+#pretinieks { background: #b3261e; left: 0px; top: 95px; border-radius: 4px; }
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+button { font: inherit; padding: 10px 14px; margin: 4px 6px 4px 0; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+button.secondary { background-color: #475569; }
+#stavoklis { font-size: 18px; font-weight: bold; color: #1e3a8a; margin-bottom: 4px; }
+#vieta { font-size: 16px; margin-top: 4px; }
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
-#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
-#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
-#speletajs { background: #245b91; left: 20px; top: 160px; }
-#pretinieks { background: #b3261e; left: 220px; top: 160px; }
-#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;h1&gt;Kustīgs pretinieks&lt;/h1&gt;
-&lt;p&gt;Nospied Sākt vai Apturēt.&lt;/p&gt;
-&lt;div id="laukums"&gt;&lt;div id="pretinieks"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p id="noteikumi"&gt;Nospied Sākt vai Apturēt, lai vadītu pretinieka kustību.&lt;/p&gt;
+
+&lt;div id="laukums"&gt;
+  &lt;div id="pretinieks"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
 &lt;button id="sakt"&gt;Sākt&lt;/button&gt;
 &lt;button id="apturet"&gt;Apturēt&lt;/button&gt;
-&lt;p id="stavoklis"&gt;Apturēts&lt;/p&gt;
+&lt;!-- 3. UZDEVUMS: šeit pievieno pogu &lt;button class="secondary" id="atjaunot"&gt;Atjaunot&lt;/button&gt; --&gt;
+
+&lt;p id="stavoklis"&gt;Stāvoklis: Apturēts&lt;/p&gt;
+&lt;p id="vieta"&gt;Pretinieka X: 0&lt;/p&gt;
+
 &lt;script&gt;
+// === PRETINIEKA STĀVOKLIS UN ĀTRUMS (2. uzdevumā maini atrums uz 3) ===
 let x = 0;
 let taimeris = null;
 const atrums = 2;
+
+// === VIENA KUSTĪBAS SOĻA FUNKCIJA ===
 function solis() {
   x = x + atrums;
   const robeza = document.getElementById("laukums").clientWidth - 30;
-  if (x &gt; robeza) { x = 0; }
+  if (x &gt; robeza) {
+    x = 0;
+  }
   document.getElementById("pretinieks").style.left = x + "px";
+  // 2. UZDEVUMS: šeit atjauno #vieta tekstu ar pašreizējo x vērtību
 }
+
+// === TAIMERA SĀKŠANA UN APTURĒŠANA ===
 function sakt() {
-  clearInterval(taimeris);
+  // 3. UZDEVUMS: šeit vispirms apturi iepriekšējo taimeri ar clearInterval
   taimeris = setInterval(solis, 30);
-  document.getElementById("stavoklis").textContent = "Kustas";
+  document.getElementById("stavoklis").textContent = "Stāvoklis: Kustas";
 }
+
 function apturet() {
   clearInterval(taimeris);
   taimeris = null;
-  document.getElementById("stavoklis").textContent = "Apturēts";
+  document.getElementById("stavoklis").textContent = "Stāvoklis: Apturēts";
 }
+
+// === 3. UZDEVUMS: šeit izveido funkciju atjaunot() un piesaisti pogai #atjaunot ===
+
+// === POGU KLAUSĪTĀJI UN SĀKUMA NOVIETOJUMS (šo daļu nemaini) ===
 document.getElementById("sakt").addEventListener("click", sakt);
 document.getElementById("apturet").addEventListener("click", apturet);
 document.getElementById("pretinieks").style.left = x + "px";
@@ -241,41 +347,40 @@ document.getElementById("pretinieks").style.left = x + "px";
      1. uzdevums
     </p>
     <h2>
-     Izmēģini sākšanu un apturēšanu
+     Izpēti taimera palaišanu, pauzi un pielāgo pretinieka izskatu
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#saksana-un-apturesana">Kāpēc sākumā aptur iepriekšējo taimeri?</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#taimeris">Taimera ieslēgšana (setInterval), izslēgšana (clearInterval) un null</a>.</p>
     <p class="workplace">
-     Vide: VS Code → pārlūks
+     Vide: Windows File Explorer → pārlūks → VS Code
     </p>
     <ol class="step-list">
      <li>
-      Sāc ar
-      <code>
-       44.html
-      </code>
-      .
+      Windows mapē <code>Desktop/datorika9-tema4</code> atver saglabāto <code>44.html</code> pārlūkā (<b>Open with → Edge</b>) un pārliecinies, ka sākumā kvadrāts stāv pie kreisās malas un redzams <code>Stāvoklis: Apturēts</code> un <code>Pretinieka X: 0</code>.
      </li>
      <li>
-      Nospied
-      <b>
-       Sākt
-      </b>
-      , tad
-      <b>
-       Apturēt
-      </b>
-      .
+      Vienu reizi nospied pogu <b>Sākt</b>: vēro, kā pretinieks pats slīd pa labi, stāvoklis nomainās uz <code>Stāvoklis: Kustas</code> un aiz labās malas kvadrāts atkal parādās kreisajā pusē.
      </li>
      <li>
-      Pārbaudi kustību un zem pogām redzamo ziņu.
+      Laukuma vidū nospied pogu <b>Apturēt</b> un pēc mirkļa atkal <b>Sākt</b> — pārliecinies, ka pauze aptur kvadrātu uz vietas un nākamā sākšana turpina kustību no tās pašas vietas.
+     </li>
+     <li>
+      VS Code atver <code>44.html</code> un <code>&lt;script&gt;</code> blokā izpēti funkcijas <code>solis()</code>, <code>sakt()</code> un <code>apturet()</code>, īpaši pievēršot uzmanību tam, ka <code>solis</code>, <code>sakt</code> un <code>apturet</code> ir padoti bez iekavām <code>()</code>.
+     </li>
+     <li>
+      Nomaini <code>&lt;title&gt;</code> un <code>&lt;h1&gt;</code> uz savas spēles nosaukumu (piemēram, patrulējoša sarga, šķēršļa vai asteroīda kustībai).
+     </li>
+     <li>
+      <code>&lt;style&gt;</code> blokā pie <code>#pretinieks</code> izvēlies savai tēmai atbilstošu <code>background</code> krāsu (<b>nemainot</b> <code>width: 30px</code>, <code>height: 30px</code> un <code>position: absolute</code>).
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un pārliecinies, ka redzams jaunais virsraksts un krāsa, un viena klikšķa <b>Sākt</b> un <b>Apturēt</b> darbojas.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Pretinieks kustas tikai pēc sākšanas un apstājas pēc apturēšanas.
+     esi pārbaudījis pretinieka automātisko kustību un pauzi un pielāgojis spēles virsrakstu un pretinieka krāsu.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-2">
@@ -283,41 +388,40 @@ document.getElementById("pretinieks").style.left = x + "px";
      2. uzdevums
     </p>
     <h2>
-     Pielāgo kustību
+     Palielini pretinieka ātrumu uz 3 px un parādi X koordināti kustībā
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#laika-atkartojums">Automātiska kustība rodas no maziem atkārtotiem soļiem</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#laika-atkartojums">Automātiska kustība no maziem atkārtotiem soļiem un apļa atgriešanās</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      Maini
-      <code>
-       atrums
-      </code>
-      no 2 uz 3.
+      <code>&lt;script&gt;</code> sākumā atrodi konstanti <code>const atrums = 2;</code> un nomaini tās vērtību no <code>2</code> uz <code>3</code>.
      </li>
      <li>
-      CSS maini pretinieka krāsu. HTML pielāgo spēles nosaukumu.
+      Pirms pārbaudes izrēķini galvā pirmās četras <code>x</code> vērtības pēc starta no <code>0</code>, kad <code>solis()</code> katrā reizē pieskaita <code>3</code>.
      </li>
      <li>
-      Funkcijā
-      <code>
-       solis()
-      </code>
-      zem kustības rindas pievieno
-      <code>
-       document.getElementById("stavoklis").textContent = "X: " + x;
-      </code>
-      .
+      Funkcijā <code>solis()</code> zem rindas <code>document.getElementById("pretinieks").style.left = x + "px";</code> (2. uzdevuma komentāra vietā) pievieno rindu, kas elementā ar <code>id="vieta"</code> ieraksta <code>"Pretinieka X: " + x</code>.
+     </li>
+     <li>
+      Pārbaudi, ka <code>solis()</code> funkcijā atjauno tieši <code>id="vieta"</code>, nevis <code>id="stavoklis"</code>, lai abi teksta lauki netraucētu viens otram.
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un nospied <b>Sākt</b>: pārliecinies, ka virsū paliek <code>Stāvoklis: Kustas</code>, bet pie <code>Pretinieka X:</code> skaitļi strauji mainās.
+     </li>
+     <li>
+      Pavēro brīdi, kad pretinieks sasniedz laukuma labo malu (<code>robeza = 270</code>), un pārliecinies, ka aiz <code>270</code> gan kvadrāts, gan <code>Pretinieka X:</code> skaitītājs atgriežas uz <code>0</code>.
+     </li>
+     <li>
+      Nospied <b>Apturēt</b> kustības vidū un pārbaudi, ka redzamā <code>Pretinieka X:</code> vērtība dalās ar <code>3</code> un sakrīt ar kvadrāta attālumu no kreisās malas.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Kustības laikā lapā redzama pretinieka X vērtība.
+     pretinieks pārvietojas pa <code>3</code> px katrā solī, vienlaikus ir redzams gan <code>#stavoklis</code>, gan mainīgais <code>#vieta</code> skaitlis, un aiz <code>270</code> px kustība sākas no <code>0</code>.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-3">
@@ -325,184 +429,65 @@ document.getElementById("pretinieks").style.left = x + "px";
      3. uzdevums
     </p>
     <h2>
-     Pievieno sākuma vietas pogu
+     Novērs dubultā taimera kļūdu un izveido pogu “Atjaunot”
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#taimeris">Kā ieslēdz atkārtošanu?</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#saksana-un-apturesana">Aizsardzība pret dubultu taimeri un atšķirība starp pauzi un atjaunošanu</a>.</p>
     <p class="workplace">
-     Vide: VS Code → pārlūks
+     Vide: pārlūks → VS Code → pārlūks (ar F12 Console)
     </p>
     <ol class="step-list">
      <li>
-      HTML pievieno
-      <code>
-       &lt;button onclick="location.reload()"&gt;Atjaunot&lt;/button&gt;
-      </code>
-      .
+      Pārlūkā piecas reizes pēc kārtas nospied pogu <b>Sākt</b> un tad nospied <b>Apturēt</b> — novēro kļūdu: pretinieks traucas daudz ātrāk un vairs neapstājas, jo darbojas vairāki paralēli taimeri!
      </li>
      <li>
-      Pārlūkā nospied
-      <b>
-       Sākt
-      </b>
-      piecas reizes. Kustība nedrīkst kļūt ātrāka.
+      VS Code <code>&lt;script&gt;</code> blokā atver funkciju <code>sakt()</code> un 3. uzdevuma komentāra vietā (<b>pirms</b> rindas <code>taimeris = setInterval(solis, 30);</code>) pievieno iepriekšējā taimera apturēšanu ar <code>clearInterval</code>.
      </li>
      <li>
-      Apturi kustību un pārbaudi, ka kvadrāts paliek vietā. Ar
-      <b>
-       Atjaunot
-      </b>
-      atgriez to sākumā apturētā stāvoklī.
+      Saglabā ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b>, atkal piecas reizes pēc kārtas nospied <b>Sākt</b> un tad vienreiz <b>Apturēt</b> — pārliecinies, ka ātrums vairs nepieaug un pirmais klikšķis uz <b>Apturēt</b> tūlīt aptur kustību!
      </li>
      <li>
-      Saglabā un nosūti darbu uz GitHub.
+      HTML daļā aiz pogas <b>Apturēt</b> (3. uzdevuma komentāra vietā) pievieno pogu <code>&lt;button class="secondary" id="atjaunot"&gt;Atjaunot&lt;/button&gt;</code>.
+     </li>
+     <li>
+      <code>&lt;script&gt;</code> blokā pie 3. uzdevuma komentāra uzraksti funkciju <code>function atjaunot() { ... }</code>, kas izsauc <code>apturet();</code>, noliek <code>x = 0;</code>, atjauno <code>pretinieks</code> <code>.style.left</code> uz <code>"0px"</code> (jeb <code>x + "px"</code>) un <code>#vieta</code> tekstu uz <code>"Pretinieka X: 0"</code>, un piesaisti to pogai <code>#atjaunot</code> ar <code>addEventListener("click", atjaunot)</code>.
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un salīdzini abas darbības: palaid ar <b>Sākt</b>, pusceļā nospied <b>Apturēt</b> (paliek uz vietas), atkal <b>Sākt</b> (turpina no tās pašas vietas), un tad nospied <b>Atjaunot</b> (apstājas un atlec uz <code>Pretinieka X: 0</code>).
+     </li>
+     <li>
+      Pārlūkā nospied <b>F12</b>, atver cilni <b>Console</b>, izmēģini visas trīs pogas un pārliecinies, ka konsolē nav neviena sarkana kļūdas paziņojuma.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Atkārtota sākšana, apturēšana un atjaunošana darbojas.
+     pieci klikšķi uz <b>Sākt</b> nepaātrina kustību, <b>Apturēt</b> nopauzē pašreizējā vietā, <b>Atjaunot</b> aptur taimeri un atgriež pretinieku uz <code>X: 0</code>, un <b>Console</b> cilnē nav kļūdu.
     </p>
-    <div class="submission">
-     <h3>
-      Iesniedz 3. uzdevuma rezultātu
-     </h3>
-     <p>
-      Iesniedz pabeigto
-      <code>
-       44.html
-      </code>
-      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
-     </p>
-     <p>
-      <b>
-       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
-      </b>
-     </p>
-     <ul class="assessment-checks">
-      <li>
-       Pretinieks pārvietojas automātiski ar soli 3 un redzamu X vērtību.
-      </li>
-      <li>
-       Pieci sākšanas klikšķi neveido ātrāku kustību.
-      </li>
-      <li>
-       Apturēt apstādina; Atjaunot atgriež sākumā bez kustības.
-      </li>
-     </ul>
-     <p>
-      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
-     </p>
-    </div>
-    <details class="course-help">
-     <summary>
-      Saglabā un nosūti uz GitHub — pogu atgādne
-     </summary>
-     <p class="workplace">
-      Vide: VS Code / Source Control → GitHub pārlūkā
-     </p>
-     <ol class="step-list">
-      <li>
-       Ar
-       <b>
-        File → Save All
-       </b>
-       saglabā failus. Atver
-       <b>
-        Source Control
-       </b>
-       ar
-       <b>
-        Ctrl+Shift+G
-       </b>
-       .
-      </li>
-      <li>
-       Pie
-       <b>
-        Changes
-       </b>
-       nospied
-       <b>
-        +
-       </b>
-       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
-       <b>
-        Staged Changes
-       </b>
-       .
-      </li>
-      <li>
-       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
-       <code>
-        Pabeigts 4.4 darbs
-       </code>
-       . Spied
-       <b>
-        Commit
-       </b>
-       .
-      </li>
-      <li>
-       Ja šī tēmas mape vēl nav GitHub, spied
-       <b>
-        Publish to GitHub
-       </b>
-       un izveido publisku projektu
-       <code>
-        datorika9-tema4
-       </code>
-       . Jau publicētam projektam spied
-       <b>
-        Sync Changes
-       </b>
-       . Ja pogas nav, atver
-       <b>
-        … → Push
-       </b>
-       .
-      </li>
-      <li>
-       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
-      </li>
-     </ol>
-     <p>
-      Ja Source Control rāda
-      <b>
-       Initialize Repository
-      </b>
-      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
-      <a href="/datorika9/git">
-       palīdzību
-      </a>
-      un palūdz skolotāja atbalstu.
-     </p>
-    </details>
    </section>
    <details class="course-help extra-task">
     <summary>
-     Papildu uzdevums: Padari kustību lēnāku
+     Papildu uzdevums: Pielāgo taimera intervālu un skaiti pretinieka apļus
     </summary>
     <p>
-     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+     Sāc, kad visi trīs pamatuzdevumi ir pabeigti.
     </p>
+    <p><b>Izmanto teoriju:</b> <a href="#laika-atkartojums">Apļa atgriešanās pie x &gt; robeza</a> un <a href="#taimeris">Milisekunžu intervāls iekš setInterval</a>.</p>
     <ol class="step-list">
      <li>
-      Maini intervālu no
-      <code>
-       30
-      </code>
-      uz
-      <code>
-       60
-      </code>
-      .
+      Funkcijā <code>sakt()</code> pamēģini nomainīt <code>setInterval(solis, 30)</code> otro skaitli uz <code>60</code>, saglabā (<b>Ctrl+S</b>), pārbaudi pārlūkā (<b>Ctrl+R</b>), kā dubultots intervāls palēnina kustību, un izvēlies savai spēlei tīkamu vērtību (piemēram, <code>25</code>–<code>60</code> ms).
      </li>
      <li>
-      Izmēģini un izvēlies savai spēlei piemērotāko vērtību.
+      HTML daļā zem <code>&lt;p id="vieta"&gt;</code> pievieno <code>&lt;p id="apli"&gt;Apļi: 0&lt;/p&gt;</code> un <code>&lt;script&gt;</code> sākumā izveido mainīgo <code>let apli = 0;</code>.
+     </li>
+     <li>
+      Funkcijā <code>solis()</code> nosacījuma <code>if (x &gt; robeza) { ... }</code> iekšpusē (tieši tajā brīdī, kad pretinieks pabeidz skrējienu un <code>x</code> kļūst <code>0</code>) palielini <code>apli</code> par <code>1</code> un atjauno <code>#apli</code> tekstu.
+     </li>
+     <li>
+      Funkcijā <code>atjaunot()</code> pievieno arī <code>apli = 0;</code> un <code>#apli</code> teksta atjaunošanu, saglabā ar <b>Ctrl+S</b> un pārlūkā (<b>Ctrl+R</b>) pārbaudi, ka katrs pilnais pretinieka skrējiens pieskaita vienu apli!
      </li>
     </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> katra pretinieka atgriešanās no labās malas uz sākumu palielina apļu skaitītāju par <code>1</code>, un poga <b>Atjaunot</b> to atiestata uz <code>0</code>.</p>
    </details>
    <details class="course-help">
     <summary>
@@ -511,42 +496,35 @@ document.getElementById("pretinieks").style.left = x + "px";
     <ul>
      <li>
       <b>
-       Neredzi izmaiņas?
+       Nospiežot “Sākt” vai “Atjaunot”, darbība notiek nepareizi vai tikai vienu reizi?
       </b>
-      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
-      <code>
-       44.html
-      </code>
-      .
+      Pārliecinies, ka iekš <code>setInterval(solis, 30)</code> un <code>addEventListener("click", atjaunot)</code> funkcijas vārdam galā <b>nav</b> apaļo iekavu <code>()</code>!
      </li>
      <li>
       <b>
-       Kods redzams kā teksts?
+       Pieci klikšķi uz “Sākt” joprojām paātrina pretinieku un “Apturēt” to neaptur?
       </b>
-      Saglabā ar galotni .html. Windows ieslēdz
-      <b>
-       View → Show → File name extensions
-      </b>
-      un pārbaudi, ka beigās nav .txt.
+      Pārbaudi, vai rinda ar <code>clearInterval</code> ievietota funkcijas <code>sakt()</code> sākumā <b>pirms</b> <code>setInterval</code> rindas, un pēc saglabāšanas pārlūkā obligāti nospied <b>Ctrl+R</b>, lai notīrītu iepriekš palaistos taimerus.
      </li>
      <li>
       <b>
-       Poga nestrādā?
+       Kustības laikā pazūd teksts “Stāvoklis: Kustas”?
       </b>
-      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+      Funkcijā <code>solis()</code> koordinātes teksts jāieraksta elementā <code>getElementById("vieta")</code>, nevis <code>getElementById("stavoklis")</code>.
      </li>
      <li>
       <b>
-       Nesaproti nākamo soli?
+       Poga “Atjaunot” noliek pretinieku sākumā, bet tas tūlīt turpina kustēties?
       </b>
-      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+      Funkcijā <code>atjaunot()</code> vispirms jāaptur taimeris (piemēram, izsaucot <code>apturet();</code>) un pēc tam jāuzstāda <code>x = 0;</code> un jāatjauno gan <code>.style.left</code> (ar <code>+ "px"</code>), gan <code>#vieta</code> teksts.
+     </li>
+     <li>
+      <b>
+       Konsolē (<code>F12 → Console</code>) rāda <code>Cannot read properties of null (reading 'addEventListener')</code>?
+      </b>
+      Pārbaudi, vai HTML daļā jaunajai pogai ir precīzi uzrakstīts <code>id="atjaunot"</code> bez drukas kļūdām.
      </li>
     </ul>
-    <p>
-     <a href="/datorika9/git">
-      Palīdzība Git, kontam un darba atvēršanai
-     </a>
-    </p>
    </details>
    <details class="course-help teacher-meta">
     <summary>

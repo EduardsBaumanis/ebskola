@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>4.3 Pārvieto un maini lapas elementus · JavaScript — ebSkola</title>
-<meta name="description" content="Datorika 9. klasei (JavaScript): Vadi spēlētāju četros virzienos un parādi tā atrašanās vietu.">
+<meta name="description" content="Datorika 9. klasei (JavaScript): Vadi spēlētāju četros virzienos X un Y ekrāna koordinātēs, pārbaudi laukuma robežas un atjauno sākuma vietu.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://ebskola.lv/datorika9/dat9_43">
@@ -12,7 +12,7 @@
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
 <meta property="og:title" content="4.3 Pārvieto un maini lapas elementus · JavaScript">
-<meta property="og:description" content="Datorika 9. klasei (JavaScript): Vadi spēlētāju četros virzienos un parādi tā atrašanās vietu.">
+<meta property="og:description" content="Datorika 9. klasei (JavaScript): Vadi spēlētāju četros virzienos X un Y ekrāna koordinātēs, pārbaudi laukuma robežas un atjauno sākuma vietu.">
 <meta property="og:url" content="https://ebskola.lv/datorika9/dat9_43">
 <meta property="og:image" content="https://ebskola.lv/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -29,7 +29,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../lesson.css">
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "4.3 Pārvieto un maini lapas elementus · JavaScript", "description": "Datorika 9. klasei (JavaScript): Vadi spēlētāju četros virzienos un parādi tā atrašanās vietu.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_43", "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība (9. klase)", "isPartOf": {"@type": "Course", "name": "Datorika 9. klasei — 4. tēma: Spēles dzinēja izstrāde un funkcijas", "url": "https://ebskola.lv/datorika9/dat9_4main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Datorika 9. klasei", "item": "https://ebskola.lv/datorika9/datorika9"}, {"@type": "ListItem", "position": 3, "name": "4. tēma: Spēles dzinēja izstrāde un funkcijas", "item": "https://ebskola.lv/datorika9/dat9_4main"}, {"@type": "ListItem", "position": 4, "name": "4.3 Pārvieto un maini lapas elementus · JavaScript", "item": "https://ebskola.lv/datorika9/dat9_43"}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "4.3 Pārvieto un maini lapas elementus · JavaScript", "description": "Datorika 9. klasei (JavaScript): Vadi spēlētāju četros virzienos X un Y ekrāna koordinātēs, pārbaudi laukuma robežas un atjauno sākuma vietu.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_43", "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība (9. klase)", "isPartOf": {"@type": "Course", "name": "Datorika 9. klasei — 4. tēma: Spēles dzinēja izstrāde un funkcijas", "url": "https://ebskola.lv/datorika9/dat9_4main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Datorika 9. klasei", "item": "https://ebskola.lv/datorika9/datorika9"}, {"@type": "ListItem", "position": 3, "name": "4. tēma: Spēles dzinēja izstrāde un funkcijas", "item": "https://ebskola.lv/datorika9/dat9_4main"}, {"@type": "ListItem", "position": 4, "name": "4.3 Pārvieto un maini lapas elementus · JavaScript", "item": "https://ebskola.lv/datorika9/dat9_43"}]}]}</script>
 <script defer src="../lesson.js"></script>
 </head>
  <body class="page-reference datorika-kurss course-lesson has-sidebar">
@@ -94,29 +94,108 @@
     <b>
      Šodien:
     </b>
-    Vadi spēlētāju četros virzienos un parādi tā atrašanās vietu.
+    Vadi spēlētāju visos četros virzienos (<code>X</code> un <code>Y</code> ekrāna koordinātēs), attēlo tā atrašanās vietu ar <code>paradit()</code> un izveido pogu sākuma pozīcijas atjaunošanai.
    </p>
    <section id="teorija">
-<h2>Teorija ar piemēriem</h2>
-<div class="logic-box" id="koordinates">
-  <h3>Divi skaitļi pasaka varoņa vietu</h3>
-<p>Lai pārvietotos četros virzienos, vajag divas <b>koordinātes</b>. X pasaka attālumu no laukuma kreisās malas, Y — no augšējās malas. Šajā piemērā tās norāda spēlētāja kvadrāta kreiso augšējo stūri. X aug pa labi, bet Y aug <b>uz leju</b>.</p>
-<p>Uzdevumā sākuma vieta ir <code>x = 40</code>, <code>y = 100</code>. Funkcija <code>paradit()</code> šo vietu pārvērš CSS norādēs <code>left</code> un <code>top</code>, pievienojot mērvienību <code>"px"</code>. Tā arī atjauno koordinātu tekstu lapā.</p>
-</div>
-<div class="logic-box" id="divas-izmainas">
-  <h3>kustinat(dx, dy) saņem abu koordinātu izmaiņu</h3>
-<p>Šajā nodarbībā abi skaitļi jau nozīmē pikseļus. Pirmais maina X, otrais — Y. Nulle nozīmē, ka attiecīgo koordināti nemaina. Katra tabulas rinda rāda atsevišķu kustību no sākuma vietas (40; 100).</p>
-<div class="table-scroll" role="region" aria-label="Četri kustības virzieni" tabindex="0"><table class="theory-table"><thead><tr><th scope="col">Izsaukums</th><th scope="col">Virziens</th><th scope="col">Jaunā vieta</th></tr></thead><tbody><tr><td><code>kustinat(10, 0)</code></td><td>Pa labi.</td><td>(50; 100)</td></tr><tr><td><code>kustinat(-10, 0)</code></td><td>Pa kreisi.</td><td>(30; 100)</td></tr><tr><td><code>kustinat(0, -10)</code></td><td>Uz augšu.</td><td>(40; 90)</td></tr><tr><td><code>kustinat(0, 10)</code></td><td>Uz leju.</td><td>(40; 110)</td></tr></tbody></table></div>
-<p>Šādu pogu uzdevumā pievieno HTML daļā blakus esošajām kustības pogām:</p>
-<pre><code>&lt;button onclick="kustinat(0, -10)"&gt;↑&lt;/button&gt;</code></pre>
-</div>
-<div class="logic-box" id="secigas-kustibas">
-  <h3>Katra nākamā kustība sākas no jaunās vietas</h3>
-<p>Ja no (40; 100) vispirms nospied →, nonāc (50; 100). Pēc tam nospiežot ↑, nonāc (50; 90). Otrā kustība neatgriež X uz 40; tā maina tikai Y. Funkcija arī pārbauda abas laukuma malas un neļauj kvadrātam iziet ārpusē.</p>
-<p>Poga ar <code>location.reload()</code> pārlādē failu un no jauna izpilda sākuma kodu. Tāpēc atgriežas kodā saglabātās sākuma koordinātes (40; 100). Ja tās atkal ir (20; 160), pārbaudi, vai laboji un saglabāji īsto failu.</p>
-</div>
-<details class="course-help"><summary>Pašpārbaude: kāpēc kustībai augšup Y jāsamazina?</summary><p>Y mēra attālumu no augšējās malas. Jo tuvāk tai atrodas spēlētājs, jo mazāks ir attālums un Y vērtība.</p>
-</details>
+    <h2>Teorija ar piemēriem</h2>
+    <div class="logic-box" id="koordinates">
+     <h3>Ekrāna koordinātu sistēma (<code>X</code> un <code>Y</code>) un attēlošana ar <code>paradit()</code></h3>
+     <p>Lai spēles varonis varētu pārvietoties ne tikai pa kreisi un pa labi, bet arī augšup un lejup, vietas aprakstam vajadzīgi <b>divi skaitļi</b> jeb <b>koordinātes</b>. Tīmekļa pārlūkā atskaites punkts <code>(0; 0)</code> atrodas spēles laukuma <b>kreisajā augšējā stūrī</b>:</p>
+     <ul>
+      <li><b><code>X</code> koordināte (CSS īpašība <code>left</code>):</b> mēra attālumu pikseļos no laukuma <b>kreisās</b> malas. Ejot pa labi, <code>X</code> pieaug; ejot pa kreisi — samazinās.</li>
+      <li><b><code>Y</code> koordināte (CSS īpašība <code>top</code>):</b> mēra attālumu pikseļos no laukuma <b>augšējās</b> malas. Pretēji matemātikas grafikam ekrānā <code>Y</code> aug <b>uz leju</b>! Tas nozīmē: dodoties <b>uz leju</b>, <code>Y</code> skaitlis <b>palielinās</b>, bet dodoties <b>uz augšu</b> (tuvāk augšējai malai), <code>Y</code> skaitlis <b>samazinās</b>.</li>
+      <li>Abas koordinātes norāda <code>30 × 30</code> px lielā kvadrāta <b>kreiso augšējo stūri</b>. Jebkurš objekts ar <code>position: absolute</code> (piemēram, <code>#speletajs</code> vai mērķa <code>#moneta</code>) jāievieto <code>&lt;div id="laukums"&gt;...&lt;/div&gt;</code> iekšpusē, lai tā <code>left</code> un <code>top</code> mērītos no spēles laukuma stūra.</li>
+     </ul>
+     <pre><code>let x = 80;
+let y = 120;
+
+function paradit() {
+  const varonis = document.getElementById("speletajs");
+  varonis.style.left = x + "px";
+  varonis.style.top = y + "px";
+  document.getElementById("vieta").textContent = "X: " + x + ", Y: " + y;
+}
+
+paradit();</code></pre>
+     <p><b>Kāpēc <code>&lt;script&gt;</code> pašās beigās uzreiz izsauc <code>paradit();</code>?</b> Lapas atvēršanas brīdī HTML rindkopa <code>&lt;p id="vieta"&gt;&lt;/p&gt;</code> ir tukša un CSS var saturēt citas sākotnējās vērtības. Tūlītējs <code>paradit();</code> izsaukums jau pirmajā sekundē noliek kvadrātu precīzi <code>let x</code> un <code>let y</code> norādītajā vietā un ieraksta koordinātes lapā (neaizmirstot mērvienību <code>+ "px"</code> pie abām CSS īpašībām).</p>
+    </div>
+    <div class="logic-box" id="divas-izmainas">
+     <h3>Funkcija ar diviem parametriem: <code>kustinat(dx, dy)</code></h3>
+     <p>4.1. un 4.2. nodarbībā funkcijai padevām vienu skaitli, bet tagad kustības funkcija iekavās saņem <b>divus parametrus</b>, kurus atdala ar komatu: <code>dx</code> (izmaiņu pa horizontāli) un <code>dy</code> (izmaiņu pa vertikāli):</p>
+     <pre><code>function pabidit(dx, dy) {
+  x = x + dx;
+  y = y + dy;
+  paradit();
+}</code></pre>
+     <p>Ja kustība notiek tikai vienā virzienā, otra parametra vietā padod <code>0</code> (lai otra koordināte paliktu nemainīga). Piemēram, sākot no vietas <code>(80; 120)</code> ar soļa garumu <code>15</code> pikseļi:</p>
+     <div class="table-scroll" role="region" aria-label="Četru virzienu argumentu piemērs no punkta (80; 120)" tabindex="0">
+      <table class="theory-table">
+       <thead>
+        <tr>
+         <th scope="col">Pogas izsaukums</th>
+         <th scope="col"><code>dx</code> (maina <code>X</code>)</th>
+         <th scope="col"><code>dy</code> (maina <code>Y</code>)</th>
+         <th scope="col">Virziens ekrānā</th>
+         <th scope="col">Jaunā vieta no <code>(80; 120)</code></th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <td><code>pabidit(15, 0)</code></td>
+         <td><code>+15</code></td>
+         <td><code>0</code></td>
+         <td>Pa labi (<code>→</code>)</td>
+         <td><code>(95; 120)</code></td>
+        </tr>
+        <tr>
+         <td><code>pabidit(-15, 0)</code></td>
+         <td><code>-15</code></td>
+         <td><code>0</code></td>
+         <td>Pa kreisi (<code>←</code>)</td>
+         <td><code>(65; 120)</code></td>
+        </tr>
+        <tr>
+         <td><code>pabidit(0, -15)</code></td>
+         <td><code>0</code></td>
+         <td><code>-15</code></td>
+         <td><b>Uz augšu (<code>↑</code>)</b> — tuvāk augšai!</td>
+         <td><code>(80; 105)</code></td>
+        </tr>
+        <tr>
+         <td><code>pabidit(0, 15)</code></td>
+         <td><code>0</code></td>
+         <td><code>+15</code></td>
+         <td><b>Uz leju (<code>↓</code>)</b> — tālāk no augšas!</td>
+         <td><code>(80; 135)</code></td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p><b>Svarīgi par parametru secību:</b> pirmais skaitlis pirms komata <b>vienmēr</b> nonāk parametrā <code>dx</code>, bet otrais pēc komata — parametrā <code>dy</code>. Ja tos sajauc vietām, poga <code>↑</code> bīdīs spēlētāju pa kreisi!</p>
+    </div>
+    <div class="logic-box" id="secigas-kustibas">
+     <h3>Secīgas kustības, četru malu robežas un sākuma vietas atjaunošana</h3>
+     <p>Mainīgie <code>x</code> un <code>y</code> saglabā savu stāvokli starp klikšķiem, tāpēc katrs nākamais solis turpinās no jaunās vietas. Piemēram, ja no <code>(80; 120)</code> vispirms nospiež <code>pabidit(15, 0)</code>, varonis nonāk <code>(95; 120)</code>; uzreiz pēc tam nospiežot <code>pabidit(0, -15)</code>, koordināte <code>X</code> paliek <code>95</code> un mainās tikai <code>Y</code> — rezultāts ir <code>(95; 105)</code>.</p>
+     <p>Lai kvadrāts neizietu ārpus laukuma nevienā no četrām malām, sākuma kodā <code>x</code> un <code>y</code> ierobežo ar iebūvētajām matemātikas funkcijām <code>Math.min</code> un <code>Math.max</code>:</p>
+     <pre><code>const laukums = document.getElementById("laukums");
+x = Math.max(0, Math.min(laukums.clientWidth - 30, x));
+y = Math.max(0, Math.min(laukums.clientHeight - 30, y));</code></pre>
+     <ul>
+      <li><code>laukums.clientWidth - 30</code> (pie <code>300</code> px platuma dod <code>270</code>) un <code>laukums.clientHeight - 30</code> (pie <code>220</code> px augstuma dod <code>190</code>) aprēķina tālāko labo un apakšējo pozīciju <code>30 × 30</code> px kvadrātam.</li>
+      <li><code>Math.min(robeza, vertiba)</code> neļauj pārsniegt labo vai apakšējo sienu, savukārt <code>Math.max(0, ...)</code> neļauj noslīdēt zem <code>0</code> pie kreisās un augšējās sienas.</li>
+      <li><b>Sākuma vietas atjaunošana:</b> lai spēlētājs jebkurā brīdī varētu atgriezties starta punktā, izveido atsevišķu atiestatīšanas funkciju, kas abiem mainīgajiem atkal piešķir sākuma skaitļus un izsauc <code>paradit()</code>:</li>
+     </ul>
+     <pre><code>function atgrieztSakuma() {
+  x = 80;
+  y = 120;
+  paradit();
+}</code></pre>
+     <p><i>Piezīme:</i> vienkāršās viena raunda spēlēs dažkārt redzēsi arī komandu <code>location.reload()</code>, kas pārlādē visu pārlūka lapu no jauna, taču pašas spēles funkcija ar <code>paradit()</code> strādā tūlītēji bez lapas mirgošanas.</p>
+    </div>
+    <details class="course-help">
+     <summary>Pašpārbaude: kāpēc kustībai uz augšu (<code>↑</code>) otrais arguments <code>dy</code> ir negatīvs skaitlis, un kāda ir lielākā atļautā Y vērtība 220 px augstam laukumam ar 30 px kvadrātu?</summary>
+     <p>1) Koordināte <code>Y</code> mēra attālumu no laukuma augšējās malas (<code>Y = 0</code>), tāpēc, virzoties augšup, attālums līdz augšai sarūk un <code>Y</code> jāsamazina. 2) Lielākais atļautais <code>Y</code> ir <code>220 - 30 = 190</code>, lai visa kvadrāta apakšmala paliktu laukuma iekšpusē.</p>
+    </details>
    </section>
    <section id="sakuma-kods">
     <h2>
@@ -131,11 +210,11 @@
       <b>
        File → Open Folder
       </b>
-      atver
+      atver mapi
       <code>
        Desktop/datorika9-tema4
       </code>
-      . Ja mapes nav, izveido to darbvirsmā.
+      .
      </li>
      <li>
       Šajā mācību lapā nospied
@@ -188,44 +267,64 @@
 &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
 &lt;title&gt;Mana spēle&lt;/title&gt;
 &lt;style&gt;
-body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; }
-button, input { font: inherit; padding: 10px; margin: 4px; }
-button { cursor: pointer; }
+/* Pamata izkārtojums un laukuma pozicionēšana — izmērus un position nemaini */
+body { font-family: Arial, sans-serif; max-width: 680px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; margin: 14px 0; background: #edf5ff; outline: 2px solid #245b91; border-radius: 4px; overflow: hidden; }
+#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
+/* 1. UZDEVUMS: drīksti mainīt #speletajs krāsu (background) un noapaļojumu */
+#speletajs { background: #245b91; left: 20px; top: 160px; border-radius: 4px; }
+#pretinieks { background: #b3261e; left: 220px; top: 160px; }
+/* PAPILDU UZDEVUMS: maini #moneta koordinātes left un top */
+#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
+button { font: inherit; padding: 10px 14px; margin: 4px 6px 4px 0; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+button.secondary { background-color: #475569; }
+#vieta { font-size: 18px; font-weight: bold; color: #1e3a8a; }
 img { max-width: 100%; height: auto; }
 [hidden] { display: none !important; }
-#laukums { position: relative; width: 300px; height: 220px; max-width: 100%; background: #edf5ff; outline: 2px solid #245b91; overflow: hidden; }
-#speletajs, #pretinieks, #moneta { position: absolute; width: 30px; height: 30px; }
-#speletajs { background: #245b91; left: 20px; top: 160px; }
-#pretinieks { background: #b3261e; left: 220px; top: 160px; }
-#moneta { background: #ffca28; left: 140px; top: 160px; border-radius: 50%; }
 &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
 &lt;h1&gt;Spēles koordinātes&lt;/h1&gt;
-&lt;p&gt;Vadi kvadrātu ar pogām.&lt;/p&gt;
-&lt;div id="laukums"&gt;&lt;div id="speletajs"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p id="noteikumi"&gt;Vadi kvadrātu ar pogām.&lt;/p&gt;
+
+&lt;div id="laukums"&gt;
+  &lt;!-- PAPILDU UZDEVUMS: šeit virs #speletajs vari pievienot &lt;div id="moneta"&gt;&lt;/div&gt; --&gt;
+  &lt;div id="speletajs"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
 &lt;button onclick="kustinat(-10, 0)"&gt;←&lt;/button&gt;
 &lt;button onclick="kustinat(10, 0)"&gt;→&lt;/button&gt;
-&lt;!-- ŠEIT VERTIKĀLĀS POGAS --&gt;
+&lt;!-- 2. UZDEVUMS: šeit pievieno pogas kustībai uz augšu (↑) un uz leju (↓) --&gt;
+&lt;!-- 3. UZDEVUMS: šeit pievieno pogu Sākuma vieta --&gt;
+
 &lt;p id="vieta"&gt;&lt;/p&gt;
+
 &lt;script&gt;
+// === SPĒLĒTĀJA KOORDINĀTES (1. uzdevumā maini uz x = 40 un y = 100) ===
 let x = 20;
 let y = 160;
+
+// === ATTĒLOŠANAS FUNKCIJA (šo daļu nemaini) ===
 function paradit() {
   const speletajs = document.getElementById("speletajs");
   speletajs.style.left = x + "px";
   speletajs.style.top = y + "px";
   document.getElementById("vieta").textContent = "X: " + x + ", Y: " + y;
 }
+
+// === KUSTĪBAS UN ČETRU MALU ROBEŽU FUNKCIJA (šo daļu nemaini) ===
 function kustinat(dx, dy) {
   x = x + dx;
   y = y + dy;
-  // Gatavas robežas abiem virzieniem.
   const laukums = document.getElementById("laukums");
   x = Math.max(0, Math.min(laukums.clientWidth - 30, x));
   y = Math.max(0, Math.min(laukums.clientHeight - 30, y));
   paradit();
 }
+
+// === 3. UZDEVUMS: šeit izveido funkciju sakumaVieta() ===
+
+// Parāda sākotnējo atrašanās vietu uzreiz pēc lapas atvēršanas
 paradit();
 &lt;/script&gt;
 &lt;/body&gt;
@@ -238,41 +337,40 @@ paradit();
      1. uzdevums
     </p>
     <h2>
-     Maini sākuma vietu
+     Izpēti X un Y koordinātes un iestati jaunu sākuma vietu
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#koordinates">Divi skaitļi pasaka varoņa vietu</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#koordinates">Ekrāna koordinātu sistēma (X un Y) un attēlošana ar paradit()</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: Windows File Explorer → pārlūks → VS Code
     </p>
     <ol class="step-list">
      <li>
-      Sāc ar
-      <code>
-       43.html
-      </code>
-      .
+      Windows mapē <code>Desktop/datorika9-tema4</code> atver saglabāto <code>43.html</code> pārlūkā (<b>Open with → Edge</b>) un apskati spēlētāja sākuma vietu un uzrakstu <code>X: 20, Y: 160</code>.
      </li>
      <li>
-      JS sākumā iestati
-      <code>
-       x = 40
-      </code>
-      un
-      <code>
-       y = 100
-      </code>
-      .
+      Nospied ekrāna pogas <b>→</b> un <b>←</b>: pārliecinies, ka mainās tikai <code>X</code> koordināte (<code>20 → 30 → 20</code>), kamēr <code>Y</code> paliek <code>160</code>.
      </li>
      <li>
-      Nomaini lapas virsrakstu un CSS spēlētāja krāsu.
+      VS Code atver <code>43.html</code> un <code>&lt;script&gt;</code> blokā izpēti funkciju <code>paradit()</code> un tās izsaukumu <code>paradit();</code> skripta pašās beigās, kas pie lapas atvēršanas novieto kvadrātu atbilstoši <code>let x</code> un <code>let y</code>.
+     </li>
+     <li>
+      <code>&lt;script&gt;</code> sākumā nomaini sākuma koordinātes no <code>let x = 20;</code> un <code>let y = 160;</code> uz <code>let x = 40;</code> un <code>let y = 100;</code>.
+     </li>
+     <li>
+      Pirms pārbaudes pārlūkā paredzi, kurā virzienā kvadrāts būs nobīdījies salīdzinājumā ar iepriekšējo vietu <code>(20; 160)</code>.
+     </li>
+     <li>
+      Nomaini <code>&lt;title&gt;</code> un <code>&lt;h1&gt;</code> uz savas spēles nosaukumu un <code>&lt;style&gt;</code> blokā pie <code>#speletajs</code> izvēlies savu <code>background</code> krāsu (<b>nemainot</b> <code>width: 30px</code>, <code>height: 30px</code> un <code>position: absolute</code>).
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un pārliecinies, ka kvadrāts atrodas jaunajā vietā (mazliet vairāk pa labi un augstāk) un uzraksts rāda <code>X: 40, Y: 100</code>.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Spēlētājam ir paša izvēlēts izskats un jaunā sākuma vieta.
+     atverot lapu, spēlētājam ir paša izvēlēta krāsa un sākuma koordinātes <code>X: 40, Y: 100</code>.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-2">
@@ -280,37 +378,40 @@ paradit();
      2. uzdevums
     </p>
     <h2>
-     Pievieno kustību augšup un lejup
+     Pievieno vertikālās kustības pogas (<code>↑</code> un <code>↓</code>)
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#divas-izmainas">kustinat(dx, dy) saņem abu koordinātu izmaiņu</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#divas-izmainas">Funkcija ar diviem parametriem: kustinat(dx, dy)</a>.</p>
     <p class="workplace">
-     Vide: VS Code
+     Vide: VS Code → pārlūks
     </p>
     <ol class="step-list">
      <li>
-      HTML komentāra vietā pievieno
-      <code>
-       &lt;button onclick="kustinat(0, -10)"&gt;↑&lt;/button&gt;
-      </code>
-      .
+      HTML daļā zem <code>&lt;div id="laukums"&gt;</code> atrodi pogas <code>←</code> un <code>→</code> un komentāru <code>&lt;!-- 2. UZDEVUMS: šeit pievieno pogas kustībai uz augšu (↑) un uz leju (↓) --&gt;</code>.
      </li>
      <li>
-      Zem tās pievieno otru pogu ar
-      <code>
-       kustinat(0, 10)
-      </code>
-      un tekstu ↓.
+      Pirms rakstīšanas izdomā abus argumentus funkcijai <code>kustinat(dx, dy)</code> kustībai <b>uz augšu</b> par <code>10</code> pikseļiem: kāda ir horizontālā izmaiņa <code>dx</code> un kāda ir vertikālā izmaiņa <code>dy</code>, lai tuvotos augšējai malai?
      </li>
      <li>
-      Vadības norādē pasaki, ka pieejami četri virzieni.
+      Komentāra vietā pievieno pogu ar uzrakstu <code>↑</code>, kuras atribūts <code>onclick</code> izsauc <code>kustinat</code> ar abiem izdomātajiem skaitļiem (lieto komatu starp skaitļiem un parasto tastatūras mīnusu <code>-</code>).
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b>, pārlūkā nospied <b>Ctrl+R</b> un no <code>(40; 100)</code> vienreiz nospied pogu <b>↑</b> — pārliecinies, ka kvadrāts pakāpjas augšup un parādās <code>X: 40, Y: 90</code> (ja kļuva <code>Y: 110</code>, izlabo otrā skaitļa zīmi!).
+     </li>
+     <li>
+      Blakus pogai <code>↑</code> pievieno ceturto kustības pogu ar uzrakstu <code>↓</code>, kura atribūtā <code>onclick</code> izsauc <code>kustinat</code> kustībai <b>uz leju</b> par <code>10</code> pikseļiem.
+     </li>
+     <li>
+      Atjauno rindkopu <code>&lt;p id="noteikumi"&gt;</code>, lai spēlētājs zinātu, ka varoni var vadīt visos četros virzienos (<code>←</code>, <code>→</code>, <code>↑</code>, <code>↓</code>).
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b>, atjauno pārlūku ar <b>Ctrl+R</b> un pārbaudi visas četras pogas: pārliecinies, ka katra poga maina tieši savu koordināti par <code>10</code> px pareizajā virzienā.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Ir četras kustības pogas.
+     darbojas visas četras virzienu pogas (<code>←</code>, <code>→</code>, <code>↑</code>, <code>↓</code>), un kustība uz augšu samazina <code>Y</code>, bet kustība uz leju — palielina <code>Y</code>.
     </p>
    </section>
    <section class="logic-box lesson-task" id="uzdevums-3">
@@ -318,184 +419,65 @@ paradit();
      3. uzdevums
     </p>
     <h2>
-     Pārbaudi koordinātes un atjaunošanu
+     Izveido sākuma vietas atjaunošanu un pārbaudi visas četras malas
     </h2>
-    <p><b>Izmanto teoriju:</b> <a href="#secigas-kustibas">Katra nākamā kustība sākas no jaunās vietas</a>.</p>
-
+    <p><b>Izmanto teoriju:</b> <a href="#secigas-kustibas">Secīgas kustības, četru malu robežas un sākuma vietas atjaunošana</a>.</p>
     <p class="workplace">
-     Vide: VS Code → pārlūks
+     Vide: VS Code → pārlūks (ar F12 Console)
     </p>
     <ol class="step-list">
      <li>
-      HTML pievieno pogu
-      <code>
-       &lt;button onclick="location.reload()"&gt;Sākuma vieta&lt;/button&gt;
-      </code>
-      .
+      <code>&lt;script&gt;</code> blokā pie komentāra <code>// === 3. UZDEVUMS: šeit izveido funkciju sakumaVieta() ===</code> uzraksti funkciju <code>function sakumaVieta() { ... }</code>, kas mainīgajiem <code>x</code> un <code>y</code> no jauna piešķir sākuma vērtības <code>40</code> un <code>100</code> un izsauc <code>paradit();</code>.
      </li>
      <li>
-      Atver lapu: jābūt X: 40, Y: 100. Nospied → un ↑: jābūt X: 50, Y: 90.
+      HTML daļā aiz četrām virzienu pogām (3. uzdevuma komentāra vietā) pievieno atiestatīšanas pogu <code>&lt;button class="secondary" onclick="sakumaVieta()"&gt;Sākuma vieta&lt;/button&gt;</code>.
      </li>
      <li>
-      Pārbaudi visas malas un pogu
-      <b>
-       Sākuma vieta
-      </b>
-      . Tai jāatjauno X: 40, Y: 100.
+      Saglabā ar <b>Ctrl+S</b> un pārlūkā nospied <b>Ctrl+R</b>: pārliecinies, ka sākumā joprojām rāda <code>X: 40, Y: 100</code>.
      </li>
      <li>
-      Saglabā un nosūti darbu uz GitHub.
+      Paredzi rezultātu un izpildi divu soļu kombināciju: vienreiz nospied <b>→</b> (jābūt <code>X: 50, Y: 100</code>) un uzreiz pēc tam vienreiz nospied <b>↑</b> — pārbaudi, ka redzams <code>X: 50, Y: 90</code>.
+     </li>
+     <li>
+      Nospied pogu <b>Sākuma vieta</b> un pārliecinies, ka kvadrāts un koordinātu teksts uzreiz atgriežas uz <code>X: 40, Y: 100</code>.
+     </li>
+     <li>
+      Pārbaudi visas četras laukuma sienas: aizbīdi spēlētāju līdz kreisajai (<code>X: 0</code>), labajai (<code>X: 270</code>), augšējai (<code>Y: 0</code>) un apakšējai (<code>Y: 190</code>) malai un pārliecinies, ka <code>Math.max</code> un <code>Math.min</code> notur kvadrātu laukumā.
+     </li>
+     <li>
+      Pārlūkā nospied <b>F12</b>, atver cilni <b>Console</b>, izmēģini visas piecas pogas un pārliecinies, ka konsolē nav neviena sarkana kļūdas paziņojuma.
      </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     Koordinātes atbilst kustībai un sākuma vietu var atjaunot.
+     no <code>(40; 100)</code> gājieni <code>→</code> un <code>↑</code> dod <code>X: 50, Y: 90</code>, poga <b>Sākuma vieta</b> atgriež <code>X: 40, Y: 100</code>, visas četras malas notur spēlētāju laukumā un <b>Console</b> cilnē nav kļūdu.
     </p>
-    <div class="submission">
-     <h3>
-      Iesniedz 3. uzdevuma rezultātu
-     </h3>
-     <p>
-      Iesniedz pabeigto
-      <code>
-       43.html
-      </code>
-      skolotāja norādītajā vietā. Šo pašu versiju saglabā arī GitHub.
-     </p>
-     <p>
-      <b>
-       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
-      </b>
-     </p>
-     <ul class="assessment-checks">
-      <li>
-       Sākuma vieta ir (40; 100), un spēlētāja krāsa ir mainīta.
-      </li>
-      <li>
-       Ir četras kustības pogas un redzamas abas koordinātes.
-      </li>
-      <li>
-       Pēc → un ↑ ir (50; 90); atjaunošanas poga atgriež (40; 100).
-      </li>
-     </ul>
-     <p>
-      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
-     </p>
-    </div>
-    <details class="course-help">
-     <summary>
-      Saglabā un nosūti uz GitHub — pogu atgādne
-     </summary>
-     <p class="workplace">
-      Vide: VS Code / Source Control → GitHub pārlūkā
-     </p>
-     <ol class="step-list">
-      <li>
-       Ar
-       <b>
-        File → Save All
-       </b>
-       saglabā failus. Atver
-       <b>
-        Source Control
-       </b>
-       ar
-       <b>
-        Ctrl+Shift+G
-       </b>
-       .
-      </li>
-      <li>
-       Pie
-       <b>
-        Changes
-       </b>
-       nospied
-       <b>
-        +
-       </b>
-       (Stage All Changes). Pārbaudi, ka vajadzīgie faili pārvietojas uz
-       <b>
-        Staged Changes
-       </b>
-       .
-      </li>
-      <li>
-       Ziņas laukā ieraksti īsu izmaiņu, piemēram,
-       <code>
-        Pabeigts 4.3 darbs
-       </code>
-       . Spied
-       <b>
-        Commit
-       </b>
-       .
-      </li>
-      <li>
-       Ja šī tēmas mape vēl nav GitHub, spied
-       <b>
-        Publish to GitHub
-       </b>
-       un izveido publisku projektu
-       <code>
-        datorika9-tema4
-       </code>
-       . Jau publicētam projektam spied
-       <b>
-        Sync Changes
-       </b>
-       . Ja pogas nav, atver
-       <b>
-        … → Push
-       </b>
-       .
-      </li>
-      <li>
-       Pārlūkā atver savu GitHub projektu un pārbaudi faila pēdējās izmaiņas.
-      </li>
-     </ol>
-     <p>
-      Ja Source Control rāda
-      <b>
-       Initialize Repository
-      </b>
-      , vispirms nospied to. Ja parādās kļūda vai sapludināšanas pieprasījums, izmanto
-      <a href="/datorika9/git">
-       palīdzību
-      </a>
-      un palūdz skolotāja atbalstu.
-     </p>
-    </details>
    </section>
    <details class="course-help extra-task">
     <summary>
-     Papildu uzdevums: Pievieno monētu
+     Papildu uzdevums: Izvieto laukumā sasniedzamu mērķa monētu
     </summary>
     <p>
-     Sāc, kad 3. uzdevums ir gatavs un iesniegts. Ja vēlies paturēt obligāto versiju, saglabā kopiju ar citu nosaukumu.
+     Sāc, kad visi trīs pamatuzdevumi ir pabeigti.
     </p>
+    <p><b>Izmanto teoriju:</b> <a href="#koordinates">Elementi ar position: absolute iekš #laukums</a>.</p>
     <ol class="step-list">
      <li>
-      Laukuma iekšpusē pievieno
-      <code>
-       &lt;div id="moneta"&gt;&lt;/div&gt;
-      </code>
-      .
+      HTML daļā <code>&lt;div id="laukums"&gt;</code> iekšpusē (tieši virs <code>&lt;div id="speletajs"&gt;&lt;/div&gt;</code>) pievieno <code>&lt;div id="moneta"&gt;&lt;/div&gt;</code>.
      </li>
      <li>
-      CSS maini monētas
-      <code>
-       left
-      </code>
-      un
-      <code>
-       top
-      </code>
-      tā, lai tā būtu sasniedzama.
+      <code>&lt;style&gt;</code> blokā atrodi <code>#moneta</code> un nomaini tās <code>left</code> (robežās <code>0px</code>–<code>270px</code>) un <code>top</code> (robežās <code>0px</code>–<code>190px</code>) uz desmitiem dalāmiem skaitļiem, piemēram, laukuma labajā augšējā daļā.
+     </li>
+     <li>
+      Saglabā ar <b>Ctrl+S</b> un atjauno pārlūku ar <b>Ctrl+R</b> — pārliecinies, ka dzeltenā apaļā monēta ir pilnībā redzama spēles laukuma iekšpusē.
+     </li>
+     <li>
+      Ar četrām virzienu pogām aizvadi spēlētāju precīzi virsū monētai un pārliecinies, ka uzraksts <code>#vieta</code> parāda tieši tos pašus <code>X</code> un <code>Y</code> skaitļus, kurus ierakstīji <code>#moneta</code> stilā!
      </li>
     </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> monēta atrodas <code>#laukums</code> robežās paša izvēlētās koordinātēs un spēlētājs ar virzienu pogām var nostāties precīzi uz tās.</p>
    </details>
    <details class="course-help">
     <summary>
@@ -504,42 +486,35 @@ paradit();
     <ul>
      <li>
       <b>
-       Neredzi izmaiņas?
+       Poga <code>↑</code> bīda spēlētāju uz leju (vai <code>↓</code> — uz augšu)?
       </b>
-      VS Code nospied Ctrl+S. Pārlūkā nospied Ctrl+R. Pārbaudi, ka atvērts tieši
-      <code>
-       43.html
-      </code>
-      .
+      Atceries ekrāna koordinātu sistēmu: <code>Y = 0</code> ir laukuma <b>augšējā</b> mala! Lai dotos uz augšu, otrajam argumentam (<code>dy</code>) jābūt negatīvam, bet uz leju — pozitīvam.
      </li>
      <li>
       <b>
-       Kods redzams kā teksts?
+       Nospiežot <code>↑</code> vai <code>↓</code>, spēlētājs kustas uz sāniem vai pa diagonāli?
       </b>
-      Saglabā ar galotni .html. Windows ieslēdz
-      <b>
-       View → Show → File name extensions
-      </b>
-      un pārbaudi, ka beigās nav .txt.
+      Pārbaudi skaitļu secību izsaukumā <code>kustinat(dx, dy)</code>: pirmais skaitlis pirms komata maina <code>X</code> (vertikālai kustībai tam jābūt <code>0</code>), bet otrais skaitlis pēc komata maina <code>Y</code>.
      </li>
      <li>
       <b>
-       Poga nestrādā?
+       Jaunā poga nestrādā un <code>F12 → Console</code> rāda <code>SyntaxError</code>?
       </b>
-      Pārbaudi, vai neizdzēsi pēdiņu, iekavu vai elementa id. Salīdzini savu laboto vietu ar sākuma kodu.
+      Pārbaudi <code>onclick</code> atribūtu: starp abiem skaitļiem jābūt komatam (piemēram, <code>(0, -15)</code>), ap skaitļiem nedrīkst būt pēdiņas, un mīnusa zīmei jābūt parastajai tastatūras defisei <code>-</code>, nevis garajam <code>−</code>.
      </li>
      <li>
       <b>
-       Nesaproti nākamo soli?
+       Poga “Sākuma vieta” neatgriež kvadrātu uz <code>(40; 100)</code>?
       </b>
-      Atrodi pirmo nepabeigto soli un parādi skolotājam tieši šo vietu.
+      Pārbaudi, vai funkcijā <code>sakumaVieta()</code> pēc <code>x = 40;</code> un <code>y = 100;</code> ir izsaukta <code>paradit();</code> un vai HTML pogas <code>onclick="sakumaVieta()"</code> nosaukums un iekavas <code>()</code> ir uzrakstīti precīzi.
+     </li>
+     <li>
+      <b>
+       Papildu uzdevumā monēta parādās ārpus zilā laukuma vai nemaina vietu?
+      </b>
+      Pārliecinies, ka <code>&lt;div id="moneta"&gt;&lt;/div&gt;</code> ievietots <code>&lt;div id="laukums"&gt;...&lt;/div&gt;</code> <b>iekšpusē</b> un ka CSS īpašībās <code>left</code> un <code>top</code> pie skaitļiem ir pierakstīts <code>px</code> (nepārsniedzot <code>270px</code> un <code>190px</code>).
      </li>
     </ul>
-    <p>
-     <a href="/datorika9/git">
-      Palīdzība Git, kontam un darba atvēršanai
-     </a>
-    </p>
    </details>
    <details class="course-help teacher-meta">
     <summary>
