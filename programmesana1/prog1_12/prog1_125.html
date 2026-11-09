@@ -67,7 +67,7 @@
 <section>
 <div class="info-box">
 <p><b>70 min plāns:</b> Teorija un paraugs (~10 min) · 1. uzdevums (~15 min) - izņem noslēpumus no koda · 2. uzdevums (~25 min) - sagatavo projektu izvietošanai · 3. uzdevums (~20 min) - izvieto mākonī un pārbaudi. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-<p><b>Pirms sāc:</b> atver savu Flask projektu un GitHub krātuvi. Brīdinājums: paroli vai atslēgu, kas vienreiz nonākusi GitHub, uzskata par nopludinātu - tā jāmaina.</p>
+<p><b>Pirms sāc:</b> izveido failu <code>125.py</code> (vari paņemt savu Flask serveri no <code>124.py</code>) un atver savu GitHub krātuvi. Brīdinājums: paroli vai atslēgu, kas vienreiz nonākusi GitHub, uzskata par nopludinātu - tā jāmaina.</p>
 </div>
 </section><section>
 <h2>Teorija: No localhost uz internetu</h2>
@@ -105,7 +105,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")</code></pre>
 <p class="task-number">1. uzdevums - </p><h2>Izņem noslēpumus no koda</h2>
 <p>Beigās tavā kodā vairs nebūs nevienas paroles.</p>
 <ol class="step-list">
-<li><b>Atrodi</b> kodā visas vietas, kur ierakstīta parole vai atslēga.</li>
+<li><b>Atrodi</b> failā <code>125.py</code> visas vietas, kur ierakstīta parole vai atslēga.</li>
 <li><b>Aizstāj</b> katru ar <code class="language-python">os.environ.get("DATABASE_URL")</code>.</li>
 <li><b>Pievieno</b> faila augšā <code class="language-python">import os</code>.</li>
 <li><b>Izveido</b> failu <code>.env</code> ar īstajām vērtībām.</li>
@@ -121,7 +121,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")</code></pre>
 <li><b>Pievieno</b> <code class="language-bash">pip install gunicorn</code> un atjauno <code>requirements.txt</code>.</li>
 <li><b>Nomaini</b> <code class="language-python">app.run(debug=True)</code> uz <code class="language-python">app.run(debug=False)</code>.</li>
 <li><b>Pieraksti</b>, kāpēc <code>debug=True</code> publiskā serverī ir bīstams.</li>
-<li><b>Izveido</b> failu <code>Procfile</code> ar rindu <code>web: gunicorn app:app</code>.</li>
+<li><b>Izveido</b> failu <code>Procfile</code> ar rindu <code>web: gunicorn 125:app</code> (kur <code>125</code> ir faila <code>125.py</code> nosaukums).</li>
 <li><b>Veic</b> commit un push uz GitHub.</li>
 </ol>
 <p class="done-when"><b>Gatavs, kad:</b> krātuvē ir <code>requirements.txt</code> un <code>Procfile</code>, bet nav <code>.env</code>.</p>
@@ -161,7 +161,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")</code></pre>
 </section><section>
 <h2>Koda piemērs</h2>
 <div class="code-example">
-<pre><code class="language-python"># app.py - produkcijai gatavs
+<pre><code class="language-python"># 125.py - produkcijai gatavs
 import os
 from flask import Flask, jsonify, request
 import psycopg2

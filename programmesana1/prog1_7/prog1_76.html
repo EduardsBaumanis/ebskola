@@ -65,7 +65,7 @@
 <section>
 <div class="info-box">
 <p><b>70 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~15 min) - uzraksti datora minēšanas robežas · 2. uzdevums (~25 min) - pabeidz binārās meklēšanas AI · 3. uzdevums (~20 min) - saskaiti minējumus un salīdzini ar lineāro. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-<p><b>Pirms sāc:</b> šis ir 7. tēmas noslēguma projekts. Šoreiz mini nevis tu, bet dators - tavs uzdevums ir uzrakstīt tā stratēģiju. Noderēs 7.1 stundas binārā meklēšana.</p>
+<p><b>Pirms sāc:</b> šis ir 7. tēmas noslēguma projekts. Atver VS Code un izveido failu <code>76.py</code>. Šoreiz mini nevis tu, bet dators - tavs uzdevums ir uzrakstīt tā stratēģiju. Noderēs 7.1 stundas binārā meklēšana no <code>71.py</code>.</p>
 </div>
 </section><section>
 <h2>Teorija: kā dators uzvar ar mazāk minējumiem</h2>
@@ -96,7 +96,7 @@ elif atbilde == "mazāks":
 <p class="task-number">1. uzdevums - </p><h2>Uzraksti datora minēšanas robežas</h2>
 <p>Beigās dators nosauks savu pirmo minējumu - tieši diapazona vidu.</p>
 <ol class="step-list">
-<li><b>Izveido</b> failu <code>koda_lauzejs.py</code> savā krātuvē.</li>
+<li><b>Izveido</b> failu <code>76.py</code> savā krātuvē.</li>
 <li><b>Ieraksti</b> <code class="language-python">apaksa = 1</code> un <code class="language-python">augsa = 100</code>.</li>
 <li><b>Izrēķini</b> <code class="language-python">minejums = (apaksa + augsa) // 2</code>.</li>
 <li><b>Izdrukā</b> minējumu ar f-string.</li>
@@ -145,15 +145,15 @@ elif atbilde == "mazāks":
 <h2>Biežākās kļūdas (un kā tās labot)</h2>
 <ul>
 <li><b>Bezgalīgs cikls:</b> pēc atbildes "lielāks" vai "mazāks" robežām jāmainās par vienu pozīciju aiz minējuma, nevis uz pašu minējumu.</li>
-<li><b>Pretrunas netiek pamanītas:</b> cikla sākumā vai beigās pārbaudi, vai <code>min_r &lt;= max_r</code>.</li>
-<li><b>Nederīga ievade salauž spēli:</b> izmanto <code>.strip().lower()</code> un prasi ievadi vēlreiz, ja tā nav <code>l</code>, <code>m</code> vai <code>u</code>.</li>
-<li><b>README ir tikai virsraksts:</b> tajā jābūt palaišanas instrukcijai, algoritma skaidrojumam un testa piemēriem.</li>
+<li><b>Pretrunas netiek pamanītas:</b> cikla sākumā vai beigās pārbaudi, vai <code>apaksa &lt;= augsa</code> (vai <code>apaksa &gt; augsa</code>).</li>
+<li><b>Nederīga ievade salauž spēli:</b> izmanto <code>.strip().lower()</code> un prasi ievadi vēlreiz, ja tā nav <code>lielaks</code>, <code>mazaks</code> vai <code>pareizi</code>.</li>
+<li><b>README ir tikai virsraksts:</b> tajā jābūt palaišanas instrukcijai (<code>python 76.py</code>), algoritma skaidrojumam un testa piemēriem.</li>
 </ul>
 </section><section>
 <h2>Nodošanas pierādījumi</h2>
 <ul>
-<li>Darbojošs <code>main.py</code>, kas ļauj datoram minēt skaitli un beigt spēli korektā brīdī.</li>
-<li>Atsevišķs <code>engine.py</code> ar vismaz divām funkcijām: minējuma aprēķins un robežu atjaunošana.</li>
+<li>Darbojošs <code>76.py</code>, kas ļauj datoram minēt skaitli, skaita mēģinājumus un beidz spēli korektā brīdī.</li>
+<li>Korekts minējuma aprēķins un robežu (<code>apaksa</code> un <code>augsa</code>) atjaunošana failā <code>76.py</code>.</li>
 <li>README fails ar īsu O(log n) skaidrojumu un piemēru, cik minējumu vajag 100 un 1000 skaitļiem.</li>
 <li>Testu pieraksts ar vismaz vienu pretrunīgu spēli, kurā programma pamana, ka spēlētājs atbild negodīgi.</li>
 </ul>
@@ -184,9 +184,9 @@ elif atbilde == "mazāks":
 </tr>
 <tr>
 <td><b>Koda kvalitāte</b></td>
-<td>Kods ir vienā failā; trūkst parametru vai komentāru.</td>
-<td>Kods sadalīts moduļos. Funkcijas saņem un atgriež datus.</td>
-<td>Pilnīga modularitāte; profesionāls PEP 8 stils un docstrings.</td>
+<td>Mainīgo nosaukumi ir neskaidri; trūkst komentāru vai ievades pārbaudes.</td>
+<td>Failā <code>76.py</code> kods ir pārskatāms, mainīgie un funkcijas ir saprotami nosaukti.</td>
+<td>Loģika strukturēta funkcijās; profesionāls PEP 8 stils un docstrings.</td>
 </tr>
 </tbody>
 </table></div>
@@ -194,27 +194,24 @@ elif atbilde == "mazāks":
 </section><section>
 <h2>Koda paraugs: Binārā dzinēja sākums</h2>
 <div class="code-example">
-<pre><code class="language-python"># Failā engine.py
+<pre><code class="language-python"># Failā 76.py
 def aprekinat_minejumu(apaksa, augsa):
     """Aprēķina viduspunktu binārajai meklēšanai."""
     return (apaksa + augsa) // 2
 
-# Failā main.py
-from engine import aprekinat_minejumu
+apaksa, augsa = 1, 100
+minejumi = 0
 
-min_r, max_r = 1, 100
-gajieni = 0
-
-while min_r &lt;= max_r:
-    minejums = aprekinat_minejumu(min_r, max_r)
-    gajieni += 1
+while apaksa &lt;= augsa:
+    minejums = aprekinat_minejumu(apaksa, augsa)
+    minejumi += 1
     
-    atbilde = input(f"Vai Tavs skaitlis ir {minejums}? (L/M/U): ").lower()
+    atbilde = input(f"Vai tavs skaitlis ir {minejums}? (lielaks/mazaks/pareizi): ").strip().lower()
     
-    if atbilde == 'u':
-        print(f"Uzvara {gajieni} gājienos!")
+    if atbilde == "pareizi":
+        print(f"Uzvara {minejumi} minējumos!")
         break
-    # ... tālāk seko robežu pārbīdes loģika </code></pre>
+    # ... tālāk seko robežu pārbīdes loģika</code></pre>
 <div class="result">
             Sistēmas statuss: Kalibrēts<br/>
             Teorētiskā sarežģītība: O(log n)<br/>
