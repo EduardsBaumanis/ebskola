@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_4/prog2_4main">4. tēma</a> / 4.1</p>
 <h1>4.1 List (saraksts) un Array (masīvs)</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Saprast atšķirību starp C# <code>List&lt;T&gt;</code> un Godot <code>Array</code>, izvēlēties piemēroto data structure (datu struktūru).</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Saprast atšķirību starp C# <code>List&lt;T&gt;</code> un Godot <code>Array</code>, izvēlēties piemēroto data structure (datu struktūru).</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.16. Saliktas data structure</a>
 <a href="/sasnRez">SR 2.4.13. Data type (datu tipi)</a>
@@ -121,120 +121,176 @@ foreach (string pietura in dzesamie)
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
 <p class="task-number">1. uzdevums</p><h2>Izveido ienaidnieku sarakstu ar List</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/EnemyListDemo.cs</code> un piesaisti to Node saknei scēnā <code>Scenes/EnemyListDemo.tscn</code>. <code>using</code> liec faila sākumā, enemies lauku — klasē, bet Add un izdrukas — <code>_Ready()</code>. Ienaidnieka klasi glabā <code>Scripts/Enemy.cs</code>; ja tās vēl nav, izveido to kā <code>public partial class Enemy : CharacterBody2D</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Izveido Godot .NET projektu <code>TopDownShooter</code> ar mapēm <code>Scenes/</code> un <code>Scripts/</code>. Izveido <code>Scripts/Enemy.cs</code> ienaidnieka klasei un <code>Scripts/EnemyListDemo.cs</code> saraksta pārbaudēm. Scēnā <code>Scenes/EnemyListDemo.tscn</code> saknes mezglam <code>Node</code> (<code>EnemyListDemo</code>) piesaisti <code>Scripts/EnemyListDemo.cs</code>.</p>
 
-<p>Beigās viens variable (mainīgais) glabās visus ienaidniekus.</p>
+<p>Beigās viens <code>List&lt;Enemy&gt;</code> saraksts glabās visus ienaidniekus un vienāds <code>foreach</code> cikls apstrādās jebkuru to skaitu.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> faila sākumā <code class="language-csharp">using System.Collections.Generic;</code>.</li>
-<li><b>Pievieno</b> class lauku <code class="language-csharp">private List&lt;Enemy&gt; enemies = new();</code>.</li>
-<li><b>Pievieno</b> trīs ienaidniekus ar <code class="language-csharp">enemies.Add(enemy);</code>.</li>
-<li><b>Izdrukā</b> to skaitu ar <code class="language-csharp">enemies.Count</code>.</li>
-<li><b>Uzraksti</b> loop (ciklu) <code class="language-csharp">foreach (Enemy enemy in enemies) { ... }</code>, kas izdrukā katra nosaukumu.</li>
-<li><b>Pievieno</b> ceturto ienaidnieku un palaid vēlreiz.</li>
-<li><b>Pārbaudi</b>, vai loop bija jāmaina.</li>
+<li>Izveido jaunu Godot .NET projektu <code>TopDownShooter</code> (režīms <b>Compatibility</b>, loga izmērs <code>1280 × 720</code>) un <b>FileSystem</b> panelī zem <code>res://</code> izveido divas mapes: <code>Scenes</code> un <code>Scripts</code>.</li>
+<li>Mapē <code>Scripts</code> izveido failu <code>Scripts/Enemy.cs</code> un ieraksti tajā sākuma klasi <code>public partial class Enemy : CharacterBody2D</code> ar publiskiem laukiem <code>EnemyName</code> un <code>Hp</code> pēc parauga zemāk (šo pašu klasi papildināsi 4.3.–4.6. stundā).</li>
+<li>Izveido jaunu scēnu ar saknes mezglu <code>Node</code>, pārdēvē to par <code>EnemyListDemo</code> un saglabā kā <code>Scenes/EnemyListDemo.tscn</code>. Ar <b>Attach Script</b> pievieno saknei C# skriptu <code>Scripts/EnemyListDemo.cs</code>.</li>
+<li>Faila <code>Scripts/EnemyListDemo.cs</code> pašā sākumā (zem <code>using Godot;</code>) pievieno <code class="language-csharp">using System.Collections.Generic;</code>, bet klases <code>EnemyListDemo</code> iekšienē (pirms <code>_Ready()</code>) pievieno lauku <code class="language-csharp">private List&lt;Enemy&gt; enemies = new();</code>.</li>
+<li>Faila <code>Scripts/EnemyListDemo.cs</code> metodē <code>_Ready()</code> izveido trīs <code>Enemy</code> objektus (<code>"Skauts"</code>, <code>"Sargs"</code>, <code>"Snaiperis"</code>), pievieno tos sarakstam ar <code class="language-csharp">enemies.Add(...);</code>, izdrukā kopējo skaitu <code class="language-csharp">enemies.Count</code> un ar ciklu <code class="language-csharp">foreach (Enemy enemy in enemies)</code> izdrukā katra <code>enemy.EnemyName</code>.</li>
+<li>Saglabā abus failus, nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Pēc tam faila <code>Scripts/EnemyListDemo.cs</code> metodē <code>_Ready()</code> pirms <code>foreach</code> cikla pievieno ceturto ienaidnieku (<code>"Smagais"</code>), palaid vēlreiz un pārliecinies, ka pats <code>foreach</code> cikls nebija jāmaina.</li>
 </ol>
-<pre><code class="language-csharp">List&lt;Enemy&gt; enemies = new();
-enemies.Add(new Enemy());
+<pre><code class="language-csharp">// 1. Scripts/Enemy.cs sākuma versija:
+using Godot;
+
+public partial class Enemy : CharacterBody2D
+{
+    public string EnemyName = "Pretinieks";
+    public int Hp = 30;
+}
+
+// 2. Scripts/EnemyListDemo.cs metodē _Ready():
+enemies.Add(new Enemy { EnemyName = "Skauts" });
+enemies.Add(new Enemy { EnemyName = "Sargs" });
+enemies.Add(new Enemy { EnemyName = "Snaiperis" });
+
+GD.Print("Sākuma skaits: ", enemies.Count);
 foreach (Enemy enemy in enemies)
 {
-    GD.Print(enemy.Name);
+    GD.Print("Ienaidnieks: ", enemy.EnemyName);
 }</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> loop izdrukā visus ienaidniekus, un pievienojot ceturto, kods nav jāmaina.</p>
+<p class="done-when"><b>Gatavs, kad:</b> <b>Output</b> panelī <code>foreach</code> cikls izdrukā visus ienaidniekus, un, pievienojot ceturto, cikla kods nav jāmaina.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
 <p class="task-number">2. uzdevums</p><h2>Pievieno un izņem elementus droši</h2>
-<p class="task-files"><b>Kur strādāt:</b> Visus saraksta maiņas izmēģinājumus raksti <code>Scripts/EnemyListDemo.cs</code> metodē <code>_Ready()</code>, pēc ienaidnieku pievienošanas. Pēc katras kļūdas pārbaudes aizstāj kļūdaino fragmentu ar drošo variantu.</p>
+<p class="task-files"><b>Kur strādāt:</b> Visus saraksta izņemšanas un drošas dzēšanas soļus raksti faila <code>Scripts/EnemyListDemo.cs</code> metodē <code>_Ready()</code> zem 1. uzdevuma koda. Novērojumus pieraksti <code>README.md</code>.</p>
 
-<p>Beigās tu zināsi, kāpēc sarakstu nedrīkst mainīt loop laikā.</p>
+<p>Beigās tu pratīsi droši pārbaudīt indeksa robežas un izņemt elementus, neizraisot kļūdu cikla laikā.</p>
 <ol class="step-list">
-<li><b>Izņem</b> otro elementu ar <code class="language-csharp">enemies.RemoveAt(1);</code>.</li>
-<li><b>Izdrukā</b> saraksta izmēru pirms un pēc izņemšanas.</li>
-<li><b>Mēģini</b> piekļūt elementam <code class="language-csharp">enemies[10]</code> un pieraksti, kas notiek.</li>
-<li><b>Nomaini</b> to uz <code class="language-csharp">if (index &gt;= 0 &amp;&amp; index &lt; enemies.Count)</code> pārbaudi un salīdzini rezultātu.</li>
-<li><b>Uzraksti</b> loop, kas loop iekšpusē mēģina izdzēst elementu, un palaid to.</li>
-<li><b>Pārraksti</b> to tā, lai dzēšamos vispirms savāktu otrā sarakstā.</li>
-<li><b>Pieraksti</b>, kāpēc pirmais variants ir bīstams.</li>
+<li>Faila <code>Scripts/EnemyListDemo.cs</code> metodē <code>_Ready()</code> (zem 1. uzdevuma cikla) izņem otro ienaidnieku ar <code class="language-csharp">enemies.RemoveAt(1);</code> (indekss <code>1</code> ir otrais elements, jo numerācija sākas ar <code>0</code>) un izdrukā jauno <code>enemies.Count</code>.</li>
+<li>Tajā pašā metodē <code>_Ready()</code> uz brīdi izmēģini tiešu piekļuvi neesošam indeksam <code class="language-csharp">GD.Print(enemies[10].EnemyName);</code> un palaid ar <b>F6</b>. Cilnē <b>Debugger → Errors</b> izlasi kļūdu (<code>ArgumentOutOfRangeException</code>) un pieraksti to <code>README.md</code>.</li>
+<li>Failā <code>Scripts/EnemyListDemo.cs</code> aizstāj kļūdaino rindu ar drošu robežu pārbaudi: <code class="language-csharp">int index = 10; if (index &gt;= 0 &amp;&amp; index &lt; enemies.Count) GD.Print(enemies[index].EnemyName);</code>.</li>
+<li>Zem tās uz brīdi izmēģini dzēšanu tieši <code>foreach</code> cikla iekšienē: <code class="language-csharp">foreach (Enemy enemy in enemies) { if (enemy.EnemyName == "Skauts") enemies.Remove(enemy); }</code> un palaid ar <b>F6</b>, lai redzētu kļūdu <code>InvalidOperationException: Collection was modified</code>.</li>
+<li>Aizstāj kļūdaino ciklu failā <code>Scripts/EnemyListDemo.cs</code> ar drošu divu posmu dzēšanu pēc parauga zemāk (vispirms savāc dzēšamos <code>toRemove</code> sarakstā un izdzēs tos pēc pirmā cikla beigām), palaid ar <b>F6</b> un <code>README.md</code> pieraksti, kāpēc sarakstu nedrīkst mainīt <code>foreach</code> laikā.</li>
 </ol>
-<pre><code class="language-csharp">List&lt;Enemy&gt; toRemove = new();
+<pre><code class="language-csharp">// Scripts/EnemyListDemo.cs metodē _Ready() — droša dzēšana divos posmos:
+enemies.RemoveAt(1);
+GD.Print("Skaits pēc RemoveAt(1): ", enemies.Count);
+
+int index = 10;
+if (index &gt;= 0 &amp;&amp; index &lt; enemies.Count)
+    GD.Print(enemies[index].EnemyName);
+else
+    GD.Print("Indekss ", index, " ir ārpus robežām (Count = ", enemies.Count, ")");
+
+List&lt;Enemy&gt; toRemove = new();
 foreach (Enemy enemy in enemies)
 {
-    if (enemy == enemies[0]) toRemove.Add(enemy);
+    if (enemy.EnemyName == "Skauts")
+        toRemove.Add(enemy);
 }
 foreach (Enemy enemy in toRemove)
 {
     enemies.Remove(enemy);
-}</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> saraksta izmērs pēc dzēšanas ir par vienu mazāks, un droši dzēst izdodas tikai pēc loop.</p>
+}
+GD.Print("Skaits pēc drošas dzēšanas: ", enemies.Count);</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> saraksta izmērs pēc dzēšanas samazinās bez kļūdām, un <code>README.md</code> ir pierakstīts, kāpēc dzēšanu veic pēc <code>foreach</code> cikla.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums</p><h2>Salīdzini List ar Godot Array</h2>
-<p class="task-files"><b>Kur strādāt:</b> Godot Array un List salīdzinājumu pievieno <code>Scripts/EnemyListDemo.cs</code> metodē <code>_Ready()</code>. Pēc kļūdas izpētes neatbilstošā tipa pievienošanu izdzēs; secinājumus raksti <code>README.md</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Sarakstu salīdzinājumu pievieno faila <code>Scripts/EnemyListDemo.cs</code> klasei un metodei <code>_Ready()</code>. Secinājumus pieraksti <code>README.md</code>.</p>
 
-<p>Beigās tu zināsi, kuru sarakstu kurā vietā lietot.</p>
+<p>Beigās tu zināsi, kad lietot C# <code>List&lt;T&gt;</code> un kad — <code>Godot.Collections.Array</code>.</p>
 <ol class="step-list">
-<li><b>Izveido</b> <code class="language-csharp">Godot.Collections.Array bullets = new();</code> un pievieno tam dažas vērtības.</li>
-<li><b>Izdrukā</b> tā izmēru ar <code class="language-csharp">bullets.Count</code>.</li>
-<li><b>Mēģini</b> ielikt <code>Array</code> sarakstā gan skaitli, gan tekstu.</li>
-<li><b>Mēģini</b> to pašu ar <code class="language-csharp">List&lt;int&gt;</code> un izlasi compiler error (kompilatora kļūdu).</li>
-<li><b>Pieraksti</b>, kurš saraksts pieļauj dažādus type.</li>
-<li><b>Pieraksti</b>, kurš saraksts ir vajadzīgs, lai datus nodotu Godot editoram.</li>
-<li><b>Izvēlies</b> savam ienaidnieku sarakstam pareizo variantu un pamato izvēli.</li>
+<li>Faila <code>Scripts/EnemyListDemo.cs</code> metodes <code>_Ready()</code> beigās izveido Godot universālo sarakstu <code class="language-csharp">Godot.Collections.Array bullets = new();</code>.</li>
+<li>Tajā pašā <code>bullets</code> sarakstā pievieno gan veselu skaitli, gan tekstu (<code class="language-csharp">bullets.Add(12); bullets.Add("plazma");</code>) un izdrukā <code class="language-csharp">bullets.Count</code>.</li>
+<li>Zem tā metodē <code>_Ready()</code> izveido tipdrošu C# sarakstu <code class="language-csharp">List&lt;int&gt; ammoCounts = new();</code>, pievieno <code class="language-csharp">ammoCounts.Add(12);</code> un uz brīdi pamēģini pievienot tekstu <code class="language-csharp">ammoCounts.Add("plazma");</code>. Nospied <b>Build</b>, izlasi kompilatora kļūdu un pēc tam rindu ar <code>"plazma"</code> izdzēs.</li>
+<li>Faila <code>Scripts/EnemyListDemo.cs</code> klases laukos (virs <code>_Ready()</code>) pievieno eksportētu Godot sarakstu <code class="language-csharp">[Export] public Godot.Collections.Array&lt;string&gt; WaveNames = new();</code>, nospied <b>Build</b>, atlasi <code>EnemyListDemo</code> mezglu un pārliecinies, ka <b>Wave Names</b> parādās <b>Inspector</b> panelī.</li>
+<li>Failā <code>README.md</code> pieraksti: kurš saraksts pieļauj dažādus datu tipus vienā kolekcijā, kurš ir vajadzīgs datu nodošanai Godot <b>Inspector</b> panelim un kāpēc ienaidnieku sarakstam C# kodā izvēlamies <code>List&lt;Enemy&gt;</code>.</li>
 </ol>
-<pre><code class="language-csharp">Godot.Collections.Array bullets = new();
-bullets.Add(1);
-bullets.Add("paraugs");
-GD.Print(bullets.Count);
-bullets.RemoveAt(bullets.Count - 1);</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> tu vari pateikt, ka <code>List&lt;T&gt;</code> ir type-safe un ērts iekšējam C# kodam, bet <code>Array</code> vajadzīgs saziņai ar Godot datiem.</p>
+<pre><code class="language-csharp">// Scripts/EnemyListDemo.cs metodē _Ready():
+Godot.Collections.Array bullets = new();
+bullets.Add(12);
+bullets.Add("plazma");
+GD.Print("Godot Array skaits: ", bullets.Count);
+
+List&lt;int&gt; ammoCounts = new();
+ammoCounts.Add(12);
+// ammoCounts.Add("plazma"); // Kompilācijas kļūda: string nav int!
+GD.Print("List&lt;int&gt; skaits: ", ammoCounts.Count);</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> <code>EnemyListDemo.cs</code> būvējas bez kļūdām, un <code>README.md</code> ir pamatots, kāpēc <code>List&lt;T&gt;</code> lieto iekšējam C# kodam, bet <code>Godot.Collections.Array</code> — saziņai ar Godot redaktoru.</p>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Atrodi tuvāko ienaidnieku</summary>
-<p class="task-files"><b>Kur strādāt:</b> Tuvākā ienaidnieka meklēšanas metodi pievieno <code>Scripts/EnemyListDemo.cs</code> klasei, ārpus <code>_Ready()</code>. Ienaidnieku redzamos eksemplārus un pozīcijas izveido <code>Scenes/EnemyListDemo.tscn</code> un iekļauj tos šī skripta enemies sarakstā.</p>
+<summary>Papildu uzdevums — Atrodi tuvāko ienaidnieku</summary>
+<p class="task-files"><b>Kur strādāt:</b> Metodi <code>FindClosestEnemy(Vector2 playerPos)</code> pievieno faila <code>Scripts/EnemyListDemo.cs</code> klasei ārpus <code>_Ready()</code>, bet ienaidnieku pozīcijas un metodes izsaukumu raksti <code>_Ready()</code> beigās.</p>
 
-<p>Ja pamatdarbs ir gatavs, izmanto sarakstu reālam aprēķinam.</p>
+<p>Ja pamatdarbs ir gatavs, izmanto <code>List&lt;Enemy&gt;</code> sarakstu tuvākā mērķa atrašanai šaušanas spēlei.</p>
 <ol class="step-list">
-<li><b>Uzraksti</b> method, kas saņem spēlētāja pozīciju.</li>
-<li><b>Izej</b> loop cauri visiem ienaidniekiem.</li>
-<li><b>Izrēķini</b> katram attālumu ar <code class="language-csharp">Position.DistanceTo(...)</code>.</li>
-<li><b>Saglabā</b> variable to, kuram attālums ir mazākais.</li>
-<li><b>Izdrukā</b> tuvākā ienaidnieka nosaukumu un attālumu.</li>
+<li>Faila <code>Scripts/EnemyListDemo.cs</code> klasei (ārpus <code>_Ready()</code>) pievieno metodi <code class="language-csharp">private Enemy FindClosestEnemy(Vector2 playerPos)</code>.</li>
+<li>Metodes iekšienē izveido divus mainīgos: <code class="language-csharp">Enemy closest = null;</code> un <code class="language-csharp">float minDistance = float.MaxValue;</code>.</li>
+<li>Ar <code>foreach (Enemy enemy in enemies)</code> aprēķini attālumu <code class="language-csharp">float dist = playerPos.DistanceTo(enemy.Position);</code> un, ja <code>dist &lt; minDistance</code>, saglabā gan jauno mazāko attālumu, gan <code>closest = enemy;</code>.</li>
+<li>Metodē <code>_Ready()</code> piešķir saraksta ienaidniekiem dažādas <code>Position</code> koordinātas, izsauc <code>FindClosestEnemy(new Vector2(200, 360))</code> un izdrukā atrastā tuvākā ienaidnieka <code>EnemyName</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> method atgriež tieši to ienaidnieku, kurš ekrānā ir vistuvāk spēlētājam.</p>
+<p class="done-when"><b>Gatavs, kad:</b> metode atgriež un izdrukā tieši to ienaidnieku, kura pozīcija ir vistuvāk spēlētājam.</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
-<div class="code-example">
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary>
+<p>Katru piemēru liec norādītajā failā. Divas vienādi nosauktas klases vienā projektā neveido.</p>
+<h3>Scripts/Enemy.cs</h3>
+<pre><code class="language-csharp">using Godot;
+
+public partial class Enemy : CharacterBody2D
+{
+    public string EnemyName = "Pretinieks";
+    public int Hp = 30;
+}</code></pre>
+<h3>Scripts/EnemyListDemo.cs</h3>
 <pre><code class="language-csharp">using Godot;
 using System.Collections.Generic;
 
-public partial class Game : Node2D
+public partial class EnemyListDemo : Node
 {
-    [Export] public PackedScene EnemyScene;
-    private readonly List&lt;Enemy&gt; enemies = new();
-    private double spawnTimer = 0.0;
+    [Export] public Godot.Collections.Array&lt;string&gt; WaveNames = new();
+    private List&lt;Enemy&gt; enemies = new();
 
-    private void SpawnEnemy()
+    public override void _Ready()
     {
-        Enemy enemy = EnemyScene.Instantiate&lt;Enemy&gt;();
-        AddChild(enemy);
-        enemy.Position = new Vector2((float)GD.RandRange(0.0, 1280.0), 0);
-        enemies.Add(enemy);
-    }
+        // 1. uzdevums: pievieno ienaidniekus List&lt;Enemy&gt; sarakstam
+        enemies.Add(new Enemy { EnemyName = "Skauts", Position = new Vector2(500, 300) });
+        enemies.Add(new Enemy { EnemyName = "Sargs", Position = new Vector2(350, 360) });
+        enemies.Add(new Enemy { EnemyName = "Snaiperis", Position = new Vector2(900, 200) });
+        enemies.Add(new Enemy { EnemyName = "Smagais", Position = new Vector2(700, 500) });
 
-    public override void _PhysicsProcess(double delta)
-    {
-        spawnTimer += delta;
-        if (spawnTimer &gt;= 2.0)
+        GD.Print("Sākuma skaits: ", enemies.Count);
+        foreach (Enemy enemy in enemies)
         {
-            SpawnEnemy();
-            spawnTimer = 0.0;
+            GD.Print("Ienaidnieks: ", enemy.EnemyName);
         }
 
-        // Noņem mirušos
-        enemies.RemoveAll(enemy =&gt; !enemy.IsAlive());
+        // 2. uzdevums: izņemšana pēc indeksa, robežu pārbaude un droša dzēšana
+        enemies.RemoveAt(1); // Izņem "Sargs" (indekss 1)
+        GD.Print("Skaits pēc RemoveAt(1): ", enemies.Count);
+
+        int index = 10;
+        if (index &gt;= 0 &amp;&amp; index &lt; enemies.Count)
+            GD.Print(enemies[index].EnemyName);
+        else
+            GD.Print("Indekss ", index, " ir ārpus robežām (Count = ", enemies.Count, ")");
+
+        List&lt;Enemy&gt; toRemove = new();
+        foreach (Enemy enemy in enemies)
+        {
+            if (enemy.EnemyName == "Skauts")
+                toRemove.Add(enemy);
+        }
+        foreach (Enemy enemy in toRemove)
+        {
+            enemies.Remove(enemy);
+        }
+        GD.Print("Skaits pēc drošas dzēšanas: ", enemies.Count);
+
+        // 3. uzdevums: Godot Array un C# List&lt;int&gt; salīdzinājums
+        Godot.Collections.Array bullets = new();
+        bullets.Add(12);
+        bullets.Add("plazma");
+        GD.Print("Godot Array skaits: ", bullets.Count);
+
+        List&lt;int&gt; ammoCounts = new();
+        ammoCounts.Add(12);
+        GD.Print("Tipdroša List&lt;int&gt; skaits: ", ammoCounts.Count);
     }
 }</code></pre>
-<div class="result">Spēle spawno 1 ienaidnieku ik pa 2 sec, mirstīgi tiek noņemti no vector (vektora) un scēnas.</div>
-</div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
@@ -242,9 +298,9 @@ public partial class Game : Node2D
 <p class="merkis"><b>Stundas mērķis:</b> Tu proti C# izveidot <code>List&lt;T&gt;</code> sarakstu, droši pievienot un izņemt elementus un izskaidrot, ar ko tas atšķiras no Godot <code>Array</code>.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>C# fails ar ienaidnieku sarakstu un loop.</li>
-<li>Ekrānuzņēmums ar Output paneli, kurā redzams saraksta izmērs pirms un pēc dzēšanas.</li>
-<li>README.md: kāpēc sarakstu nedrīkst mainīt loop laikā un kad lieto <code>Array</code>, nevis <code>List&lt;T&gt;</code>.</li>
+<li>Faili <code>Scripts/Enemy.cs</code>, <code>Scripts/EnemyListDemo.cs</code> un scēna <code>Scenes/EnemyListDemo.tscn</code>.</li>
+<li>Ekrānuzņēmums ar <b>Output</b> paneli, kurā redzams saraksta izmērs pirms un pēc dzēšanas.</li>
+<li><code>README.md</code>: kāpēc sarakstu nedrīkst mainīt <code>foreach</code> cikla laikā un kad lieto <code>Godot.Collections.Array</code>, nevis <code>List&lt;T&gt;</code>.</li>
 </ul>
 <p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>

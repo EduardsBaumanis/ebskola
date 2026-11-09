@@ -56,7 +56,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_3/prog2_3main">3. tēma</a> / 3.4</p>
 <h1>3.4 Klases un iestatījumi Godot redaktorā</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveido šķēršļa klasi un iestati trīs dažādus šķēršļus Inspector panelī.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Izveido šķēršļa klasi un iestati trīs dažādus šķēršļus Inspector panelī.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.7. UI (lietotāja saskarne)</a>
 <a href="/sasnRez">SR 2.4.18. Objektorientētā programmēšana</a>
@@ -105,56 +105,90 @@ public override void _Ready()
 // Vadības skriptā mezglu atrod pēc tā tehniskā Name scēnas kokā:
 Termostats pirmais = GetNode&lt;Termostats&gt;("Termostats1");</code></pre>
 </div></section>
-<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Pievieno savu mezgla tipu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Obstacle.cs</code> ar Obstacle klasi un Godot redaktorā saglabā scēnu <code>Scenes/ObstacleDemo.tscn</code>.</p>
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Reģistrē savu mezgla tipu <code>Obstacle</code> ar <code>[GlobalClass]</code></h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido skriptu <code>Scripts/Obstacle.cs</code> ar klasi <code>Obstacle</code> un Godot redaktorā izveido un saglabā scēnu <code>Scenes/ObstacleDemo.tscn</code>.</p>
+<p><b>Scēnas koka uzbūve (<code>Scenes/ObstacleDemo.tscn</code> pēc 1.–3. uzdevuma):</b></p>
+<pre><code>ObstacleDemo (Node)
+ ├── PrinterQueue (Obstacle - Obstacle Name: "Rinda pie printera", Penalty: 20)
+ ├── WifiDrop (Obstacle - Obstacle Name: "Pazūd internets", Penalty: 12)
+ └── MissingMarker (Obstacle - Obstacle Name: "Pazudis marķieris", Penalty: 8)</code></pre>
 <ol class="step-list">
-<li>Izveido <code>Obstacle.cs</code> ar <code>using Godot;</code>, <code>[GlobalClass]</code> un <code>public partial class Obstacle : Node</code> (šajā projektā šķērslis ir notikums, kas samazina enerģiju, tāpēc kustība un sadursmju formas nav vajadzīgas).</li>
-<li>Saglabā, nospied <b>Build</b> un ar <b>Add Node</b> atrodi <code>Obstacle</code>. Faila un klases nosaukumam precīzi jāsakrīt, ieskaitot lielos burtus.</li>
-<li>Izveido <code>ObstacleDemo.tscn</code> ar sakni <code>Node</code> un pievieno vienu <code>Obstacle</code> bērna mezglu.</li>
-</ol><p class="done-when"><b>Gatavs, kad:</b> tavs mezgla tips ir atrodams un pievienojams scēnai.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Pievieno nosaukumu un soda iestatījumu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Visus laukus, īpašības un <code>_Ready()</code> metodi pievieno <code>Scripts/Obstacle.cs</code> klases iekšienē. Pagaidu piešķīrumu <code>Penalty = -5;</code> raksti šīs metodes sākumā.</p>
-<ol class="step-list">
-<li>Pievieno <code>ObstacleName</code> īpašību ar <code>[Export]</code> pēc parauga zemāk.</li>
-<li>Pievieno <code>using System;</code>, privāto <code>penalty</code> lauku un <code>Penalty</code> īpašību ar <code>get</code>, <code>set</code> (minimums <code>1</code>, lai sods nekļūtu negatīvs) un diapazona norādi <code>"1,50,1"</code>.</li>
-<li>Nospied <b>Build</b>, atlasi <code>Obstacle</code> mezglu un <b>Inspector</b> panelī atrodi <b>Obstacle Name</b> un <b>Penalty</b>.</li>
-<li>Pievieno <code>_Ready()</code> izdruku. Uz vienu pārbaudes palaišanu pirms tās ieraksti <code>Penalty = -5;</code> — <b>Output</b> jāizdrukā sods <code>1</code>. Pēc pārbaudes šo piešķīrumu izdzēs.</li>
+<li><b>Izveido</b> mapē <code>Scripts/</code> jaunu C# failu <code>res://Scripts/Obstacle.cs</code> (faila nosaukumam precīzi jāsakrīt ar klases nosaukumu <code>Obstacle</code>, ieskaitot lielo sākumburtu).</li>
+<li><b>Ieraksti</b> failā <code>Scripts/Obstacle.cs</code> sākuma klasi ar atribūtu <code>[GlobalClass]</code> un mantošanu no <code>Node</code> (skat. paraugu zemāk).</li>
+<li><b>Saglabā</b> failu un nospied <b>Build</b> Godot augšējā labajā stūrī, lai redaktors reģistrētu jauno mezgla tipu.</li>
+<li><b>Izveido</b> jaunu scēnu ar <code>Node</code> sakni <code>ObstacleDemo</code> un saglabā to kā <code>res://Scenes/ObstacleDemo.tscn</code>.</li>
+<li><b>Nospied</b> uz saknes <code>ObstacleDemo</code> pogu <b>Add Child Node (Ctrl+A)</b>, meklētājā ieraksti <code>Obstacle</code>, pievieno to kā bērna mezglu un pārdēvē par <code>PrinterQueue</code>.</li>
 </ol>
-<pre><code class="language-csharp">private int penalty = 20;
+<pre><code class="language-csharp">// Fails: Scripts/Obstacle.cs (1. uzdevuma sākuma versija)
+using Godot;
 
-[Export]
-public string ObstacleName { get; set; } = "Rinda pie printera";
-
-[Export(PropertyHint.Range, "1,50,1")]
-public int Penalty
+[GlobalClass]
+public partial class Obstacle : Node
 {
-    get { return penalty; }
-    set { penalty = Math.Max(1, value); }
-}
-
-public override void _Ready()
-{
-    GD.Print(ObstacleName, ": sods ", Penalty);
 }</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> sodu var mainīt Inspector, bet negatīvu piešķīrumu kods pārvērš par 1.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Salīdzini trīs viena tipa mezglus</h2>
-<p class="task-files"><b>Kur strādāt:</b> Trīs mezglus un to Inspector vērtības maini <code>Scenes/ObstacleDemo.tscn</code>; visi izmanto vienu <code>Scripts/Obstacle.cs</code>. Novērojumus raksti <code>README.md</code>.</p>
+<p class="done-when"><b>Gatavs, kad:</b> pēc <b>Build</b> nospiešanas logs <b>Create New Node</b> atrod tipu <code>Obstacle</code> un tas ir pievienots scēnai <code>Scenes/ObstacleDemo.tscn</code>.</p></section>
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Pievieno <code>[Export]</code> īpašības <code>ObstacleName</code> un <code>Penalty</code> ar minimuma sargu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Papildini failu <code>Scripts/Obstacle.cs</code> ar lauku <code>penalty</code>, īpašībām <code>ObstacleName</code> un <code>Penalty</code>, kā arī metodi <code>_Ready()</code>.</p>
 <ol class="step-list">
-<li>Scēnā <code>ObstacleDemo.tscn</code> izveido trīs <code>Obstacle</code> bērna mezglus un nosauc tos pēc tabulas zemāk (mezgla <code>Name</code> palīdz atrast mezglu kodā, bet <code>ObstacleName</code> ir cilvēkam izdrukājamais teksts).</li>
-<li><b>Inspector</b> panelī iestati katram savu <b>Obstacle Name</b> un <b>Penalty</b> pēc tabulas. Saglabā scēnu.</li>
-<li>Palaid ar <b>F6</b> un salīdzini trīs <b>Output</b> izdrukas ar iestatījumiem.</li>
-<li>Maini tikai <code>PrinterQueue</code> sodu <b>Inspector</b> panelī, palaid vēlreiz un README pieraksti, kuras izdrukas mainījās (un kāpēc scēnā saglabāta vērtība ir noteicošā pār koda sākuma <code>penalty = 20</code>).</li>
+<li><b>Atver</b> failu <code>Scripts/Obstacle.cs</code> un pievieno augšgalā <code class="language-csharp">using System;</code> (lai būtu pieejams <code>Math.Max</code>).</li>
+<li><b>Pievieno</b> klases <code>Obstacle</code> iekšienē eksportētu teksta īpašību:
+<code class="language-csharp">[Export] public string ObstacleName { get; set; } = "Rinda pie printera";</code>.</li>
+<li><b>Pievieno</b> turpat privātu lauku <code class="language-csharp">private int penalty = 20;</code> un eksportētu īpašību <code>Penalty</code> ar <code>[Export(PropertyHint.Range, "1,50,1")]</code>, kur <code>set</code> daļa ar <code class="language-csharp">penalty = Math.Max(1, value);</code> neļauj saglabāt sodu, kas mazāks par <code>1</code>.</li>
+<li><b>Pievieno</b> metodi <code>_Ready()</code>, kas izdrukā šķēršļa nosaukumu un sodu:
+<code class="language-csharp">GD.Print(ObstacleName, ": sods ", Penalty);</code>.</li>
+<li><b>Nospied</b> <b>Build</b>, <b>Scene</b> kokā atlasi mezglu <code>PrinterQueue</code> un pārliecinies, ka labās puses <b>Inspector</b> panelī ir parādījušies lauki <b>Obstacle Name</b> un <b>Penalty</b>.</li>
+<li><b>Pārbaudi</b> <code>set</code> aizsardzību: metodē <code>_Ready()</code> pirms <code>GD.Print</code> uz vienu palaišanu ieraksti pagaidu rindu <code class="language-csharp">Penalty = -5;</code>, palaid scēnu ar <b>F6</b> un pārliecinies, ka <b>Output</b> izdrukā <code>1</code> (nevis <code>-5</code>). Pēc pārbaudes rindu <code>Penalty = -5;</code> <b>izdzēs</b>!</li>
 </ol>
-<div class="table-scroll" role="region" aria-label="Trīs šķēršļu iestatījumi" tabindex="0"><table><thead><tr><th scope="col">Mezgla Name scēnas kokā</th><th scope="col">Obstacle Name Inspector panelī</th><th scope="col">Penalty</th></tr></thead><tbody>
-<tr><td>PrinterQueue</td><td>Rinda pie printera</td><td>20</td></tr>
-<tr><td>WifiDrop</td><td>Pazūd internets</td><td>12</td></tr>
-<tr><td>MissingMarker</td><td>Pazudis marķieris</td><td>8</td></tr>
+<pre><code class="language-csharp">// Fails: Scripts/Obstacle.cs (2. uzdevuma kods)
+using Godot;
+using System;
+
+[GlobalClass]
+public partial class Obstacle : Node
+{
+    private int penalty = 20;
+
+    [Export]
+    public string ObstacleName { get; set; } = "Rinda pie printera";
+
+    [Export(PropertyHint.Range, "1,50,1")]
+    public int Penalty
+    {
+        get { return penalty; }
+        set { penalty = Math.Max(1, value); }
+    }
+
+    public override void _Ready()
+    {
+        GD.Print(ObstacleName, ": sods ", Penalty);
+    }
+}</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> <code>Obstacle Name</code> un <code>Penalty</code> ir redzami <b>Inspector</b> panelī, un negatīvs piešķīrums kodā tiek automātiski pārvērsts par <code>1</code>.</p></section>
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Iestati trīs dažādus <code>Obstacle</code> mezglus <code>Inspector</code> panelī</h2>
+<p class="task-files"><b>Kur strādāt:</b> Mezgliem nosaukumus un <b>Inspector</b> vērtības iestati scēnā <code>Scenes/ObstacleDemo.tscn</code> (visi trīs mezgli izmanto vienu un to pašu skriptu <code>Scripts/Obstacle.cs</code>). Secinājumus ieraksti <code>README.md</code>.</p>
+<ol class="step-list">
+<li><b>Atver</b> scēnu <code>Scenes/ObstacleDemo.tscn</code> un zem saknes <code>ObstacleDemo</code> pievieno vēl divus <code>Obstacle</code> bērna mezglus, lai kopā būtu trīs mezgli ar precīziem <b>Scene</b> koka nosaukumiem: <code>PrinterQueue</code>, <code>WifiDrop</code> un <code>MissingMarker</code>.</li>
+<li><b>Atlasi</b> katru no trim mezgliem <b>Scene</b> kokā un labās puses <b>Inspector</b> panelī iestati tā <b>Obstacle Name</b> un <b>Penalty</b> vērtības pēc tabulas zemāk. Saglabā scēnu (<b>Ctrl+S</b>).</li>
+<li><b>Palaid</b> scēnu <code>Scenes/ObstacleDemo.tscn</code> ar <b>F6</b> un pārbaudi, ka <b>Output</b> panelī parādās trīs dažādas izdrukas (ar sodiem <code>20</code>, <code>12</code> un <code>8</code>).</li>
+<li><b>Atlasi</b> tikai mezglu <code>PrinterQueue</code>, <b>Inspector</b> panelī nomaini tā <b>Penalty</b> uz <code>25</code>, saglabā un palaid ar <b>F6</b> vēlreiz — pēc tam atgriez <code>PrinterQueue</code> sodu atpakaļ uz <code>20</code>.</li>
+<li><b>Pieraksti</b> failā <code>README.md</code>: (a) kāpēc izmainījās tikai <code>PrinterQueue</code> izdruka, bet pārējie divi mezgli saglabāja savus skaitļus; (b) kāpēc scēnā saglabātā <b>Inspector</b> vērtība ir noteicošā pār C# kodā ierakstīto sākuma vērtību <code>penalty = 20</code>.</li>
+</ol>
+<div class="table-scroll" role="region" aria-label="Trīs šķēršļu iestatījumi" tabindex="0"><table><thead><tr><th scope="col">Mezgla Name scēnas kokā</th><th scope="col">Obstacle Name Inspector panelī</th><th scope="col">Penalty Inspector panelī</th></tr></thead><tbody>
+<tr><td><code>PrinterQueue</code></td><td>Rinda pie printera</td><td>20</td></tr>
+<tr><td><code>WifiDrop</code></td><td>Pazūd internets</td><td>12</td></tr>
+<tr><td><code>MissingMarker</code></td><td>Pazudis marķieris</td><td>8</td></tr>
 </tbody></table></div>
-<p class="done-when"><b>Gatavs, kad:</b> trīs objekti lieto vienu skriptu un katrs saglabā savus datus.</p></section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — Pievieno apraksta tekstu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Īpašību Description pievieno <code>Scripts/Obstacle.cs</code>, un šī faila metodē <code>_Ready()</code> papildini izdruku. Aprakstu vērtības ievadi <code>Scenes/ObstacleDemo.tscn</code> Inspector panelī.</p>
-<p>Izveido vēl vienu eksportētu string īpašību <code>Description</code>. Katram šķērslim uzraksti īsu aprakstu un pievieno to izdrukai. Pārbaudi, vai jaunā īpašība parādās pēc Build.</p></details>
-<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>Obstacle.cs</h3>
+<p class="done-when"><b>Gatavs, kad:</b> visi trīs <code>Obstacle</code> mezgli scēnā <code>Scenes/ObstacleDemo.tscn</code> izmanto vienu skriptu <code>Scripts/Obstacle.cs</code> un katrs <b>Output</b> panelī izdrukā savus <b>Inspector</b> datus.</p></section>
+<details class="course-help extra-task"><summary>Papildu uzdevums - Pievieno eksportētu apraksta īpašību <code>Description</code></summary>
+<p class="task-files"><b>Kur strādāt:</b> Īpašību <code>Description</code> un papildināto <code>GD.Print</code> pievieno failā <code>Scripts/Obstacle.cs</code>; aprakstu tekstus ievadi scēnas <code>Scenes/ObstacleDemo.tscn</code> <b>Inspector</b> panelī.</p>
+<p>Ja pamatdarbs ir gatavs, papildini šķērsli ar īsu situācijas aprakstu redaktorā.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> failā <code>Scripts/Obstacle.cs</code> īpašību <code class="language-csharp">[Export] public string Description { get; set; } = "Kavē sagatavošanos kārtai";</code>.</li>
+<li><b>Papildini</b> metodi <code>_Ready()</code>, lai tā izdrukātu arī <code>Description</code> vērtību.</li>
+<li><b>Nospied</b> <b>Build</b>, scēnā <code>Scenes/ObstacleDemo.tscn</code> katram no trim šķēršļiem <b>Inspector</b> panelī ieraksti savu <b>Description</b> tekstu un pārbaudi izdruku ar <b>F6</b>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> jaunā īpašība <code>Description</code> parādās <b>Inspector</b> panelī un katrs mezgls izdrukā savu aprakstu.</p></details>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai — gatavs 3.4. stundas risinājums</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>Fails: <code>Scripts/Obstacle.cs</code> (piesaistīts mezgliem <code>PrinterQueue</code>, <code>WifiDrop</code> un <code>MissingMarker</code>)</h3>
 <pre><code class="language-csharp" id="kods-obstacle-cs">using Godot;
 using System;
 
@@ -179,7 +213,9 @@ public partial class Obstacle : Node
     }
 }</code></pre>
 </details>
-<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2><p>GitHub krātuvē saglabā projektu un šādus pierādījumus:</p><ul><li>Obstacle.cs un ObstacleDemo.tscn ar trim iestatītiem šķēršļiem.</li><li>Inspector un Output salīdzinājums pirms un pēc viena šķēršļa maiņas.</li><li>README: ko dara [Export], ko dara set un kura vērtība tiek izmantota pēc scēnas saglabāšanas.</li></ul><p>Saglabā failus, veic commit ar izmaiņu aprakstu un push. Skolotāja norādītajā vietā iesniedz krātuves saiti.</p></div></section>
+<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Izveidota ar <code>[GlobalClass]</code> reģistrēta klase <code>Scripts/Obstacle.cs</code> ar eksportētām īpašībām <code>ObstacleName</code> un <code>Penalty</code> (ar minimuma pārbaudi <code>set</code> daļā), un scēnā <code>Scenes/ObstacleDemo.tscn</code> konfigurēti trīs dažādi šķēršļi.</p>
+<p><b>GitHub krātuvē saglabā projektu un šādus pierādījumus:</b></p><ul><li>Failu <code>Scripts/Obstacle.cs</code> un scēnu <code>Scenes/ObstacleDemo.tscn</code> ar trim iestatītiem šķēršļiem (<code>PrinterQueue</code>, <code>WifiDrop</code>, <code>MissingMarker</code>).</li><li>Ekrānuzņēmumu vai izdruku ar <b>Inspector</b> un <b>Output</b> salīdzinājumu pirms un pēc viena šķēršļa maiņas.</li><li><code>README.md</code>: skaidrojums par <code>[GlobalClass]</code>, <code>[Export]</code>, <code>set</code> minimuma sargu un to, kura vērtība ir noteicošā pēc scēnas saglabāšanas.</li></ul><p><b>Kā iesniedz:</b> Saglabā failus, veic <code>git commit</code> un <code>git push</code>. Skolotāja norādītajā vietā iesniedz GitHub krātuves saiti.</p></div></section>
 <section><h2>Ja kaut kas nestrādā</h2><ul><li><b>Obstacle neparādās:</b> pārbaudi faila nosaukumu, [GlobalClass], partial un Build kļūdas.</li><li><b>Inspector lauka nav:</b> pārbaudi [Export] un to, vai atlasīts pareizais mezgls.</li><li><b>Visiem sods ir 1:</b> izdzēs pagaidu Penalty = -5 pārbaudi no _Ready.</li><li><b>Mainīju kodu, bet skaitlis palika:</b> pārbaudi konkrētā mezgla scēnā saglabāto Inspector vērtību.</li></ul></section>
 <details class="course-help"><summary>Izmantotā dokumentācija</summary><p><a href="https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_global_classes.html">Godot: klases redaktorā</a> · <a href="https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_exports.html">Godot: eksportētās vērtības</a></p></details>
 <nav aria-label="Nodarbību navigācija" class="stundas-navigacija">

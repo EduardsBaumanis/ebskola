@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_5/prog2_5main">5. tēma</a> / 5.5</p>
 <h1>5.5 Algoritmu efektivitāte</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Apgūt Big O notation (lielā O notācija) un optimizēt spēles algoritmus.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Apgūt Big O notation (lielā O notācija) un optimizēt spēles algoritmus.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
 <a href="/sasnRez">SR 2.4.5. Datu analīze un vizualizācija</a>
@@ -114,132 +114,271 @@ ulong ilgumsUsec = Time.GetTicksUsec() - sakums;
 GD.Print("Izpildes laiks (μs): ", ilgumsUsec);</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Izmēri divu algoritmu laiku</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Benchmark.cs</code> un piesaisti to Node saknei scēnā <code>Scenes/Benchmark.tscn</code>. Abus algoritmus raksti atsevišķās klases metodēs; mērījumus un izdrukas izsauc <code>_Ready()</code>.</p>
+<p class="task-number">1. uzdevums</p><h2>Izmēri <code>O(n)</code> un <code>O(n²)</code> algoritmu izpildes laiku</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Mapē <code>Scenes/</code> izveido scēnu <code>Scenes/Benchmark.tscn</code> (<code>Node</code> sakne <code>Benchmark</code>).<br>
+2) Mapē <code>Scripts/</code> izveido jaunu C# skriptu <code>Scripts/Benchmark.cs</code> un piesaisti to <code>Benchmark</code> mezglam.</p>
 
-<p>Beigās tu redzēsi, ka ligzdots loop (cikls) aug daudz straujāk.</p>
+<p>Pirmajā solī ar <code>Time.GetTicksUsec()</code> mikrosekunžu precizitātē izmērīsim, kā pieaug izpildes laiks vienkāršam ciklam (<code>O(n)</code>) un diviem ligzdotiem cikliem (<code>O(n²)</code>), palielinot elementu skaitu 10 reizes (no <code>n = 200</code> uz <code>n = 2000</code>).</p>
 <ol class="step-list">
-<li><b>Uzraksti</b> function (funkciju) ar vienu loop pār 1000 elementiem.</li>
-<li><b>Uzraksti</b> otru function ar diviem ligzdotiem loop pār to pašu sarakstu.</li>
-<li><b>Izmēri</b> abas ar <code class="language-csharp">ulong t0 = Time.GetTicksUsec();</code> pirms un pēc.</li>
-<li><b>Izdrukā</b> abus laikus mikrosekundēs.</li>
-<li><b>Atkārto</b> mērījumu ar 100 elementiem un pieraksti abus rezultātus.</li>
-<li><b>Izrēķini</b>, cik reižu pieauga katras function laiks.</li>
-<li><b>Pieraksti</b>, kura no tām ir O(n) un kura O(n kvadrātā).</li>
+<li><b>Izveido</b> jaunu scēnu (<b>Scene → New Scene → Other Node → Node</b>), pārsauc saknes mezglu par <code>Benchmark</code> un saglabā scēnu kā <code>Scenes/Benchmark.tscn</code>.</li>
+<li><b>Piesaisti</b> <code>Benchmark</code> mezglam jaunu skriptu <code>Scripts/Benchmark.cs</code> un pievieno divas metodes — <code>LinearPass(List&lt;int&gt; data)</code> ar vienu ciklu un <code>QuadraticPass(List&lt;int&gt; data)</code> ar diviem ligzdotiem cikliem:
+<pre><code class="language-csharp">private long LinearPass(List&lt;int&gt; data)
+{
+    long sum = 0;
+    for (int i = 0; i &lt; data.Count; i++)
+    {
+        sum += data[i];
+    }
+    return sum;
+}
+
+private long QuadraticPass(List&lt;int&gt; data)
+{
+    long matches = 0;
+    for (int i = 0; i &lt; data.Count; i++)
+    {
+        for (int j = 0; j &lt; data.Count; j++)
+        {
+            if (data[i] == data[j]) matches++;
+        }
+    }
+    return matches;
+}</code></pre>
+</li>
+<li><b>Tajā pašā <code>Scripts/Benchmark.cs</code> failā</b> pievieno palīgmetodi <code>RunComplexityTest(int n)</code>, kas izveido <code>List&lt;int&gt;</code> ar <code>n</code> skaitļiem, izmēra abu metožu izpildes laiku mikrosekundēs ar <code>Time.GetTicksUsec()</code> un izdrukā rezultātu:
+<pre><code class="language-csharp">private void RunComplexityTest(int n)
+{
+    List&lt;int&gt; data = new(n);
+    for (int i = 0; i &lt; n; i++) data.Add(i % 50);
+
+    ulong t0 = Time.GetTicksUsec();
+    long linRes = LinearPass(data);
+    ulong linearUsec = Time.GetTicksUsec() - t0;
+
+    ulong t1 = Time.GetTicksUsec();
+    long quadRes = QuadraticPass(data);
+    ulong quadUsec = Time.GetTicksUsec() - t1;
+
+    GD.Print($"[Benchmark n={n}] LinearPass O(n): {linearUsec} μs (sum={linRes}) | QuadraticPass O(n²): {quadUsec} μs (matches={quadRes})");
+}</code></pre>
+</li>
+<li><b>Metodē <code>_Ready()</code></b> izsauc <code>RunComplexityTest(200);</code> un <code>RunComplexityTest(2000);</code> (10× vairāk elementu).</li>
+<li><b>Nospied</b> <b>Build</b> un palaid <code>Scenes/Benchmark.tscn</code> (<code>F6</code>): salīdzini Output konsolē, cik reižu pieauga `LinearPass` laiks un cik reižu pieauga `QuadraticPass` laiks, kad `n` pieauga 10 reizes.</li>
 </ol>
-<pre><code class="language-csharp">ulong t0 = Time.GetTicksUsec();
-LinearPass(data);
-ulong elapsedUsec = Time.GetTicksUsec() - t0;
-GD.Print("Laiks (μs): ", elapsedUsec);</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> palielinot datus 10 reizes, viena loop laiks aug ~10 reizes, bet ligzdotā - ~100 reizes.</p>
+<p class="done-when"><b>Gatavs, kad:</b> Output panelī redzami mērījumi pie <code>n = 200</code> un <code>n = 2000</code>, kur <code>LinearPass</code> laiks pieaug ~10 reizes, bet <code>QuadraticPass</code> — ~100 reizes.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Atrodi un salabo lēno vietu savā spēlē</h2>
-<p class="task-files"><b>Kur strādāt:</b> Labo izmērītās metodes esošo failu: labirinta ģenerēšanai tas ir <code>Scripts/MazeGenerator.cs</code>, ienaidnieku loģikai — <code>Scripts/Enemy.cs</code>, viļņiem — <code>Scripts/WaveManager.cs</code>. Ja lēns ir izsaukums, labo failu, kurā tas atrodas; izvēlēto faila ceļu un metodi pieraksti <code>README.md</code>.</p>
+<p class="task-number">2. uzdevums</p><h2>Atrodi un izlabo katra kadra <code>O(n²)</code> vājo vietu ar <code>Profiler</code></h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Failā <code>Scripts/Benchmark.cs</code> pievieno katra kadra simulāciju <code>_Process(double delta)</code> ar slēdzi <code>[Export] public bool UseDictionaryLookup</code>.<br>
+2) Mērījumus apskati Godot apakšējā panelī <b>Debugger → Profiler</b> un <b>Debugger → Monitors</b>.</p>
 
-<p>Beigās tava spēle darbosies raitāk.</p>
+<p>Tipiska kļūda labirinta un darbības spēlēs ir katrā kadrā (<code>_Process</code>) meklēt objektu koordinātas ar ligzdotu ciklu pār sarakstu (<code>O(n²)</code>), nevis izmantot vārdnīcu <code>Dictionary&lt;Vector2I, int&gt;</code> ar <code>O(1)</code> meklēšanu. Izmērīsim šo atšķirību ar Godot <b>Profiler</b>.</p>
 <ol class="step-list">
-<li><b>Palaid</b> savu spēli un atver <b>Debugger -&gt; Profiler</b>.</li>
-<li><b>Nospied</b> <b>Start</b> un spēlē 30 sekundes.</li>
-<li><b>Atrodi</b> sarakstā function, kas aizņem visvairāk laika.</li>
-<li><b>Pieraksti</b> tās nosaukumu un laiku.</li>
-<li><b>Atrodi</b> kodā vietu, kur tā tiek izsaukta katrā kadrā bez vajadzības.</li>
-<li><b>Pārvieto</b> to ārpus loop vai izsauc retāk.</li>
-<li><b>Būvē</b> un palaid profiler (profileri) vēlreiz.</li>
+<li><b>Atver</b> failu <code>Scripts/Benchmark.cs</code> un pievieno eksportētos laukus un kolekcijas (skat. pilno kodu sadaļā <b>Pilnie faili salīdzināšanai</b>):
+<pre><code class="language-csharp">[Export] public bool UseDictionaryLookup { get; set; } = false;
+[Export] public int ObjectCount { get; set; } = 800;
+
+private readonly List&lt;Vector2I&gt; activeCells = new();
+private readonly Dictionary&lt;Vector2I, int&gt; cellLookup = new();</code></pre>
+</li>
+<li><b>Tajā pašā <code>Scripts/Benchmark.cs</code> failā</b> metodē <code>_Process(double delta)</code> salīdzini divus režīmus, kas katrā kadrā pārbauda <code>ObjectCount</code> šūnas:
+<ul>
+<li>kad <code>UseDictionaryLookup == false</code>: katrai šūnai ar iekšējo ciklu pārmeklē visu <code>activeCells</code> sarakstu (kopā <code>ObjectCount × ObjectCount</code> darbības kadrā — <code>O(n²)</code>);</li>
+<li>kad <code>UseDictionaryLookup == true</code>: katru šūnu pārbauda vārdnīcā ar <code>cellLookup.ContainsKey(pos)</code> (kopā <code>ObjectCount</code> darbības kadrā — <code>O(n)</code>).</li>
+</ul>
+</li>
+<li><b>Nospied</b> <b>Build</b>, palaid <code>Scenes/Benchmark.tscn</code> (<code>F6</code>) ar izslēgtu <b>Use Dictionary Lookup</b> (<code>false</code>), Godot apakšējā panelī atver <b>Debugger → Profiler</b> un nospied <b>Start</b>.</li>
+<li><b>Pēc 5–10 sekundēm</b> nospied <b>Stop</b> un apskati rindu <code>Frame Time</code> un <code>Script Functions → _Process</code>: pieraksti kadra apstrādes laiku milisekundēs (`ms`) un `FPS`.</li>
+<li><b>Spēles laikā vai Inspector panelī</b> ieslēdz <b>Use Dictionary Lookup</b> (<code>true</code>) (vai spēles logā nospied taustiņu <code>Space</code>, kas pārslēdz režīmu) un <b>Profiler</b> grafikā vēro, kā kadra laiks strauji nokrītas!</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> profiler tavas izlabotās function laiks ir manāmi mazāks nekā pirms labojuma.</p>
+<p class="done-when"><b>Gatavs, kad:</b> <b>Debugger → Profiler</b> grafikā un Output konsolē ir skaidri redzams kadra laika kritums pēc <code>UseDictionaryLookup = true</code> ieslēgšanas.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Pierādi uzlabojumu ar mērījumu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Mērījumu tabulu un secinājumus raksti <code>README.md</code>. Slodzi maini tajā pašā 2. uzdevumā izvēlētajā spēles skriptā vai tā mezgla Inspector iestatījumos.</p>
+<p class="task-number">3. uzdevums</p><h2>Pierādi uzlabojumu ar mērījumu tabulu pie dubultas slodzes</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Inspector panelī pie <code>Benchmark</code> mezgla maini <code>Object Count</code> (<code>800</code> un <code>1600</code>) un <code>Use Dictionary Lookup</code> (<code>false</code> un <code>true</code>).<br>
+2) Mērījumu tabulu un secinājumus ieraksti projekta saknes failā <code>README.md</code>.</p>
 
-<p>Beigās tev būs skaitļi, nevis sajūta.</p>
+<p>Pārbaudīsim, kā abas pieejas uzvedas, kad objektu skaitu dubulto no <code>800</code> uz <code>1600</code>, un noformēsim pierādījumu tabulu failā <code>README.md</code>.</p>
 <ol class="step-list">
-<li><b>Pieraksti</b> tabulā FPS (kadri sekundē) pirms labojuma un pēc tā.</li>
-<li><b>Pieraksti</b> arī profiler laiku abos gadījumos.</li>
-<li><b>Palaid</b> spēli ar dubultu objektu skaitu un atkārto mērījumu.</li>
-<li><b>Pieraksti</b>, vai uzlabojums saglabājas arī ar lielāku slodzi.</li>
-<li><b>Izvēlies</b> vēl vienu vietu, ko varētu uzlabot, un pieraksti to.</li>
-<li><b>Pieraksti</b>, kāpēc nav vērts optimizēt kodu, kas izpildās reti.</li>
-<li><b>Veic</b> commit (izmaiņu fiksējums) ar ziņu par veikto optimizāciju.</li>
+<li><b>1. mērījums (parasta slodze, <code>ObjectCount = 800</code>):</b> palaid <code>Scenes/Benchmark.tscn</code> (<code>F6</code>), pieraksti Output konsolē (vai <b>Debugger → Profiler</b>) redzamo kadra laiku (`μs` vai `ms`) un `FPS` vispirms ar <code>UseDictionaryLookup = false</code>, tad nospied <code>Space</code> un pieraksti rādījumus ar <code>UseDictionaryLookup = true</code>.</li>
+<li><b>2. mērījums (dubulta slodze, <code>ObjectCount = 1600</code>):</b> Inspector panelī nomaini <b>Object Count</b> uz <code>1600</code>, palaid scēnu (<code>F6</code>) un pieraksti kadra laiku un `FPS` abos režīmos (<code>false</code> un <code>true</code>).</li>
+<li><b>Projekta saknē</b> atver <code>README.md</code> un aizpildi mērījumu tabulu:
+<pre><code class="language-markdown">## 5.5. Algoritmu efektivitātes mērījumi
+### 1. uzdevums: `LinearPass` O(n) pret `QuadraticPass` O(n²)
+- `n = 200`: O(n) = ... μs, O(n²) = ... μs
+- `n = 2000`: O(n) = ... μs, O(n²) = ... μs
+
+### 2. un 3. uzdevums: Katra kadra meklēšanas optimizācija (`_Process`)
+| Slodze (`ObjectCount`) | `List` ligzdotais cikls `O(n²)` (μs / FPS) | `Dictionary` meklēšana `O(n)` (μs / FPS) |
+| :--- | :--- | :--- |
+| Parasta (`800` objekti) | ... μs (... FPS) | ... μs (... FPS) |
+| Dubulta (`1600` objekti) | ... μs (... FPS) | ... μs (... FPS) |
+
+**Secinājums:** Dubultojot objektu skaitu, `O(n²)` laiks pieauga ~4 reizes, bet `Dictionary` pieeja ...</code></pre>
+</li>
+<li><b>Tajā pašā <code>README.md</code> failā</b> vienā teikumā paskaidro, kāpēc vispirms jāoptimizē metodes, kas izpildās katrā kadrā (<code>_Process</code> / <code>_PhysicsProcess</code>), nevis kods, kas izpildās vienreiz spēles sākumā.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> tavā tabulā ir četri skaitļi, kas parāda uzlabojumu gan ar parasto, gan ar dubultu slodzi.</p>
+<p class="done-when"><b>Gatavs, kad:</b> failā <code>README.md</code> ir aizpildīta tabula ar 4 mērījumiem (pie <code>800</code> un <code>1600</code> objektiem pirms un pēc optimizācijas) un secinājums.</p>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Salīdzini List (saraksts) ar Dictionary (vārdnīca) meklēšanu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Abu struktūru meklēšanas metodes un to mērījumus pievieno <code>Scripts/Benchmark.cs</code>; izsauc tos no <code>_Ready()</code>.</p>
+<summary>Papildu uzdevums — Salīdzini <code>List.Contains</code> ar <code>BinarySearch</code> un <code>Dictionary</code> pie 10 000 elementiem</summary>
+<p class="task-files"><b>Kur strādāt:</b> Pievieno metodi <code>CompareSearchStructures()</code> failā <code>Scripts/Benchmark.cs</code> un izsauc to no <code>_Ready()</code>.</p>
 
-<p>Ja pamatdarbs ir gatavs, izmēri data structure (datu struktūru) atšķirību.</p>
+<p>Ja pamatdarbs ir gatavs, salīdzini trīs meklēšanas pieejas kolekcijā ar <code>10 000</code> elementiem: lineāro meklēšanu <code>list.Contains(target)</code> (<code>O(n)</code>), bināro meklēšanu sakārtotā sarakstā <code>list.BinarySearch(target)</code> (<code>O(log n)</code>) un <code>dict.ContainsKey(target)</code> (<code>O(1)</code>).</p>
 <ol class="step-list">
-<li><b>Izveido</b> <code class="language-csharp">List&lt;int&gt;</code> ar 10000 elementiem.</li>
-<li><b>Izveido</b> <code class="language-csharp">Dictionary&lt;int, int&gt;</code> ar tiem pašiem datiem.</li>
-<li><b>Izmēri</b> laiku, meklējot pēdējo elementu abās struktūrās.</li>
-<li><b>Izdrukā</b> abus laikus.</li>
-<li><b>Pieraksti</b>, kura struktūra bija ātrāka un par cik reizēm.</li>
+<li><b>Failā <code>Scripts/Benchmark.cs</code></b> izveido sakārtotu <code>List&lt;int&gt;</code> un <code>Dictionary&lt;int, int&gt;</code> ar skaitļiem no <code>0</code> līdz <code>9999</code>.</li>
+<li><b>Ar <code>Time.GetTicksUsec()</code></b> izmēri laiku, 1000 reizes meklējot pēdējo elementu <code>9999</code> ar <code>list.Contains(9999)</code>, <code>list.BinarySearch(9999)</code> un <code>dict.ContainsKey(9999)</code>, un izdrukā visus trīs laikus konsolē.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> meklēšana <code>Dictionary</code> ir manāmi ātrāka nekā loop pār <code>List</code>.</p>
+<p class="done-when"><b>Gatavs, kad:</b> Output konsolē redzams, ka <code>BinarySearch</code> un <code>Dictionary.ContainsKey</code> ir desmitiem reižu ātrāki par <code>List.Contains</code>.</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary>
 <div class="code-example">
+<p><b>Fails — <code>Scripts/Benchmark.cs</code> (piesaistīts <code>Scenes/Benchmark.tscn</code> saknes mezglam <code>Benchmark</code>):</b></p>
 <pre><code class="language-csharp">using Godot;
 using System.Collections.Generic;
 
-// Spatial hash priekš ātras kolīzijas
-public class SpatialHash
+public partial class Benchmark : Node
 {
-    private const int CellSize = 64;
-    private readonly Dictionary&lt;long, List&lt;Node2D&gt;&gt; grid = new();
+    [Export] public bool UseDictionaryLookup { get; set; } = false;
+    [Export] public int ObjectCount { get; set; } = 800;
 
-    private long CellKey(int cx, int cy)
+    private readonly List&lt;Vector2I&gt; activeCells = new();
+    private readonly Dictionary&lt;Vector2I, int&gt; cellLookup = new();
+    private double logTimer = 0.0;
+    private int lastCount = -1;
+
+    public override void _Ready()
     {
-        return ((long)cx &lt;&lt; 32) | (uint)cy;
+        // 1. uzdevums: O(n) pret O(n²) pie n = 200 un n = 2000
+        RunComplexityTest(200);
+        RunComplexityTest(2000);
+
+        RebuildCollections();
     }
 
-    public void Rebuild(IEnumerable&lt;Node2D&gt; objects)
+    private void RebuildCollections()
     {
-        grid.Clear();
-        foreach (Node2D obj in objects)
+        activeCells.Clear();
+        cellLookup.Clear();
+        for (int i = 0; i &lt; ObjectCount; i++)
         {
-            Vector2 pos = obj.Position;
-            int cx = (int)(pos.X / CellSize);
-            int cy = (int)(pos.Y / CellSize);
-            long key = CellKey(cx, cy);
-            if (!grid.ContainsKey(key)) grid[key] = new List&lt;Node2D&gt;();
-            grid[key].Add(obj);
+            Vector2I pos = new(i % 40, i / 40);
+            activeCells.Add(pos);
+            cellLookup[pos] = i;
         }
+        lastCount = ObjectCount;
     }
 
-    public List&lt;Node2D&gt; GetNearby(Vector2 pos)
+    public override void _Process(double delta)
     {
-        int cx = (int)(pos.X / CellSize);
-        int cy = (int)(pos.Y / CellSize);
-        List&lt;Node2D&gt; result = new();
-        for (int dx = -1; dx &lt;= 1; dx++)
+        if (lastCount != ObjectCount)
         {
-            for (int dy = -1; dy &lt;= 1; dy++)
+            RebuildCollections();
+        }
+
+        if (Input.IsKeyPressed(Key.Space))
+        {
+            UseDictionaryLookup = !UseDictionaryLookup;
+            GD.Print($"[Benchmark] Režīms pārslēgts: UseDictionaryLookup = {UseDictionaryLookup}");
+        }
+
+        ulong t0 = Time.GetTicksUsec();
+        int found = 0;
+
+        if (!UseDictionaryLookup)
+        {
+            // Neoptimizēta O(n²) meklēšana katrā kadrā (divi ligzdoti cikli)
+            for (int i = 0; i &lt; activeCells.Count; i++)
             {
-                if (grid.TryGetValue(CellKey(cx + dx, cy + dy), out List&lt;Node2D&gt; cell))
+                Vector2I target = activeCells[i];
+                for (int j = 0; j &lt; activeCells.Count; j++)
                 {
-                    result.AddRange(cell);
+                    if (activeCells[j] == target)
+                    {
+                        found++;
+                        break;
+                    }
                 }
             }
         }
-        return result;
+        else
+        {
+            // Optimizēta O(n) pārbaude, izmantojot O(1) Dictionary atslēgu
+            for (int i = 0; i &lt; activeCells.Count; i++)
+            {
+                Vector2I target = activeCells[i];
+                if (cellLookup.ContainsKey(target))
+                {
+                    found++;
+                }
+            }
+        }
+
+        ulong frameWorkUsec = Time.GetTicksUsec() - t0;
+
+        logTimer += delta;
+        if (logTimer &gt;= 1.0)
+        {
+            logTimer = 0.0;
+            string mode = UseDictionaryLookup ? "Dictionary O(n)" : "List ligzdotais O(n²)";
+            GD.Print($"[Benchmark N={ObjectCount}] {mode} -&gt; {frameWorkUsec} μs kadrā | FPS: {Engine.GetFramesPerSecond()} (atrasti={found})");
+        }
+    }
+
+    private void RunComplexityTest(int n)
+    {
+        List&lt;int&gt; data = new(n);
+        for (int i = 0; i &lt; n; i++) data.Add(i % 50);
+
+        ulong t0 = Time.GetTicksUsec();
+        long linRes = LinearPass(data);
+        ulong linearUsec = Time.GetTicksUsec() - t0;
+
+        ulong t1 = Time.GetTicksUsec();
+        long quadRes = QuadraticPass(data);
+        ulong quadUsec = Time.GetTicksUsec() - t1;
+
+        GD.Print($"[Benchmark n={n}] LinearPass O(n): {linearUsec} μs (sum={linRes}) | QuadraticPass O(n²): {quadUsec} μs (matches={quadRes})");
+    }
+
+    private long LinearPass(List&lt;int&gt; data)
+    {
+        long sum = 0;
+        for (int i = 0; i &lt; data.Count; i++)
+        {
+            sum += data[i];
+        }
+        return sum;
+    }
+
+    private long QuadraticPass(List&lt;int&gt; data)
+    {
+        long matches = 0;
+        for (int i = 0; i &lt; data.Count; i++)
+        {
+            for (int j = 0; j &lt; data.Count; j++)
+            {
+                if (data[i] == data[j]) matches++;
+            }
+        }
+        return matches;
     }
 }</code></pre>
-<div class="result">1000 objektu kolīzijas pārbaude: bez optimizācijas - 5 ms, ar spatial hash (jaucējvērtība) - 0.3 ms.</div>
+<div class="result">Pie <code>n = 2000</code> kvadrātiskais algoritms ir simtiem reižu lēnāks par lineāro; katra kadra pārbaudē pāreja no ligzdota cikla uz <code>Dictionary</code> samazina kadra apstrādes laiku no vairākām milisekundēm līdz dažām mikrosekundēm.</div>
 </div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tu proti izmērīt koda izpildes laiku, atrast lēnāko vietu ar Godot profiler, to izlabot un ar skaitļiem pierādīt, ka uzlabojums tiešām notika.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tu proti izmērīt koda izpildes laiku ar <code>Time.GetTicksUsec()</code> un Godot <b>Profiler</b>, salīdzināt <code>O(n)</code> un <code>O(n²)</code> pieaugumu un ar skaitļiem pierādīt optimizācijas ieguvumu.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>Tabula ar FPS un profiler laiku pirms un pēc labojuma, arī ar dubultu slodzi.</li>
-<li>Ekrānuzņēmums ar Godot profiler pirms labojuma un pēc tā.</li>
-<li>Commit ziņa, kurā aprakstīts, ko tieši optimizēji.</li>
-<li>README.md: kura function bija O(n) un kura O(n kvadrātā) un kā tu to noteici.</li>
+<li>Scēnai <code>Scenes/Benchmark.tscn</code> un skriptam <code>Scripts/Benchmark.cs</code>.</li>
+<li>Ekrānuzņēmumam ar Godot <b>Debugger → Profiler</b> vai Output paneli pirms un pēc optimizācijas ieslēgšanas.</li>
+<li>Failam <code>README.md</code> ar aizpildītu mērījumu tabulu (gan pie <code>800</code>, gan pie <code>1600</code> objektiem) un secinājumu par <code>O(n)</code> un <code>O(n²)</code> atšķirību.</li>
 </ul>
 <p><b>Kā iesniedz:</b> Veic commit un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>

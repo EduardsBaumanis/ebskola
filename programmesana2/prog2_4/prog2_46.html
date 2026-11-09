@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_4/prog2_4main">4. tēma</a> / 4.6</p>
 <h1>4.6 Noslēguma projekts: Šaušanas spēle skatā no augšas</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Apvienot data structure (datu struktūras), AI (mākslīgais intelekts) un object pooling (objektu atkārtota izmantošana) pilnvērtīgā šaušanas spēle skatā no augšas.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Apvienot data structure (datu struktūras), AI (mākslīgais intelekts) un object pooling (objektu atkārtota izmantošana) pilnvērtīgā šaušanas spēle skatā no augšas.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.1. Problēmu dekompozīcija</a>
 <a href="/sasnRez">SR 2.4.16. Data structure</a>
@@ -119,139 +119,762 @@ public partial class Dispecers : Node
 }</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Spēlētājs ar kustību un mērķēšanu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/Player.cs</code>, kas piesaistīts <code>Scenes/Player.tscn</code> saknei; kustību un mērķēšanu raksti <code>_PhysicsProcess()</code>. Izmanto esošos <code>Scripts/Bullet.cs</code>, <code>Scripts/BulletPool.cs</code> un <code>bullet.tscn</code> no 4.5.</p>
+<p class="task-number">1. uzdevums</p><h2>Spēlētājs ar kustību, mērķēšanu, šaušanu un HP</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Projekta iestatījumos (<b>Project → Project Settings → Input Map</b>) pārbaudi visas ievades darbības.<br>
+2) Papildini esošo failu <code>Scripts/Player.cs</code> (piesaistīts <code>Scenes/Player.tscn</code> saknei) ar dzīvības punktiem (<code>Hp</code>, <code>MaxHp</code>), metodi <code>TakeDamage(int amount)</code> un bloķēšanu, kad <code>!IsAlive</code>.<br>
+3) Izmanto esošos <code>Scenes/Bullet.tscn</code>, <code>Scripts/Bullet.cs</code> un <code>Scripts/BulletPool.cs</code> no 4.5. stundas.</p>
 
-<p>Beigās spēlētājs pārvietosies ar WASD un šaus peles virzienā.</p>
+<p>Pirmajā uzdevumā pilnveidosim spēlētāja klasi <code>Scripts/Player.cs</code>, lai tā apvienotu 8 virzienu normalizētu kustību, mērķēšanu uz peli (<code>LookAt</code>), šaušanu no <code>BulletPool</code> un dzīvības punktu (<code>HP</code>) uzskaiti.</p>
 <ol class="step-list">
-<li><b>Izveido</b> spēlētāja class ar 8 virzienu kustību un normalizētu vector (vektoru).</li>
-<li><b>Paņem</b> peles pozīciju ar <code class="language-csharp">GetGlobalMousePosition()</code>.</li>
-<li><b>Pagriez</b> spēlētāju pret peli ar <code class="language-csharp">LookAt(...)</code>.</li>
-<li><b>Pievieno</b> šaušanu no 4.5 stundas ar object pool.</li>
-<li><b>Izšauj</b> lādiņu spēlētāja skatīšanās virzienā.</li>
-<li><b>Būvē</b> un pārbaudi kustību visos virzienos un šaušanu.</li>
-<li><b>Pārliecinies</b>, ka diagonālā kustība nav ātrāka.</li>
+<li><b>Pārbaudi</b> <b>Project → Project Settings → Input Map</b>: pārliecinies, ka projektā ir darbības <code>move_left</code> (<code>A</code>), <code>move_right</code> (<code>D</code>), <code>move_up</code> (<code>W</code>), <code>move_down</code> (<code>S</code>), <code>shoot</code> (peles kreisā poga) un pievieno jaunu darbību <code>restart</code> ar taustiņu <code>R</code> (lai pēc spēles beigām varētu sākt no jauna).</li>
+<li><b>Atver</b> failu <code>Scripts/Player.cs</code> un pievieno spēlētāja dzīvības punktu īpašības <code>MaxHp</code>, <code>Hp</code> un <code>IsAlive</code>:
+<pre><code class="language-csharp">[Export] public int MaxHp { get; set; } = 100;
+public int Hp { get; private set; } = 100;
+public bool IsAlive =&gt; Hp &gt; 0;</code></pre>
+</li>
+<li><b>Tajā pašā <code>Scripts/Player.cs</code> failā</b> metodē <code>_Ready()</code> iestati sākuma dzīvības punktus <code>Hp = MaxHp;</code>, bet metodē <code>_PhysicsProcess(double delta)</code> pašā sākumā pievieno aizsardzību:
+<pre><code class="language-csharp">if (!IsAlive)
+{
+    Velocity = Vector2.Zero;
+    return;
+}</code></pre>
+</li>
+<li><b>Pārbaudi</b>, ka <code>_PhysicsProcess(double delta)</code> normalizē 8 virzienu kustības vektoru (<code>if (inputDir != Vector2.Zero) inputDir = inputDir.Normalized();</code>), pagriež spēlētāju pret kursoru ar <code>LookAt(GetGlobalMousePosition());</code> un šauj <code>Transform.X</code> virzienā, izmantojot <code>bulletPool.GetBullet()</code>.</li>
+<li><b>Faila <code>Scripts/Player.cs</code> beigās</b> pievieno metodes <code>TakeDamage(int amount)</code> un <code>Heal(int amount)</code>:
+<pre><code class="language-csharp">public void TakeDamage(int amount)
+{
+    if (!IsAlive || amount &lt;= 0) return;
+
+    Hp = Mathf.Max(0, Hp - amount);
+    GD.Print($"[Player] Saņemti -{amount} bojājumi. HP: {Hp}/{MaxHp}");
+
+    if (Hp == 0)
+    {
+        Modulate = new Color(0.4f, 0.4f, 0.4f, 0.7f);
+        GD.Print("[Player] Spēlētājs ir zaudējis visus HP!");
+    }
+}
+
+public void Heal(int amount)
+{
+    if (!IsAlive || amount &lt;= 0) return;
+    Hp = Mathf.Min(MaxHp, Hp + amount);
+}</code></pre>
+</li>
+<li><b>Nospied</b> <b>Build</b> un palaid <code>Scenes/Arena.tscn</code> (<code>F5</code>): pārliecinies, ka diagonālā kustība (<code>W + D</code>) ir tikpat ātra kā taisnā, spēlētājs vienmēr skatās uz kursoru un šauj lādiņus tieši kursora virzienā.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> spēlētājs kustas visos virzienos, vienmēr skatās uz peli un šauj tieši tajā virzienā.</p>
+<div class="table-scroll" role="region" aria-label="Projekta failu pienākumi" tabindex="0"><table><thead><tr><th scope="col">Fails</th><th scope="col">Mezgls / loma</th><th scope="col">Ko tas glabā vai dara</th></tr></thead><tbody>
+<tr><td><code>Scripts/Player.cs</code></td><td><code>Scenes/Player.tscn</code> (<code>CharacterBody2D</code>)</td><td>8 virzienu <code>WASD</code> kustība, <code>LookAt</code> pret peli, šaušana ar <code>BulletPool</code>, <code>Hp</code> un <code>TakeDamage</code>.</td></tr>
+<tr><td><code>Scripts/Bullet.cs</code> un <code>Scripts/BulletPool.cs</code></td><td><code>Scenes/Bullet.tscn</code> (<code>Area2D</code>)</td><td>50 atkārtoti izmantojami lādiņi (<code>List&lt;Bullet&gt;</code>), kas trāpot izsauc <code>enemy.TakeDamage(Damage)</code>.</td></tr>
+<tr><td><code>Scripts/Enemy.cs</code></td><td><code>Scenes/Enemy.tscn</code> bāzes klase</td><td>Stāvokļu mašīna (<code>Patrol</code>, <code>Chase</code>, <code>Attack</code>, <code>Dead</code>), A* ceļa meklēšana (<code>NavigationAgent2D</code>) un <code>virtual PerformAttack</code>.</td></tr>
+<tr><td><code>Scripts/Chaser.cs</code> un <code>Scripts/Shooter.cs</code></td><td>Atvasinātās klases (<code>: Enemy</code>)</td><td><code>Chaser</code> ātri dzenas tuvcīņā (sarkans); <code>Shooter</code> apstājas distancē un apšauda spēlētāju (violets).</td></tr>
+<tr><td><code>Scripts/WaveManager.cs</code></td><td><code>Arena/WaveManager</code> (<code>Node</code>)</td><td>Glabā <code>List&lt;Enemy&gt;</code> un <code>Dictionary&lt;string, int&gt;</code> statistiku, rada 3 viļņus un atjauno <code>HUD</code>.</td></tr>
+</tbody></table></div>
+<p class="done-when"><b>Gatavs, kad:</b> spēlētājs vienmērīgā ātrumā pārvietojas visos 8 virzienos, griežas pret peli, šauj no <code>BulletPool</code> un glabā <code>Hp</code> ar <code>TakeDamage(...)</code> metodi.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Divi ienaidnieku type ar AI</h2>
-<p class="task-files"><b>Kur strādāt:</b> Kopīgo ienaidnieka kodu turpini <code>Scripts/Enemy.cs</code>; atvasinātās klases izveido <code>Scripts/Chaser.cs</code> un <code>Scripts/Shooter.cs</code>. Kopīgo sarakstu un tā ciklu ievieto <code>Scripts/WaveManager.cs</code>, piesaistot to Node mezglam <code>Scenes/Arena.tscn</code>.</p>
+<p class="task-number">2. uzdevums</p><h2>Divi ienaidnieku tipi (<code>Chaser</code> un <code>Shooter</code>) ar mantošanu un AI</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Atjaunini bāzes klasi <code>Scripts/Enemy.cs</code> (virtuālā uzbrukuma metode <code>PerformAttack</code> un automātiska komponentu sagatavošana).<br>
+2) Mapē <code>Scripts/</code> izveido divas jaunas atvasinātās klases: <code>Scripts/Chaser.cs</code> un <code>Scripts/Shooter.cs</code>.</p>
 
-<p>Beigās ienaidnieki uzvedīsies atšķirīgi.</p>
+<p>Izmantosim 3. tēmā apgūto mantošanu (<code>: Enemy</code>) un polimorfismu (<code>virtual</code> / <code>override</code>): kopīgā stāvokļu mašīna un <code>NavigationAgent2D</code> ceļa meklēšana paliek bāzes klasē <code>Enemy</code>, bet <code>Chaser</code> un <code>Shooter</code> iestata atšķirīgu ātrumu, uzbrukuma distanci (<code>AttackRange</code>) un uzbrukuma darbību.</p>
 <ol class="step-list">
-<li><b>Izveido</b> base class (bāzes klasi) <code>Enemy</code> ar state machine no 4.3 stundas.</li>
-<li><b>Izveido</b> derived class (bērna klasi) <code>Chaser</code>, kas dzenas ar pathfinding.</li>
-<li><b>Izveido</b> otru derived class <code>Shooter</code>, kas apstājas un šauj no attāluma.</li>
-<li><b>Glabā</b> visus ienaidniekus vienā <code class="language-csharp">List&lt;Enemy&gt;</code>.</li>
-<li><b>Uzraksti</b> vienu loop (ciklu), kas atjaunina visus ienaidniekus.</li>
-<li><b>Pievieno</b> ienaidniekiem HP un dzēšanu, kad tie tiek nošauti.</li>
-<li><b>Pārbaudi</b>, ka abi type uzvedas atšķirīgi.</li>
+<li><b>Atver</b> bāzes klasi <code>Scripts/Enemy.cs</code> un aizstāj to ar pilno noslēguma versiju (skat. arī sadaļu <b>Pilnie faili salīdzināšanai</b> zemāk), kurā pievienoti uzbrukuma parametri un virtuālā metode <code>PerformAttack(double delta)</code>:
+<pre><code class="language-csharp">[Export] public float DetectRange { get; set; } = 360.0f;
+[Export] public float AttackRange { get; set; } = 48.0f;
+[Export] public int AttackDamage { get; set; } = 10;
+[Export] public float AttackInterval { get; set; } = 0.9f;
+[Export] public int ScoreValue { get; set; } = 100;
+[Export] public Color BodyColor { get; set; } = new Color(0.9f, 0.25f, 0.25f);</code></pre>
+Stāvoklī <code>EnemyState.Attack</code> bāzes klase apstājas un izsauc <code>PerformAttack(delta)</code>, kas ik pēc <code>AttackInterval</code> sekundēm atņem spēlētājam <code>AttackDamage</code> dzīvības punktus.</li>
+<li><b>Mapē <code>Scripts/</code></b> izveido jaunu C# failu <code>Scripts/Chaser.cs</code> — ātru tuvcīņas vajātāju, kas manto no <code>Enemy</code> un ar A* ceļa meklēšanu skrien tieši klāt spēlētājam:
+<pre><code class="language-csharp">using Godot;
+
+public partial class Chaser : Enemy
+{
+    public Chaser()
+    {
+        EnemyName = "Chaser";
+        Speed = 175.0f;
+        Hp = 30;
+        DetectRange = 420.0f;
+        AttackRange = 48.0f;
+        AttackDamage = 10;
+        AttackInterval = 0.8f;
+        ScoreValue = 100;
+        BodyColor = new Color(0.92f, 0.24f, 0.24f); // Sarkans tuvcīņas vajātājs
+    }
+}</code></pre>
+</li>
+<li><b>Mapē <code>Scripts/</code></b> izveido otru C# failu <code>Scripts/Shooter.cs</code> — distances šāvēju, kas manto no <code>Enemy</code>, apstājas <code>240 px</code> attālumā un pārraksta (<code>override</code>) metodi <code>PerformAttack</code>, lai pagrieztos pret spēlētāju un apšaudītu viņu no attāluma:
+<pre><code class="language-csharp">using Godot;
+
+public partial class Shooter : Enemy
+{
+    public Shooter()
+    {
+        EnemyName = "Shooter";
+        Speed = 115.0f;
+        Hp = 20;
+        DetectRange = 480.0f;
+        AttackRange = 240.0f;
+        AttackDamage = 8;
+        AttackInterval = 1.2f;
+        ScoreValue = 150;
+        BodyColor = new Color(0.68f, 0.32f, 0.92f); // Violets distances šāvējs
+    }
+
+    protected override void PerformAttack(double delta)
+    {
+        if (player == null || !player.IsAlive) return;
+
+        LookAt(player.GlobalPosition);
+        attackCooldown -= delta;
+
+        if (attackCooldown &lt;= 0.0)
+        {
+            attackCooldown = AttackInterval;
+            player.TakeDamage(AttackDamage);
+            GD.Print($"[{EnemyName}] Izšāva no distances ({GlobalPosition.DistanceTo(player.GlobalPosition):F0} px)!");
+        }
+    }
+}</code></pre>
+</li>
+<li><b>Pārbaudi</b>, kā strādā polimorfisms: gan <code>Chaser</code>, gan <code>Shooter</code> var ievietot vienā sarakstā <code>List&lt;Enemy&gt; activeEnemies</code>, jo abas klases ir <code>Enemy</code> apakšklases, tomēr <code>Chaser</code> skrien līdz <code>48 px</code> tuvumam, bet <code>Shooter</code> apstājas jau pie <code>240 px</code> un šauj.</li>
 </ol>
-<pre><code class="language-csharp">// Projekta klašu hierarhijas pārskats:
-public partial class Player : CharacterBody2D { /* 8 virzienu WASD + mērķēšana pret peli + šaušana */ }
-public partial class Enemy : CharacterBody2D { /* bāzes stāvokļu mašīna + ceļa meklēšana + HP */ }
-public partial class Chaser : Enemy { /* ātri dzenas tuvumā (vai FastEnemy / Brute variācijas) */ }
-public partial class Shooter : Enemy { /* ietur distanci un šauj no attāluma */ }
-public partial class Bullet : Area2D { /* atkārtoti lietojams lādiņš no BulletPool */ }
-public partial class WaveManager : Node { /* pārvalda ienaidnieku viļņus un rezultātu */ }</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> viens ienaidnieku type dzenas pakaļ, otrs apstājas un šauj, un abus apstrādā viens loop.</p>
+<p class="done-when"><b>Gatavs, kad:</b> projektā ir bāzes klase <code>Scripts/Enemy.cs</code> un abas atvasinātās klases <code>Scripts/Chaser.cs</code> un <code>Scripts/Shooter.cs</code> ar atšķirīgiem parametriem un uzvedību.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Viļņu sistēma un rezultāts</h2>
-<p class="task-files"><b>Kur strādāt:</b> Viļņu izveidi, punktus un HUD atjaunošanu pievieno <code>Scripts/WaveManager.cs</code>; spēlētāja HP apstrādi — <code>Scripts/Player.cs</code>. HUD mezglus izveido <code>Scenes/Arena.tscn</code>.</p>
+<p class="task-number">3. uzdevums</p><h2>Viļņu sistēma <code>WaveManager</code>, rezultātu <code>Dictionary</code> un HUD</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Scēnā <code>Scenes/Arena.tscn</code> pievieno <code>WaveManager</code> (<code>Node</code>) un <code>HUD</code> (<code>CanvasLayer</code> ar diviem <code>Label</code> mezgliem).<br>
+2) Mapē <code>Scripts/</code> izveido skriptu <code>Scripts/WaveManager.cs</code> un piesaisti to <code>WaveManager</code> mezglam.<br>
+3) Novērojumus un skaidrojumu pieraksti <code>README.md</code>.</p>
 
-<p>Beigās spēle kļūs arvien grūtāka un skaitīs punktus.</p>
+<p>Noslēdzošajā solī apvienosim 4.1. stundas <code>List&lt;Enemy&gt;</code> ar divu soļu dzēšanu un 4.2. stundas <code>Dictionary&lt;string, int&gt;</code> statistiku klasē <code>WaveManager</code>, kas radīs 3 pieaugošas grūtības ienaidnieku viļņus un atjaunos ekrāna informācijas paneli (<code>HUD</code>).</p>
 <ol class="step-list">
-<li><b>Izveido</b> class <code>WaveManager</code> ar lauku <code class="language-csharp">int wave = 1;</code>.</li>
-<li><b>Radi</b> katrā vilnī vairāk ienaidnieku nekā iepriekšējā.</li>
-<li><b>Pārej</b> uz nākamo vilni, kad visi ienaidnieki iznīcināti.</li>
-<li><b>Pievieno</b> punktu skaitītāju un HUD (spēles informācijas panelis) ar vilni, punktiem un HP.</li>
-<li><b>Pievieno</b> spēles beigas, kad spēlētāja HP sasniedz nulli.</li>
-<li><b>Izspēlē</b> vismaz trīs viļņus.</li>
-<li><b>Veic</b> commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi).</li>
+<li><b>Atver</b> scēnu <code>Scenes/Arena.tscn</code>: izdzēs vai paslēp vienu testa <code>Enemy</code> mezglu (tagad ienaidniekus radīs <code>WaveManager</code>) un pievieno <code>Arena</code> saknei mezglu <code>WaveManager</code> (<code>Node</code>) un <code>HUD</code> (<code>CanvasLayer</code>) ar diviem <code>Label</code> bērnmezgliem precīzi pēc šāda scēnas koka:
+<pre><code>Arena (Node2D)
+├── NavigationRegion2D (NavigationRegion2D — izcepts navmesh ar Wall1 un Wall2)
+│   ├── Wall1 (StaticBody2D)
+│   └── Wall2 (StaticBody2D)
+├── Player (instancēts Scenes/Player.tscn, skripts Scripts/Player.cs)
+├── WaveManager (Node, skripts Scripts/WaveManager.cs)
+└── HUD (CanvasLayer)
+    ├── StatusLabel (Label — kreisajā augšējā stūrī, Position: X = 16, Y = 12)
+    └── MessageLabel (Label — ekrāna vidū, Position: X = 320, Y = 80)</code></pre>
+</li>
+<li><b>Izveido</b> jaunu C# skriptu <code>Scripts/WaveManager.cs</code>, piesaisti to <code>WaveManager</code> mezglam un ievieto tajā pilno viļņu vadības kodu (no sadaļas <b>Pilnie faili salīdzināšanai</b> zemāk). Izpēti trīs galvenās vietas kodā:
+<ul>
+<li><code>List&lt;WavePlan&gt; waves</code> definē 3 viļņus: 1. vilnī <code>2 Chaser + 1 Shooter</code>, 2. vilnī <code>3 Chaser + 2 Shooter</code>, 3. vilnī <code>4 Chaser + 3 Shooter</code>;</li>
+<li><code>Dictionary&lt;string, int&gt; stats</code> ar atslēgām <code>"wave"</code>, <code>"score"</code> un <code>"defeated"</code> glabā spēles statistiku;</li>
+<li>metode <code>RemoveDefeatedEnemies()</code> ar <code>defeatedBuffer</code> droši izņem uzveiktos ienaidniekus (<code>!enemy.IsAlive</code>), piešķir punktus un brīdī, kad <code>activeEnemies.Count == 0</code>, palaiž nākamo vilni.</li>
+</ul>
+</li>
+<li><b>Nospied</b> <b>Build</b> un palaid <code>Scenes/Arena.tscn</code> (<code>F5</code>): izspēlē visus 3 viļņus un pārbaudi, ka <code>StatusLabel</code> nepārtraukti rāda aktuālo vilni, aktīvo ienaidnieku skaitu, punktus un spēlētāja <code>HP</code>.</li>
+<li><b>Pārbaudi</b> abus spēles noslēguma stāvokļus:
+<ul>
+<li>uzveicot visus 3 viļņus, <code>MessageLabel</code> parāda <code>UZVARA! Visi 3 viļņi pieveikti! (R — sākt no jauna)</code>;</li>
+<li>ļaujot ienaidniekiem samazināt spēlētāja <code>HP</code> līdz <code>0</code>, parādās <code>SPĒLE BEIGUSIES! Nospied R, lai mēģinātu vēlreiz.</code>, un taustiņš <code>R</code> pārlādē scēnu.</li>
+</ul>
+</li>
+<li><b>Projekta saknē</b> atver <code>README.md</code> un pieraksti īsu kopsavilkumu: kā atšķiras <code>Chaser</code> un <code>Shooter</code> uzvedība, kāpēc abus var apstrādāt vienā <code>List&lt;Enemy&gt;</code> ciklā un kur projektā izmantots <code>Dictionary</code> un <code>BulletPool</code>.</li>
 </ol>
-<p><b>Pilnas spēles kopsavilkums pārbaudei:</b> 8 virzienu kustība un mērķēšana ar peli, ceļa meklēšana ap šķēršļiem, vismaz divi ienaidnieku tipi (paplašināmā variantā arī trīs, piemēram, ātrais, smagais un šāvējs), pieaugoši viļņi, kā arī punktu, viļņa un HP uzskaite (savācamie HP un munīcijas bonusi — papildu uzdevumā).</p>
-<p class="done-when"><b>Gatavs, kad:</b> spēle pāriet no viļņa uz vilni, katrā ir vairāk ienaidnieku, un beidzas, kad spēlētājs zaudē HP.</p>
+<p class="done-when"><b>Gatavs, kad:</b> spēle secīgi izlaiž 3 pieaugošus viļņus ar <code>Chaser</code> un <code>Shooter</code> ienaidniekiem, atjauno HUD un korekti apstrādā uzvaru, zaudējumu un <code>R</code> restartu.</p>
+</section>
+<section id="parbaudes"><h2>Pārbaudes pirms iesniegšanas</h2>
+<div class="table-scroll" role="region" aria-label="Projekta pārbaudes pirms iesniegšanas" tabindex="0"><table><thead><tr><th scope="col">Pārbaude</th><th scope="col">Sagaidāmais rezultāts</th></tr></thead><tbody>
+<tr><td>Diagonālā kustība (<code>W + D</code>) un mērķēšana</td><td>Spēlētājs slīpi nekustas ātrāk kā taisni (vektors ir <code>.Normalized()</code>) un vienmēr pagriežas pret peles kursoru.</td></tr>
+<tr><td>Šaušana ar <code>BulletPool</code> (<b>Scene → Remote</b>)</td><td>Šaujot lādiņi lido kursora virzienā, bet scēnas kokā zem <code>Arena</code> mezglu skaits neaug virs sagatavotajiem 50 lādiņiem.</td></tr>
+<tr><td>Divi ienaidnieku tipi un šķēršļu apriešana</td><td>Sarkanie <code>Chaser</code> apiet sienas (<code>Wall1</code>, <code>Wall2</code>) līdz tuvai distancei (<code>48 px</code>), bet violetie <code>Shooter</code> apstājas <code>240 px</code> attālumā un šauj.</td></tr>
+<tr><td>Uzveikto ienaidnieku dzēšana un pāreja uz nākamo vilni</td><td>Sašaujot ienaidnieku līdz <code>0 HP</code>, tas pazūd bez <code>InvalidOperationException</code>, pieaug <code>Punkti</code> un pēc pēdējā ienaidnieka sākas nākamais vilnis.</td></tr>
+<tr><td>Spēles beigas (<code>HP == 0</code> vai 3. vilnis pabeigts)</td><td>HUD parāda uzvaras vai zaudējuma paziņojumu, un taustiņš <code>R</code> sāk spēli no 1. viļņa.</td></tr>
+</tbody></table></div>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Pievieno savācamos bonusus</summary>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scenes/Bonus.tscn</code> ar Area2D sakni un piesaisti tai <code>Scripts/Bonus.cs</code> savākšanas kodam. Bonusu radi no <code>Scripts/WaveManager.cs</code>, bet HP un munīcijas maiņu pievieno <code>Scripts/Player.cs</code>.</p>
+<summary>Papildu uzdevums — Pievieno savācamu <code>HP</code> aptieciņu starp viļņiem</summary>
+<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/WaveManager.cs</code> ar vienkāršu <code>Area2D</code> aptieciņas izveidi pēc katra pabeigta viļņa, kas izsauc <code>player.Heal(25)</code>.</p>
 
-<p>Ja pamatdarbs ir gatavs, ļauj spēlētājam atjaunot HP un munīciju.</p>
+<p>Ja pamatdarbs ir gatavs, ļauj spēlētājam pēc katra viļņa savākt zaļas krāsas aptieciņu, kas atjauno <code>+25 HP</code> (nepārsniedzot <code>MaxHp</code>).</p>
 <ol class="step-list">
-<li><b>Izveido</b> <code>Area2D</code> (2D saskares zona) bonusa scēnu ar veidu <code>HP</code> vai <code>AMMO</code>.</li>
-<li><b>Radi</b> bonusu nejaušā vietā pēc katra viļņa.</li>
-<li><b>Palielini</b> attiecīgo vērtību, kad spēlētājs to savāc.</li>
-<li><b>Ierobežo</b> HP, lai tas nepārsniegtu maksimumu.</li>
-<li><b>Pārbaudi</b> abus bonusa veidus.</li>
+<li><b>Failā <code>Scripts/WaveManager.cs</code></b> pievieno metodi <code>SpawnMedkit(Vector2 pos)</code>, kas ar kodu izveido <code>Area2D</code> mezglu ar zaļu <code>Polygon2D</code> un <code>CircleShape2D</code>.</li>
+<li><b>Pieslēdz</b> šīs <code>Area2D</code> notikumam <code>BodyEntered</code> pārbaudi: ja <code>body is Player p &amp;&amp; p.IsAlive</code>, izsauc <code>p.Heal(25)</code>, atjauno HUD un izdzēs aptieciņu ar <code>QueueFree()</code>.</li>
+<li><b>Izsauc</b> <code>SpawnMedkit(new Vector2(576, 320))</code> katru reizi, kad sākas 2. vai 3. vilnis.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> bonusi parādās pēc katra viļņa un atjauno HP vai munīciju, nepārsniedzot maksimumu.</p>
+<p class="done-when"><b>Gatavs, kad:</b> pēc 1. viļņa arēnas vidū parādās zaļa aptieciņa, kuru uzkāpjot spēlētāja <code>HP</code> palielinās par 25 (līdz maksimumam 100).</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary>
 <div class="code-example">
+<p>Katru klasi saglabā norādītajā failā mapē <code>Scripts/</code> (kopā ar 4.5. stundā izveidotajiem <code>Scripts/Bullet.cs</code> un <code>Scripts/BulletPool.cs</code>).</p>
+<p><b>1. fails — <code>Scripts/Player.cs</code> (piesaistīts <code>Scenes/Player.tscn</code> saknes mezglam <code>Player</code>):</b></p>
+<pre><code class="language-csharp">using Godot;
+
+public partial class Player : CharacterBody2D
+{
+    [Export] public float Speed { get; set; } = 240.0f;
+    [Export] public int MaxHp { get; set; } = 100;
+    [Export] public PackedScene BulletScene { get; set; } = GD.Load&lt;PackedScene&gt;("res://Scenes/Bullet.tscn");
+    [Export] public bool UsePooling { get; set; } = true;
+    [Export] public int PoolSize { get; set; } = 50;
+    [Export] public float FireCooldown { get; set; } = 0.18f;
+
+    public int Hp { get; private set; } = 100;
+    public bool IsAlive =&gt; Hp &gt; 0;
+
+    private readonly BulletPool bulletPool = new();
+    private double cooldownTimer = 0.0;
+
+    public override void _Ready()
+    {
+        Hp = MaxHp;
+        CallDeferred(nameof(SetupPool));
+    }
+
+    private void SetupPool()
+    {
+        bulletPool.Initialize(GetParent(), BulletScene, PoolSize);
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (!IsAlive)
+        {
+            Velocity = Vector2.Zero;
+            return;
+        }
+
+        Vector2 inputDir = new Vector2(
+            Input.GetAxis("move_left", "move_right"),
+            Input.GetAxis("move_up", "move_down")
+        );
+
+        if (inputDir != Vector2.Zero)
+        {
+            inputDir = inputDir.Normalized();
+        }
+
+        Velocity = inputDir * Speed;
+        MoveAndSlide();
+
+        LookAt(GetGlobalMousePosition());
+
+        cooldownTimer -= delta;
+        if (Input.IsActionPressed("shoot") &amp;&amp; cooldownTimer &lt;= 0.0)
+        {
+            Shoot();
+            cooldownTimer = FireCooldown;
+        }
+    }
+
+    private void Shoot()
+    {
+        if (BulletScene == null) return;
+
+        if (UsePooling)
+        {
+            Bullet pooledBullet = bulletPool.GetBullet();
+            if (pooledBullet == null) return;
+
+            pooledBullet.Fire(GlobalPosition, Transform.X, true);
+        }
+        else
+        {
+            Bullet newBullet = BulletScene.Instantiate&lt;Bullet&gt;();
+            GetParent().AddChild(newBullet);
+            newBullet.Fire(GlobalPosition, Transform.X, false);
+        }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        if (!IsAlive || amount &lt;= 0) return;
+
+        Hp = Mathf.Max(0, Hp - amount);
+        GD.Print($"[Player] -{amount} HP (atlicis {Hp}/{MaxHp})");
+
+        if (Hp == 0)
+        {
+            Modulate = new Color(0.4f, 0.4f, 0.4f, 0.7f);
+            GD.Print("[Player] Spēlētājs ir uzveikts!");
+        }
+    }
+
+    public void Heal(int amount)
+    {
+        if (!IsAlive || amount &lt;= 0) return;
+        Hp = Mathf.Min(MaxHp, Hp + amount);
+    }
+}</code></pre>
+<p><b>2. fails — <code>Scripts/Enemy.cs</code> (bāzes klase ienaidniekiem):</b></p>
+<pre><code class="language-csharp">using Godot;
+
+public enum EnemyState
+{
+    Idle,
+    Patrol,
+    Chase,
+    Attack,
+    Dead
+}
+
+public partial class Enemy : CharacterBody2D
+{
+    [Export] public string EnemyName { get; set; } = "Enemy";
+    [Export] public float Speed { get; set; } = 130.0f;
+    [Export] public int Hp { get; set; } = 30;
+    [Export] public bool UsePathfinding { get; set; } = true;
+    [Export] public float DetectRange { get; set; } = 420.0f;
+    [Export] public float AttackRange { get; set; } = 48.0f;
+    [Export] public int AttackDamage { get; set; } = 10;
+    [Export] public float AttackInterval { get; set; } = 0.9f;
+    [Export] public int ScoreValue { get; set; } = 100;
+    [Export] public Color BodyColor { get; set; } = new Color(0.9f, 0.25f, 0.25f);
+
+    public EnemyState CurrentState { get; private set; } = EnemyState.Idle;
+    public bool IsAlive =&gt; CurrentState != EnemyState.Dead &amp;&amp; Hp &gt; 0;
+
+    protected Player player;
+    protected NavigationAgent2D navAgent;
+    protected double attackCooldown = 0.0;
+
+    private Vector2 patrolOrigin;
+    private int patrolDirection = 1;
+
+    public override void _Ready()
+    {
+        EnsureComponents();
+        patrolOrigin = GlobalPosition;
+        player = GetParent()?.GetNodeOrNull&lt;Player&gt;("Player");
+        navAgent = GetNodeOrNull&lt;NavigationAgent2D&gt;("NavigationAgent2D");
+        ChangeState(EnemyState.Patrol);
+    }
+
+    public void Setup(Player targetPlayer, Vector2 spawnPos)
+    {
+        player = targetPlayer;
+        GlobalPosition = spawnPos;
+        patrolOrigin = spawnPos;
+    }
+
+    private void EnsureComponents()
+    {
+        if (GetNodeOrNull&lt;CollisionShape2D&gt;("CollisionShape2D") == null)
+        {
+            CollisionShape2D col = new() { Name = "CollisionShape2D" };
+            col.Shape = new CircleShape2D { Radius = 16.0f };
+            AddChild(col);
+        }
+
+        Polygon2D visual = GetNodeOrNull&lt;Polygon2D&gt;("Visual");
+        if (visual == null)
+        {
+            visual = new Polygon2D
+            {
+                Name = "Visual",
+                Polygon = new Vector2[]
+                {
+                    new(-16, -16), new(16, -12), new(20, 0), new(16, 12), new(-16, 16)
+                }
+            };
+            AddChild(visual);
+        }
+        visual.Color = BodyColor;
+
+        if (GetNodeOrNull&lt;NavigationAgent2D&gt;("NavigationAgent2D") == null)
+        {
+            NavigationAgent2D agent = new()
+            {
+                Name = "NavigationAgent2D",
+                PathDesiredDistance = 16.0f,
+                TargetDesiredDistance = 20.0f
+            };
+            AddChild(agent);
+        }
+    }
+
+    public void ChangeState(EnemyState newState)
+    {
+        if (CurrentState == EnemyState.Dead || CurrentState == newState) return;
+        CurrentState = newState;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (CurrentState == EnemyState.Dead) return;
+
+        if (player != null &amp;&amp; player.IsAlive)
+        {
+            float dist = GlobalPosition.DistanceTo(player.GlobalPosition);
+            if (dist &lt; AttackRange)
+            {
+                ChangeState(EnemyState.Attack);
+            }
+            else if (dist &lt; DetectRange)
+            {
+                ChangeState(EnemyState.Chase);
+            }
+            else
+            {
+                ChangeState(EnemyState.Patrol);
+            }
+        }
+        else
+        {
+            ChangeState(EnemyState.Patrol);
+        }
+
+        switch (CurrentState)
+        {
+            case EnemyState.Idle:
+                Velocity = Vector2.Zero;
+                break;
+
+            case EnemyState.Patrol:
+                Velocity = new Vector2(patrolDirection * (Speed * 0.5f), 0);
+                if (Mathf.Abs(GlobalPosition.X - patrolOrigin.X) &gt; 90.0f)
+                {
+                    patrolDirection *= -1;
+                }
+                break;
+
+            case EnemyState.Chase:
+                ChasePlayer();
+                break;
+
+            case EnemyState.Attack:
+                Velocity = Vector2.Zero;
+                PerformAttack(delta);
+                break;
+        }
+
+        MoveAndSlide();
+    }
+
+    protected virtual void ChasePlayer()
+    {
+        if (player == null) return;
+
+        if (UsePathfinding &amp;&amp; navAgent != null)
+        {
+            navAgent.TargetPosition = player.GlobalPosition;
+            Vector2 nextPoint = navAgent.GetNextPathPosition();
+            Vector2 dir = (nextPoint - GlobalPosition).Normalized();
+            Velocity = dir * Speed;
+            LookAt(nextPoint);
+        }
+        else
+        {
+            Vector2 dir = (player.GlobalPosition - GlobalPosition).Normalized();
+            Velocity = dir * Speed;
+            LookAt(player.GlobalPosition);
+        }
+    }
+
+    protected virtual void PerformAttack(double delta)
+    {
+        if (player == null || !player.IsAlive) return;
+
+        LookAt(player.GlobalPosition);
+        attackCooldown -= delta;
+
+        if (attackCooldown &lt;= 0.0)
+        {
+            attackCooldown = AttackInterval;
+            player.TakeDamage(AttackDamage);
+        }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        if (CurrentState == EnemyState.Dead || amount &lt;= 0) return;
+
+        Hp -= amount;
+        if (Hp &lt;= 0)
+        {
+            Hp = 0;
+            Velocity = Vector2.Zero;
+            ChangeState(EnemyState.Dead);
+        }
+    }
+}</code></pre>
+<p><b>3. fails — <code>Scripts/Chaser.cs</code> (tuvcīņas vajātājs, manto no <code>Enemy</code>):</b></p>
+<pre><code class="language-csharp">using Godot;
+
+public partial class Chaser : Enemy
+{
+    public Chaser()
+    {
+        EnemyName = "Chaser";
+        Speed = 175.0f;
+        Hp = 30;
+        DetectRange = 520.0f;
+        AttackRange = 48.0f;
+        AttackDamage = 10;
+        AttackInterval = 0.8f;
+        ScoreValue = 100;
+        BodyColor = new Color(0.92f, 0.24f, 0.24f);
+    }
+}</code></pre>
+<p><b>4. fails — <code>Scripts/Shooter.cs</code> (distances šāvējs, manto no <code>Enemy</code>):</b></p>
+<pre><code class="language-csharp">using Godot;
+
+public partial class Shooter : Enemy
+{
+    public Shooter()
+    {
+        EnemyName = "Shooter";
+        Speed = 115.0f;
+        Hp = 20;
+        DetectRange = 560.0f;
+        AttackRange = 240.0f;
+        AttackDamage = 8;
+        AttackInterval = 1.2f;
+        ScoreValue = 150;
+        BodyColor = new Color(0.68f, 0.32f, 0.92f);
+    }
+
+    protected override void PerformAttack(double delta)
+    {
+        if (player == null || !player.IsAlive) return;
+
+        LookAt(player.GlobalPosition);
+        attackCooldown -= delta;
+
+        if (attackCooldown &lt;= 0.0)
+        {
+            attackCooldown = AttackInterval;
+            player.TakeDamage(AttackDamage);
+            GD.Print($"[{EnemyName}] Trāpīja spēlētājam no distances!");
+        }
+    }
+}</code></pre>
+<p><b>5. fails — <code>Scripts/WaveManager.cs</code> (piesaistīts <code>Scenes/Arena.tscn</code> mezglam <code>WaveManager</code>):</b></p>
 <pre><code class="language-csharp">using Godot;
 using System.Collections.Generic;
 
-public enum EnemyType { Fast, Brute, Shooter }
+public record WavePlan(int ChaserCount, int ShooterCount);
 
 public partial class WaveManager : Node
 {
-    private int currentWave = 0;
-    private float waveTimer = 0.0f;
     private readonly List&lt;Enemy&gt; activeEnemies = new();
+    private readonly List&lt;Enemy&gt; defeatedBuffer = new();
 
-    private record Wave(int FastEnemies, int Brutes, int Shooters);
-
-    private readonly List&lt;Wave&gt; waves = new()
+    private readonly Dictionary&lt;string, int&gt; stats = new()
     {
-        new Wave(3, 0, 0),      // wave 1
-        new Wave(5, 1, 0),      // wave 2
-        new Wave(6, 2, 1),      // wave 3
-        new Wave(8, 3, 2),      // wave 4
-        new Wave(10, 5, 3)      // wave 5 + boss
+        ["wave"] = 0,
+        ["score"] = 0,
+        ["defeated"] = 0
     };
+
+    private readonly List&lt;WavePlan&gt; waves = new()
+    {
+        new WavePlan(2, 1), // 1. vilnis: 3 ienaidnieki
+        new WavePlan(3, 2), // 2. vilnis: 5 ienaidnieki
+        new WavePlan(4, 3)  // 3. vilnis: 7 ienaidnieki
+    };
+
+    private readonly Vector2[] spawnPoints = new Vector2[]
+    {
+        new(140, 120),
+        new(980, 120),
+        new(140, 520),
+        new(980, 520),
+        new(560, 100),
+        new(560, 540)
+    };
+
+    private Player player;
+    private Label statusLabel;
+    private Label messageLabel;
+    private bool gameEnded = false;
+
+    public override void _Ready()
+    {
+        player = GetParent().GetNodeOrNull&lt;Player&gt;("Player");
+        statusLabel = GetParent().GetNodeOrNull&lt;Label&gt;("HUD/StatusLabel");
+        messageLabel = GetParent().GetNodeOrNull&lt;Label&gt;("HUD/MessageLabel");
+
+        CallDeferred(nameof(StartNextWave));
+    }
 
     public override void _Process(double delta)
     {
-        waveTimer -= (float)delta;
-        if (activeEnemies.Count == 0 &amp;&amp; waveTimer &lt;= 0)
+        if (Input.IsActionJustPressed("restart"))
+        {
+            GetTree().ReloadCurrentScene();
+            return;
+        }
+
+        if (gameEnded) return;
+
+        if (player != null &amp;&amp; !player.IsAlive)
+        {
+            gameEnded = true;
+            SetMessage("SPĒLE BEIGUSIES! Nospied R, lai mēģinātu vēlreiz.");
+            UpdateHud();
+            return;
+        }
+
+        RemoveDefeatedEnemies();
+
+        if (activeEnemies.Count == 0)
         {
             StartNextWave();
+        }
+
+        UpdateHud();
+    }
+
+    private void RemoveDefeatedEnemies()
+    {
+        defeatedBuffer.Clear();
+
+        foreach (Enemy enemy in activeEnemies)
+        {
+            if (!IsInstanceValid(enemy) || !enemy.IsAlive)
+            {
+                defeatedBuffer.Add(enemy);
+            }
+        }
+
+        foreach (Enemy defeated in defeatedBuffer)
+        {
+            activeEnemies.Remove(defeated);
+            if (IsInstanceValid(defeated))
+            {
+                stats["score"] += defeated.ScoreValue;
+                stats["defeated"] += 1;
+                defeated.QueueFree();
+            }
         }
     }
 
     private void StartNextWave()
     {
-        if (currentWave &gt;= waves.Count)
+        int nextWaveIndex = stats["wave"];
+        if (nextWaveIndex &gt;= waves.Count)
         {
-            GD.Print("All waves complete!");
+            gameEnded = true;
+            SetMessage($"UZVARA! Visi {waves.Count} viļņi pieveikti! Punkti: {stats["score"]} (R — sākt no jauna)");
+            UpdateHud();
             return;
         }
 
-        Wave wave = waves[currentWave];
-        for (int i = 0; i &lt; wave.FastEnemies; i++) Spawn(EnemyType.Fast);
-        for (int i = 0; i &lt; wave.Brutes; i++) Spawn(EnemyType.Brute);
-        for (int i = 0; i &lt; wave.Shooters; i++) Spawn(EnemyType.Shooter);
-        currentWave++;
-        waveTimer = 30.0f;
+        WavePlan plan = waves[nextWaveIndex];
+        stats["wave"] = nextWaveIndex + 1;
+
+        int spawnIndex = 0;
+        for (int i = 0; i &lt; plan.ChaserCount; i++)
+        {
+            SpawnEnemy(new Chaser(), spawnPoints[spawnIndex % spawnPoints.Length]);
+            spawnIndex++;
+        }
+
+        for (int i = 0; i &lt; plan.ShooterCount; i++)
+        {
+            SpawnEnemy(new Shooter(), spawnPoints[spawnIndex % spawnPoints.Length]);
+            spawnIndex++;
+        }
+
+        SetMessage($"Vilnis {stats["wave"]}/{waves.Count} — Ienaidnieki: {activeEnemies.Count}");
+        UpdateHud();
+    }
+
+    private void SpawnEnemy(Enemy enemy, Vector2 pos)
+    {
+        GetParent().AddChild(enemy);
+        enemy.Setup(player, pos);
+        activeEnemies.Add(enemy);
+    }
+
+    private void UpdateHud()
+    {
+        if (statusLabel == null) return;
+
+        int hp = player != null ? player.Hp : 0;
+        int maxHp = player != null ? player.MaxHp : 100;
+
+        statusLabel.Text =
+            $"Vilnis: {stats["wave"]}/{waves.Count} | " +
+            $"Aktīvie ienaidnieki: {activeEnemies.Count} | " +
+            $"Uzveikti: {stats["defeated"]} | " +
+            $"Punkti: {stats["score"]} | " +
+            $"HP: {hp}/{maxHp}";
+    }
+
+    private void SetMessage(string text)
+    {
+        if (messageLabel != null)
+        {
+            messageLabel.Text = text;
+        }
+        GD.Print($"[WaveManager] {text}");
     }
 }</code></pre>
-<div class="result">Pilnvērtīga šaušanas spēle skatā no augšas ar 5 viļņiem, 3 ienaidnieku type, pathfinding un boss.</div>
+<div class="result">Pilnvērtīga šaušanas spēle skatā no augšas ar 8 virzienu kustību, <code>BulletPool</code> šaušanu, <code>Chaser</code> un <code>Shooter</code> ienaidnieku AI ar A* ceļa meklēšanu, 3 pieaugošiem viļņiem un HUD statistiku.</div>
 </div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tev ir izspēlējama šaušanas spēle skatā no augšas: spēlētājs ar 8 virzienu kustību un mērķēšanu pret peli, vismaz divi ienaidnieku type ar atšķirīgu AI, viļņu sistēma ar augošu grūtību un HUD ar punktiem un HP.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tev ir izspēlējama šaušanas spēle skatā no augšas (<code>Scenes/Arena.tscn</code>): spēlētājs ar 8 virzienu kustību, mērķēšanu pret peli un <code>BulletPool</code> šaušanu, divi ienaidnieku tipi (<code>Chaser</code> un <code>Shooter</code>) ar stāvokļu mašīnu un A* ceļa meklēšanu, 3 viļņu sistēma (<code>WaveManager</code>) un HUD ar punktiem un HP.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>Viss projekts ar C# skriptiem, scēnām un projekta failiem.</li>
-<li>README.md ievietota video saite, kurā izspēlē vismaz divus viļņus un redzami abi ienaidnieku type.</li>
-<li>Faili <code>Player.cs</code>, <code>Enemy.cs</code>, abu ienaidnieku type class un <code>WaveManager.cs</code>.</li>
-<li>README.md: kā tavi divi ienaidnieku type atšķiras un kāpēc abus var apstrādāt vienā loop.</li>
+<li>Visam Godot projektam ar mapēm <code>Scenes/</code> (<code>Arena.tscn</code>, <code>Player.tscn</code>, <code>Enemy.tscn</code>, <code>Bullet.tscn</code>) un <code>Scripts/</code> (<code>Player.cs</code>, <code>Bullet.cs</code>, <code>BulletPool.cs</code>, <code>Enemy.cs</code>, <code>Chaser.cs</code>, <code>Shooter.cs</code>, <code>WaveManager.cs</code>).</li>
+<li>Failā <code>README.md</code> ievietotam ekrānuzņēmumam vai īsai video saitei, kurā redzama spēles darbība ar abiem ienaidnieku tipiem un HUD rādītājiem.</li>
+<li>Failā <code>README.md</code> īsam aprakstam: kā atšķiras <code>Chaser</code> un <code>Shooter</code>, kāpēc abus apstrādā vienā <code>List&lt;Enemy&gt;</code> ciklā un kāpēc lādiņiem tiek lietots <code>BulletPool</code>.</li>
 </ul>
-<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē. Pirms iesniegšanas salīdzini savu darbu ar <a href="#vertesana">SLA tabulu</a>.</p>
+</div>
+</section>
+<section id="vertesana" aria-labelledby="vertesanas-virsraksts">
+<h2 id="vertesanas-virsraksts">Vērtēšanas kritēriji (SLA)</h2>
+<p>Snieguma līmeņu apraksts (SLA) attiecas uz 4. tēmas noslēguma projektu: šaušanas spēli skatā no augšas (<code>Scenes/Arena.tscn</code>), tās C# skriptiem un <code>README.md</code> skaidrojumu.</p>
+<div class="table-scroll" role="region" aria-labelledby="vertesanas-virsraksts" tabindex="0">
+<table class="assessment-rubric">
+<caption>4. tēmas noslēguma projekts — Šaušanas spēle skatā no augšas</caption>
+<thead>
+<tr>
+<th scope="col">Kritērijs</th>
+<th scope="col" class="level-header">Sācis apgūt (1–3)</th>
+<th scope="col" class="level-header">Turpina apgūt (4–6)</th>
+<th scope="col" class="level-header">Apguvis (7–8)</th>
+<th scope="col" class="level-header">Apguvis padziļināti (9–10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">Spēlētāja vadība un <code>BulletPool</code> šaušana<br><small><a href="#uzdevums-1">1. uzdevums</a> · 4.5. stunda</small></th>
+<td>Spēlētājs nekustas vai nevar izšaut lādiņus.</td>
+<td>Spēlētājs pārvietojas un šauj, bet diagonālā kustība nav normalizēta, lādiņi nelido kursora virzienā vai katrs šāviens rada jaunu mezglu bez <code>BulletPool</code>.</td>
+<td>Spēlētājs pārvietojas 8 virzienos ar <code>.Normalized()</code>, pagriežas pret peli ar <code>LookAt</code> un šauj <code>Transform.X</code> virzienā no <code>BulletPool</code> (<code>List&lt;Bullet&gt;</code>), saglabājot nemainīgu mezglu skaitu scēnā.</td>
+<td>Izpildīts “Apguvis”; <code>README.md</code> ar mērījumu skaitļiem (<code>FPS</code> un <code>Nodes</code>) paskaidrots, kāpēc <code>BulletPool</code> novērš atmiņas un <code>Garbage Collector</code> svārstības.</td>
+</tr>
+<tr>
+<th scope="row">Ienaidnieku AI: stāvokļu mašīna un A* ceļa meklēšana<br><small><a href="#uzdevums-2">2. uzdevums</a> · 4.3.–4.4. stunda</small></th>
+<td>Ienaidnieki nekustas vai tiem nav stāvokļu pāreju.</td>
+<td>Ienaidnieki reaģē uz spēlētāju, bet iesprūst aiz sienām (nav izcepts <code>NavigationRegion2D</code> vai nedarbojas <code>NavigationAgent2D</code>) vai trūkst kāda no <code>Patrol</code> / <code>Chase</code> / <code>Attack</code> / <code>Dead</code> stāvokļiem.</td>
+<td>Bāzes klase <code>Enemy</code> pārslēdz <code>enum EnemyState</code> stāvokļus pēc attāluma līdz spēlētājam un <code>Chase</code> stāvoklī ar <code>NavigationAgent2D.GetNextPathPosition()</code> apiet sienas <code>Scenes/Arena.tscn</code> scēnā.</td>
+<td>Izpildīts “Apguvis”; <code>README.md</code> paskaidrots, kāpēc <code>Dead</code> ir galapunkta stāvoklis un ar ko A* ceļa meklēšana atšķiras no tiešas kustības uz mērķi.</td>
+</tr>
+<tr>
+<th scope="row">Mantošana, polimorfisms un datu struktūras (<code>List</code>, <code>Dictionary</code>)<br><small><a href="#uzdevums-2">2. uzdevums</a> · <a href="#uzdevums-3">3. uzdevums</a> · 4.1.–4.2. stunda</small></th>
+<td>Ir tikai viens ienaidnieka veids vai ienaidnieki netiek glabāti kolekcijā.</td>
+<td>Ir divas ienaidnieku klases, bet tās uzvedas vienādi, vai uzveikto ienaidnieku dzēšana izraisa kolekcijas modificēšanas kļūdu.</td>
+<td><code>Chaser</code> un <code>Shooter</code> manto no <code>Enemy</code> ar atšķirīgu <code>AttackRange</code> un <code>PerformAttack</code>; visus ienaidniekus glabā vienā <code>List&lt;Enemy&gt;</code>, uzveiktos droši dzēš divos soļos, un statistiku uzskaita <code>Dictionary&lt;string, int&gt;</code>.</td>
+<td>Izpildīts “Apguvis”; <code>README.md</code> pamatots, kāpēc viens <code>List&lt;Enemy&gt;</code> cikls var apstrādāt abus ienaidnieku tipus bez tipa pārbaudēm un kāpēc dzēšanai lieto pagaidu buferi <code>defeatedBuffer</code>.</td>
+</tr>
+<tr>
+<th scope="row">Viļņu sistēma, HUD un spēles cikls<br><small><a href="#uzdevums-3">3. uzdevums</a> · <a href="#parbaudes">Pārbaudes</a></small></th>
+<td>Viļņu maiņa vai HUD nedarbojas.</td>
+<td>Pirmais vilnis izveidojas, bet nākamais vilnis nesākas pēc ienaidnieku uzveikšanas vai HUD neatspoguļo <code>HP</code> un punktus.</td>
+<td><code>WaveManager</code> secīgi izlaiž vismaz 3 pieaugošus viļņus, HUD rāda vilni, aktīvos ienaidniekus, punktus un <code>HP</code>, un spēle korekti apstrādā uzvaru, zaudējumu (<code>HP == 0</code>) un restartu (<code>R</code>).</td>
+<td>Izpildīts “Apguvis”; izpildīts arī papildu uzdevums vai pievienots trešais ienaidnieku tips / bonusi, saglabājot tīru klašu sadalījumu.</td>
+</tr>
+</tbody>
+</table>
 </div>
 </section>
 <section>

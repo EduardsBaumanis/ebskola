@@ -56,7 +56,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_2/prog2_2main">2. tēma</a> / 2.5</p>
 <h1>2.5 Krišana un lēkšana</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Pievieno lēcienu ar Space. Inspector panelī pielāgo lēcienu, lai varētu sasniegt atslēgu.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Pievieno lēcienu ar Space. Inspector panelī pielāgo lēcienu, lai varētu sasniegt atslēgu.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.14. Vadības struktūras</a>
 <a href="/sasnRez">SR 2.4.13. Data type (datu tipi)</a>
@@ -99,20 +99,23 @@ velocity.Y = PushImpulse;</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p>
 <h2>Liec varonim nokrist uz grīdas</h2>
-<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/Player.cs</code> ar Gravity un JumpVelocity laukiem; tajā pašā failā aizstāj tikai <code>_PhysicsProcess()</code> metodi ar doto kodu.</p>
+<p class="task-files"><b>Kur strādāt:</b> Papildini failu <code>Scripts/Player.cs</code> ar <code>Gravity</code> un <code>JumpVelocity</code> laukiem un aizstāj <code>_PhysicsProcess(double delta)</code> metodi; pēc tam pārbaudi iestatījumus scēnā <code>Scenes/Level1.tscn</code>.</p>
 
-<ol class="step-list"><li><b>FileSystem → Scripts</b> atver <code>Player.cs</code>. Zem <code>Speed</code> rindas pievieno <code>[Export] public float Gravity = 1200.0f;</code> un jaunā rindā <code>[Export] public float JumpVelocity = -550.0f;</code>. <code>[Export]</code> (Inspector pieejamas īpašības atribūts) ļauj šos skaitļus mainīt Inspector panelī.</li>
-<li>Esošo <code>_PhysicsProcess</code> daļu no tās pirmās rindas līdz aizverošajai <code>}</code> aizstāj ar kodu zemāk. Pārējo failu saglabā: tas joprojām skaita punktus un atceras atslēgu.</li>
-<li>Saglabā un nospied <b>Build</b>. Atver <code>Level1</code>, Scene panelī atlasi <code>Player</code> un Inspector pārbaudi visus trīs kustības laukus pēc tabulas zemāk. Sadaļā <b>Transform → Position</b> iestati <code>(80,570)</code>.</li>
-<li>Saglabā un nospied <b>F5</b>. Varonim jānokrīt līdz grīdai un jāpaliek uz tās. A/D kustina pa kreisi un pa labi; W/S vairs nekustina augšup un lejup.</li>
+<ol class="step-list"><li><b>Pievieno gravitācijas un lēciena laukus failā <code>Scripts/Player.cs</code>:</b> <b>FileSystem → Scripts</b> atver <code>Player.cs</code>. Klases <code>Player</code> sākumā tieši zem rindas <code>[Export] public float Speed = 300.0f;</code> pievieno divus jaunus laukus:
+<pre><code class="language-csharp">[Export] public float Gravity = 1200.0f;
+[Export] public float JumpVelocity = -550.0f;</code></pre></li>
+<li><b>Nomaini <code>_PhysicsProcess(double delta)</code> failā <code>Scripts/Player.cs</code>:</b> tajā pašā failā <code>Scripts/Player.cs</code> esošo metodi <code>_PhysicsProcess(double delta)</code> (no tās pirmās rindas līdz aizverošajai <code>}</code>) aizstāj ar kodu zemāk. <b>Nemaini</b> metodi <code>OnPickup(PickupType type)</code> un īpašības <code>Score</code>, <code>HasKey</code>, <code>IsActive</code>.</li>
+<li><b>Pārbaudi <code>Player</code> iestatījumus scēnā <code>Scenes/Level1.tscn</code>:</b> saglabā <code>Scripts/Player.cs</code> un nospied <b>Build</b>. Atver cilni <code>Level1.tscn</code>, <b>Scene</b> panelī atlasi <code>Player</code> un <b>Inspector</b> panelī pārbaudi visus trīs kustības laukus pēc tabulas zemāk. Sadaļā <b>Transform → Position</b> pārliecinies, ka <code>Player</code> sākuma pozīcija ir <code>(80, 570)</code>.</li>
+<li><b>Pārbaudi krišanu un horizontālo kustību:</b> saglabā <code>Scenes/Level1.tscn</code> un nospied <b>F5</b>. Varonim jānokrīt uz grīdas <code>Ground</code> un jāpaliek uz tās. Taustiņi <b>A/D</b> (un <b>←/→</b>) kustina varoni pa kreisi un pa labi, bet <b>W/S</b> vairs nekustina augšup un lejup.</li>
 </ol>
 <div class="table-scroll" role="region" aria-label="Spēlētāja kustības iestatījumi" tabindex="0"><table>
-<thead><tr><th scope="col">Lauks Inspector panelī</th><th scope="col">Sākuma vērtība</th><th scope="col">Ko tas maina</th></tr></thead>
-<tbody><tr><td><b>Speed</b></td><td>300</td><td>Ātrumu pa kreisi un pa labi.</td></tr>
-<tr><td><b>Gravity</b></td><td>1200</td><td>Cik strauji varonis krīt (lielāks skaitlis velk lejup stiprāk).</td></tr>
-<tr><td><b>Jump Velocity</b></td><td>-550</td><td>Lēciena spēku augšup (piemēram, -650 dod augstāku lēcienu nekā -550).</td></tr></tbody>
+<thead><tr><th scope="col">Lauks <code>Player</code> Inspector panelī</th><th scope="col">Sākuma vērtība</th><th scope="col">Ko tas maina</th></tr></thead>
+<tbody><tr><td><b>Speed</b></td><td><code>300</code></td><td>Horizontālo ātrumu pa kreisi un pa labi (px/s).</td></tr>
+<tr><td><b>Gravity</b></td><td><code>1200</code></td><td>Cik strauji varonis krīt (lielāks skaitlis velk lejup stiprāk, px/s²).</td></tr>
+<tr><td><b>Jump Velocity</b></td><td><code>-550</code></td><td>Lēciena sākuma ātrumu augšup (piemēram, <code>-650</code> dod augstāku lēcienu nekā <code>-550</code>).</td></tr></tbody>
 </table></div>
-<pre><code class="language-csharp">public override void _PhysicsProcess(double delta)
+<pre><code class="language-csharp">// Aizstāj šo metodi failā Scripts/Player.cs:
+public override void _PhysicsProcess(double delta)
 {
     if (!IsActive)
     {
@@ -124,26 +127,26 @@ velocity.Y = PushImpulse;</code></pre>
     if (!IsOnFloor())
         velocity.Y += Gravity * (float)delta;
 
-    // Nākamajā uzdevumā šeit pievienosi lēcienu.
+    // 2. uzdevumā šeit pievienosi lēcienu!
     velocity.X = Input.GetAxis(&quot;move_left&quot;, &quot;move_right&quot;) * Speed;
     Velocity = velocity;
     MoveAndSlide();
 }</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> varonis nokrīt uz grīdas un kustas pa kreisi un pa labi.</p>
+<p class="done-when"><b>Gatavs, kad:</b> varonis nokrīt uz grīdas <code>Ground</code> un ar <b>A/D</b> vai bultiņām pārvietojas pa kreisi un pa labi.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p>
 <h2>Pievieno vienu lēcienu no zemes</h2>
-<p class="task-files"><b>Kur strādāt:</b> Lēciena rindas ievieto <code>Scripts/Player.cs</code> metodē <code>_PhysicsProcess()</code>, norādītā komentāra vietā. Jump Velocity maini <code>Scenes/Level1.tscn</code> Player eksemplāra Inspector panelī.</p>
+<p class="task-files"><b>Kur strādāt:</b> Lēciena pārbaudi ievieto failā <code>Scripts/Player.cs</code> metodē <code>_PhysicsProcess(double delta)</code>; lēciena spēku <code>Jump Velocity</code> eksperimentam maini scēnā <code>Scenes/Level1.tscn</code> mezgla <code>Player</code> <b>Inspector</b> panelī.</p>
 
-<ol class="step-list"><li>Atver <code>Player.cs</code>. Rindas <code>// Nākamajā uzdevumā šeit pievienosi lēcienu.</code> vietā ievieto divas koda rindas zemāk.</li>
-<li>Saglabā, nospied <b>Build</b> un <b>F5</b>. Kad varonis stāv uz grīdas, nospied <b>Space</b>: tam jālec augšup un jāpiezemējas.</li>
-<li>Turi Space nospiestu: lēcienam nav jāatkārtojas. Nospied Space vēlreiz gaisā: otram lēcienam nav jānotiek.</li>
-<li>Apturi spēli. Level1 cilnē atlasi <code>Player</code> un Inspector laukā <b>Jump Velocity</b> izmēģini <code>-400</code>, tad <code>-650</code>. Pēc katras maiņas palaid spēli un salīdzini augstumu. Beigās <b>atjauno -550</b>. Inspector ievadītais skaitlis ir tas, ko spēle izmantos.</li>
-</ol>
+<ol class="step-list"><li><b>Pievieno lēciena rindas failā <code>Scripts/Player.cs</code>:</b> atver <code>Scripts/Player.cs</code> un metodē <code>_PhysicsProcess(double delta)</code> komentāra <code>// 2. uzdevumā šeit pievienosi lēcienu!</code> vietā ievieto:
 <pre><code class="language-csharp">if (Input.IsActionJustPressed(&quot;jump&quot;) &amp;&amp; IsOnFloor())
-    velocity.Y = JumpVelocity;</code></pre>
-<details class="course-help"><summary>2.5 Player.cs ar kustību, lēcienu un punktiem — pilns fails</summary>
-<p><a href="platformer/Scripts/Player.cs" download>Lejupielādēt Player.cs</a>. Atver esošo tāda paša nosaukuma failu un aizstāj tā saturu ar šo kodu.</p>
+    velocity.Y = JumpVelocity;</code></pre></li>
+<li><b>Pārbaudi lēcienu no grīdas:</b> saglabā <code>Scripts/Player.cs</code>, nospied <b>Build</b> un <b>F5</b>. Kad varonis stāv uz grīdas, nospied <b>Space</b> — tam jāuzlec gaisā un jāpiezemējas atpakaļ uz grīdas.</li>
+<li><b>Pārbaudi <code>IsOnFloor()</code> ierobežojumu:</b> paturi <b>Space</b> nospiestu (varonis nedrīkst lēkāt nepārtraukti) un pamēģini nospiest <b>Space</b> lēciena laikā gaisā (dubultlēcienam gaisā nav jānotiek).</li>
+<li><b>Izmēģini dažādu <code>Jump Velocity</code> scēnā <code>Scenes/Level1.tscn</code>:</b> apturi spēli ar <b>F8</b>. Cilnē <code>Level1.tscn</code> atlasi <code>Player</code> un <b>Inspector</b> laukā <b>Jump Velocity</b> izmēģini <code>-400</code> (zems lēciens), tad <code>-650</code> (augsts lēciens), katru reizi palaižot ar <b>F5</b>. Pēc salīdzināšanas <b>atjauno <code>Jump Velocity = -550</code></b> un saglabā scēnu.</li>
+</ol>
+<details class="course-help" id="pilnais-piemers"><summary>2.5 Player.cs ar kustību, lēcienu un punktiem - pilns fails</summary>
+<p><a href="platformer/Scripts/Player.cs" download>Lejupielādēt Player.cs</a>. Atver failu <code>Scripts/Player.cs</code> un salīdzini vai aizstāj tā saturu ar šo kodu.</p>
 <pre><code class="language-csharp">using Godot;
 
 public enum PickupType { Coin, Gem, Key }
@@ -199,23 +202,23 @@ public partial class Player : CharacterBody2D
     }
 }</code></pre>
 </details>
-<p class="done-when"><b>Gatavs, kad:</b> varonis lec augšup, piezemējas un nevar atkārtoti lēkt gaisā.</p>
+<p class="done-when"><b>Gatavs, kad:</b> varonis ar <b>Space</b> lec augšup, piezemējas uz platformām un nevar atkārtoti atsperties gaisā.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p>
 <h2>Izveido pārvaramu ceļu līdz atslēgai</h2>
-<p class="task-files"><b>Kur strādāt:</b> Platformu un priekšmetu novietojumu pielāgo <code>Scenes/Level1.tscn</code>; lēciena novērojumus pieraksti <code>README.md</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Platformu (<code>Platform1..3</code>) un priekšmetu pozīcijas vajadzības gadījumā pielāgo scēnā <code>Scenes/Level1.tscn</code>; novērojumus par lēciena augstumu ieraksti failā <code>README.md</code>.</p>
 
-<ol class="step-list"><li>Nospied <b>F5</b> un ar D un Space sasniedz Platform1, Platform2 un Platform3. Uz pēdējās savāc Key. Pirmajai platformai lec pretī jau no sākuma vietas: tieši zem tās varonis atsitīsies pret apakšu.</li>
-<li>Ja platformu nevar sasniegt, apturi spēli. Scene panelī atlasi šo platformu un Inspector sadaļā <b>Transform → Position</b> pārvieto to tuvāk vai zemāk. Lielāks <b>y</b> skaitlis pārvieto platformu uz leju. Maini vienu platformu reizē un uzreiz izmēģini lēcienu.</li>
-<li>Pārbaudi, ka vari savākt arī visas monētas un Gem. Tad izmēģini noiet aiz grīdas malas. Pagaidām atgriezies sākumā ar <b>Stop (F8)</b> un <b>Run Project (F5)</b>; nākamajā stundā tam pievienosi R.</li>
-<li>Uzņem Inspector ekrānuzņēmumu ar Player laukiem <b>Speed</b>, <b>Gravity</b> un <b>Jump Velocity</b>. Saglabā īsu video, kurā sasniedz atslēgu. README.md pieraksti, kādu atšķirību redzēji starp -400 un -650.</li>
+<ol class="step-list"><li><b>Izspēlē maršrutu līdz atslēgai:</b> nospied <b>F5</b> un ar <b>A/D</b> un <b>Space</b> uzlec uz <code>Platform1</code>, no tās uz <code>Platform2</code> un tālāk uz <code>Platform3</code>, kur atrodas <code>Key</code>. Atceries: lec uz platformu ar nelielu ieskrējienu no sāniem, nevis stāvot tieši zem tās (citādi varonis atsitīsies pret platformas apakšu).</li>
+<li><b>Pielāgo platformu pozīciju scēnā <code>Scenes/Level1.tscn</code> (ja nepieciešams):</b> ja kāda platforma ir par augstu vai par tālu, apturi spēli ar <b>F8</b>, cilnē <code>Level1.tscn</code> atlasi attiecīgo platformu (<code>Platform1</code>, <code>Platform2</code> vai <code>Platform3</code>) un <b>Inspector → Transform → Position</b> nedaudz pamaini <code>x</code> vai <code>y</code> (lielāks <code>y</code> skaitlis nolaiž platformu zemāk). Saglabā un uzreiz pārbaudi ar <b>F5</b>.</li>
+<li><b>Pārbaudi visus priekšmetus un kritienu aiz malas:</b> pārliecinies, ka ar lēcieniem vari savākt visas 4 monētas, <code>Gem</code> un <code>Key</code> (kopā 9 punkti un <code>atslēga: True</code>). Pamēģini arī noiet aiz grīdas labās vai kreisās malas (2.6. stundā kritienam zem <code>Y &gt; 800</code> pievienosi automātisku zaudējumu un <b>R</b> taustiņu).</li>
+<li><b>Sagatavo pierādījumus un pieraksti <code>README.md</code>:</b> uzņem <b>Inspector</b> ekrānuzņēmumu ar <code>Player</code> laukiem <b>Speed</b>, <b>Gravity</b> un <b>Jump Velocity</b>, ieraksti īsu video ar uzlēkšanu līdz atslēgai un failā <code>README.md</code> vienā teikumā apraksti atšķirību starp <code>Jump Velocity = -400</code> un <code>-650</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> atslēga un visi punktu priekšmeti ir sasniedzami ar A/D un Space; projektā paliek strādājošas, pārbaudītas vērtības.</p>
+<p class="done-when"><b>Gatavs, kad:</b> atslēga un visi punktu priekšmeti scēnā <code>Scenes/Level1.tscn</code> ir sasniedzami ar <b>A/D</b> un <b>Space</b>, un novērojumi ir saglabāti <code>README.md</code>.</p>
 </section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — īss un garš lēciens</summary>
-<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/Player.cs</code>: lauku <code>coyote</code> pievieno klasē zem JumpVelocity, bet abas lēciena rindas metodē <code>_PhysicsProcess()</code> aizstāj ar papildu uzdevuma kodu.</p>
+<details class="course-help extra-task"><summary>Papildu uzdevums - īss un garš lēciens</summary>
+<p class="task-files"><b>Kur strādāt:</b> Papildini failu <code>Scripts/Player.cs</code> — pievieno lauku <code>private double coyote = 0.0;</code> klases sākumā un papildini lēciena daļu metodē <code>_PhysicsProcess(double delta)</code>.</p>
 
-<p>Vispirms saglabā strādājošo versiju Git. Zem <code>JumpVelocity</code> (lēciena ātrums) rindas pievieno <code>private double coyote = 0.0;</code>. Abas lēciena rindas no 2. uzdevuma <b>aizstāj</b> ar kodu zemāk. Tas ļaus lēkt zemāk, ja ātri atlaidīsi Space, un vēl 0,1 sekundi pēc platformas malas šķērsošanas. Pēc lēciena laiku atjauno uz 0, lai nevarētu lēkt vēlreiz gaisā.</p>
+<p>Vispirms saglabā strādājošo pamatversiju Git. Tad failā <code>Scripts/Player.cs</code> zem <code>JumpVelocity</code> rindas pievieno <code>private double coyote = 0.0;</code>, bet metodē <code>_PhysicsProcess(double delta)</code> 2. uzdevuma divas lēciena rindas aizstāj ar kodu zemāk (tas pievieno 0,1 s „coyote time” pēc malas šķērsošanas un zemāku lēcienu, ja <b>Space</b> atlaiž ātri):</p>
 <pre><code class="language-csharp">if (IsOnFloor()) coyote = 0.1;
 else coyote = System.Math.Max(0.0, coyote - delta);
 
@@ -226,7 +229,7 @@ if (Input.IsActionJustPressed(&quot;jump&quot;) &amp;&amp; coyote &gt; 0.0)
 }
 if (Input.IsActionJustReleased(&quot;jump&quot;) &amp;&amp; velocity.Y &lt; 0)
     velocity.Y *= 0.5f;</code></pre>
-<p>Pārbaudi īsu un ilgu Space piespiedienu, lēcienu uzreiz pēc malas un divus ātrus nospiedienus gaisā. Otrs lēciens nedrīkst izdoties. Vēlreiz pārbaudi, ka ceļš līdz atslēgai ir pārvarams.</p>
+<p>Saglabā <code>Scripts/Player.cs</code>, nospied <b>Build</b> un ar <b>F5</b> pārbaudi īsu un garu <b>Space</b> nospiedienu, kā arī to, ka gaisā joprojām nevar izlēkt otro reizi.</p>
 </details>
 <section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2>
 <p class="merkis"><b>Stundas mērķis:</b> varonis lec pa platformām un var savākt atslēgu.</p>

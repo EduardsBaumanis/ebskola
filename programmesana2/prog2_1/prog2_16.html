@@ -56,7 +56,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_1/prog2_1main">1. tēma</a> / 1.6</p>
 <h1>1.6 Noslēguma projekts: Pong</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Pabeigt Pong punktu, serves, uzvaras un atkārtotas game loop (spēles ciklu) un individualizēt dizainu un stāstu.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Pabeigt Pong punktu, serves, uzvaras un atkārtotas game loop (spēles ciklu) un individualizēt dizainu un stāstu.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.1. Problēmas dekompozīcija</a>
 <a href="/sasnRez">SR 2.4.7. UI (lietotāja saskarne)</a>
@@ -82,7 +82,7 @@ if (sensors.IrNostradajis)
 }</code></pre>
 </div>
 <div class="logic-box"><h3>Mezglu savienošana (<code>GetNode</code>), notikumu ievade un scēnas pārlāde</h3>
-<p>Lai vadības klase sazinātos ar scēnas bērnmezgliem, metodē <code>_Ready()</code> saglabā atsauces ar <code>GetNode&lt;Tips&gt;("Ceļš/Līdz/Mezglam")</code>. Ceļam precīzi jāsakrīt ar mezglu nosaukumiem un hierarhiju <code>Scene</code> kokā — gluži kā faila ceļam mapju struktūrā.</p>
+<p>Lai vadības klase sazinātos ar scēnas bērnmezgliem, metodē <code>_Ready()</code> saglabā atsauces ar <code>GetNode&lt;Tips&gt;("Ceļš/Līdz/Mezglam")</code>. Ceļam precīzi jāsakrīt ar mezglu nosaukumiem un hierarhiju <code>Scene</code> kokā - gluži kā faila ceļam mapju struktūrā.</p>
 <p>Vispārējai stāvokļa uzraudzībai katrā kadrā izmanto metodi <code>_Process(double delta)</code>. Vienreizējām komandām (piemēram, procesa palaišanai vai atiestatīšanai) lieto <code>Input.IsActionJustPressed("darbiba")</code>, kas nostrādā tikai vienā kadrā taustiņa nospiešanas brīdī (kā durvju zvana poga, nevis nepārtraukti turēts slēdzis). Savukārt <code>GetTree().ReloadCurrentScene()</code> pilnībā pārlādē pašreizējo scēnu, atgriežot visus skaitītājus un objektus sākuma stāvoklī:</p>
 <pre><code class="language-csharp">private KustigsObjekts objekts;
 
@@ -119,12 +119,12 @@ public override void _Ready()
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p>
 <h2>Savieno punktus, servi, uzvaru un jaunu partiju</h2>
 <p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Game.cs</code> ar pilno piemēra kodu un piesaisti to <code>Scenes/Main.tscn</code> saknei <code>Main</code>. HUD mezglus izveido tajā pašā scēnā.</p>
-<p><b>Pilnas spēles pamatprasības un klašu sadarbība:</b> divu spēlētāju vadība, atlēkšana no raketēm un sienām, pareizi punkti, uzvara pie 5 punktiem, redzamas norādes un <code>R</code> jaunai partijai; pirms pirmās un katras nākamās izspēles bumba gaida <code>Space</code>, un serves virziens pēc katra punkta mainās. <code>Paddle.cs</code> atbild par vienas raketes kustību, <code>Ball.cs</code> — par lidojumu, atlēkšanu un <code>ExitSide</code>, bet <code>Game.cs</code> nolasa iziešanas pusi, piešķir punktu, atjaunina tekstu un vada spēles sākumu un beigas.</p>
+<p><b>Pilnas spēles pamatprasības un klašu sadarbība:</b> divu spēlētāju vadība, atlēkšana no raketēm un sienām, pareizi punkti, uzvara pie 5 punktiem, redzamas norādes un <code>R</code> jaunai partijai; pirms pirmās un katras nākamās izspēles bumba gaida <code>Space</code>, un serves virziens pēc katra punkta mainās. <code>Paddle.cs</code> atbild par vienas raketes kustību, <code>Ball.cs</code> - par lidojumu, atlēkšanu un <code>ExitSide</code>, bet <code>Game.cs</code> nolasa iziešanas pusi, piešķir punktu, atjaunina tekstu un vada spēles sākumu un beigas.</p>
 
 <ol class="step-list"><li>Main.tscn saknei pievieno <code>CanvasLayer</code> (zīmēšanas slānis) child node (bērnu) ar nosaukumu <code>HUD</code> (spēles informācijas panelis). Tam pievieno trīs <code>Label</code> (teksta etiķete) child node ar precīziem nosaukumiem <code>Score</code>, <code>Message</code>, <code>Instructions</code>. Iestati to Pozīcija, Izmērs un fontu pēc tabulas; Horizontal (horizontāli) Alignment = Center, Autowrap Mode = Word Smart.</li>
 <li>Main Node2D (2D mezgls) saknei pievieno <code>res://Scripts/Game.cs</code> ar pilno kodu zemāk. Class (klase) ir <code>Game : Node2D</code>, lai gan node (mezgla) nosaukums ir Main. Vienam node piesaisti vienu skriptu; vecu Main.cs piemēru papildus nevajag.</li>
 <li>Pārbaudi GetNode ceļus pēc koka. Tieši zem Main jābūt PaddleLeft, PaddleRight, Ball un HUD. Game _Ready pēc child node sagatavošanas aptur 1.5 bumbas automātisko startu un parāda sākuma norādes.</li>
-<li>Build un F5: sākumā redzams 0 : 0, bumba nekustas. Nospied Space; ļauj bumbai iziet pa labo malu — kreisajam 1 punkts (atbilstoši <code>ExitSide</code> tabulai zemāk). Pārbaudi arī pretējo malu. Pēc punkta raketes un bumba ir centrā, punkti saglabājas un bumba gaida nākamo Space.</li>
+<li>Build un F5: sākumā redzams 0 : 0, bumba nekustas. Nospied Space; ļauj bumbai iziet pa labo malu - kreisajam 1 punkts (atbilstoši <code>ExitSide</code> tabulai zemāk). Pārbaudi arī pretējo malu. Pēc punkta raketes un bumba ir centrā, punkti saglabājas un bumba gaida nākamo Space.</li>
 <li>Īsai pārbaudei Main Inspector Target Score iestati 1. Pie pirmā punkta jāparādās uzvarētājam; bumba un raketes apstājas. Space vairs nesāk spēli, R atjauno 0 : 0. <b>Atjauno Target Score = 5</b> un izspēlē pilnu partiju.</li>
 <li>Izmēģini R arī partijas vidū: atjaunojas abi punkti, sākuma pozīcijas, vadība un gaidīšana pirms serves. ResetBall nodzēš ExitSide, lai viena iziešana nedotu vairākus punktus.</li>
 </ol>
@@ -153,7 +153,7 @@ public override void _Ready()
     ├── Score (Label)
     ├── Message (Label)
     └── Instructions (Label)</code></pre>
-<details class="course-help"><summary>1.6 Game.cs — pilns fails salīdzināšanai</summary>
+<details class="course-help"><summary>1.6 Game.cs - pilns fails salīdzināšanai</summary>
 <p><a href="pong/Scripts/Game.cs" download>Lejupielādēt Game.cs</a>. Aizstāj tikai atbilstošā faila saturu; neveido otru tāda paša nosaukuma class.</p>
 <pre><code class="language-csharp">using Godot;
 
@@ -258,7 +258,7 @@ public partial class Game : Node2D
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p>
 <h2>Piešķir spēlei savu dizainu un sacensības stāstu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Tekstus un laukuma noformējumu maini <code>Scenes/Main.tscn</code>; kopīgo raketes un bumbas izskatu — <code>Scenes/Paddle.tscn</code> un <code>Scenes/Ball.tscn</code>. Attēlus glabā <code>Art/</code>, pamatojumu — <code>README.md</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Tekstus un laukuma noformējumu maini <code>Scenes/Main.tscn</code>; kopīgo raketes un bumbas izskatu - <code>Scenes/Paddle.tscn</code> un <code>Scenes/Ball.tscn</code>. Attēlus glabā <code>Art/</code>, pamatojumu - <code>README.md</code>.</p>
 
 <ol class="step-list"><li>Izdomā spēles nosaukumu un trīs teikumos apraksti, <b>kas sacenšas, ko simbolizē bumba un kāds ir sacensības mērķis</b>. Tas var būt kosmosa duelis, zemūdeņu spēle vai paša izdomāts sporta veids.</li>
 <li>Pēc Build atlasi Main. Inspector laukos <code>Game Title</code>, <code>Left Name</code>, <code>Right Name</code>, <code>Mission</code> un <code>Victory Text</code> ievadi savu nosaukumu, abu komandu vārdus, stāsta ievadu un noslēgumu. Tie jāredz pašā spēlē, ne tikai README.md.</li>
@@ -270,7 +270,7 @@ public partial class Game : Node2D
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p>
 <h2>Izspēlē pilnu partiju un pārbaudi arī kļūdu situācijas</h2>
-<p class="task-files"><b>Kur strādāt:</b> Testu rezultātus raksti <code>README.md</code>. Koda kļūdu labo atbilstošajā failā: raketes vadība — <code>Scripts/Paddle.cs</code>, bumbas kustība — <code>Scripts/Ball.cs</code>, punkti un uzvara — <code>Scripts/Game.cs</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Testu rezultātus raksti <code>README.md</code>. Koda kļūdu labo atbilstošajā failā: raketes vadība - <code>Scripts/Paddle.cs</code>, bumbas kustība - <code>Scripts/Ball.cs</code>, punkti un uzvara - <code>Scripts/Game.cs</code>.</p>
 
 <ol class="step-list"><li>Palūdz diviem klasesbiedriem sākt spēli bez mutiskām norādēm. Viņiem no ekrāna jāsaprot vadība, Space nozīme un uzvaras nosacījums. Pieraksti vienu ieteikumu.</li>
 <li>Veic visas zemāk norādītās pārbaudes un README.md atzīmē sagaidāmo un faktisko rezultātu. Pārbaudi gan kreisā, gan labā spēlētāja uzvaru.</li>
@@ -291,7 +291,7 @@ public partial class Game : Node2D
 </table>
 </div><p class="done-when"><b>Gatavs, kad:</b> abi spēlētāji saprot un var izspēlēt spēli, tabulas pārbaudes izdodas un pēc uzvaras iespējama jauna partija.</p>
 </section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — izveido treniņa variantu</summary>
+<details class="course-help extra-task"><summary>Papildu uzdevums - izveido treniņa variantu</summary>
 <p class="task-files"><b>Kur strādāt:</b> Atver <code>Scenes/Main.tscn</code> un Inspector maini bumbas un abu rakešu ātrumu. Salīdzinājumu pieraksti <code>README.md</code>.</p>
 
 <p>Saglabā savu pamatversiju Git. Inspector samazini Ball Base (bāzes klase) Speed un abu rakešu Speed līdz iesācējam piemērotam tempam. Dod klasesbiedram salīdzināt abus variantus, pieraksti rezultātu un izvēlies savam projektam pamatotu tempu. Sarežģītāks pretinieks, skaņas vai izvēlnes var būt turpmāks extension (paplašinājums).</p>

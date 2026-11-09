@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_4/prog2_4main">4. tēma</a> / 4.5</p>
 <h1>4.5 Šaušanas gameplay mehānika un object pooling (objektu atkārtota izmantošana)</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Implementēt efektīvu lādiņu sistēmu ar object pooling tehniku.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Implementēt efektīvu lādiņu sistēmu ar object pooling tehniku.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
 <a href="/sasnRez">SR 2.4.16. Data structure (datu struktūras)</a>
@@ -131,54 +131,146 @@ if (dzivesLaiks &lt;= 0.0f) QueueFree(); // Atbrīvo mezglu (noslogo GC)</code><
 <p>Sākumā visi rezerves mezgli vienreiz tiek izveidoti, pievienoti scēnai un paslēpti (<code>Visible = false</code>, atslēdzot fizikas apstrādi ar <code>SetPhysicsProcess(false)</code>). Kad objekts kļūst vajadzīgs, paņem pirmo neaktīvo eksemplāru (izsaucējam vienmēr jāpārbauda, vai metode nav atgriezusi <code>null</code>, ja krātuve pilnībā aizņemta), bet darbības beigās to atkal paslēpj — tādējādi mezglu skaits scēnas kokā paliek nemainīgs.</p>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Izšauj pirmo lādiņu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>bullet.tscn</code> projekta saknē un piesaisti tās Area2D saknei <code>Scripts/Bullet.cs</code>; tajā raksti kustību un dzīves ilgumu. Esošajā <code>Scripts/Player.cs</code> pievieno BulletScene lauku un šaušanas kodu; darbību shoot izveido Input Map.</p>
+<p class="task-number">1. uzdevums</p><h2>Izveido lādiņa scēnu un izšauj pirmo lādiņu</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Projekta iestatījumos (<b>Project → Project Settings → Input Map</b>) pievieno darbību <code>shoot</code>.<br>
+2) Mapē <code>Scenes/</code> izveido jaunu scēnu <code>Scenes/Bullet.tscn</code> (<code>Area2D</code> sakne) un piesaisti tai jaunu skriptu <code>Scripts/Bullet.cs</code>.<br>
+3) Esošajā spēlētāja skriptā <code>Scripts/Player.cs</code> (piesaistīts <code>Scenes/Player.tscn</code> no 4.3. stundas) pievieno mērķēšanu pret peli un šaušanas metodi <code>Shoot()</code>.</p>
 
-<p>Beigās spēlētājs varēs šaut ar peles klikšķi.</p>
+<p>Pirmajā solī izveidosim lādiņa scēnu un vienkāršāko šaušanas mehāniku ar <code>Instantiate&lt;Bullet&gt;()</code> un <code>QueueFree()</code>, kā arī saslēgsim lādiņa sadursmi ar ienaidnieka <code>TakeDamage(...)</code> metodi no 4.3. stundas.</p>
 <ol class="step-list">
-<li><b>Izveido</b> scēnu <code>bullet.tscn</code> ar <code>Area2D</code> (2D saskares zona) sakni un sadursmes formu.</li>
-<li><b>Izveido</b> C# class <code>Bullet</code>, kas kustas taisni ar <code>delta</code>.</li>
-<li><b>Pievieno</b> tai laiku, pēc kura lādiņš izdzēšas ar <code class="language-csharp">QueueFree();</code>.</li>
-<li><b>Izveido</b> Input Map darbību <code>shoot</code> ar peles kreiso pogu.</li>
-<li><b>Ielādē</b> spēlētāja class scēnu ar <code class="language-csharp">[Export] public PackedScene BulletScene { get; set; }</code> vai <code class="language-csharp">GD.Load&lt;PackedScene&gt;("res://bullet.tscn")</code>.</li>
-<li><b>Izveido</b> jaunu lādiņu ar <code class="language-csharp">Bullet bullet = BulletScene.Instantiate&lt;Bullet&gt;();</code> un pievieno to scēnai.</li>
-<li><b>Būvē</b> un izšauj dažus lādiņus.</li>
+<li><b>Projekta iestatījumos</b> (<b>Project → Project Settings → Input Map</b>) augšējā laukā <b>Add New Action</b> ieraksti <code>shoot</code>, nospied <b>Add</b>, tad pie <code>shoot</code> nospied <b>+</b> un izvēlies <b>Mouse Buttons → Left Mouse Button</b>.</li>
+<li><b>Izveido</b> lādiņa scēnu: izvēlies <b>Scene → New Scene → Other Node → Area2D</b>, pārsauc saknes mezglu par <code>Bullet</code> un pievieno tam divus bērnmezglus:
+<ul>
+<li><code>CollisionShape2D</code> — Inspector panelī <b>Shape</b> izvēlies <b>New CircleShape2D</b> ar <code>Radius = 6</code>;</li>
+<li><code>Polygon2D</code> (pārsauc par <code>Visual</code>) — uzzīmē nelielu taisnstūri vai rombu (aptuveni <code>12×6 px</code>) un <b>Color</b> iestati koši dzeltenu.</li>
+</ul>
+Saglabā scēnu mapē <code>Scenes/</code> ar nosaukumu <code>Scenes/Bullet.tscn</code>.</li>
+<li><b>Piesaisti</b> <code>Bullet</code> saknes mezglam jaunu C# skriptu <code>Scripts/Bullet.cs</code> un ievieto tajā kustības, dzīves laika un trāpījuma kodu:
+<pre><code class="language-csharp">using Godot;
+
+public partial class Bullet : Area2D
+{
+    [Export] public float Speed { get; set; } = 700.0f;
+    [Export] public int Damage { get; set; } = 10;
+    [Export] public float MaxLifetime { get; set; } = 2.0f;
+
+    private Vector2 direction = Vector2.Right;
+    private float lifetime = 0.0f;
+
+    public bool IsActive { get; private set; } = false;
+    public bool UsePool { get; set; } = false;
+
+    public override void _Ready()
+    {
+        BodyEntered += OnBodyEntered;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (!IsActive) return;
+
+        GlobalPosition += direction * Speed * (float)delta;
+        lifetime -= (float)delta;
+
+        if (lifetime &lt;= 0.0f)
+        {
+            if (UsePool) Deactivate();
+            else QueueFree();
+        }
+    }
+
+    public void Fire(Vector2 startPos, Vector2 moveDir, bool fromPool)
+    {
+        GlobalPosition = startPos;
+        direction = moveDir.Normalized();
+        Rotation = direction.Angle();
+        lifetime = MaxLifetime;
+        UsePool = fromPool;
+        SetActiveState(true);
+    }
+
+    public void Deactivate()
+    {
+        SetActiveState(false);
+    }
+
+    public void SetActiveState(bool active)
+    {
+        IsActive = active;
+        Visible = active;
+        SetPhysicsProcess(active);
+        SetDeferred(Area2D.PropertyName.Monitoring, active);
+    }
+
+    private void OnBodyEntered(Node2D body)
+    {
+        if (!IsActive || body is Player) return;
+
+        if (body is Enemy enemy)
+        {
+            enemy.TakeDamage(Damage);
+        }
+
+        if (UsePool) Deactivate();
+        else QueueFree();
+    }
+}</code></pre>
+</li>
+<li><b>Atver</b> failu <code>Scripts/Player.cs</code> un klases augšdaļā (pie <code>Speed</code>) pievieno lādiņa scēnas un krātuves režīma laukus:
+<pre><code class="language-csharp">[Export] public PackedScene BulletScene { get; set; } = GD.Load&lt;PackedScene&gt;("res://Scenes/Bullet.tscn");
+[Export] public bool UsePooling { get; set; } = false;</code></pre>
+</li>
+<li><b>Tajā pašā <code>Scripts/Player.cs</code> failā</b> metodē <code>_PhysicsProcess(double delta)</code> aiz <code>MoveAndSlide();</code> pievieno pagriešanos pret peli un šaušanas izsaukumu, kā arī palīgmetodi <code>Shoot()</code>:
+<pre><code class="language-csharp">LookAt(GetGlobalMousePosition());
+
+if (Input.IsActionJustPressed("shoot"))
+{
+    Shoot();
+}</code></pre>
+Un zem <code>_PhysicsProcess()</code> pievieno metodi <code>Shoot()</code>:
+<pre><code class="language-csharp">private void Shoot()
+{
+    if (BulletScene == null) return;
+
+    Bullet bullet = BulletScene.Instantiate&lt;Bullet&gt;();
+    GetParent().AddChild(bullet);
+    bullet.Fire(GlobalPosition, Transform.X, false);
+}</code></pre>
+</li>
+<li><b>Nospied</b> <b>Build</b> un palaid <code>Scenes/Arena.tscn</code> (<code>F5</code>): pārvietojies ar <code>WASD</code>, mērķē ar peli un ar kreiso klikšķi izšauj uz <code>Enemy</code> mezglu — trāpot 3 reizes (<code>3 × 10 = 30 HP</code>), ienaidnieks pāriet stāvoklī <code>Dead</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> ar katru peles klikšķi parādās lādiņš, kas lido prom un pēc laika pazūd.</p>
+<p class="done-when"><b>Gatavs, kad:</b> spēlētājs pagriežas pret peles kursoru, ar katru klikšķi izšauj lādiņu no <code>Scenes/Bullet.tscn</code>, un lādiņš trāpot atņem ienaidniekam <code>HP</code> vai izdziest pēc 2 sekundēm.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Izveido object pool</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/BulletPool.cs</code> parastajai C# klasei. Esošajā <code>Scripts/Player.cs</code> izveido un lieto krātuvi; <code>Scripts/Bullet.cs</code> papildini ar aktīvo stāvokli un atgriešanu krātuvē laika beigās.</p>
+<p class="task-number">2. uzdevums</p><h2>Izveido <code>BulletPool</code> un pārslēdz šaušanu uz objektu krātuvi</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Mapē <code>Scripts/</code> izveido jaunu C# failu <code>Scripts/BulletPool.cs</code> (parasta C# klase ar <code>List&lt;Bullet&gt;</code>, nav jāpiesaista mezglam).<br>
+2) Esošajā failā <code>Scripts/Player.cs</code> pievieno <code>BulletPool</code> lauku, sagatavo krātuvi <code>_Ready()</code> metodē un papildini <code>Shoot()</code> metodi.</p>
 
-<p>Beigās lādiņi tiks izmantoti atkārtoti, nevis veidoti no jauna.</p>
+<p>Tagad aizstāsim nepārtrauktu <code>Instantiate()</code> un <code>QueueFree()</code> ar 50 lādiņu rezervi (<code>BulletPool</code>), kuru vienreiz sagatavo spēles sākumā un pēc tam atkārtoti izmanto.</p>
 <ol class="step-list">
-<li><b>Izveido</b> class <code>BulletPool</code> ar lauku <code class="language-csharp">private readonly List&lt;Bullet&gt; pool = new();</code>.</li>
-<li><b>Uzraksti</b> method <code class="language-csharp">public void Initialize(Node parent)</code>.</li>
-<li><b>Izveido</b> tajā loop (ciklā) 50 lādiņus ar <code class="language-csharp">Bullet bullet = BulletScene.Instantiate&lt;Bullet&gt;();</code> un paslēp tos.</li>
-<li><b>Uzraksti</b> method <code class="language-csharp">public Bullet GetBullet()</code>, kas atgriež pirmo neaktīvo.</li>
-<li><b>Atgriez</b> <code>null</code> (tukša atsauce), ja visi ir aizņemti, un apstrādā šo gadījumu.</li>
-<li><b>Nomaini</b> šaušanas kodu tā, lai tas ņemtu lādiņu no krātuves.</li>
-<li><b>Atgriez</b> lādiņu krātuvē, kad tā laiks beidzas, nevis dzēs to.</li>
-</ol>
+<li><b>Mapē <code>Scripts/</code></b> izveido jaunu C# failu <code>Scripts/BulletPool.cs</code>.</li>
+<li><b>Failā <code>Scripts/BulletPool.cs</code></b> ieraksti pilno objektu krātuves klasi, kas glabā <code>List&lt;Bullet&gt;</code> un nodrošina metodes <code>Initialize(...)</code>, <code>GetBullet()</code> un <code>ReturnBullet(...)</code>:
 <pre><code class="language-csharp">using Godot;
 using System.Collections.Generic;
 
 public class BulletPool
 {
     private readonly List&lt;Bullet&gt; pool = new();
-    private readonly PackedScene bulletScene = GD.Load&lt;PackedScene&gt;("res://bullet.tscn");
-    private const int PoolSize = 50;
 
-    public void Initialize(Node parent)
+    public void Initialize(Node parent, PackedScene bulletScene, int poolSize = 50)
     {
-        for (int i = 0; i &lt; PoolSize; i++)
+        if (parent == null || bulletScene == null || pool.Count &gt; 0) return;
+
+        for (int i = 0; i &lt; poolSize; i++)
         {
             Bullet bullet = bulletScene.Instantiate&lt;Bullet&gt;();
             parent.AddChild(bullet);
-            bullet.Visible = false;
-            bullet.SetActive(false);
+            bullet.Deactivate();
             pool.Add(bullet);
         }
+        GD.Print($"[BulletPool] Sagatavoti {pool.Count} rezerves lādiņi.");
     }
 
     public Bullet GetBullet()
@@ -187,121 +279,298 @@ public class BulletPool
         {
             if (!bullet.IsActive)
             {
-                bullet.SetActive(true);
-                bullet.Visible = true;
                 return bullet;
             }
         }
-        return null; // Krātuve pašlaik pilnībā aizņemta.
+        return null; // Visi krātuves lādiņi pašlaik lido
     }
 
     public void ReturnBullet(Bullet bullet)
     {
-        bullet.SetActive(false);
-        bullet.Visible = false;
+        bullet?.Deactivate();
     }
 }</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> šaujot lādiņi parādās kā iepriekš, bet scēnas kokā node skaits vairs neaug.</p>
+</li>
+<li><b>Atver</b> failu <code>Scripts/Player.cs</code> un klases augšdaļā nomaini <code>UsePooling</code> noklusējuma vērtību uz <code>true</code>, pievieno <code>bulletPool</code> lauku un <code>_Ready()</code> metodi, kas ar <code>CallDeferred</code> sagatavo krātuvi tiklīdz `Arena` vecākmezgls ir gatavs:
+<pre><code class="language-csharp">[Export] public bool UsePooling { get; set; } = true;
+[Export] public int PoolSize { get; set; } = 50;
+
+private readonly BulletPool bulletPool = new();
+
+public override void _Ready()
+{
+    CallDeferred(nameof(SetupPool));
+}
+
+private void SetupPool()
+{
+    bulletPool.Initialize(GetParent(), BulletScene, PoolSize);
+}</code></pre>
+</li>
+<li><b>Tajā pašā <code>Scripts/Player.cs</code> failā</b> atjaunini metodi <code>Shoot()</code>, lai tā atbalstītu abus režīmus — gan <code>UsePooling == true</code> (paņem brīvo lādiņu no `bulletPool`), gan <code>UsePooling == false</code> (izveido jaunu ar `Instantiate` salīdzināšanai 3. uzdevumā):
+<pre><code class="language-csharp">private void Shoot()
+{
+    if (BulletScene == null) return;
+
+    if (UsePooling)
+    {
+        Bullet pooledBullet = bulletPool.GetBullet();
+        if (pooledBullet == null) return; // Krātuve pilnībā aizņemta
+
+        pooledBullet.Fire(GlobalPosition, Transform.X, true);
+    }
+    else
+    {
+        Bullet newBullet = BulletScene.Instantiate&lt;Bullet&gt;();
+        GetParent().AddChild(newBullet);
+        newBullet.Fire(GlobalPosition, Transform.X, false);
+    }
+}</code></pre>
+</li>
+<li><b>Nospied</b> <b>Build</b> un palaid <code>Scenes/Arena.tscn</code> (<code>F5</code>): pārliecinies, ka Output konsolē parādās <code>[BulletPool] Sagatavoti 50 rezerves lādiņi.</code>.</li>
+<li><b>Kamēr spēle darbojas</b>, Godot redaktora kreisajā panelī virs scēnas koka pārslēdz cilni no <b>Local</b> uz <b>Remote</b>: zem <code>Arena</code> redzēsi tieši 50 <code>Bullet</code> mezglus, un šaujot jauni mezgli klāt vairs nerodas.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> šaujot lādiņi lido un trāpa kā iepriekš, bet cilnē <b>Scene → Remote</b> mezglu skaits šaušanas laikā paliek nemainīgs.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums</p><h2>Salīdzini abas pieejas ar mērījumu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Abas šaušanas pieejas pārslēdz <code>Scripts/Player.cs</code>; lādiņu dzīves ciklu pielāgo <code>Scripts/Bullet.cs</code>. Mērījumus un izvēlēto variantu pieraksti <code>README.md</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Failā <code>Scripts/Player.cs</code> pievieno šaušanas intervālu (<code>FireCooldown</code>) un Inspector panelī pārslēdz <code>Use Pooling</code> (<code>false</code> un <code>true</code>).<br>
+2) Mērījumus nolasi Godot apakšējā panelī <b>Debugger → Monitors</b> un kreisajā panelī <b>Scene → Remote</b>.<br>
+3) Rezultātu tabulu un secinājumu pieraksti projekta saknes failā <code>README.md</code>.</p>
 
-<p>Beigās tev būs skaitļos pierādīts, kāpēc krātuve ir vērtīga.</p>
+<p>Lai iegūtu objektīvu salīdzinājumu, abās pieejās nepārtraukti šausim lādiņus, turot nospiestu peles pogu, un salīdzināsim mezglu skaitu (<code>Nodes</code>) un kadrus sekundē (<code>FPS</code>).</p>
 <ol class="step-list">
-<li><b>Izšauj</b> 200 lādiņus ar pirmo pieeju un pieraksti FPS (kadri sekundē) rādījumu.</li>
-<li><b>Ieslēdz</b> FPS skaitītāju ar <b>Debug -&gt; Visible Collision Shapes</b> un profiling (profilēšanas) paneli.</li>
-<li><b>Izšauj</b> 200 lādiņus ar krātuves pieeju un pieraksti FPS.</li>
-<li><b>Saskaiti</b>, cik node abos gadījumos ir scēnas kokā.</li>
-<li><b>Pieraksti</b>, kura pieeja radīja vairāk node.</li>
-<li><b>Pieraksti</b>, kāpēc objekta izveide un dzēšana maksā vairāk nekā tā paslēpšana.</li>
-<li><b>Izvēlies</b>, kuru pieeju atstāsi savā spēlē, un pamato.</li>
+<li><b>Atver</b> failu <code>Scripts/Player.cs</code> un pievieno šaušanas intervāla taimeri (<code>FireCooldown</code>), lai turot nospiestu peles kreiso pogu (<code>Input.IsActionPressed("shoot")</code>) spēlētājs šautu nepārtraukti:
+<pre><code class="language-csharp">[Export] public float FireCooldown { get; set; } = 0.02f; // Ātrs testa režīms (50 šāvieni/sek)
+private double cooldownTimer = 0.0;</code></pre>
+Un metodē <code>_PhysicsProcess(double delta)</code> aizstāj šaušanas <code>if</code> bloku ar:
+<pre><code class="language-csharp">cooldownTimer -= delta;
+if (Input.IsActionPressed("shoot") &amp;&amp; cooldownTimer &lt;= 0.0)
+{
+    Shoot();
+    cooldownTimer = FireCooldown;
+}</code></pre>
+</li>
+<li><b>1. mērījums (bez krātuves — <code>Instantiate</code> + <code>QueueFree</code>):</b> atver <code>Scenes/Arena.tscn</code>, atzīmē <code>Player</code> mezglu, Inspector panelī izslēdz <b>Use Pooling</b> (neatzīmēts), palaid spēli (<code>F5</code>) un 4–5 sekundes turi nospiestu peles kreiso pogu (~200–250 lādiņi).</li>
+<li><b>Spēles darbības laikā</b> Godot apakšējā panelī atver <b>Debugger → Monitors</b>, kreisajā sarakstā ieslēdz <b>Time → FPS</b> un <b>Object → Nodes</b>, kā arī apskati <b>Scene → Remote</b> koku — pieraksti novēroto `FPS` un maksimālo `Nodes` skaitu.</li>
+<li><b>2. mērījums (ar <code>BulletPool</code>):</b> apturi spēli, Inspector panelī pie `Player` ieslēdz <b>Use Pooling</b> (atzīmēts), palaid spēli (<code>F5</code>), atkal 4–5 sekundes turi nospiestu peles kreiso pogu un pieraksti `FPS` un `Nodes` skaitu no <b>Debugger → Monitors</b>.</li>
+<li><b>Pēc mērījumiem</b> failā <code>Scripts/Player.cs</code> (vai Inspector panelī) iestati normālu spēles šaušanas tempu <code>FireCooldown = 0.18f</code> un atstāj <code>UsePooling = true</code>.</li>
+<li><b>Projekta saknē</b> atver (vai izveido) failu <code>README.md</code> un ievieto mērījumu tabulu un secinājumu:
+<pre><code class="language-markdown">## 4.5. Object Pooling salīdzinājums (~200 lādiņi)
+| Pieeja | FPS (Debugger → Monitors) | Mezglu skaits (Object → Nodes) | Vai rodas jauni mezgli šaušanas laikā? |
+| :--- | :--- | :--- | :--- |
+| `Instantiate` + `QueueFree` (`UsePooling = false`) | ... | ... | Jā, katrs šāviens pievieno un dzēš mezglu |
+| `BulletPool` (`UsePooling = true`) | ... | nemainīgs | Nē, tiek pārslēgti tie paši 50 mezgli |
+
+**Secinājums:** Objektu krātuve (`BulletPool`) ir efektīvāka, jo ...</code></pre>
+</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> ar krātuvi node skaits paliek nemainīgs, un tu vari nosaukt abu pieeju FPS atšķirību.</p>
+<p class="done-when"><b>Gatavs, kad:</b> failā <code>README.md</code> ir aizpildīta abu pieeju mērījumu tabula (`FPS` un `Nodes`), un spēlē ir atstāts ieslēgts <code>UsePooling = true</code> ar vienmērīgu <code>FireCooldown</code>.</p>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Pievieno šaušanas ātruma ierobežojumu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Cooldown lauku un šaušanas intervāla pārbaudi pievieno <code>Scripts/Player.cs</code>. Laiku samazini tajā pašā <code>_Process()</code> vai <code>_PhysicsProcess()</code> metodē, kur pārbaudi šaušanas ievadi.</p>
+<summary>Papildu uzdevums — Pievieno aptveres izmēru un pārlādēšanu (<code>R</code>)</summary>
+<p class="task-files"><b>Kur strādāt:</b> Papildini esošo <code>Scripts/Player.cs</code> failu ar patronu skaitītāju un pārlādēšanas taimeri.</p>
 
-<p>Ja pamatdarbs ir gatavs, neļauj šaut bezgalīgi ātri.</p>
+<p>Ja pamatdarbs ir gatavs, pievieno spēlētājam ierobežotu aptveri (piemēram, 15 lādiņi), kas pēc izšaušanas vai taustiņa <code>R</code> nospiešanas pārlādējas 1,2 sekundes.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> lauku <code class="language-csharp">double cooldown = 0.0;</code>.</li>
-<li><b>Samazini</b> to katrā kadrā ar <code>delta</code>.</li>
-<li><b>Atļauj</b> šaut tikai tad, kad tas ir mazāks vai vienāds ar nulli.</li>
-<li><b>Iestati</b> to uz 0.2 pēc katra šāviena.</li>
-<li><b>Pārbaudi</b>, ka turot peles pogu, lādiņi nāk vienmērīgi.</li>
+<li><b>Failā <code>Scripts/Player.cs</code></b> pievieno laukus <code>public int MaxAmmo = 15;</code>, <code>public int CurrentAmmo = 15;</code> un <code>private double reloadTimer = 0.0;</code>.</li>
+<li><b>Metodē <code>_PhysicsProcess(double delta)</code></b> apstrādā <code>reloadTimer</code> atskaiti: kamēr <code>reloadTimer &gt; 0</code>, šaut nevar, bet kad tas sasniedz <code>0</code>, atjauno <code>CurrentAmmo = MaxAmmo</code> un izdrukā <code>[Player] Aptvere pārlādēta (15/15)</code>.</li>
+<li><b>Metodē <code>Shoot()</code></b> pirms šāviena pārbaudi <code>if (CurrentAmmo &lt;= 0)</code> — ja patronas beigušās, uzsāc pārlādēšanu (<code>reloadTimer = 1.2;</code>); pretējā gadījumā pēc šāviena samazini <code>CurrentAmmo--</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> turot peles pogu, lādiņi izšaujas ar vienmērīgu atstarpi, nevis visi uzreiz.</p>
+<p class="done-when"><b>Gatavs, kad:</b> pēc 15 šāvieniem spēlētājs uz 1,2 sekundēm pārlādē ieroci un Output konsolē redzams atlikušo patronu skaits.</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary>
 <div class="code-example">
+<p><b>1. fails — <code>Scripts/Bullet.cs</code> (piesaistīts <code>Scenes/Bullet.tscn</code> saknes mezglam <code>Bullet</code>):</b></p>
 <pre><code class="language-csharp">using Godot;
 
 public partial class Bullet : Area2D
 {
-    private Vector2 velocity;
+    [Export] public float Speed { get; set; } = 700.0f;
+    [Export] public int Damage { get; set; } = 10;
+    [Export] public float MaxLifetime { get; set; } = 2.0f;
+
+    private Vector2 direction = Vector2.Right;
     private float lifetime = 0.0f;
-    private int damage = 10;
 
     public bool IsActive { get; private set; } = false;
+    public bool UsePool { get; set; } = false;
+
+    public override void _Ready()
+    {
+        BodyEntered += OnBodyEntered;
+    }
 
     public override void _PhysicsProcess(double delta)
     {
         if (!IsActive) return;
-        Position += velocity * (float)delta;
+
+        GlobalPosition += direction * Speed * (float)delta;
         lifetime -= (float)delta;
-        if (lifetime &lt;= 0) Deactivate();
+
+        if (lifetime &lt;= 0.0f)
+        {
+            if (UsePool) Deactivate();
+            else QueueFree();
+        }
     }
 
-    public void Fire(Vector2 pos, Vector2 vel, float life = 2.0f)
+    public void Fire(Vector2 startPos, Vector2 moveDir, bool fromPool)
     {
-        Position = pos;
-        velocity = vel;
-        lifetime = life;
-        SetActive(true);
-        Visible = true;
+        GlobalPosition = startPos;
+        direction = moveDir.Normalized();
+        Rotation = direction.Angle();
+        lifetime = MaxLifetime;
+        UsePool = fromPool;
+        SetActiveState(true);
     }
 
     public void Deactivate()
     {
-        SetActive(false);
-        Visible = false;
+        SetActiveState(false);
     }
 
-    public void SetActive(bool active)
+    public void SetActiveState(bool active)
     {
         IsActive = active;
+        Visible = active;
         SetPhysicsProcess(active);
+        SetDeferred(Area2D.PropertyName.Monitoring, active);
     }
-}
+
+    private void OnBodyEntered(Node2D body)
+    {
+        if (!IsActive || body is Player) return;
+
+        if (body is Enemy enemy)
+        {
+            enemy.TakeDamage(Damage);
+        }
+
+        if (UsePool) Deactivate();
+        else QueueFree();
+    }
+}</code></pre>
+<p><b>2. fails — <code>Scripts/BulletPool.cs</code> (palīgklase mapē <code>Scripts/</code>):</b></p>
+<pre><code class="language-csharp">using Godot;
+using System.Collections.Generic;
+
+public class BulletPool
+{
+    private readonly List&lt;Bullet&gt; pool = new();
+
+    public void Initialize(Node parent, PackedScene bulletScene, int poolSize = 50)
+    {
+        if (parent == null || bulletScene == null || pool.Count &gt; 0) return;
+
+        for (int i = 0; i &lt; poolSize; i++)
+        {
+            Bullet bullet = bulletScene.Instantiate&lt;Bullet&gt;();
+            parent.AddChild(bullet);
+            bullet.Deactivate();
+            pool.Add(bullet);
+        }
+        GD.Print($"[BulletPool] Sagatavoti {pool.Count} rezerves lādiņi.");
+    }
+
+    public Bullet GetBullet()
+    {
+        foreach (Bullet bullet in pool)
+        {
+            if (!bullet.IsActive)
+            {
+                return bullet;
+            }
+        }
+        return null;
+    }
+
+    public void ReturnBullet(Bullet bullet)
+    {
+        bullet?.Deactivate();
+    }
+}</code></pre>
+<p><b>3. fails — <code>Scripts/Player.cs</code> (piesaistīts <code>Scenes/Player.tscn</code> saknes mezglam <code>Player</code>):</b></p>
+<pre><code class="language-csharp">using Godot;
 
 public partial class Player : CharacterBody2D
 {
-    private BulletPool pool;
-    private Vector2 mousePos;
+    [Export] public float Speed { get; set; } = 240.0f;
+    [Export] public PackedScene BulletScene { get; set; } = GD.Load&lt;PackedScene&gt;("res://Scenes/Bullet.tscn");
+    [Export] public bool UsePooling { get; set; } = true;
+    [Export] public int PoolSize { get; set; } = 50;
+    [Export] public float FireCooldown { get; set; } = 0.18f;
+
+    private readonly BulletPool bulletPool = new();
+    private double cooldownTimer = 0.0;
+
+    public override void _Ready()
+    {
+        CallDeferred(nameof(SetupPool));
+    }
+
+    private void SetupPool()
+    {
+        bulletPool.Initialize(GetParent(), BulletScene, PoolSize);
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        Vector2 inputDir = new Vector2(
+            Input.GetAxis("move_left", "move_right"),
+            Input.GetAxis("move_up", "move_down")
+        );
+
+        if (inputDir != Vector2.Zero)
+        {
+            inputDir = inputDir.Normalized();
+        }
+
+        Velocity = inputDir * Speed;
+        MoveAndSlide();
+
+        LookAt(GetGlobalMousePosition());
+
+        cooldownTimer -= delta;
+        if (Input.IsActionPressed("shoot") &amp;&amp; cooldownTimer &lt;= 0.0)
+        {
+            Shoot();
+            cooldownTimer = FireCooldown;
+        }
+    }
 
     private void Shoot()
     {
-        Bullet bullet = pool.GetBullet();
-        if (bullet != null)
+        if (BulletScene == null) return;
+
+        if (UsePooling)
         {
-            Vector2 dir = (mousePos - Position).Normalized();
-            bullet.Fire(Position, dir * 800.0f);
+            Bullet pooledBullet = bulletPool.GetBullet();
+            if (pooledBullet == null) return;
+
+            pooledBullet.Fire(GlobalPosition, Transform.X, true);
+        }
+        else
+        {
+            Bullet newBullet = BulletScene.Instantiate&lt;Bullet&gt;();
+            GetParent().AddChild(newBullet);
+            newBullet.Fire(GlobalPosition, Transform.X, false);
         }
     }
 }</code></pre>
-<div class="result">Spēlētājs šauj 5 lādiņus/sek, ekrānā līdz 30 lādiņiem vienlaikus, FPS stabils 60.</div>
+<div class="result">Spēlētājs mērķē uz peli un šauj ar vienmērīgu intervālu, atkārtoti izmantojot 50 rezerves lādiņus no <code>BulletPool</code> bez jaunu mezglu radīšanas scēnas kokā.</div>
 </div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē ir strādājoša šaušana, kas izmanto object pool (object pooling), un tu ar mērījumu vari pierādīt, ar ko tā ir labāka par lādiņu veidošanu un dzēšanu katru reizi.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē ir strādājoša šaušana no <code>Scenes/Bullet.tscn</code>, kas izmanto <code>BulletPool</code> objektu krātuvi, un tu ar mērījumu esi salīdzinājis tās darbību ar <code>Instantiate</code> / <code>QueueFree</code> pieeju.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>Faili <code>Bullet.cs</code> un <code>BulletPool.cs</code>.</li>
-<li>Ekrānuzņēmums ar scene tree (scēnas koku) pēc 200 izšautiem lādiņiem, izmantojot krātuvi.</li>
-<li>README.md: abu pieeju FPS un node skaits un viens teikums, kāpēc krātuve ir ātrāka.</li>
+<li>Scēnai <code>Scenes/Bullet.tscn</code> un skriptiem <code>Scripts/Bullet.cs</code>, <code>Scripts/BulletPool.cs</code> un <code>Scripts/Player.cs</code>.</li>
+<li>Ekrānuzņēmumam ar <b>Scene → Remote</b> koku vai <b>Debugger → Monitors</b> pēc šaušanas ar ieslēgtu <code>BulletPool</code>.</li>
+<li>Failam <code>README.md</code> ar abu pieeju mērījumu tabulu (<code>FPS</code> un <code>Nodes</code> skaits) un skaidrojumu, kāpēc objektu krātuve ir efektīvāka.</li>
 </ul>
 <p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>

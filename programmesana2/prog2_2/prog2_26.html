@@ -56,7 +56,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_2/prog2_2main">2. tēma</a> / 2.6</p>
 <h1>2.6 Noslēguma projekts: Platformas spēle</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Pievieno finišu un spēles tekstus. Izvēlies savu noformējumu un dod spēli izmēģināt klasesbiedram.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Pievieno finišu un spēles tekstus. Izvēlies savu noformējumu un dod spēli izmēģināt klasesbiedram.</p>
 <p>Pirms darba iepazīsties ar <a href="#vertesana">vērtēšanas kritēriju tabulu</a>; pirms iesniegšanas izmanto to pašpārbaudei.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.1. Problēmas dekompozīcija</a>
@@ -106,37 +106,40 @@ private void NoslegtProcesu(string zinojums)
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p>
 <h2>Pievieno finišu, bīstamo zonu un tekstus</h2>
-<p class="task-files"><b>Kur strādāt:</b> Finišu, bīstamo zonu un HUD veido <code>Scenes/Level1.tscn</code>. Izveido <code>Scripts/Level.cs</code> ar pilno piemēra kodu un piesaisti to Level1 saknei.</p>
-<p><b>Kas jāredz gatavajā spēlē:</b> spēles logā ir vadības taustiņi, mērķis un punktu skaits; varonis var pārvarēt trīs platformas un savākt piecus punktu priekšmetus un atslēgu. Finišs (<code>Finish</code>) ar atslēgu rāda uzvaru, bet saskare ar bīstamo zonu (<code>Hazard</code>) vai kritiens aiz grīdas malas rāda zaudējumu; ar <b>R</b> visu līmeni sāk no jauna (punkti ir 0 un priekšmeti atkal savās vietās). Visus šos objektus un <code>HUD</code> tekstus vadīs <code>Level.cs</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Finiša zonu (<code>Finish</code>), bīstamo zonu (<code>Hazard</code>) un saskarni (<code>HUD</code>) izveido scēnā <code>Scenes/Level1.tscn</code>. Vadības skriptu <code>Scripts/Level.cs</code> izveido un piesaisti <code>Level1.tscn</code> saknes mezglam <code>Level1</code>.</p>
+<p><b>Gatavās scēnas <code>Scenes/Level1.tscn</code> pilnais mezglu koks (pārbaudi nosaukumus un atkāpes!):</b></p>
+<pre><code>Level1 (Node2D, skripts: Scripts/Level.cs)
+├── Player (ievilkts Scenes/Player.tscn, Position: (80, 570))
+├── Ground, Platform1, Platform2, Platform3 (StaticBody2D, Layer: 1)
+├── Coin1, Coin2, Gem, Coin3, Coin4, Key (ievilkti Scenes/Pickup.tscn, Layer: 3, Mask: 2)
+├── Finish (Area2D, Position: (850, 590), Layer: 3, Mask: 2, Monitoring: On)
+│   ├── CollisionShape2D (RectangleShape2D, Size: (48, 100))
+│   └── Visual (Polygon2D - zaļš taisnstūris 48×100)
+├── Hazard (Area2D, Position: (440, 625), Layer: 3, Mask: 2, Monitoring: On)
+│   ├── CollisionShape2D (RectangleShape2D, Size: (80, 30))
+│   └── Visual (Polygon2D - sarkans taisnstūris 80×30)
+└── HUD (CanvasLayer)
+    ├── Instructions (Label, Position: (20, 16), Size: (1240, 48))
+    ├── Status (Label, Position: (20, 48), Size: (1240, 48))
+    └── Message (Label, Position: (20, 80), Size: (1240, 48))</code></pre>
 
-<ol class="step-list"><li>Atver <code>Level1.tscn</code>. Scene panelī atlasi <code>Level1</code>, spied <b>+</b> un pievieno <code>Area2D</code> (2D saskares zona). Nosauc to <code>Finish</code>. Inspector sadaļā <b>Transform → Position</b> ievadi <code>(850,590)</code>.</li>
-<li>Atlasītajam <code>Finish</code> pievieno <code>CollisionShape2D</code> (2D sadursmes forma): <b>Shape → New RectangleShape2D (jauna 2D taisnstūra forma)</b>, klikšķis uz formas, <b>Size</b> = <code>(48,100)</code>. Atkal atlasi Finish un pievieno <code>Polygon2D</code> (2D daudzstūris) ar nosaukumu <code>Visual</code>: <b>Data → Polygon</b> punkti <code>(-24,-50)</code>, <code>(24,-50)</code>, <code>(24,50)</code>, <code>(-24,50)</code>. Pie <b>Color</b> izvēlies zaļu krāsu.</li>
-<li>Atlasi <code>Level1</code> un tāpat pievieno otru <code>Area2D</code> ar nosaukumu <code>Hazard</code>. Tā <b>Position</b> = <code>(440,625)</code>. Pievieno CollisionShape2D ar taisnstūra <b>Size</b> = <code>(80,30)</code> un sarkanu Visual ar punktiem <code>(-40,-15)</code>, <code>(40,-15)</code>, <code>(40,15)</code>, <code>(-40,15)</code>.</li>
-<li>Pēc kārtas atlasi <code>Finish</code> un <code>Hazard</code>. Inspector sadaļā <b>Collision</b> ieslēdz tikai <b>Layer 3</b> un <b>Mask 2</b>. Abiem pārbaudi ieslēgtu <b>Monitoring</b>.</li>
-<li>Atlasi <code>Level1</code> un ar <b>+</b> pievieno <code>CanvasLayer</code> (zīmēšanas slānis), nosauc to <code>HUD</code>. Atlasi HUD un pievieno <code>Label</code> (teksta etiķete) ar nosaukumu <code>Instructions</code>. Atkārto, lai zem HUD būtu arī <code>Status</code> un <code>Message</code>. Tie rādīs tekstu spēles logā.</li>
-<li>Atlasi katru Label un Inspector sadaļā <b>Layout → Transform</b> ievadi zemāk tabulā doto <b>Position</b> un <b>Size</b>. Pie <b>Autowrap Mode</b> izvēlies <b>Word Smart</b>. Atver <b>Theme Overrides → Font Sizes</b>, ieslēdz <b>Font Size</b> un ieraksti <code>20</code>. Laukā <b>Text</b> vari ierakstīt “Pārbaude”, lai tekstu uzreiz redzētu 2D skatā; palaižot spēli, kods to aizstās.</li>
-<li>Ar labo peles pogu uz <code>Level1</code> → <b>Attach Script</b>. Izvēlies <b>C#</b> un ceļu <code>res://Scripts/Level.cs</code>. Ievieto pilno kodu zemāk. Scene saraksta nosaukumiem precīzi jāsakrīt ar parādīto paraugu.</li>
-<li>Saglabā un nospied <b>Build</b>, tad <b>F5</b>. Izmēģini finišu bez atslēgas un pēc tam ar atslēgu. Atsevišķos mēģinājumos pieskaries sarkanajai zonai un nokrīti aiz grīdas malas. Pēc katra iznākuma nospied <b>R</b>: jāatjaunojas gan varonim, gan priekšmetiem, gan punktiem.</li>
+<ol class="step-list"><li><b>Izveido <code>Finish</code> zonu scēnā <code>Scenes/Level1.tscn</code>:</b> atver <code>Scenes/Level1.tscn</code>, <b>Scene</b> panelī atlasi sakni <code>Level1</code>, spied <b>+</b> un pievieno <code>Area2D</code> ar nosaukumu <code>Finish</code>. <b>Inspector → Transform → Position</b> iestati <code>(850, 590)</code>.</li>
+<li><b>Pievieno formu un izskatu zem <code>Finish</code>:</b> atlasi <code>Finish</code> un pievieno <code>CollisionShape2D</code> (<b>Shape → New RectangleShape2D</b>, <b>Size</b> = <code>(48, 100)</code>). Atkal atlasi <code>Finish</code> un pievieno <code>Polygon2D</code> ar nosaukumu <code>Visual</code>: <b>Data → Polygon</b> ievadi 4 punktus <code>(-24, -50)</code>, <code>(24, -50)</code>, <code>(24, 50)</code>, <code>(-24, 50)</code> un laukā <b>Color</b> izvēlies zaļu krāsu.</li>
+<li><b>Izveido <code>Hazard</code> zonu zem <code>Level1</code>:</b> <b>Scene</b> panelī atlasi sakni <code>Level1</code> un pievieno otru <code>Area2D</code> ar nosaukumu <code>Hazard</code> (<b>Position</b> = <code>(440, 625)</code>). Zem <code>Hazard</code> pievieno <code>CollisionShape2D</code> (<b>RectangleShape2D</b>, <b>Size</b> = <code>(80, 30)</code>) un <code>Visual</code> (<code>Polygon2D</code>) sarkanā krāsā ar punktiem <code>(-40, -15)</code>, <code>(40, -15)</code>, <code>(40, 15)</code>, <code>(-40, 15)</code>.</li>
+<li><b>Iestati <code>Finish</code> un <code>Hazard</code> sadursmju slāņus:</b> scēnā <code>Scenes/Level1.tscn</code> pēc kārtas atlasi <code>Finish</code> un <code>Hazard</code>. <b>Inspector → Collision</b> ieslēdz tikai <b>Layer 3</b> un <b>Mask 2</b> (izslēdz Layer 1 un Mask 1) un abiem pārbaudi ieslēgtu <b>Monitoring</b>.</li>
+<li><b>Izveido <code>HUD</code> un trīs <code>Label</code> mezglus scēnā <code>Scenes/Level1.tscn</code>:</b> <b>Scene</b> panelī atlasi sakni <code>Level1</code> un ar <b>+</b> pievieno <code>CanvasLayer</code> ar nosaukumu <code>HUD</code>. Zem <code>HUD</code> izveido trīs <code>Label</code> bērnmezglus ar precīziem nosaukumiem: <code>Instructions</code>, <code>Status</code> un <code>Message</code>.</li>
+<li><b>Nokonfigurē <code>Instructions</code>, <code>Status</code> un <code>Message</code> izkārtojumu:</b> atlasi katru no trim <code>Label</code> mezgliem un <b>Inspector → Layout → Transform</b> iestati tabulā zemāk doto <b>Position</b> un <b>Size</b>. Katram iestati <b>Autowrap Mode</b> = <b>Word Smart</b> un sadaļā <b>Theme Overrides → Font Sizes → Font Size</b> ieraksti <code>20</code>.</li>
+<li><b>Izveido un piesaisti skriptu <code>Scripts/Level.cs</code> pie <code>Level1</code> saknes:</b> <b>Scene</b> panelī ar labo peles pogu klikšķini uz saknes mezgla <code>Level1</code> → <b>Attach Script</b>. Izvēlies <b>Language: C#</b> un ceļu <code>res://Scripts/Level.cs</code>. Aizstāj faila saturu ar pilno <code>Level.cs</code> kodu zemāk.</li>
+<li><b>Pārbaudi visus spēles iznākumus un restartu:</b> saglabā skriptu un scēnu, nospied <b>Build</b> un <b>F5</b>. Pārbaudi: 1) ieiešanu <code>Finish</code> bez atslēgas (parādās norāde); 2) saskari ar sarkano <code>Hazard</code> un <b>R</b>; 3) nokrišanu aiz grīdas malas (<code>Y &gt; 800</code>) un <b>R</b>; 4) atslēgas savākšanu un ieiešanu <code>Finish</code> (uzvara un <b>R</b>).</li>
 </ol>
 <div class="table-scroll" role="region" aria-label="Tekstu novietojums" tabindex="0"><table>
-<thead><tr><th scope="col">Label nosaukums</th><th scope="col">Pozīcija</th><th scope="col">Izmērs</th></tr></thead>
-<tbody><tr><td>Instructions</td><td>(20,16)</td><td>(1240,48)</td></tr>
-<tr><td>Status</td><td>(20,48)</td><td>(1240,48)</td></tr>
-<tr><td>Message</td><td>(20,80)</td><td>(1240,48)</td></tr></tbody>
+<thead><tr><th scope="col">Label mezgls zem <code>HUD</code></th><th scope="col">Layout → Transform → Position</th><th scope="col">Layout → Transform → Size</th><th scope="col">Ko rāda spēlē</th></tr></thead>
+<tbody><tr><td><code>Instructions</code></td><td><code>(20, 16)</code></td><td><code>(1240, 48)</code></td><td>Spēles nosaukumu un vadības taustiņus</td></tr>
+<tr><td><code>Status</code></td><td><code>(20, 48)</code></td><td><code>(1240, 48)</code></td><td>Punktu skaitu un atslēgas stāvokli</td></tr>
+<tr><td><code>Message</code></td><td><code>(20, 80)</code></td><td><code>(1240, 48)</code></td><td>Mērķi, brīdinājumu, uzvaru vai zaudējumu</td></tr></tbody>
 </table></div>
-<p><b>Salīdzini ar Scene paneli:</b> daļām ar atkāpi jāatrodas zem norādītā objekta. Ja kāda ir nepareizā vietā, pārvelc to uz vajadzīgo objektu.</p>
-<pre><code>Level1 (Node2D, Level.cs)
-├── Player (no Player.tscn)
-├── Ground, Platform1, Platform2, Platform3
-├── Coin1, Coin2, Gem, Coin3, Coin4, Key (no Pickup.tscn)
-├── Finish (Area2D + Visual + CollisionShape2D)
-├── Hazard (Area2D + Visual + CollisionShape2D)
-└── HUD (CanvasLayer)
-    ├── Instructions (Label)
-    ├── Status (Label)
-    └── Message (Label)</code></pre>
-<details class="course-help"><summary>2.6 Level.cs — pilns fails salīdzināšanai</summary>
-<p><a href="platformer/Scripts/Level.cs" download>Lejupielādēt Level.cs</a>. Atver esošo tāda paša nosaukuma failu un aizstāj tā saturu ar šo kodu.</p>
+<details class="course-help" id="pilnais-piemers"><summary>2.6 Level.cs - pilns fails salīdzināšanai</summary>
+<p><a href="platformer/Scripts/Level.cs" download>Lejupielādēt Level.cs</a>. Atver failu <code>Scripts/Level.cs</code> un aizstāj tā saturu ar šo kodu.</p>
 <pre><code class="language-csharp">using Godot;
 
 public partial class Level : Node2D
@@ -211,30 +214,35 @@ public partial class Level : Node2D
     }
 }</code></pre>
 </details>
-<p class="done-when"><b>Gatavs, kad:</b> spēlei ir sākums, uzvara, divi zaudējuma veidi un atkārtota spēle. Pēc uzvaras vai zaudējuma varonis nekustas un jaunus punktus iegūt nevar.</p>
+<p class="done-when"><b>Gatavs, kad:</b> spēlei darbojas uzvara (ar atslēgu), abi zaudējuma veidi (<code>Hazard</code> un kritiens zem <code>Y &gt; 800</code>) un pilns restarts ar <b>R</b>.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p>
 <h2>Padari projektu par savu spēli</h2>
-<p class="task-files"><b>Kur strādāt:</b> Noformējumu maini <code>Scenes/Level1.tscn</code>, <code>Scenes/Player.tscn</code> un <code>Scenes/Pickup.tscn</code>. Tekstu <code>Atslēga:</code> maini <code>Scripts/Level.cs</code> metodē <code>UpdateHud()</code>; pamatojumu raksti <code>README.md</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Spēles stāstu un dizaina pamatojumu raksti <code>README.md</code>; spēles tekstus maini scēnas <code>Scenes/Level1.tscn</code> saknes mezgla <code>Level1</code> <b>Inspector</b> panelī un failā <code>Scripts/Level.cs</code> (metodē <code>UpdateHud</code>); vizuālo izskatu pielāgo scēnās <code>Scenes/Player.tscn</code>, <code>Scenes/Pickup.tscn</code> un <code>Scenes/Level1.tscn</code>.</p>
 
-<ol class="step-list"><li>Izvēlies nosaukumu un uzraksti trīs īsus teikumus: <b>kas ir varonis, ko viņš vēlas un kāpēc</b>. Piemēram: “Robots meklē enerģijas kodolu. Tam jāatjauno bāka. Bez gaismas kuģi nevar atrast mājas.” Izdomā savu stāstu.</li>
-<li>Scene panelī atlasi <code>Level1</code>. Inspector laukā <b>Game Title</b> ieraksti spēles nosaukumu, <b>Mission</b> — mērķi, <b>Win Text</b> — uzvaras tekstu, <b>Lose Text</b> — zaudējuma tekstu, <b>Locked Text</b> — norādi, ja atslēgas vēl nav. Palaid ar <b>F5</b> un pārbaudi tekstus.</li>
-<li>Maini vismaz trīs spēles daļu izskatu. Piemēram, atver <code>Player.tscn</code>, atlasi <code>Visual</code> un nomaini <b>Color</b>. Level1 cilnē tāpat vari mainīt platformu un finiša Visual krāsu vai <b>Data → Polygon</b> punktus.</li>
-<li>Ja vēlies izmantot savu attēlu, projekta mapē izveido <code>Art</code> un iekopē tajā PNG failu. Godot tas parādīsies FileSystem panelī. Attiecīgajam objektam ar <b>+</b> pievieno <code>Sprite2D</code> (2D attēla mezgls) un no FileSystem ievelc PNG tā Inspector laukā <b>Texture</b>. Pielāgo Sprite2D <b>Transform → Scale</b>; veco Visual paslēp ar acs ikonu Scene panelī. Paša Player, Ground vai Pickup laukā Scale atstāj <code>(1,1)</code>. Atlasi CollisionShape2D un pielāgo tā <b>Shape</b> izmēru attēlam.</li>
-<li>Izvēlies, ko stāstā nozīmē punkti, atslēga un finišs. Ja atslēga tagad ir enerģijas kodols, failā <code>Level.cs</code> atrodi redzamo tekstu <code>Atslēga:</code> un nomaini to uz <code>Kodols:</code>. Pielāgo arī Mission un Locked Text. Nosaukumus <code>HasKey</code> un <code>PickupType.Key</code> kodā atstāj.</li>
-<li>Level1 cilnē atlasi vismaz vienu platformu vai priekšmetu un maini <b>Transform → Position</b>. Izspēlē visu ceļu vēlreiz. Pārbaudi, ka teksti ir salasāmi un finišu var atšķirt no bīstamās zonas. README.md īsi pamato trīs izskata izmaiņas; aizņemtiem attēliem norādi autoru un licenci.</li>
+<ol class="step-list"><li><b>Uzraksti stāstu failā <code>README.md</code>:</b> izvēlies savas spēles nosaukumu un <code>README.md</code> sākumā uzraksti trīs īsus teikumus: <b>kas ir varonis, ko viņš vēlas sasniegt un kāpēc</b> (piemēram: „Robots meklē enerģijas kodolu. Tam jāiededz bāka. Bez gaismas kuģi nevar atrast ostu.”).</li>
+<li><b>Ievadi savus tekstus scēnā <code>Scenes/Level1.tscn</code>:</b> atver <code>Scenes/Level1.tscn</code>, <b>Scene</b> panelī atlasi saknes mezglu <code>Level1</code> un tā <b>Inspector</b> panelī nomaini visus piecus eksportētos tekstus: <b>Game Title</b> (nosaukums), <b>Mission</b> (uzdevums), <b>Win Text</b> (uzvara), <b>Lose Text</b> (zaudējums) un <b>Locked Text</b> (norāde bez atslēgas). Palaid ar <b>F5</b> un pārbaudi tekstus spēles logā.</li>
+<li><b>Pielāgo vismaz trīs objektu izskatu (<code>Player.tscn</code>, <code>Pickup.tscn</code>, <code>Level1.tscn</code>):</b>
+<ul>
+<li>Atver <code>Scenes/Player.tscn</code>, atlasi <code>Visual</code> un nomaini varoņa <b>Color</b> vai daudzstūra punktus;</li>
+<li>Atver <code>Scenes/Pickup.tscn</code>, atlasi <code>Visual</code> un pielāgo savācamā priekšmeta formu vai krāsu;</li>
+<li>Atver <code>Scenes/Level1.tscn</code> un pielāgo platformu (<code>Ground</code>, <code>Platform1..3</code>), <code>Finish</code> un <code>Hazard</code> mezglu <code>Visual</code> krāsas vai formas.</li>
+</ul></li>
+<li><b>(Pēc izvēles) Pievieno PNG attēlus ar <code>Sprite2D</code>:</b> ja vēlies izmantot attēlus, izveido mapi <code>res://Art</code>, iekopē tajā PNG failus un attiecīgajam objektam pievieno bērnmezglu <code>Sprite2D</code>. Pielāgo tikai <code>Sprite2D</code> <b>Scale</b> (pašam <code>Player</code>, <code>Ground</code> vai <code>Pickup</code> <b>Scale</b> jāpaliek <code>(1, 1)</code>!), paslēp veco <code>Visual</code> un pielāgo <code>CollisionShape2D</code> izmēru.</li>
+<li><b>Saskaņo statusa tekstu failā <code>Scripts/Level.cs</code>:</b> ja tavā stāstā atslēga vai punkti saucas citādi (piemēram, <code>Kodols</code> un <code>Enerģija</code>), atver <code>Scripts/Level.cs</code> un metodē <code>UpdateHud()</code> pielāgo tekstu rindā <code>status.Text = $"Punkti: {player.Score} | Atslēga: {keyStatus}";</code> (mainīgo nosaukumus <code>Score</code>, <code>HasKey</code> un <code>PickupType.Key</code> kodā nemaini).</li>
+<li><b>Pārvieto vismaz vienu platformu vai priekšmetu scēnā <code>Scenes/Level1.tscn</code> un dokumentē <code>README.md</code>:</b> scēnā <code>Scenes/Level1.tscn</code> maini vismaz vienas platformas vai priekšmeta <b>Transform → Position</b>, izspēlē visu līmeni ar <b>F5</b> un failā <code>README.md</code> īsi pamato savas trīs vizuālā dizaina izvēles un izkārtojuma maiņu.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> spēlē redzams tavs nosaukums, mērķis un trīs izskata izmaiņas. Esi pārvietojis vismaz vienu platformu vai priekšmetu un pārbaudījis, ka līmeni var iziet.</p>
+<p class="done-when"><b>Gatavs, kad:</b> spēlē ir redzams tavs nosaukums, stāsta teksti un trīs izskata izmaiņas, ir pielāgots līmeņa izkārtojums un līmeni var pilnībā iziet.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p>
 <h2>Dod klasesbiedram izspēlēt un novērs atrastās kļūdas</h2>
-<p class="task-files"><b>Kur strādāt:</b> Pārbaudes pieraksti <code>README.md</code>. Kustības labojumus veic <code>Scripts/Player.cs</code>, savākšanas labojumus — <code>Scripts/Pickup.cs</code>, finiša un HUD labojumus — <code>Scripts/Level.cs</code>; objektu novietojumu maini <code>Scenes/Level1.tscn</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Visu pārbaužu rezultātus un klasesbiedra atsauksmi pieraksti <code>README.md</code>. Labojumus veic atbilstošajā failā: kustībai un lēcienam — <code>Scripts/Player.cs</code>, savākšanai — <code>Scripts/Pickup.cs</code>, finišam un HUD tekstiem — <code>Scripts/Level.cs</code>, bet objektu izvietojumam un sadursmju slāņiem — <code>Scenes/Level1.tscn</code>.</p>
 
-<ol class="step-list"><li>Dod klasesbiedram spēli bez mutiskiem norādījumiem. Viņam vadība un mērķis jāatrod spēles logā. Pieraksti vienu neskaidrību un vienu veiksmīgu dizaina izvēli.</li>
-<li>Veic visus zemāk norādītos testus. README.md pieraksti sagaidāmo un faktisko rezultātu, kā arī veikto labojumu, ja pārbaude neizdodas.</li>
-<li>Pēc dizaina izmaiņām pārbaudi sadursmju formas, atslēgas sasniedzamību, teksta salasāmību un finiša atpazīstamību. Salabo vismaz vienu atrasto problēmu vai īsteno testētāja ieteikumu.</li>
-<li>Saglabā visu projektu un pārbaudi to no atsevišķas kopijas bez <code>.godot</code> mapes: Importēt, Build, F5. Tas atklāj trūkstošus attēlus vai nepareizus ceļus.</li>
-<li>Ieraksti īsu demonstrāciju: mērķis un tavs dizains, priekšmeta savākšana, zaudējums un R, pēc tam atslēgas savākšana un uzvara. Saglabā Git un iesniedz krātuves saiti.</li>
+<ol class="step-list"><li><b>Veic klasesbiedra testu:</b> uzaicini klasesbiedru izspēlēt tavu spēli <b>bez mutiskiem norādījumiem</b> (viņam vadība un mērķis jāizlasa ekrāna <code>HUD</code> tekstos). Failā <code>README.md</code> pieraksti vienu vietu, kur testētājs samulsa vai aizķērās, un vienu veiksmīgu dizaina izvēli.</li>
+<li><b>Izpildi visas 7 pārbaudes un aizpildi <code>README.md</code>:</b> secīgi pārbaudi katru zemāk esošās tabulas rindu un failā <code>README.md</code> pieraksti gan sagaidāmo, gan faktisko rezultātu.</li>
+<li><b>Veic vismaz vienu uzlabojumu projektā:</b> balstoties uz klasesbiedra atsauksmi vai tabulas pārbaudēm, izlabo vismaz vienu problēmu (piemēram, precizē platformas pozīciju scēnā <code>Scenes/Level1.tscn</code>, uzlabo mērķa tekstu <code>Level1</code> Inspector panelī vai pielāgo <code>JumpVelocity</code>) un pieraksti šo uzlabojumu <code>README.md</code>.</li>
+<li><b>Pārbaudi tīru projekta kopiju:</b> saglabā visas scēnas un skriptus, nokopē projekta mapi jaunā vietā <b>bez</b> <code>.godot/</code>, <code>bin/</code> un <code>obj/</code> mapēm, atver to Godot .NET (<b>Import → project.godot</b>), nospied <b>Build</b> un <b>F5</b>, lai pārliecinātos, ka neviens fails vai attēls netrūkst.</li>
+<li><b>Sagatavo demonstrācijas video un iesniedz GitHub krātuvi:</b> ieraksti īsu ekrāna video, kurā redzams tavs spēles dizains, priekšmetu savākšana, zaudējums un <b>R</b>, kā arī atslēgas iegūšana un uzvara. Veic <code>git commit</code> un <code>git push</code> un iesniedz GitHub krātuves saiti.</li>
 </ol>
 <div class="table-scroll" id="parbaudes" role="region" aria-label="Pārbaude" tabindex="0"><table><thead><tr><th scope="col">Pārbaude</th><th scope="col">Sagaidāmais rezultāts</th></tr>
 </thead>
@@ -247,13 +255,13 @@ public partial class Level : Node2D
 <tr><td>R spēles laikā, pēc zaudējuma un pēc uzvaras</td><td>Sākuma pozīcija, 0 punktu, nav atslēgas, visi priekšmeti atjaunoti; atkārto vismaz divreiz.</td></tr>
 </tbody>
 </table>
-</div><p class="done-when"><b>Gatavs, kad:</b> cits cilvēks saprot un pabeidz spēli; visas pamatpārbaudes izpildās arī pēc pārstartēšanas.</p>
+</div><p class="done-when"><b>Gatavs, kad:</b> klasesbiedrs saprot un pabeidz spēli, visas 7 pārbaudes izpildās arī pēc <b>R</b> un rezultāti ir dokumentēti <code>README.md</code>.</p>
 </section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — uzlabo spēles tekstu izskatu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Tekstu krāsu, izmēru un novietojumu maini <code>Scenes/Level1.tscn</code> HUD bērnu Inspector panelī.</p>
+<details class="course-help extra-task"><summary>Papildu uzdevums - uzlabo spēles tekstu izskatu</summary>
+<p class="task-files"><b>Kur strādāt:</b> Tekstu krāsu, fonta izmēru un novietojumu maini scēnas <code>Scenes/Level1.tscn</code> mezglu <code>HUD/Instructions</code>, <code>HUD/Status</code> un <code>HUD/Message</code> <b>Inspector</b> panelī.</p>
 
-<p>Scene panelī zem HUD atlasi Instructions, Status vai Message. Inspector sadaļā <b>Theme Overrides → Colors</b> ieslēdz <b>Font Color</b> un izvēlies krāsu. Sadaļā <b>Font Sizes → Font Size</b> pielāgo burtu izmēru.</p>
-<p>Palaid spēli un pārbaudi garāko mērķa, uzvaras un zaudējuma tekstu. Ja rindas pārklājas, pielāgo Label laukus <b>Layout → Transform → Position</b> un <b>Size</b>.</p>
+<p>Scēnas <code>Scenes/Level1.tscn</code> <b>Scene</b> panelī zem <code>HUD</code> atlasi <code>Instructions</code>, <code>Status</code> vai <code>Message</code>. <b>Inspector → Theme Overrides → Colors</b> ieslēdz <b>Font Color</b> (un pēc vēlēšanās <b>Font Outline Color</b> kopā ar <b>Constants → Outline Size = 4</b> labākai kontrastam) un pielāgo <b>Font Sizes → Font Size</b>.</p>
+<p>Palaid spēli ar <b>F5</b> un pārbaudi garāko mērķa, uzvaras un zaudējuma tekstu. Ja rindas pārklājas, pielāgo attiecīgā <code>Label</code> laukus <b>Layout → Transform → Position</b> un <b>Size</b>.</p>
 </details>
 <section id="piemers"><h2>Atbalsts: pilns piemēra projekts</h2>
 <div class="logic-box"><p><a class="btn" href="platformer.zip" download>ZIP ↓</a></p>
@@ -279,11 +287,11 @@ public partial class Level : Node2D
 <section id="vertesana" aria-labelledby="vertesanas-virsraksts">
 <h2 id="vertesanas-virsraksts">Vērtēšanas kritēriji (SLA)</h2>
 <p>Snieguma līmeņu apraksts (SLA) attiecas uz 2. tēmas noslēguma projektu: vienu pabeigtu platformas spēles līmeni, tā Godot projektu, <code>README.md</code>, pārbaudes pierakstiem, demonstrāciju un GitHub versiju. Katrā rindā nosaka līmeni pēc iesniegtā darba un novērotās spēles darbības.</p>
-<p>“Apguvis” apraksta pilnīgi izpildītas pamatprasības; “Apguvis padziļināti” — tā paša darba precizitāti, saprotamību un pamatotu pārbaudi. Dotais kods un piemēra projekts ir atļauts atbalsts; vērtē arī tavas izmaiņas un to pamatojumu. Papildu uzdevums, vairāki līmeņi, sarežģītāka lēciena mehānika vai attēlu izmantošana nav vajadzīgi nevienam līmenim.</p>
+<p>“Apguvis” apraksta pilnīgi izpildītas pamatprasības; “Apguvis padziļināti” - tā paša darba precizitāti, saprotamību un pamatotu pārbaudi. Dotais kods un piemēra projekts ir atļauts atbalsts; vērtē arī tavas izmaiņas un to pamatojumu. Papildu uzdevums, vairāki līmeņi, sarežģītāka lēciena mehānika vai attēlu izmantošana nav vajadzīgi nevienam līmenim.</p>
 <p>Šaurā ekrānā tabulu ritini horizontāli, lai apskatītu visus līmeņus.</p>
 <div class="table-scroll" role="region" aria-labelledby="vertesanas-virsraksts" tabindex="0">
 <table class="assessment-rubric">
-<caption>2. tēmas noslēguma projekts — platformas spēle</caption>
+<caption>2. tēmas noslēguma projekts - platformas spēle</caption>
 <thead>
 <tr>
 <th scope="col">Kritērijs</th>
@@ -312,7 +320,7 @@ public partial class Level : Node2D
 <th scope="row">Uzvara, zaudējums un sākšana no jauna<br><small><a href="#uzdevums-1">1. uzdevums</a> · <a href="#parbaudes">Pārbaudes</a></small></th>
 <td>Spēlei nav pārbaudāmas uzvaras vai zaudējuma; sākt no jauna neizdodas.</td>
 <td>Darbojas tikai daļa beigu nosacījumu: var uzvarēt bez atslēgas, trūkst viena zaudējuma veida, pēc beigām var turpināt spēlēt vai R neatjauno visu līmeni.</td>
-<td>Bez atslēgas finišs dod norādi, ar atslēgu — uzvaru. Hazard un kritiens katrs rada zaudējumu. Pēc beigām kustība un savākšana apstājas. R spēles laikā un pēc abiem iznākumiem atjauno sākuma pozīciju, 0 punktu, atslēgas neesamību un visus priekšmetus.</td>
+<td>Bez atslēgas finišs dod norādi, ar atslēgu - uzvaru. Hazard un kritiens katrs rada zaudējumu. Pēc beigām kustība un savākšana apstājas. R spēles laikā un pēc abiem iznākumiem atjauno sākuma pozīciju, 0 punktu, atslēgas neesamību un visus priekšmetus.</td>
 <td>Izpildīts “Apguvis”; pieraksti apliecina vismaz divas veiksmīgas R pārbaudes katrā situācijā. Pēc atkārtotas spēlēšanas nepaliek iepriekšējie punkti, atslēga vai beigu paziņojums, un abi iznākumi joprojām darbojas.</td>
 </tr>
 <tr>

@@ -56,7 +56,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_3/prog2_3main">3. tēma</a> / 3.3</p>
 <h1>3.3 Signāli: paziņo par notikumu</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Liec dalībniekam paziņot par izstāšanos un turnīra vadītājam šo paziņojumu saņemt.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Liec dalībniekam paziņot par izstāšanos un turnīra vadītājam šo paziņojumu saņemt.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
 <a href="/sasnRez">SR 2.4.18. Objektorientētā programmēšana</a>
@@ -99,8 +99,8 @@ dumu.Setup("Virtuve", 25); // Iestata datus bez parametru konstruktora</code></p
 <tr><td>Pieslēgt / atvienot</td><td><code>mezgls.RobezaSasniegta += ApstradesMetode;</code><br/><code>mezgls.RobezaSasniegta -= ApstradesMetode;</code></td><td>Reģistrē (<code>+=</code>) vai noņem (<code>-=</code>) saderīgu klausītāja metodi <b>bez iekavām</b>, norādot, kuru metodi izsaukt notikuma brīdī.</td></tr>
 <tr><td>Raidīt</td><td><code>EmitSignal(SignalName.RobezaSasniegta, dati);</code></td><td>Raidītājs nosūta paziņojumu un argumentus visiem pašlaik pieslēgtajiem klausītājiem.</td></tr>
 </tbody></table></div>
-<p>Signāli, kas izraidīti pirms pieslēgšanās, vēlāk automātiski neatkārtojas, tāpēc inicializācijā ievēro secību: <b>atrast mezglus → iestatīt sākuma datus → pieslēgt signālus (<code>+=</code>) → veikt darbības</b>. Atvienošana ar <code>-=</code> atslēdz konkrēto klausītāja metodi, bet nemaina paša raidītāja iekšējo stāvokli. Savukārt loģiska sākuma pārbaude (ar noliegumu <code>!</code> — „ne” un savienojumu <code>||</code> — „vai”) ļauj priekšlaicīgi iziet ar <code>return</code>, lai robežas sasniegšanas signāls tiktu nosūtīts tikai vienu reizi:</p>
-<pre><code class="language-csharp">// Raidītāja klasē Sensors — vienreizējs signāls pie nulles robežas:
+<p>Signāli, kas izraidīti pirms pieslēgšanās, vēlāk automātiski neatkārtojas, tāpēc inicializācijā ievēro secību: <b>atrast mezglus → iestatīt sākuma datus → pieslēgt signālus (<code>+=</code>) → veikt darbības</b>. Atvienošana ar <code>-=</code> atslēdz konkrēto klausītāja metodi, bet nemaina paša raidītāja iekšējo stāvokli. Savukārt loģiska sākuma pārbaude (ar noliegumu <code>!</code> - „ne” un savienojumu <code>||</code> - „vai”) ļauj priekšlaicīgi iziet ar <code>return</code>, lai robežas sasniegšanas signāls tiktu nosūtīts tikai vienu reizi:</p>
+<pre><code class="language-csharp">// Raidītāja klasē Sensors - vienreizējs signāls pie nulles robežas:
 public void SamazinatLimeni(int daudzums)
 {
     if (!IrAktivs() || daudzums &lt;= 0) return;
@@ -109,47 +109,94 @@ public void SamazinatLimeni(int daudzums)
         EmitSignal(SignalName.RobezaSasniegta, SensoraNosaukums);
 }
 
-// Klausītāja klasē — secība metodē _Ready():
+// Klausītāja klasē - secība metodē _Ready():
 Sensors s = GetNode&lt;Sensors&gt;("GaismasSensors"); // 1. Atrod mezglu
 s.Setup("Gaitenis", 30);                        // 2. Iestata datus
 s.RobezaSasniegta += ApstradesMetode;           // 3. Pieslēdz signālu
 s.SamazinatLimeni(30);                          // 4. Raida tieši 1 reizi
 s.RobezaSasniegta -= ApstradesMetode;           // Atvieno klausītāju</code></pre>
 </div></section>
-<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Sagatavo dalībnieka paziņojumu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Atjauno <code>Scripts/Participant.cs</code>, <code>Scripts/Captain.cs</code>, <code>Scripts/Presenter.cs</code> un, ja izveidots, <code>Scripts/TimeKeeper.cs</code>. Finished signālu pievieno Participant klasē, tā nosūtīšanu — <code>ApplyPenalty()</code>; vecās pārbaudes izņem no <code>Scripts/LessonDemo.cs</code> metodes <code>_Ready()</code>. Izveido <code>Scenes/Tournament.tscn</code>.</p>
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Pārvērt dalībniekus par Godot mezgliem un sagatavo <code>Finished</code> signālu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Atjauno failus <code>Scripts/Participant.cs</code>, <code>Scripts/Captain.cs</code>, <code>Scripts/Presenter.cs</code> (un <code>Scripts/TimeKeeper.cs</code>, ja to izveidoji 3.2. stundā), kā arī iztīri <code>Scripts/LessonDemo.cs</code> metodi <code>_Ready()</code>. Izveido jaunu scēnu <code>Scenes/Tournament.tscn</code>.</p>
+<p><b>Scēnas koka uzbūve (<code>Scenes/Tournament.tscn</code>):</b></p>
+<pre><code>Tournament (Node - piesaistīts Scripts/TournamentManager.cs 2. uzdevumā)
+ ├── Anna (Node - piesaistīts Scripts/Participant.cs)
+ └── Janis (Node - piesaistīts Scripts/Participant.cs)</code></pre>
 <ol class="step-list">
-<li>Pirms izmaiņām saglabā iepriekšējā projekta kopiju ārpus šī projekta mapes. Pārvērt dalībniekus par Godot mezgliem:
-<code>Participant.cs</code> sākumā pievieno <code>using Godot;</code> un deklarāciju <code>public partial class Participant : Node</code>; veco konstruktoru aizstāj ar metodi <code>Setup(string name, int initialEnergy)</code>; lauku <code>Name</code> pārdēvē par <code>ParticipantName</code> (lai nepārklātos ar <code>Node.Name</code>); arī <code>Captain</code>, <code>Presenter</code> un, ja izveidots, <code>TimeKeeper</code> deklarācijās pievieno <code>partial</code> un izņem vecos konstruktorus, saglabājot to <code>ApplyPenalty</code> metodes. <code>LessonDemo.cs</code> izņem vecās izmēģinājuma rindas no <code>_Ready()</code> iekšienes, atstājot tukšu metodi (Godot būvē visus projekta C# failus).</li>
-<li>Izveido jaunu scēnu <code>Scenes/Tournament.tscn</code> pēc koka zemāk (abiem bērna mezgliem pievieno vienu un to pašu <code>Participant.cs</code>).</li>
-<li><code>Participant</code> klasē pievieno <code>Finished</code> signāla pieteikumu un nosūtīšanu metodē <code>ApplyPenalty</code> brīdī, kad enerģija sasniedz nulli (pirms soda pārbaudi <code>!IsActive() || amount &lt;= 0</code>).</li>
-<li>Nospied <b>Build</b>, atlasi dalībnieka mezglu un <b>Node → Signals</b> sarakstā atrodi <code>Finished</code> signālu.</li>
+<li><b>Atver</b> failu <code>Scripts/Participant.cs</code> un pielāgo to Godot mezglam:
+pievieno augšgalā <code class="language-csharp">using Godot;</code> un <code class="language-csharp">using System;</code>, klases galveni nomaini uz <code class="language-csharp">public partial class Participant : Node</code>, lauku <code>Name</code> pārdēvē par <code class="language-csharp">public string ParticipantName = "Dalībnieks";</code> (lai tas nepārklātos ar <code>Node.Name</code>), un konstruktoru aizstāj ar metodi <code class="language-csharp">public void Setup(string name, int initialEnergy)</code>.</li>
+<li><b>Pievieno</b> turpat failā <code>Scripts/Participant.cs</code> signāla deklarāciju <code class="language-csharp">[Signal] public delegate void FinishedEventHandler(string participantName);</code> un metodē <code>ApplyPenalty(int amount)</code> izsauc <code class="language-csharp">EmitSignal(SignalName.Finished, ParticipantName);</code>, tiklīdz enerģija sasniedz <code>0</code> (skat. koda paraugu zemāk).</li>
+<li><b>Atver</b> failus <code>Scripts/Captain.cs</code> un <code>Scripts/Presenter.cs</code> (un <code>Scripts/TimeKeeper.cs</code>, ja tāds ir): katrā pievieno atslēgvārdu <code>partial</code> (<code class="language-csharp">public partial class Captain : Participant</code>) un <b>izdzēs</b> vecos konstruktorus ar <code>: base(...)</code>, atstājot tikai <code>ApplyPenalty</code> metodes.</li>
+<li><b>Atver</b> failu <code>Scripts/LessonDemo.cs</code> un izdzēs no <code>_Ready()</code> iekšienes 3.2. stundas testa rindas (atstājot tukšu <code>public override void _Ready() { }</code>), lai vecie konstruktora izsaukumi netraucētu projekta kompilēšanai.</li>
+<li><b>Izveido</b> jaunu scēnu ar <code>Node</code> sakni <code>Tournament</code>, pievieno tai divus <code>Node</code> bērna mezglus ar precīziem nosaukumiem <code>Anna</code> un <code>Janis</code>, abiem bērniem piesaisti skriptu <code>Scripts/Participant.cs</code> un saglabā scēnu kā <code>res://Scenes/Tournament.tscn</code>.</li>
+<li><b>Nospied</b> <b>Build</b>, <b>Scene</b> kokā atlasi mezglu <code>Anna</code> un labās puses cilnē <b>Node -&gt; Signals</b> pārliecinies, ka sarakstā ir parādījies tavs signāls <code>Finished(participantName: String)</code>.</li>
 </ol>
-<pre><code>Tournament (Node, skripts TournamentManager.cs)
-├── Anna (Node, skripts Participant.cs)
-└── Janis (Node, skripts Participant.cs)</code></pre>
-<pre><code class="language-csharp">[Signal]
-public delegate void FinishedEventHandler(string participantName);
+<pre><code class="language-csharp">// 1. Fails: Scripts/Participant.cs (pilna 3.3. stundas versija)
+using Godot;
+using System;
 
-public virtual void ApplyPenalty(int amount)
+public partial class Participant : Node
 {
-    if (!IsActive() || amount &lt;= 0) return;
-    energy = Math.Max(0, energy - amount);
-    if (energy == 0)
-        EmitSignal(SignalName.Finished, ParticipantName);
+    [Signal]
+    public delegate void FinishedEventHandler(string participantName);
+
+    public string ParticipantName = "Dalībnieks";
+    private int energy = 100;
+
+    public void Setup(string name, int initialEnergy)
+    {
+        ParticipantName = name;
+        energy = Math.Max(0, initialEnergy);
+    }
+
+    public virtual void ApplyPenalty(int amount)
+    {
+        if (!IsActive() || amount &lt;= 0) return;
+        energy = Math.Max(0, energy - amount);
+        if (energy == 0)
+            EmitSignal(SignalName.Finished, ParticipantName);
+    }
+
+    public int GetEnergy() { return energy; }
+    public bool IsActive() { return energy &gt; 0; }
 }</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> projekts būvējas un dalībnieka signāls ir reģistrēts.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Saņem paziņojumu turnīra vadītājā</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/TournamentManager.cs</code> ar pilno piemēru un piesaisti to <code>Scenes/Tournament.tscn</code> saknei. Dalībnieku atrašanu, signālu pieslēgšanu un sodu izsaukumus raksti tā metodē <code>_Ready()</code>.</p>
+<p class="done-when"><b>Gatavs, kad:</b> projekts būvējas bez kļūdām un dalībnieka mezglam cilnē <b>Node -&gt; Signals</b> ir redzams signāls <code>Finished</code>.</p></section>
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Saņem izstāšanās paziņojumu skriptā <code>Scripts/TournamentManager.cs</code></h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido jaunu skriptu <code>Scripts/TournamentManager.cs</code> un piesaisti to scēnas <code>Scenes/Tournament.tscn</code> saknei <code>Tournament</code>. Mezglu atrašanu, <code>Setup()</code>, signālu pieslēgšanu (<code>+=</code>) un sodu izsaukumus raksti metodē <code>_Ready()</code>.</p>
 <ol class="step-list">
-<li>Saknei pievieno <code>TournamentManager.cs</code> no pilnā piemēra zemāk (iekļaujot klausītāja metodi <code>OnParticipantFinished(string participantName)</code>).</li>
-<li>Metodē <code>_Ready()</code> ievēro secību: ar <code>GetNode&lt;Participant&gt;("Anna")</code> un <code>"Janis"</code> atrodi abus bērnus, izsauc <code>Setup</code> un ar <code>+= OnParticipantFinished</code> (bez iekavām) pieslēdz signālus pirms sodu piemērošanas.</li>
-<li>Palaid piemēru ar <b>F6</b>. <b>Output</b> panelī jāparādās pa vienam izstāšanās paziņojumam Annai un Jānim.</li>
-<li>Annai piemēro vēl vienu sodu pēc izstāšanās (salīdzini ar tabulu zemāk) un pārliecinies, ka atkārtota paziņojuma nav.</li>
+<li><b>Izveido</b> failu <code>res://Scripts/TournamentManager.cs</code> (<code class="language-csharp">public partial class TournamentManager : Node</code>) un piesaisti to scēnas <code>Scenes/Tournament.tscn</code> saknes mezglam <code>Tournament</code>.</li>
+<li><b>Pievieno</b> klasē <code>TournamentManager</code> klausītāja metodi <code class="language-csharp">private void OnParticipantFinished(string participantName)</code>, kas izdrukā <code class="language-csharp">GD.Print(participantName, " izstājās");</code>.</li>
+<li><b>Atrodi</b> metodē <code>_Ready()</code> abus bērna mezglus ar <code class="language-csharp">Participant anna = GetNode&lt;Participant&gt;("Anna");</code> un <code class="language-csharp">Participant janis = GetNode&lt;Participant&gt;("Janis");</code> un iestati sākuma datus: <code>anna.Setup("Anna", 30);</code> un <code>janis.Setup("Jānis", 20);</code>.</li>
+<li><b>Pieslēdz</b> metodē <code>_Ready()</code> abiem dalībniekiem klausītāju <b>pirms</b> sodu piemērošanas:
+<code class="language-csharp">anna.Finished += OnParticipantFinished;</code> un <code class="language-csharp">janis.Finished += OnParticipantFinished;</code>.</li>
+<li><b>Izsauc</b> pēc pieslēgšanas sodus: <code>anna.ApplyPenalty(10);</code>, <code>anna.ApplyPenalty(20);</code>, <code>anna.ApplyPenalty(5);</code> un <code>janis.ApplyPenalty(20);</code>.</li>
+<li><b>Nospied</b> <b>Build</b> un palaid scēnu <code>Scenes/Tournament.tscn</code> ar <b>F6</b> — salīdzini <b>Output</b> izdruku ar tabulu zemāk un pārliecinies, ka pēc trešā soda Annai (<code>ApplyPenalty(5)</code>) otrs izstāšanās paziņojums neparādās.</li>
 </ol>
-<pre><code class="language-csharp">private void OnParticipantFinished(string participantName)
+<pre><code class="language-csharp">// Fails: Scripts/TournamentManager.cs
+using Godot;
+
+public partial class TournamentManager : Node
 {
-    GD.Print(participantName, " izstājās");
+    public override void _Ready()
+    {
+        Participant anna = GetNode&lt;Participant&gt;("Anna");
+        Participant janis = GetNode&lt;Participant&gt;("Janis");
+        anna.Setup("Anna", 30);
+        janis.Setup("Jānis", 20);
+
+        anna.Finished += OnParticipantFinished;
+        janis.Finished += OnParticipantFinished;
+
+        anna.ApplyPenalty(10);  // Paliek 20. Signāla vēl nav.
+        anna.ApplyPenalty(20);  // Sasniedz 0 -> Anna izstājas.
+        anna.ApplyPenalty(5);   // Jau izstājusies -> otrs paziņojums nerodas.
+        janis.ApplyPenalty(20); // Sasniedz 0 -> Jānis izstājas.
+    }
+
+    private void OnParticipantFinished(string participantName)
+    {
+        GD.Print(participantName, " izstājās");
+    }
 }</code></pre>
 <div class="table-scroll" role="region" aria-label="Annas izstāšanās" tabindex="0"><table><thead><tr><th scope="col">Darbība</th><th scope="col">Enerģija pēc darbības</th><th scope="col">Paziņojums</th></tr></thead><tbody>
 <tr><td>Setup("Anna", 30)</td><td>30</td><td>Nav</td></tr>
@@ -157,19 +204,27 @@ public virtual void ApplyPenalty(int amount)
 <tr><td>ApplyPenalty(20)</td><td>0</td><td>Anna izstājās</td></tr>
 <tr><td>ApplyPenalty(5)</td><td>0</td><td>Nav: dalībnieks jau izstājies</td></tr>
 </tbody></table></div>
-<p class="done-when"><b>Gatavs, kad:</b> enerģijas sasniegšana līdz nullei katram rada tieši vienu paziņojumu.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Atvieno vienu klausītāju un salīdzini</h2>
-<p class="task-files"><b>Kur strādāt:</b> Atvienošanas rindu un enerģijas izdruku pievieno <code>Scripts/TournamentManager.cs</code> metodē <code>_Ready()</code>; secinājumus raksti <code>README.md</code>.</p>
+<p class="done-when"><b>Gatavs, kad:</b> <b>Output</b> panelī gan Annai, gan Jānim parādās tieši viens izstāšanās paziņojums brīdī, kad enerģija sasniedz <code>0</code>.</p></section>
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Atvieno klausītāju ar <code>-=</code> un salīdzini stāvokli ar paziņojumu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Atvienošanas rindu <code>-=</code> un enerģijas pārbaudes izdruku pievieno failā <code>Scripts/TournamentManager.cs</code> metodē <code>_Ready()</code>; secinājumus ieraksti failā <code>README.md</code>.</p>
 <ol class="step-list">
-<li>Pirms sodu izsaukumiem (uzreiz pēc <code>+=</code> pieslēgšanas) pievieno Annas klausītāja atvienošanu: <code>anna.Finished -= OnParticipantFinished;</code> (jau izstājies dalībnieks otru signālu neraidīs, tāpēc pārbaudi veic, palaižot scēnu no jauna).</li>
-<li>Palaid scēnu no jauna un izdrukā arī Annas enerģiju ar <code>anna.GetEnergy()</code>: tai jābūt <code>0</code>, bet izstāšanās teksts parādās tikai Jānim.</li>
-<li>Atjauno pieslēgumu (izdzēs <code>-=</code> rindu). README salīdzini tiešu <code>ApplyPenalty</code> izsaukumu ar <code>Finished</code> paziņojumu.</li>
-<li>Paskaidro, kura klase atrod otru un kura tikai paziņo par notikumu.</li>
-</ol><p class="done-when"><b>Gatavs, kad:</b> vari izskaidrot, kāpēc izdrukas trūkums nenozīmē, ka sods netika piemērots.</p></section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — Paziņo arī par katru sodu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Signālu un zaudēto punktu aprēķinu pievieno <code>Scripts/Participant.cs</code> klasē un metodē <code>ApplyPenalty()</code>. Klausītāja metodi raksti <code>Scripts/TournamentManager.cs</code> klasē un pieslēdz to <code>_Ready()</code>.</p>
-<p>Pievieno PenaltyApplied signālu ar vienu int parametru. Pirms soda saglabā enerģiju, pēc soda aprēķini starpību un nosūti tieši zaudēto punktu skaitu. Piemēram, pie atlikušiem 5 punktiem sods 20 nozīmē faktiski zaudētus 5. Pieslēdz metodi, kas šo skaitli izdrukā.</p></details>
-<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>Participant.cs</h3>
+<li><b>Atver</b> failu <code>Scripts/TournamentManager.cs</code> un metodē <code>_Ready()</code> tūlīt aiz <code>+=</code> pieslēgšanas rindām (pirms sodu izsaukumiem) pievieno atvienošanas rindu:
+<code class="language-csharp">anna.Finished -= OnParticipantFinished;</code>.</li>
+<li><b>Pievieno</b> metodes <code>_Ready()</code> beigās kontroles izdruku <code class="language-csharp">GD.Print("Annas enerģija beigās: ", anna.GetEnergy());</code>.</li>
+<li><b>Nospied</b> <b>Build</b> un palaid scēnu <code>Scenes/Tournament.tscn</code> (<b>F6</b>): pārliecinies, ka Annas enerģija joprojām kļūst <code>0</code>, taču izstāšanās paziņojumu <code>Output</code> panelī izdrukā tikai Jānis.</li>
+<li><b>Izdzēs</b> pagaidu atvienošanas rindu <code>anna.Finished -= OnParticipantFinished;</code> un pārbaudi ar <b>F6</b>, ka atkal parādās abi paziņojumi.</li>
+<li><b>Pieraksti</b> failā <code>README.md</code>: (a) kādā secībā jāizpilda <code>Setup</code>, <code>+=</code> un <code>ApplyPenalty</code>; (b) kāpēc pēc <code>-=</code> atvienošanas Annas enerģija tik un tā samazinājās līdz <code>0</code>; (c) kura klase šajā pārī pazīst otru un kura tikai izziņo notikumu.</li>
+</ol><p class="done-when"><b>Gatavs, kad:</b> esi pārbaudījis <code>-=</code> darbību, atjaunojis abus signālu pieslēgumus un pierakstījis secinājumus <code>README.md</code>.</p></section>
+<details class="course-help extra-task"><summary>Papildu uzdevums - Paziņo arī par katru sodu ar signālu <code>PenaltyApplied</code></summary>
+<p class="task-files"><b>Kur strādāt:</b> Signālu <code>PenaltyAppliedEventHandler</code> un tā izsaukšanu pievieno failā <code>Scripts/Participant.cs</code>. Klausītāja metodi un <code>+=</code> pieslēgumu pievieno failā <code>Scripts/TournamentManager.cs</code>.</p>
+<p>Ja pamatdarbs ir gatavs, pievieno otru signālu, kas pēc katra soda paziņo faktiski zaudēto punktu skaitu.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> failā <code>Scripts/Participant.cs</code> signālu <code class="language-csharp">[Signal] public delegate void PenaltyAppliedEventHandler(string participantName, int lostPoints);</code>.</li>
+<li><b>Metodē</b> <code>ApplyPenalty(int amount)</code> pirms atņemšanas saglabā <code class="language-csharp">int before = energy;</code>, pēc atņemšanas aprēķini faktisko zudumu <code class="language-csharp">int lost = before - energy;</code> un izsauc <code class="language-csharp">EmitSignal(SignalName.PenaltyApplied, ParticipantName, lost);</code>.</li>
+<li><b>Pieslēdz</b> failā <code>Scripts/TournamentManager.cs</code> šim signālam klausītāja metodi un pārbaudi, ka pie atlikušiem <code>5</code> punktiem un soda <code>20</code> signāls paziņo par faktiski zaudētiem <code>5</code> punktiem.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> katrs derīgs sods izraida <code>PenaltyApplied</code> ar faktiski zaudēto enerģijas daudzumu.</p></details>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai — gatavs 3.3. stundas risinājums</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>1. fails: <code>Scripts/Participant.cs</code> (piesaistīts mezgliem <code>Anna</code> un <code>Janis</code> scēnā <code>Scenes/Tournament.tscn</code>)</h3>
 <pre><code class="language-csharp" id="kods-participant-cs">using Godot;
 using System;
 
@@ -205,7 +260,7 @@ public partial class Participant : Node
         return energy &gt; 0;
     }
 }</code></pre>
-<h3>Captain.cs</h3>
+<h3>2. fails: <code>Scripts/Captain.cs</code></h3>
 <pre><code class="language-csharp" id="kods-captain-cs">using System;
 
 public partial class Captain : Participant
@@ -218,7 +273,7 @@ public partial class Captain : Participant
         base.ApplyPenalty(Math.Max(1, amount - stability));
     }
 }</code></pre>
-<h3>Presenter.cs</h3>
+<h3>3. fails: <code>Scripts/Presenter.cs</code></h3>
 <pre><code class="language-csharp" id="kods-presenter-cs">public partial class Presenter : Participant
 {
     public override void ApplyPenalty(int amount)
@@ -227,7 +282,7 @@ public partial class Captain : Participant
         base.ApplyPenalty(amount + 5);
     }
 }</code></pre>
-<h3>TournamentManager.cs</h3>
+<h3>4. fails: <code>Scripts/TournamentManager.cs</code> (piesaistīts saknei <code>Tournament</code> scēnā <code>Scenes/Tournament.tscn</code>)</h3>
 <pre><code class="language-csharp" id="kods-tournamentmanager-cs">using Godot;
 
 public partial class TournamentManager : Node
@@ -254,7 +309,9 @@ public partial class TournamentManager : Node
     }
 }</code></pre>
 </details>
-<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2><p>GitHub krātuvē saglabā projektu un šādus pierādījumus:</p><ul><li>Saderīgi Participant, lomu un TournamentManager skripti; Tournament.tscn.</li><li>Izdrukas ar diviem paziņojumiem un ar vienu paziņojumu pēc atvienošanas.</li><li>README: kādā secībā pieslēdzi un raidīji signālu; ko maina -=.</li></ul><p>Saglabā failus, veic commit ar izmaiņu aprakstu un push. Skolotāja norādītajā vietā iesniedz krātuves saiti.</p></div></section>
+<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Dalībnieku klases ir pārvērstas par Godot <code>Node</code> mezgliem ar <code>Setup()</code> metodi un <code>Finished</code> signālu, ko scēnā <code>Scenes/Tournament.tscn</code> uztver un apstrādā <code>Scripts/TournamentManager.cs</code>.</p>
+<p><b>GitHub krātuvē saglabā projektu un šādus pierādījumus:</b></p><ul><li>Saderīgus skriptus <code>Scripts/Participant.cs</code>, <code>Scripts/Captain.cs</code>, <code>Scripts/Presenter.cs</code>, <code>Scripts/TournamentManager.cs</code> un scēnu <code>Scenes/Tournament.tscn</code>.</li><li><b>Output</b> izdrukas ar diviem izstāšanās paziņojumiem un ar vienu paziņojumu pēc <code>-=</code> atvienošanas pārbaudes.</li><li><code>README.md</code>: skaidrojums par <code>Setup</code> → <code>+=</code> → <code>ApplyPenalty</code> izpildes secību un to, ko maina <code>-=</code>.</li></ul><p><b>Kā iesniedz:</b> Saglabā failus, veic <code>git commit</code> un <code>git push</code>. Skolotāja norādītajā vietā iesniedz GitHub krātuves saiti.</p></div></section>
 <section><h2>Ja kaut kas nestrādā</h2><ul><li><b>Node not found:</b> salīdzini GetNode ceļu ar scēnas koku. Anna un Janis jābūt saknes bērniem.</li><li><b>Nav Finished vai SignalName:</b> pārbaudi [Signal], EventHandler galotni un partial; nospied Build.</li><li><b>Vecais konstruktors vairs neder:</b> šīs stundas mezglus veido bez argumentiem un datus iestata ar Setup. Atjauno arī iepriekšējos pārbaudes skriptus.</li><li><b>Divi vienādi paziņojumi:</b> pārbaudi, vai vienu metodi nepieslēdzi divreiz un vai ApplyPenalty ignorē jau neaktīvu dalībnieku.</li></ul></section>
 <details class="course-help"><summary>Izmantotā dokumentācija</summary><p><a href="https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_signals.html">Godot: C# signāli</a></p></details>
 <nav aria-label="Nodarbību navigācija" class="stundas-navigacija">

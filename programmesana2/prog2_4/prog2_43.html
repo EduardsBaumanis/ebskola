@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_4/prog2_4main">4. tēma</a> / 4.3</p>
 <h1>4.3 State machines (stāvokļu mašīna) AI (mākslīgais intelekts) uzvedībai</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Implementēt AI ar state machine reālistiskai uzvedībai.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Implementēt AI ar state machine reālistiskai uzvedībai.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.18. OOP (objektorientētā programmēšana)</a>
 <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
@@ -118,136 +118,235 @@ private void ParbauditParejas(double delta)
 }</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Izveido stāvokļu enum un pārslēgšanu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Papildini ienaidniekam piesaistīto <code>Scripts/Enemy.cs</code>. Enum un state lauku liec Enemy klases iekšienē, bet switch — tās metodē <code>_PhysicsProcess()</code>; esošu tāda paša nosaukuma metodi papildini.</p>
+<p class="task-number">1. uzdevums</p><h2>Izveido ienaidnieka scēnu un stāvokļu enum ar switch</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido ienaidnieka scēnu <code>Scenes/Enemy.tscn</code> un spēles laukuma scēnu <code>Scenes/Arena.tscn</code>. Papildini <code>Scripts/Enemy.cs</code> (piesaistīts <code>Scenes/Enemy.tscn</code> saknei): <code>EnemyState</code> uzskaitījumu raksti pirms klases <code>Enemy</code>, lauku <code>state</code> — klases iekšienē, bet <code>switch (state)</code> — metodē <code>_PhysicsProcess(double delta)</code>.</p>
 
-<p>Beigās ienaidnieks zinās, kurā stāvoklī tas atrodas.</p>
+<p>Beigās scēnā būs redzams ienaidnieks, kurš zina savu pašreizējo stāvokli.</p>
 <ol class="step-list">
-<li><b>Ieraksti</b> <code class="language-csharp">private enum EnemyState { Idle, Patrol, Chase, Attack, Dead }</code>.</li>
-<li><b>Pievieno</b> class lauku <code class="language-csharp">private EnemyState state = EnemyState.Idle;</code>.</li>
-<li><b>Uzraksti</b> <code>_PhysicsProcess</code> method <code class="language-csharp">switch (state) { ... }</code>.</li>
-<li><b>Pievieno</b> katram stāvoklim savu <code>case</code> (izvēles gadījums) ar izdruku un <code>break;</code>.</li>
-<li><b>Būvē</b> un palaid - jāizdrukājas tikai <code>Idle</code>.</li>
-<li><b>Nomaini</b> sākuma stāvokli uz <code>Patrol</code> un palaid vēlreiz.</li>
-<li><b>Pieraksti</b>, kāpēc vienlaikus izdrukājas tikai viens stāvoklis.</li>
+<li>Godot redaktorā izveido jaunu scēnu ar saknes mezglu <code>CharacterBody2D</code>, pārdēvē to par <code>Enemy</code> un saglabā kā <code>Scenes/Enemy.tscn</code>. <b>Inspector</b> panelī sadaļā <b>Motion Mode</b> izvēlies <code>Floating</code> (skatā no augšas nav gravitācijas uz leju).</li>
+<li>Scēnā <code>Scenes/Enemy.tscn</code> zem <code>Enemy</code> pievieno bērnmezglu <code>CollisionShape2D</code> (<b>Shape → New RectangleShape2D</b>, izmērs <code>28 × 28</code>) un bērnmezglu <code>Polygon2D</code> (<code>Visual</code>, 4 punkti <code>(-14,-14)</code>, <code>(14,-14)</code>, <code>(14,14)</code>, <code>(-14,14)</code> sarkanā krāsā). Saknei <code>Enemy</code> piesaisti skriptu <code>Scripts/Enemy.cs</code>.</li>
+<li>Izveido spēles laukuma scēnu <code>Scenes/Arena.tscn</code> ar saknes mezglu <code>Node2D</code> (<code>Arena</code>), no <b>FileSystem</b> ievelc tajā <code>Scenes/Enemy.tscn</code> eksemplāru pozīcijā <code>(700, 360)</code> un saglabā scēnu.</li>
+<li>Failā <code>Scripts/Enemy.cs</code> virs klases <code>Enemy</code> definē uzskaitījumu <code class="language-csharp">public enum EnemyState { Idle, Patrol, Chase, Attack, Dead }</code> un klases <code>Enemy</code> iekšienē pievieno lauku <code class="language-csharp">protected EnemyState state = EnemyState.Idle;</code>.</li>
+<li>Faila <code>Scripts/Enemy.cs</code> metodē <code>_PhysicsProcess(double delta)</code> uzraksti <code class="language-csharp">switch (state) { ... }</code>, kur katram no pieciem stāvokļiem ir savs <code>case</code> zars un <code>break;</code>, bet metodē <code>_Ready()</code> izdrukā sākuma stāvokli ar <code>GD.Print("Sākuma stāvoklis: ", state);</code>.</li>
+<li>Saglabā failus, nospied <b>Build</b> un palaid <code>Scenes/Arena.tscn</code> ar <b>F6</b>. Pēc tam failā <code>Scripts/Enemy.cs</code> nomaini sākuma stāvokli uz <code>EnemyState.Patrol</code>, palaid vēlreiz un <code>README.md</code> pieraksti, kāpēc stāvokļu mašīnā vienlaikus ir aktīvs tikai viens stāvoklis.</li>
 </ol>
-<pre><code class="language-csharp">public enum EnemyState
+<pre><code class="language-csharp">// Scripts/Enemy.cs — stāvokļu uzskaitījums un klases sākums:
+public enum EnemyState
 {
     Idle,   // gaida
     Patrol, // patrulē
-    Chase,  // dzenas
+    Chase,  // dzenas pakaļ
     Attack, // uzbrūk
     Dead    // gala stāvoklis
-}</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> Output panelī atkārtojas tikai viena stāvokļa nosaukums, nevis visi pieci.</p>
-</section>
-<section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Pievieno pārejas noteikumus</h2>
-<p class="task-files"><b>Kur strādāt:</b> <code>ChangeState()</code> pievieno <code>Scripts/Enemy.cs</code> kā atsevišķu klases metodi. Attāluma aprēķinu un pāreju pārbaudes raksti esošajā <code>_PhysicsProcess()</code>.</p>
-
-<p>Beigās ienaidnieks pats pārslēgsies starp stāvokļiem.</p>
-<ol class="step-list">
-<li><b>Uzraksti</b> method <code class="language-csharp">private void ChangeState(EnemyState newState)</code>, kas izdrukā pāreju.</li>
-<li><b>Izrēķini</b> katrā kadrā attālumu līdz spēlētājam ar <code>Position.DistanceTo(player.Position)</code>.</li>
-<li><b>Pārslēdz</b> uz <code>Chase</code>, ja attālums ir mazāks par 300.</li>
-<li><b>Pārslēdz</b> uz <code>Attack</code>, ja attālums ir mazāks par 50.</li>
-<li><b>Pārslēdz</b> atpakaļ uz <code>Patrol</code>, ja attālums pārsniedz 400.</li>
-<li><b>Būvē</b> un pastaigā ar spēlētāju tuvāk un tālāk.</li>
-<li><b>Pieraksti</b>, kāpēc atgriešanās slieksnis (400) ir lielāks par dzīšanās slieksni (300).</li>
-</ol>
-<pre><code class="language-csharp">float dist = Position.DistanceTo(player.Position);
-switch (state)
-{
-    case EnemyState.Patrol:
-        if (dist &lt; 300.0f) ChangeState(EnemyState.Chase);
-        break;
-    case EnemyState.Chase:
-        if (dist &lt; 50.0f) ChangeState(EnemyState.Attack);
-        else if (dist &gt; 400.0f) ChangeState(EnemyState.Patrol);
-        break;
-    case EnemyState.Attack:
-        if (dist &gt;= 50.0f) ChangeState(EnemyState.Chase);
-        break;
-}</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> pieejot tuvāk, ienaidnieks pāriet CHASE un ATTACK, bet aizejot - atgriežas PATROL.</p>
-</section>
-<section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Iztestē visus stāvokļus</h2>
-<p class="task-files"><b>Kur strādāt:</b> Pāreju uz Dead un pārbaudi, kas liedz to atstāt, raksti <code>Scripts/Enemy.cs</code>. Pāreju tabulu un testu rezultātus saglabā <code>README.md</code>.</p>
-
-<p>Beigās tu būsi pārliecinājies, ka neviens stāvoklis neiestrēgst.</p>
-<ol class="step-list">
-<li><b>Pieraksti</b> tabulu ar visiem pieciem stāvokļiem.</li>
-<li><b>Atzīmē</b> katram, no kura stāvokļa tajā var nokļūt.</li>
-<li><b>Pārbaudi</b> spēlē katru pāreju un atzīmē tabulā, vai tā notika.</li>
-<li><b>Atrodi</b> stāvokli, no kura nevar izkļūt, ja tāds ir.</li>
-<li><b>Pārbaudi</b>, kas notiek, kad ienaidnieka HP (dzīvības punkti) nokrīt līdz nullei.</li>
-<li><b>Pievieno</b> pāreju uz <code>Dead</code> un pārliecinies, ka no tā vairs neizkļūst.</li>
-<li><b>Pieraksti</b>, kurš stāvoklis ir gala stāvoklis.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> tabulā katrai pārejai ir atzīme, un no <code>Dead</code> stāvokļa ienaidnieks vairs neatgriežas.</p>
-</section>
-<details class="course-help extra-task">
-<summary>Papildu uzdevums - Pievieno stāvokļa timer (taimeri)</summary>
-<p class="task-files"><b>Kur strādāt:</b> State_time lauku pievieno <code>Scripts/Enemy.cs</code> klasei; laiku palielini <code>_PhysicsProcess()</code>, bet pārejas ierobežojumu un atiestatīšanu raksti <code>ChangeState()</code>.</p>
-
-<p>Ja pamatdarbs ir gatavs, neļauj stāvokļiem mainīties pārāk bieži.</p>
-<ol class="step-list">
-<li><b>Pievieno</b> lauku <code class="language-csharp">double state_time = 0.0;</code>.</li>
-<li><b>Palielini</b> to katrā kadrā ar <code>delta</code>.</li>
-<li><b>Atiestati</b> to uz nulli katrā <code>ChangeState</code> izsaukumā.</li>
-<li><b>Neļauj</b> mainīt stāvokli, ja <code>state_time</code> ir mazāks par 0.3.</li>
-<li><b>Pārbaudi</b>, ka ienaidnieks vairs nemirgo starp diviem stāvokļiem.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> stāvot tieši uz sliekšņa robežas, ienaidnieks vairs nemaina stāvokli vairākas reizes sekundē.</p>
-</details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
-<div class="code-example">
-<pre><code class="language-csharp">public enum EnemyState { Idle, Patrol, Chase, Attack, Dead }
-
-public override void _PhysicsProcess(double delta)
-{
-    stateTimer += delta;
-
-    switch (state)
-    {
-        case EnemyState.Idle:
-            if (playerInVision) ChangeState(EnemyState.Chase);
-            else if (stateTimer &gt; 3.0) ChangeState(EnemyState.Patrol);
-            break;
-
-        case EnemyState.Patrol:
-            Vector2 patrolDir = (patrolTarget - Position).Normalized();
-            Velocity = patrolDir * 100.0f;
-            MoveAndSlide();
-            if (Position.DistanceTo(patrolTarget) &lt; 10) SwapPatrolTarget();
-            if (playerInVision) ChangeState(EnemyState.Chase);
-            break;
-
-        case EnemyState.Chase:
-            Vector2 chaseDir = (playerPos - Position).Normalized();
-            Velocity = chaseDir * 200.0f;
-            MoveAndSlide();
-            if (Position.DistanceTo(playerPos) &lt; 50) ChangeState(EnemyState.Attack);
-            break;
-
-        case EnemyState.Attack:
-            if (stateTimer &gt;= 1.0)
-            {
-                player.TakeDamage(10);
-                stateTimer = 0.0;
-            }
-            break;
-    }
 }
 
-private void ChangeState(EnemyState newState)
+public partial class Enemy : CharacterBody2D
 {
-    state = newState;
-    stateTimer = 0.0;
+    protected EnemyState state = EnemyState.Patrol;
+    // ...
 }</code></pre>
-<div class="result">Ienaidnieks staigā patrol līdz pamana spēlētāju, dzenas un uzbrūk; izvairoties - atgriežas patrol režīmā.</div>
-</div>
+<p class="done-when"><b>Gatavs, kad:</b> <code>Scenes/Arena.tscn</code> redzams sarkanais ienaidnieks un <b>Output</b> panelī izdrukājas tikai aktīvā stāvokļa nosaukums.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums</p><h2>Pievieno spēlētāju un pārejas noteikumus</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido spēlētāja scēnu <code>Scenes/Player.tscn</code> ar skriptu <code>Scripts/Player.cs</code> un ievieto spēlētāju <code>Scenes/Arena.tscn</code>. Pāreju metodi <code>ChangeState()</code> un attāluma pārbaudi pievieno failā <code>Scripts/Enemy.cs</code>.</p>
+
+<p>Beigās tu varēsi vadīt spēlētāju ar <code>WASD</code>, un ienaidnieks pats pārslēgsies starp <code>Patrol</code>, <code>Chase</code> un <code>Attack</code>.</p>
+<ol class="step-list">
+<li>Atver <b>Project → Project Settings → Input Map</b> un pievieno četras darbības: <code>move_left</code> (<code>A</code>, <code>←</code>), <code>move_right</code> (<code>D</code>, <code>→</code>), <code>move_up</code> (<code>W</code>, <code>↑</code>) un <code>move_down</code> (<code>S</code>, <code>↓</code>).</li>
+<li>Izveido scēnu <code>Scenes/Player.tscn</code> ar saknes mezglu <code>CharacterBody2D</code> (<code>Player</code>, <b>Motion Mode</b> = <code>Floating</code>), pievieno tam <code>CollisionShape2D</code> (<code>RectangleShape2D</code> <code>28 × 28</code>) un zilu <code>Polygon2D</code> (<code>Visual</code>, punkti <code>(-14,-14)</code>..<code>(14,14)</code>). Saknei <code>Player</code> piesaisti jaunu skriptu <code>Scripts/Player.cs</code> ar 8 virzienu kustību (skatīt pilno failu zemāk) un ievieto <code>Player.tscn</code> eksemplāru scēnā <code>Scenes/Arena.tscn</code> pozīcijā <code>(200, 360)</code>.</li>
+<li>Failā <code>Scripts/Enemy.cs</code> pievieno laukus <code class="language-csharp">[Export] public float Speed = 140.0f;</code> un <code class="language-csharp">protected Node2D player;</code>. Metodē <code>_Ready()</code> atrodi spēlētāja mezglu ar <code class="language-csharp">player = GetParent()?.GetNodeOrNull&lt;Node2D&gt;("Player");</code>.</li>
+<li>Failā <code>Scripts/Enemy.cs</code> klases iekšienē (ārpus <code>_PhysicsProcess()</code>) pievieno metodi <code class="language-csharp">protected void ChangeState(EnemyState newState)</code>, kas pārbauda <code>if (state == newState) return;</code>, izdrukā pāreju <code>GD.Print("Stāvokļa maiņa: ", state, " -&gt; ", newState);</code> un nomaina <code>state = newState;</code>.</li>
+<li>Faila <code>Scripts/Enemy.cs</code> metodē <code>_PhysicsProcess(double delta)</code> aprēķini attālumu <code class="language-csharp">float dist = GlobalPosition.DistanceTo(player.GlobalPosition);</code> un papildini <code>switch (state)</code> pēc parauga zemāk: pie <code>dist &lt; 300.0f</code> pārej uz <code>Chase</code> un virzies pret spēlētāju, pie <code>dist &lt; 60.0f</code> — pārej uz <code>Attack</code>, bet pie <code>dist &gt; 400.0f</code> — atgriezies <code>Patrol</code>.</li>
+<li>Saglabā visus failus, nospied <b>Build</b> un palaid <code>Scenes/Arena.tscn</code> ar <b>F6</b>. Ar <code>WASD</code> pieej ienaidniekam tuvāk un aizej tālāk, vērojot pārejas <b>Output</b> panelī, un <code>README.md</code> pieraksti, kāpēc atgriešanās slieksnis (<code>400</code>) ir lielāks par vajāšanas slieksni (<code>300</code>).</li>
+</ol>
+<pre><code>Arena (Node2D) — Scenes/Arena.tscn
+├── Player (no Scenes/Player.tscn, skripts Scripts/Player.cs)
+└── Enemy  (no Scenes/Enemy.tscn,  skripts Scripts/Enemy.cs)</code></pre>
+<pre><code class="language-csharp">// Scripts/Enemy.cs metodē _PhysicsProcess(double delta):
+if (player == null) return;
+float dist = GlobalPosition.DistanceTo(player.GlobalPosition);
+
+switch (state)
+{
+    case EnemyState.Idle:
+    case EnemyState.Patrol:
+        Velocity = Vector2.Zero;
+        if (dist &lt; 300.0f) ChangeState(EnemyState.Chase);
+        break;
+
+    case EnemyState.Chase:
+        Velocity = (player.GlobalPosition - GlobalPosition).Normalized() * Speed;
+        MoveAndSlide();
+        if (dist &lt; 60.0f) ChangeState(EnemyState.Attack);
+        else if (dist &gt; 400.0f) ChangeState(EnemyState.Patrol);
+        break;
+
+    case EnemyState.Attack:
+        Velocity = Vector2.Zero;
+        if (dist &gt;= 80.0f) ChangeState(EnemyState.Chase);
+        break;
+}</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> pieejot ar spēlētāju tuvāk, ienaidnieks pāriet <code>Chase</code> un <code>Attack</code>, bet attālinoties virs <code>400</code> px — atgriežas <code>Patrol</code>.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums</p><h2>Pievieno gala stāvokli Dead un iztestē visas pārejas</h2>
+<p class="task-files"><b>Kur strādāt:</b> Dzīvības punktus <code>Hp</code>, metodi <code>TakeDamage(int amount)</code> un gala stāvokļa <code>Dead</code> aizsardzību pievieno failā <code>Scripts/Enemy.cs</code>. Pāreju tabulu un secinājumus saglabā <code>README.md</code>.</p>
+
+<p>Beigās uzveikts ienaidnieks pāries gala stāvoklī <code>Dead</code> un vairs nereaģēs uz spēlētāju.</p>
+<ol class="step-list">
+<li>Failā <code>Scripts/Enemy.cs</code> klases laukos pievieno <code class="language-csharp">[Export] public int Hp = 30;</code> un publisku īpašību <code class="language-csharp">public bool IsAlive =&gt; state != EnemyState.Dead;</code>.</li>
+<li>Tajā pašā failā <code>Scripts/Enemy.cs</code> metodes <code>ChangeState(EnemyState newState)</code> pašā pirmajā rindā ieraksti sarga nosacījumu <code class="language-csharp">if (state == EnemyState.Dead || state == newState) return;</code>, lai no <code>Dead</code> stāvokļa nebūtu iespējams izkļūt.</li>
+<li>Klasei <code>Enemy</code> failā <code>Scripts/Enemy.cs</code> pievieno publisku metodi <code class="language-csharp">public void TakeDamage(int amount)</code> pēc parauga zemāk: tā samazina <code>Hp</code> un, kad <code>Hp &lt;= 0</code>, izsauc <code>ChangeState(EnemyState.Dead)</code>, aptur kustību un padara ienaidnieku puspaurspīdīgu.</li>
+<li>Lai iztestētu pāreju uz <code>Dead</code> jau šajā stundā (pirms 4.5. stundas lādiņiem), metodes <code>_PhysicsProcess(double delta)</code> sākumā pievieno pārbaudi: <code class="language-csharp">if (Input.IsKeyPressed(Key.K)) TakeDamage(30);</code>. Palaid <code>Scenes/Arena.tscn</code> ar <b>F6</b>, pieej ienaidniekam, nospied taustiņu <b>K</b> un pārliecinies, ka pēc <code>Dead</code> sasniegšanas ienaidnieks vairs nekustas un nemaina stāvokli.</li>
+<li>Failā <code>README.md</code> aizpildi pāreju tabulu visiem pieciem stāvokļiem (skatīt paraugu zemāk) un pieraksti, kurš stāvoklis ir gala stāvoklis (<code>terminal state</code>) un kāpēc.</li>
+</ol>
+<pre><code class="language-csharp">// Scripts/Enemy.cs — bojājumu saņemšana un pāreja uz Dead:
+public void TakeDamage(int amount)
+{
+    if (!IsAlive || amount &lt;= 0) return;
+    Hp -= amount;
+    if (Hp &lt;= 0)
+    {
+        Hp = 0;
+        ChangeState(EnemyState.Dead);
+        Velocity = Vector2.Zero;
+        Modulate = new Color(0.5f, 0.5f, 0.5f, 0.6f);
+    }
+}</code></pre>
+<div class="table-scroll" role="region" aria-label="Stāvokļu pāreju tabula" tabindex="0"><table>
+<thead><tr><th scope="col">Pašreizējais stāvoklis</th><th scope="col">Nosacījums pārejai</th><th scope="col">Nākamais stāvoklis</th><th scope="col">Pārbaudīts spēlē</th></tr></thead>
+<tbody>
+<tr><td><code>Idle</code> / <code>Patrol</code></td><td><code>dist &lt; 300</code></td><td><code>Chase</code></td><td>Jā / Nē</td></tr>
+<tr><td><code>Chase</code></td><td><code>dist &lt; 60</code></td><td><code>Attack</code></td><td>Jā / Nē</td></tr>
+<tr><td><code>Chase</code></td><td><code>dist &gt; 400</code></td><td><code>Patrol</code></td><td>Jā / Nē</td></tr>
+<tr><td><code>Attack</code></td><td><code>dist &gt;= 80</code></td><td><code>Chase</code></td><td>Jā / Nē</td></tr>
+<tr><td>Jebkurš dzīvs stāvoklis</td><td><code>Hp &lt;= 0</code></td><td><code>Dead</code> (gala stāvoklis)</td><td>Jā / Nē</td></tr>
+</tbody></table></div>
+<p class="done-when"><b>Gatavs, kad:</b> visas tabulas pārejas ir pārbaudītas spēlē, un no <code>Dead</code> stāvokļa ienaidnieks vairs neatgriežas.</p>
+</section>
+<details class="course-help extra-task">
+<summary>Papildu uzdevums — Pievieno stāvokļa taimeri (stateTime)</summary>
+<p class="task-files"><b>Kur strādāt:</b> Lauku <code>stateTime</code> pievieno failā <code>Scripts/Enemy.cs</code>: laiku pieskaiti metodē <code>_PhysicsProcess(double delta)</code>, bet minimālā laika pārbaudi un atiestatīšanu raksti metodē <code>ChangeState(EnemyState newState)</code>.</p>
+
+<p>Ja pamatdarbs ir gatavs, pievieno papildu aizsardzību pret pārāk biežu stāvokļu maiņu.</p>
+<ol class="step-list">
+<li>Failā <code>Scripts/Enemy.cs</code> pievieno klases lauku <code class="language-csharp">private double stateTime = 0.0;</code>.</li>
+<li>Metodē <code>_PhysicsProcess(double delta)</code> pašā sākumā palielini to katrā kadrā: <code class="language-csharp">stateTime += delta;</code>.</li>
+<li>Metodē <code>ChangeState(EnemyState newState)</code> neļauj mainīt parastos stāvokļus (izņemot pāreju uz <code>EnemyState.Dead</code>), ja <code class="language-csharp">stateTime &lt; 0.3</code>, un veiksmīgas pārejas beigās atiestati <code class="language-csharp">stateTime = 0.0;</code>.</li>
+<li>Palaid <code>Scenes/Arena.tscn</code> un pārbaudi, ka ienaidnieks uz sliekšņa robežas nemaina stāvokli biežāk kā reizi <code>0.3</code> sekundēs.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> stāvot uz sliekšņa robežas, ienaidnieks nemaina stāvokli vairākas reizes sekundē.</p>
+</details>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary>
+<p>Katru piemēru liec norādītajā failā. Abus skriptus piesaisti attiecīgi <code>Scenes/Player.tscn</code> un <code>Scenes/Enemy.tscn</code> saknes mezgliem.</p>
+<h3>Scripts/Player.cs</h3>
+<pre><code class="language-csharp">using Godot;
+
+public partial class Player : CharacterBody2D
+{
+    [Export] public float Speed = 240.0f;
+
+    public override void _PhysicsProcess(double delta)
+    {
+        Vector2 input = new Vector2(
+            Input.GetAxis("move_left", "move_right"),
+            Input.GetAxis("move_up", "move_down")
+        );
+
+        if (input != Vector2.Zero)
+            input = input.Normalized();
+
+        Velocity = input * Speed;
+        MoveAndSlide();
+    }
+}</code></pre>
+<h3>Scripts/Enemy.cs</h3>
+<pre><code class="language-csharp">using Godot;
+
+public enum EnemyState
+{
+    Idle,   // gaida
+    Patrol, // patrulē
+    Chase,  // dzenas pakaļ
+    Attack, // uzbrūk
+    Dead    // gala stāvoklis
+}
+
+public partial class Enemy : CharacterBody2D
+{
+    public string EnemyName = "Pretinieks";
+    [Export] public float Speed = 140.0f;
+    [Export] public int Hp = 30;
+
+    protected EnemyState state = EnemyState.Patrol;
+    protected Node2D player;
+
+    public bool IsAlive =&gt; state != EnemyState.Dead;
+
+    public override void _Ready()
+    {
+        player = GetParent()?.GetNodeOrNull&lt;Node2D&gt;("Player");
+        GD.Print("Sākuma stāvoklis: ", state);
+    }
+
+    protected void ChangeState(EnemyState newState)
+    {
+        if (state == EnemyState.Dead || state == newState) return;
+        GD.Print("Stāvokļa maiņa: ", state, " -&gt; ", newState);
+        state = newState;
+    }
+
+    public void TakeDamage(int amount)
+    {
+        if (!IsAlive || amount &lt;= 0) return;
+        Hp -= amount;
+        GD.Print("Ienaidnieks saņēma ", amount, " bojājumus. HP: ", Hp);
+        if (Hp &lt;= 0)
+        {
+            Hp = 0;
+            ChangeState(EnemyState.Dead);
+            Velocity = Vector2.Zero;
+            Modulate = new Color(0.5f, 0.5f, 0.5f, 0.6f);
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (Input.IsKeyPressed(Key.K))
+            TakeDamage(30);
+
+        if (player == null || !IsAlive) return;
+
+        float dist = GlobalPosition.DistanceTo(player.GlobalPosition);
+
+        switch (state)
+        {
+            case EnemyState.Idle:
+            case EnemyState.Patrol:
+                Velocity = Vector2.Zero;
+                if (dist &lt; 300.0f) ChangeState(EnemyState.Chase);
+                break;
+
+            case EnemyState.Chase:
+                Vector2 dir = (player.GlobalPosition - GlobalPosition).Normalized();
+                Velocity = dir * Speed;
+                MoveAndSlide();
+
+                if (dist &lt; 60.0f) ChangeState(EnemyState.Attack);
+                else if (dist &gt; 400.0f) ChangeState(EnemyState.Patrol);
+                break;
+
+            case EnemyState.Attack:
+                Velocity = Vector2.Zero;
+                if (dist &gt;= 80.0f) ChangeState(EnemyState.Chase);
+                break;
+
+            case EnemyState.Dead:
+                break; // Gala stāvoklis — izejošu pāreju nav.
+        }
+    }
+}</code></pre>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
@@ -255,10 +354,9 @@ private void ChangeState(EnemyState newState)
 <p class="merkis"><b>Stundas mērķis:</b> Tavam ienaidniekam ir strādājoša state machine ar pieciem stāvokļiem, pārejas notiek pēc attāluma līdz spēlētājam, un <code>Dead</code> ir gala stāvoklis, no kura nevar izkļūt.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>Fails <code>Enemy.cs</code> ar <code>enum</code> un <code>switch</code> (izvēle pēc vērtības).</li>
-<li>README.md ievietota video saite vai ekrānuzņēmumu sērija krātuvē, kurā redzamas pārejas PATROL -&gt; CHASE -&gt; ATTACK.</li>
-<li>README.md tabula ar atzīmētām pārbaudītajām stāvokļu pārejām.</li>
-<li>README.md: kāpēc atgriešanās slieksnis ir lielāks par dzīšanās slieksni.</li>
+<li>Faili <code>Scripts/Enemy.cs</code>, <code>Scripts/Player.cs</code> un scēnas <code>Scenes/Enemy.tscn</code>, <code>Scenes/Player.tscn</code> un <code>Scenes/Arena.tscn</code>.</li>
+<li><code>README.md</code> ievietota video saite vai ekrānuzņēmums ar <b>Output</b> paneli, kurā redzamas pārejas <code>Patrol -&gt; Chase -&gt; Attack -&gt; Dead</code>.</li>
+<li><code>README.md</code> tabula ar pārbaudītajām stāvokļu pārejām un skaidrojums, kāpēc atgriešanās slieksnis (<code>400</code>) ir lielāks par dzīšanās slieksni (<code>300</code>).</li>
 </ul>
 <p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>

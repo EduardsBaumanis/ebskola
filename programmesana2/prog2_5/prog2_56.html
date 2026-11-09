@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_5/prog2_5main">5. tēma</a> / 5.6</p>
 <h1>5.6 Noslēguma projekts: Procedural (procedurālais) klases labirints</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Pilnvērtīga procedural klases labirinta spēle ar procedural generation (procedurālā ģenerēšana), saglabāt sistēmu un meta-progress (kopējais progress).</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Pilnvērtīga procedural klases labirinta spēle ar procedural generation (procedurālā ģenerēšana), saglabāt sistēmu un meta-progress (kopējais progress).</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.1. Problēmu dekompozīcija</a>
 <a href="/sasnRez">SR 2.4.16. Data structure (datu struktūras)</a>
@@ -114,119 +114,634 @@ SaglabatProgresu(progress); // Ieraksta JSON failā mapē user://
 sesija.Atiestatit();        // Notīra tikai īslaicīgos sesijas datus</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Savieno labirintu ar spēlētāju</h2>
-<p class="task-files"><b>Kur strādāt:</b> Saglabā spēles scēnu kā <code>Scenes/MazeGame.tscn</code>. Turpini <code>Scripts/MazeGenerator.cs</code> un <code>Scripts/MazeDemo.cs</code> no 5.4; pēdējā pievieno līmeņa maiņu un skaitītāju. Izejas Area2D piesaisti jaunam <code>Scripts/Exit.cs</code>, kas paziņo par līmeņa pabeigšanu.</p>
+<p class="task-number">1. uzdevums</p><h2>Savieno procedurālo labirintu ar spēlētāju, izeju un līmeņu pāreju</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Mapē <code>Scenes/</code> izveido galveno projekta scēnu <code>Scenes/MazeGame.tscn</code> (<code>Node2D</code> sakne <code>MazeGame</code>).<br>
+2) Mapē <code>Scripts/</code> izveido skriptu <code>Scripts/MazeGame.cs</code> un piesaisti to <code>MazeGame</code> saknei.<br>
+3) Izmanto esošos <code>Scripts/MazeGenerator.cs</code> un <code>Scripts/Player.cs</code> no 5.4. stundas.</p>
 
-<p>Beigās varēsi iziet uzģenerētu labirintu un nokļūt nākamajā.</p>
+<p>Pirmajā solī izveidosim galveno spēles scēnu <code>Scenes/MazeGame.tscn</code>, kurā spēlētājs iziet cauri procedurāli uzģenerētam un ar <code>Flood Fill</code> pārbaudītam <code>15×15</code> labirintam. Sasniedzot zaļo izejas zonu <code>(13, 13)</code>, līmeņa skaitītājs palielinās un uzreiz tiek uzģenerēts nākamais labirints.</p>
 <ol class="step-list">
-<li><b>Ievelc</b> savu 5.4 labirinta ģeneratoru jaunā projektā vai scēnā.</li>
-<li><b>Novieto</b> spēlētāju labirinta sākumā un izeju tālākajā stūrī.</li>
-<li><b>Pievieno</b> izejai <code>Area2D</code> (2D saskares zona), kas nosaka, ka līmenis pabeigts.</li>
-<li><b>Uzģenerē</b> jaunu labirintu, kad spēlētājs sasniedz izeju.</li>
-<li><b>Pievieno</b> līmeņa numura skaitītāju un parādi to ekrānā.</li>
-<li><b>Izej</b> trīs līmeņus pēc kārtas.</li>
-<li><b>Pārbaudi</b>, ka katrs jaunais labirints ir citāds un izejams.</li>
+<li><b>Izveido</b> jaunu scēnu (<b>Scene → New Scene → 2D Scene</b>), pārsauc saknes <code>Node2D</code> mezglu par <code>MazeGame</code>, saglabā to kā <code>Scenes/MazeGame.tscn</code> un pievieno bērnmezglus pēc šāda scēnas koka:
+<pre><code>MazeGame (Node2D, skripts Scripts/MazeGame.cs)
+├── MazeContainer (Node2D — tajā kods izveidos sienas, grīdu, izeju un priekšmetus)
+├── Player (CharacterBody2D, skripts Scripts/Player.cs)
+├── SaveManager (Node, skripts Scripts/SaveManager.cs)
+└── HUD (CanvasLayer)
+    ├── StatusLabel (Label — kreisajā pusē pie X = 620, Y = 24)
+    └── MessageLabel (Label — kreisajā pusē pie X = 620, Y = 220)</code></pre>
+<i>(Tā kā <code>15×15</code> labirints ar <code>CellSize = 40</code> aizņem <code>600×600 px</code> kreisajā pusē, novieto <code>StatusLabel</code> un <code>MessageLabel</code> pa labi no labirinta pie <code>X = 620</code>, lai teksts nekad neaizsegtu gaiteņus!)</i></li>
+<li><b>Atver</b> <code>Scripts/MazeGenerator.cs</code> un pievieno palīgmetodi <code>GetFreeFloorCells()</code>, kas savāc visas brīvās ejas šūnas (<code>grid[x, y] == 0</code>), izlaižot starta <code>(1, 1)</code> un izejas <code>(13, 13)</code> koordinātas:
+<pre><code class="language-csharp">public List&lt;Vector2I&gt; GetFreeFloorCells()
+{
+    List&lt;Vector2I&gt; free = new();
+    for (int x = 0; x &lt; Width; x++)
+    {
+        for (int y = 0; y &lt; Height; y++)
+        {
+            Vector2I pos = new(x, y);
+            if (grid[x, y] == 0 &amp;&amp; pos != StartPos &amp;&amp; pos != ExitPos)
+            {
+                free.Add(pos);
+            }
+        }
+    }
+    return free;
+}</code></pre>
+<i>(Neaizmirsti faila <code>Scripts/MazeGenerator.cs</code> augšā pievienot <code>using System.Collections.Generic;</code>.)</i></li>
+<li><b>Izveido</b> skriptu <code>Scripts/MazeGame.cs</code>, piesaisti to <code>MazeGame</code> saknei un ievieto tajā līmeņa ģenerēšanas metodi <code>StartLevel()</code> un izejas <code>Area2D</code> izveidi <code>SpawnExit()</code> (skat. pilno kodu sadaļā <b>Pilnie faili salīdzināšanai</b> zemāk).</li>
+<li><b>Pārbaudi</b>, kā strādā izejas zona: kad <code>Player</code> ieiet zaļajā izejas <code>Area2D</code> mezglā, nostrādā signāls <code>BodyEntered</code> → metode <code>OnExitReached(Node2D body)</code> palielina <code>currentLevel++</code> un ar <code>CallDeferred(nameof(StartLevel))</code> uzģenerē nākamo labirintu.</li>
+<li><b>Nospied</b> <b>Build</b> un palaid <code>Scenes/MazeGame.tscn</code> (<code>F5</code>): izej trīs labirintus pēc kārtas un pārliecinies, ka katrs līmenis ir citāds, izejams un <code>StatusLabel</code> rāda aktuālo līmeņa numuru.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> izejot izeju, uzreiz sākas jauns, atšķirīgs labirints, un numurs ekrānā pieaug.</p>
+<div class="table-scroll" role="region" aria-label="Projekta failu pienākumi" tabindex="0"><table><thead><tr><th scope="col">Fails</th><th scope="col">Mezgls / loma</th><th scope="col">Ko tas glabā vai dara</th></tr></thead><tbody>
+<tr><td><code>Scripts/MazeGenerator.cs</code></td><td>Palīgklase</td><td>Ģenerē <code>15×15</code> labirintu ar <code>Random Walk</code>, pārbauda izejamību ar <code>Flood Fill</code> un atgriež brīvās šūnas <code>GetFreeFloorCells()</code>.</td></tr>
+<tr><td><code>Scripts/Player.cs</code></td><td><code>MazeGame/Player</code> (<code>CharacterBody2D</code>)</td><td>8 virzienu normalizēta <code>WASD</code> kustība un sadursmes ar labirinta sienām.</td></tr>
+<tr><td><code>Scripts/ISaveable.cs</code> un <code>Scripts/SaveManager.cs</code></td><td><code>MazeGame/SaveManager</code> (<code>Node</code>)</td><td>Saglabā un ielādē pastāvīgo progresu JSON failā <code>user://slot1.json</code> ar versijas un kļūdu pārbaudi.</td></tr>
+<tr><td><code>Scripts/MazeGame.cs</code></td><td><code>Scenes/MazeGame.tscn</code> sakne</td><td>Vada līmeņus, izvieto izeju, savācamos <code>+XP</code> un slazdus, nošķir sesijas datus no meta-progresa un atjauno <code>HUD</code>.</td></tr>
+</tbody></table></div>
+<p class="done-when"><b>Gatavs, kad:</b> aizstaigājot līdz zaļajai izejai <code>(13, 13)</code>, spēlētājs automātiski pāriet uz nākamo procedurāli uzģenerēto līmeni.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Pievieno savācamos un šķēršļus</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izvietošanu un HUD atjaunošanu raksti <code>Scripts/MazeDemo.cs</code>. Izveido <code>Scripts/Collectible.cs</code> un <code>Scripts/Hazard.cs</code> attiecīgo Area2D mezglu apstrādei; XP un dzīvību maiņu pievieno <code>Scripts/Player.cs</code>. Mezglus izveido <code>Scenes/MazeGame.tscn</code> vai atsevišķās priekšmetu scēnās.</p>
+<p class="task-number">2. uzdevums</p><h2>Pievieno savācamos materiālus (<code>+XP</code>), bīstamos šķēršļus un HUD</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Failā <code>Scripts/MazeGame.cs</code> pievieno metodes <code>SpawnItemsAndHazards(int seed)</code>, <code>CreateCollectible(Vector2 pos)</code> un <code>CreateHazard(Vector2 pos)</code>.<br>
+2) Tajā pašā <code>Scripts/MazeGame.cs</code> failā atjauno <code>HUD/StatusLabel</code> un <code>HUD/MessageLabel</code> tekstus.</p>
 
-<p>Beigās labirintā būs par ko cīnīties un no kā izvairīties.</p>
+<p>Katram līmenim brīvajās gaiteņu šūnās izvietosim 5 dzeltenus kristālus (katrs dod <code>+15 XP</code>) un sarkanus slazdus (katrs atņem <code>1</code> dzīvību no <code>3</code> mēģinājuma dzīvībām).</p>
 <ol class="step-list">
-<li><b>Izvieto</b> labirintā nejaušās ejās vismaz piecus savācamos materiālus.</li>
-<li><b>Pievieno</b> katram <code>Area2D</code>, kas palielina XP skaitītāju.</li>
-<li><b>Izvieto</b> arī divus šķēršļus, kas atņem mēģinājumam dzīvību.</li>
-<li><b>Pārliecinies</b>, ka objekti nekad nerodas sienā.</li>
-<li><b>Pievieno</b> HUD (spēles informācijas panelis) ar XP, dzīvībām un līmeņa numuru.</li>
-<li><b>Izspēlē</b> līmeni un savāc visus materiālus.</li>
-<li><b>Pārbaudi</b>, ka pēc dzīvību zaudēšanas mēģinājums beidzas.</li>
+<li><b>Atver</b> failu <code>Scripts/MazeGame.cs</code> un pārliecinies, ka metode <code>SpawnItemsAndHazards(int seed)</code> iegūst brīvo šūnu sarakstu <code>List&lt;Vector2I&gt; freeCells = generator.GetFreeFloorCells();</code> un sajauc to, lai priekšmeti <b>nekad</b> neiedzimtu sienā vai virs spēlētāja/izejas.</li>
+<li><b>Tajā pašā <code>Scripts/MazeGame.cs</code> failā</b> izpēti metodi <code>CreateCollectible(Vector2 pos)</code>: tā izveido dzeltenu <code>Area2D</code> mezglu, kas pieskāriena brīdī palielina <code>runXp += 15</code>, atjauno HUD un izdzēš sevi ar <code>QueueFree()</code>.</li>
+<li><b>Izpēti</b> metodi <code>CreateHazard(Vector2 pos)</code>: tā izveido sarkanu <code>Area2D</code> slazdu, kas pieskāriena brīdī samazina <code>lives--</code>, izdzēš slazdu un, ja <code>lives &lt;= 0</code>, izsauc mēģinājuma beigas <code>OnRunFailed()</code>.</li>
+<li><b>Pārbaudi</b> metodi <code>UpdateHud()</code>: tai <code>StatusLabel</code> tekstā skaidri jāparāda abas datu grupas:
+<ul>
+<li><b>Pašreizējais mēģinājums (sesija):</b> <code>Līmenis</code>, <code>Dzīvības (3)</code> un <code>Mēģinājuma XP</code>;</li>
+<li><b>Pastāvīgais meta-progress:</b> <code>Kopējais XP</code>, <code>Rekorda līmenis</code> un <code>Mēģinājumu skaits</code>.</li>
+</ul>
+</li>
+<li><b>Nospied</b> <b>Build</b> un palaid spēli (<code>F5</code>): savāc dažus dzeltenos kristālus (vēro, kā aug <code>Mēģinājuma XP</code>) un uzkāp uz sarkana slazda (vēro, kā samazinās <code>Dzīvības</code>).</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> visi savācamie ir sasniedzami, neviens nav iesprūdis sienā, un HUD rāda pareizus skaitļus.</p>
+<p class="done-when"><b>Gatavs, kad:</b> katrā līmenī brīvajās ejās parādās 5 dzelteni savācamie kristāli un sarkanie slazdi, neviens objekts nav sienā un HUD rāda aktuālos skaitļus.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Pievieno meta-progression un saglabāšanu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Pastāvīgos datus glabā jaunā <code>Scripts/ProgressData.cs</code> klasē. JSON saglabāšanu papildini <code>Scripts/SaveManager.cs</code>; ielādi un mēģinājuma restartu izsauc <code>Scripts/MazeDemo.cs</code>, atiestatot <code>Scripts/Player.cs</code> mēģinājuma datus.</p>
+<p class="task-number">3. uzdevums</p><h2>Pievieno meta-progresu un JSON saglabāšanu ar <code>SaveManager</code></h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Failā <code>Scripts/MazeGame.cs</code> implementē saskarni <code>ISaveable</code> (metodes <code>SaveState()</code> un <code>LoadState(...)</code>) un saslēdz to ar <code>SaveManager</code>.<br>
+2) Pārbaudi saglabāto JSON failu <code>user://slot1.json</code> caur <b>Project → Open User Data Folder</b>.<br>
+3) Kopsavilkumu pieraksti projekta saknes failā <code>README.md</code>.</p>
 
-<p>Beigās tavs progress saglabāsies arī pēc neveiksmīga mēģinājuma.</p>
+<p>Noslēdzošajā solī savienosim 5.1.–5.3. stundā izveidoto <code>SaveManager</code> un <code>ISaveable</code> ar labirinta spēli: kad spēlētājs pabeidz līmeni vai zaudē visas dzīvības, savāktie <code>XP</code> un sasniegtais līmenis tiek saglabāti pastāvīgajā JSON failā <code>user://slot1.json</code>, bet pats mēģinājums var sākties no 1. līmeņa.</p>
 <ol class="step-list">
-<li><b>Sadali</b> datus divās daļās: mēģinājuma dati un pastāvīgie dati.</li>
-<li><b>Pievieno</b> pastāvīgajiem datiem kopējo XP un labāko sasniegto līmeni.</li>
-<li><b>Saglabā</b> tos JSON (JavaScript objektu pieraksts) failā ar 5.3 stundas <code>SaveManager</code>.</li>
-<li><b>Nomet</b> pēc zaudējuma tikai mēģinājuma datus.</li>
-<li><b>Ielādē</b> pastāvīgos datus, palaižot spēli no jauna.</li>
-<li><b>Izspēlē</b> divus mēģinājumus un pārbaudi, ka kopējais XP summējas.</li>
-<li><b>Veic</b> commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi).</li>
+<li><b>Atver</b> failu <code>Scripts/MazeGame.cs</code> un pārliecinies, ka klase implementē <code>ISaveable</code>:
+<pre><code class="language-csharp">public partial class MazeGame : Node2D, ISaveable
+{
+    public string SaveKey =&gt; "meta_progress";
+
+    // Īslaicīgie mēģinājuma (session / run) dati:
+    private int currentLevel = 1;
+    private int lives = 3;
+    private int runXp = 0;
+
+    // Pastāvīgie (meta-progress) dati — tiek saglabāti user://slot1.json:
+    private int totalXp = 0;
+    private int bestLevel = 1;
+    private int runsCount = 0;</code></pre>
+</li>
+<li><b>Pārbaudi</b> metodes <code>SaveState()</code> un <code>LoadState(Dictionary state)</code> failā <code>Scripts/MazeGame.cs</code>: tās eksportē un importē <b>tikai</b> pastāvīgos laukus (<code>"total_xp"</code>, <code>"best_level"</code>, <code>"runs_count"</code>), savukārt metodē <code>_Ready()</code> spēle reģistrējas pie <code>saveManager.RegisterSaveable(this)</code> un izsauc <code>saveManager.Load(1)</code>.</li>
+<li><b>Izpēti</b> metodi <code>OnRunFailed()</code> (kad <code>lives &lt;= 0</code>):
+<ul>
+<li>vispirms tā pieskaita mēģinājumā nopelnīto <code>totalXp += runXp</code>, atjauno <code>bestLevel = Mathf.Max(bestLevel, currentLevel)</code>, palielina <code>runsCount++</code> un izsauc <code>saveManager.Save(1)</code>;</li>
+<li>pēc tam aptur spēlētāju un parāda paziņojumu <code>MĒĢINĀJUMS BEIDZIES! Nospied R jaunam mēģinājumam.</code>;</li>
+<li>nospiežot <code>R</code> (<code>StartNewRun()</code>), tiek atiestatīti tikai mēģinājuma dati (<code>currentLevel = 1; lives = 3; runXp = 0;</code>), bet <code>totalXp</code> un <code>bestLevel</code> saglabājas!</li>
+</ul>
+</li>
+<li><b>Nospied</b> <b>Build</b> un palaid spēli (<code>F5</code>): savāc dažus kristālus, izej uz 2. līmeni, tad uzkāp uz slazdiem līdz <code>0</code> dzīvībām, aizver spēli pilnībā un palaid no jauna (<code>F5</code>) — pārliecinies, ka <code>Kopējais XP</code> un <code>Rekorda līmenis</code> ir saglabājušies no <code>user://slot1.json</code>!</li>
+<li><b>Projekta saknē</b> atver <code>README.md</code> un pieraksti:
+<ul>
+<li>kuri mainīgie tavā spēlē ir īslaicīgie mēģinājuma dati un kuri — pastāvīgais meta-progress;</li>
+<li>kā <code>Flood Fill</code> un <code>GetFreeFloorCells()</code> garantē, ka katrs līmenis ir izspēlējams.</li>
+</ul>
+</li>
 </ol>
-<p><b>Pilna projekta pārskats pārbaudei (<i>Procedural klases labirints</i>):</b> spēlētājs iziet cauri procedurāli ģenerētiem labirintu līmeņiem (sākot ar 3 līmeņiem pamatvariantā un paplašinot līdz 10 līmeņiem ar īpašu izaicinājumu ik 5. līmenī), pa ceļam savāc bonusa materiālus un apiet šķēršļus. Zaudējot dzīvības, konkrētā mēģinājuma (<i>run</i>) līmenis un mēģinājuma dati tiek atiestatīti, savukārt <b>meta-progress</b> (kopējie <code>XP</code> pieredzes punkti, labākais sasniegtais līmenis un papildu uzdevumā izvēlētās spēlētāja klases ar atšķirīgām spējām) saglabājas <code>JSON</code> failā starp sesijām.</p>
-<p class="done-when"><b>Gatavs, kad:</b> pēc zaudējuma un spēles restarta kopējais XP saglabājas, bet mēģinājuma progress sākas no sākuma.</p>
+<p class="done-when"><b>Gatavs, kad:</b> pēc zaudējuma un pilnīga spēles restarta <code>Kopējais XP</code> un <code>Rekorda līmenis</code> tiek ielādēti no <code>user://slot1.json</code>, bet jaunais mēģinājums sākas no 1. līmeņa ar 3 dzīvībām.</p>
+</section>
+<section id="parbaudes"><h2>Pārbaudes pirms iesniegšanas</h2>
+<div class="table-scroll" role="region" aria-label="Projekta pārbaudes pirms iesniegšanas" tabindex="0"><table><thead><tr><th scope="col">Pārbaude</th><th scope="col">Sagaidāmais rezultāts</th></tr></thead><tbody>
+<tr><td>Labirinta ģenerēšana un izejamība (<code>Flood Fill</code>)</td><td>Katrā līmenī un pēc <code>R</code> nospiešanas izveidojas jauns <code>15×15</code> labirints, kurā no starta <code>(1, 1)</code> vienmēr var aiziet līdz zaļajai izejai <code>(13, 13)</code>.</td></tr>
+<tr><td>Priekšmetu un slazdu izvietojums</td><td>Dzeltenie kristāli (<code>+15 XP</code>) un sarkanie slazdi (<code>-1 dzīvība</code>) vienmēr atrodas brīvajās ejās, nekad sienās vai virs starta/izejas.</td></tr>
+<tr><td>Pāreja uz nākamo līmeni</td><td>Sasniedzot zaļo izeju, <code>Līmenis</code> palielinās par <code>1</code>, pieskaitās līmeņa bonuss un uzreiz tiek uzģenerēts nākamais labirints.</td></tr>
+<tr><td>Zaudējums (<code>Dzīvības == 0</code>) un <code>R</code> restarts</td><td>Zaudējot visas 3 dzīvības, mēģinājuma <code>XP</code> pieskaitās <code>Kopējam XP</code>, dati saglabājas <code>user://slot1.json</code>, un <code>R</code> sāk jaunu mēģinājumu no 1. līmeņa.</td></tr>
+<tr><td>Spēles aizvēršana un atkārtota palaišana</td><td>Aizverot un no jauna palaižot spēli (vai ar bojātu JSON failu), pastāvīgais progress tiek droši ielādēts bez avārijas.</td></tr>
+</tbody></table></div>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Pievieno spēlētāja class</summary>
-<p class="task-files"><b>Kur strādāt:</b> Kopīgo kodu turpini <code>Scripts/Player.cs</code>; atvasinātās klases izveido, piemēram, <code>Scripts/FastPlayer.cs</code> un <code>Scripts/ToughPlayer.cs</code>. Izvēlnes kodu raksti <code>Scripts/CharacterMenu.cs</code>, kas piesaistīts <code>Scenes/CharacterMenu.tscn</code> Control saknei; izvēli saglabā ar <code>Scripts/ProgressData.cs</code> un <code>Scripts/SaveManager.cs</code>.</p>
+<summary>Papildu uzdevums — Pievieno spēlētāja lomas izvēli (<code> Ātrais</code> pret <code>Izturīgais</code>)</summary>
+<p class="task-files"><b>Kur strādāt:</b> Pievieno taustiņu <code>1</code> un <code>2</code> pārslēgšanu failā <code>Scripts/MazeGame.cs</code> un saglabā izvēlēto lomu pastāvīgajā JSON vārdnīcā.</p>
 
-<p>Ja pamatdarbs ir gatavs, ļauj izvēlēties varoni ar savu spēju.</p>
+<p>Ja pamatdarbs ir gatavs, ļauj spēlētājam izvēlēties starp divām varoņa klasēm un saglabā izvēli <code>user://slot1.json</code> failā.</p>
 <ol class="step-list">
-<li><b>Izveido</b> base class (bāzes klasi) ar kopīgajām īpašībām.</li>
-<li><b>Izveido</b> divas derived class (bērna klases) ar atšķirīgu ātrumu un dzīvību skaitu.</li>
-<li><b>Pievieno</b> spēles sākumā izvēlni ar abām class.</li>
-<li><b>Saglabā</b> izvēlēto class pastāvīgajos datos.</li>
-<li><b>Izspēlē</b> mēģinājumu ar katru class un salīdzini.</li>
+<li><b>Failā <code>Scripts/MazeGame.cs</code></b> pievieno lauku <code>private string heroClass = "Explorer";</code>: ja izvēlēts <code>"Scout"</code> (taustiņš <code>1</code>), iestati <code>player.Speed = 270.0f</code> un <code>maxLives = 2</code>; ja izvēlēts <code>"Guardian"</code> (taustiņš <code>2</code>), iestati <code>player.Speed = 185.0f</code> un <code>maxLives = 4</code>.</li>
+<li><b>Metodēs <code>SaveState()</code> un <code>LoadState(...)</code></b> saglabā un nolasi arī atslēgu <code>"hero_class"</code>, lai izvēlētā varoņa klase saglabātos arī pēc spēles aizvēršanas.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> abas class jūtas atšķirīgi, un izvēle saglabājas arī pēc spēles restarta.</p>
+<p class="done-when"><b>Gatavs, kad:</b> abas varoņa klases atšķiras ar ātrumu un dzīvību skaitu, un izvēlētā klase saglabājas <code>user://slot1.json</code> failā.</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary>
 <div class="code-example">
+<p>Projektā izmanto 5.3. stundas <code>Scripts/ISaveable.cs</code> un <code>Scripts/SaveManager.cs</code>, 5.4. stundas <code>Scripts/Player.cs</code>, kā arī šos divus noslēguma failus:</p>
+<p><b>1. fails — <code>Scripts/MazeGenerator.cs</code> (ar <code>Flood Fill</code> un <code>GetFreeFloorCells()</code>):</b></p>
 <pre><code class="language-csharp">using Godot;
+using System;
+using System.Collections.Generic;
 
-public partial class GameSession : Node
+public class MazeGenerator
 {
-    private int currentLevel = 1;
-    private Player player;
-    private MazeGenerator generator = new();
+    public const int Width = 15;
+    public const int Height = 15;
 
-    public void StartRun()
+    private readonly int[,] grid = new int[Width, Height];
+
+    public Vector2I StartPos { get; } = new Vector2I(1, 1);
+    public Vector2I ExitPos { get; } = new Vector2I(Width - 2, Height - 2);
+
+    public int GetCell(int x, int y) =&gt; grid[x, y];
+
+    public void GenerateOnce(int seed)
     {
-        generator.Generate((int)Time.GetUnixTimeFromSystem());
-        SpawnPlayer();
-        SpawnObstacles();
-        SpawnBonusItems();
+        Random rng = new Random(seed);
+
+        for (int x = 0; x &lt; Width; x++)
+        {
+            for (int y = 0; y &lt; Height; y++)
+            {
+                grid[x, y] = 1;
+            }
+        }
+
+        int px = StartPos.X;
+        int py = StartPos.Y;
+        grid[px, py] = 0;
+
+        for (int step = 0; step &lt; 220; step++)
+        {
+            int dir = rng.Next(0, 4);
+            if (dir == 0 &amp;&amp; px &gt; 1) px--;
+            else if (dir == 1 &amp;&amp; px &lt; Width - 2) px++;
+            else if (dir == 2 &amp;&amp; py &gt; 1) py--;
+            else if (dir == 3 &amp;&amp; py &lt; Height - 2) py++;
+
+            grid[px, py] = 0;
+        }
+
+        grid[ExitPos.X, ExitPos.Y] = 0;
     }
 
-    public void OnRunFailed()
+    public int GenerateValidMaze(int baseSeed)
     {
-        // Save meta-progress
-        MetaProgress.Instance.AddRun(currentLevel, player.SolvedTasks);
-        MetaProgress.Save();
-        // Remove run save
-        DirAccess.RemoveAbsolute("user://current_run.json");
-        GetTree().ChangeSceneToFile("res://menu.tscn");
+        int attempts = 0;
+        do
+        {
+            GenerateOnce(baseSeed + attempts);
+            attempts++;
+        }
+        while (!IsExitReachable() &amp;&amp; attempts &lt; 100);
+
+        return attempts;
     }
 
-    public void OnLevelComplete()
+    public bool IsExitReachable()
     {
-        SaveRun();  // autosave
-        currentLevel++;
-        if (currentLevel &gt; 10) OnGameWon();
-        else StartNextLevel();
+        bool[,] visited = new bool[Width, Height];
+        FloodFill(StartPos.X, StartPos.Y, visited);
+        return visited[ExitPos.X, ExitPos.Y];
+    }
+
+    private void FloodFill(int x, int y, bool[,] visited)
+    {
+        if (x &lt; 0 || x &gt;= Width || y &lt; 0 || y &gt;= Height) return;
+        if (grid[x, y] != 0 || visited[x, y]) return;
+
+        visited[x, y] = true;
+
+        FloodFill(x + 1, y, visited);
+        FloodFill(x - 1, y, visited);
+        FloodFill(x, y + 1, visited);
+        FloodFill(x, y - 1, visited);
+    }
+
+    public List&lt;Vector2I&gt; GetFreeFloorCells()
+    {
+        List&lt;Vector2I&gt; free = new();
+        for (int x = 0; x &lt; Width; x++)
+        {
+            for (int y = 0; y &lt; Height; y++)
+            {
+                Vector2I pos = new(x, y);
+                if (grid[x, y] == 0 &amp;&amp; pos != StartPos &amp;&amp; pos != ExitPos)
+                {
+                    free.Add(pos);
+                }
+            }
+        }
+        return free;
     }
 }</code></pre>
-<div class="result">Pilnvērtīgs procedural klases labirints: 10 līmeņi, saglabāšana/ielāde, procedural generation, meta-progress, fināla izaicinājums.</div>
+<p><b>2. fails — <code>Scripts/MazeGame.cs</code> (piesaistīts <code>Scenes/MazeGame.tscn</code> saknes mezglam <code>MazeGame</code>):</b></p>
+<pre><code class="language-csharp">using Godot;
+using Godot.Collections;
+using System;
+using System.Collections.Generic;
+
+public partial class MazeGame : Node2D, ISaveable
+{
+    public const int CellSize = 40;
+    public string SaveKey =&gt; "meta_progress";
+
+    // Īslaicīgie sesijas / mēģinājuma (run) dati:
+    private int currentLevel = 1;
+    private int lives = 3;
+    private int runXp = 0;
+    private bool runActive = true;
+
+    // Pastāvīgie (meta-progress) dati — glabājas user://slot1.json:
+    private int totalXp = 0;
+    private int bestLevel = 1;
+    private int runsCount = 0;
+
+    private readonly MazeGenerator generator = new();
+    private Node2D mazeContainer;
+    private Player player;
+    private SaveManager saveManager;
+    private Label statusLabel;
+    private Label messageLabel;
+
+    public override void _Ready()
+    {
+        mazeContainer = GetNodeOrNull&lt;Node2D&gt;("MazeContainer");
+        if (mazeContainer == null)
+        {
+            mazeContainer = new Node2D { Name = "MazeContainer" };
+            AddChild(mazeContainer);
+        }
+
+        player = GetNodeOrNull&lt;Player&gt;("Player");
+        saveManager = GetNodeOrNull&lt;SaveManager&gt;("SaveManager");
+        statusLabel = GetNodeOrNull&lt;Label&gt;("HUD/StatusLabel");
+        messageLabel = GetNodeOrNull&lt;Label&gt;("HUD/MessageLabel");
+
+        if (saveManager != null)
+        {
+            saveManager.RegisterSaveable(this);
+            saveManager.Load(1);
+        }
+
+        StartNewRun();
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Input.IsActionJustPressed("regenerate"))
+        {
+            StartNewRun();
+        }
+    }
+
+    public void StartNewRun()
+    {
+        currentLevel = 1;
+        lives = 3;
+        runXp = 0;
+        runActive = true;
+
+        if (player != null)
+        {
+            player.SetPhysicsProcess(true);
+            player.Modulate = Colors.White;
+        }
+
+        StartLevel();
+        SetMessage("Sācies jauns mēģinājums! Sasniedz zaļo izeju (13, 13).");
+    }
+
+    private void StartLevel()
+    {
+        int seed = (int)Time.GetTicksMsec() + currentLevel * 97;
+        int attempts = generator.GenerateValidMaze(seed);
+
+        BuildMazeVisuals();
+        SpawnExit();
+        SpawnItemsAndHazards(seed);
+
+        if (player != null)
+        {
+            player.GlobalPosition = GridToWorld(generator.StartPos);
+        }
+
+        bestLevel = Math.Max(bestLevel, currentLevel);
+        UpdateHud();
+        GD.Print($"[MazeGame] Līmenis {currentLevel} uzģenerēts ({attempts} mēģinājumi).");
+    }
+
+    private void BuildMazeVisuals()
+    {
+        foreach (Node child in mazeContainer.GetChildren())
+        {
+            child.QueueFree();
+        }
+
+        for (int x = 0; x &lt; MazeGenerator.Width; x++)
+        {
+            for (int y = 0; y &lt; MazeGenerator.Height; y++)
+            {
+                Vector2 topLeft = new(x * CellSize, y * CellSize);
+
+                if (generator.GetCell(x, y) == 1)
+                {
+                    StaticBody2D wall = new()
+                    {
+                        Position = topLeft + new Vector2(CellSize / 2.0f, CellSize / 2.0f)
+                    };
+                    CollisionShape2D shape = new()
+                    {
+                        Shape = new RectangleShape2D { Size = new Vector2(CellSize, CellSize) }
+                    };
+                    wall.AddChild(shape);
+
+                    ColorRect wallRect = new()
+                    {
+                        Size = new Vector2(CellSize - 2, CellSize - 2),
+                        Position = new Vector2(-CellSize / 2.0f + 1, -CellSize / 2.0f + 1),
+                        Color = new Color(0.18f, 0.2f, 0.25f)
+                    };
+                    wall.AddChild(wallRect);
+                    mazeContainer.AddChild(wall);
+                }
+                else
+                {
+                    ColorRect floorRect = new()
+                    {
+                        Position = topLeft,
+                        Size = new Vector2(CellSize - 2, CellSize - 2),
+                        Color = new Color(0.28f, 0.31f, 0.36f)
+                    };
+                    mazeContainer.AddChild(floorRect);
+                }
+            }
+        }
+    }
+
+    private void SpawnExit()
+    {
+        Area2D exitArea = new()
+        {
+            Name = "ExitZone",
+            Position = GridToWorld(generator.ExitPos)
+        };
+        CollisionShape2D col = new()
+        {
+            Shape = new RectangleShape2D { Size = new Vector2(CellSize - 8, CellSize - 8) }
+        };
+        exitArea.AddChild(col);
+
+        ColorRect rect = new()
+        {
+            Size = new Vector2(CellSize - 6, CellSize - 6),
+            Position = new Vector2(-(CellSize - 6) / 2.0f, -(CellSize - 6) / 2.0f),
+            Color = new Color(0.2f, 0.85f, 0.38f)
+        };
+        exitArea.AddChild(rect);
+        exitArea.BodyEntered += OnExitReached;
+        mazeContainer.AddChild(exitArea);
+    }
+
+    private void SpawnItemsAndHazards(int seed)
+    {
+        List&lt;Vector2I&gt; freeCells = generator.GetFreeFloorCells();
+        Random rng = new Random(seed);
+
+        // Sajaucam brīvo šūnu secību (Fisher-Yates shuffle)
+        for (int i = freeCells.Count - 1; i &gt; 0; i--)
+        {
+            int j = rng.Next(0, i + 1);
+            (freeCells[i], freeCells[j]) = (freeCells[j], freeCells[i]);
+        }
+
+        int index = 0;
+        int collectibleCount = Math.Min(5, freeCells.Count);
+        for (int i = 0; i &lt; collectibleCount; i++)
+        {
+            CreateCollectible(GridToWorld(freeCells[index++]));
+        }
+
+        int hazardCount = Math.Min(2 + currentLevel / 2, freeCells.Count - index);
+        for (int i = 0; i &lt; hazardCount; i++)
+        {
+            CreateHazard(GridToWorld(freeCells[index++]));
+        }
+    }
+
+    private void CreateCollectible(Vector2 pos)
+    {
+        Area2D item = new() { Position = pos };
+        CollisionShape2D col = new() { Shape = new CircleShape2D { Radius = 10.0f } };
+        item.AddChild(col);
+
+        ColorRect visual = new()
+        {
+            Size = new Vector2(16, 16),
+            Position = new Vector2(-8, -8),
+            Color = new Color(0.98f, 0.82f, 0.18f) // Dzeltens XP kristāls
+        };
+        item.AddChild(visual);
+
+        item.BodyEntered += body =&gt;
+        {
+            if (!runActive || body is not Player) return;
+            runXp += 15;
+            SetMessage("Savākts materiāls (+15 XP)!");
+            UpdateHud();
+            item.QueueFree();
+        };
+
+        mazeContainer.AddChild(item);
+    }
+
+    private void CreateHazard(Vector2 pos)
+    {
+        Area2D hazard = new() { Position = pos };
+        CollisionShape2D col = new() { Shape = new CircleShape2D { Radius = 11.0f } };
+        hazard.AddChild(col);
+
+        ColorRect visual = new()
+        {
+            Size = new Vector2(20, 20),
+            Position = new Vector2(-10, -10),
+            Color = new Color(0.92f, 0.22f, 0.25f) // Sarkans slazds
+        };
+        hazard.AddChild(visual);
+
+        hazard.BodyEntered += body =&gt;
+        {
+            if (!runActive || body is not Player) return;
+            lives--;
+            SetMessage($"Uzkāpi uz slazda! Atlikušas dzīvības: {lives}");
+            hazard.QueueFree();
+
+            if (lives &lt;= 0)
+            {
+                OnRunFailed();
+            }
+            else
+            {
+                UpdateHud();
+            }
+        };
+
+        mazeContainer.AddChild(hazard);
+    }
+
+    private void OnExitReached(Node2D body)
+    {
+        if (!runActive || body is not Player) return;
+
+        runXp += 25; // Bonuss par līmeņa iziešanu
+        currentLevel++;
+        bestLevel = Math.Max(bestLevel, currentLevel);
+
+        // Saglabājam pastāvīgo progresu starp līmeņiem
+        totalXp += 25;
+        saveManager?.Save(1);
+
+        SetMessage($"Līmenis pabeigts! Pārejam uz {currentLevel}. līmeni (+25 XP).");
+        CallDeferred(nameof(StartLevel));
+    }
+
+    private void OnRunFailed()
+    {
+        runActive = false;
+        if (player != null)
+        {
+            player.SetPhysicsProcess(false);
+            player.Modulate = new Color(0.5f, 0.5f, 0.5f, 0.7f);
+        }
+
+        // Pieskaitām mēģinājuma XP pastāvīgajam progresam un saglabājam JSON failā
+        totalXp += runXp;
+        bestLevel = Math.Max(bestLevel, currentLevel);
+        runsCount++;
+        saveManager?.Save(1);
+
+        UpdateHud();
+        SetMessage($"MĒĢINĀJUMS BEIDZIES {currentLevel}. līmenī!\nKopējais XP saglabāts ({totalXp}). Nospied R jaunam mēģinājumam.");
+    }
+
+    public Dictionary SaveState()
+    {
+        return new Dictionary
+        {
+            ["total_xp"] = totalXp,
+            ["best_level"] = bestLevel,
+            ["runs_count"] = runsCount
+        };
+    }
+
+    public void LoadState(Dictionary state)
+    {
+        if (state.ContainsKey("total_xp")) totalXp = state["total_xp"].AsInt32();
+        if (state.ContainsKey("best_level")) bestLevel = state["best_level"].AsInt32();
+        if (state.ContainsKey("runs_count")) runsCount = state["runs_count"].AsInt32();
+    }
+
+    private void UpdateHud()
+    {
+        if (statusLabel == null) return;
+
+        statusLabel.Text =
+            $"=== MĒĢINĀJUMS (RUN) ===\n" +
+            $"Līmenis: {currentLevel}\n" +
+            $"Dzīvības: {lives} / 3\n" +
+            $"Mēģinājuma XP: {runXp}\n\n" +
+            $"=== META-PROGRESS (JSON) ===\n" +
+            $"Kopējais XP: {totalXp}\n" +
+            $"Rekorda līmenis: {bestLevel}\n" +
+            $"Mēģinājumi: {runsCount}\n\n" +
+            $"[WASD — kustība | R — jauns mēģinājums]";
+    }
+
+    private void SetMessage(string text)
+    {
+        if (messageLabel != null)
+        {
+            messageLabel.Text = text;
+        }
+        GD.Print($"[MazeGame] {text}");
+    }
+
+    private Vector2 GridToWorld(Vector2I cell)
+    {
+        return new Vector2(cell.X * CellSize + CellSize / 2.0f, cell.Y * CellSize + CellSize / 2.0f);
+    }
+}</code></pre>
+<div class="result">Pilnvērtīga procedurālā labirinta spēle ar <code>Random Walk</code> un <code>Flood Fill</code> validāciju, savācamajiem <code>+XP</code> kristāliem, bīstamajiem slazdiem un pastāvīgo meta-progresa saglabāšanu <code>user://slot1.json</code> failā.</div>
 </div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tev ir izspēlējams procedural labirints: katrs līmenis tiek uzģenerēts un pārbaudīts, ka ir izejams, labirintā ir savācamie un šķēršļi, un meta-progression saglabājas JSON failā arī pēc neveiksmīga mēģinājuma.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tev ir izspēlējams procedurālais labirints (<code>Scenes/MazeGame.tscn</code>): katrs līmenis tiek uzģenerēts un pārbaudīts ar <code>Flood Fill</code>, brīvajās ejās ir savācamie materiāli un slazdi, un meta-progress (<code>total_xp</code>, <code>best_level</code>) saglabājas JSON failā arī pēc zaudējuma un spēles restarta.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>Viss projekts ar C# skriptiem, scēnām un projekta failiem.</li>
-<li>README.md ievietota video saite, kurā izej vismaz divus līmeņus un savāc materiālus.</li>
-<li>Saglabātā JSON faila paraugs ar meta-progression datiem.</li>
-<li>README.md: kuri dati tavā spēlē ir mēģinājuma dati un kuri pastāvīgie, un kāpēc.</li>
+<li>Visam Godot projektam ar mapēm <code>Scenes/</code> (<code>MazeGame.tscn</code>) un <code>Scripts/</code> (<code>MazeGenerator.cs</code>, <code>Player.cs</code>, <code>ISaveable.cs</code>, <code>SaveManager.cs</code>, <code>MazeGame.cs</code>).</li>
+<li>Saglabātā JSON faila (<code>slot1.json</code>) paraugam un ekrānuzņēmumam vai video saitei <code>README.md</code> failā, kurā redzami vismaz divi izieti līmeņi un HUD rādītāji.</li>
+<li>Failā <code>README.md</code> skaidrojumam: kuri dati tavā spēlē ir īslaicīgie mēģinājuma dati un kuri — pastāvīgais meta-progress, un kāpēc izejamību pārbauda ar <code>Flood Fill</code>.</li>
 </ul>
-<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē. Pirms iesniegšanas salīdzini savu darbu ar <a href="#vertesana">SLA tabulu</a>.</p>
+</div>
+</section>
+<section id="vertesana" aria-labelledby="vertesanas-virsraksts">
+<h2 id="vertesanas-virsraksts">Vērtēšanas kritēriji (SLA)</h2>
+<p>Snieguma līmeņu apraksts (SLA) attiecas uz 5. tēmas noslēguma projektu: procedurālā labirinta spēli (<code>Scenes/MazeGame.tscn</code>), tās C# skriptiem, JSON saglabāšanas failu un <code>README.md</code> skaidrojumu.</p>
+<div class="table-scroll" role="region" aria-labelledby="vertesanas-virsraksts" tabindex="0">
+<table class="assessment-rubric">
+<caption>5. tēmas noslēguma projekts — Procedurālais labirints ar meta-progresu</caption>
+<thead>
+<tr>
+<th scope="col">Kritērijs</th>
+<th scope="col" class="level-header">Sācis apgūt (1–3)</th>
+<th scope="col" class="level-header">Turpina apgūt (4–6)</th>
+<th scope="col" class="level-header">Apguvis (7–8)</th>
+<th scope="col" class="level-header">Apguvis padziļināti (9–10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">Procedurālā ģenerēšana un izejamības pārbaude<br><small><a href="#uzdevums-1">1. uzdevums</a> · 5.4. stunda</small></th>
+<td>Labirints netiek ģenerēts vai spēlētājs tajā nevar pārvietoties.</td>
+<td>Labirints tiek uzģenerēts, bet gājējs iziet ārpus malām, sienām nav sadursmju vai dažkārt izeja ir nepieejama aiz sienām.</td>
+<td><code>MazeGenerator</code> ar <code>Random Walk</code> izveido <code>15×15</code> režģi, ar <code>Flood Fill</code> (<code>IsExitReachable</code>) garantē, ka izeja <code>(13, 13)</code> ir sasniedzama no starta <code>(1, 1)</code>, un sasniedzot izeju sākas nākamais līmenis.</td>
+<td>Izpildīts “Apguvis”; <code>README.md</code> pamatota <code>seed</code> (sēklas) nozīme un izskaidrots, kā rekursīvā <code>Flood Fill</code> metode atrod savienoto apgabalu.</td>
+</tr>
+<tr>
+<th scope="row">Objektu izvietošana brīvajās šūnās un HUD<br><small><a href="#uzdevums-2">2. uzdevums</a> · <a href="#parbaudes">Pārbaudes</a></small></th>
+<td>Labirintā nav savācamo priekšmetu vai šķēršļu.</td>
+<td>Priekšmeti un šķēršļi parādās, bet dažkārt iedzimst sienās vai virs starta/izejas, vai HUD neatjaunojas.</td>
+<td>Savācamie kristāli (<code>+XP</code>) un slazdi (<code>-1 dzīvība</code>) tiek izvietoti tikai brīvajās ejas šūnās (<code>GetFreeFloorCells()</code>); HUD nepārtraukti rāda gan mēģinājuma, gan meta-progresa datus.</td>
+<td>Izpildīts “Apguvis”; grūtība pieaug līdz ar līmeni un <code>README.md</code> paskaidrots, kāpēc objektus izvieto no filtrēta brīvo šūnu saraksta.</td>
+</tr>
+<tr>
+<th scope="row">JSON saglabāšana, ielāde un kļūdu drošība<br><small><a href="#uzdevums-3">3. uzdevums</a> · 5.1.–5.3. stunda</small></th>
+<td>Spēle nesaglabā vai neielādē datus no <code>user://</code> mapes.</td>
+<td>Dati tiek saglabāti failā, bet trūkstošs vai bojāts JSON fails izraisa avāriju vai netiek izmantota <code>ISaveable</code> saskarne.</td>
+<td><code>SaveManager</code> saglabā un ielādē <code>ISaveable</code> stāvokli <code>user://slot1.json</code> failā ar <code>Json.Stringify</code> un <code>Json.Parse</code>, pārbaudot <code>FileExists</code>, <code>Error.Ok</code> un faila <code>version</code>.</td>
+<td>Izpildīts “Apguvis”; <code>README.md</code> paskaidrota <code>res://</code> un <code>user://</code> atšķirība un kāpēc <code>ISaveable</code> atdala <code>SaveManager</code> no konkrētās spēles klases.</td>
+</tr>
+<tr>
+<th scope="row">Sesijas datu un pastāvīgā meta-progresa nošķiršana<br><small><a href="#uzdevums-3">3. uzdevums</a> · <a href="#parbaudes">Pārbaudes</a></small></th>
+<td>Pēc zaudējuma spēle nereaģē vai pazūd visi dati.</td>
+<td>Zaudējot dzīvības mēģinājums beidzas, bet kopējais <code>XP</code> nesummējas starp mēģinājumiem vai netiek atiestatīts līmenis.</td>
+<td>Zaudējot visas dzīvības, mēģinājuma <code>XP</code> un sasniegtais līmenis vispirms tiek saglabāti pastāvīgajā meta-progresā (<code>total_xp</code>, <code>best_level</code>), un jauns mēģinājums (<code>R</code> vai spēles restarts) sākas no 1. līmeņa, saglabājot meta-progresu.</td>
+<td>Izpildīts “Apguvis”; <code>README.md</code> skaidri pamatots, kāpēc saglabāšana notiek pirms sesijas mainīgo atiestatīšanas, vai izpildīts papildu uzdevums.</td>
+</tr>
+</tbody>
+</table>
 </div>
 </section>
 <section>

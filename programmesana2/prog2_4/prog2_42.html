@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_4/prog2_4main">4. tēma</a> / 4.2</p>
 <h1>4.2 Dictionary (vārdnīca) un Godot Dictionary</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Apgūt asociatīvās data structure (datu struktūras) inventāram un konfigurācijai.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Apgūt asociatīvās data structure (datu struktūras) inventāram un konfigurācijai.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.16. Saliktas data structure</a>
 <a href="/sasnRez">SR 2.4.4. Iegūst un apstrādā datus</a>
@@ -106,125 +106,158 @@ if (iestatijumi.ContainsKey("versija")) GD.Print(iestatijumi["versija"]);</code>
 <p>Iekšējam C# kodam piemērotāks ir <code>System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;</code>, jo tas ir <b>tipdrošs (<code>type-safe</code>)</b> un pieprasa vienotu atslēgas un vērtības tipu. Savukārt <b><code>Godot.Collections.Dictionary</code></b> glabā universālus <code>Variant</code> datus, pieļaujot vienā struktūrā gan tekstus, gan skaitļus — to izvēlas datu apmaiņai ar Godot redaktoru vai saglabāšanai JSON failos.</p>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Izveido inventāru ar Dictionary</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Inventory.cs</code> un piesaisti to Node mezglam scēnā <code>Scenes/InventoryDemo.tscn</code>. <code>using</code> liec faila sākumā, inventory vārdnīcu — klases laukā, bet priekšmetu pievienošanu un izdrukas — metodē <code>_Ready()</code>.</p>
+<p class="task-number">1. uzdevums</p><h2>Izveido inventāru un spēles datus ar Dictionary</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido scēnu <code>Scenes/InventoryDemo.tscn</code> ar saknes mezglu <code>Node</code> (<code>InventoryDemo</code>) un piesaisti tam jaunu skriptu <code>Scripts/Inventory.cs</code>. Bibliotēku <code>using</code> liec <code>Scripts/Inventory.cs</code> sākumā, vārdnīcu <code>inventory</code> — klases <code>Inventory</code> laukā, bet ierakstu pievienošanu un izdrukas — metodē <code>_Ready()</code>.</p>
 
-<p>Beigās priekšmetus varēs atrast pēc nosaukuma, nevis pēc numura.</p>
+<p>Beigās priekšmetu skaitu vai spēles rādītājus varēsi uzreiz atrast pēc teksta atslēgas, nevis meklējot pēc kārtas numura.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> faila sākumā <code class="language-csharp">using System.Collections.Generic;</code>.</li>
-<li><b>Izveido</b> <code class="language-csharp">Dictionary&lt;string, int&gt; inventory = new();</code>.</li>
-<li><b>Pievieno</b> <code class="language-csharp">inventory["Health Potion"] = 5;</code>.</li>
-<li><b>Pievieno</b> vēl divus priekšmetus ar dažādiem daudzumiem.</li>
-<li><b>Izdrukā</b> viena priekšmeta daudzumu pēc nosaukuma.</li>
-<li><b>Uzraksti</b> loop (ciklu) <code class="language-csharp">foreach (var pair in inventory) { ... }</code>, kas izdrukā visu.</li>
-<li><b>Pieraksti</b>, kāpēc uz izdrukas secību nevajag paļauties.</li>
+<li>Godot redaktorā izveido jaunu scēnu ar saknes mezglu <code>Node</code>, pārdēvē to par <code>InventoryDemo</code> un saglabā kā <code>Scenes/InventoryDemo.tscn</code>. Ar <b>Attach Script</b> pievieno tam skriptu <code>Scripts/Inventory.cs</code>.</li>
+<li>Faila <code>Scripts/Inventory.cs</code> pašā sākumā (zem <code>using Godot;</code>) pievieno <code class="language-csharp">using System.Collections.Generic;</code>.</li>
+<li>Klases <code>Inventory</code> iekšienē (pirms metodes <code>_Ready()</code>) deklarē vārdnīcas lauku <code class="language-csharp">private Dictionary&lt;string, int&gt; inventory = new();</code>, lai tas būtu pieejams visās šīs klases metodēs.</li>
+<li>Faila <code>Scripts/Inventory.cs</code> metodē <code>_Ready()</code> pievieno trīs ierakstus: <code class="language-csharp">inventory["Health Potion"] = 5;</code>, <code class="language-csharp">inventory["Mana Potion"] = 3;</code> un <code class="language-csharp">inventory["Ammo Pack"] = 20;</code>.</li>
+<li>Tajā pašā metodē <code>_Ready()</code> izdrukā viena priekšmeta daudzumu pēc atslēgas (<code class="language-csharp">GD.Print("Health Potion: ", inventory["Health Potion"]);</code>) un zem tā ar ciklu <code class="language-csharp">foreach (var pair in inventory)</code> izdrukā visus atslēgu un vērtību pārus.</li>
+<li>Saglabā failu, nospied <b>Build</b> un palaid scēnu ar <b>F6</b>. Pārbaudi <b>Output</b> paneli un <code>README.md</code> pieraksti, kāpēc <code>Dictionary</code> ir paredzēts ātrai piekļuvei pēc atslēgas un kāpēc uz elementu secību tajā nevajag paļauties.</li>
 </ol>
-<pre><code class="language-csharp">Dictionary&lt;string, int&gt; inventory = new();
-inventory["Health Potion"] = 5;
-inventory["Mana Potion"] = 3;</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> izdrukā redzami visi trīs priekšmeti, un tu vari paskaidrot, ka <code>Dictionary</code> ir paredzēts ātrai meklēšanai pēc atslēgas.</p>
+<pre><code class="language-csharp">// Scripts/Inventory.cs — klases lauks un _Ready() sākums:
+private Dictionary&lt;string, int&gt; inventory = new();
+
+public override void _Ready()
+{
+    inventory["Health Potion"] = 5;
+    inventory["Mana Potion"] = 3;
+    inventory["Ammo Pack"] = 20;
+
+    GD.Print("Health Potion: ", inventory["Health Potion"]);
+    foreach (var pair in inventory)
+    {
+        GD.Print(pair.Key, " -&gt; ", pair.Value);
+    }
+}</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> <b>Output</b> panelī redzami visi trīs ieraksti, un tu vari paskaidrot, kāpēc <code>Dictionary</code> atrod vērtību pēc atslēgas.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Pievieno drošu meklēšanu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/Inventory.cs</code>: meklēšanas izmēģinājumus raksti <code>_Ready()</code>, bet <code>GetAmount()</code> pievieno kā atsevišķu klases metodi.</p>
+<p class="task-number">2. uzdevums</p><h2>Pievieno drošu meklēšanu ar TryGetValue</h2>
+<p class="task-files"><b>Kur strādāt:</b> Papildini failu <code>Scripts/Inventory.cs</code>: klases <code>Inventory</code> iekšienē (ārpus <code>_Ready()</code>) pievieno metodi <code>GetAmount(string name)</code>, bet tās izsaukumus un pārbaudes raksti metodē <code>_Ready()</code>.</p>
 
-<p>Beigās neesoša priekšmeta pieprasījums vairs neradīs pārsteigumus.</p>
+<p>Beigās neesoša priekšmeta vai rādītāja pieprasījums neapturēs spēli ar kļūdu.</p>
 <ol class="step-list">
-<li><b>Izdrukā</b> <code class="language-csharp">inventory["Nav taada"]</code> un pieraksti kļūdas ziņojumu.</li>
-<li><b>Izdrukā</b> pēc tam <code class="language-csharp">inventory.Count</code> un pieraksti, vai tas mainījās.</li>
-<li><b>Pieraksti</b>, kāpēc tieša kvadrātiekavu lietošana bez pārbaudes ir bīstama.</li>
-<li><b>Nomaini</b> pārbaudi uz <code class="language-csharp">if (inventory.TryGetValue("Health Potion", out int amount)) { ... }</code>.</li>
-<li><b>Uzraksti</b> method <code class="language-csharp">int GetAmount(string name)</code>, kas atgriež 0, ja priekšmeta nav.</li>
-<li><b>Izsauc</b> to ar esošu un neesošu nosaukumu.</li>
-<li><b>Pārbaudi</b>, ka dictionary izmērs vairs nemainās.</li>
+<li>Faila <code>Scripts/Inventory.cs</code> metodē <code>_Ready()</code> (zem 1. uzdevuma cikla) uz brīdi pievieno rindu <code class="language-csharp">GD.Print(inventory["Nav tada"]);</code> un palaid ar <b>F6</b>. Cilnē <b>Debugger → Errors</b> izlasi kļūdas nosaukumu (<code>KeyNotFoundException</code>), pieraksti to <code>README.md</code> un pēc tam šo kļūdaino rindu izdzēs.</li>
+<li>Metodē <code>_Ready()</code> tās vietā ieraksti drošu pārbaudi ar <code class="language-csharp">if (inventory.TryGetValue("Health Potion", out int amount)) { GD.Print("Atrasts: ", amount); }</code>.</li>
+<li>Klases <code>Inventory</code> iekšienē (ārpus <code>_Ready()</code>, pirms klases pēdējās <code>}</code>) pievieno metodi <code class="language-csharp">public int GetAmount(string name)</code> pēc parauga zemāk — tā ar <code>TryGetValue</code> atgriež priekšmeta skaitu vai <code>0</code>, ja atslēgas vārdnīcā nav.</li>
+<li>Metodē <code>_Ready()</code> izsauc <code>GetAmount("Ammo Pack")</code> (esoša atslēga, jāatgriež <code>20</code>) un <code>GetAmount("Shield")</code> (neesoša atslēga, jāatgriež <code>0</code>), un izdrukā abus rezultātus kopā ar <code>inventory.Count</code>.</li>
+<li>Saglabā failu, nospied <b>Build</b> un <b>F6</b>, un pārliecinies, ka pēc neesošas atslēgas pārbaudes vārdnīcas izmērs <code>inventory.Count</code> nemainās (paliek <code>3</code>).</li>
 </ol>
-<pre><code class="language-csharp">if (inventory.TryGetValue("Health Potion", out int amount))
+<pre><code class="language-csharp">// Scripts/Inventory.cs — drošas nolasīšanas metode klasē:
+public int GetAmount(string name)
 {
-    GD.Print(amount);
-}</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> neesoša atslēga vairs neaptur programmu, bet tava method korekti atgriež 0.</p>
+    if (inventory.TryGetValue(name, out int amount))
+        return amount;
+    return 0;
+}
+
+// Izsaukumi metodē _Ready():
+GD.Print("Ammo Pack skaits: ", GetAmount("Ammo Pack")); // 20
+GD.Print("Shield skaits: ", GetAmount("Shield"));       // 0
+GD.Print("Vārdnīcas Count: ", inventory.Count);         // 3</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> neesoša atslēga vairs neaptur programmu, metode <code>GetAmount()</code> atgriež <code>0</code> un <code>inventory.Count</code> paliek nemainīgs.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums</p><h2>Salīdzini Dictionary ar Godot Dictionary</h2>
-<p class="task-files"><b>Kur strādāt:</b> Godot Dictionary salīdzinājumu pievieno <code>Scripts/Inventory.cs</code> metodei <code>_Ready()</code>. Pēc kompilācijas kļūdas izpētes kļūdaino piešķīrumu izdzēs; secinājumus raksti <code>README.md</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Abu vārdnīcu salīdzinājumu pievieno faila <code>Scripts/Inventory.cs</code> metodes <code>_Ready()</code> beigās. Secinājumus pieraksti <code>README.md</code>.</p>
 
-<p>Beigās tu zināsi, kuru struktūru lietot saziņai ar Godot.</p>
+<p>Beigās tu zināsi, kuru vārdnīcu lietot iekšējiem C# aprēķiniem un kuru — datu saglabāšanai vai saziņai ar Godot.</p>
 <ol class="step-list">
-<li><b>Izveido</b> <code class="language-csharp">Godot.Collections.Dictionary saveData = new();</code>.</li>
-<li><b>Pievieno</b> tam <code class="language-csharp">saveData["player_name"] = "Anna";</code> un <code class="language-csharp">saveData["level"] = 5;</code>.</li>
-<li><b>Izdrukā</b> abas vērtības.</li>
-<li><b>Pieraksti</b>, vai <code>Godot.Collections.Dictionary</code> pieļauj dažādu type (tipu) vērtības vienā struktūrā.</li>
-<li><b>Mēģini</b> līdzīgus datus ielikt <code class="language-csharp">Dictionary&lt;string, int&gt;</code> un izlasi kļūdu.</li>
-<li><b>Pieraksti</b>, kura struktūra derēs saglabāšanai failā.</li>
-<li><b>Izvēlies</b> savam inventāram pareizo variantu un pamato.</li>
+<li>Faila <code>Scripts/Inventory.cs</code> metodes <code>_Ready()</code> beigās izveido Godot vārdnīcu <code class="language-csharp">Godot.Collections.Dictionary saveData = new();</code>.</li>
+<li>Tajā pašā <code>saveData</code> vārdnīcā ievieto gan teksta, gan skaitļa vērtību: <code class="language-csharp">saveData["player_name"] = "Anna";</code> un <code class="language-csharp">saveData["level"] = 5;</code>, un ar <code>ContainsKey</code> pārbaudi izdrukā abas vērtības.</li>
+<li>Zem tā uz brīdi pamēģini C# vārdnīcai <code>inventory</code> (kas deklarēta kā <code>Dictionary&lt;string, int&gt;</code>) piešķirt tekstu <code class="language-csharp">inventory["player_name"] = "Anna";</code>. Nospied <b>Build</b>, izlasi kompilatora kļūdu un pēc tam šo rindu izdzēs.</li>
+<li>Saglabā failu, nospied <b>Build</b> un <b>F6</b>, lai pārliecinātos, ka viss <code>Scripts/Inventory.cs</code> kods izpildās bez kļūdām.</li>
+<li>Failā <code>README.md</code> pieraksti: kāpēc tieša kvadrātiekavu lasīšana ar neesošu atslēgu ir bīstama, kāpēc inventāra un viļņu statistikas skaitļiem C# kodā izvēlas <code>Dictionary&lt;string, int&gt;</code> un kad noder <code>Godot.Collections.Dictionary</code>.</li>
 </ol>
-<pre><code class="language-csharp">Godot.Collections.Dictionary inv = new();
-inv["coins"] = 100;
-inv["arrows"] = 25;
-if (inv.ContainsKey("coins")) GD.Print(inv["coins"]);</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> <code>Godot.Collections.Dictionary</code> pieņem dažādus type vienā struktūrā, bet <code>Dictionary&lt;string, int&gt;</code> prasa vienu vērtības type.</p>
+<pre><code class="language-csharp">// Scripts/Inventory.cs metodē _Ready():
+Godot.Collections.Dictionary saveData = new();
+saveData["player_name"] = "Anna";
+saveData["level"] = 5;
+
+if (saveData.ContainsKey("player_name"))
+{
+    GD.Print("Spēlētājs: ", saveData["player_name"], ", līmenis: ", saveData["level"]);
+}</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> <code>Godot.Collections.Dictionary</code> izdrukā dažādu tipu vērtības, un <code>README.md</code> ir pamatota atšķirība starp abām vārdnīcām.</p>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Izmēģini SortedDictionary</summary>
-<p class="task-files"><b>Kur strādāt:</b> SortedDictionary izveidi un izdrukas pievieno <code>Scripts/Inventory.cs</code> metodei <code>_Ready()</code>; salīdzinājumu raksti <code>README.md</code>.</p>
+<summary>Papildu uzdevums — Izmēģini SortedDictionary</summary>
+<p class="task-files"><b>Kur strādāt:</b> <code>SortedDictionary&lt;string, int&gt;</code> izveidi un ciklu pievieno faila <code>Scripts/Inventory.cs</code> metodes <code>_Ready()</code> beigās; salīdzinājumu pieraksti <code>README.md</code>.</p>
 
-<p>Ja pamatdarbs ir gatavs, salīdzini ātru meklēšanu ar sakārtotu izdruku.</p>
+<p>Ja pamatdarbs ir gatavs, salīdzini parasto <code>Dictionary</code> ar automātiski sakārtotu <code>SortedDictionary</code>.</p>
 <ol class="step-list">
-<li><b>Izveido</b> to pašu inventāru ar <code class="language-csharp">SortedDictionary&lt;string, int&gt;</code>.</li>
-<li><b>Izdrukā</b> to loop un salīdzini secību ar <code>Dictionary&lt;string, int&gt;</code>.</li>
-<li><b>Pieraksti</b>, kura struktūra izdrukā atslēgas sakārtoti.</li>
-<li><b>Pieraksti</b>, kura struktūra parasti ir piemērotāka vienkāršai ātrai meklēšanai.</li>
+<li>Faila <code>Scripts/Inventory.cs</code> metodes <code>_Ready()</code> beigās izveido <code class="language-csharp">SortedDictionary&lt;string, int&gt; sortedInv = new(inventory);</code>.</li>
+<li>Ar ciklu <code class="language-csharp">foreach (var pair in sortedInv)</code> izdrukā visas atslēgas un vērtības un salīdzini secību ar parasto <code>inventory</code> vārdnīcu.</li>
+<li>Failā <code>README.md</code> pieraksti, kura struktūra vienmēr kārto atslēgas alfabētiski un kura ir ātrāka ikdienas meklēšanai spēles ciklā.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> <code>SortedDictionary</code> (sakārtota vārdnīca) izdrukā atslēgas alfabētiski, bet parastais <code>Dictionary</code> tiek lietots ikdienas ātrai piekļuvei.</p>
+<p class="done-when"><b>Gatavs, kad:</b> <code>SortedDictionary</code> izdrukā atslēgas alfabētiskā secībā (<code>Ammo Pack</code>, <code>Health Potion</code>, <code>Mana Potion</code>).</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
-<div class="code-example">
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary>
+<p>Šis ir pilnais <code>Scripts/Inventory.cs</code> fails pēc visu trīs pamatuzdevumu izpildes.</p>
+<h3>Scripts/Inventory.cs</h3>
 <pre><code class="language-csharp">using Godot;
 using System.Collections.Generic;
 
-public class PlayerInventory
+public partial class Inventory : Node
 {
-    private readonly Dictionary&lt;string, int&gt; inventory = new();
+    private Dictionary&lt;string, int&gt; inventory = new();
 
-    public void AddItem(string name, int amount = 1)
+    public override void _Ready()
     {
-        inventory.TryGetValue(name, out int current);
-        inventory[name] = current + amount;
-        GD.Print("+", amount, " ", name);
-    }
+        // 1. uzdevums: pievieno ierakstus vārdnīcai un izdrukā tos
+        inventory["Health Potion"] = 5;
+        inventory["Mana Potion"] = 3;
+        inventory["Ammo Pack"] = 20;
 
-    public bool UseItem(string name)
-    {
-        if (!inventory.TryGetValue(name, out int count) || count &lt;= 0)
+        GD.Print("Health Potion: ", inventory["Health Potion"]);
+        foreach (var pair in inventory)
         {
-            GD.Print("Nav ", name);
-            return false;
+            GD.Print(pair.Key, " -&gt; ", pair.Value);
         }
 
-        inventory[name] = count - 1;
-        return true;
+        // 2. uzdevums: droša meklēšana ar TryGetValue un GetAmount()
+        if (inventory.TryGetValue("Health Potion", out int amount))
+        {
+            GD.Print("Atrasts Health Potion: ", amount);
+        }
+
+        GD.Print("Ammo Pack skaits: ", GetAmount("Ammo Pack"));
+        GD.Print("Shield skaits: ", GetAmount("Shield"));
+        GD.Print("Vārdnīcas Count: ", inventory.Count);
+
+        // 3. uzdevums: Godot.Collections.Dictionary dažādu tipu datiem
+        Godot.Collections.Dictionary saveData = new();
+        saveData["player_name"] = "Anna";
+        saveData["level"] = 5;
+
+        if (saveData.ContainsKey("player_name"))
+        {
+            GD.Print("Spēlētājs: ", saveData["player_name"],
+                ", līmenis: ", saveData["level"]);
+        }
     }
 
-    public void PrintInventory()
+    public int GetAmount(string name)
     {
-        foreach ((string name, int count) in inventory)
-        {
-            GD.Print(name, ": ", count);
-        }
+        if (inventory.TryGetValue(name, out int amount))
+            return amount;
+        return 0;
     }
 }</code></pre>
-<div class="result">Inventārs rāda: Health Potion: 5, Mana Potion: 3, Sword: 1; pēc lietošanas Health Potion: 4.</div>
-</div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tu proti C# izveidot <code>Dictionary</code> inventāru, droši meklēt tajā priekšmetus un izskaidrot, kad jālieto Godot <code>Dictionary</code>.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tu proti C# izveidot <code>Dictionary</code> vārdnīcu, droši meklēt tajā vērtības ar <code>TryGetValue</code> un izskaidrot, kad jālieto <code>Godot.Collections.Dictionary</code>.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>C# fails ar inventāru un <code>GetAmount</code> method.</li>
-<li>Ekrānuzņēmums, kurā redzams, ka pēc neesoša priekšmeta pieprasījuma dictionary izmērs nemainās.</li>
-<li>README.md: kāpēc kvadrātiekavas ar neesošu atslēgu ir bīstamas un kad lieto <code>Godot.Collections.Dictionary</code>.</li>
+<li>Fails <code>Scripts/Inventory.cs</code> ar <code>inventory</code> vārdnīcu un <code>GetAmount()</code> metodi, kā arī scēna <code>Scenes/InventoryDemo.tscn</code>.</li>
+<li>Ekrānuzņēmums ar <b>Output</b> paneli, kurā redzams, ka pēc neesoša priekšmeta pieprasījuma vārdnīcas <code>Count</code> nemainās.</li>
+<li><code>README.md</code>: kāpēc kvadrātiekavas ar neesošu atslēgu ir bīstamas un kad lieto <code>Godot.Collections.Dictionary</code>.</li>
 </ul>
 <p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>

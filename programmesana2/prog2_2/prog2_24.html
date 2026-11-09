@@ -56,7 +56,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_2/prog2_2main">2. tēma</a> / 2.4</p>
 <h1>2.4 Platformas un savācamie priekšmeti</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveido grīdu, trīs platformas un priekšmetus, kas pazūd, kad varonis tiem pieskaras.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Izveido grīdu, trīs platformas un priekšmetus, kas pazūd, kad varonis tiem pieskaras.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.14. Vadības struktūras</a>
 <a href="/sasnRez">SR 2.4.7. UI (lietotāja saskarne)</a>
@@ -78,8 +78,8 @@ DurvjuSensors (Area2D)  → Layer: 3, Mask: 2, Monitoring: ieslēgts (tikai pama
 └── Izskats (Polygon2D) → zonas vizuālais marķieris</code></pre>
 </div>
 <div class="logic-box"><h3>Notikumu signāls <code>BodyEntered</code>, tipa pārbaude un <code>QueueFree()</code></h3>
-<p>Kad saderīga slāņa fizikas ķermenis ieiet <code>Area2D</code> zonā, zona izstaro signālu <code>BodyEntered</code>. C# skriptā apstrādes metodi šim notikumam pieslēdz ar pierakstu <code>BodyEntered += ApstradesMetode;</code> metodē <code>_Ready()</code> — tas darbojas kā automātisks paziņojums notikuma brīdī, nevis nepārtraukta pārbaude katrā kadrā.</p>
-<p>Tā kā parametrs saņem vispārīgu <code>Node2D</code> objektu, izteiksme <code>body is not KonkretsTips mainigais</code> droši atsijā svešus objektus un piešķir precīzu tipu tālākai metožu izsaukšanai. Lai objektu noņemtu no scēnas, lieto <code>QueueFree()</code> — tā droši izdzēš mezglu tekošā fizikas soļa beigās, bet papildu <code>bool</code> karodziņš novērš viena notikuma dubultu nostrādāšanu vienā kadrā:</p>
+<p>Kad saderīga slāņa fizikas ķermenis ieiet <code>Area2D</code> zonā, zona izstaro signālu <code>BodyEntered</code>. C# skriptā apstrādes metodi šim notikumam pieslēdz ar pierakstu <code>BodyEntered += ApstradesMetode;</code> metodē <code>_Ready()</code> - tas darbojas kā automātisks paziņojums notikuma brīdī, nevis nepārtraukta pārbaude katrā kadrā.</p>
+<p>Tā kā parametrs saņem vispārīgu <code>Node2D</code> objektu, izteiksme <code>body is not KonkretsTips mainigais</code> droši atsijā svešus objektus un piešķir precīzu tipu tālākai metožu izsaukšanai. Lai objektu noņemtu no scēnas, lieto <code>QueueFree()</code> - tā droši izdzēš mezglu tekošā fizikas soļa beigās, bet papildu <code>bool</code> karodziņš novērš viena notikuma dubultu nostrādāšanu vienā kadrā:</p>
 <pre><code class="language-csharp">public partial class Kontrolpunkts : Area2D
 {
     private bool irApstradats = false;
@@ -101,43 +101,62 @@ DurvjuSensors (Area2D)  → Layer: 3, Mask: 2, Monitoring: ieslēgts (tikai pama
 }</code></pre>
 </div>
 <div class="logic-box"><h3>Kopīgoti formas resursi un <code>Make Unique</code></h3>
-<p>Dublējot mezglu redaktorā, jaunā kopija bieži saglabā atsauci uz to pašu iekšējo <code>Shape</code> resursu — līdzīgi kā divi dokumenti, kas piesaistīti vienai kopīgai veidnei. Ja vienai kopijai jāmaina sadursmes formas izmērs, neietekmējot pārējos eksemplārus, šo resursu vispirms atdala kā neatkarīgu (<b>Make Unique</b>).</p>
+<p>Dublējot mezglu redaktorā, jaunā kopija bieži saglabā atsauci uz to pašu iekšējo <code>Shape</code> resursu - līdzīgi kā divi dokumenti, kas piesaistīti vienai kopīgai veidnei. Ja vienai kopijai jāmaina sadursmes formas izmērs, neietekmējot pārējos eksemplārus, šo resursu vispirms atdala kā neatkarīgu (<b>Make Unique</b>).</p>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p>
 <h2>Uzbūvē grīdu un trīs sasniedzamas platformas</h2>
-<p class="task-files"><b>Kur strādāt:</b> Grīdu un platformas veido <code>Scenes/Level1.tscn</code> Godot redaktorā.</p>
+<p class="task-files"><b>Kur strādāt:</b> Grīdu (<code>Ground</code>) un trīs platformas (<code>Platform1</code>, <code>Platform2</code>, <code>Platform3</code>) veido scēnā <code>Scenes/Level1.tscn</code> tieši zem saknes mezgla <code>Level1</code>.</p>
+<p><b>Scēnas <code>Scenes/Level1.tscn</code> struktūra 1. uzdevumā:</b></p>
+<pre><code>Level1 (Node2D)
+├── Player (ievilkts Scenes/Player.tscn, Position: (80, 570), Layer: 2, Mask: 1)
+├── Ground (StaticBody2D, Position: (640, 660), Layer: 1, Mask: —)
+│   ├── CollisionShape2D (RectangleShape2D, Size: (1280, 40))
+│   └── Visual (Polygon2D, punkti: (-640,-20), (640,-20), (640,20), (-640,20))
+├── Platform1 (StaticBody2D, Position: (280, 560), Layer: 1, Mask: —)
+│   ├── CollisionShape2D (RectangleShape2D, Size: (160, 20))
+│   └── Visual (Polygon2D, punkti: (-80,-10), (80,-10), (80,10), (-80,10))
+├── Platform2 (StaticBody2D, Position: (480, 470), Layer: 1, Mask: —)
+│   ├── CollisionShape2D (RectangleShape2D, Size: (160, 20))
+│   └── Visual (Polygon2D)
+└── Platform3 (StaticBody2D, Position: (680, 380), Layer: 1, Mask: —)
+    ├── CollisionShape2D (RectangleShape2D, Size: (160, 20))
+    └── Visual (Polygon2D)</code></pre>
 
-<ol class="step-list"><li><b>FileSystem → Scenes</b> ar dubultklikšķi atver <code>Level1.tscn</code>. Scene panelī atlasi <code>Level1</code>, spied <b>+</b>, meklē <code>StaticBody2D</code> un spied <b>Create</b>. Ar <b>F2</b> nosauc to <code>Ground</code>. Inspector sadaļā <b>Transform → Position</b> ievadi <code>(640,660)</code>.</li>
-<li>Atlasi <code>Ground</code> un ar <b>+</b> pievieno <code>CollisionShape2D</code>. Inspector laukā <b>Shape</b> izvēlies <b>New RectangleShape2D (jauna 2D taisnstūra forma)</b>. Klikšķini uz izveidotās formas un laukā <b>Size</b> ievadi <code>(1280,40)</code>. Pašam CollisionShape2D atstāj <b>Position</b> = <code>(0,0)</code>.</li>
-<li>Atkal atlasi <code>Ground</code> un ar <b>+</b> pievieno <code>Polygon2D</code> (2D daudzstūris), nosauc to <code>Visual</code>. Inspector sadaļā <b>Data → Polygon</b> ievadi četrus punktus: <code>(-640,-20)</code>, <code>(640,-20)</code>, <code>(640,20)</code>, <code>(-640,20)</code>. Laukā <b>Color</b> izvēlies redzamu krāsu.</li>
-<li>Atlasi <code>Level1</code> un tāpat izveido otru <code>StaticBody2D</code> ar nosaukumu <code>Platform1</code>. Tā <b>Position</b> = <code>(280,560)</code>, <b>Scale</b> = <code>(1,1)</code>. Pievieno CollisionShape2D ar taisnstūra <b>Size</b> = <code>(160,20)</code> un Visual ar punktiem <code>(-80,-10)</code>, <code>(80,-10)</code>, <code>(80,10)</code>, <code>(-80,10)</code>.</li>
-<li>Scene panelī ar labo peles pogu uz <code>Platform1</code> → <b>Duplicate</b>. Kopiju nosauc <code>Platform2</code> un iestati <b>Position</b> = <code>(480,470)</code>. Izveido vēl vienu kopiju <code>Platform3</code> ar <b>Position</b> = <code>(680,380)</code>.</li>
-<li>Pēc kārtas atlasi grīdu, katru platformu un Player. Inspector sadaļā <b>Collision</b> atzīmē numurētos kvadrātiņus <b>Layer</b> un <b>Mask</b> pēc tabulas zemāk (pārējos izslēdz). Saglabā un nospied <b>F5</b>. Ar S mēģini iet grīdā, ar D — platformas sānos: varonim jāapstājas.</li>
+<ol class="step-list"><li><b>Izveido <code>Ground</code> scēnā <code>Scenes/Level1.tscn</code>:</b> <b>FileSystem → Scenes</b> ar dubultklikšķi atver <code>Level1.tscn</code>. <b>Scene</b> panelī atlasi saknes mezglu <code>Level1</code>, spied <b>+</b>, meklē <code>StaticBody2D</code> un spied <b>Create</b>. Ar <b>F2</b> pārdēvē to par <code>Ground</code> un <b>Inspector → Transform → Position</b> iestati <code>(640, 660)</code>.</li>
+<li><b>Pievieno sadursmes formu zem <code>Ground</code>:</b> <b>Scene</b> panelī atlasi <code>Ground</code> un ar <b>+</b> pievieno <code>CollisionShape2D</code>. <b>Inspector</b> laukā <b>Shape</b> izvēlies <b>New RectangleShape2D</b>, noklikšķini uz izveidotās formas un iestati <b>Size</b> = <code>(1280, 40)</code> (pašam <code>CollisionShape2D</code> atstāj <b>Position</b> = <code>(0, 0)</code>).</li>
+<li><b>Pievieno <code>Visual</code> zem <code>Ground</code>:</b> atkal atlasi <code>Ground</code> (nevis <code>CollisionShape2D</code>!) un ar <b>+</b> pievieno <code>Polygon2D</code> ar nosaukumu <code>Visual</code>. <b>Inspector</b> sadaļā <b>Data → Polygon</b> ievadi 4 punktus: <code>(-640, -20)</code>, <code>(640, -20)</code>, <code>(640, 20)</code>, <code>(-640, 20)</code> un izvēlies redzamu krāsu laukā <b>Color</b>.</li>
+<li><b>Izveido <code>Platform1</code> zem <code>Level1</code>:</b> <b>Scene</b> panelī atlasi sakni <code>Level1</code> un izveido jaunu <code>StaticBody2D</code> ar nosaukumu <code>Platform1</code> (<b>Position</b> = <code>(280, 560)</code>, <b>Scale</b> = <code>(1, 1)</code>). Zem <code>Platform1</code> pievieno <code>CollisionShape2D</code> ar taisnstūra <b>Size</b> = <code>(160, 20)</code> un <code>Visual</code> (<code>Polygon2D</code>) ar punktiem <code>(-80, -10)</code>, <code>(80, -10)</code>, <code>(80, 10)</code>, <code>(-80, 10)</code>.</li>
+<li><b>Dublē <code>Platform2</code> un <code>Platform3</code> scēnā <code>Scenes/Level1.tscn</code>:</b> <b>Scene</b> panelī ar labo peles pogu klikšķini uz <code>Platform1</code> → <b>Duplicate (Ctrl+D)</b>. Kopiju pārdēvē par <code>Platform2</code> un iestati <b>Position</b> = <code>(480, 470)</code>. Izveido vēl vienu kopiju <code>Platform3</code> ar <b>Position</b> = <code>(680, 380)</code>.</li>
+<li><b>Pārbaudi <code>Collision Layer</code> un <code>Mask</code> scēnā <code>Scenes/Level1.tscn</code>:</b> pēc kārtas atlasi <code>Ground</code>, <code>Platform1</code>, <code>Platform2</code>, <code>Platform3</code> un <code>Player</code>, un <b>Inspector → Collision</b> iestati <b>Layer</b> un <b>Mask</b> pēc tabulas zemāk. Saglabā scēnu (<b>Ctrl+S</b>), nospied <b>F5</b> un ar <b>W/A/S/D</b> pārbaudi, ka varonis atduras pret grīdu un platformām.</li>
 </ol>
 <div class="table-scroll" role="region" aria-label="Sadursme iestatījumi" tabindex="0"><table>
 <thead><tr><th scope="col">Ko atlasi Scene panelī</th><th scope="col">Slānis (Layer)</th><th scope="col">Maska (Mask)</th></tr></thead>
-<tbody><tr><td>Ground, Platform1, Platform2, Platform3</td><td>tikai 1</td><td>neviens</td></tr>
-<tr><td>Player</td><td>tikai 2</td><td>tikai 1</td></tr>
-<tr><td>Pickup; vēlāk arī Finish un Hazard</td><td>tikai 3</td><td>tikai 2</td></tr></tbody>
+<tbody><tr><td><code>Ground</code>, <code>Platform1</code>, <code>Platform2</code>, <code>Platform3</code></td><td>tikai <b>1</b></td><td>neviens (visi izslēgti)</td></tr>
+<tr><td><code>Player</code></td><td>tikai <b>2</b></td><td>tikai <b>1</b></td></tr>
+<tr><td><code>Pickup</code> (2. uzdevumā); vēlāk arī <code>Finish</code> un <code>Hazard</code></td><td>tikai <b>3</b></td><td>tikai <b>2</b></td></tr></tbody>
 </table></div>
-<p><b>Atceries 2. uzdevumam:</b> savācamajam priekšmetam (<code>Pickup</code>) Inspector panelī jābūt ieslēgtam arī <b>Monitoring</b>, lai tas pamanītu varoni.</p>
-<p><b>Ja maini kopijas izmēru:</b> atlasi tās CollisionShape2D. Pie Shape atver izvēlni un spied <b>Make Unique</b>, tad maini Izmērs. Tā pārējo kopiju formas paliks iepriekšējā izmērā. Pielāgo arī Visual punktus.</p>
-<p class="done-when"><b>Gatavs, kad:</b> varonis apstājas pie šķēršļiem un līmenī ir redzama grīda un trīs platformas.</p>
+<p><b>Atceries 2. uzdevumam:</b> savācamajam priekšmetam (<code>Pickup</code>) <b>Inspector</b> panelī jābūt ieslēgtam arī <b>Monitoring</b>, lai tas pamanītu varoni.</p>
+<p><b>Ja maini vienas kopijas izmēru:</b> atlasi tās <code>CollisionShape2D</code>, pie <b>Shape</b> atver izvēlni un spied <b>Make Unique</b>, un tikai tad maini <b>Size</b> (citādi mainīsies visu kopiju sadursmes forma). Pielāgo arī attiecīgā <code>Visual</code> punktus.</p>
+<p class="done-when"><b>Gatavs, kad:</b> scēnā <code>Scenes/Level1.tscn</code> ir redzama grīda un trīs platformas, un varonis fiziski apstājas pie tām.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p>
 <h2>Izveido un savāc pirmo monētu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scenes/Pickup.tscn</code> un <code>Scripts/Pickup.cs</code>. Doto pilno kodu ieraksti skriptā un piesaisti to Pickup saknei; monētas eksemplāru pievieno <code>Scenes/Level1.tscn</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Vispirms izveido atsevišķu priekšmeta scēnu <code>Scenes/Pickup.tscn</code> un tai piesaistītu skriptu <code>Scripts/Pickup.cs</code>. Pēc tam atver <code>Scenes/Level1.tscn</code> un ievieto tajā pirmo monētas eksemplāru <code>Coin1</code>.</p>
+<p><b>Priekšmeta scēnas <code>Scenes/Pickup.tscn</code> mezglu koks:</b></p>
+<pre><code>Pickup (Area2D, skripts: Scripts/Pickup.cs, Layer: 3, Mask: 2, Monitoring: On)
+├── CollisionShape2D (CircleShape2D, Radius: 12)
+└── Visual (Polygon2D - rombs: (0,-12), (12,0), (0,12), (-12,0))</code></pre>
 
-<ol class="step-list"><li>Izvēlies <b>Scene → New Scene → Other Node</b>, meklē <code>Area2D</code> un spied <b>Create</b>. Nosauc to <code>Pickup</code> un saglabā <code>Scenes/Pickup.tscn</code>.</li>
-<li>Atlasi <code>Pickup</code> un ar <b>+</b> pievieno <code>CollisionShape2D</code>. Inspector laukā <b>Shape</b> izvēlies <b>New CircleShape2D (jauna 2D apļa forma)</b>. Klikšķini uz izveidotās formas un iestati <b>Radius</b> = <code>12</code>.</li>
-<li>Atkal atlasi <code>Pickup</code> un pievieno <code>Polygon2D</code> ar nosaukumu <code>Visual</code>. Sadaļā <b>Data → Polygon</b> ievadi četrus punktus: <code>(0,-12)</code>, <code>(12,0)</code>, <code>(0,12)</code>, <code>(-12,0)</code>. Laukā <b>Color</b> izvēlies dzeltenu krāsu.</li>
-<li>Atlasi <code>Pickup</code>. Inspector sadaļā <b>Collision</b> ieslēdz tikai <b>Layer 3</b> un <b>Mask 2</b>. Pārbaudi, ka <b>Monitoring</b> ir ieslēgts.</li>
-<li>Ar labo peles pogu uz <code>Pickup</code> → <b>Attach Script</b>. Izvēlies <b>C#</b>, ceļu <code>res://Scripts/Pickup.cs</code> un spied <b>Create</b>. Aizstāj faila saturu ar kodu zemāk. Tas jau apstrādā pieskaršanos; Godot Signals (signāli) panelī nekas papildus nav jāsavieno.</li>
-<li>Saglabā failu un scēnu, nospied <b>Build</b>. Atver <code>Level1</code> cilni. No FileSystem ievelc <code>Pickup.tscn</code> uz <code>Level1</code> Scene panelī. Pārdēvē pievienoto objektu par <code>Coin1</code>. Inspector iestati <b>Position</b> = <code>(150,600)</code> un laukā <b>Type</b> izvēlies <b>Coin</b>.</li>
-<li>Saglabā, nospied <b>F5</b> un pieved varoni pie monētas. Tai jāpazūd. Apakšējā <b>Output</b> panelī jāparādās 1 punktam. Atgriezies tajā pašā vietā: otru punktu tā nedod.</li>
+<ol class="step-list"><li><b>Izveido jaunu scēnu <code>Scenes/Pickup.tscn</code>:</b> izvēlies <b>Scene → New Scene → Other Node</b>, meklē <code>Area2D</code> un spied <b>Create</b>. Pārdēvē saknes mezglu par <code>Pickup</code> un ar <b>Ctrl+S</b> saglabā kā <code>Scenes/Pickup.tscn</code>.</li>
+<li><b>Scēnā <code>Scenes/Pickup.tscn</code> pievieno <code>CollisionShape2D</code>:</b> atlasi <code>Pickup</code> un ar <b>+</b> pievieno <code>CollisionShape2D</code>. <b>Inspector</b> laukā <b>Shape</b> izvēlies <b>New CircleShape2D</b>, noklikšķini uz apļa formas un iestati <b>Radius</b> = <code>12</code>.</li>
+<li><b>Scēnā <code>Scenes/Pickup.tscn</code> pievieno <code>Visual</code>:</b> atkal atlasi <code>Pickup</code> (nevis <code>CollisionShape2D</code>!) un ar <b>+</b> pievieno <code>Polygon2D</code> ar nosaukumu <code>Visual</code>. <b>Inspector → Data → Polygon</b> ievadi 4 punktus (rombu): <code>(0, -12)</code>, <code>(12, 0)</code>, <code>(0, 12)</code>, <code>(-12, 0)</code> un laukā <b>Color</b> izvēlies dzeltenu krāsu.</li>
+<li><b>Scēnā <code>Scenes/Pickup.tscn</code> iestati slāņus:</b> atlasi saknes mezglu <code>Pickup</code>. <b>Inspector → Collision</b> ieslēdz tikai <b>Layer 3</b> un <b>Mask 2</b> (izslēdz Layer 1 un Mask 1) un pārliecinies, ka <b>Monitoring</b> ir ieslēgts (<b>On</b>).</li>
+<li><b>Izveido skriptu <code>Scripts/Pickup.cs</code>:</b> scēnā <code>Scenes/Pickup.tscn</code> ar labo peles pogu klikšķini uz <code>Pickup</code> → <b>Attach Script</b>. Izvēlies <b>Language: C#</b>, ceļu <code>res://Scripts/Pickup.cs</code> un spied <b>Create</b>. Aizstāj <code>Scripts/Pickup.cs</code> saturu ar pilno kodu zemāk (signāls <code>BodyEntered += OnBodyEntered;</code> tiek pieslēgts kodā, tāpēc Node panelī nekas papildus nav jāspiež). Saglabā skriptu un scēnu <code>Pickup.tscn</code>, tad nospied <b>Build</b>.</li>
+<li><b>Ievieto <code>Coin1</code> scēnā <code>Scenes/Level1.tscn</code>:</b> pārslēdzies uz cilni <code>Level1.tscn</code>. No <b>FileSystem</b> paneļa ievelc <code>Scenes/Pickup.tscn</code> uz saknes mezgla <code>Level1</code>. Pārdēvē izveidoto eksemplāru par <code>Coin1</code>, tā <b>Inspector → Transform → Position</b> iestati <code>(150, 600)</code> un laukā <b>Type</b> izvēlies <b>Coin</b>.</li>
+<li><b>Pārbaudi savākšanu:</b> saglabā <code>Scenes/Level1.tscn</code>, nospied <b>F5</b> un aizved varoni līdz <code>Coin1</code>. Monētai jāpazūd, un apakšējā <b>Output</b> panelī jāparādās <code>Punkti: 1; atslēga: False</code>.</li>
 </ol>
-<details class="course-help"><summary>2.4 Pickup.cs — pilns fails salīdzināšanai</summary>
-<p><a href="platformer/Scripts/Pickup.cs" download>Lejupielādēt Pickup.cs</a>. Atver esošo tāda paša nosaukuma failu un aizstāj tā saturu ar šo kodu.</p>
+<details class="course-help" id="pilnais-piemers"><summary>2.4 Pickup.cs - pilns fails salīdzināšanai</summary>
+<p><a href="platformer/Scripts/Pickup.cs" download>Lejupielādēt Pickup.cs</a>. Atver failu <code>Scripts/Pickup.cs</code> un aizstāj tā saturu ar šo kodu.</p>
 <pre><code class="language-csharp">using Godot;
 
 public partial class Pickup : Area2D
@@ -161,33 +180,34 @@ public partial class Pickup : Area2D
     }
 }</code></pre>
 </details>
-<p class="done-when"><b>Gatavs, kad:</b> monēta pazūd, kad varonis tai pieskaras, un dod tieši 1 punktu.</p>
+<p class="done-when"><b>Gatavs, kad:</b> monēta <code>Coin1</code> scēnā <code>Scenes/Level1.tscn</code> pazūd brīdī, kad varonis tai pieskaras, un piešķir tieši 1 punktu.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p>
 <h2>Kopē priekšmetus un izvēlies Type (tips)</h2>
-<p class="task-files"><b>Kur strādāt:</b> Priekšmetu eksemplārus, to Type un sadursmju ķeksīšus maini <code>Scenes/Level1.tscn</code> Inspector panelī.</p>
+<p class="task-files"><b>Kur strādāt:</b> Priekšmetu eksemplārus (<code>Coin2</code>, <code>Gem</code>, <code>Coin3</code>, <code>Coin4</code>, <code>Key</code>), to <code>Type</code> un <code>Collision Mask</code> iestatījumus maini scēnā <code>Scenes/Level1.tscn</code>; secinājumus par maskām pieraksti <code>README.md</code>.</p>
 
-<ol class="step-list"><li>Level1 Scene panelī ar labo peles pogu uz <code>Coin1</code> → <b>Duplicate</b>. Katru kopiju pārdēvē un Inspector laukos <b>Position</b> un <b>Type</b> ievadi tabulas vērtības. Maini izvēlēto kopiju Level1 cilnē.</li>
-<li>Lai atšķirtu <code>Gem</code> un <code>Key</code>, atlasi tos pa vienam un Inspector sadaļā <b>Visibility → Modulate</b> izvēlies atšķirīgas krāsas.</li>
-<li>Palaid ar <b>F5</b> un savāc visus priekšmetus. <b>Output</b> jāparādās 9 punktiem un <code>atslēga: True</code>. Šodien augšējos priekšmetus vēl sasniedz ar W.</li>
-<li>Apturi spēli. Atlasi <code>Coin1</code>, sadaļā <b>Collision → Mask</b> izslēdz <b>2</b> un palaid vēlreiz. Monēta vairs nepazūd. Apturi un <b>ieslēdz Mask 2 atpakaļ</b>.</li>
-<li>Tāpat izmēģini Player laukā <b>Mask</b> izslēgt <b>1</b>: varonis iet cauri platformām. Apturi un <b>ieslēdz Mask 1 atpakaļ</b>. Saglabā un vēlreiz pārbaudi gan platformas, gan savākšanu.</li>
+<ol class="step-list"><li><b>Izveido visus priekšmetus scēnā <code>Scenes/Level1.tscn</code>:</b> <b>Scene</b> panelī ar labo peles pogu klikšķini uz <code>Coin1</code> → <b>Duplicate (Ctrl+D)</b>. Izveido 5 kopijas tieši zem <code>Level1</code>, pārdēvē tās un <b>Inspector</b> laukos <b>Position</b> un <b>Type</b> ievadi tabulas vērtības zemāk.</li>
+<li><b>Atšķir <code>Gem</code> un <code>Key</code> krāsu scēnā <code>Scenes/Level1.tscn</code>:</b> <b>Scene</b> panelī atlasi <code>Gem</code> un <b>Inspector → Visibility → Modulate</b> izvēlies zilu vai violetu nokrāsu, bet mezglam <code>Key</code> — spilgti oranžu vai zaļganu nokrāsu, lai spēlētājs tos viegli atšķirtu no monētām.</li>
+<li><b>Pārbaudi visu priekšmetu savākšanu:</b> saglabā <code>Scenes/Level1.tscn</code>, palaid ar <b>F5</b> un savāc visus 6 priekšmetus (augšējās platformas šodien vēl sasniedz ar <b>W</b>). <b>Output</b> panelī beigās jābūt <code>Punkti: 9; atslēga: True</code> (4 monētas × 1 + 1 dārgakmens × 5 = 9).</li>
+<li><b>Izmēģini <code>Mask 2</code> izslēgšanu priekšmetam <code>Coin1</code>:</b> apturi spēli ar <b>F8</b>. Scēnā <code>Scenes/Level1.tscn</code> atlasi <code>Coin1</code>, sadaļā <b>Collision → Mask</b> izslēdz <b>2</b> un palaid ar <b>F5</b> — monēta vairs nepamana spēlētāju un nepazūd. Apturi spēli un <b>ieslēdz <code>Coin1</code> Mask 2 atpakaļ</b>.</li>
+<li><b>Izmēģini <code>Mask 1</code> izslēgšanu mezglam <code>Player</code> un pieraksti <code>README.md</code>:</b> scēnā <code>Scenes/Level1.tscn</code> atlasi <code>Player</code>, sadaļā <b>Collision → Mask</b> uz laiku izslēdz <b>1</b> un palaid ar <b>F5</b> — varonis iet cauri grīdai un platformām. Apturi spēli, <b>ieslēdz <code>Player</code> Mask 1 atpakaļ</b>, saglabā <code>Level1.tscn</code> un failā <code>README.md</code> īsi paskaidro abus <code>Mask</code> eksperimentus.</li>
 </ol>
-<div class="table-scroll" role="region" aria-label="Nosaukums Scene panelī" tabindex="0"><table><thead><tr><th scope="col">Nosaukums Scene panelī</th><th scope="col">Pozīcija</th><th scope="col">Type</th></tr>
+<div class="table-scroll" role="region" aria-label="Nosaukums Scene panelī" tabindex="0"><table><thead><tr><th scope="col">Nosaukums <code>Level1.tscn</code> Scene panelī</th><th scope="col">Transform → Position</th><th scope="col">Inspector → Type</th><th scope="col">Ko dod</th></tr>
 </thead>
-<tbody><tr><td>Coin2</td><td>(280,525)</td><td>Coin</td></tr>
-<tr><td>Gem</td><td>(480,435)</td><td>Gem</td></tr>
-<tr><td>Coin3</td><td>(600,600)</td><td>Coin</td></tr>
-<tr><td>Coin4</td><td>(1050,600)</td><td>Coin</td></tr>
-<tr><td>Key</td><td>(680,345)</td><td>Key</td></tr>
+<tbody><tr><td><code>Coin1</code> (no 2. uzd.)</td><td><code>(150, 600)</code></td><td><code>Coin</code></td><td>+1 punkts</td></tr>
+<tr><td><code>Coin2</code></td><td><code>(280, 525)</code></td><td><code>Coin</code></td><td>+1 punkts</td></tr>
+<tr><td><code>Gem</code></td><td><code>(480, 435)</code></td><td><code>Gem</code></td><td>+5 punkti</td></tr>
+<tr><td><code>Coin3</code></td><td><code>(600, 600)</code></td><td><code>Coin</code></td><td>+1 punkts</td></tr>
+<tr><td><code>Coin4</code></td><td><code>(1050, 600)</code></td><td><code>Coin</code></td><td>+1 punkts</td></tr>
+<tr><td><code>Key</code></td><td><code>(680, 345)</code></td><td><code>Key</code></td><td><code>HasKey = true</code></td></tr>
 </tbody>
 </table>
-</div><p class="done-when"><b>Gatavs, kad:</b> ir pieci punktu priekšmeti un atslēga; visi Maska ķeksīši ir atjaunoti un savākšana darbojas.</p>
+</div><p class="done-when"><b>Gatavs, kad:</b> scēnā <code>Scenes/Level1.tscn</code> ir pieci punktu priekšmeti (kopā 9 punkti) un atslēga, visi <code>Mask</code> ķeksīši ir atjaunoti un savākšana darbojas.</p>
 </section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — izveido savu priekšmeta simbolu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Atver <code>Scenes/Pickup.tscn</code> un maini mezgla <code>Visual</code> daudzstūra punktus.</p>
+<details class="course-help extra-task"><summary>Papildu uzdevums - izveido savu priekšmeta simbolu</summary>
+<p class="task-files"><b>Kur strādāt:</b> Atver scēnu <code>Scenes/Pickup.tscn</code> un maini bērnmezgla <code>Visual</code> daudzstūra punktus.</p>
 
-<p>Atver Pickup.tscn, atlasi Visual un Inspector sadaļā Data → Polygon maini punktus. Atstāj Pickup un CollisionShape2D savās vietās. Pārbaudi, ka redzamais simbols un savākšanas zona atrodas vienā vietā.</p>
+<p>Atver <code>Scenes/Pickup.tscn</code>, <b>Scene</b> panelī atlasi <code>Visual</code> un <b>Inspector → Data → Polygon</b> izveido savu formu (piemēram, 6 vai 8 virsotņu kristālu). Atstāj <code>Pickup</code> un <code>CollisionShape2D</code> pozīcijā <code>(0, 0)</code> un pārbaudi, ka redzamā figūra sakrīt ar apļa sadursmes zonu.</p>
 </details>
 <section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2>
 <p class="merkis"><b>Stundas mērķis:</b> varonis atduras pret platformām, savāc punktus un atslēgu.</p>

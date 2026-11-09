@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_6/prog2_6main">6. tēma</a> / 6.1</p>
 <h1>6.1 UI (lietotāja saskarne) elementi un Control (saskarnes vadīkla) nodes (mezgli)</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveidot saskarni ar Godot Control nodes - Button (poga), Label (teksta etiķete), Container (konteiners).</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Izveidot saskarni ar Godot Control nodes - Button (poga), Label (teksta etiķete), Container (konteiners).</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.7. UI</a>
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
@@ -112,121 +112,179 @@ private void KadNospiestsIziet()
 }</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Uzbūvē sākuma izvēlni</h2>
-<p class="task-files"><b>Kur strādāt:</b> Godot redaktorā izveido un saglabā <code>Scenes/Menu.tscn</code> ar Control sakni Menu. Konteineru nosauc <code>VBox</code>, pogas — <code>StartButton</code>, <code>SettingsButton</code> un <code>QuitButton</code>, lai tās sakristu ar koda ceļiem.</p>
+<p class="task-number">1. uzdevums</p><h2>Izveido projektu un uzbūvē sākuma izvēlni</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido jaunu Godot 4 (.NET) projektu <code>PuzzleGame</code> ar mapēm <code>Scenes/</code>, <code>Scripts/</code> un <code>Sounds/</code>. Šajā uzdevumā veido divas scēnas: sākuma izvēlni <code>Scenes/Menu.tscn</code> un spēles ekrāna sagatavi <code>Scenes/Puzzle.tscn</code> (C# kods šajā solī vēl nav jāraksta).</p>
 
-<p>Beigās tavai spēlei būs sākuma ekrāns ar trim pogām.</p>
+<p>Beigās tavai 6. tēmas atjautības spēlei būs strukturēta sākuma izvēlne ar virsrakstu, trim pogām, iestatījumu paneli un spēles scēnas sagatavi.</p>
+<p><b>Scēnas koka uzbūve (<code>Scenes/Menu.tscn</code>):</b></p>
+<pre><code>Menu (Control - Layout: Full Rect, piesaistīts Scripts/MainMenu.cs 2. uzdevumā)
+ ├── Background (ColorRect - Layout: Full Rect, Color: #1a2234)
+ ├── VBox (VBoxContainer - Layout: Center, Separation: 14)
+ │    ├── TitleLabel (Label - Text: "ATJAUTĪBAS SPĒLE")
+ │    ├── StartButton (Button - Text: "Sākt spēli", Custom Minimum Size: 240 × 44)
+ │    ├── SettingsButton (Button - Text: "Iestatījumi", Custom Minimum Size: 240 × 44)
+ │    └── QuitButton (Button - Text: "Iziet", Custom Minimum Size: 240 × 44)
+ └── SettingsPanel (PanelContainer - Layout: Center, Visible: Off)
+      └── SettingsVBox (VBoxContainer - Separation: 10)
+           ├── SettingsTitle (Label - Text: "Iestatījumi")
+           └── BackButton (Button - Text: "Aizvērt")</code></pre>
 <ol class="step-list">
-<li><b>Izveido</b> jaunu scēnu ar <code>Control</code> sakni un nosaukumu <code>Menu</code>.</li>
-<li><b>Pievieno</b> tai child node (bērnu) <code>VBoxContainer</code>.</li>
-<li><b>Pievieno</b> container <code>Label</code> ar spēles nosaukumu.</li>
-<li><b>Pievieno</b> trīs <code>Button</code> mezglus: Sākt, Iestatījumi, Iziet.</li>
-<li><b>Ievēro</b>, ka container pats sakārto pogas vienu zem otras.</li>
-<li><b>Pievieno</b> container atstarpi ar <code>Theme Overrides -&gt; Separation</code>.</li>
-<li><b>Palaid</b> scēnu un pārbaudi, ka visas pogas ir redzamas.</li>
+<li><b>Izveido</b> Godot 4 (.NET) projektu <code>PuzzleGame</code> un <b>FileSystem</b> panelī izveido mapes <code>Scenes/</code>, <code>Scripts/</code> un <code>Sounds/</code>.</li>
+<li><b>Izveido</b> jaunu scēnu ar <code>Control</code> sakni (<b>User Interface</b>), pārdēvē to par <code>Menu</code>, augšējā rīkjoslā izvēlies <b>Layout -&gt; Anchors Preset -&gt; Full Rect</b> un saglabā kā <code>res://Scenes/Menu.tscn</code>.</li>
+<li><b>Pievieno</b> saknei <code>Menu</code> bērna mezglu <code>ColorRect</code> ar nosaukumu <code>Background</code>, uzliec tam <b>Layout -&gt; Full Rect</b> un <b>Inspector</b> panelī iestati tumšu fona krāsu (piemēram, <code>#1a2234</code>).</li>
+<li><b>Pievieno</b> saknei <code>Menu</code> bērna mezglu <code>VBoxContainer</code> un pārdēvē to par <code>VBox</code>. <b>Inspector</b> sadaļā <code>Theme Overrides -&gt; Constants -&gt; Separation</code> ieraksti <code>14</code>.</li>
+<li><b>Pievieno</b> <code>VBox</code> konteineram bērnu <code>Label</code> ar nosaukumu <code>TitleLabel</code>, ieraksti <code>Text = "ATJAUTĪBAS SPĒLE"</code>, <code>Horizontal Alignment = Center</code> un <code>Theme Overrides -&gt; Font Sizes -&gt; Font Size = 36</code>.</li>
+<li><b>Pievieno</b> <code>VBox</code> konteineram trīs <code>Button</code> bērnus ar precīziem nosaukumiem <code>StartButton</code> (<code>Text = "Sākt spēli"</code>), <code>SettingsButton</code> (<code>Text = "Iestatījumi"</code>) un <code>QuitButton</code> (<code>Text = "Iziet"</code>). Katrai pogai sadaļā <code>Layout -&gt; Custom Minimum Size</code> iestati <code>X = 240</code>, <code>Y = 44</code>.</li>
+<li><b>Pievieno</b> saknei <code>Menu</code> arī mezglu <code>PanelContainer</code> ar nosaukumu <code>SettingsPanel</code> (tajā ievieto <code>VBoxContainer</code> <code>SettingsVBox</code> ar <code>Label</code> <code>SettingsTitle</code> un <code>Button</code> <code>BackButton</code>) un paslēp to, izslēdzot acs ikonu vai <code>Visibility -&gt; Visible = Off</code>.</li>
+<li><b>Izveido</b> otru scēnu ar <code>Control</code> sakni <code>Puzzle</code>, pievieno tai <code>Label</code> ar tekstu <code>"Spēles laukums (pilna loģika 6.6. stundā)"</code> un saglabā kā <code>res://Scenes/Puzzle.tscn</code>, lai 2. uzdevumā pāreja uz spēles scēnu strādātu bez kļūdas.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> ekrānā ir virsraksts un trīs pogas vienu zem otras ar vienādām atstarpēm.</p>
+<p class="done-when"><b>Gatavs, kad:</b> saglabātā scēnā <code>Scenes/Menu.tscn</code> ir virsraksts un trīs pogas vienā kolonnā ar vienādām atstarpēm, kā arī izveidota mērķa scēna <code>Scenes/Puzzle.tscn</code>.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Savieno pogas ar kodu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/MainMenu.cs</code> un piesaisti to <code>Scenes/Menu.tscn</code> saknei. Pogu atrašanu un signālus raksti <code>_Ready()</code>, apstrādātājus — atsevišķās klases metodēs. ChangeSceneToFile norādi savas spēles scēnas ceļu; <code>res://game.tscn</code> der, ja tā saglabāta projekta saknē.</p>
+<p class="task-number">2. uzdevums</p><h2>Savieno izvēlnes pogas ar C# kodu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/MainMenu.cs</code> un piesaisti to scēnas <code>Scenes/Menu.tscn</code> saknei <code>Menu</code>. Pogu meklēšanu un <code>Pressed +=</code> pierakstīšanos raksti metodē <code>_Ready()</code>, bet darbības - metodēs <code>OnStartPressed()</code>, <code>OnSettingsPressed()</code>, <code>OnBackPressed()</code> un <code>OnQuitPressed()</code>.</p>
 
-<p>Beigās pogas tiešām kaut ko darīs.</p>
+<p>Beigās visas izvēlnes pogas reaģēs uz klikšķiem: atvērs spēles scēnu, parādīs vai paslēps iestatījumu paneli un aizvērs spēli.</p>
 <ol class="step-list">
-<li><b>Izveido</b> C# class <code>MainMenu</code>, kas manto no <code>Control</code>.</li>
-<li><b>Pievieno</b> method <code class="language-csharp">private void OnStartPressed()</code>.</li>
-<li><b>Paņem</b> pogu ar <code class="language-csharp">Button startButton = GetNode&lt;Button&gt;("VBox/StartButton");</code>.</li>
-<li><b>Savieno</b> <code>_Ready</code> method pogas signal ar <code class="language-csharp">startButton.Pressed += OnStartPressed;</code>.</li>
-<li><b>Ielādē</b> handler (apstrādātājā) spēles scēnu ar <code class="language-csharp">GetTree().ChangeSceneToFile("res://game.tscn");</code>.</li>
-<li><b>Savieno</b> arī Iziet pogu ar <code class="language-csharp">GetTree().Quit();</code>.</li>
-<li><b>Būvē</b> un pārbaudi abas pogas.</li>
+<li><b>Izveido</b> skriptu <code>res://Scripts/MainMenu.cs</code> (klase <code>public partial class MainMenu : Control</code>) un piesaisti to <code>Scenes/Menu.tscn</code> saknei <code>Menu</code>.</li>
+<li><b>Atrodi</b> metodē <code>_Ready()</code> pogas pēc to ceļiem scēnas kokā:
+<code class="language-csharp">Button startButton = GetNode&lt;Button&gt;("VBox/StartButton");</code>,
+<code class="language-csharp">Button settingsButton = GetNode&lt;Button&gt;("VBox/SettingsButton");</code> un
+<code class="language-csharp">Button quitButton = GetNode&lt;Button&gt;("VBox/QuitButton");</code>.</li>
+<li><b>Atrodi</b> arī iestatījumu paneli <code class="language-csharp">settingsPanel = GetNodeOrNull&lt;Control&gt;("SettingsPanel");</code> un tā aizvēršanas pogu <code class="language-csharp">GetNodeOrNull&lt;Button&gt;("SettingsPanel/SettingsVBox/BackButton")</code>.</li>
+<li><b>Savieno</b> metodē <code>_Ready()</code> pogu signālus ar C# notikumu apstrādātājiem:
+<code class="language-csharp">startButton.Pressed += OnStartPressed;</code>,
+<code class="language-csharp">settingsButton.Pressed += OnSettingsPressed;</code> un
+<code class="language-csharp">quitButton.Pressed += OnQuitPressed;</code>.</li>
+<li><b>Izveido</b> metodi <code class="language-csharp">private void OnStartPressed()</code>, kurā pārslēdz scēnu ar <code class="language-csharp">GetTree().ChangeSceneToFile("res://Scenes/Puzzle.tscn");</code>.</li>
+<li><b>Izveido</b> metodes <code class="language-csharp">private void OnSettingsPressed()</code> (kas ieslēdz <code class="language-csharp">settingsPanel.Visible = true;</code>) un <code class="language-csharp">private void OnQuitPressed()</code> (kas izsauc <code class="language-csharp">GetTree().Quit();</code>).</li>
+<li><b>Nospied</b> <b>Build</b>, iestati <code>Scenes/Menu.tscn</code> kā galveno scēnu un ar <b>F5</b> pārbaudi visas pogas.</li>
 </ol>
-<pre><code class="language-csharp">Button startButton = GetNode&lt;Button&gt;("VBox/StartButton");
-startButton.Pressed += OnStartPressed;
+<pre><code class="language-csharp">// Fragments no Scripts/MainMenu.cs:
+public override void _Ready()
+{
+    Button startButton = GetNode&lt;Button&gt;("VBox/StartButton");
+    Button settingsButton = GetNode&lt;Button&gt;("VBox/SettingsButton");
+    Button quitButton = GetNode&lt;Button&gt;("VBox/QuitButton");
+
+    startButton.Pressed += OnStartPressed;
+    settingsButton.Pressed += OnSettingsPressed;
+    quitButton.Pressed += OnQuitPressed;
+}
 
 private void OnStartPressed()
 {
-    GetTree().ChangeSceneToFile("res://game.tscn");
+    GetTree().ChangeSceneToFile("res://Scenes/Puzzle.tscn");
 }</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> Sākt poga atver spēles scēnu, un Iziet poga aizver spēli.</p>
+<p class="done-when"><b>Gatavs, kad:</b> poga „Sākt spēli" atver <code>Scenes/Puzzle.tscn</code>, „Iestatījumi" atver <code>SettingsPanel</code>, bet „Iziet" aizver spēles logu.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Pievieno enkurus un pārbaudi izmērus</h2>
-<p class="task-files"><b>Kur strādāt:</b> Enkurus un izvietojumu maini <code>Scenes/Menu.tscn</code> Inspector panelī; novērojumus pieraksti <code>README.md</code>.</p>
+<p class="task-number">3. uzdevums</p><h2>Pievieno enkurus (<code>Anchors</code>) un pārbaudi loga izmēra maiņu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Enkurus un izkārtojumu maini <code>Scenes/Menu.tscn</code> mezglam <code>VBox</code> un <code>SettingsPanel</code> Godot redaktorā; novērojumus pieraksti projekta saknes failā <code>README.md</code>.</p>
 
-<p>Beigās izvēlne izskatīsies pareizi jebkurā loga izmērā.</p>
+<p>Beigās izvēlne vienmēr paliks ekrāna vidū pat tad, ja spēlētājs izstiepj vai samazina spēles logu.</p>
 <ol class="step-list">
-<li><b>Izvēlies</b> <code>VBoxContainer</code> un atver <b>Layout -&gt; Anchors Preset</b>.</li>
-<li><b>Izvēlies</b> <b>Center</b>, lai container paliktu ekrāna vidū.</li>
-<li><b>Palaid</b> spēli un mainiet loga izmēru ar peli.</li>
-<li><b>Pieraksti</b>, vai izvēlne palika centrā.</li>
-<li><b>Nomaini</b> enkuru uz <b>Top Left</b> un atkārto testu.</li>
-<li><b>Pieraksti</b>, kas mainījās.</li>
-<li><b>Ieliec</b> <b>Center</b> atpakaļ un saglabā scēnu.</li>
+<li><b>Atver</b> <code>Scenes/Menu.tscn</code>, <b>Scene</b> kokā izvēlies mezglu <code>VBox</code> un 2D skata augšējā rīkjoslā atver izvēlni <b>Layout -&gt; Anchors Preset</b>.</li>
+<li><b>Izvēlies</b> <b>Center</b> (to pašu uzliec arī mezglam <code>SettingsPanel</code>), lai abi konteineri tiktu piesaistīti ekrāna centram (<code>Anchor = 0.5, 0.5</code>).</li>
+<li><b>Palaid</b> spēli (<b>F5</b>), ar peli pavelc spēles loga malu, mainot tā platumu un augstumu, un novēro izvēlnes novietojumu.</li>
+<li><b>Nomaini</b> eksperimenta nolūkā <code>VBox</code> enkuru uz <b>Layout -&gt; Anchors Preset -&gt; Top Left</b>, palaid spēli un vēlreiz izmaini loga izmēru.</li>
+<li><b>Salīdzini</b> abus gadījumus un pieraksti atšķirību failā <code>README.md</code> (arī to, ar ko <code>Control</code> mezgls atšķiras no <code>Node2D</code>).</li>
+<li><b>Atjauno</b> mezglam <code>VBox</code> enkuru <b>Layout -&gt; Anchors Preset -&gt; Center</b> un saglabā scēnu (<b>Ctrl+S</b>).</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> mainot loga izmēru, izvēlne paliek centrā, bet ar Top Left enkuru tā aizbēg uz stūri.</p>
+<p class="done-when"><b>Gatavs, kad:</b> mainot spēles loga izmēru, izvēlne ar <code>Center</code> enkuru paliek precīzi ekrāna vidū, un salīdzinājums ir pierakstīts <code>README.md</code>.</p>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Pievieno iestatījumu logu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Settings paneli un pogas izveido <code>Scenes/Menu.tscn</code>; sākotnējo paslēpšanu, pogu signālus un apstrādātājus pievieno esošajam <code>Scripts/MainMenu.cs</code>.</p>
+<summary>Papildu uzdevums - Pievieno skaļuma slīdņus iestatījumu panelī un pogu „Atpakaļ uz izvēlni"</summary>
+<p class="task-files"><b>Kur strādāt:</b> Papildini <code>SettingsPanel</code> scēnā <code>Scenes/Menu.tscn</code> ar diviem <code>HSlider</code> mezgliem (<code>MusicSlider</code> un <code>SfxSlider</code>), kā arī pievieno <code>Scenes/Puzzle.tscn</code> pogu <code>MenuButton</code> atgriešanai uz <code>res://Scenes/Menu.tscn</code>.</p>
 
-<p>Ja pamatdarbs ir gatavs, uztaisi otro ekrānu.</p>
+<p>Ja pamatdarbs ir gatavs, sagatavo iestatījumu paneli 6.3. stundas skaņas kopnēm un abpusēju pāreju starp izvēlni un spēli.</p>
 <ol class="step-list">
-<li><b>Izveido</b> <code>PanelContainer</code> ar nosaukumu <code>Settings</code>.</li>
-<li><b>Pievieno</b> tam skaļuma slīdni <code>HSlider</code> (horizontāls slīdnis).</li>
-<li><b>Paslēp</b> to sākumā ar <code class="language-csharp">settings.Visible = false;</code>.</li>
-<li><b>Parādi</b> to, nospiežot Iestatījumu pogu.</li>
-<li><b>Pievieno</b> Atpakaļ pogu, kas to atkal paslēpj.</li>
+<li><b>Pievieno</b> <code>SettingsPanel/SettingsVBox</code> konteinerā <code>Label</code> (<code>"Mūzikas skaļums"</code>) un <code>HSlider</code> ar nosaukumu <code>MusicSlider</code> (<code>Min Value = -40</code>, <code>Max Value = 0</code>, <code>Value = 0</code>).</li>
+<li><b>Pievieno</b> zem tā otru <code>Label</code> (<code>"Efektu skaļums"</code>) un <code>HSlider</code> ar nosaukumu <code>SfxSlider</code> (<code>Min Value = -40</code>, <code>Max Value = 0</code>, <code>Value = 0</code>).</li>
+<li><b>Pārbaudi</b>, ka poga <code>BackButton</code> (<code>SettingsPanel/SettingsVBox/BackButton</code>) metodē <code>OnBackPressed()</code> paslēpj <code>SettingsPanel</code> (<code>settingsPanel.Visible = false;</code>).</li>
+<li><b>Pievieno</b> scēnā <code>Scenes/Puzzle.tscn</code> pogu <code>MenuButton</code>, kas izsauc <code>GetTree().ChangeSceneToFile("res://Scenes/Menu.tscn");</code>, lai vari brīvi pārslēgties starp abiem ekrāniem.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> Iestatījumu logs parādās un pazūd ar pogām, neizejot no izvēlnes.</p>
+<p class="done-when"><b>Gatavs, kad:</b> iestatījumu panelis ar slīdņiem atveras un aizveras no izvēlnes, un no spēles scēnas var atgriezties sākuma izvēlnē.</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnais koda piemērs — gatavs šīs stundas risinājums</summary>
 <div class="code-example">
+<p><b>Fails: <code>Scripts/MainMenu.cs</code></b> (piesaistīts <code>Menu</code> saknei scēnā <code>Scenes/Menu.tscn</code>)</p>
 <pre><code class="language-csharp">using Godot;
 
-public partial class Menu : Control
+public partial class MainMenu : Control
 {
+    private Control settingsPanel;
+
     public override void _Ready()
     {
         Button startBtn = GetNode&lt;Button&gt;("VBox/StartButton");
         Button settingsBtn = GetNode&lt;Button&gt;("VBox/SettingsButton");
         Button quitBtn = GetNode&lt;Button&gt;("VBox/QuitButton");
 
-        startBtn.Pressed += OnStart;
-        settingsBtn.Pressed += OnSettings;
-        quitBtn.Pressed += OnQuit;
+        startBtn.Pressed += OnStartPressed;
+        settingsBtn.Pressed += OnSettingsPressed;
+        quitBtn.Pressed += OnQuitPressed;
+
+        settingsPanel = GetNodeOrNull&lt;Control&gt;("SettingsPanel");
+        if (settingsPanel != null)
+        {
+            settingsPanel.Visible = false;
+            Button backBtn = settingsPanel.GetNodeOrNull&lt;Button&gt;("SettingsVBox/BackButton");
+            if (backBtn != null)
+            {
+                backBtn.Pressed += OnBackPressed;
+            }
+        }
     }
 
-    private void OnStart()
+    private void OnStartPressed()
     {
-        GetTree().ChangeSceneToFile("res://game.tscn");
+        if (ResourceLoader.Exists("res://Scenes/Puzzle.tscn"))
+        {
+            GetTree().ChangeSceneToFile("res://Scenes/Puzzle.tscn");
+        }
+        else
+        {
+            GD.PrintErr("Scēna res://Scenes/Puzzle.tscn vēl nav izveidota!");
+        }
     }
 
-    private void OnSettings()
+    private void OnSettingsPressed()
     {
-        GetTree().ChangeSceneToFile("res://settings.tscn");
+        if (settingsPanel != null)
+        {
+            settingsPanel.Visible = !settingsPanel.Visible;
+        }
     }
 
-    private void OnQuit()
+    private void OnBackPressed()
+    {
+        if (settingsPanel != null)
+        {
+            settingsPanel.Visible = false;
+        }
+    }
+
+    private void OnQuitPressed()
     {
         GetTree().Quit();
     }
 }</code></pre>
-<div class="result">Sākuma izvēlne ar 4 stilizētām pogām, hover efekti, navigācija starp ekrāniem.</div>
+<div class="result">Pilna sākuma izvēlne ar C# pogu signāliem, iestatījumu paneļa pārslēgšanu un drošu pāreju uz <code>res://Scenes/Puzzle.tscn</code>.</div>
 </div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tavai spēlei ir sākuma izvēlne ar trim pogām <code>Control</code> node, pogas ir savienotas ar C# kodu caur signal, un izvēlne paliek centrā, mainot loga izmēru.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tavai spēlei ir sākuma izvēlne <code>Scenes/Menu.tscn</code> ar trim pogām <code>Control</code> konteinerā, pogas ir savienotas ar C# kodu <code>Scripts/MainMenu.cs</code> caur <code>Pressed +=</code> signāliem, un izvēlne paliek centrā, mainot loga izmēru.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>Fails <code>MainMenu.cs</code> ar pogu signal savienojumiem.</li>
-<li>README.md ievietota video saite vai divi ekrānuzņēmumi krātuvē: izvēlne un tas, kas notiek, nospiežot Sākt.</li>
-<li>Ekrānuzņēmums ar izvēlni pēc loga izmēra maiņas.</li>
-<li>README.md: ar ko <code>Control</code> node atšķiras no <code>Node2D</code>.</li>
+<li>Skriptam <code>Scripts/MainMenu.cs</code> un scēnām <code>Scenes/Menu.tscn</code> un <code>Scenes/Puzzle.tscn</code>.</li>
+<li><code>README.md</code> ievietotai video saitei vai diviem ekrānuzņēmumiem krātuvē: sākuma izvēlnei un skatam pēc pogas „Sākt spēli" vai „Iestatījumi" nospiešanas.</li>
+<li>Ekrānuzņēmumam ar izvēlni pēc spēles loga izmēra maiņas.</li>
+<li><code>README.md</code> atbildei: kā uzvedās <code>Center</code> un <code>Top Left</code> enkuri un ar ko <code>Control</code> mezgls atšķiras no <code>Node2D</code>.</li>
 </ul>
-<p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+<p><b>Kā iesniedz:</b> Veic <code>git commit</code> un <code>git push</code>. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, <code>README.md</code> pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>
 </section>
 <section>

@@ -56,7 +56,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_3/prog2_3main">3. tēma</a> / 3.5</p>
 <h1>3.5 Dalībnieka dati un pagaidu bonusi</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Sakārto dalībnieka skaitļus vienā struktūrā un aprēķini fokusu no pievienotajiem bonusiem.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Sakārto dalībnieka skaitļus vienā struktūrā un aprēķini fokusu no pievienotajiem bonusiem.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.16. Saliktas datu struktūras</a>
 <a href="/sasnRez">SR 2.4.18. Objektorientētā programmēšana</a>
@@ -102,7 +102,7 @@ otrs.Atlikums = 40;
 // Arī pirmais.Atlikums tagad ir 40.</code></pre>
 </div>
 <div class="logic-box"><h3>Kompozīcija, robežas ierobežošana (<code>Math.Min</code>) un dinamisku modifikatoru summēšana</h3>
-<p>Ja klase savā iekšienē glabā <code>private</code> struktūru vai sarakstu, veidojas <b>kompozīcija</b> — attiecība „objektam <i>ir</i> dati” (pretstatā mantošanas attiecībai „objekts <i>ir</i> bāzes tips”). Lai iekšējo struktūru droši atjauninātu, izmaiņas veic caur pašas klases metodi, bet augšējo griestu nepārsniegšanai izmanto <code>Math.Min(maksimums, tekosais + pielikums)</code>, kas izvēlas mazāko no diviem skaitļiem.</p>
+<p>Ja klase savā iekšienē glabā <code>private</code> struktūru vai sarakstu, veidojas <b>kompozīcija</b> - attiecība „objektam <i>ir</i> dati” (pretstatā mantošanas attiecībai „objekts <i>ir</i> bāzes tips”). Lai iekšējo struktūru droši atjauninātu, izmaiņas veic caur pašas klases metodi, bet augšējo griestu nepārsniegšanai izmanto <code>Math.Min(maksimums, tekosais + pielikums)</code>, kas izvēlas mazāko no diviem skaitļiem.</p>
 <p>Ja gala rādītājs jāaprēķina no bāzes vērtības un mainīga saraksta <code>List&lt;T&gt;</code> ar pagaidu modifikatoriem (saraksta indeksi sākas ar <code>0</code>, un <code>RemoveAt(index)</code> izņem attiecīgo elementu), aprēķinu katrā izsaukumā sāk lokālā mainīgajā (<code>int kopsumma = baze;</code>) un ciklā <code>foreach</code> pieskaita aktīvos pielikumus. Tas darbojas kā pirkumu grozs, kur preces pamatcenai katrā apskatē pieskaita spēkā esošos atlaižu vai bonusu kuponus: ja pielikumu pieskaitītu tieši glabātajam bāzes laukam, atkārtoti metodes izsaukumi vienu un to pašu vērtību kļūdaini uzkrātu arvien no jauna:</p>
 <pre><code class="language-csharp">private Merijums dati = new Merijums(100, 10);
 private List&lt;Pielikums&gt; pielikumi = new List&lt;Pielikums&gt;();
@@ -125,60 +125,101 @@ public int AprekinatKopapjomu()
     return kopsumma;          // dati.Baze paliek nemainīgs (10)
 }</code></pre>
 </div></section>
-<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Pārbaudi struktūras sākuma vērtības un kopiju</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Stats.cs</code> struktūrai un <code>Scripts/StatsDemo.cs</code> pārbaudēm. StatsDemo skriptu piesaisti <code>Scenes/StatsDemo.tscn</code> Node saknei; izdrukas un kopijas izmēģinājumu raksti tā metodē <code>_Ready()</code>.</p>
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Izveido struktūru <code>Scripts/Stats.cs</code> un pārbaudi vērtību kopēšanu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido divus jaunus failus: datu struktūru <code>Scripts/Stats.cs</code> (mezglam <b>nepievieno</b>) un pārbaudes skriptu <code>Scripts/StatsDemo.cs</code> (ko piesaista jaunas scēnas <code>Scenes/StatsDemo.tscn</code> saknei <code>StatsDemo</code>).</p>
+<p><b>Scēnas un failu uzbūve:</b></p>
+<pre><code>Scenes/StatsDemo.tscn:
+StatsDemo (Node - piesaistīts Scripts/StatsDemo.cs)
+
+Scripts/ mape:
+ ├── Stats.cs     (struct Stats - skaitlisko rādītāju grupa)
+ ├── Buff.cs      (struct Buff - 3. uzdevumā)
+ ├── Participant.cs (atjaunots 2. un 3. uzdevumā)
+ └── StatsDemo.cs (pārbaudes skripts ar _Ready())</code></pre>
 <ol class="step-list">
-<li>Izveido <code>Stats.cs</code> ar trim publiskiem <code>int</code> laukiem (<code>Energy</code>, <code>MaxEnergy</code>, <code>Focus</code>). Jaunā <code>StatsDemo</code> scēnā un skriptā izdrukā <code>new Stats()</code> laukus: tie ir <code>0</code>.</li>
-<li>Pievieno konstruktoru <code>Stats(int energy, int focus)</code> no pilnā piemēra zemāk un izveido <code>new Stats(100, 10)</code>.</li>
-<li>Izpildi kopijas paraugu zemāk: maini tikai <code>copy.Energy</code>.</li>
-<li>README pieraksti abas izdrukas un skaidrojumu, kāpēc <code>original</code> nemainījās (salīdzinot ar <code>Participant second = anna;</code>, kur abi mainīgie norādītu uz to pašu Annu).</li>
+<li><b>Izveido</b> mapē <code>Scripts/</code> jaunu C# failu <code>res://Scripts/Stats.cs</code> (nepievienojot to scēnas mezglam) un ieraksti tajā struktūru <code class="language-csharp">public struct Stats</code> ar trim publiskiem laukiem (<code>Energy</code>, <code>MaxEnergy</code>, <code>Focus</code>) un konstruktoru <code class="language-csharp">public Stats(int energy, int focus)</code> (skat. paraugu zemāk).</li>
+<li><b>Izveido</b> jaunu scēnu ar <code>Node</code> sakni <code>StatsDemo</code>, saglabā to kā <code>res://Scenes/StatsDemo.tscn</code> un piesaisti tās saknei jaunu skriptu <code>res://Scripts/StatsDemo.cs</code> (<code class="language-csharp">public partial class StatsDemo : Node</code>).</li>
+<li><b>Ieraksti</b> failā <code>Scripts/StatsDemo.cs</code> metodē <code>_Ready()</code> tukšas struktūras pārbaudi <code class="language-csharp">Stats empty = new Stats();</code> un izdrukā <code>empty.Energy</code>, <code>empty.MaxEnergy</code> un <code>empty.Focus</code> (visiem jābūt <code>0</code>).</li>
+<li><b>Izveido</b> turpat metodē <code>_Ready()</code> sākuma datus <code class="language-csharp">Stats original = new Stats(100, 10);</code>, nokopē tos jaunā mainīgajā <code class="language-csharp">Stats copy = original;</code> un izmaini tikai kopiju: <code class="language-csharp">copy.Energy = 40;</code>.</li>
+<li><b>Palaid</b> scēnu <code>Scenes/StatsDemo.tscn</code> ar <b>F6</b>, izdrukā gan <code>original.Energy</code> (<code>100</code>), gan <code>copy.Energy</code> (<code>40</code>) un failā <code>README.md</code> izskaidro, kāpēc <code>original</code> nemainījās (pretstatā klases atsaucei <code>Participant second = anna;</code>).</li>
 </ol>
-<pre><code class="language-csharp">// Stats.cs sākuma lauki:
+<pre><code class="language-csharp">// 1. Fails: Scripts/Stats.cs (1. uzdevuma versija)
 public struct Stats
 {
     public int Energy;
     public int MaxEnergy;
     public int Focus;
+
+    public Stats(int energy, int focus)
+    {
+        Energy = energy;
+        MaxEnergy = energy;
+        Focus = focus;
+    }
 }
 
-// Kopijas pārbaude StatsDemo.cs metodē _Ready():
+// 2. Fails: Scripts/StatsDemo.cs (metodē _Ready())
 Stats original = new Stats(100, 10);
 Stats copy = original;
 copy.Energy = 40;
-GD.Print(original.Energy); // 100
-GD.Print(copy.Energy);     // 40</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> vari atšķirt struktūras kopiju no otra mainīgā, kas norāda uz to pašu klases objektu.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Pārvieto datus un pārbaudi atjaunošanu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Heal metodi pievieno <code>Scripts/Stats.cs</code>; dalībnieka datu glabāšanu un metodes maini <code>Scripts/Participant.cs</code>. Setup, sodu, atjaunošanu un kopijas pārbaudi izsauc <code>Scripts/StatsDemo.cs</code> metodē <code>_Ready()</code>.</p>
+GD.Print("Oriģināls: ", original.Energy); // 100
+GD.Print("Kopija: ", copy.Energy);        // 40</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> <b>Output</b> panelī redzams, ka <code>copy.Energy</code> izmaiņa uz <code>40</code> neatstāj iespaidu uz <code>original.Energy</code> (<code>100</code>).</p></section>
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Pārvieto dalībnieka enerģiju uz <code>Stats</code> un pievieno <code>Heal()</code></h2>
+<p class="task-files"><b>Kur strādāt:</b> Metodi <code>Heal(int amount)</code> pievieno failā <code>Scripts/Stats.cs</code>. Dalībnieka lauku <code>private Stats stats</code> un metodes atjauno failā <code>Scripts/Participant.cs</code>. Pārbaudi veic failā <code>Scripts/StatsDemo.cs</code> metodē <code>_Ready()</code>.</p>
 <ol class="step-list">
-<li><code>Participant.cs</code> izņem iepriekšējo <code>energy</code> lauku un aizstāj to ar <code>private Stats stats = new Stats(100, 10);</code>. Pielāgo <code>Setup</code>, <code>ApplyPenalty</code>, <code>GetEnergy</code> un <code>IsActive</code> darbam ar <code>stats.Energy</code>, saglabājot <code>Finished</code> signālu (izmanto pilno failu salīdzināšanai).</li>
-<li><code>Stats</code> struktūrā pievieno <code>Heal</code> metodi pēc parauga zemāk, bet <code>Participant</code> klasē pievieno <code>GetStats()</code> un <code>Heal(int amount)</code> (dalībnieku atjauno tikai tad, ja <code>IsActive()</code> ir patiess; nelieto <code>anna.GetStats().Heal(50)</code>, jo tas mainītu tikai pagaidu kopiju).</li>
-<li>Ar parastu <code>Participant</code> mezglu: <code>Setup("Anna", 100)</code>, sods <code>30</code>, atjaunošana <code>50</code>. Salīdzini ar tabulu zemāk un izdrukā: jābūt <code>100</code>.</li>
-<li>Paņem <code>Stats</code> kopiju ar <code>anna.GetStats()</code>, maini tās <code>Energy</code> uz <code>1</code> un pārbaudi, ka dalībniecei joprojām ir <code>100</code>.</li>
+<li><b>Atver</b> failu <code>Scripts/Stats.cs</code>, pievieno augšgalā <code class="language-csharp">using System;</code> un struktūras <code>Stats</code> iekšienē pievieno metodi <code class="language-csharp">public void Heal(int amount)</code>, kas ar <code class="language-csharp">Energy = Math.Min(MaxEnergy, Energy + amount);</code> atjauno enerģiju, nepārsniedzot <code>MaxEnergy</code>.</li>
+<li><b>Atver</b> failu <code>Scripts/Participant.cs</code>, izdzēs veco lauku <code>private int energy = 100;</code> un tā vietā ieraksti <code class="language-csharp">private Stats stats = new Stats(100, 10);</code>.</li>
+<li><b>Atjauno</b> failā <code>Scripts/Participant.cs</code> metodes <code>Setup</code>, <code>ApplyPenalty</code>, <code>GetEnergy</code> un <code>IsActive</code>, lai tās lasītu un mainītu <code>stats.Energy</code> (saglabājot <code>Finished</code> signāla raidīšanu pie <code>stats.Energy == 0</code>).</li>
+<li><b>Pievieno</b> failā <code>Scripts/Participant.cs</code> divas jaunas metodes: <code class="language-csharp">public Stats GetStats() { return stats; }</code> un <code class="language-csharp">public void Heal(int amount) { if (IsActive()) stats.Heal(amount); }</code>.</li>
+<li><b>Atver</b> failu <code>Scripts/StatsDemo.cs</code> un metodē <code>_Ready()</code> izveido dalībnieku (<code class="language-csharp">Participant anna = new Participant(); AddChild(anna); anna.Setup("Anna", 100);</code>), piemēro <code>anna.ApplyPenalty(30);</code> un pēc tam <code>anna.Heal(50);</code> — pārbaudi, ka <code>anna.GetEnergy()</code> izdrukā <code>100</code> (nevis <code>120</code>).</li>
+<li><b>Pārbaudi</b> turpat <code>_Ready()</code> metodē, ka <code class="language-csharp">Stats copy = anna.GetStats(); copy.Energy = 1;</code> maina tikai lokālo kopiju, bet <code>anna.GetEnergy()</code> joprojām ir <code>100</code>.</li>
 </ol>
-<pre><code class="language-csharp">public void Heal(int amount)
+<pre><code class="language-csharp">// 1. Pievieno failā Scripts/Stats.cs:
+public void Heal(int amount)
 {
     if (amount &lt;= 0) return;
     Energy = Math.Min(MaxEnergy, Energy + amount);
+}
+
+// 2. Pievieno failā Scripts/Participant.cs:
+private Stats stats = new Stats(100, 10);
+
+public Stats GetStats() { return stats; }
+
+public void Heal(int amount)
+{
+    if (IsActive()) stats.Heal(amount);
 }</code></pre>
 <div class="table-scroll" role="region" aria-label="Enerģijas atjaunošana" tabindex="0"><table><thead><tr><th scope="col">Pirms</th><th scope="col">Atjauno</th><th scope="col">Aprēķins</th><th scope="col">Pēc</th></tr></thead><tbody>
 <tr><td>70 no 100</td><td>20</td><td>Mazākais no 100 un 90</td><td>90</td></tr>
 <tr><td>70 no 100</td><td>50</td><td>Mazākais no 100 un 120</td><td>100</td></tr>
 </tbody></table></div>
-<p class="done-when"><b>Gatavs, kad:</b> dalībnieka enerģiju maina tā metode, un maksimums netiek pārsniegts.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Pievieno un noņem bonusus</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Buff.cs</code> struktūrai. Sarakstu un bonusu metodes pievieno <code>Scripts/Participant.cs</code>; bonusu pievienošanu, izņemšanu un izdrukas pārbaudi <code>Scripts/StatsDemo.cs</code> metodē <code>_Ready()</code>.</p>
+<p class="done-when"><b>Gatavs, kad:</b> <code>anna.Heal(50)</code> atjauno enerģiju no <code>70</code> līdz griestiem <code>100</code>, un no <code>GetStats()</code> saņemtās kopijas izmaiņa neietekmē pašu dalībnieci.</p></section>
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Izveido struktūru <code>Scripts/Buff.cs</code> un aprēķini kopējo fokusu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido jaunu failu <code>Scripts/Buff.cs</code> (mezglam <b>nepievieno</b>). Sarakstu <code>List&lt;Buff&gt; buffs</code> un metodes <code>AddBuff()</code>, <code>RemoveBuffAt()</code> un <code>GetTotalFocus()</code> pievieno failā <code>Scripts/Participant.cs</code>. Pārbaudi veic failā <code>Scripts/StatsDemo.cs</code> metodē <code>_Ready()</code>.</p>
 <ol class="step-list">
-<li>Izveido <code>Buff.cs</code>, bet <code>Participant</code> klasē pievieno <code>List&lt;Buff&gt; buffs</code> sarakstu un <code>AddBuff</code>, <code>RemoveBuffAt</code>, <code>GetTotalFocus</code> metodes pēc parauga zemāk (summē lokālajā mainīgajā <code>total</code>, lai pamata <code>stats.Focus</code> paliktu <code>10</code>).</li>
-<li>Pievieno <code>+5</code> (<code>"Atbalsts"</code>) un <code>+3</code> (<code>"Atpūta"</code>) bonusus ar <code>new Buff { Name = "Atbalsts", FocusBonus = 5 }</code>. Izdrukā kopējo fokusu divas reizes pēc kārtas: abās jābūt <code>18</code>.</li>
-<li>Noņem pirmo bonusu ar <code>RemoveBuffAt(0)</code>. Izdrukā: jāpaliek <code>13</code>.</li>
-<li>Salīdzini ar tabulu zemāk un README pieraksti tabulu ar paredzētajiem un iegūtajiem skaitļiem.</li>
+<li><b>Izveido</b> mapē <code>Scripts/</code> jaunu C# failu <code>res://Scripts/Buff.cs</code> ar struktūru <code class="language-csharp">public struct Buff</code> un diviem publiskiem laukiem: <code class="language-csharp">public string Name;</code> un <code class="language-csharp">public int FocusBonus;</code>.</li>
+<li><b>Atver</b> failu <code>Scripts/Participant.cs</code>, pievieno augšgalā <code class="language-csharp">using System.Collections.Generic;</code> un klases iekšienē pievieno sarakstu <code class="language-csharp">private List&lt;Buff&gt; buffs = new List&lt;Buff&gt;();</code> (metodē <code>Setup</code> pievieno arī <code>buffs.Clear();</code>).</li>
+<li><b>Pievieno</b> failā <code>Scripts/Participant.cs</code> metodes <code class="language-csharp">public void AddBuff(Buff buff)</code>, <code class="language-csharp">public void RemoveBuffAt(int index)</code> un <code class="language-csharp">public int GetTotalFocus()</code>, kur summēšanu veic lokālā mainīgajā <code class="language-csharp">int total = stats.Focus;</code>, lai nesabojātu bāzes fokusu <code>10</code>.</li>
+<li><b>Atver</b> failu <code>Scripts/StatsDemo.cs</code> un metodē <code>_Ready()</code> pievieno Annai divus bonusus:
+<code class="language-csharp">anna.AddBuff(new Buff { Name = "Atbalsts", FocusBonus = 5 });</code> un
+<code class="language-csharp">anna.AddBuff(new Buff { Name = "Atpūta", FocusBonus = 3 });</code>.</li>
+<li><b>Izdrukā</b> <code>anna.GetTotalFocus()</code> divas reizes pēc kārtas (abās reizēs jābūt <code>18</code>, nevis <code>26</code>), tad izsauc <code class="language-csharp">anna.RemoveBuffAt(0);</code> un izdrukā vēlreiz (jāpaliek <code>13</code>).</li>
+<li><b>Salīdzini</b> rezultātus ar tabulu zemāk un pieraksti tos failā <code>README.md</code>.</li>
 </ol>
-<pre><code class="language-csharp">public struct Buff
+<pre><code class="language-csharp">// 1. Fails: Scripts/Buff.cs
+public struct Buff
 {
     public string Name;
     public int FocusBonus;
 }
+
+// 2. Pievieno failā Scripts/Participant.cs:
+private List&lt;Buff&gt; buffs = new List&lt;Buff&gt;();
+
+public void AddBuff(Buff buff) { buffs.Add(buff); }
+public void RemoveBuffAt(int index) { buffs.RemoveAt(index); }
 
 public int GetTotalFocus()
 {
@@ -193,20 +234,29 @@ public int GetTotalFocus()
 <tr><td>Nav bonusu</td><td>10</td><td>10</td></tr>
 <tr><td>Atbalsts +5</td><td>10 + 5</td><td>15</td></tr>
 <tr><td>Atbalsts +5 un Atpūta +3</td><td>10 + 5 + 3</td><td>18</td></tr>
-<tr><td>Pēc Atbalsts noņemšanas</td><td>10 + 3</td><td>13</td></tr>
+<tr><td>Pēc Atbalsts noņemšanas (<code>RemoveBuffAt(0)</code>)</td><td>10 + 3</td><td>13</td></tr>
 </tbody></table></div>
-<p class="done-when"><b>Gatavs, kad:</b> rezultāti ir 18, 18 un 13; pamata fokuss paliek 10.</p></section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — Bonuss beidzas pēc divām kārtām</summary>
-<p class="task-files"><b>Kur strādāt:</b> TurnsLeft lauku pievieno <code>Scripts/Buff.cs</code>. Ciklu ievieto jaunā <code>AdvanceBuffs()</code> metodē failā <code>Scripts/Participant.cs</code>; bonusam vērtību 2 piešķir un metodi divreiz izmēģini <code>Scripts/StatsDemo.cs</code> metodē <code>_Ready()</code>.</p>
-<p>Buff pievieno <code>public int TurnsLeft;</code> un jaunam bonusam iestati 2. Pēc kārtas samazini atlikušo skaitu. Tā kā Buff ir struktūra, no saraksta paņemto kopiju pēc maiņas ieraksti atpakaļ. Ja dzēs elementus, ej no beigām uz sākumu:</p><pre><code class="language-csharp">for (int i = buffs.Count - 1; i &gt;= 0; i--)
+<p class="done-when"><b>Gatavs, kad:</b> <code>GetTotalFocus()</code> divos izsaukumos pēc kārtas atgriež <code>18</code> un <code>18</code>, bet pēc <code>RemoveBuffAt(0)</code> atgriež <code>13</code>.</p></section>
+<details class="course-help extra-task"><summary>Papildu uzdevums - Pievieno bonusa darbības ilgumu kārtās (<code>TurnsLeft</code>)</summary>
+<p class="task-files"><b>Kur strādāt:</b> Lauku <code>TurnsLeft</code> pievieno failā <code>Scripts/Buff.cs</code>. Metodi <code>AdvanceBuffs()</code> pievieno failā <code>Scripts/Participant.cs</code> un izmēģini to failā <code>Scripts/StatsDemo.cs</code> metodē <code>_Ready()</code>.</p>
+<p>Ja pamatdarbs ir gatavs, liec bonusam automātiski beigties pēc noteikta kārtu skaita.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> failā <code>Scripts/Buff.cs</code> publisku lauku <code class="language-csharp">public int TurnsLeft;</code>.</li>
+<li><b>Pievieno</b> failā <code>Scripts/Participant.cs</code> metodi <code>public void AdvanceBuffs()</code>, kas ar <code>for</code> ciklu no saraksta beigām uz sākumu samazina <code>TurnsLeft</code> un izņem bonusus, kuriem <code>TurnsLeft &lt;= 0</code> (skat. kodu zemāk).</li>
+<li><b>Izsauc</b> failā <code>Scripts/StatsDemo.cs</code> metodi <code>anna.AdvanceBuffs()</code> divas reizes un pārbaudi, ka bonuss ar <code>TurnsLeft = 2</code> pēc otrās kārtas pazūd.</li>
+</ol>
+<pre><code class="language-csharp">public void AdvanceBuffs()
 {
-    Buff buff = buffs[i];
-    buff.TurnsLeft--;
-    if (buff.TurnsLeft &lt;= 0) buffs.RemoveAt(i);
-    else buffs[i] = buff;
+    for (int i = buffs.Count - 1; i &gt;= 0; i--)
+    {
+        Buff buff = buffs[i];
+        buff.TurnsLeft--;
+        if (buff.TurnsLeft &lt;= 0) buffs.RemoveAt(i);
+        else buffs[i] = buff;
+    }
 }</code></pre>
-<p>Šo ciklu liec jaunā Participant metodē. Izsauc to pēc katras kārtas un novēro kopējo fokusu. Divu kārtu bonuss pazūd pēc otrā izsaukuma.</p></details>
-<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>Stats.cs</h3>
+<p class="done-when"><b>Gatavs, kad:</b> bonuss ar <code>TurnsLeft = 2</code> pēc diviem <code>AdvanceBuffs()</code> izsaukumiem tiek automātiski izņemts no saraksta.</p></details>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai — gatavs 3.5. stundas risinājums</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>1. fails: <code>Scripts/Stats.cs</code></h3>
 <pre><code class="language-csharp" id="kods-stats-cs">using System;
 
 public struct Stats
@@ -228,13 +278,13 @@ public struct Stats
         Energy = Math.Min(MaxEnergy, Energy + amount);
     }
 }</code></pre>
-<h3>Buff.cs</h3>
+<h3>2. fails: <code>Scripts/Buff.cs</code></h3>
 <pre><code class="language-csharp" id="kods-buff-cs">public struct Buff
 {
     public string Name;
     public int FocusBonus;
 }</code></pre>
-<h3>Participant.cs</h3>
+<h3>3. fails: <code>Scripts/Participant.cs</code></h3>
 <pre><code class="language-csharp" id="kods-participant-cs">using Godot;
 using System;
 using System.Collections.Generic;
@@ -303,7 +353,7 @@ public partial class Participant : Node
         return total;
     }
 }</code></pre>
-<h3>StatsDemo.cs</h3>
+<h3>4. fails: <code>Scripts/StatsDemo.cs</code> (piesaistīts <code>StatsDemo</code> saknei scēnā <code>Scenes/StatsDemo.tscn</code>)</h3>
 <pre><code class="language-csharp" id="kods-statsdemo-cs">using Godot;
 
 public partial class StatsDemo : Node
@@ -329,7 +379,9 @@ public partial class StatsDemo : Node
     }
 }</code></pre>
 </details>
-<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2><p>GitHub krātuvē saglabā projektu un šādus pierādījumus:</p><ul><li>Stats.cs, Buff.cs, atjauninātais Participant.cs un StatsDemo pārbaudes scēna.</li><li>Izdrukas: kopija pret oriģinālu, atjaunošana līdz maksimumam, bonusa pievienošana un noņemšana.</li><li>README ar paredzētajiem un iegūtajiem rezultātiem un skaidrojumu par kopējo fokusu.</li></ul><p>Saglabā failus, veic commit ar izmaiņu aprakstu un push. Skolotāja norādītajā vietā iesniedz krātuves saiti.</p></div></section>
+<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Dalībnieka skaitliskie rādītāji ir apvienoti <code>Scripts/Stats.cs</code> struktūrā ar griestu kontroli <code>Heal()</code>, bet pagaidu bonusi tiek glabāti <code>List&lt;Buff&gt;</code> sarakstā un summēti metodē <code>GetTotalFocus()</code>.</p>
+<p><b>GitHub krātuvē saglabā projektu un šādus pierādījumus:</b></p><ul><li>Failus <code>Scripts/Stats.cs</code>, <code>Scripts/Buff.cs</code>, atjaunināto <code>Scripts/Participant.cs</code>, <code>Scripts/StatsDemo.cs</code> un scēnu <code>Scenes/StatsDemo.tscn</code>.</li><li><b>Output</b> izdrukas: <code>struct</code> kopija pret oriģinālu, enerģijas atjaunošana līdz maksimumam (<code>100</code>) un fokusa aprēķins pēc bonusu pievienošanas un noņemšanas (<code>18</code> un <code>13</code>).</li><li><code>README.md</code> ar paredzētajiem un iegūtajiem rezultātiem, kā arī skaidrojumu, kāpēc fokusu summē lokālajā mainīgajā <code>total</code>.</li></ul><p><b>Kā iesniedz:</b> Saglabā failus, veic <code>git commit</code> un <code>git push</code>. Skolotāja norādītajā vietā iesniedz GitHub krātuves saiti.</p></div></section>
 <section><h2>Ja kaut kas nestrādā</h2><ul><li><b>Enerģija un maksimums ir 0:</b> pārbaudi, vai izmanto konstruktoru ar norādītiem datiem, piemēram, new Stats(100, 10).</li><li><b>Atjaunošana nedarbojas:</b> izsauc anna.Heal(...), nevis atjauno no GetStats saņemto kopiju.</li><li><b>Fokuss aug katrā izsaukumā:</b> summē vietējā total mainīgajā, nevis pārraksti stats.Focus.</li><li><b>Bonusa noņemšana dod kļūdu:</b> indeksam jābūt esošai saraksta vietai. Tukšam sarakstam pirmās vietas nav.</li></ul></section>
 <details class="course-help"><summary>Izmantotā dokumentācija</summary><p><a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct">Microsoft: struktūras</a> · <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/value-types">Microsoft: vērtību kopēšana</a></p></details>
 <nav aria-label="Nodarbību navigācija" class="stundas-navigacija">

@@ -56,7 +56,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_3/prog2_3main">3. tēma</a> / 3.6</p>
 <h1>3.6 Noslēguma projekts: Klases turnīra simulators</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Savieno dalībniekus, šķēršļus un signālus simulatorā, kas pa kārtām noskaidro uzvarētāju.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Savieno dalībniekus, šķēršļus un signālus simulatorā, kas pa kārtām noskaidro uzvarētāju.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.1. Problēmu dekompozīcija</a>
 <a href="/sasnRez">SR 2.4.7. UI (lietotāja saskarne)</a>
@@ -98,7 +98,7 @@ Vienums izveletais = elementi[indekss];</code></pre>
 <p>Jēdziens „nejauši” nenozīmē „katrā reizē cits” — gluži kā metot spēļu kauliņu, viens skaitlis var uzkrist trīs reizes pēc kārtas, arī vairākās programmas palaišanās var atkārtoties viens un tas pats iznākums. Tāpēc aprēķinu formulas vispirms pārbauda ar fiksētiem, zināmiem indeksiem (piemēram, <code>0</code>), un tikai pēc tam ieslēdz <code>GD.RandRange</code>.</p>
 </div>
 <div class="logic-box" id="cikla-beigas"><h3>Nosacījuma cikls <code>while</code>, izbeigšanās garantija un drošības skaitītājs</h3>
-<p>Cikls <code>while</code> pirms katra soļa pārbauda loģisko nosacījumu un atkārto darbību, kamēr tas ir patiess. Lai cikls <b>garantēti beigtos</b>, nosacījumā jāpārbauda mainīgais <i>aktīvo</i> objektu skaits (nevis nemainīgais sākuma saraksta garums), un katram cikla solim sistēma neatgriezeniski jāpietuvina gala stāvoklim — piemēram, katrā solī vismaz par <code>1</code> vienību samazinot ierobežotu pozitīvu resursu bez tā papildināšanas ciklā.</p>
+<p>Cikls <code>while</code> pirms katra soļa pārbauda loģisko nosacījumu un atkārto darbību, kamēr tas ir patiess. Lai cikls <b>garantēti beigtos</b>, nosacījumā jāpārbauda mainīgais <i>aktīvo</i> objektu skaits (nevis nemainīgais sākuma saraksta garums), un katram cikla solim sistēma neatgriezeniski jāpietuvina gala stāvoklim - piemēram, katrā solī vismaz par <code>1</code> vienību samazinot ierobežotu pozitīvu resursu bez tā papildināšanas ciklā.</p>
 <pre><code class="language-csharp">int solis = 0;
 while (GetAktivos().Count &gt; 1 &amp;&amp; solis &lt; 1000)
 {
@@ -106,52 +106,76 @@ while (GetAktivos().Count &gt; 1 &amp;&amp; solis &lt; 1000)
     IzpilditSoli();
 }
 if (solis &gt;= 1000)
-    GD.Print("Sasniegts drošības limits — pārbaudi samazināšanu!");</code></pre>
+    GD.Print("Sasniegts drošības limits - pārbaudi samazināšanu!");</code></pre>
 <p>Loģiskais „un” (<code>&amp;&amp;</code>) pieprasa, lai izpildītos abi nosacījumi vienlaikus. Papildu robeža (piemēram, <code>solis &lt; 1000</code>) kalpo kā drošības bremze pret kļūdainu bezgalīgu ciklu: ja sasniegts skaitītāja griestu limits, programma neuzkaras, bet apstājas un izvada diagnostikas brīdinājumu.</p>
 </div></section>
-<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Savieno projektu un pārbaudi sākuma datus</h2>
-<p class="task-files"><b>Kur strādāt:</b> Atjauno esošo <code>Scripts/TournamentManager.cs</code> ar pilno piemēru un izveido vai atjauno <code>Scripts/TimeKeeper.cs</code>. Scēnas koku veido <code>Scenes/Tournament.tscn</code>; pārējo klašu versijas pārbaudi <code>Scripts/</code> mapē pēc tabulas zemāk.</p>
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Savieno noslēguma projekta scēnu un pārbaudi sākuma datus</h2>
+<p class="task-files"><b>Kur strādāt:</b> Sakārto scēnas koku <code>Scenes/Tournament.tscn</code>, izveido vai atjauno lomu <code>Scripts/TimeKeeper.cs</code> un papildini <code>Scripts/TournamentManager.cs</code> metodi <code>_Ready()</code>. Pārbaudi visu 8 C# failu saderību mapē <code>Scripts/</code> pēc tabulas zemāk.</p>
+<p><b>Scēnas koka uzbūve (<code>Scenes/Tournament.tscn</code>):</b></p>
+<pre><code>Tournament (Node - piesaistīts Scripts/TournamentManager.cs)
+ ├── PrinterQueue (Obstacle - Obstacle Name: "Rinda pie printera", Penalty: 20)
+ ├── WifiDrop (Obstacle - Obstacle Name: "Pazūd internets", Penalty: 12)
+ └── MissingMarker (Obstacle - Obstacle Name: "Pazudis marķieris", Penalty: 8)
+(Dalībnieku mezglus Anna, Jānis un Ieva šajā scēnā izveido kods ar new un AddChild!)</code></pre>
 <ol class="step-list">
-<li>Sagatavo <code>Scenes/Tournament.tscn</code> pēc koka zemāk: trīs <code>Obstacle</code> bērna mezglus iestati <b>Inspector</b> panelī kā 3.4. stundā, bet vecos dalībnieku mezglus scēnā manuāli nepievieno — trīs dalībniekus (<code>Captain</code> Anna ar <code>150</code>, <code>Presenter</code> Jānis ar <code>80</code>, <code>TimeKeeper</code> Ieva ar <code>100</code>) izveidos <code>TournamentManager</code> kods ar <code>new</code>, <code>AddChild(...)</code>, <code>Setup(...)</code> un <code>party.Add(...)</code>.</li>
-<li>Pārbaudi visu failu saderību pēc tabulas zemāk (saglabā 3.5. <code>Participant</code>, <code>Stats</code> un <code>Buff</code> un 3.3. lomu versijas bez parametru konstruktoriem; pamata rezultāts ir izdruka <b>Output</b> panelī).</li>
-<li>Izveido <code>TournamentManager.cs</code> un <code>TimeKeeper.cs</code> no pilnā piemēra zem uzdevumiem. Uz pirmo pārbaudi <code>_Ready()</code> beigās aizkomentē <code>RunTournament();</code> rindu.</li>
-<li>Palaid scēnu ar <b>F6</b> un pārbaudi trīs dalībnieku un trīs šķēršļu nosaukumus un sākuma skaitļus.</li>
+<li><b>Atver</b> scēnu <code>Scenes/Tournament.tscn</code> un <b>izdzēs</b> 3.3. stundā ar roku pievienotos bērna mezglus <code>Anna</code> un <code>Janis</code>, jo 3.6. stundā visus trīs dalībniekus dinamiski izveidos <code>TournamentManager</code> kods ar <code>new</code> un <code>AddChild(...)</code>.</li>
+<li><b>Pievieno</b> scēnas <code>Scenes/Tournament.tscn</code> saknei <code>Tournament</code> trīs <code>Obstacle</code> bērna mezglus ar precīziem nosaukumiem <code>PrinterQueue</code> (<b>Inspector</b>: <code>Obstacle Name = "Rinda pie printera"</code>, <code>Penalty = 20</code>), <code>WifiDrop</code> (<code>"Pazūd internets"</code>, <code>12</code>) un <code>MissingMarker</code> (<code>"Pazudis marķieris"</code>, <code>8</code>).</li>
+<li><b>Izveido</b> (vai atjauno) failu <code>res://Scripts/TimeKeeper.cs</code> ar klasi <code class="language-csharp">public partial class TimeKeeper : Participant</code>, kuras <code>override void ApplyPenalty(int amount)</code> pozitīvam sodam pieskaita <code>10</code> un izsauc <code class="language-csharp">base.ApplyPenalty(amount + 10);</code>.</li>
+<li><b>Pārbaudi</b> pārējos failus mapē <code>Scripts/</code> pēc tabulas zemāk (visu 8 failu pilns kods ir pieejams izvelkamajā blokā zem uzdevumiem).</li>
+<li><b>Atver</b> failu <code>Scripts/TournamentManager.cs</code> un metodē <code>_Ready()</code> izveido trīs dalībniekus (<code>Captain</code> Anna ar <code>150</code>, <code>Presenter</code> Jānis ar <code>80</code> un <code>TimeKeeper</code> Ieva ar <code>100</code>), pievieno tos ar <code>AddChild(...)</code> un <code>party.Add(...)</code>, atrodi trīs <code>Obstacle</code> mezglus ar <code>GetNode&lt;Obstacle&gt;(...)</code> un pieslēdz katram dalībniekam <code>p.Finished += OnParticipantFinished;</code>.</li>
+<li><b>Palaid</b> scēnu <code>Scenes/Tournament.tscn</code> ar <b>F6</b> (pirms pilnā cikla vari aizkomentēt <code>RunTournament();</code> rindu) un pārliecinies, ka <b>Output</b> panelī izdrukājas trīs dalībnieku sākuma enerģijas (<code>150</code>, <code>80</code>, <code>100</code>) un trīs šķēršļu sodi (<code>20</code>, <code>12</code>, <code>8</code>).</li>
 </ol>
-<pre><code>Tournament (Node, skripts TournamentManager.cs)
-├── PrinterQueue (Obstacle; Penalty = 20)
-├── WifiDrop (Obstacle; Penalty = 12)
-└── MissingMarker (Obstacle; Penalty = 8)</code></pre>
-<div class="table-scroll" role="region" aria-label="Failu pienākumi" tabindex="0"><table><thead><tr><th scope="col">Fails</th><th scope="col">Ko tas glabā vai dara</th><th scope="col">Piemērs</th></tr></thead><tbody>
-<tr><td>Participant.cs</td><td>Glabā dalībnieka datus, maina enerģiju, paziņo par izstāšanos.</td><td>ApplyPenalty, IsActive, Finished</td></tr>
-<tr><td>Captain.cs, Presenter.cs, TimeKeeper.cs</td><td>Nosaka katras lomas reakciju uz pozitīvu sodu.</td><td>Captain: vismaz 1, par 10 mazāk; Presenter: +5; TimeKeeper: +10.</td></tr>
-<tr><td>Stats.cs un Buff.cs</td><td>Grupē skaitļus un apraksta bonusus.</td><td>Energy, MaxEnergy, Focus</td></tr>
-<tr><td>Obstacle.cs</td><td>Glabā šķēršļa nosaukumu un pozitīvu sodu.</td><td>Pazūd internets, sods 12</td></tr>
-<tr><td>TournamentManager.cs</td><td>Izveido dalībniekus, izvēlas kārtas notikumu un pārbauda turnīra beigas.</td><td>PlayTurn un RunTournament</td></tr>
+<div class="table-scroll" role="region" aria-label="Failu pienākumi" tabindex="0"><table><thead><tr><th scope="col">Fails mapē <code>Scripts/</code></th><th scope="col">Ko tas glabā vai dara</th><th scope="col">Galvenie elementi</th></tr></thead><tbody>
+<tr><td><code>Stats.cs</code> un <code>Buff.cs</code></td><td>Struktūras skaitliskajiem rādītājiem un pagaidu fokusa bonusiem.</td><td><code>Energy</code>, <code>MaxEnergy</code>, <code>Focus</code>, <code>Heal()</code></td></tr>
+<tr><td><code>Participant.cs</code></td><td>Bāzes mezgla klase: glabā <code>Stats</code> un <code>List&lt;Buff&gt;</code>, samazina enerģiju un raida <code>Finished</code>.</td><td><code>Setup()</code>, <code>virtual ApplyPenalty()</code>, <code>IsActive()</code>, <code>Finished</code></td></tr>
+<tr><td><code>Captain.cs</code>, <code>Presenter.cs</code>, <code>TimeKeeper.cs</code></td><td>Atvasinātās lomu klases ar atšķirīgu soda aprēķinu.</td><td><code>Captain</code>: <code>Math.Max(1, amount - 10)</code>; <code>Presenter</code>: <code>+5</code>; <code>TimeKeeper</code>: <code>+10</code></td></tr>
+<tr><td><code>Obstacle.cs</code></td><td>Ar <code>[GlobalClass]</code> reģistrēts šķēršļa mezgls ar <b>Inspector</b> parametriem.</td><td><code>[Export] ObstacleName</code>, <code>[Export] Penalty</code></td></tr>
+<tr><td><code>TournamentManager.cs</code></td><td>Izveido dalībniekus, izpilda kārtas un noskaidro uzvarētāju.</td><td><code>GetActiveParticipants()</code>, <code>PlayTurn()</code>, <code>RunTournament()</code></td></tr>
 </tbody></table></div>
-<p class="done-when"><b>Gatavs, kad:</b> dalībnieku enerģijas ir 150, 80, 100; šķēršļu sodi — 20, 12, 8.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Izseko vienai kārtai un nejaušai izvēlei</h2>
-<p class="task-files"><b>Kur strādāt:</b> Indeksu izvēli maini <code>Scripts/TournamentManager.cs</code> metodē <code>PlayTurn()</code>, pagaidu izsaukumus pievieno tā paša faila metodei <code>_Ready()</code>.</p>
+<p class="done-when"><b>Gatavs, kad:</b> <b>Output</b> panelī redzamas dalībnieku sākuma enerģijas <code>150</code>, <code>80</code>, <code>100</code> un šķēršļu sodi <code>20</code>, <code>12</code>, <code>8</code>.</p></section>
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Izseko vienai kārtai (<code>PlayTurn</code>) un nejaušai izvēlei</h2>
+<p class="task-files"><b>Kur strādāt:</b> Metodes <code>GetActiveParticipants()</code> un <code>PlayTurn()</code> veido un pārbaudi failā <code>Scripts/TournamentManager.cs</code>.</p>
 <ol class="step-list">
-<li>Izpēti <code>GetActiveParticipants()</code> un <code>PlayTurn()</code> darbības soļus: izveido sarakstu ar <code>IsActive() == true</code> dalībniekiem → ja aktīvo ir mazāk par diviem, kārtu nesāk → izvēlas vienu aktīvu dalībnieku un vienu šķērsli → saglabā enerģiju pirms soda, izsauc <code>ApplyPenalty</code> un izdrukā pirms/pēc (ja enerģija kļūst <code>0</code>, <code>Finished</code> signāls izdrukā izstāšanos).</li>
-<li>Pirmajā izmēģinājumā metodē <code>PlayTurn()</code> īslaicīgi iestati abus indeksus uz <code>0</code> un <code>_Ready()</code> beigās izsauc <code>PlayTurn();</code> vienreiz. Salīdzini ar tabulu zemāk: Annai pēc <code>20</code> punktu šķēršļa jāpaliek <code>140</code>.</li>
-<li>Atjauno nejaušo indeksu izvēli ar <code>(int)GD.RandRange(0, active.Count - 1)</code> un <code>obstacles.Count - 1</code>. Izsauc <code>PlayTurn()</code> trīs reizes un izpēti katras kārtas izdruku.</li>
-<li>Pārbaudi vismaz vienu katras lomas soda aprēķinu ar zināmiem datiem pēc tabulas zemāk. Atkārtojošs nejaušs šķērslis vai dalībnieks pats par sevi nav kļūda.</li>
+<li><b>Pārliecinies</b>, ka failā <code>Scripts/TournamentManager.cs</code> ir metode <code>GetActiveParticipants()</code>, kas ar <code>foreach</code> ciklu izveido un atgriež jaunu <code>List&lt;Participant&gt;</code> sarakstu tikai ar tiem dalībniekiem, kuriem <code>p.IsActive()</code> ir <code>true</code>.</li>
+<li><b>Pārbaudi</b> metodi <code>PlayTurn()</code>: tā iegūst aktīvo dalībnieku sarakstu <code>active</code>, pārliecinās, ka <code>active.Count &gt;= 2</code>, izvēlas vienu dalībnieku un vienu šķērsli, palielina <code>currentTurn++</code>, izsauc <code>target.ApplyPenalty(obstacle.Penalty)</code> un izdrukā enerģiju pirms un pēc soda.</li>
+<li><b>Veic</b> fiksēto pirmo pārbaudi: metodē <code>PlayTurn()</code> īslaicīgi iestati abus indeksus uz <code>0</code> (<code class="language-csharp">int participantIndex = 0; int obstacleIndex = 0;</code>) un <code>_Ready()</code> beigās izsauc <code>PlayTurn();</code> vienu reizi. Pārliecinies ar <b>F6</b>, ka kapteinei Annai pēc <code>20</code> punktu šķēršļa enerģija mainās <code>150 → 140</code>.</li>
+<li><b>Atjauno</b> metodē <code>PlayTurn()</code> nejaušo indeksu izvēli:
+<code class="language-csharp">int participantIndex = (int)GD.RandRange(0, active.Count - 1);</code> un
+<code class="language-csharp">int obstacleIndex = (int)GD.RandRange(0, obstacles.Count - 1);</code>.</li>
+<li><b>Izsauc</b> <code>_Ready()</code> beigās <code>PlayTurn();</code> trīs reizes pēc kārtas un pēc tabulas zemāk pārbaudi, ka katras izvēlētās lomas enerģijas samazinājums precīzi atbilst tās <code>override</code> noteikumam.</li>
 </ol>
+<pre><code class="language-csharp">// Fragments no Scripts/TournamentManager.cs:
+private void PlayTurn()
+{
+    List&lt;Participant&gt; active = GetActiveParticipants();
+    if (active.Count &lt; 2 || obstacles.Count == 0) return;
+
+    int participantIndex = (int)GD.RandRange(0, active.Count - 1);
+    int obstacleIndex = (int)GD.RandRange(0, obstacles.Count - 1);
+    Participant target = active[participantIndex];
+    Obstacle obstacle = obstacles[obstacleIndex];
+
+    currentTurn++;
+    int before = target.GetEnergy();
+    GD.Print("Kārta ", currentTurn, ": ", obstacle.ObstacleName, " -&gt; ", target.ParticipantName);
+    target.ApplyPenalty(obstacle.Penalty);
+    GD.Print("Enerģija: ", before, " -&gt; ", target.GetEnergy());
+}</code></pre>
 <div class="table-scroll" role="region" aria-label="Vienas kārtas piemēri" tabindex="0"><table><thead><tr><th scope="col">Izvēlētais dalībnieks</th><th scope="col">Šķēršļa sods</th><th scope="col">Lomas aprēķins</th><th scope="col">Enerģija</th></tr></thead><tbody>
-<tr><td>Captain Anna</td><td>20</td><td>20 − 10 = 10</td><td>150 → 140</td></tr>
-<tr><td>Presenter Jānis</td><td>12</td><td>12 + 5 = 17</td><td>80 → 63</td></tr>
-<tr><td>TimeKeeper Ieva</td><td>8</td><td>8 + 10 = 18</td><td>100 → 82</td></tr>
+<tr><td><code>Captain</code> Anna</td><td>20</td><td>20 − 10 = 10</td><td>150 → 140</td></tr>
+<tr><td><code>Presenter</code> Jānis</td><td>12</td><td>12 + 5 = 17</td><td>80 → 63</td></tr>
+<tr><td><code>TimeKeeper</code> Ieva</td><td>8</td><td>8 + 10 = 18</td><td>100 → 82</td></tr>
 </tbody></table></div>
-<p class="done-when"><b>Gatavs, kad:</b> vari no izdrukas izskaidrot izvēlēto šķērsli, dalībnieku un enerģijas izmaiņu.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Pabeidz turnīru un pārbaudi rezultātu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Atjauno <code>Scripts/TournamentManager.cs</code> metodes <code>_Ready()</code> beigas un signālu pieslēgumus. Turnīru rezultātus pieraksti <code>README.md</code>.</p>
+<p class="done-when"><b>Gatavs, kad:</b> gan fiksētajā (<code>0</code>), gan nejaušajā režīmā vari pēc <b>Output</b> izdrukas izskaidrot izvēlēto šķērsli, dalībnieku un enerģijas izmaiņu.</p></section>
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Izpildi pilnu turnīru (<code>RunTournament</code>) un dokumentē rezultātus</h2>
+<p class="task-files"><b>Kur strādāt:</b> Metodi <code>RunTournament()</code> izsauc failā <code>Scripts/TournamentManager.cs</code> metodes <code>_Ready()</code> beigās. Novērojumus un skaidrojumus ieraksti projekta saknes failā <code>README.md</code>.</p>
 <ol class="step-list">
-<li>Noņem pagaidu <code>PlayTurn()</code> izsaukumus un <code>_Ready()</code> beigās atjauno tikai <code>RunTournament();</code> (ievēro, kāpēc <code>while (GetActiveParticipants().Count &gt; 1 &amp;&amp; currentTurn &lt; 1000)</code> lieto aktīvo dalībnieku skaitu, nevis <code>party.Count</code>, kas vienmēr paliek <code>3</code>, un kāpēc pie sākuma enerģiju summas <code>330</code> un vismaz <code>1</code> zaudēta punkta kārtā turnīrs vienmēr beidzas krietni pirms <code>1000</code> kārtām).</li>
-<li>Pārbaudi, ka <code>Finished</code> signāli visiem dalībniekiem ir pieslēgti pirms pirmās kārtas.</li>
-<li>Palaid pilnu turnīru: divi dalībnieki izstājas, paliek viens uzvarētājs un redzams kārtu skaits.</li>
-<li>Palaid scēnu no jauna trīs reizes. README pieraksti uzvarētāju, kārtu skaitu un novērojumus; uzvarētāji drīkst atkārtoties.</li>
-<li>Salīdzini rezultātu ar pārbaudes tabulu zemāk un iesniedz pārbaudīto versiju.</li>
-</ol><p class="done-when"><b>Gatavs, kad:</b> katrs turnīrs beidzas, izstājušies dalībnieki vairs netiek izvēlēti un enerģija nav negatīva.</p></section>
+<li><b>Atver</b> failu <code>Scripts/TournamentManager.cs</code> un metodes <code>_Ready()</code> beigās noņem pagaidu <code>PlayTurn()</code> izsaukumus, atstājot tikai <code class="language-csharp">RunTournament();</code>.</li>
+<li><b>Pārbaudi</b> metodi <code>RunTournament()</code>: cikls <code class="language-csharp">while (GetActiveParticipants().Count &gt; 1 &amp;&amp; currentTurn &lt; 1000)</code> atkārto <code>PlayTurn();</code>, kamēr aktīvi ir vismaz divi dalībnieki, un beigās izdrukā vienīgo palikušo uzvarētāju un kopējo kārtu skaitu <code>currentTurn</code>.</li>
+<li><b>Palaid</b> scēnu <code>Scenes/Tournament.tscn</code> ar <b>F6</b> trīs reizes pēc kārtas un pārliecinies, ka katrā palaišanā tieši divi dalībnieki izstājas (ar <code>Finished</code> signāla paziņojumu), izstājušies dalībnieki vairs netiek izvēlēti un beigās tiek paziņots uzvarētājs.</li>
+<li><b>Ieraksti</b> failā <code>README.md</code>: (a) trīs palaišanu rezultātus (uzvarētāju un kārtu skaitu); (b) kāpēc <code>while</code> nosacījumā jālieto <code>GetActiveParticipants().Count</code>, nevis <code>party.Count</code>; (c) kāpēc turnīrs ar sākuma enerģiju summu <code>330</code> un vismaz <code>1</code> zaudētu punktu kārtā garantēti beidzas pirms <code>1000</code> kārtām.</li>
+<li><b>Salīdzini</b> savu projektu ar pirmseksporta pārbaudes tabulu un SLA kritērijiem zemāk, tad veic <code>git commit</code> un <code>git push</code>.</li>
+</ol><p class="done-when"><b>Gatavs, kad:</b> katra turnīra palaišana beidzas ar vienu uzvarētāju, izstājušies dalībnieki vairs netiek izvēlēti, un secinājumi ir ierakstīti <code>README.md</code>.</p></section>
 <section id="parbaudes"><h2>Pārbaudes pirms iesniegšanas</h2><div class="table-scroll" role="region" aria-label="Turnīra pārbaudes" tabindex="0"><table><thead><tr><th scope="col">Pārbaude</th><th scope="col">Sagaidāmais rezultāts</th></tr></thead><tbody>
 <tr><td>Fiksēta pirmā kārta: Anna, sods 20</td><td>150 → 140.</td></tr>
 <tr><td>Dalībniekam paliek mazāk punktu nekā sods</td><td>Enerģija apstājas pie 0; viens Finished paziņojums.</td></tr>
@@ -160,10 +184,136 @@ if (solis &gt;= 1000)
 <tr><td>Trīs jaunas scēnas palaišanas</td><td>Katrs turnīrs sākas no sākuma datiem un beidzas; rezultāti var atkārtoties.</td></tr>
 </tbody></table></div>
 </section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — Viena kārta ar pogu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Pogu un Label mezglus pievieno <code>Scenes/Tournament.tscn</code>. Signāla apstrādātāju un tekstu atjaunošanu raksti <code>Scripts/TournamentManager.cs</code>; <code>_Ready()</code> nomaini automātisko turnīra palaišanu pret pogas signāla pieslēgšanu.</p>
-<p>_Ready beigās izņem RunTournament izsaukumu. Pievieno Button un tā Pressed signālam pieslēdz metodi, kas izsauc PlayTurn vienu reizi un pēc tam atjauno Label tekstus. Kad palicis viens aktīvs dalībnieks, parādi uzvarētāju un atspējo pogu. Garš while cikls izpildās vienā piegājienā; ar pogu katru kārtu vari aplūkot atsevišķi.</p></details>
-<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>TimeKeeper.cs</h3>
+<details class="course-help extra-task"><summary>Papildu uzdevums - Izpildi pa vienai kārtai ar <code>Button</code> un <code>Label</code> saskarni</summary>
+<p class="task-files"><b>Kur strādāt:</b> Mezgliem <code>NextTurnButton</code> (<code>Button</code>) un <code>StatusLabel</code> (<code>Label</code>) vietu izveido scēnā <code>Scenes/Tournament.tscn</code>; pogas signāla apstrādi pievieno <code>Scripts/TournamentManager.cs</code>.</p>
+<p>Ja pamatdarbs ir gatavs, pievieno pogu, lai visu <code>while</code> ciklu varētu izspēlēt arī soli pa solim ar ekrāna uzrakstiem.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> scēnā <code>Scenes/Tournament.tscn</code> bērna mezglus <code>StatusLabel</code> (<code>Label</code>) un <code>NextTurnButton</code> (<code>Button</code> ar tekstu <code>"Nākamā kārta"</code>).</li>
+<li><b>Aizstāj</b> <code>_Ready()</code> beigās automātisko <code>RunTournament();</code> ar pogas pieslēgumu: <code class="language-csharp">GetNode&lt;Button&gt;("NextTurnButton").Pressed += OnNextTurnPressed;</code>.</li>
+<li><b>Metodē</b> <code>OnNextTurnPressed()</code> izsauc <code>PlayTurn();</code> vienu reizi un atjauno <code>StatusLabel.Text</code> ar visu dalībnieku pašreizējām enerģijām; kad palicis viens aktīvs dalībnieks, parādi uzvarētāju un atspējo pogu (<code>Disabled = true</code>).</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> katrs klikšķis uz pogas izpilda vienu kārtu un atjauno dalībnieku enerģijas uz ekrāna līdz pat uzvarētāja noteikšanai.</p></details>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai — visi 8 noslēguma projekta C# faili</summary><p>Katru piemēru liec norādītajā failā mapē <code>Scripts/</code>. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p>
+<h3>1. fails: <code>Scripts/Stats.cs</code></h3>
+<pre><code class="language-csharp" id="kods-stats-cs">using System;
+
+public struct Stats
+{
+    public int Energy;
+    public int MaxEnergy;
+    public int Focus;
+
+    public Stats(int energy, int focus)
+    {
+        Energy = energy;
+        MaxEnergy = energy;
+        Focus = focus;
+    }
+
+    public void Heal(int amount)
+    {
+        if (amount &lt;= 0) return;
+        Energy = Math.Min(MaxEnergy, Energy + amount);
+    }
+}</code></pre>
+<h3>2. fails: <code>Scripts/Buff.cs</code></h3>
+<pre><code class="language-csharp" id="kods-buff-cs">public struct Buff
+{
+    public string Name;
+    public int FocusBonus;
+}</code></pre>
+<h3>3. fails: <code>Scripts/Participant.cs</code></h3>
+<pre><code class="language-csharp" id="kods-participant-cs">using Godot;
+using System;
+using System.Collections.Generic;
+
+public partial class Participant : Node
+{
+    [Signal]
+    public delegate void FinishedEventHandler(string participantName);
+
+    public string ParticipantName = "Dalībnieks";
+    private Stats stats = new Stats(100, 10);
+    private List&lt;Buff&gt; buffs = new List&lt;Buff&gt;();
+
+    public void Setup(string name, int initialEnergy)
+    {
+        ParticipantName = name;
+        stats = new Stats(Math.Max(0, initialEnergy), 10);
+        buffs.Clear();
+    }
+
+    public virtual void ApplyPenalty(int amount)
+    {
+        if (!IsActive() || amount &lt;= 0) return;
+        stats.Energy = Math.Max(0, stats.Energy - amount);
+        if (stats.Energy == 0)
+            EmitSignal(SignalName.Finished, ParticipantName);
+    }
+
+    public int GetEnergy()
+    {
+        return stats.Energy;
+    }
+
+    public bool IsActive()
+    {
+        return stats.Energy &gt; 0;
+    }
+
+    public Stats GetStats()
+    {
+        return stats;
+    }
+
+    public void Heal(int amount)
+    {
+        if (IsActive()) stats.Heal(amount);
+    }
+
+    public void AddBuff(Buff buff)
+    {
+        buffs.Add(buff);
+    }
+
+    public void RemoveBuffAt(int index)
+    {
+        buffs.RemoveAt(index);
+    }
+
+    public int GetTotalFocus()
+    {
+        int total = stats.Focus;
+        foreach (Buff buff in buffs)
+        {
+            total += buff.FocusBonus;
+        }
+        return total;
+    }
+}</code></pre>
+<h3>4. fails: <code>Scripts/Captain.cs</code></h3>
+<pre><code class="language-csharp" id="kods-captain-cs">using System;
+
+public partial class Captain : Participant
+{
+    private int stability = 10;
+
+    public override void ApplyPenalty(int amount)
+    {
+        if (amount &lt;= 0) return;
+        base.ApplyPenalty(Math.Max(1, amount - stability));
+    }
+}</code></pre>
+<h3>5. fails: <code>Scripts/Presenter.cs</code></h3>
+<pre><code class="language-csharp" id="kods-presenter-cs">public partial class Presenter : Participant
+{
+    public override void ApplyPenalty(int amount)
+    {
+        if (amount &lt;= 0) return;
+        base.ApplyPenalty(amount + 5);
+    }
+}</code></pre>
+<h3>6. fails: <code>Scripts/TimeKeeper.cs</code></h3>
 <pre><code class="language-csharp" id="kods-timekeeper-cs">public partial class TimeKeeper : Participant
 {
     public override void ApplyPenalty(int amount)
@@ -172,7 +322,31 @@ if (solis &gt;= 1000)
         base.ApplyPenalty(amount + 10);
     }
 }</code></pre>
-<h3>TournamentManager.cs</h3>
+<h3>7. fails: <code>Scripts/Obstacle.cs</code> (piesaistīts <code>PrinterQueue</code>, <code>WifiDrop</code> un <code>MissingMarker</code> mezgliem)</h3>
+<pre><code class="language-csharp" id="kods-obstacle-cs">using Godot;
+using System;
+
+[GlobalClass]
+public partial class Obstacle : Node
+{
+    private int penalty = 20;
+
+    [Export]
+    public string ObstacleName { get; set; } = "Rinda pie printera";
+
+    [Export(PropertyHint.Range, "1,50,1")]
+    public int Penalty
+    {
+        get { return penalty; }
+        set { penalty = Math.Max(1, value); }
+    }
+
+    public override void _Ready()
+    {
+        GD.Print(ObstacleName, ": sods ", Penalty);
+    }
+}</code></pre>
+<h3>8. fails: <code>Scripts/TournamentManager.cs</code> (piesaistīts <code>Tournament</code> saknei scēnā <code>Scenes/Tournament.tscn</code>)</h3>
 <pre><code class="language-csharp" id="kods-tournamentmanager-cs">using Godot;
 using System.Collections.Generic;
 
@@ -267,15 +441,17 @@ public partial class TournamentManager : Node
     }
 }</code></pre>
 </details>
-<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2><p>GitHub krātuvē saglabā projektu un šādus pierādījumus:</p><ul><li>Pilns Godot projekts ar scēnu, dalībnieku lomām, Stats, Buff, Obstacle un TournamentManager.</li><li>Output izdruka ar pilnu turnīru, diviem izstāšanās paziņojumiem un uzvarētāju.</li><li>README: palaišanas norādes, pārbaudes tabulas rezultāti, trīs turnīru novērojumi un skaidrojums, kā cikls beidzas.</li></ul><p>Saglabā failus, veic commit ar izmaiņu aprakstu un push. Skolotāja norādītajā vietā iesniedz krātuves saiti.</p><p>Pirms iesniegšanas salīdzini projektu, Output izdruku un README ar <a href="#vertesana">SLA tabulu</a>.</p></div></section>
+<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> Visi 3. tēmas objektorientētās programmēšanas komponenti (bāzes klase <code>Participant</code>, atvasinātās lomas <code>Captain</code>, <code>Presenter</code>, <code>TimeKeeper</code>, datu struktūras <code>Stats</code> un <code>Buff</code>, redaktora mezgls <code>Obstacle</code> un <code>Finished</code> signāli) ir savienoti strādājošā klases turnīra simulatorā <code>Scripts/TournamentManager.cs</code>.</p>
+<p><b>GitHub krātuvē saglabā projektu un šādus pierādījumus:</b></p><ul><li>Pilnu Godot projektu ar scēnu <code>Scenes/Tournament.tscn</code> un visiem 8 C# failiem mapē <code>Scripts/</code> (<code>Stats.cs</code>, <code>Buff.cs</code>, <code>Participant.cs</code>, <code>Captain.cs</code>, <code>Presenter.cs</code>, <code>TimeKeeper.cs</code>, <code>Obstacle.cs</code>, <code>TournamentManager.cs</code>).</li><li><b>Output</b> paneļa izdruku ar pilnu turnīra gaitu, diviem izstāšanās paziņojumiem un uzvarētāju.</li><li><code>README.md</code>: palaišanas norādes, pārbaudes tabulas rezultātus, trīs turnīru palaišanu novērojumus un skaidrojumu, kāpēc cikls garantēti beidzas.</li></ul><p><b>Kā iesniedz:</b> Saglabā failus, veic <code>git commit</code> un <code>git push</code>. Skolotāja norādītajā vietā iesniedz GitHub krātuves saiti. Pirms iesniegšanas salīdzini projektu, <b>Output</b> izdruku un <code>README.md</code> ar <a href="#vertesana">SLA tabulu</a>.</p></div></section>
 <section id="vertesana" aria-labelledby="vertesanas-virsraksts">
 <h2 id="vertesanas-virsraksts">Vērtēšanas kritēriji (SLA)</h2>
-<p>Snieguma līmeņu apraksts (SLA) attiecas uz 3. tēmas noslēguma projektu: klases turnīra simulatoru, tā Godot projektu, Output izdruku, <code>README.md</code> un GitHub versiju. Katru kritēriju pārbauda ar konkrētu darbību — palaid scēnu, apskati Output paneli vai atver norādīto failu.</p>
-<p>“Apguvis” apraksta pilnīgi izpildītas pamatprasības; “Apguvis padziļināti” — arī prasmi ar sava projekta piemēru pamatot, kāpēc kods darbojas tieši tā. Dotais kods ir atļauts atbalsts; vērtē, vai projekts darbojas un vai vari to izskaidrot. Papildu uzdevums ar pogu nav vajadzīgs nevienam līmenim.</p>
+<p>Snieguma līmeņu apraksts (SLA) attiecas uz 3. tēmas noslēguma projektu: klases turnīra simulatoru, tā Godot projektu, Output izdruku, <code>README.md</code> un GitHub versiju. Katru kritēriju pārbauda ar konkrētu darbību - palaid scēnu, apskati Output paneli vai atver norādīto failu.</p>
+<p>“Apguvis” apraksta pilnīgi izpildītas pamatprasības; “Apguvis padziļināti” - arī prasmi ar sava projekta piemēru pamatot, kāpēc kods darbojas tieši tā. Dotais kods ir atļauts atbalsts; vērtē, vai projekts darbojas un vai vari to izskaidrot. Papildu uzdevums ar pogu nav vajadzīgs nevienam līmenim.</p>
 <p>Šaurā ekrānā tabulu ritini horizontāli, lai apskatītu visus līmeņus.</p>
 <div class="table-scroll" role="region" aria-labelledby="vertesanas-virsraksts" tabindex="0">
 <table class="assessment-rubric">
-<caption>3. tēmas noslēguma projekts — klases turnīra simulators</caption>
+<caption>3. tēmas noslēguma projekts - klases turnīra simulators</caption>
 <thead>
 <tr>
 <th scope="col">Kritērijs</th>
@@ -304,7 +480,7 @@ public partial class TournamentManager : Node
 <th scope="row">Signāli un izstāšanās paziņojumi<br><small><a href="#uzdevums-2">2. uzdevums</a> · <a href="#uzdevums-3">3. uzdevums</a> · <a href="#parbaudes">Pārbaudes</a></small></th>
 <td><code>Finished</code> signāla nav vai izstāšanās paziņojums neparādās.</td>
 <td>Paziņojums parādās tikai daļai izstājušos dalībnieku, vienam dalībniekam atkārtojas vai signāls pieslēgts pēc pirmās kārtas.</td>
-<td><code>Finished</code> visiem dalībniekiem pieslēgts ar <code>+=</code> pirms turnīra. Pilnā turnīrā Output ir tieši divi izstāšanās paziņojumi — katram izstājušajam vienu reizi —, un viņa enerģija apstājas pie 0.</td>
+<td><code>Finished</code> visiem dalībniekiem pieslēgts ar <code>+=</code> pirms turnīra. Pilnā turnīrā Output ir tieši divi izstāšanās paziņojumi - katram izstājušajam vienu reizi -, un viņa enerģija apstājas pie 0.</td>
 <td>Izpildīts “Apguvis”; README paskaidro, kura klase signālu raida un kura to saņem, kāpēc pieslēgšana jāveic pirms kārtām un kāpēc sods jau izstājušamies dalībniekam nerada otru paziņojumu.</td>
 </tr>
 <tr>

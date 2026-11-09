@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_6/prog2_6main">6. tēma</a> / 6.6</p>
 <h1>6.6 Noslēguma projekts: Atjautības spēle</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveidot un publicēt pilnvērtīgu atjautības spēli ar visu apgūto.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Izveidot un publicēt pilnvērtīgu atjautības spēli ar visu apgūto.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.1. Problēmu dekompozīcija</a>
 <a href="/sasnRez">SR 2.4.7. UI (lietotāja saskarne)</a>
@@ -112,14 +112,14 @@ private bool VaiMekletaisStavoklisSasniegts(int[,] dati, int[,] paraugs)
 <li><b>Kvalitātes pārbaude un dokumentēšana:</b> pirms nodošanas pārbauda kompilēto darbvirsmas būvējumu ārpus izstrādes vides, apraksta uzbūvi un vadību <code>README.md</code> dokumentācijā un norāda izmantoto ārējo resursu licences.</li>
 </ul>
 <p>Šāda slāņu atdalīšana C# kodā ļauj datu kodolu uzturēt un testēt neatkarīgi no ekrāna vadīklām:</p>
-<pre><code class="language-csharp">// 1. slānis — tīrs C# datu kodols (neatkarīgs no ekrāna mezgliem un skaņas):
+<pre><code class="language-csharp">// 1. slānis - tīrs C# datu kodols (neatkarīgs no ekrāna mezgliem un skaņas):
 public class RezgjaModelis
 {
     public int DarbibuSkaits { get; private set; }
     public bool LietotIzmainu(int x, int y) { DarbibuSkaits++; return true; }
 }
 
-// 2. slānis — Godot saskarnes mezgls, kas savieno kodolu ar skatu un audio:
+// 2. slānis - Godot saskarnes mezgls, kas savieno kodolu ar skatu un audio:
 public partial class DarbaSkats : Control
 {
     private readonly RezgjaModelis modelis = new();
@@ -133,129 +133,533 @@ public partial class DarbaSkats : Control
 }</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Izvēlies puzli un uztaisi laukumu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Plānu raksti <code>README.md</code>. Izveido <code>Scenes/Puzzle.tscn</code> ar Node2D sakni un piesaisti tai <code>Scripts/PuzzleBoard.cs</code>; šajā skriptā glabā grid, attēlo laukumu un apstrādā ievadi.</p>
+<p class="task-number">1. uzdevums</p><h2>Izveido atjautības spēles laukumu un gājienu loģiku</h2>
+<p class="task-files"><b>Kur strādāt:</b> Īsu spēles plānu ieraksti <code>README.md</code>. Atver 6.1. stundā izveidoto scēnu <code>Scenes/Puzzle.tscn</code>, pievieno tai laukuma konteineru <code>BoardGrid</code> (<code>GridContainer</code>) un vadības pogas, bet saknei <code>Puzzle</code> piesaisti jaunu skriptu <code>Scripts/PuzzleBoard.cs</code>.</p>
 
-<p>Beigās tev būs spēles laukums, ko var apskatīt un ar ko darboties.</p>
+<p>Beigās tev būs interaktīvs 4×4 režģa puzles laukums, kurā 2D masīva <code>int[,] grid</code> stāvoklis vienmēr precīzi atbilst ekrānā redzamajiem lauciņiem un neatļauti gājieni tiek noraidīti.</p>
+<p><b>Scēnas koka uzbūve (<code>Scenes/Puzzle.tscn</code>):</b></p>
+<pre><code>Puzzle (Control - Layout: Full Rect, piesaistīts Scripts/PuzzleBoard.cs)
+ ├── Background (ColorRect - Layout: Full Rect, Color: #162032)
+ ├── MainVBox (VBoxContainer - Layout: Center, Separation: 12)
+ │    ├── TitleLabel (Label - Text: "ATJAUTĪBAS SPĒLE")
+ │    ├── StatusLabel (Label - Text: "1. līmenis | Gājieni: 0 | Rekords: -")
+ │    ├── BoardGrid (GridContainer - Columns: 4)
+ │    ├── MessageLabel (Label - Text: "Sakārto lauciņus 1..15 pēc kārtas!")
+ │    └── ButtonsHBox (HBoxContainer - Separation: 12)
+ │         ├── RestartButton (Button - Text: "Sākt no jauna")
+ │         └── MenuButton (Button - Text: "Uz izvēlni")
+ └── AudioManager (Node - piesaistīts Scripts/AudioManager.cs)
+      ├── SFX (AudioStreamPlayer - Bus: "SFX")
+      └── Music (AudioStreamPlayer - Bus: "Music")</code></pre>
 <ol class="step-list">
-<li><b>Izvēlies</b> vienu variantu: Sokoban, Match-3, Tetris klons vai 4x4 mozaīka.</li>
-<li><b>Izveido</b> README.md failā īsu laukuma plānu: kā izskatīsies laukums un kas ir uzvara.</li>
-<li><b>Izveido</b> režģi ar <code class="language-csharp">int[,] grid = new int[Width, Height];</code>.</li>
-<li><b>Attēlo</b> režģi uz ekrāna ar <code>TileMap</code> (flīžu karte) vai <code>ColorRect</code> node.</li>
-<li><b>Pievieno</b> vadību, kas maina režģa saturu.</li>
-<li><b>Palaid</b> un pārbaudi, ka ekrāns atbilst režģa saturam.</li>
-<li><b>Pārliecinies</b>, ka nevar izdarīt neatļautu gājienu.</li>
+<li><b>Izvēlies</b> vienu režģa puzles mehāniku un ieraksti <code>README.md</code> īsu plānu (kā izskatās laukums, kādi gājieni ir atļauti un kas ir uzvara). Ieteicamais pamata variants ar pilnu parauga kodu zemāk ir <b>4×4 bīdāmā skaitļu mozaīka</b> (<i>Sliding Puzzle</i>, kur tukšais lauciņš ir <code>0</code>), bet vari izvēlēties arī Sokoban, Match-3 vai Lights-Out.</li>
+<li><b>Atver</b> scēnu <code>Scenes/Puzzle.tscn</code> un izveido augstāk redzamo UI mezglu struktūru ar <code>GridContainer</code> mezglu <code>MainVBox/BoardGrid</code> (<b>Inspector</b> iestati <code>Columns = 4</code>).</li>
+<li><b>Izveido</b> skriptu <code>res://Scripts/PuzzleBoard.cs</code> (<code>public partial class PuzzleBoard : Control</code>) un piesaisti to <code>Scenes/Puzzle.tscn</code> saknei <code>Puzzle</code>.</li>
+<li><b>Definē</b> klases lauku <code class="language-csharp">private readonly int[,] grid = new int[4, 4];</code> un metodi <code>RenderBoard()</code>, kas pēc <code>grid[x, y]</code> vērtībām atjauno 16 lauciņu pogu tekstus un krāsas iekš <code>BoardGrid</code>.</li>
+<li><b>Uzraksti</b> gājiena metodi <code class="language-csharp">private void OnTilePressed(int x, int y)</code>, kas pārbauda, vai nospiestais lauciņš ir tiešs kaimiņš (pa kreisi, pa labi, augšā vai apakšā) tukšajam lauciņam (<code>0</code>) ar Manhetenas attālumu <code class="language-csharp">Math.Abs(x - emptyX) + Math.Abs(y - emptyY) == 1</code>.</li>
+<li><b>Ja</b> gājiens ir atļauts, apmaini <code>grid[x, y]</code> un <code>grid[emptyX, emptyY]</code> vērtības vietām, palielini <code>moves++</code>, izsauc <code>RenderBoard()</code> un ar <code>Tween</code> animē pārvietoto lauciņu; ja gājiens nav atļauts, noraidi to (nemainot <code>moves</code>).</li>
+<li><b>Nospied</b> <b>Build</b>, palaid spēli un pārbaudi, ka pārbīdīt var tikai tukšajam lauciņam blakus esošos kauliņus.</li>
 </ol>
-<p><b>Atjautības spēles žanru varianti izvēlei:</b> (1) <b>Sokoban</b> — bīdi kastes uz mērķa vietām; (2) <b>Match-3</b> — savieno 3+ vienādas krāsas figūras; (3) <b>Tetris klons</b> — krītošo bloku rindu aizpildīšana; (4) <b>Sliding mozaīka</b> — 4×4 bīdāmo lauciņu sakārtošana (vai cita līdzvērtīga režģa puzle).</p>
-<p class="done-when"><b>Gatavs, kad:</b> ekrānā redzamais laukums vienmēr atbilst režģa datiem, un neatļauts gājiens netiek pieņemts.</p>
+<p><b>Atjautības spēles žanru varianti izvēlei:</b> (1) <b>4×4 bīdāmā mozaīka (Sliding Puzzle)</b> - sakārto skaitļus <code>1..15</code>; (2) <b>Sokoban</b> - bīdi kastes uz mērķa vietām; (3) <b>Match-3</b> - savieno 3+ vienādas krāsas figūras; (4) <b>Lights-Out / Takuzu</b> - loģiskā režģa aizpildīšana.</p>
+<p class="done-when"><b>Gatavs, kad:</b> ekrānā redzamais laukums vienmēr atbilst <code>grid[,]</code> masīva datiem, derīgi gājieni darbojas ar <code>Tween</code> animāciju, un neatļauts gājiens netiek pieņemts.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Uzraksti uzvaras noteikumu un līmeņus</h2>
-<p class="task-files"><b>Kur strādāt:</b> IsSolved, gājienu skaitīšanu, līmeņa maiņu un restartu pievieno <code>Scripts/PuzzleBoard.cs</code>. Līmeņus glabā šajā failā vai izveido <code>Data/levels.json</code> un tajā pašā skriptā nolasi to; HUD un pogas veido <code>Scenes/Puzzle.tscn</code>.</p>
+<p class="task-number">2. uzdevums</p><h2>Pievieno uzvaras pārbaudi <code>IsSolved()</code>, 3 līmeņus un restartu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/PuzzleBoard.cs</code> ar metodēm <code>IsSolved()</code>, <code>LoadLevel(int level)</code> un <code>OnRestartPressed()</code>. Pogu <code>RestartButton</code> un uzrakstus <code>StatusLabel</code> / <code>MessageLabel</code> izmanto no <code>Scenes/Puzzle.tscn</code>.</p>
 
-<p>Beigās spēli varēs pabeigt un pāriet uz nākamo līmeni.</p>
+<p>Beigās spēlē būs vismaz trīs secīgi līmeņi ar pieaugošu grūtību, automātiska uzvaras noteikšana pēc katra gājiena un iespēja jebkurā brīdī sākt līmeni no jauna.</p>
 <ol class="step-list">
-<li><b>Uzraksti</b> method <code class="language-csharp">private bool IsSolved()</code>, kas pārbauda uzvaras nosacījumu.</li>
-<li><b>Izsauc</b> to pēc katra gājiena.</li>
-<li><b>Parādi</b> uzvaras paziņojumu, kad tas atgriež <code>true</code> (patiess).</li>
-<li><b>Izveido</b> vismaz trīs līmeņus - vai nu failā, vai kodā.</li>
-<li><b>Ielādē</b> nākamo līmeni pēc uzvaras.</li>
-<li><b>Pievieno</b> gājienu skaitītāju un pogu <b>Sākt no jauna</b>.</li>
-<li><b>Izej</b> visus trīs līmeņus pēc kārtas.</li>
+<li><b>Uzraksti</b> failā <code>Scripts/PuzzleBoard.cs</code> metodi <code class="language-csharp">private bool IsSolved()</code>, kas pārbauda visas <code>grid[x, y]</code> šūnas un atgriež <code>true</code> tikai tad, kad visi lauciņi atrodas mērķa secībā (<code>1..15</code> un pēdējā šūna <code>0</code>).</li>
+<li><b>Izveido</b> metodi <code class="language-csharp">private void LoadLevel(int levelIndex)</code>, kas ielādē vismaz 3 dažādas, garantēti atrisināmas sākuma konfigurācijas (piemēram, 1. līmenī 4 sajaukšanas soļi no atrisināta stāvokļa, 2. līmenī — 8 soļi, 3. līmenī — 14 soļi) un nomet <code>moves = 0</code>.</li>
+<li><b>Izsauc</b> <code>IsSolved()</code> pēc katra derīga gājiena: ja tā atgriež <code>true</code>, parādi uzvaras paziņojumu <code>MessageLabel</code> uzrakstā, atskaņo uzvaras <code>Tween</code> animāciju un pārej uz nākamo līmeni (<code>currentLevel++</code>).</li>
+<li><b>Atjauno</b> pēc katra gājiena <code>StatusLabel.Text</code> ar pašreizējo līmeni un veikto gājienu skaitu (<code>moves</code>).</li>
+<li><b>Savieno</b> pogu <code>RestartButton</code> (<code>MainVBox/ButtonsHBox/RestartButton</code>) ar metodi <code>OnRestartPressed()</code>, kas izsauc <code>LoadLevel(currentLevel)</code>.</li>
+<li><b>Izspēlē</b> visus trīs līmeņus pēc kārtas un pārliecinies, ka katrs līmenis ir atrisināms un pēc 3. līmeņa parādās pilnas uzvaras apsveikums.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> visus trīs līmeņus var atrisināt, uzvara tiek atpazīta pareizi, un restarta poga strādā.</p>
+<p class="done-when"><b>Gatavs, kad:</b> visus trīs līmeņus var iziet pēc kārtas, <code>IsSolved()</code> precīzi atpazīst uzvaru un poga „Sākt no jauna" atjauno pašreizējo līmeni.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Pievieno izvēlni, skaņu un eksportē</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izmanto <code>Scenes/Menu.tscn</code> un <code>Scripts/MainMenu.cs</code>; Sākt pogai norādi <code>res://Scenes/Puzzle.tscn</code>. Skaņu un uzvaras animāciju izsauc <code>Scripts/PuzzleBoard.cs</code>, rezultātu saglabāšanu pievieno <code>Scripts/SaveManager.cs</code>; eksportu glabā <code>build/</code>.</p>
+<p class="task-number">3. uzdevums</p><h2>Savieno ar izvēlni, skaņu, rekordu saglabāšanu un publicē <code>itch.io</code></h2>
+<p class="task-files"><b>Kur strādāt:</b> Savieno <code>Scenes/Menu.tscn</code> (<code>Scripts/MainMenu.cs</code>) un <code>Scenes/Puzzle.tscn</code> (<code>Scripts/PuzzleBoard.cs</code> un <code>Scripts/AudioManager.cs</code>). Rekordus saglabā <code>user://puzzle_save.json</code>, eksportē spēli uz <code>build/</code> un publicē <code>itch.io</code>.</p>
 
-<p>Beigās tava spēle būs pabeigts, izdodams produkts.</p>
+<p>Beigās tava atjautības spēle būs pilnībā pabeigts, noslīpēts un publicēts produkts ar sākuma izvēlni, skaņas kopnēm, saglabātiem līmeņu rekordiem un publisku lejupielādes saiti.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> sākuma izvēlni no 6.1 stundas.</li>
-<li><b>Pievieno</b> skaņas efektu gājienam un uzvarai no 6.3 stundas.</li>
-<li><b>Pievieno</b> animāciju uzvaras brīdim no 6.2 stundas.</li>
-<li><b>Saglabā</b> labāko rezultātu ar 5.3 stundas <code>SaveManager</code>.</li>
-<li><b>Eksportē</b> spēli kā darbvirsmas build pēc 6.5 stundas soļiem.</li>
-<li><b>Publicē</b> ZIP arhīvu itch.io lapā un pārbaudi lejupielādi citā datorā.</li>
-<li><b>Veic</b> commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi) ar visu projektu.</li>
+<li><b>Pārbaudi</b> pāreju abos virzienos: sākuma izvēlnē (<code>Scenes/Menu.tscn</code>) poga „Sākt spēli" atver <code>res://Scenes/Puzzle.tscn</code>, bet spēles ekrānā poga <code>MenuButton</code> („Uz izvēlni") atver <code>res://Scenes/Menu.tscn</code>.</li>
+<li><b>Pievieno</b> skaņas izsaukumus <code>Scripts/PuzzleBoard.cs</code>: pie katra derīga gājiena izsauc <code>audioManager?.PlaySfx(1.0f)</code>, pie neatļauta gājiena — zemāku toni <code>audioManager?.PlaySfx(0.6f)</code>, bet pie līmeņa uzvaras — <code>audioManager?.PlaySfx(1.35f)</code>.</li>
+<li><b>Pievieno</b> rekordu saglabāšanu failā <code>user://puzzle_save.json</code> (metodes <code>SaveBestMoves()</code> un <code>LoadBestMoves()</code>): ja spēlētājs pabeidz līmeni ar mazāku gājienu skaitu nekā iepriekšējais rekords, saglabā jauno rekordu un parādi to <code>StatusLabel</code> tekstā.</li>
+<li><b>Kompilē</b> projektu (<b>Build</b> / <code>dotnet build</code>) un eksportē darbvirsmas būvējumu uz mapi <code>build/</code> pēc 6.5. stundas soļiem.</li>
+<li><b>Saspied</b> visu <code>build/</code> mapes saturu arhīvā <code>PuzzleGame_Desktop.zip</code>, pārbaudi to izpakotā veidā ārpus Godot redaktora un augšupielādē savā <code>itch.io</code> projekta lapā.</li>
+<li><b>Pārbaudi</b>, ka <code>build/</code> un <code>*.zip</code> ir iekļauti <code>.gitignore</code>, papildini <code>README.md</code> ar publisko <code>itch.io</code> saiti, video demonstrāciju un 5–8 teikumu kopsavilkumu, tad veic <code>git commit</code> un <code>git push</code>.</li>
 </ol>
-<p><b>Pilna noslēguma projekta orientieri:</b> sākuma izvēlne, iestatījumi un augstākie rezultāti (<i>highscore</i> + progress ar saglabāšanas sistēmu), vairāki secīgi līmeņi (sākot ar 3 līmeņiem pamatprasībā un paplašināmā variantā līdz 10 līmeņiem Sokoban vai <i>endless</i> režīmam Match-3 / Tetris), fona mūzika un skaņas efekti (SFX), <code>Tween</code> vai animāciju efekti, kā arī eksportēts darbvirsmas būvējums, kas publicēts lejupielādējamā <code>itch.io</code> lapā.</p>
-<p class="done-when"><b>Gatavs, kad:</b> spēle sākas ar izvēlni, skan skaņas, labākais rezultāts saglabājas, un publiskā lejupielādes saite strādā.</p>
+<p class="done-when"><b>Gatavs, kad:</b> spēle sākas ar izvēlni, darbojas 3 līmeņi ar skaņu un <code>Tween</code> animācijām, labākais gājienu skaits saglabājas <code>user://puzzle_save.json</code>, un <code>itch.io</code> lejupielādes saite strādā.</p>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Pievieno padoma pogu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Padoma meklēšanas metodi, atlikušo padomu skaitu un pogas apstrādātāju pievieno <code>Scripts/PuzzleBoard.cs</code>. Pogu un skaitītāja tekstu izveido <code>Scenes/Puzzle.tscn</code>.</p>
+<summary>Papildu uzdevums - Pievieno pogu „Padoms" ar ierobežotu skaitu līmenī</summary>
+<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/PuzzleBoard.cs</code> ar metodi <code>OnHintPressed()</code> un pievieno pogu <code>HintButton</code> konteineram <code>MainVBox/ButtonsHBox</code> scēnā <code>Scenes/Puzzle.tscn</code>.</p>
 
-<p>Ja pamatdarbs ir gatavs, palīdzi spēlētājam, kurš iestrēdzis.</p>
+<p>Ja pamatdarbs ir gatavs, pievieno padoma pogu, kas ar <code>Tween</code> mirgojumu izceļ vienu derīgu kauliņu, kuru var pārbīdīt.</p>
 <ol class="step-list">
-<li><b>Uzraksti</b> method, kas atrod vienu derīgu nākamo gājienu.</li>
-<li><b>Pievieno</b> pogu <b>Padoms</b>, kas to izceļ uz ekrāna.</li>
-<li><b>Ierobežo</b> padomu skaitu vienā līmenī.</li>
-<li><b>Parādi</b>, cik padomu vēl atlicis.</li>
-<li><b>Pārbaudi</b>, ka pēc padomu beigām poga vairs nedarbojas.</li>
+<li><b>Pievieno</b> klasei <code>PuzzleBoard</code> lauku <code>private int hintsLeft = 3;</code> un katra līmeņa sākumā (<code>LoadLevel</code>) atjauno to uz <code>3</code>.</li>
+<li><b>Pievieno</b> pogu <code>HintButton</code> ar tekstu <code>"Padoms (3)"</code>.</li>
+<li><b>Metodē</b> <code>OnHintPressed()</code> atrodi lauciņu, kurš atrodas blakus tukšajai vietai, samazini <code>hintsLeft--</code> un ar <code>CreateTween()</code> uz mirkli iekrāso šī lauciņa pogu zelta krāsā un palielini tās mērogu uz <code>1.15f</code>.</li>
+<li><b>Kad</b> <code>hintsLeft == 0</code>, iestati <code>hintButton.Disabled = true;</code>, lai padomus nevarētu izmantot bezgalīgi.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> padoma poga izceļ derīgu gājienu un pēc noteikta reižu skaita pārstāj darboties.</p>
+<p class="done-when"><b>Gatavs, kad:</b> padoma poga izceļ derīgu nākamo gājienu un pēc 3 reizēm kļūst neaktīva līdz nākamajam līmenim.</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnais koda piemērs — gatavs 6. tēmas noslēguma projekts</summary>
 <div class="code-example">
+<p><b>Fails: <code>Scripts/PuzzleBoard.cs</code></b> (piesaistīts <code>Puzzle</code> saknei scēnā <code>Scenes/Puzzle.tscn</code>; pilnībā spēlējama 3 līmeņu 4×4 mozaīka ar <code>Tween</code> animācijām, skaņu un rekordu saglabāšanu <code>user://puzzle_save.json</code>)</p>
 <pre><code class="language-csharp">using Godot;
+using Godot.Collections;
 using System;
-using System.Collections.Generic;
 
-// Match-3 spēles core
-public partial class Match3Board : Node2D
+public partial class PuzzleBoard : Control
 {
-    private const int Width = 8;
-    private const int Height = 8;
-    private readonly int[,] grid = new int[Width, Height];
-    private readonly Random rng = new();
+    private const int BoardSize = 4;
+    private const string SavePath = "user://puzzle_save.json";
 
-    public void Initialize()
+    private readonly int[,] grid = new int[BoardSize, BoardSize];
+    private readonly Button[,] tileButtons = new Button[BoardSize, BoardSize];
+    private readonly Dictionary&lt;int, int&gt; bestMovesPerLevel = new();
+
+    private GridContainer boardGrid;
+    private Label statusLabel;
+    private Label messageLabel;
+    private Button restartButton;
+    private Button menuButton;
+    private AudioManager audioManager;
+
+    private int currentLevel = 1;
+    private const int MaxLevel = 3;
+    private int moves = 0;
+    private bool levelTransitioning = false;
+
+    public override void _Ready()
     {
-        for (int x = 0; x &lt; Width; x++)
-            for (int y = 0; y &lt; Height; y++)
-                grid[x, y] = rng.Next(0, 5);  // 5 colors
+        EnsureUiNodes();
+        audioManager = GetNodeOrNull&lt;AudioManager&gt;("AudioManager");
+
+        LoadBestMoves();
+        BuildGridButtons();
+        LoadLevel(currentLevel);
     }
 
-    public List&lt;Vector2I&gt; FindMatches()
+    // Ja kāds UI mezgls scēnā vēl nav izveidots ar roku, izveido to automātiski
+    private void EnsureUiNodes()
     {
-        List&lt;Vector2I&gt; matches = new();
-        for (int x = 0; x &lt; Width; x++)
+        if (GetNodeOrNull&lt;ColorRect&gt;("Background") == null)
         {
-            for (int y = 0; y &lt; Height - 2; y++)
+            ColorRect bg = new ColorRect
             {
-                if (grid[x, y] == grid[x, y + 1] &amp;&amp; grid[x, y + 1] == grid[x, y + 2])
+                Name = "Background",
+                Color = new Color("162032")
+            };
+            bg.SetAnchorsPreset(LayoutPreset.FullRect);
+            AddChild(bg);
+        }
+
+        VBoxContainer mainVBox = GetNodeOrNull&lt;VBoxContainer&gt;("MainVBox");
+        if (mainVBox == null)
+        {
+            mainVBox = new VBoxContainer { Name = "MainVBox" };
+            mainVBox.AddThemeConstantOverride("separation", 12);
+            mainVBox.SetAnchorsPreset(LayoutPreset.Center);
+            AddChild(mainVBox);
+        }
+
+        if (mainVBox.GetNodeOrNull&lt;Label&gt;("TitleLabel") == null)
+        {
+            Label title = new Label
+            {
+                Name = "TitleLabel",
+                Text = "ATJAUTĪBAS SPĒLE — 4×4 MOZAĪKA",
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+            title.AddThemeFontSizeOverride("font_size", 28);
+            mainVBox.AddChild(title);
+        }
+
+        statusLabel = mainVBox.GetNodeOrNull&lt;Label&gt;("StatusLabel");
+        if (statusLabel == null)
+        {
+            statusLabel = new Label
+            {
+                Name = "StatusLabel",
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+            mainVBox.AddChild(statusLabel);
+        }
+
+        boardGrid = mainVBox.GetNodeOrNull&lt;GridContainer&gt;("BoardGrid");
+        if (boardGrid == null)
+        {
+            boardGrid = new GridContainer
+            {
+                Name = "BoardGrid",
+                Columns = BoardSize
+            };
+            boardGrid.AddThemeConstantOverride("h_separation", 8);
+            boardGrid.AddThemeConstantOverride("v_separation", 8);
+            mainVBox.AddChild(boardGrid);
+        }
+        boardGrid.Columns = BoardSize;
+
+        messageLabel = mainVBox.GetNodeOrNull&lt;Label&gt;("MessageLabel");
+        if (messageLabel == null)
+        {
+            messageLabel = new Label
+            {
+                Name = "MessageLabel",
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+            mainVBox.AddChild(messageLabel);
+        }
+
+        HBoxContainer buttonsHBox = mainVBox.GetNodeOrNull&lt;HBoxContainer&gt;("ButtonsHBox");
+        if (buttonsHBox == null)
+        {
+            buttonsHBox = new HBoxContainer
+            {
+                Name = "ButtonsHBox",
+                Alignment = BoxContainer.AlignmentMode.Center
+            };
+            buttonsHBox.AddThemeConstantOverride("separation", 12);
+            mainVBox.AddChild(buttonsHBox);
+        }
+
+        restartButton = buttonsHBox.GetNodeOrNull&lt;Button&gt;("RestartButton");
+        if (restartButton == null)
+        {
+            restartButton = new Button
+            {
+                Name = "RestartButton",
+                Text = "Sākt no jauna",
+                CustomMinimumSize = new Vector2(150, 40)
+            };
+            buttonsHBox.AddChild(restartButton);
+        }
+        restartButton.Pressed += OnRestartPressed;
+
+        menuButton = buttonsHBox.GetNodeOrNull&lt;Button&gt;("MenuButton");
+        if (menuButton == null)
+        {
+            menuButton = new Button
+            {
+                Name = "MenuButton",
+                Text = "Uz izvēlni",
+                CustomMinimumSize = new Vector2(150, 40)
+            };
+            buttonsHBox.AddChild(menuButton);
+        }
+        menuButton.Pressed += OnMenuPressed;
+    }
+
+    private void BuildGridButtons()
+    {
+        foreach (Node child in boardGrid.GetChildren())
+        {
+            child.QueueFree();
+        }
+
+        for (int y = 0; y &lt; BoardSize; y++)
+        {
+            for (int x = 0; x &lt; BoardSize; x++)
+            {
+                int capturedX = x;
+                int capturedY = y;
+                Button btn = new Button
                 {
-                    matches.Add(new Vector2I(x, y));
-                    matches.Add(new Vector2I(x, y + 1));
-                    matches.Add(new Vector2I(x, y + 2));
+                    CustomMinimumSize = new Vector2(76, 76),
+                    PivotOffset = new Vector2(38, 38)
+                };
+                btn.AddThemeFontSizeOverride("font_size", 22);
+                btn.Pressed += () =&gt; OnTilePressed(capturedX, capturedY);
+                boardGrid.AddChild(btn);
+                tileButtons[x, y] = btn;
+            }
+        }
+    }
+
+    private void LoadLevel(int level)
+    {
+        levelTransitioning = false;
+        moves = 0;
+
+        // Sākam ar pilnīgi sakārtotu laukumu (1..15 un 0 beigās)
+        int value = 1;
+        for (int y = 0; y &lt; BoardSize; y++)
+        {
+            for (int x = 0; x &lt; BoardSize; x++)
+            {
+                grid[x, y] = (x == BoardSize - 1 &amp;&amp; y == BoardSize - 1) ? 0 : value++;
+            }
+        }
+
+        // Veicam noteiktu skaitu garantēti atrisināmu sajaukšanas gājienu katram līmenim
+        Vector2I[] levelShuffles = GetLevelShufflePath(level);
+        Vector2I empty = new Vector2I(BoardSize - 1, BoardSize - 1);
+        foreach (Vector2I step in levelShuffles)
+        {
+            Vector2I next = empty + step;
+            if (next.X &gt;= 0 &amp;&amp; next.X &lt; BoardSize &amp;&amp; next.Y &gt;= 0 &amp;&amp; next.Y &lt; BoardSize)
+            {
+                grid[empty.X, empty.Y] = grid[next.X, next.Y];
+                grid[next.X, next.Y] = 0;
+                empty = next;
+            }
+        }
+
+        messageLabel.Text = $"Sakārto skaitļus 1..15 pēc kārtas! ({level}. līmenis no {MaxLevel})";
+        RenderBoard();
+        UpdateStatusText();
+    }
+
+    private Vector2I[] GetLevelShufflePath(int level)
+    {
+        if (level == 1)
+        {
+            // 1. līmenis: atrisināms 4 gājienos
+            return new[]
+            {
+                new Vector2I(0, -1), new Vector2I(-1, 0),
+                new Vector2I(0, 1), new Vector2I(1, 0)
+            };
+        }
+        if (level == 2)
+        {
+            // 2. līmenis: atrisināms 8 gājienos
+            return new[]
+            {
+                new Vector2I(0, -1), new Vector2I(-1, 0), new Vector2I(-1, 0),
+                new Vector2I(0, -1), new Vector2I(1, 0), new Vector2I(0, 1),
+                new Vector2I(1, 0), new Vector2I(0, 1)
+            };
+        }
+        // 3. līmenis: atrisināms 12 gājienos
+        return new[]
+        {
+            new Vector2I(0, -1), new Vector2I(0, -1), new Vector2I(-1, 0),
+            new Vector2I(-1, 0), new Vector2I(0, 1), new Vector2I(1, 0),
+            new Vector2I(0, -1), new Vector2I(-1, 0), new Vector2I(0, 1),
+            new Vector2I(0, 1), new Vector2I(1, 0), new Vector2I(1, 0)
+        };
+    }
+
+    private void OnTilePressed(int x, int y)
+    {
+        if (levelTransitioning) return;
+
+        Vector2I empty = FindEmptyCell();
+        int manhattan = Math.Abs(x - empty.X) + Math.Abs(y - empty.Y);
+
+        if (manhattan != 1)
+        {
+            // Neatļauts gājiens: īss brīdinājuma tonis
+            audioManager?.PlaySfx(0.6f);
+            return;
+        }
+
+        // Apmainām nospiesto lauciņu ar tukšo šūnu 2D masīvā
+        grid[empty.X, empty.Y] = grid[x, y];
+        grid[x, y] = 0;
+        moves++;
+
+        audioManager?.PlaySfx(1.0f);
+        RenderBoard();
+        UpdateStatusText();
+
+        // Tween animācija pārvietotajam lauciņam
+        Button movedBtn = tileButtons[empty.X, empty.Y];
+        movedBtn.Scale = new Vector2(0.82f, 0.82f);
+        movedBtn.CreateTween()
+            .TweenProperty(movedBtn, "scale", Vector2.One, 0.14)
+            .SetTrans(Tween.TransitionType.Back)
+            .SetEase(Tween.EaseType.Out);
+
+        if (IsSolved())
+        {
+            OnLevelSolved();
+        }
+    }
+
+    private Vector2I FindEmptyCell()
+    {
+        for (int y = 0; y &lt; BoardSize; y++)
+            for (int x = 0; x &lt; BoardSize; x++)
+                if (grid[x, y] == 0)
+                    return new Vector2I(x, y);
+        return new Vector2I(BoardSize - 1, BoardSize - 1);
+    }
+
+    private bool IsSolved()
+    {
+        int expected = 1;
+        for (int y = 0; y &lt; BoardSize; y++)
+        {
+            for (int x = 0; x &lt; BoardSize; x++)
+            {
+                if (x == BoardSize - 1 &amp;&amp; y == BoardSize - 1)
+                    return grid[x, y] == 0;
+
+                if (grid[x, y] != expected)
+                    return false;
+
+                expected++;
+            }
+        }
+        return true;
+    }
+
+    private void OnLevelSolved()
+    {
+        levelTransitioning = true;
+        audioManager?.PlaySfx(1.35f);
+
+        if (!bestMovesPerLevel.ContainsKey(currentLevel) || moves &lt; bestMovesPerLevel[currentLevel])
+        {
+            bestMovesPerLevel[currentLevel] = moves;
+            SaveBestMoves();
+        }
+
+        UpdateStatusText();
+
+        Tween winTween = CreateTween();
+        winTween.TweenProperty(boardGrid, "modulate", new Color(0.6f, 1.0f, 0.6f), 0.25);
+        winTween.TweenProperty(boardGrid, "modulate", Colors.White, 0.25);
+
+        if (currentLevel &lt; MaxLevel)
+        {
+            messageLabel.Text = $"Līmenis {currentLevel} atrisināts ar {moves} gājieniem! Ielādē {currentLevel + 1}. līmeni...";
+            winTween.TweenInterval(0.9);
+            winTween.TweenCallback(Callable.From(() =&gt;
+            {
+                currentLevel++;
+                LoadLevel(currentLevel);
+            }));
+        }
+        else
+        {
+            messageLabel.Text = $"APSVEICAM! Visi {MaxLevel} līmeņi atrisināti! Spied 'Sākt no jauna', lai uzlabotu rekordu.";
+            levelTransitioning = false;
+        }
+    }
+
+    private void RenderBoard()
+    {
+        int expected = 1;
+        for (int y = 0; y &lt; BoardSize; y++)
+        {
+            for (int x = 0; x &lt; BoardSize; x++)
+            {
+                int val = grid[x, y];
+                Button btn = tileButtons[x, y];
+                bool isCorrectSpot = (val != 0) &amp;&amp; (val == expected);
+
+                btn.Text = val == 0 ? "" : val.ToString();
+                btn.Disabled = val == 0;
+                btn.Modulate = val == 0
+                    ? new Color(1, 1, 1, 0.15f)
+                    : (isCorrectSpot ? new Color(0.55f, 0.95f, 0.65f) : new Color(0.75f, 0.85f, 1.0f));
+
+                expected++;
+            }
+        }
+    }
+
+    private void UpdateStatusText()
+    {
+        string bestText = bestMovesPerLevel.ContainsKey(currentLevel)
+            ? $"{bestMovesPerLevel[currentLevel]} gājieni"
+            : "-";
+        statusLabel.Text = $"{currentLevel}. līmenis no {MaxLevel} | Gājieni: {moves} | Rekords: {bestText}";
+    }
+
+    private void SaveBestMoves()
+    {
+        using FileAccess file = FileAccess.Open(SavePath, FileAccess.ModeFlags.Write);
+        if (file == null) return;
+        file.StoreString(Json.Stringify(bestMovesPerLevel));
+    }
+
+    private void LoadBestMoves()
+    {
+        if (!FileAccess.FileExists(SavePath)) return;
+        using FileAccess file = FileAccess.Open(SavePath, FileAccess.ModeFlags.Read);
+        if (file == null) return;
+
+        Variant parsed = Json.ParseString(file.GetAsText());
+        if (parsed.VariantType == Variant.Type.Dictionary)
+        {
+            Godot.Collections.Dictionary dict = parsed.AsGodotDictionary();
+            foreach (Variant key in dict.Keys)
+            {
+                if (int.TryParse(key.ToString(), out int lvl))
+                {
+                    bestMovesPerLevel[lvl] = (int)dict[key];
                 }
             }
         }
-        // similarly for horizontal
-        return matches;
     }
 
-    public void ClearAndDrop(List&lt;Vector2I&gt; matches)
+    private void OnRestartPressed()
     {
-        // mark cleared, gravity, refill
+        audioManager?.PlaySfx(0.9f);
+        LoadLevel(currentLevel);
+    }
+
+    private void OnMenuPressed()
+    {
+        audioManager?.PlaySfx(0.85f);
+        if (ResourceLoader.Exists("res://Scenes/Menu.tscn"))
+        {
+            GetTree().ChangeSceneToFile("res://Scenes/Menu.tscn");
+        }
     }
 }</code></pre>
-<div class="result">Pabeigta match-3 spēle ar punktiem, laika uzskaiti, skaņu un Tween animācijām. Publicēta versija ir lejupielādējama.</div>
+<div class="result">Pilnībā pabeigta 3 līmeņu 4×4 atjautības spēle ar <code>int[,]</code> datu modeli, <code>IsSolved()</code> pārbaudi, <code>Tween</code> animācijām, <code>AudioManager</code> skaņu, <code>user://puzzle_save.json</code> rekordu saglabāšanu un pāreju uz sākuma izvēlni.</div>
 </div>
 </details>
+<section id="parbaudes">
+<h2>Pārbaudes pirms iesniegšanas</h2>
+<p>Pirms nodod noslēguma projektu, pārbaudi katru punktu:</p>
+<table>
+<thead>
+<tr><th>Ko pārbaudīt</th><th>Kā pārbaudīt</th><th>Sagaidāmais rezultāts</th></tr>
+</thead>
+<tbody>
+<tr><td><b>1. Sākuma izvēlne un enkuri</b></td><td>Palaid <code>Scenes/Menu.tscn</code> un izmaini loga izmēru</td><td>Izvēlne paliek centrā, darbojas pogas „Sākt spēli", „Iestatījumi" un „Iziet"</td></tr>
+<tr><td><b>2. Režģa loģika un validācija</b></td><td>Mēģini nospiest lauciņu, kurš nav blakus tukšajai vietai (vai izdarīt neatļautu gājienu)</td><td>Neatļauts gājiens tiek noraidīts un gājienu skaitītājs nepalielinās</td></tr>
+<tr><td><b>3. Uzvara un 3 līmeņi</b></td><td>Atrisini 1., 2. un 3. līmeni pēc kārtas un izmēģini pogu „Sākt no jauna"</td><td><code>IsSolved()</code> korekti nosaka uzvaru un ielādē nākamo līmeni</td></tr>
+<tr><td><b>4. Skaņa un saglabāšana</b></td><td>Noregulē skaļumu, uzstādi līmeņa rekordu un pārstartē spēli</td><td>Skaņas kopnes darbojas neatkarīgi un rekords saglabājas <code>user://puzzle_save.json</code></td></tr>
+<tr><td><b>5. Eksports un <code>itch.io</code></b></td><td>Lejupielādē savu <code>ZIP</code> no <code>itch.io</code>, izpako citā mapē un palaid</td><td>Spēle darbojas bez Godot redaktora, un <code>build/</code> mape nav iegrūsta GitHub</td></tr>
+</tbody>
+</table>
+</section>
+<section class="assessment-rubric" id="vertesana">
+<h2>Vērtēšanas kritēriji (4 līmeņu SLA rubrika)</h2>
+<table>
+<thead>
+<tr><th>Kritērijs</th><th>1 — Sāk apgūt</th><th>2 — Turpina apgūt</th><th>3 — Apguvis</th><th>4 — Padziļināti apguvis</th></tr>
+</thead>
+<tbody>
+<tr><td><b>Režģa modelis un uzvaras loģika (<code>PuzzleBoard.cs</code>)</b></td><td>Laukums izveidots daļēji, gājieni vai <code>IsSolved()</code> nestrādā korekti.</td><td>Darbojas pamatgājieni vienā līmenī, bet trūkst gājienu validācijas vai vairāku līmeņu.</td><td>2D masīvs <code>grid[,]</code> nodalīts no attēlojuma, neatļauti gājieni tiek noraidīti, darbojas <code>IsSolved()</code> un vismaz 3 līmeņi.</td><td>Papildus realizēta padomu sistēma (<code>Hint</code>), līmeņu ielāde no datu struktūras un nevainojama stāvokļu pārvaldība.</td></tr>
+<tr><td><b>UI, <code>Tween</code> animācijas un skaņas kopnes</b></td><td>Ir tikai nesakārtotas pogas bez <code>Control</code> konteineriem, skaņas vai animācijām.</td><td>Darbojas sākuma izvēlne, bet trūkst <code>Tween</code> atsauksmes vai skaņas kopņu (<code>Music</code>/<code>SFX</code>) regulēšanas.</td><td>Korekti izmantoti <code>Control</code> konteineri un enkuri, darbojas <code>Tween</code> pārejas un neatkarīgi <code>Music</code>/<code>SFX</code> skaļuma slīdņi.</td><td>Vienots vizuālais stils, <code>Kill()</code> aizsardzība pret straujiem klikšķiem un saglabāti skaļuma iestatījumi.</td></tr>
+<tr><td><b>Saglabāšana (<code>user://</code>), eksports un <code>itch.io</code> publicēšana</b></td><td>Projekts darbojas tikai Godot redaktorā; nav eksporta vai saglabāšanas.</td><td>Ir eksportēts būvējums vai saglabāšana, bet <code>ZIP</code> arhīvs nedarbojas ārpus redaktora vai trūkst <code>.gitignore</code>.</td><td>Rekordi saglabājas <code>user://</code>, darbvirsmas būvējums ir publicēts <code>itch.io</code>, pārbaudīts ārpus redaktora un aprakstīts <code>README.md</code>.</td><td>Pilnībā noformēta <code>itch.io</code> lapa ar ekrānuzņēmumiem, vadību, licenču sarakstu un pirmseksporta pašpārbaudi.</td></tr>
+</tbody>
+</table>
+</section>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tev ir pabeigta un publicēta puzles spēle: strādājošs laukums, pareizi atpazīta uzvara, vismaz trīs atrisināmi līmeņi, sākuma izvēlne, skaņa, saglabāts labākais rezultāts un publiska lejupielādes saite.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tev ir pabeigta un publicēta atjautības spēle: strādājošs režģa laukums, korekta uzvaras pārbaude <code>IsSolved()</code>, vismaz trīs atrisināmi līmeņi, sākuma izvēlne, skaņa, <code>Tween</code> animācijas, saglabāts labākais rezultāts un publiska lejupielādes saite <code>itch.io</code>.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>README.md ievietota publiskā lejupielādes saite uz spēli, kas strādā skolotāja datorā.</li>
-<li>Viss pirmkods ar C# skriptiem, scēnām un projekta failiem.</li>
-<li>README.md ievietota video saite, kurā izej vismaz vienu līmeni no sākuma izvēlnes līdz uzvarai.</li>
-<li>Īss apraksts (5-8 teikumi): kuru puzli izvēlējies, kā darbojas uzvaras pārbaude, kas bija visgrūtāk un kā to atrisināji.</li>
+<li>Visam pirmkodam ar C# skriptiem (<code>Scripts/MainMenu.cs</code>, <code>Scripts/PuzzleBoard.cs</code>, <code>Scripts/AudioManager.cs</code>), scēnām (<code>Scenes/Menu.tscn</code>, <code>Scenes/Puzzle.tscn</code>) un <code>.gitignore</code> (kas izslēdz <code>build/</code> un <code>*.zip</code>).</li>
+<li><code>README.md</code> ievietotai publiskai <code>itch.io</code> lejupielādes saitei, kas strādā skolotāja datorā.</li>
+<li><code>README.md</code> ievietotai video saitei, kurā izej vismaz vienu līmeni no sākuma izvēlnes līdz uzvarai.</li>
+<li>Īsam aprakstam <code>README.md</code> (5–8 teikumi): kuru puzles mehāniku izvēlējies, kā darbojas <code>IsSolved()</code> uzvaras pārbaude, kādas resursu licences izmantoji un kā atrisināji grūtāko vietu.</li>
 </ul>
-<p><b>Kā iesniedz:</b> Veic commit un push. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+<p><b>Kā iesniedz:</b> Veic <code>git commit</code> un <code>git push</code>. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, <code>README.md</code> pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>
 </section>
 <section>

@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_6/prog2_6main">6. tēma</a> / 6.4</p>
 <h1>6.4 Debugging (atkļūdošana) un profiling (profilēšana)</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Apgūt Godot debugger (atkļūdotājs), breakpoints (pārtraukumpunkts), un izmantot to, lai atrastu bugs (kļūdas).</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Apgūt Godot debugger (atkļūdotājs), breakpoints (pārtraukumpunkts), un izmantot to, lai atrastu bugs (kļūdas).</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.10. Debugging</a>
 <a href="/sasnRez">SR 2.4.19. Algoritmi</a>
@@ -110,122 +110,148 @@ private double AprekinatVidejo(int summa, int skaits)
 }</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Atrodi kļūdu ar izdrukām</h2>
-<p class="task-files"><b>Kur strādāt:</b> Apzināto kustības kļūdu un pagaidu izdrukas ievieto <code>Scripts/Player.cs</code> metodē <code>_PhysicsProcess()</code>, pirms un pēc izvēlētā aprēķina. Pēc pārbaudes tajā pašā failā atjauno pareizo kodu.</p>
+<p class="task-number">1. uzdevums</p><h2>Atrodi un izlabo loģikas kļūdu ar <code>GD.Print</code> izdrukām</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido diagnostikas scēnu <code>Scenes/DebugDemo.tscn</code> ar <code>Node</code> sakni <code>DebugDemo</code> un piesaisti tai jaunu skriptu <code>Scripts/DebugDemo.cs</code>. Novērojumus pieraksti <code>README.md</code>.</p>
 
-<p>Beigās tu pratīsi atrast, kurā vietā vērtība kļūst nepareiza.</p>
+<p>Beigās tu pratīsi ar strukturētām <code>GD.Print</code> izdrukām pirms un pēc aprēķina precīzi lokalizēt loģikas kļūdu puzles punktu aprēķinā.</p>
 <ol class="step-list">
-<li><b>Ievies</b> savā kodā apzinātu kļūdu, piemēram nomaini <code>+</code> uz <code>-</code>.</li>
-<li><b>Palaid</b> spēli un pieraksti, kas izskatās nepareizi.</li>
-<li><b>Pievieno</b> <code class="language-csharp">GD.Print("pozicija: ", Position);</code> pirms aprēķina.</li>
-<li><b>Pievieno</b> tādu pašu izdruku pēc aprēķina.</li>
-<li><b>Palaid</b> un salīdzini abas vērtības.</li>
-<li><b>Atrodi</b> pēc izdrukām precīzo rindu, kur vērtība kļūst nepareiza.</li>
-<li><b>Salabo</b> kļūdu un izdzēs izdrukas.</li>
+<li><b>Izveido</b> scēnu <code>res://Scenes/DebugDemo.tscn</code> ar <code>Node</code> sakni <code>DebugDemo</code> un piesaisti tai skriptu <code>res://Scripts/DebugDemo.cs</code> (<code>public partial class DebugDemo : Node</code>).</li>
+<li><b>Uzraksti</b> metodē <code>CalculateLevelScore(int basePoints, int movesUsed, int penaltyPerMove)</code> aprēķinu ar apzinātu zīmes kļūdu:
+<code class="language-csharp">int rawScore = basePoints + (movesUsed * penaltyPerMove);</code> (kur par katru gājienu punkti kļūdaini pieaug, nevis samazinās).</li>
+<li><b>Izsauc</b> <code>CalculateLevelScore(1000, 12, 25)</code> no <code>_Ready()</code> un izdrukā ievaddatus pirms aprēķina un rezultātu pēc aprēķina ar <code>GD.Print(...)</code>.</li>
+<li><b>Nospied</b> <b>Build</b>, palaid <code>Scenes/DebugDemo.tscn</code> (<b>F6</b>) un apskati <b>Output</b> panelī izdrukātās vērtības (gaidīto <code>700</code> vietā parādās <code>1300</code>).</li>
+<li><b>Salabo</b> aprēķina rindu uz <code class="language-csharp">int rawScore = Math.Max(0, basePoints - (movesUsed * penaltyPerMove));</code> un pārbaudi, ka <b>Output</b> panelī parādās pareizais rezultāts <code>700</code>.</li>
+<li><b>Pieraksti</b> failā <code>README.md</code>, kura koda rinda saturēja apzināto kļūdu un kā izdrukas pirms un pēc aprēķina palīdzēja to pamanīt.</li>
 </ol>
-<pre><code class="language-csharp">GD.Print("Pirms aprēķina: ", Position);
-Position += velocity * (float)delta;
-GD.Print("Pēc aprēķina: ", Position);</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> tu vari nosaukt konkrētu rindu, kurā vērtība kļuva nepareiza, un kļūda ir izlabota.</p>
+<pre><code class="language-csharp">public int CalculateLevelScore(int basePoints, int movesUsed, int penaltyPerMove)
+{
+    GD.Print($"[Pirms aprēķina] basePoints={basePoints}, movesUsed={movesUsed}, penalty={penaltyPerMove}");
+    int finalScore = Math.Max(0, basePoints - (movesUsed * penaltyPerMove));
+    GD.Print($"[Pēc aprēķina] finalScore={finalScore}");
+    return finalScore;
+}</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> pēc <code>Output</code> izdrukām ir atrasta un izlabota aprēķina rinda un apraksts pievienots <code>README.md</code>.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Lieto breakpoint un variable skatu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Pārtraukumpunktu liec <code>Scripts/Player.cs</code> uz tās pašas aprēķina rindas, kuru pārbaudīji 1. uzdevumā. Novērojumus pieraksti <code>README.md</code>.</p>
+<p class="task-number">2. uzdevums</p><h2>Apturi izpildi ar <code>Breakpoint</code> un izpēti mainīgo skatu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Pārtraukumpunktu (<code>Breakpoint</code>) uzliec failā <code>Scripts/DebugDemo.cs</code> uz aprēķina rindas metodē <code>CalculateLevelScore()</code>. Novērojumus un ekrānuzņēmumu pievieno <code>README.md</code>.</p>
 
-<p>Beigās tu pratīsi apturēt spēli un apskatīt visus variable uzreiz.</p>
+<p>Beigās tu pratīsi apturēt spēles izpildi jebkurā koda rindā un nolasīt visus lokālos mainīgos un izsaukumu steku bez papildu <code>GD.Print</code> rakstīšanas.</p>
 <ol class="step-list">
-<li><b>Atver</b> cilni <b>Debugger</b>.</li>
-<li><b>Uzliec</b> breakpoint uz vienas koda rindas, uzklikšķinot rindas numura kreisajā malā.</li>
-<li><b>Palaid</b> spēli un pagaidi, līdz tā apstājas.</li>
-<li><b>Apskati</b> panelī <b>Stack (steks) Variables</b> visu variable vērtības.</li>
-<li><b>Nospied</b> <b>Step Into (ieiet metodē)</b> un vēro, kā izpilde iet pa vienai rindai.</li>
-<li><b>Pieraksti</b>, kāda vērtība bija tavam galvenajam variable.</li>
-<li><b>Pieraksti</b>, kad breakpoint ir ērtāks par izdrukām.</li>
+<li><b>Atver</b> failu <code>Scripts/DebugDemo.cs</code> un uzklikšķini pa kreisi no rindas numura pie <code>int finalScore = ...</code>, lai parādītos sarkans pārtraukumpunkts (<code>Breakpoint</code>).</li>
+<li><b>Palaid</b> scēnu <code>Scenes/DebugDemo.tscn</code> atkļūdošanas režīmā un sagaidi, līdz izpilde apstājas uz iezīmētās rindas.</li>
+<li><b>Atver</b> apakšējo paneli <b>Debugger</b> un apskati izsaukumu steku (<b>Stack Frames / Call Stack</b>) un lokālo mainīgo sarakstu (<b>Stack Variables / Locals</b>).</li>
+<li><b>Nospied</b> pogu <b>Step Over</b> (vai <b>Step Into</b>), lai izpildītu vienu koda rindu uz priekšu, un vēro, kā mainīgajam <code>finalScore</code> parādās aprēķinātā vērtība.</li>
+<li><b>Uzņem</b> ekrānuzņēmumu, kurā redzama apturētā koda rinda un <b>Debugger</b> mainīgo panelis, un saglabā to krātuvē.</li>
+<li><b>Pieraksti</b> failā <code>README.md</code>, kādas vērtības redzēji mainīgajiem <code>basePoints</code>, <code>movesUsed</code> un <code>finalScore</code> un kurās situācijās <code>Breakpoint</code> ir ērtāks par <code>GD.Print</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> spēle apstājas norādītajā rindā, un tu vari nolasīt variable vērtības, tās neizdrukājot.</p>
+<p class="done-when"><b>Gatavs, kad:</b> programma apstājas pie <code>Breakpoint</code>, mainīgo vērtības ir nolasītas un ekrānuzņēmums saglabāts krātuvē.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Atrodi lēnāko vietu ar profiler</h2>
-<p class="task-files"><b>Kur strādāt:</b> Trīs metožu nosaukumus, to skriptu ceļus un uzlabojuma ideju raksti <code>README.md</code>; šajā uzdevumā kods nav jāpapildina.</p>
+<p class="task-number">3. uzdevums</p><h2>Analizē izpildes laiku ar <code>Debugger -&gt; Profiler</code></h2>
+<p class="task-files"><b>Kur strādāt:</b> Izmanto <code>Scenes/DebugDemo.tscn</code> (vai <code>Scenes/Menu.tscn</code>) un Godot apakšējo paneli <b>Debugger -&gt; Profiler</b>. Rezultātus un ekrānuzņēmumu dokumentē <code>README.md</code>.</p>
 
-<p>Beigās tu zināsi, kura function patērē visvairāk laika.</p>
+<p>Beigās tu zināsi, kā ar profilētāju izmērīt kadra laiku (<code>Frame Time</code>) un atrast metodes, kas patērē visvairāk procesora laika.</p>
 <ol class="step-list">
-<li><b>Atver</b> <b>Debugger -&gt; Profiler</b> un nospied <b>Start</b>.</li>
-<li><b>Spēlē</b> 30 sekundes ar aktīvu spēli.</li>
-<li><b>Aptur</b> profiler un sakārto sarakstu pēc laika.</li>
-<li><b>Pieraksti</b> trīs function, kas aizņem visvairāk laika.</li>
-<li><b>Pārbaudi</b>, vai kāda no tām tiek izsaukta biežāk, nekā vajadzētu.</li>
-<li><b>Salīdzini</b> <code>_Process</code> un <code>_PhysicsProcess</code> kopējo laiku.</li>
-<li><b>Pieraksti</b> vienu ideju, ko varētu uzlabot.</li>
+<li><b>Atver</b> Godot apakšējā panelī cilni <b>Debugger -&gt; Profiler</b> un nospied pogu <b>Start</b>.</li>
+<li><b>Palaid</b> spēli (<b>F5</b> vai <b>F6</b>) un ļauj tai darboties vismaz 15–30 sekundes (spied pogas vai ļauj izpildīties kadra ciklam).</li>
+<li><b>Apturi</b> mērīšanu ar <b>Stop</b>, uzklikšķini uz grafika un sakārto sarakstu pēc patērētā laika (<code>Time</code> / <code>Self Time</code>).</li>
+<li><b>Salīdzini</b> kopējo kadra laiku (<code>Frame Time</code>), <code>Process Time</code> un <code>Physics Time</code>.</li>
+<li><b>Uzņem</b> ekrānuzņēmumu ar <b>Profiler</b> tabulu un grafiku un pievieno to krātuvei.</li>
+<li><b>Pieraksti</b> failā <code>README.md</code> trīs rādītājus vai metodes no profilētāja saraksta un vienu konkrētu optimizācijas likumu (piemēram: saglabāt <code>GetNode</code> atsauces laukā <code>_Ready()</code> metodē, nevis meklēt mezglus katrā <code>_Process()</code> kadrā).</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> tev ir pierakstītas trīs laikietilpīgākās function un viena konkrēta uzlabojuma ideja.</p>
+<p class="done-when"><b>Gatavs, kad:</b> krātuvē ir <b>Profiler</b> ekrānuzņēmums un <code>README.md</code> ir aprakstīti trīs profilētāja mērījumi un viena optimizācijas ideja.</p>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Pievieno pašpārbaudes izdrukas</summary>
-<p class="task-files"><b>Kur strādāt:</b> Failā <code>Scripts/Player.cs</code> metodē <code>_Ready()</code> pārbaudi SFX atsauci no 6.3 ar <code>GetNodeOrNull&lt;AudioStreamPlayer&gt;("SFX")</code>. Pagaidu pārdēvēšanu veic <code>Scenes/Player.tscn</code>; pēc pārbaudes atjauno nosaukumu.</p>
+<summary>Papildu uzdevums - Pievieno mezglu pašpārbaudi ar <code>GetNodeOrNull</code> un <code>GD.PrintErr</code></summary>
+<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/DebugDemo.cs</code> (vai <code>Scripts/MainMenu.cs</code>) metodi <code>_Ready()</code> ar <code>GetNodeOrNull</code> drošības pārbaudi un <code>GD.PrintErr</code> kļūdas ziņojumu.</p>
 
-<p>Ja pamatdarbs ir gatavs, liec kodam pašam brīdināt par kļūdām.</p>
+<p>Ja pamatdarbs ir gatavs, iemāci savam skriptam pašam skaidri paziņot par trūkstošu scēnas mezglu, nevis avarēt ar <code>NullReferenceException</code>.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> pārbaudi, vai svarīgs node tiešām tika atrasts.</li>
-<li><b>Izdrukā</b> <code class="language-csharp">GD.PrintErr("Nav atrasts mezgls!");</code>, ja tas ir <code>null</code> (tukša atsauce).</li>
-<li><b>Pārsauc</b> node scēnā un palaid spēli.</li>
-<li><b>Pieraksti</b>, ar ko sarkanā <code>GD.PrintErr</code> izdruka atšķiras no parastās.</li>
-<li><b>Atgriez</b> nosaukumu un pārbaudi, ka brīdinājums pazūd.</li>
+<li><b>Pievieno</b> metodē <code>_Ready()</code> pārbaudi ar <code class="language-csharp">Node optionalNode = GetNodeOrNull&lt;Node&gt;("AudioManager");</code>.</li>
+<li><b>Ja</b> atsauce ir <code>null</code>, izdrukā kļūdas ziņojumu ar <code class="language-csharp">GD.PrintErr($"[{Name}] Brīdinājums: mezgls 'AudioManager' nav atrasts scēnā!");</code>.</li>
+<li><b>Palaid</b> scēnu un apskati <b>Debugger -&gt; Errors</b> cilni un sarkano <code>GD.PrintErr</code> ierakstu <b>Output</b> konsolē.</li>
+<li><b>Pieraksti</b> <code>README.md</code>, ar ko <code>GD.PrintErr</code> un <code>GD.PushWarning</code> atšķiras no parastā <code>GD.Print</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> pārsaucot node, console (konsolē) parādās sarkans brīdinājums, nevis spēle klusi avarē.</p>
+<p class="done-when"><b>Gatavs, kad:</b> trūkstoša mezgla gadījumā <b>Output</b> un <b>Debugger -&gt; Errors</b> parāda skaidru sarkanu ziņojumu bez spēles avārijas.</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnais koda piemērs — gatavs šīs stundas risinājums</summary>
 <div class="code-example">
+<p><b>Fails: <code>Scripts/DebugDemo.cs</code></b> (piesaistīts <code>DebugDemo</code> saknei scēnā <code>Scenes/DebugDemo.tscn</code>)</p>
 <pre><code class="language-csharp">using Godot;
 using System;
 
-public partial class Player : CharacterBody2D
+public partial class DebugDemo : Node
 {
-    [Signal] public delegate void DamagedEventHandler(int amount);
+    private int frameCounter = 0;
 
-    private string playerName = "Player";
-    private int hp = 100;
-
-    public void TakeDamage(int amount)
+    public override void _Ready()
     {
-        // Validate input
-        if (amount &lt; 0)
-            throw new ArgumentOutOfRangeException(nameof(amount), amount,
-                "Damage amount must be non-negative.");
+        GD.Print("=== DebugDemo sāk darbu ===");
 
-        // Log for debugging
-        GD.Print("Player ", playerName, " taking ", amount,
-            " damage. Current HP: ", hp);
-
-        // Apply damage
-        hp = Math.Max(0, hp - amount);
-
-        // Conditional debug
-#if DEBUG
-        if (hp == 0)
+        // Pašpārbaude ar GetNodeOrNull un GD.PrintErr
+        Node audioNode = GetNodeOrNull&lt;Node&gt;("AudioManager");
+        if (audioNode == null)
         {
-            GD.Print("Player died at position ", Position);
+            GD.PushWarning($"[{Name}] Mezgls 'AudioManager' šajā testa scēnā nav pievienots.");
         }
+
+        // 1. un 2. uzdevums: punktu aprēķins (uzliec Breakpoint uz finalScore rindas!)
+        int score1 = CalculateLevelScore(1000, 12, 25);
+        int score2 = CalculateLevelScore(1000, 45, 25);
+
+        GD.Print($"1. līmeņa rezultāts: {score1}, 2. līmeņa rezultāts: {score2}");
+    }
+
+    public int CalculateLevelScore(int basePoints, int movesUsed, int penaltyPerMove)
+    {
+        if (movesUsed &lt; 0)
+        {
+            GD.PrintErr($"Nepareizs gājienu skaits: {movesUsed}. Vērtībai jābūt &gt;= 0!");
+            return 0;
+        }
+
+        GD.Print($"[Pirms aprēķina] basePoints={basePoints}, movesUsed={movesUsed}, penalty={penaltyPerMove}");
+
+        // Izlabotā formula (iepriekš kļūdaini bija '+' zīme '-' vietā)
+        int finalScore = Math.Max(0, basePoints - (movesUsed * penaltyPerMove));
+
+#if DEBUG
+        GD.Print($"[DEBUG pēc aprēķina] finalScore={finalScore}");
 #endif
 
-        EmitSignal(SignalName.Damaged, amount);
+        return finalScore;
+    }
+
+    public override void _Process(double delta)
+    {
+        frameCounter++;
+        // Neliela testa slodze, lai Profiler grafikā būtu labi redzams Process laiks
+        if (frameCounter % 120 == 0)
+        {
+            double sample = 0;
+            for (int i = 0; i &lt; 500; i++)
+            {
+                sample += Math.Sqrt(i);
+            }
+        }
     }
 }</code></pre>
-<div class="result">Output panelī redzami detalizēti debug ziņojumi; pie nederīgas ievades - error ar context.</div>
+<div class="result">Pilns atkļūdošanas un profilēšanas skripts ar <code>GD.Print</code> pirms/pēc aprēķina, <code>GD.PushWarning</code>, <code>GD.PrintErr</code>, <code>#if DEBUG</code> aizsardzību un metodi pārtraukumpunktu testēšanai.</div>
 </div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tu proti atrast kļūdu trīs veidos: ar izdrukām, ar breakpoint un variable skatu, un ar profiler atrast laikietilpīgāko function.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tu proti atrast kļūdu un novērtēt veiktspēju trīs veidos: ar strukturētām <code>GD.Print</code> / <code>GD.PrintErr</code> izdrukām, ar <code>Breakpoint</code> un mainīgo skatu, kā arī ar <code>Debugger -&gt; Profiler</code>.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>Ekrānuzņēmums ar Debugger paneli, kurā spēle apturēta breakpoint vietā un redzami variable.</li>
-<li>Ekrānuzņēmums ar profiler sarakstu, sakārtotu pēc laika.</li>
-<li>README.md: kura rinda saturēja apzināti ievesto kļūdu un kā tu to atradi.</li>
-<li>README.md: trīs laikietilpīgākās function un viena uzlabojuma ideja.</li>
+<li>Skriptam <code>Scripts/DebugDemo.cs</code> un scēnai <code>Scenes/DebugDemo.tscn</code>.</li>
+<li>Ekrānuzņēmumam ar <b>Debugger</b> paneli, kurā izpilde ir apturēta <code>Breakpoint</code> vietā un redzamas mainīgo vērtības.</li>
+<li>Ekrānuzņēmumam ar <b>Debugger -&gt; Profiler</b> sarakstu un grafiku.</li>
+<li><code>README.md</code> atbildēm: kura koda rinda saturēja apzināti ieviesto kļūdu un kā to atradi, kā arī trīs profilētāja rādītājiem un vienai veiktspējas uzlabojuma idejai.</li>
 </ul>
-<p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+<p><b>Kā iesniedz:</b> Veic <code>git commit</code> un <code>git push</code>. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, <code>README.md</code> pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>
 </section>
 <section>

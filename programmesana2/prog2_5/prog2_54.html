@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_5/prog2_5main">5. tēma</a> / 5.4</p>
 <h1>5.4 Procedural generation (procedurālā ģenerēšana)</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Ģenerēt nejaušus, bet sakārtotus līmeņus ar algoritmu.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Ģenerēt nejaušus, bet sakārtotus līmeņus ar algoritmu.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
 <a href="/sasnRez">SR 2.4.16. Data structure (datu struktūras)</a>
@@ -121,150 +121,493 @@ private void AizpilditNo(int x, int y, bool[,] apmeklets)
 // Pēc izsaukuma no sākuma pārbauda: vai apmeklets[merkaX, merkaY] ir true.</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Ģenerē labirintu ar Random Walk</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/MazeGenerator.cs</code> parastajai C# klasei; grid lauku un ģenerēšanas metodi raksti tajā. Pārbaudei izveido <code>Scripts/MazeDemo.cs</code>, piesaisti to <code>Scenes/MazeDemo.tscn</code> Node2D saknei un ģenerēšanu un izdruku izsauc <code>_Ready()</code>.</p>
+<p class="task-number">1. uzdevums</p><h2>Ģenerē <code>15×15</code> labirintu ar <code>Random Walk</code> un izdrukā konsolē</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Mapē <code>Scripts/</code> izveido jaunu C# failu <code>Scripts/MazeGenerator.cs</code> (parasta C# klase ar <code>int[,] grid</code> un <code>GenerateOnce</code> metodi).<br>
+2) Mapē <code>Scenes/</code> izveido scēnu <code>Scenes/MazeDemo.tscn</code> (<code>Node2D</code> sakne <code>MazeDemo</code>) un piesaisti tai skriptu <code>Scripts/MazeDemo.cs</code>.</p>
 
-<p>Beigās kods pats izraks ejas tukšā režģī.</p>
+<p>Pirmajā solī uzbūvēsim labirinta ģeneratora datu klasi <code>MazeGenerator</code>, kas divdimensiju masīvā <code>int[15, 15]</code> ar <code>Random Walk</code> algoritmu izrok ejas (`0`) starp sienām (`1`) un izdrukā labirinta karti Output konsolē.</p>
 <ol class="step-list">
-<li><b>Izveido</b> <code class="language-csharp">int[,] grid = new int[15, 15];</code>.</li>
-<li><b>Aizpildi</b> to visu ar vērtību 1 (siena).</li>
-<li><b>Sāc</b> no centra un iestati tur vērtību 0 (eja).</li>
-<li><b>Uzraksti</b> loop (ciklu), kas 200 reizes paiet nejaušā virzienā.</li>
-<li><b>Iestati</b> katrā solī jauno šūnu uz 0.</li>
-<li><b>Pārbaudi</b>, ka gājējs nepamet režģa robežas.</li>
-<li><b>Izdrukā</b> režģi Output panelī ar simboliem <code>#</code> un atstarpi.</li>
-</ol>
-<pre><code class="language-csharp">public class MazeGenerator
-{
-    private const int Size = 15;
-    private readonly int[,] grid = new int[Size, Size];
-
-    public void Generate()
-    {
-        Random rng = new Random();
-        for (int x = 0; x &lt; Size; x++)
-            for (int y = 0; y &lt; Size; y++)
-                grid[x, y] = 1; // siena
-
-        int px = Size / 2, py = Size / 2;
-        for (int step = 0; step &lt; 200; step++)
-        {
-            grid[px, py] = 0; // eja
-            int dir = rng.Next(0, 4);
-            if (dir == 0 &amp;&amp; px &gt; 1) px--;
-            else if (dir == 1 &amp;&amp; px &lt; Size - 2) px++;
-            else if (dir == 2 &amp;&amp; py &gt; 1) py--;
-            else if (dir == 3 &amp;&amp; py &lt; Size - 2) py++;
-        }
-    }
-}</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> Output panelī redzams režģis ar savienotām ejām, un tās nekad neiziet ārpus malām.</p>
-</section>
-<section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Pārvērs režģi par spēles laukumu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Režģa attēlošanu un spēlētāja novietošanu raksti <code>Scripts/MazeDemo.cs</code>. Režģa datus iegūsti no <code>Scripts/MazeGenerator.cs</code>; laukuma un spēlētāja mezglus veido <code>Scenes/MazeDemo.tscn</code>.</p>
-
-<p>Beigās uzģenerēto labirintu varēs redzēt un tajā staigāt.</p>
-<ol class="step-list">
-<li><b>Pievieno</b> scēnai <code>TileMap</code> (flīžu karte) vai izmanto <code>ColorRect</code> mezglus.</li>
-<li><b>Uzraksti</b> divkāršu loop pār visu režģi.</li>
-<li><b>Novieto</b> sienas node katrā vietā, kur vērtība ir 1.</li>
-<li><b>Reizini</b> režģa koordinātes ar šūnas izmēru, piemēram 64.</li>
-<li><b>Novieto</b> spēlētāju vietā, kur vērtība ir 0.</li>
-<li><b>Palaid</b> un pastaigā pa labirintu.</li>
-<li><b>Palaid</b> vēlreiz un pārliecinies, ka labirints ir citāds.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> katrā palaišanas reizē labirints ir atšķirīgs, un spēlētājs var pa to staigāt.</p>
-</section>
-<section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Pārbaudi, vai labirints ir izejams</h2>
-<p class="task-files"><b>Kur strādāt:</b> Sasniedzamības pārbaudes metodi pievieno <code>Scripts/MazeGenerator.cs</code>. Atkārtotu ģenerēšanu līdz derīgam rezultātam izsauc <code>Scripts/MazeDemo.cs</code> pirms laukuma attēlošanas.</p>
-
-<p>Beigās tu būsi pārliecinājies, ka izeja tiešām ir sasniedzama.</p>
-<ol class="step-list">
-<li><b>Novieto</b> izeju tālākajā režģa stūrī, kur vērtība ir 0.</li>
-<li><b>Uzraksti</b> method, kas no starta izplatās pa visām savienotajām ejām.</li>
-<li><b>Atzīmē</b> apmeklētās šūnas otrā režģī.</li>
-<li><b>Pārbaudi</b>, vai izejas šūna tika atzīmēta.</li>
-<li><b>Ģenerē</b> labirintu atkārtoti, kamēr izeja ir sasniedzama.</li>
-<li><b>Saskaiti</b>, cik reižu vidēji vajadzēja ģenerēt.</li>
-<li><b>Pieraksti</b>, kāpēc šī pārbaude ir obligāta.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> spēle nekad nesāk ar labirintu, kurā izeja nav sasniedzama.</p>
-</section>
-<details class="course-help extra-task">
-<summary>Papildu uzdevums - Pievieno random seed (sēklu) atkārtojamībai</summary>
-<p class="task-files"><b>Kur strādāt:</b> Sēklu un nejaušo skaitļu ģeneratoru izmanto <code>Scripts/MazeGenerator.cs</code>. Vienādu un atšķirīgu sēklu pārbaudes un izdrukas raksti <code>Scripts/MazeDemo.cs</code> metodē <code>_Ready()</code>.</p>
-
-<p>Ja pamatdarbs ir gatavs, ļauj atkārtot to pašu labirintu.</p>
-<ol class="step-list">
-<li><b>Pievieno</b> lauku <code class="language-csharp">int seed;</code>.</li>
-<li><b>Iestati</b> to ar <code class="language-csharp">Random rng = new Random(seed);</code> pirms generation (ģenerēšanas).</li>
-<li><b>Ģenerē</b> divas reizes ar to pašu random seed un salīdzini rezultātu.</li>
-<li><b>Ģenerē</b> ar citu random seed un salīdzini vēlreiz.</li>
-<li><b>Izdrukā</b> random seed ekrānā, lai to varētu pierakstīt.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> ar vienu un to pašu random seed labirints vienmēr sanāk identisks.</p>
-</details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
-<div class="code-example">
+<li><b>Mapē <code>Scripts/</code></b> izveido jaunu C# failu <code>Scripts/MazeGenerator.cs</code> un definē tajā režģa izmērus, sākuma punktu <code>(1, 1)</code>, izejas punktu <code>(13, 13)</code> un metodi <code>GenerateOnce(int seed)</code>:
 <pre><code class="language-csharp">using Godot;
 using System;
+using System.Text;
 
 public class MazeGenerator
 {
-    private const int Width = 50;
-    private const int Height = 30;
+    public const int Width = 15;
+    public const int Height = 15;
+
     private readonly int[,] grid = new int[Width, Height];
 
-    public void Generate(int seed)
+    public Vector2I StartPos { get; } = new Vector2I(1, 1);
+    public Vector2I ExitPos { get; } = new Vector2I(Width - 2, Height - 2);
+
+    public int GetCell(int x, int y) =&gt; grid[x, y];
+
+    public void GenerateOnce(int seed)
     {
         Random rng = new Random(seed);
 
-        // Visi sienas
+        // 1. Aizpildām visu režģi ar sienām (1)
         for (int x = 0; x &lt; Width; x++)
-            for (int y = 0; y &lt; Height; y++)
-                grid[x, y] = 1;  // siena
-
-        // Random walk
-        int px = Width / 2;
-        int py = Height / 2;
-        for (int step = 0; step &lt; 800; step++)
         {
-            grid[px, py] = 0;  // grīda
+            for (int y = 0; y &lt; Height; y++)
+            {
+                grid[x, y] = 1;
+            }
+        }
+
+        // 2. Random Walk sāk no StartPos (1, 1) un izrok 220 soļus
+        int px = StartPos.X;
+        int py = StartPos.Y;
+        grid[px, py] = 0;
+
+        for (int step = 0; step &lt; 220; step++)
+        {
             int dir = rng.Next(0, 4);
             if (dir == 0 &amp;&amp; px &gt; 1) px--;
             else if (dir == 1 &amp;&amp; px &lt; Width - 2) px++;
             else if (dir == 2 &amp;&amp; py &gt; 1) py--;
             else if (dir == 3 &amp;&amp; py &lt; Height - 2) py++;
+
+            grid[px, py] = 0; // Izrokam eju
+        }
+
+        // Nodrošinām, ka arī izejas šūna ir atvērta
+        grid[ExitPos.X, ExitPos.Y] = 0;
+    }
+
+    public void PrintToConsole()
+    {
+        StringBuilder sb = new();
+        sb.AppendLine("[MazeGenerator] Uzģenerētais 15x15 labirints (# = siena, . = eja, S = starts, E = izeja):");
+        for (int y = 0; y &lt; Height; y++)
+        {
+            for (int x = 0; x &lt; Width; x++)
+            {
+                Vector2I pos = new(x, y);
+                if (pos == StartPos) sb.Append("S ");
+                else if (pos == ExitPos) sb.Append("E ");
+                else sb.Append(grid[x, y] == 1 ? "# " : ". ");
+            }
+            sb.AppendLine();
+        }
+        GD.Print(sb.ToString());
+    }
+}</code></pre>
+</li>
+<li><b>Izveido</b> jaunu scēnu (<b>Scene → New Scene → 2D Scene</b>), pārsauc saknes <code>Node2D</code> mezglu par <code>MazeDemo</code> un saglabā scēnu kā <code>Scenes/MazeDemo.tscn</code>.</li>
+<li><b>Piesaisti</b> <code>MazeDemo</code> mezglam jaunu skriptu <code>Scripts/MazeDemo.cs</code> un metodē <code>_Ready()</code> izsauc ģenerēšanu un konsoles izdruku:
+<pre><code class="language-csharp">using Godot;
+
+public partial class MazeDemo : Node2D
+{
+    private readonly MazeGenerator generator = new();
+
+    public override void _Ready()
+    {
+        int seed = (int)Time.GetTicksMsec();
+        generator.GenerateOnce(seed);
+        generator.PrintToConsole();
+    }
+}</code></pre>
+</li>
+<li><b>Nospied</b> <b>Build</b> un palaid <code>Scenes/MazeDemo.tscn</code> ar <code>F6</code> (Run Current Scene): apskati Output paneli un pārliecinies, ka visa ārējā mala sastāv no sienām <code>#</code>, bet iekšpusē redzamas izraktās ejas <code>.</code>, starts <code>S</code> un izeja <code>E</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Output panelī izdrukājas <code>15×15</code> labirinta teksts, kurā ejas nekad neiziet ārpus ārējās sienas rāmja.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums</p><h2>Pārvērs režģi par spēles laukumu un izstaigā to</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Projekta iestatījumos (<b>Project → Project Settings → Input Map</b>) pievieno <code>move_left</code>, <code>move_right</code>, <code>move_up</code>, <code>move_down</code> un <code>regenerate</code> (<code>R</code>).<br>
+2) Mapē <code>Scripts/</code> izveido spēlētāja skriptu <code>Scripts/Player.cs</code> un pievieno bērnmezglu <code>Player</code> (<code>CharacterBody2D</code>) scēnā <code>Scenes/MazeDemo.tscn</code>.<br>
+3) Failā <code>Scripts/MazeDemo.cs</code> pievieno metodi <code>BuildMazeVisuals()</code>, kas uzzīmē labirintu un sadursmju sienas.</p>
+
+<p>Tagad pārvērtīsim <code>int[15, 15]</code> tabulu par īstu 2D spēles laukumu (katra šūna — <code>40×40 px</code>), kurā sienas ir fiziski šķēršļi (<code>StaticBody2D</code>) un spēlētājs var staigāt pa gaiteņiem ar <code>WASD</code>.</p>
+<ol class="step-list">
+<li><b>Projekta iestatījumos</b> (<b>Project → Project Settings → Input Map</b>) pievieno 5 darbības: <code>move_left</code> (taustiņš <code>A</code>), <code>move_right</code> (<code>D</code>), <code>move_up</code> (<code>W</code>), <code>move_down</code> (<code>S</code>) un <code>regenerate</code> (<code>R</code>).</li>
+<li><b>Mapē <code>Scripts/</code></b> izveido C# skriptu <code>Scripts/Player.cs</code> spēlētāja vadībai (tas pats automātiski izveidos sev sadursmes apli un zilu kvadrātu, ja tie vēl nav pievienoti):
+<pre><code class="language-csharp">using Godot;
+
+public partial class Player : CharacterBody2D
+{
+    [Export] public float Speed { get; set; } = 210.0f;
+
+    public override void _Ready()
+    {
+        if (GetNodeOrNull&lt;CollisionShape2D&gt;("CollisionShape2D") == null)
+        {
+            CollisionShape2D col = new() { Name = "CollisionShape2D" };
+            col.Shape = new CircleShape2D { Radius = 13.0f };
+            AddChild(col);
+        }
+
+        if (GetNodeOrNull&lt;ColorRect&gt;("Visual") == null)
+        {
+            ColorRect rect = new()
+            {
+                Name = "Visual",
+                Size = new Vector2(26, 26),
+                Position = new Vector2(-13, -13),
+                Color = new Color(0.2f, 0.65f, 1.0f)
+            };
+            AddChild(rect);
         }
     }
 
-    public void RenderToTileMap(TileMap tileMap)
+    public override void _PhysicsProcess(double delta)
     {
+        Vector2 dir = new Vector2(
+            Input.GetAxis("move_left", "move_right"),
+            Input.GetAxis("move_up", "move_down")
+        );
+        if (dir != Vector2.Zero) dir = dir.Normalized();
+
+        Velocity = dir * Speed;
+        MoveAndSlide();
+    }
+}</code></pre>
+</li>
+<li><b>Atver</b> scēnu <code>Scenes/MazeDemo.tscn</code> un pievieno <code>MazeDemo</code> saknei divus bērnmezglus:
+<ul>
+<li><code>MazeContainer</code> (tips <code>Node2D</code> — tajā kods saliks grīdas un sienu mezglus);</li>
+<li><code>Player</code> (tips <code>CharacterBody2D</code> — piesaisti tam skriptu <code>Scripts/Player.cs</code>).</li>
+</ul>
+<pre><code>MazeDemo (Node2D, skripts Scripts/MazeDemo.cs)
+├── MazeContainer (Node2D)
+└── Player (CharacterBody2D, skripts Scripts/Player.cs)</code></pre>
+</li>
+<li><b>Atver</b> failu <code>Scripts/MazeDemo.cs</code> un pievieno konstanti <code>CellSize = 40</code>, koordinātu pārvēršanas metodi <code>GridToWorld(Vector2I cell)</code> un metodi <code>BuildMazeVisuals()</code>, kas ciklā izveido sienu kolīzijas un novieto spēlētāju sākuma punktā (skat. pilno kodu sadaļā <b>Pilnie faili salīdzināšanai</b>).</li>
+<li><b>Nospied</b> <b>Build</b> un palaid <code>Scenes/MazeDemo.tscn</code> (<code>F6</code>): pastaigā pa labirintu ar <code>WASD</code> un pārliecinies, ka spēlētājs nevar iziet cauri tumšajām sienu šūnām.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ekrānā ir uzzīmēts <code>15×15</code> labirints ar zaļu izejas šūnu un spēlētājs ar <code>WASD</code> var pārvietoties pa gaiteņiem, atdodoties pret sienām.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums</p><h2>Pārbaudi ar <code>Flood Fill</code>, vai izeja ir sasniedzama</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Failā <code>Scripts/MazeGenerator.cs</code> pievieno metodes <code>IsExitReachable()</code>, <code>FloodFill(...)</code> un <code>GenerateValidMaze(int baseSeed)</code>.<br>
+2) Failā <code>Scripts/MazeDemo.cs</code> nomaini <code>GenerateOnce(...)</code> pret <code>GenerateValidMaze(...)</code> un pievieno <code>R</code> taustiņu jauna labirinta ģenerēšanai.<br>
+3) Secinājumus pieraksti <code>README.md</code>.</p>
+
+<p>Nejaušā pastaiga (<code>Random Walk</code>) var apstāties pusceļā un nekad neaizrakties līdz apakšējam labajam stūrim <code>(13, 13)</code>. Pievienosim rekursīvu apgabala aizpildīšanu (<code>Flood Fill</code>), kas pārbauda, vai no starta var aiziet līdz izejai, un vajadzības gadījumā labirintu pārbūvē.</p>
+<ol class="step-list">
+<li><b>Atver</b> failu <code>Scripts/MazeGenerator.cs</code> un pievieno metodes <code>IsExitReachable()</code> un <code>FloodFill(int x, int y, bool[,] visited)</code>:
+<pre><code class="language-csharp">public bool IsExitReachable()
+{
+    bool[,] visited = new bool[Width, Height];
+    FloodFill(StartPos.X, StartPos.Y, visited);
+    return visited[ExitPos.X, ExitPos.Y];
+}
+
+private void FloodFill(int x, int y, bool[,] visited)
+{
+    if (x &lt; 0 || x &gt;= Width || y &lt; 0 || y &gt;= Height) return;
+    if (grid[x, y] != 0 || visited[x, y]) return;
+
+    visited[x, y] = true;
+
+    FloodFill(x + 1, y, visited);
+    FloodFill(x - 1, y, visited);
+    FloodFill(x, y + 1, visited);
+    FloodFill(x, y - 1, visited);
+}</code></pre>
+</li>
+<li><b>Tajā pašā <code>Scripts/MazeGenerator.cs</code> failā</b> pievieno metodi <code>GenerateValidMaze(int baseSeed)</code>, kas ciklā atkārto ģenerēšanu, līdz <code>IsExitReachable()</code> atgriež <code>true</code>, un izdrukā mēģinājumu skaitu:
+<pre><code class="language-csharp">public int GenerateValidMaze(int baseSeed)
+{
+    int attempts = 0;
+    do
+    {
+        int currentSeed = baseSeed + attempts;
+        GenerateOnce(currentSeed);
+        attempts++;
+    }
+    while (!IsExitReachable() &amp;&amp; attempts &lt; 100);
+
+    GD.Print($"[MazeGenerator] Izejams labirints (seed={baseSeed + attempts - 1}) atrasts ar {attempts}. mēģinājumu.");
+    return attempts;
+}</code></pre>
+</li>
+<li><b>Atver</b> failu <code>Scripts/MazeDemo.cs</code>: izsauc <code>generator.GenerateValidMaze(seed)</code> un metodē <code>_Process(double delta)</code> pievieno <code>if (Input.IsActionJustPressed("regenerate"))</code>, lai ar taustiņu <code>R</code> varētu uzģenerēt jaunu pārbaudītu labirintu.</li>
+<li><b>Nospied</b> <b>Build</b>, palaid scēnu (<code>F6</code>) un nospied taustiņu <code>R</code> vismaz 5 reizes: apskati Output panelī, ar kuru mēģinājumu katrā reizē tika atrasts izejams labirints, un aizej ar spēlētāju līdz zaļajai izejas šūnai.</li>
+<li><b>Projekta saknē</b> atver <code>README.md</code> un pieraksti:
+<ul>
+<li>cik mēģinājumu vidēji vajadzēja <code>GenerateValidMaze(...)</code> metodei 5 palaišanās;</li>
+<li>kāpēc procedurālā spēlē pirms līmeņa sākuma ir obligāti jāpārbauda izejas sasniedzamība ar <code>Flood Fill</code>.</li>
+</ul>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> spēle vienmēr uzģenerē labirintu, kurā zaļā izejas šūna <code>(13, 13)</code> ir sasniedzama no starta <code>(1, 1)</code>, un ar taustiņu <code>R</code> var izveidot jaunu izkārtojumu.</p>
+</section>
+<details class="course-help extra-task">
+<summary>Papildu uzdevums — Pārbaudi sēklas (<code>seed</code>) atkārtojamību</summary>
+<p class="task-files"><b>Kur strādāt:</b> Pievieno eksportētu lauku <code>[Export] public int FixedSeed { get; set; } = 0;</code> failā <code>Scripts/MazeDemo.cs</code>.</p>
+
+<p>Ja pamatdarbs ir gatavs, pārliecinies, ka viena un tā pati sēkla (piemēram, <code>FixedSeed = 12345</code>) vienmēr rada identisku labirintu.</p>
+<ol class="step-list">
+<li><b>Failā <code>Scripts/MazeDemo.cs</code></b> pievieno <code>[Export] public int FixedSeed { get; set; } = 0;</code> un sēklas izvēlē raksti: <code>int seed = FixedSeed != 0 ? FixedSeed : (int)Time.GetTicksMsec();</code>.</li>
+<li><b>Inspector panelī</b> ieraksti <code>Fixed Seed = 12345</code>, palaid spēli divas reizes pēc kārtas un salīdzini Output konsolē izdrukātos režģus — tiem jābūt pilnīgi vienādiem!</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar fiksētu <code>FixedSeed</code> vērtību labirints katrā palaišanā izskatās identiski, bet ar <code>FixedSeed = 0</code> katrā reizē ir citāds.</p>
+</details>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary>
+<div class="code-example">
+<p><b>1. fails — <code>Scripts/MazeGenerator.cs</code>:</b></p>
+<pre><code class="language-csharp">using Godot;
+using System;
+using System.Text;
+
+public class MazeGenerator
+{
+    public const int Width = 15;
+    public const int Height = 15;
+
+    private readonly int[,] grid = new int[Width, Height];
+
+    public Vector2I StartPos { get; } = new Vector2I(1, 1);
+    public Vector2I ExitPos { get; } = new Vector2I(Width - 2, Height - 2);
+
+    public int GetCell(int x, int y) =&gt; grid[x, y];
+
+    public void GenerateOnce(int seed)
+    {
+        Random rng = new Random(seed);
+
         for (int x = 0; x &lt; Width; x++)
         {
             for (int y = 0; y &lt; Height; y++)
             {
-                int tileId = grid[x, y];
-                tileMap.SetCell(0, new Vector2I(x, y), tileId, Vector2I.Zero);
+                grid[x, y] = 1;
             }
         }
+
+        int px = StartPos.X;
+        int py = StartPos.Y;
+        grid[px, py] = 0;
+
+        for (int step = 0; step &lt; 220; step++)
+        {
+            int dir = rng.Next(0, 4);
+            if (dir == 0 &amp;&amp; px &gt; 1) px--;
+            else if (dir == 1 &amp;&amp; px &lt; Width - 2) px++;
+            else if (dir == 2 &amp;&amp; py &gt; 1) py--;
+            else if (dir == 3 &amp;&amp; py &lt; Height - 2) py++;
+
+            grid[px, py] = 0;
+        }
+
+        grid[ExitPos.X, ExitPos.Y] = 0;
+    }
+
+    public int GenerateValidMaze(int baseSeed)
+    {
+        int attempts = 0;
+        do
+        {
+            int currentSeed = baseSeed + attempts;
+            GenerateOnce(currentSeed);
+            attempts++;
+        }
+        while (!IsExitReachable() &amp;&amp; attempts &lt; 100);
+
+        GD.Print($"[MazeGenerator] Izejams labirints (seed={baseSeed + attempts - 1}) atrasts ar {attempts}. mēģinājumu.");
+        return attempts;
+    }
+
+    public bool IsExitReachable()
+    {
+        bool[,] visited = new bool[Width, Height];
+        FloodFill(StartPos.X, StartPos.Y, visited);
+        return visited[ExitPos.X, ExitPos.Y];
+    }
+
+    private void FloodFill(int x, int y, bool[,] visited)
+    {
+        if (x &lt; 0 || x &gt;= Width || y &lt; 0 || y &gt;= Height) return;
+        if (grid[x, y] != 0 || visited[x, y]) return;
+
+        visited[x, y] = true;
+
+        FloodFill(x + 1, y, visited);
+        FloodFill(x - 1, y, visited);
+        FloodFill(x, y + 1, visited);
+        FloodFill(x, y - 1, visited);
+    }
+
+    public void PrintToConsole()
+    {
+        StringBuilder sb = new();
+        sb.AppendLine("[MazeGenerator] Uzģenerētais 15x15 labirints (# = siena, . = eja, S = starts, E = izeja):");
+        for (int y = 0; y &lt; Height; y++)
+        {
+            for (int x = 0; x &lt; Width; x++)
+            {
+                Vector2I pos = new(x, y);
+                if (pos == StartPos) sb.Append("S ");
+                else if (pos == ExitPos) sb.Append("E ");
+                else sb.Append(grid[x, y] == 1 ? "# " : ". ");
+            }
+            sb.AppendLine();
+        }
+        GD.Print(sb.ToString());
     }
 }</code></pre>
-<div class="result">Katra spēles palaišanas reize ģenerē atšķirīgu labirintu: dažādas telpas, koridori un bonusa materiālu izvietojums.</div>
+<p><b>2. fails — <code>Scripts/Player.cs</code> (piesaistīts <code>MazeDemo/Player</code> mezglam):</b></p>
+<pre><code class="language-csharp">using Godot;
+
+public partial class Player : CharacterBody2D
+{
+    [Export] public float Speed { get; set; } = 210.0f;
+
+    public override void _Ready()
+    {
+        if (GetNodeOrNull&lt;CollisionShape2D&gt;("CollisionShape2D") == null)
+        {
+            CollisionShape2D col = new() { Name = "CollisionShape2D" };
+            col.Shape = new CircleShape2D { Radius = 13.0f };
+            AddChild(col);
+        }
+
+        if (GetNodeOrNull&lt;ColorRect&gt;("Visual") == null)
+        {
+            ColorRect rect = new()
+            {
+                Name = "Visual",
+                Size = new Vector2(26, 26),
+                Position = new Vector2(-13, -13),
+                Color = new Color(0.2f, 0.65f, 1.0f)
+            };
+            AddChild(rect);
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        Vector2 dir = new Vector2(
+            Input.GetAxis("move_left", "move_right"),
+            Input.GetAxis("move_up", "move_down")
+        );
+        if (dir != Vector2.Zero) dir = dir.Normalized();
+
+        Velocity = dir * Speed;
+        MoveAndSlide();
+    }
+}</code></pre>
+<p><b>3. fails — <code>Scripts/MazeDemo.cs</code> (piesaistīts <code>Scenes/MazeDemo.tscn</code> saknes mezglam <code>MazeDemo</code>):</b></p>
+<pre><code class="language-csharp">using Godot;
+
+public partial class MazeDemo : Node2D
+{
+    public const int CellSize = 40;
+
+    [Export] public int FixedSeed { get; set; } = 0;
+
+    private readonly MazeGenerator generator = new();
+    private Node2D mazeContainer;
+    private Player player;
+
+    public override void _Ready()
+    {
+        mazeContainer = GetNodeOrNull&lt;Node2D&gt;("MazeContainer");
+        if (mazeContainer == null)
+        {
+            mazeContainer = new Node2D { Name = "MazeContainer" };
+            AddChild(mazeContainer);
+        }
+
+        player = GetNodeOrNull&lt;Player&gt;("Player");
+        GenerateAndRender();
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Input.IsActionJustPressed("regenerate"))
+        {
+            GenerateAndRender();
+        }
+    }
+
+    private void GenerateAndRender()
+    {
+        int seed = FixedSeed != 0 ? FixedSeed : (int)Time.GetTicksMsec();
+        generator.GenerateValidMaze(seed);
+        generator.PrintToConsole();
+        BuildMazeVisuals();
+    }
+
+    private void BuildMazeVisuals()
+    {
+        foreach (Node child in mazeContainer.GetChildren())
+        {
+            child.QueueFree();
+        }
+
+        for (int x = 0; x &lt; MazeGenerator.Width; x++)
+        {
+            for (int y = 0; y &lt; MazeGenerator.Height; y++)
+            {
+                Vector2 cellTopLeft = new(x * CellSize, y * CellSize);
+                Vector2I gridPos = new(x, y);
+
+                if (generator.GetCell(x, y) == 1)
+                {
+                    StaticBody2D wall = new() { Position = cellTopLeft + new Vector2(CellSize / 2.0f, CellSize / 2.0f) };
+                    CollisionShape2D shape = new()
+                    {
+                        Shape = new RectangleShape2D { Size = new Vector2(CellSize, CellSize) }
+                    };
+                    wall.AddChild(shape);
+
+                    ColorRect wallRect = new()
+                    {
+                        Size = new Vector2(CellSize - 2, CellSize - 2),
+                        Position = new Vector2(-CellSize / 2.0f + 1, -CellSize / 2.0f + 1),
+                        Color = new Color(0.18f, 0.2f, 0.25f)
+                    };
+                    wall.AddChild(wallRect);
+                    mazeContainer.AddChild(wall);
+                }
+                else
+                {
+                    Color floorColor = gridPos == generator.ExitPos
+                        ? new Color(0.2f, 0.8f, 0.35f)
+                        : new Color(0.28f, 0.31f, 0.36f);
+
+                    ColorRect floorRect = new()
+                    {
+                        Position = cellTopLeft,
+                        Size = new Vector2(CellSize - 2, CellSize - 2),
+                        Color = floorColor
+                    };
+                    mazeContainer.AddChild(floorRect);
+                }
+            }
+        }
+
+        if (player != null)
+        {
+            player.GlobalPosition = GridToWorld(generator.StartPos);
+        }
+    }
+
+    private Vector2 GridToWorld(Vector2I cell)
+    {
+        return new Vector2(cell.X * CellSize + CellSize / 2.0f, cell.Y * CellSize + CellSize / 2.0f);
+    }
+}</code></pre>
+<div class="result">Katrā palaišanā (vai nospiežot <code>R</code>) tiek uzģenerēts un ar <code>Flood Fill</code> pārbaudīts <code>15×15</code> labirints, kurā spēlētājs var no sākuma šūnas aiziet līdz zaļajai izejai.</div>
 </div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tava spēle pati uzģenerē labirintu ar Random Walk algoritmu, pārvērš to par spēlējamu laukumu un pirms sākuma pārbauda, ka izeja tiešām ir sasniedzama.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tava spēle pati uzģenerē <code>15×15</code> labirintu ar <code>Random Walk</code> algoritmu, pārvērš to par spēlējamu 2D laukumu un pirms sākuma ar <code>Flood Fill</code> pārbauda, ka izeja ir sasniedzama.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>Fails <code>MazeGenerator.cs</code>.</li>
-<li>Trīs ekrānuzņēmumi ar trim dažādiem uzģenerētiem labirintiem.</li>
-<li>Ekrānuzņēmums ar Output paneli, kurā redzams izdrukātais režģis.</li>
-<li>README.md: kāpēc obligāti jāpārbauda, vai izeja ir sasniedzama.</li>
+<li>Scēnai <code>Scenes/MazeDemo.tscn</code> un skriptiem <code>Scripts/MazeGenerator.cs</code>, <code>Scripts/Player.cs</code> un <code>Scripts/MazeDemo.cs</code>.</li>
+<li>Ekrānuzņēmumiem ar dažādiem uzģenerētiem labirintiem un Output panelī izdrukāto režģi.</li>
+<li>Failam <code>README.md</code> ar skaidrojumu, kāpēc obligāti jāpārbauda, vai izeja ir sasniedzama ar <code>Flood Fill</code>.</li>
 </ul>
 <p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>

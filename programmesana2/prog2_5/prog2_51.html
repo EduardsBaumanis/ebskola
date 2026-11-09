@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_5/prog2_5main">5. tēma</a> / 5.1</p>
 <h1>5.1 File I/O (failu ievade un izvade) Godot vidē</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Apgūt FileAccess (failu piekļuve) class (klasi) un Godot failu sistēmu.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Apgūt FileAccess (failu piekļuve) class (klasi) un Godot failu sistēmu.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.17. Failu un ārējās krātuves</a>
 <a href="/sasnRez">SR 2.4.4. Iegūst un apstrādā datus</a>
@@ -123,125 +123,244 @@ if (lasitBin != null)
 }</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Ieraksti un nolasi failu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/FileDemo.cs</code> un piesaisti to Node saknei scēnā <code>Scenes/FileDemo.tscn</code>. Rakstīšanas un lasīšanas izmēģinājumu ievieto <code>_Ready()</code>; <code>user://save.txt</code> ir programmas izveidotais datu fails.</p>
+<p class="task-number">1. uzdevums</p><h2>Ieraksti un nolasi teksta failu mapē <code>user://</code></h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Izveido jaunu Godot 4 <b>.NET (C#)</b> projektu <code>ProceduralMaze</code> ar mapēm <code>Scenes/</code> un <code>Scripts/</code>.<br>
+2) Mapē <code>Scenes/</code> izveido scēnu <code>Scenes/FileDemo.tscn</code> (<code>Node</code> sakne <code>FileDemo</code>) un piesaisti tai jaunu skriptu <code>Scripts/FileDemo.cs</code>.<br>
+3) Programmas darbības laikā dati tiks ierakstīti failā <code>user://save.txt</code>.</p>
 
-<p>Beigās tava spēle pratīs saglabāt tekstu diskā.</p>
+<p>Pirmajā solī izveidosim 5. tēmas Godot projektu un ierakstīsim pirmo teksta failu operētājsistēmas lietotāja datu mapē <code>user://</code>.</p>
 <ol class="step-list">
-<li><b>Pārliecinies</b>, ka faila sākumā ir <code class="language-csharp">using Godot;</code>.</li>
-<li><b>Atver</b> failu ar <code class="language-csharp">using FileAccess f = FileAccess.Open("user://save.txt", FileAccess.ModeFlags.Write);</code>.</li>
-<li><b>Pārbaudi</b> <code class="language-csharp">if (f != null)</code> pirms rakstīšanas.</li>
-<li><b>Ieraksti</b> tekstu ar <code class="language-csharp">f.StoreString("Sveiks, fails!");</code>.</li>
-<li><b>Atver</b> failu no jauna režīmā <code>Read</code> un nolasi ar <code class="language-csharp">GetAsText()</code>.</li>
-<li><b>Izdrukā</b> nolasīto tekstu.</li>
-<li><b>Atrodi</b> failu diskā: Godot izvēlnē <b>Project -&gt; Open User Data Folder</b>.</li>
-</ol>
-<pre><code class="language-csharp">using FileAccess f = FileAccess.Open("user://save.txt", FileAccess.ModeFlags.Write);
-if (f != null)
-{
-    f.StoreString("Sveiks, fails!");
-}
-
-using FileAccess rf = FileAccess.Open("user://save.txt", FileAccess.ModeFlags.Read);
-if (rf != null)
-{
-    GD.Print(rf.GetAsText());
-}</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> Output panelī izdrukājas tas pats teksts, ko ierakstīji, un fails ir atrodams lietotāja dati mapē.</p>
-</section>
-<section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Saglabā spēles rezultātu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/SaveManager.cs</code> ar parastu SaveManager klasi un metodēm <code>SaveScore()</code> un <code>LoadScore()</code>. To izsaukumus raksti <code>Scripts/FileDemo.cs</code> metodē <code>_Ready()</code>, aizstājot 1. uzdevuma teksta izmēģinājumu. Otrajā palaišanā atstāj tikai ielādi, lai nepārrakstītu saglabāto rezultātu.</p>
-
-<p>Beigās rezultāts saglabāsies arī pēc spēles aizvēršanas.</p>
-<ol class="step-list">
-<li><b>Izveido</b> class <code>SaveManager</code> ar method <code class="language-csharp">public void SaveScore(int score)</code>.</li>
-<li><b>Ieraksti</b> failā rezultātu ar <code class="language-csharp">file.Store32((uint)score);</code>.</li>
-<li><b>Uzraksti</b> method <code class="language-csharp">public int LoadScore()</code>, kas to nolasa ar <code class="language-csharp">(int)file.Get32()</code>.</li>
-<li><b>Izsauc</b> saglabāšanu ar vērtību 150.</li>
-<li><b>Aizver</b> spēli pilnībā un palaid no jauna.</li>
-<li><b>Izdrukā</b> ielādēto rezultātu.</li>
-<li><b>Pieraksti</b>, kāpēc <code>user://</code> ir labāks par <code>res://</code> saglabāšanai.</li>
-</ol>
-<pre><code class="language-csharp">public void SaveScore(int score)
-{
-    using FileAccess file = FileAccess.Open("user://save.txt", FileAccess.ModeFlags.Write);
-    if (file != null) file.Store32((uint)score);
-}</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> pēc spēles aizvēršanas un atvēršanas ielādētais rezultāts joprojām ir 150.</p>
-</section>
-<section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Apstrādā trūkstošu failu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Faila esamības pārbaudi pievieno <code>Scripts/SaveManager.cs</code> metodes <code>LoadScore()</code> sākumā. Trūkstoša faila pārbaudei izdzēs <code>user://save.txt</code>, kuru atrodi ar Open User Data Folder.</p>
-
-<p>Beigās pirmā spēles palaišana vairs neradīs kļūdu.</p>
-<ol class="step-list">
-<li><b>Izdzēs</b> saglabāto failu no lietotāja dati mapes.</li>
-<li><b>Palaid</b> spēli un pieraksti, kas notiek ar <code>LoadScore()</code>.</li>
-<li><b>Pievieno</b> pārbaudi <code class="language-csharp">if (!FileAccess.FileExists("user://save.txt"))</code>.</li>
-<li><b>Atgriez</b> tādā gadījumā noklusējuma vērtību 0.</li>
-<li><b>Palaid</b> vēlreiz ar izdzēstu failu un pārbaudi rezultātu.</li>
-<li><b>Saglabā</b> jaunu rezultātu un pārbaudi, ka tas ielādējas.</li>
-<li><b>Pieraksti</b>, ar ko šī pārbaude līdzinās Python <code>FileNotFoundError</code> apstrādei.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> ar izdzēstu failu spēle rāda rezultātu 0 un neizmet kļūdu.</p>
-</section>
-<details class="course-help extra-task">
-<summary>Papildu uzdevums - Saglabā vairākas vērtības</summary>
-<p class="task-files"><b>Kur strādāt:</b> Datu rakstīšanu un lasīšanu papildini <code>Scripts/SaveManager.cs</code>; izmēģinājuma vērtības un izdrukas maini <code>Scripts/FileDemo.cs</code> metodē <code>_Ready()</code>.</p>
-
-<p>Ja pamatdarbs ir gatavs, saglabā visu spēlētāja stāvokli.</p>
-<ol class="step-list">
-<li><b>Papildini</b> saglabāšanu ar HP (dzīvības punkti), līmeni un spēlētāja vārdu.</li>
-<li><b>Ieraksti</b> tos noteiktā secībā ar <code>Store32</code> un <code>StoreString</code>.</li>
-<li><b>Nolasi</b> tos TIEŠI tādā pašā secībā.</li>
-<li><b>Samaini</b> apzināti divas nolasīšanas rindas vietām un palaid.</li>
-<li><b>Pieraksti</b>, kāpēc secība ir tik svarīga.</li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> visas vērtības ielādējas pareizi, bet, samainot nolasīšanas secību, dati sajūk.</p>
-</details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
-<div class="code-example">
+<li><b>Atver</b> Godot 4 (.NET versiju), izveido jaunu projektu <code>ProceduralMaze</code> un <b>FileSystem</b> panelī izveido divas mapes: <code>Scenes/</code> un <code>Scripts/</code>.</li>
+<li><b>Izveido</b> jaunu scēnu (<b>Scene → New Scene → Other Node → Node</b>), pārsauc saknes mezglu par <code>FileDemo</code> un saglabā scēnu kā <code>Scenes/FileDemo.tscn</code>.</li>
+<li><b>Piesaisti</b> <code>FileDemo</code> mezglam jaunu C# skriptu <code>Scripts/FileDemo.cs</code> un tā metodē <code>_Ready()</code> ieraksti teksta saglabāšanas un nolasīšanas kodu:
 <pre><code class="language-csharp">using Godot;
 
-public partial class SaveSystem : Node
+public partial class FileDemo : Node
 {
-    public void SaveText(string filename, string content)
+    private const string TextPath = "user://save.txt";
+
+    public override void _Ready()
     {
-        string path = "user://" + filename;
-        using FileAccess file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+        // 1. Ierakstām tekstu failā user://save.txt
+        using (FileAccess writeFile = FileAccess.Open(TextPath, FileAccess.ModeFlags.Write))
+        {
+            if (writeFile != null)
+            {
+                writeFile.StoreString("Sveiks, fails! Šis teksts glabājas diskā.");
+            }
+        }
+
+        // 2. Nolasām tekstu atpakaļ no faila
+        using (FileAccess readFile = FileAccess.Open(TextPath, FileAccess.ModeFlags.Read))
+        {
+            if (readFile != null)
+            {
+                string content = readFile.GetAsText();
+                GD.Print("[FileDemo] Nolasītais teksts: ", content);
+            }
+        }
+
+        GD.Print("[FileDemo] Pilnais ceļš diskā: ", ProjectSettings.GlobalizePath("user://"));
+    }
+}</code></pre>
+</li>
+<li><b>Nospied</b> <b>Build</b> (āmura ikonu augšējā labajā stūrī) un palaid scēnu ar <code>F5</code> (izvēloties <code>Scenes/FileDemo.tscn</code> kā galveno scēnu).</li>
+<li><b>Pārbaudi</b> <b>Output</b> paneli un atver <b>Project → Open User Data Folder</b>: pārliecinies, ka atvērtajā datora mapē ir parādījies fails <code>save.txt</code>, un atver to jebkurā teksta redaktorā.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Output panelī izdrukājas <code>Sveiks, fails! Šis teksts glabājas diskā.</code> un fails <code>save.txt</code> ir redzams <b>Open User Data Folder</b> mapē.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums</p><h2>Saglabā un ielādē spēles rezultātu ar <code>SaveManager</code></h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Mapē <code>Scripts/</code> izveido jaunu C# failu <code>Scripts/SaveManager.cs</code> (klase ar metodēm <code>SaveScore</code> un <code>LoadScore</code>).<br>
+2) Esošajā failā <code>Scripts/FileDemo.cs</code> metodē <code>_Ready()</code> izsauc <code>SaveScore(150)</code> un <code>LoadScore()</code>.</p>
+
+<p>Izveidosim atsevišķu klasi <code>SaveManager</code>, kas saglabā 32 bitu veselu skaitli (spēles rezultātu) failā <code>user://score.bin</code>, un pārbaudīsim, ka rezultāts nepazūd arī pēc spēles aizvēršanas.</p>
+<ol class="step-list">
+<li><b>Mapē <code>Scripts/</code></b> izveido jaunu C# skriptu <code>Scripts/SaveManager.cs</code> un definē tajā metodes <code>SaveScore(int score)</code> un <code>LoadScore()</code>:
+<pre><code class="language-csharp">using Godot;
+
+public partial class SaveManager : Node
+{
+    private const string ScorePath = "user://score.bin";
+
+    public void SaveScore(int score)
+    {
+        using FileAccess file = FileAccess.Open(ScorePath, FileAccess.ModeFlags.Write);
         if (file != null)
         {
-            file.StoreString(content);
-            GD.Print("Saglabāts: ", path);
+            file.Store32((uint)score);
+            GD.Print($"[SaveManager] Rezultāts {score} saglabāts failā {ScorePath}");
+        }
+    }
+
+    public int LoadScore()
+    {
+        using FileAccess file = FileAccess.Open(ScorePath, FileAccess.ModeFlags.Read);
+        if (file != null)
+        {
+            int loaded = (int)file.Get32();
+            GD.Print($"[SaveManager] Ielādēts rezultāts: {loaded}");
+            return loaded;
+        }
+        return 0;
+    }
+}</code></pre>
+</li>
+<li><b>Atver</b> failu <code>Scripts/FileDemo.cs</code> un metodē <code>_Ready()</code> izveido <code>SaveManager</code> eksemplāru, saglabā rezultātu <code>150</code> un uzreiz to nolasi:
+<pre><code class="language-csharp">SaveManager saveManager = new();
+saveManager.SaveScore(150);
+int score = saveManager.LoadScore();
+GD.Print("[FileDemo] Pašreizējais rekords: ", score);</code></pre>
+</li>
+<li><b>Nospied</b> <b>Build</b> un palaid scēnu (<code>F5</code>): pārliecinies, ka Output panelī parādās <code>Rezultāts 150 saglabāts</code> un <code>Ielādēts rezultāts: 150</code>.</li>
+<li><b>Pārbaudi pastāvīgumu starp sesijām:</b> failā <code>Scripts/FileDemo.cs</code> aizkomentē rindu <code>// saveManager.SaveScore(150);</code>, nospied <b>Build</b> un palaid spēli no jauna (<code>F5</code>) — pārliecinies, ka <code>LoadScore()</code> no diska joprojām nolasa <code>150</code>!</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> arī ar aizkomentētu <code>SaveScore(150)</code> rindu jaunā spēles palaišanā no diska tiek nolasīts rezultāts <code>150</code>.</p>
+</section>
+<section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums</p><h2>Apstrādā trūkstošu failu bez kļūdas</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Atver lietotāja datu mapi (<b>Project → Open User Data Folder</b>) un izdzēs <code>score.bin</code>.<br>
+2) Failā <code>Scripts/SaveManager.cs</code> metodes <code>LoadScore()</code> sākumā pievieno <code>FileAccess.FileExists(...)</code> pārbaudi.<br>
+3) Atbildes uz jautājumiem pieraksti projekta saknes failā <code>README.md</code>.</p>
+
+<p>Kad spēlētājs palaiž spēli pašā pirmajā reizē, saglabāšanas faila diskā vēl nav. Pārbaudīsim, kas notiek, ja mēģina lasīt neesošu failu, un pievienosim drošu pārbaudi.</p>
+<ol class="step-list">
+<li><b>Atver</b> <b>Project → Open User Data Folder</b> un izdzēs failu <code>score.bin</code> (pārliecinies, ka failā <code>Scripts/FileDemo.cs</code> rinda <code>saveManager.SaveScore(150);</code> joprojām ir aizkomentēta).</li>
+<li><b>Palaid</b> spēli (<code>F5</code>) un apskati Godot apakšējo cilni <b>Debugger → Errors</b>: mēģinājums atvērt neesošu failu lasīšanai (`ModeFlags.Read`) atgriež <code>null</code> un reģistrē kļūdu.</li>
+<li><b>Atver</b> failu <code>Scripts/SaveManager.cs</code> un metodes <code>LoadScore()</code> pašā sākumā pievieno <code>FileAccess.FileExists(ScorePath)</code> pārbaudi:
+<pre><code class="language-csharp">public int LoadScore()
+{
+    if (!FileAccess.FileExists(ScorePath))
+    {
+        GD.Print("[SaveManager] Saglabāšanas fails vēl neeksistē — atgriežam 0.");
+        return 0;
+    }
+
+    using FileAccess file = FileAccess.Open(ScorePath, FileAccess.ModeFlags.Read);
+    if (file != null)
+    {
+        int loaded = (int)file.Get32();
+        GD.Print($"[SaveManager] Ielādēts rezultāts: {loaded}");
+        return loaded;
+    }
+    return 0;
+}</code></pre>
+</li>
+<li><b>Nospied</b> <b>Build</b> un palaid spēli (<code>F5</code>) ar izdzēstu <code>score.bin</code> failu: pārliecinies, ka <b>Debugger → Errors</b> cilnē vairs nav nevienas kļūdas un Output panelī izdrukājas noklusējuma vērtība <code>0</code>.</li>
+<li><b>Failā <code>Scripts/FileDemo.cs</code></b> atkomentē rindu <code>saveManager.SaveScore(150);</code>, lai saglabāšana atkal strādātu, un pārbaudi, ka rezultāts <code>150</code> tiek saglabāts un nolasīts.</li>
+<li><b>Projekta saknē</b> izveido failu <code>README.md</code> un īsi pieraksti:
+<ul>
+<li>kāpēc spēlētāja progresu nedrīkst rakstīt mapē <code>res://</code>, bet jāraksta <code>user://</code>;</li>
+<li>kā <code>FileAccess.FileExists(...)</code> pārbaude pasargā spēli pirmajā palaišanas reizē (līdzīgi kā <code>FileNotFoundError</code> apstrāde Python valodā).</li>
+</ul>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar izdzēstu <code>score.bin</code> failu spēle bez kļūdām atgriež <code>0</code>, bet pēc saglabāšanas atkal ielādē <code>150</code>, un secinājumi ir pierakstīti <code>README.md</code>.</p>
+</section>
+<details class="course-help extra-task">
+<summary>Papildu uzdevums — Saglabā vairākas vērtības binārā failā un pārbaudi secību</summary>
+<p class="task-files"><b>Kur strādāt:</b> Papildini <code>Scripts/SaveManager.cs</code> ar metodēm <code>SaveStats(int hp, int level, string playerName)</code> un <code>LoadStats()</code>, un izsauc tās no <code>Scripts/FileDemo.cs</code> metodes <code>_Ready()</code>.</p>
+
+<p>Ja pamatdarbs ir gatavs, pārbaudi praksē, kāpēc binārajā failā nolasīšanas secībai ir precīzi jāsakrīt ar rakstīšanas secību.</p>
+<ol class="step-list">
+<li><b>Failā <code>Scripts/SaveManager.cs</code></b> pievieno metodi <code>SaveStats(int hp, int level, string name)</code>, kas failā <code>user://stats.bin</code> pēc kārtas ieraksta <code>file.Store32((uint)hp);</code>, <code>file.Store32((uint)level);</code> un <code>file.StorePascalString(name);</code>.</li>
+<li><b>Tajā pašā failā</b> pievieno metodi <code>LoadStats()</code>, kas šīs trīs vērtības nolasa tieši tādā pašā secībā ar <code>Get32()</code>, <code>Get32()</code> un <code>GetPascalString()</code> un izdrukā konsolē.</li>
+<li><b>Pamēģini</b> metodē <code>LoadStats()</code> apmainīt vietām <code>hp</code> un <code>level</code> nolasīšanu un pieraksti <code>README.md</code>, kas notiek ar nolasītajām vērtībām.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> visas trīs vērtības (<code>hp</code>, <code>level</code>, <code>name</code>) ielādējas pareizi un esi novērojis, kas notiek, sajaucot nolasīšanas secību.</p>
+</details>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary>
+<div class="code-example">
+<p><b>1. fails — <code>Scripts/SaveManager.cs</code>:</b></p>
+<pre><code class="language-csharp">using Godot;
+
+public partial class SaveManager : Node
+{
+    private const string ScorePath = "user://score.bin";
+
+    public void SaveScore(int score)
+    {
+        using FileAccess file = FileAccess.Open(ScorePath, FileAccess.ModeFlags.Write);
+        if (file != null)
+        {
+            file.Store32((uint)score);
+            GD.Print($"[SaveManager] Rezultāts {score} saglabāts failā {ScorePath}");
         }
         else
         {
-            GD.PrintErr("Neizdevās atvērt: ", path);
+            GD.PrintErr($"[SaveManager] Neizdevās atvērt {ScorePath} rakstīšanai!");
         }
     }
 
-    public string LoadText(string filename)
+    public int LoadScore()
     {
-        string path = "user://" + filename;
-        if (!FileAccess.FileExists(path)) return "";
+        if (!FileAccess.FileExists(ScorePath))
+        {
+            GD.Print("[SaveManager] Saglabāšanas fails vēl neeksistē — atgriežam 0.");
+            return 0;
+        }
 
-        using FileAccess file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
-        return file != null ? file.GetAsText() : "";
+        using FileAccess file = FileAccess.Open(ScorePath, FileAccess.ModeFlags.Read);
+        if (file != null)
+        {
+            int loaded = (int)file.Get32();
+            GD.Print($"[SaveManager] Ielādēts rezultāts: {loaded}");
+            return loaded;
+        }
+        return 0;
     }
 }</code></pre>
-<div class="result">Saglabā 'Mans pirmais saglabāt!' failā un to atjauno; user:// mapē redzams test.txt.</div>
+<p><b>2. fails — <code>Scripts/FileDemo.cs</code> (piesaistīts <code>Scenes/FileDemo.tscn</code> saknes mezglam <code>FileDemo</code>):</b></p>
+<pre><code class="language-csharp">using Godot;
+
+public partial class FileDemo : Node
+{
+    private const string TextPath = "user://save.txt";
+
+    public override void _Ready()
+    {
+        // 1. uzdevums: teksta ierakstīšana un nolasīšana
+        using (FileAccess writeFile = FileAccess.Open(TextPath, FileAccess.ModeFlags.Write))
+        {
+            if (writeFile != null)
+            {
+                writeFile.StoreString("Sveiks, fails! Šis teksts glabājas diskā.");
+            }
+        }
+
+        if (FileAccess.FileExists(TextPath))
+        {
+            using FileAccess readFile = FileAccess.Open(TextPath, FileAccess.ModeFlags.Read);
+            if (readFile != null)
+            {
+                GD.Print("[FileDemo] Nolasītais teksts: ", readFile.GetAsText());
+            }
+        }
+
+        GD.Print("[FileDemo] Pilnais ceļš diskā: ", ProjectSettings.GlobalizePath("user://"));
+
+        // 2. un 3. uzdevums: skaitliskā rezultāta saglabāšana un droša ielāde
+        SaveManager saveManager = new();
+        saveManager.SaveScore(150);
+        int score = saveManager.LoadScore();
+        GD.Print("[FileDemo] Pašreizējais rekords: ", score);
+    }
+}</code></pre>
+<div class="result">Output konsolē parādās nolasītais teksts no <code>user://save.txt</code>, pilnais ceļš uz lietotāja datu mapi un saglabātais rezultāts <code>150</code> no <code>user://score.bin</code>.</div>
 </div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tava spēle saglabā rezultātu failā <code>user://</code> mapē, ielādē to pēc restarta un neizmet kļūdu, ja saglabāšanas faila vēl nav.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tava spēle saglabā tekstu un skaitlisku rezultātu <code>user://</code> mapē, ielādē to pēc restarta un neizmet kļūdu, ja saglabāšanas faila vēl nav.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>Fails <code>SaveManager.cs</code>.</li>
-<li>Divi ekrānuzņēmumi: rezultāts pēc saglabāšanas un tas pats rezultāts pēc spēles restarta.</li>
-<li>README.md: ar ko <code>user://</code> atšķiras no <code>res://</code> un kā tu apstrādāji trūkstošu failu.</li>
+<li>Scēnai <code>Scenes/FileDemo.tscn</code> un skriptiem <code>Scripts/SaveManager.cs</code> un <code>Scripts/FileDemo.cs</code>.</li>
+<li>Ekrānuzņēmumam ar Output paneli un atvērtu <code>user://</code> mapi, kurā redzami izveidotie faili.</li>
+<li>Failam <code>README.md</code> ar skaidrojumu, ar ko <code>user://</code> atšķiras no <code>res://</code> un kā darbojas <code>FileAccess.FileExists(...)</code> pārbaude.</li>
 </ul>
 <p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>

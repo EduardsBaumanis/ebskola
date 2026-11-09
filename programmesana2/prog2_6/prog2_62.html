@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_6/prog2_6main">6. tēma</a> / 6.2</p>
 <h1>6.2 Animācijas un Tween (pakāpeniska vērtību maiņa)</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Pievienot animācijas UI (lietotāja saskarne) un spēles objektiem ar AnimationPlayer (animāciju atskaņotājs) un Tween.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Pievienot animācijas UI (lietotāja saskarne) un spēles objektiem ar AnimationPlayer (animāciju atskaņotājs) un Tween.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.7. UI</a>
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
@@ -100,113 +100,232 @@ private void IzgaismotPaneli(Control panelis)
 <p>Ja viens un tas pats notikums atkārtojas ļoti strauji, divi vienlaicīgi <code>Tween</code> objekti var sākt savstarpēji konfliktēt par vienas īpašības vērtību. Glabājot atsauci klases laukā un pirms jaunas animācijas izsaucot <code>aktivaisTween?.Kill()</code>, iepriekšējā pāreja tiek korekti pārtraukta.</p>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Uztaisi pirmo Tween animāciju</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scenes/TweenDemo.tscn</code> ar Node2D sakni un redzamu bērna mezglu <code>Visual</code>; saknei piesaisti <code>Scripts/TweenDemo.cs</code>. Tā metodē <code>_Ready()</code> iegūsti Visual kā <code>objekts</code> un raksti Tween piemēru.</p>
+<p class="task-number">1. uzdevums</p><h2>Uztaisi pirmo <code>Tween</code> animāciju</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido demonstrācijas scēnu <code>Scenes/TweenDemo.tscn</code> ar <code>Node2D</code> sakni <code>TweenDemo</code> un bērna mezglu <code>Visual</code> (<code>ColorRect</code>). Izveido skriptu <code>Scripts/TweenDemo.cs</code> un piesaisti to saknei <code>TweenDemo</code>.</p>
 
-<p>Beigās objekts vienmērīgi pārvietosies no vienas vietas uz otru.</p>
+<p>Beigās lauciņš vienmērīgi aizslīdēs pāri ekrānam un ar pārejas līkni <code>TransitionType.Elastic</code> mērķa punktā atsperīgi iešūposies.</p>
+<p><b>Scēnas koka uzbūve (<code>Scenes/TweenDemo.tscn</code>):</b></p>
+<pre><code>TweenDemo (Node2D - piesaistīts Scripts/TweenDemo.cs)
+ ├── Visual (ColorRect - Size: 80 × 80, Pivot Offset: 40 × 40, Position: 120, 260)
+ └── InfoLabel (Label - Text: "Nospied Space vai kreiso peles pogu, lai pārbaudītu 3. uzdevuma animāciju")</code></pre>
 <ol class="step-list">
-<li><b>Pārliecinies</b>, ka faila sākumā ir <code class="language-csharp">using Godot;</code>.</li>
-<li><b>Izveido</b> kodā <code class="language-csharp">Tween tween = CreateTween();</code>.</li>
-<li><b>Pievieno</b> <code class="language-csharp">tween.TweenProperty(objekts, "position", new Vector2(600, 300), 1.0);</code>.</li>
-<li><b>Būvē</b> un palaid - objektam vienmērīgi jāaizslīd.</li>
-<li><b>Nomaini</b> ilgumu uz 0.2 un palaid vēlreiz.</li>
-<li><b>Pievieno</b> <code class="language-csharp">.SetTrans(Tween.TransitionType.Elastic);</code>.</li>
-<li><b>Pieraksti</b>, kā mainījās kustības raksturs.</li>
+<li><b>Izveido</b> jaunu scēnu ar <code>Node2D</code> sakni <code>TweenDemo</code>, pievieno tai bērnu <code>ColorRect</code> ar nosaukumu <code>Visual</code> (iestati <code>Layout -&gt; Transform -&gt; Size = 80 × 80</code>, <code>Pivot Offset = 40 × 40</code>, <code>Position = (120, 260)</code> un spilgtu krāsu) un saglabā kā <code>res://Scenes/TweenDemo.tscn</code>.</li>
+<li><b>Izveido</b> skriptu <code>res://Scripts/TweenDemo.cs</code> (<code>public partial class TweenDemo : Node2D</code>) un piesaisti to saknei <code>TweenDemo</code>.</li>
+<li><b>Atrodi</b> metodē <code>_Ready()</code> lauciņu: <code class="language-csharp">visual = GetNode&lt;ColorRect&gt;("Visual");</code>.</li>
+<li><b>Izveido</b> pāreju ar <code class="language-csharp">Tween tween = CreateTween();</code> un pievieno kustību:
+<code class="language-csharp">tween.TweenProperty(visual, "position", new Vector2(600, 260), 1.0);</code>.</li>
+<li><b>Nospied</b> <b>Build</b>, palaid <code>Scenes/TweenDemo.tscn</code> (<b>F6</b>) un pārliecinies, ka lauciņš 1 sekundes laikā vienmērīgi aizslīd pa labi.</li>
+<li><b>Pievieno</b> izsaukuma galā pārejas līkni un bremzēšanu:
+<code class="language-csharp">.SetTrans(Tween.TransitionType.Elastic).SetEase(Tween.EaseType.Out);</code> un palaid vēlreiz.</li>
+<li><b>Pieraksti</b> failā <code>README.md</code>, kā mainījās kustības raksturs ar <code>TransitionType.Elastic</code> salīdzinājumā ar noklusēto pāreju.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> objekts pārvietojas vienmērīgi, un ar <code>TransitionType.Elastic</code> tas mērķī nedaudz atlec.</p>
+<p class="done-when"><b>Gatavs, kad:</b> <code>Visual</code> lauciņš vienmērīgi pārvietojas uz mērķa koordinātām un ar <code>TransitionType.Elastic</code> galapunktā atsperīgi iešūpojas.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Animē izvēlnes parādīšanos</h2>
-<p class="task-files"><b>Kur strādāt:</b> Papildini esošā <code>Scripts/MainMenu.cs</code> metodi <code>_Ready()</code> ar izvēlnes parādīšanās animāciju. Izvēlnes mezgli atrodas <code>Scenes/Menu.tscn</code>.</p>
+<p class="task-number">2. uzdevums</p><h2>Animē sākuma izvēlnes parādīšanos</h2>
+<p class="task-files"><b>Kur strādāt:</b> Atver 6.1. stundā izveidoto skriptu <code>Scripts/MainMenu.cs</code> (kas piesaistīts <code>Scenes/Menu.tscn</code> saknei <code>Menu</code>) un papildini metodi <code>_Ready()</code> ar paralēlu <code>Tween</code> parādīšanās animāciju.</p>
 
-<p>Beigās izvēlne parādīsies mīksti, nevis uzreiz.</p>
+<p>Beigās sākuma izvēlne, atverot spēli, vienlaikus plūdeni izgaismosies un noslīdēs savā vietā.</p>
 <ol class="step-list">
-<li><b>Iestati</b> izvēlnei sākumā <code class="language-csharp">Modulate = new Color(1, 1, 1, 0);</code>.</li>
-<li><b>Izveido</b> <code>_Ready</code> method Tween.</li>
-<li><b>Animē</b> īpašību <code>modulate:a</code> no 0 uz 1 vienā sekundē.</li>
-<li><b>Palaid</b> un vēro, kā izvēlne parādās.</li>
-<li><b>Pievieno</b> arī nelielu nobīdi no augšas uz vietu.</li>
-<li><b>Savieno</b> abas animācijas ar <code class="language-csharp">tween.SetParallel(true);</code>.</li>
-<li><b>Pieraksti</b>, ar ko paralēla animācija atšķiras no secīgas.</li>
+<li><b>Atver</b> failu <code>Scripts/MainMenu.cs</code> un metodē <code>_Ready()</code> atrodi konteineru:
+<code class="language-csharp">Control vbox = GetNode&lt;Control&gt;("VBox");</code>.</li>
+<li><b>Saglabā</b> konteinera sākotnējo pozīciju <code class="language-csharp">Vector2 targetPos = vbox.Position;</code> un pacel to 40 pikseļus augstāk:
+<code class="language-csharp">vbox.Position = targetPos + new Vector2(0, -40);</code>.</li>
+<li><b>Padari</b> izvēlni sākumā pilnīgi caurspīdīgu ar <code class="language-csharp">Modulate = new Color(1, 1, 1, 0);</code>.</li>
+<li><b>Izveido</b> <code>Tween</code> un ieslēdz paralēlo režīmu:
+<code class="language-csharp">Tween tween = CreateTween(); tween.SetParallel(true);</code>.</li>
+<li><b>Pievieno</b> divas paralēlas animācijas (0.6 sekundēs):
+<code class="language-csharp">tween.TweenProperty(this, "modulate:a", 1.0f, 0.6);</code> un
+<code class="language-csharp">tween.TweenProperty(vbox, "position", targetPos, 0.6).SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);</code>.</li>
+<li><b>Nospied</b> <b>Build</b>, palaid <code>Scenes/Menu.tscn</code> un vēro, kā izvēlne vienlaikus izgaismojas un noslīd vietā.</li>
+<li><b>Pieraksti</b> failā <code>README.md</code>, ar ko paralēla animācija (<code>SetParallel(true)</code>) atšķiras no secīgas (<code>Chain()</code>).</li>
 </ol>
-<pre><code class="language-csharp">Modulate = new Color(1, 1, 1, 0);
-Tween tween = CreateTween();
-tween.SetParallel(true);
-tween.TweenProperty(this, "modulate:a", 1.0f, 1.0);</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> izvēlne vienlaikus izgaismojas un noslīd vietā, nevis dara to pa vienam.</p>
+<pre><code class="language-csharp">// Pievieno Scripts/MainMenu.cs metodē _Ready():
+Control vbox = GetNode&lt;Control&gt;("VBox");
+Vector2 targetPos = vbox.Position;
+vbox.Position = targetPos + new Vector2(0, -40);
+Modulate = new Color(1, 1, 1, 0);
+
+Tween introTween = CreateTween();
+introTween.SetParallel(true);
+introTween.TweenProperty(this, "modulate:a", 1.0f, 0.6);
+introTween.TweenProperty(vbox, "position", targetPos, 0.6)
+    .SetTrans(Tween.TransitionType.Cubic)
+    .SetEase(Tween.EaseType.Out);</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> atverot <code>Scenes/Menu.tscn</code>, izvēlne vienlaikus izgaismojas un plūdeni noslīd savā vietā.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Pievieno atsauksmes animāciju spēlē</h2>
-<p class="task-files"><b>Kur strādāt:</b> Savākšanas animāciju pievieno priekšmeta skripta savākšanas metodei: <code>Scripts/Collectible.cs</code> labirinta projektā vai <code>Scripts/Pickup.cs</code> platformas projektā. Trieciena mirgojumu pievieno <code>Scripts/Player.cs</code> bojājumu apstrādei; Tween atsauci glabā attiecīgās klases laukā.</p>
+<p class="task-number">3. uzdevums</p><h2>Pievieno klikšķa atsauksmes animāciju ar <code>Kill()</code> aizsardzību</h2>
+<p class="task-files"><b>Kur strādāt:</b> Papildini skriptu <code>Scripts/TweenDemo.cs</code> (scēnā <code>Scenes/TweenDemo.tscn</code>) ar klases lauku <code>private Tween pulseTween;</code>, ievades apstrādi <code>_UnhandledInput()</code> un metodi <code>PlayFeedbackPulse()</code>.</p>
 
-<p>Beigās spēlētājs redzēs, ka viņa darbība tika pamanīta.</p>
+<p>Beigās katrs spēlētāja klikšķis vai <code>Space</code> nospiešana izsauks pamanāmu mēroga palielināšanos un krāsas mirgojumu, kas nesajūk pat pie ļoti ātras, atkārtotas spiešanas.</p>
 <ol class="step-list">
-<li><b>Izvēlies</b> vienu event (notikumu) savā spēlē, piemēram monētas savākšanu.</li>
-<li><b>Pievieno</b> tam Tween, kas objektu uz brīdi palielina un tad atgriež.</li>
-<li><b>Pievieno</b> arī krāsas mirgojumu, kad spēlētājs saņem triecienu.</li>
-<li><b>Pārliecinies</b>, ka animācija netraucē spēles gaitu.</li>
-<li><b>Pārbaudi</b>, kas notiek, ja event atkārtojas ļoti ātri.</li>
-<li><b>Apturi</b> iepriekšējo Tween ar <code class="language-csharp">Kill()</code>, ja tas vēl darbojas.</li>
-<li><b>Pieraksti</b>, kāpēc animācija palīdz saprast spēli.</li>
+<li><b>Pievieno</b> klasei <code>TweenDemo</code> (failā <code>Scripts/TweenDemo.cs</code>) lauku <code class="language-csharp">private Tween pulseTween;</code>.</li>
+<li><b>Izveido</b> metodi <code class="language-csharp">public void PlayFeedbackPulse()</code>, kuras sākumā pārbaudi un apturi iepriekšējo animāciju:
+<code class="language-csharp">if (pulseTween != null &amp;&amp; pulseTween.IsRunning()) pulseTween.Kill();</code>.</li>
+<li><b>Atjauno</b> tūlīt pēc <code>Kill()</code> sākuma stāvokli (<code class="language-csharp">visual.Scale = Vector2.One; visual.Modulate = Colors.White;</code>), lai strauji atkārtoti klikšķi neuzkrātu palielinājumu.</li>
+<li><b>Izveido</b> jaunu <code>pulseTween = CreateTween();</code>, kas vispirms 0.12 sekundēs palielina <code>visual</code> mērogu uz <code class="language-csharp">new Vector2(1.25f, 1.25f)</code> un iekrāso dzeltenīgu, bet pēc <code>pulseTween.Chain()</code> 0.18 sekundēs atgriež <code class="language-csharp">Vector2.One</code> un <code class="language-csharp">Colors.White</code>.</li>
+<li><b>Izsauc</b> <code>PlayFeedbackPulse()</code> no metodes <code>_UnhandledInput(InputEvent @event)</code>, kad nospiests <code>ui_accept</code> (<code>Space</code>) vai peles kreisā poga.</li>
+<li><b>Palaid</b> <code>Scenes/TweenDemo.tscn</code> (<b>F6</b>) un spied <code>Space</code> vai peles pogu ļoti ātri pēc kārtas, pārbaudot, ka lauciņa izmērs un krāsa vienmēr korekti atgriežas normālā stāvoklī.</li>
+<li><b>Pieraksti</b> failā <code>README.md</code>, kāpēc spēlēs ir svarīga vizuālā atsauksme un kāpēc pirms jauna <code>Tween</code> palaišanas vajag izsaukt <code>Kill()</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> savācot monētu, tā uz mirkli palielinās, un ātri atkārtojot event, animācijas nesajūk.</p>
+<p class="done-when"><b>Gatavs, kad:</b> nospiežot <code>Space</code> vai peles pogu, <code>Visual</code> uz mirkli palielinās un iekrāsojas, un pat pie ļoti ātras spiešanas animācija nekad „neiestrēgst" palielinātā izmērā.</p>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Izmēģini AnimationPlayer</summary>
-<p class="task-files"><b>Kur strādāt:</b> AnimationPlayer pievieno <code>Scenes/TweenDemo.tscn</code>; tā atrašanu un Play izsaukumu raksti <code>Scripts/TweenDemo.cs</code> metodē <code>_Ready()</code>.</p>
+<summary>Papildu uzdevums - Izmēģini <code>AnimationPlayer</code> un salīdzini ar <code>Tween</code></summary>
+<p class="task-files"><b>Kur strādāt:</b> Mezglu <code>AnimationPlayer</code> pievieno scēnai <code>Scenes/TweenDemo.tscn</code>; salīdzinājumu pieraksti <code>README.md</code>.</p>
 
-<p>Ja pamatdarbs ir gatavs, salīdzini otru pieeju.</p>
+<p>Ja pamatdarbs ir gatavs, salīdzini kodu bāzētu <code>Tween</code> ar laika joslas redaktoru <code>AnimationPlayer</code>.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> scēnai <code>AnimationPlayer</code> node.</li>
-<li><b>Izveido</b> tajā animāciju ar diviem atslēgkadriem.</li>
-<li><b>Palaid</b> to no koda ar <code class="language-csharp">animationPlayer.Play("nosaukums");</code>.</li>
-<li><b>Pieraksti</b>, kura pieeja bija ātrāk izveidojama.</li>
-<li><b>Pieraksti</b>, kurā gadījumā labāk lietot katru no tām.</li>
+<li><b>Pievieno</b> scēnai <code>Scenes/TweenDemo.tscn</code> mezglu <code>AnimationPlayer</code>.</li>
+<li><b>Atver</b> apakšējā panelī cilni <b>Animation</b>, nospied <b>Animation -&gt; New</b> un izveido animāciju <code>pulse</code> (garums <code>0.4</code> s).</li>
+<li><b>Ievieto</b> divus atslēgkadrus (atslēgas ikona <b>Inspector</b> panelī blakus <code>Visual</code> īpašībai <code>Scale</code>): <code>0.0</code> sekundē <code>(1, 1)</code>, <code>0.2</code> sekundē <code>(1.25, 1.25)</code> un <code>0.4</code> sekundē <code>(1, 1)</code>.</li>
+<li><b>Izsauc</b> animāciju no koda ar <code class="language-csharp">GetNode&lt;AnimationPlayer&gt;("AnimationPlayer").Play("pulse");</code>.</li>
+<li><b>Pieraksti</b> <code>README.md</code>, kurā situācijā ērtāks ir <code>Tween</code> (dinamiskām koordinātām un UI pārejām) un kurā — <code>AnimationPlayer</code> (sarežģītām vairāku īpašību un kadru animācijām).</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> abas pieejas dod animāciju, un tu vari nosaukt, kad kura ir ērtāka.</p>
+<p class="done-when"><b>Gatavs, kad:</b> <code>AnimationPlayer</code> atskaņo animāciju un <code>README.md</code> ir pierakstīts abu pieeju salīdzinājums.</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnais koda piemērs — gatavs šīs stundas risinājums</summary>
 <div class="code-example">
+<p><b>1. fails: <code>Scripts/TweenDemo.cs</code></b> (piesaistīts <code>TweenDemo</code> saknei scēnā <code>Scenes/TweenDemo.tscn</code>)</p>
 <pre><code class="language-csharp">using Godot;
 
-public partial class Player : CharacterBody2D
+public partial class TweenDemo : Node2D
 {
-    public void OnTakeDamage(int amount)
+    private ColorRect visual;
+    private Tween pulseTween;
+
+    public override void _Ready()
     {
-        // Damage number popup
-        Label damageLabel = new Label();
-        damageLabel.Text = "-" + amount;
-        damageLabel.Position = Position + new Vector2(0, -30);
-        damageLabel.AddThemeColorOverride("font_color", new Color(1, 0, 0));
-        GetParent().AddChild(damageLabel);
+        visual = GetNode&lt;ColorRect&gt;("Visual");
+        visual.PivotOffset = visual.Size / 2.0f;
 
-        // Tween: peld augšup un izgaist
-        Tween tween = damageLabel.CreateTween();
-        tween.SetParallel(true);  // abas animācijas paralēli
-        tween.TweenProperty(damageLabel, "position", damageLabel.Position + new Vector2(0, -50), 0.8);
-        tween.TweenProperty(damageLabel, "modulate:a", 0.0, 0.8);
-        tween.Chain().TweenCallback(Callable.From(damageLabel.QueueFree));
+        // 1. uzdevums: vienmērīga pārvietošanās ar Elastic pāreju
+        Tween moveTween = CreateTween();
+        moveTween.TweenProperty(visual, "position", new Vector2(600, 260), 1.0)
+            .SetTrans(Tween.TransitionType.Elastic)
+            .SetEase(Tween.EaseType.Out);
+    }
 
-        // Player flash red
-        Tween flash = CreateTween();
-        Modulate = new Color(1, 0, 0);
-        flash.TweenProperty(this, "modulate", new Color(1, 1, 1), 0.3);
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed("ui_accept") ||
+            (@event is InputEventMouseButton mouseBtn &amp;&amp; mouseBtn.Pressed &amp;&amp; mouseBtn.ButtonIndex == MouseButton.Left))
+        {
+            PlayFeedbackPulse();
+        }
+    }
+
+    // 3. uzdevums: klikšķa atsauksme ar Kill() aizsardzību
+    public void PlayFeedbackPulse()
+    {
+        if (pulseTween != null &amp;&amp; pulseTween.IsRunning())
+        {
+            pulseTween.Kill();
+        }
+
+        visual.Scale = Vector2.One;
+        visual.Modulate = Colors.White;
+
+        pulseTween = CreateTween();
+        pulseTween.SetParallel(true);
+        pulseTween.TweenProperty(visual, "scale", new Vector2(1.25f, 1.25f), 0.12)
+            .SetTrans(Tween.TransitionType.Quad)
+            .SetEase(Tween.EaseType.Out);
+        pulseTween.TweenProperty(visual, "modulate", new Color(1.0f, 0.85f, 0.3f), 0.12);
+
+        pulseTween.Chain();
+        pulseTween.TweenProperty(visual, "scale", Vector2.One, 0.18)
+            .SetTrans(Tween.TransitionType.Back)
+            .SetEase(Tween.EaseType.Out);
+        pulseTween.TweenProperty(visual, "modulate", Colors.White, 0.18);
     }
 }</code></pre>
-<div class="result">Bojājot ienaidnieku, parādās '-25' sarkanā tekstā, peld augšup un izgaist; player sarkans flash 0.3 sec.</div>
+<p><b>2. fails: <code>Scripts/MainMenu.cs</code></b> (papildināts ar 2. uzdevuma izvēlnes parādīšanās animāciju scēnā <code>Scenes/Menu.tscn</code>)</p>
+<pre><code class="language-csharp">using Godot;
+
+public partial class MainMenu : Control
+{
+    private Control settingsPanel;
+
+    public override void _Ready()
+    {
+        Control vbox = GetNode&lt;Control&gt;("VBox");
+        Button startBtn = GetNode&lt;Button&gt;("VBox/StartButton");
+        Button settingsBtn = GetNode&lt;Button&gt;("VBox/SettingsButton");
+        Button quitBtn = GetNode&lt;Button&gt;("VBox/QuitButton");
+
+        startBtn.Pressed += OnStartPressed;
+        settingsBtn.Pressed += OnSettingsPressed;
+        quitBtn.Pressed += OnQuitPressed;
+
+        settingsPanel = GetNodeOrNull&lt;Control&gt;("SettingsPanel");
+        if (settingsPanel != null)
+        {
+            settingsPanel.Visible = false;
+            Button backBtn = settingsPanel.GetNodeOrNull&lt;Button&gt;("SettingsVBox/BackButton");
+            if (backBtn != null)
+            {
+                backBtn.Pressed += OnBackPressed;
+            }
+        }
+
+        // 2. uzdevums: paralēla izvēlnes parādīšanās animācija
+        Vector2 targetPos = vbox.Position;
+        vbox.Position = targetPos + new Vector2(0, -40);
+        Modulate = new Color(1, 1, 1, 0);
+
+        Tween introTween = CreateTween();
+        introTween.SetParallel(true);
+        introTween.TweenProperty(this, "modulate:a", 1.0f, 0.6);
+        introTween.TweenProperty(vbox, "position", targetPos, 0.6)
+            .SetTrans(Tween.TransitionType.Cubic)
+            .SetEase(Tween.EaseType.Out);
+    }
+
+    private void OnStartPressed()
+    {
+        if (ResourceLoader.Exists("res://Scenes/Puzzle.tscn"))
+        {
+            GetTree().ChangeSceneToFile("res://Scenes/Puzzle.tscn");
+        }
+    }
+
+    private void OnSettingsPressed()
+    {
+        if (settingsPanel != null)
+        {
+            settingsPanel.Visible = !settingsPanel.Visible;
+        }
+    }
+
+    private void OnBackPressed()
+    {
+        if (settingsPanel != null)
+        {
+            settingsPanel.Visible = false;
+        }
+    }
+
+    private void OnQuitPressed()
+    {
+        GetTree().Quit();
+    }
+}</code></pre>
+<div class="result">Pilns risinājums ar <code>Tween</code> kustību un <code>Elastic</code> līkni, paralēlu sākuma izvēlnes parādīšanos un pret strauju klikšķināšanu aizsargātu atsauksmes animāciju.</div>
 </div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē darbojas Tween animācijas: izvēlne parādās mīksti, un vismaz viens spēles event dod spēlētājam vizuālu atsauksmi, kas nesajūk pie ātras atkārtošanas.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tavā projektā darbojas <code>Tween</code> animācijas: objekta pārvietošana ar pārejas līkni, sākuma izvēlnes plūdena parādīšanās un klikšķa atsauksmes animācija, kas ar <code>Kill()</code> ir pasargāta no dubultas pārklāšanās.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>README.md ievietota video saite, kurā redzama izvēlnes spawn (parādīšanās) un spēles event animācija.</li>
-<li>C# fails ar <code>CreateTween</code> un <code>TweenProperty</code> izsaukumiem.</li>
-<li>README.md: ar ko paralēla animācija atšķiras no secīgas un kāpēc vajag <code>Kill()</code>.</li>
+<li>Skriptiem <code>Scripts/TweenDemo.cs</code> un <code>Scripts/MainMenu.cs</code>, kā arī scēnām <code>Scenes/TweenDemo.tscn</code> un <code>Scenes/Menu.tscn</code>.</li>
+<li><code>README.md</code> ievietotai video saitei, kurā redzama izvēlnes parādīšanās un klikšķa atsauksmes animācija.</li>
+<li><code>README.md</code> atbildēm: kā mainījās kustība ar <code>TransitionType.Elastic</code>, ar ko paralēla animācija (<code>SetParallel(true)</code>) atšķiras no secīgas (<code>Chain()</code>) un kāpēc pirms jaunas animācijas vajag <code>Kill()</code>.</li>
 </ul>
-<p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+<p><b>Kā iesniedz:</b> Veic <code>git commit</code> un <code>git push</code>. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, <code>README.md</code> pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>
 </section>
 <section>

@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_6/prog2_6main">6. tēma</a> / 6.5</p>
 <h1>6.5 Eksports un publicēšana</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Eksportēt Godot C# spēli darbvirsmas platformai un publicēt lejupielādējamu versiju internetā.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Eksportēt Godot C# spēli darbvirsmas platformai un publicēt lejupielādējamu versiju internetā.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.6. Plāno izstrādes procesu</a>
 <a href="/sasnRez">SR 3.1.4. IP tiesības</a>
@@ -102,118 +102,138 @@ build/
 - Fona ieraksts: "Ambient Loop" (autors: J. Bērziņš, licence: CC BY 4.0)</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Eksportē spēli uz datoru</h2>
-<p class="task-files"><b>Kur strādāt:</b> Eksportu veic Godot Project → Export un saglabā projekta <code>build/</code> mapē. Rindu <code>build/</code> pievieno projekta saknes <code>.gitignore</code>; teorijas komandu <code>dotnet build</code> izpildi terminālī no mapes ar <code>.csproj</code>.</p>
+<p class="task-number">1. uzdevums</p><h2>Sagatavo eksporta veidnes, <code>.gitignore</code> un eksportē spēli uz <code>build/</code></h2>
+<p class="task-files"><b>Kur strādāt:</b> Eksporta iestatījumus veido Godot izvēlnēs <b>Editor -&gt; Manage Export Templates</b> un <b>Project -&gt; Export</b> (kas izveido <code>export_presets.cfg</code>). Izveido mapi <code>build/</code> un papildini projekta saknes failu <code>.gitignore</code>.</p>
 
-<p>Beigās tev būs fails, ko var palaist bez Godot.</p>
+<p>Beigās tavā datora mapē <code>build/</code> būs pilns, patstāvīgi palaižams C# darbvirsmas būvējums, un lielie binārie faili nepiesārņos GitHub krātuvi.</p>
 <ol class="step-list">
-<li><b>Atver</b> <b>Project -&gt; Export</b>.</li>
-<li><b>Nospied</b> <b>Add</b> un izvēlies savu platformu (Windows, Linux vai macOS).</li>
-<li><b>Pārbaudi</b>, vai zem loga nav sarkana brīdinājuma par trūkstošiem templates.</li>
-<li><b>Nospied</b> <b>Export Project</b> un saglabā mapē <code>build/</code>.</li>
-<li><b>Aizver</b> Godot pilnībā.</li>
-<li><b>Palaid</b> eksportēto failu un izspēlē vienu līmeni.</li>
-<li><b>Pievieno</b> <code>.gitignore</code> failam rindu <code>build/</code>.</li>
+<li><b>Pārbaudi</b> galveno scēnu: atver <b>Project -&gt; Project Settings -&gt; Application -&gt; Run -&gt; Main Scene</b> un pārliecinies, ka tur ir norādīta <code>res://Scenes/Menu.tscn</code>.</li>
+<li><b>Kompilē</b> C# projektu ar pogu <b>Build</b> Godot augšējā labajā stūrī vai terminālī ar komandu <code>dotnet build</code> un pārliecinies, ka nav kompilācijas kļūdu.</li>
+<li><b>Pārbaudi</b> eksporta veidnes: atver <b>Editor -&gt; Manage Export Templates</b> un, ja veidnes vēl nav uzinstalētas, nospied <b>Download and Install</b> (obligāti <code>.NET</code> versijai).</li>
+<li><b>Atver</b> projekta saknes failu <code>.gitignore</code> un pievieno tam rindas <code>build/</code> un <code>*.zip</code>, lai eksportētie izpildfaili netiktu sūtīti uz GitHub.</li>
+<li><b>Atver</b> <b>Project -&gt; Export</b>, nospied <b>Add...</b> un izvēlies savu operētājsistēmu (<b>Windows Desktop</b>, <b>Linux</b> vai <b>macOS</b>).</li>
+<li><b>Nospied</b> <b>Export Project...</b>, projekta saknē izveido mapi <code>build/</code>, saglabā failu kā <code>build/PuzzleGame.exe</code> (vai <code>build/PuzzleGame.x86_64</code> uz Linux) un nospied <b>Save</b>.</li>
+<li><b>Pārbaudi</b> failu pārvaldniekā, ka mapē <code>build/</code> ir izveidojies gan palaižamais fails, gan resursu pakotne <code>PuzzleGame.pck</code>, gan <code>.NET</code> bibliotēku mape <code>data_PuzzleGame_*/</code>.</li>
 </ol>
-<pre><code class="language-bash"># Darbvirsmas eksporta soļu kopsavilkums C# projektam:
-# 1. Editor → Manage Export Templates (lejupielādē eksporta veidnes)
-# 2. Project → Export → Add → Windows Desktop / Linux / macOS
-# 3. Pārbaudi C# būvējumu terminālī:
+<pre><code class="language-bash"># 1. Pārbaudi C# būvējumu terminālī:
 dotnet build
-# 4. Export Project → build/MyGame.exe vai build/MyGame.x86_64</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> eksportētā spēle palaižas bez Godot redaktora, un mape <code>build/</code> nenonāk GitHub.</p>
+
+# 2. Pievieno .gitignore failam rindas, lai binārie faili nenonāk GitHub:
+build/
+*.zip</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> mapē <code>build/</code> ir visi eksportētie faili (<code>.exe</code>/<code>.x86_64</code>, <code>.pck</code> un <code>data_*/</code>), un <code>build/</code> ir ierakstīts <code>.gitignore</code>.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Pārbaudi build ārpus redaktora</h2>
-<p class="task-files"><b>Kur strādāt:</b> Pārbaudi un arhivē <code>build/</code> mapes saturu; pārbaudes rezultātus raksti projekta <code>README.md</code>.</p>
+<p class="task-number">2. uzdevums</p><h2>Pārbaudi <code>build/</code> un <code>ZIP</code> arhīvu ārpus Godot redaktora</h2>
+<p class="task-files"><b>Kur strādāt:</b> Arhivē mapi <code>build/</code> failā <code>PuzzleGame_Desktop.zip</code>, izpako to atsevišķā testa mapē ārpus projekta un novērojumus ieraksti projekta saknes failā <code>README.md</code>.</p>
 
-<p>Beigās tu zināsi, ka spēle darbojas arī bez Godot redaktora.</p>
+<p>Beigās tu būsi drošs, ka cits spēlētājs pēc <code>ZIP</code> arhīva izpakošanas varēs palaist spēli bez Godot redaktora un bez trūkstošām bibliotēkām.</p>
 <ol class="step-list">
-<li><b>Aizver</b> Godot pilnībā, lai nepārbaudītu spēli redaktorā.</li>
-<li><b>Palaid</b> eksportēto failu no <code>build/</code> mapes.</li>
-<li><b>Izspēlē</b> vismaz vienu līmeni un pārbaudi UI, skaņu un saglabāšanu.</li>
-<li><b>Pārbaudi</b>, ka blakus eksportam atrodas nepieciešamie dati, piemēram <code>.pck</code> vai platformai vajadzīgās library (bibliotēkas).</li>
-<li><b>Saspied</b> visu build mapes saturu ZIP arhīvā.</li>
-<li><b>Izpako</b> ZIP citā mapē un palaid spēli vēlreiz.</li>
-<li><b>Pieraksti</b>, kāpēc jāpārbauda tieši izpakots arhīvs, ne tikai Godot projekts.</li>
+<li><b>Aizver</b> Godot redaktoru pilnībā, lai tests notiktu tieši tāpat kā spēlētāja datorā.</li>
+<li><b>Iezīmē</b> visus failus un apakšmapes, kas atrodas iekš <code>build/</code> (izpildfailu, <code>.pck</code> failu un <code>data_PuzzleGame_*/</code> mapi), un saspied tos vienā arhīvā <code>PuzzleGame_Desktop.zip</code>.</li>
+<li><b>Nokopē</b> un izpako <code>PuzzleGame_Desktop.zip</code> pilnīgi citā mapē (piemēram, uz darbvirsmas mapē <code>TestRun/</code>).</li>
+<li><b>Palaid</b> izpakoto spēles failu un pārbaudi sākuma izvēlni, skaļuma slīdņus, pāreju uz spēles scēnu un iziešanas pogu.</li>
+<li><b>Uzņem</b> ekrānuzņēmumu, kurā redzams darbojošais eksportētās spēles logs un blakus — izpakotās mapes failu saraksts.</li>
+<li><b>Pieraksti</b> failā <code>README.md</code>: (a) kāpēc <code>ZIP</code> arhīvā nedrīkst likt tikai vienu pašu <code>.exe</code> failu bez <code>.pck</code> un <code>data_*/</code> mapes; (b) kāpēc Godot 4 <code>.NET</code> C# projektam šajā kursā veidojam darbvirsmas būvējumu, nevis tīmekļa (HTML5) eksportu.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> izpakotais arhīvs palaiž spēli ārpus Godot redaktora, un spēles pamatfunkcijas joprojām darbojas.</p>
+<p class="done-when"><b>Gatavs, kad:</b> no <code>PuzzleGame_Desktop.zip</code> izpakotā spēle bez kļūdām darbojas citā mapē ārpus Godot redaktora.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Publicē lejupielādējamu spēli internetā</h2>
-<p class="task-files"><b>Kur strādāt:</b> Itch.io augšupielādē 2. uzdevumā izveidoto ZIP. Publisko saiti un lejupielādes pārbaudes rezultātu pievieno <code>README.md</code>.</p>
+<p class="task-number">3. uzdevums</p><h2>Publicē lejupielādējamu spēli vietnē <code>itch.io</code></h2>
+<p class="task-files"><b>Kur strādāt:</b> Vietnē <code>itch.io</code> augšupielādē <code>PuzzleGame_Desktop.zip</code>. Publisko saiti, vadības aprakstu un izmantoto resursu licences pievieno projekta saknes failam <code>README.md</code>.</p>
 
-<p>Beigās cits cilvēks varēs lejupielādēt un palaist tavu spēli.</p>
+<p>Beigās tavai spēlei būs sava publiska lejupielādes lapa internetā ar ekrānuzņēmumiem, vadības aprakstu un korektām resursu licencēm.</p>
 <ol class="step-list">
-<li><b>Izveido</b> kontu vietnē <code>itch.io</code>.</li>
-<li><b>Nospied</b> <b>Augšupielāde new project (jauns projekts)</b> un izvēlies <b>Downloadable</b> type (tipu).</li>
-<li><b>Augšupielādē</b> ZIP arhīvu ar eksportēto darbvirsmas build.</li>
-<li><b>Norādi</b>, kurai platformai tas paredzēts: Windows, Linux vai macOS.</li>
-<li><b>Pievieno</b> īsu aprakstu, vadību un divus ekrānuzņēmumus.</li>
-<li><b>Saglabā</b> un atver publisko saiti citā datorā vai pārlūkā.</li>
-<li><b>Pieraksti</b>, vai lejupielāde un palaišana strādāja tāpat kā tavā datorā.</li>
+<li><b>Pieslēdzies</b> savam kontam vietnē <code>itch.io</code> un atver <b>Dashboard -&gt; Create new project</b>.</li>
+<li><b>Ieraksti</b> spēles nosaukumu (<code>Title</code>), bet laukā <b>Kind of project</b> izvēlies <b>Downloadable</b> (lejupielādējama programma).</li>
+<li><b>Nospied</b> <b>Upload files</b>, augšupielādē savu <code>PuzzleGame_Desktop.zip</code> arhīvu un atzīmē platformas izvēles rūtiņu (<b>Windows</b>, <b>Linux</b> vai <b>macOS</b>).</li>
+<li><b>Augšupielādē</b> lapas labajā pusē (<b>Screenshots</b>) vismaz divus spēles ekrānuzņēmumus un apraksta laukā (<b>Description</b>) ieraksti spēles mērķi, vadību un izmantoto resursu autorus un licences (piemēram, <code>CC0</code> vai <code>CC BY 4.0</code>).</li>
+<li><b>Sadaļā</b> <b>Visibility &amp; access</b> izvēlies <b>Public</b> (vai <b>Restricted / Unlisted</b>, ja tā norādījis skolotājs) un nospied <b>Save &amp; view page</b>.</li>
+<li><b>Iekopē</b> izveidotās lapas publisko saiti un licenču sarakstu projekta failā <code>README.md</code> un pārbaudi, ka arhīvu no šīs saites var lejupielādēt.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> spēli var lejupielādēt no publiskās saites, izpakot un palaist bez Godot redaktora.</p>
+<p class="done-when"><b>Gatavs, kad:</b> <code>itch.io</code> lapa ir atverama pēc saites no <code>README.md</code>, un lejupielādētais <code>ZIP</code> arhīvs palaiž spēli.</p>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Uzraksti spēles aprakstu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Aprakstu, vadību un resursu autorus ieraksti itch.io spēles lapā un saglabā arī projekta <code>README.md</code>.</p>
+<summary>Papildu uzdevums - Pievieno pirmseksporta pašpārbaudes skriptu <code>Scripts/ExportChecker.cs</code></summary>
+<p class="task-files"><b>Kur strādāt:</b> Izveido skriptu <code>Scripts/ExportChecker.cs</code> un izsauc to no <code>Scripts/MainMenu.cs</code> vai pievieno kā bērna mezglu scēnā <code>Scenes/Menu.tscn</code>.</p>
 
-<p>Ja pamatdarbs ir gatavs, noformē spēles lapu.</p>
+<p>Ja pamatdarbs ir gatavs, pievieno kodā automātisku pārbaudi, kas konsolē izdrukā, vai visi eksportam vajadzīgie resursi un <code>user://</code> saglabāšanas mape ir pieejami.</p>
 <ol class="step-list">
-<li><b>Uzraksti</b> divus teikumus par to, kas spēlē jādara.</li>
-<li><b>Pievieno</b> vadības aprakstu: kuri taustiņi ko dara.</li>
-<li><b>Augšupielādē</b> divus ekrānuzņēmumus.</li>
-<li><b>Pievieno</b> savu vārdu kā autoru un norādi uz izmantotajiem resursiem.</li>
-<li><b>Palūdz</b> klasesbiedram izspēlēt spēli, neko nepaskaidrojot.</li>
+<li><b>Izveido</b> <code>Scripts/ExportChecker.cs</code> (skat. pilno koda piemēru zemāk), kas pārbauda, vai eksistē <code>res://Scenes/Menu.tscn</code> un <code>res://Scenes/Puzzle.tscn</code> un vai var atvērt <code>user://</code> mapi rakstīšanai.</li>
+<li><b>Pārbaudi</b> ar <code>OS.HasFeature("editor")</code>, vai spēle pašlaik darbojas redaktorā vai eksportētā būvējumā, un parādi versijas uzrakstu izvēlnes apakšējā stūrī.</li>
+<li><b>Palūdz</b> klasesbiedram lejupielādēt tavu <code>itch.io</code> arhīvu un izspēlēt spēli, balstoties tikai uz lapā uzrakstīto vadības aprakstu.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> klasesbiedrs saprata, kā spēlēt, tikai izlasot tavu lapu.</p>
+<p class="done-when"><b>Gatavs, kad:</b> izvēlnē redzams būvējuma režīms (<code>Editor</code> vai <code>Release</code>), un klasesbiedrs bez mutiskas priekšā teikšanas saprot vadību.</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnais koda un dokumentācijas piemērs — gatavs šīs stundas risinājums</summary>
 <div class="code-example">
+<p><b>1. fails: <code>Scripts/ExportChecker.cs</code></b> (pirmseksporta un vides pārbaudes komponents)</p>
 <pre><code class="language-csharp">using Godot;
 
-public struct ExportChecklist
+public partial class ExportChecker : Node
 {
-    public bool HasExportTemplate;
-    public bool HasDotnetBuild;
-    public bool HasDesktopExecutable;
-    public bool TestedOutsideEditor;
-    public bool WebLimitationDocumented;
-
-    public bool IsReadyToPublish()
+    public override void _Ready()
     {
-        return HasExportTemplate
-            &amp;&amp; HasDotnetBuild
-            &amp;&amp; HasDesktopExecutable
-            &amp;&amp; TestedOutsideEditor
-            &amp;&amp; WebLimitationDocumented;
+        bool isEditor = OS.HasFeature("editor");
+        bool hasMenuScene = ResourceLoader.Exists("res://Scenes/Menu.tscn");
+        bool hasPuzzleScene = ResourceLoader.Exists("res://Scenes/Puzzle.tscn");
+        bool canWriteUserDir = CheckUserDirWritable();
+
+        GD.Print($"[ExportChecker] Platforma: {OS.GetName()} | Režīms: {(isEditor ? "Editor" : "Exported Build")}");
+        GD.Print($"[ExportChecker] Menu.tscn: {hasMenuScene} | Puzzle.tscn: {hasPuzzleScene} | user:// rakstāms: {canWriteUserDir}");
+
+        if (!hasMenuScene || !hasPuzzleScene || !canWriteUserDir)
+        {
+            GD.PrintErr("[ExportChecker] Uzmanību: kāda no eksporta prasībām nav izpildīta!");
+        }
     }
-}
 
-public partial class ExportReporter : Node
-{
-    public void PrintStatus(ExportChecklist checklist)
+    private bool CheckUserDirWritable()
     {
-        GD.Print("Platform: ", OS.GetName());
-        GD.Print("Ready to publish: ", checklist.IsReadyToPublish());
+        const string testPath = "user://export_check.tmp";
+        using FileAccess file = FileAccess.Open(testPath, FileAccess.ModeFlags.Write);
+        if (file == null)
+        {
+            return false;
+        }
+        file.StoreLine("ok");
+        return true;
     }
 }</code></pre>
-<div class="result">Publicēšanas pārbaude paliek C# pusē: pirms augšupielādes ir pārbaudītas veidnes, .NET build, darbvirsmas fails un palaišana ārpus redaktora.</div>
+<p><b>2. fails: <code>README.md</code></b> (paraugs publicētā projekta dokumentācijai un licencēm)</p>
+<pre><code class="language-markdown"># Atjautības spēle (PuzzleGame) — Godot 4 .NET (C#)
+
+## Lejupielāde (itch.io)
+- Publiskā lapa: https://tavs-lietotajvards.itch.io/puzzlegame
+- Platforma: Windows / Linux darbvirsmas būvējums (ZIP arhīvs)
+
+## Kā palaist eksportēto spēli
+1. Lejupielādē arhīvu `PuzzleGame_Desktop.zip`.
+2. Izpako **visu** arhīva saturu vienā mapē (gan `.exe`/`.x86_64`, gan `.pck`, gan `data_PuzzleGame_*/` mapi).
+3. Palaid `PuzzleGame.exe` (Windows) vai `PuzzleGame.x86_64` (Linux).
+
+## Tehniskās piezīmes
+- Godot 4 .NET (C#) projektiem šajā kursā veidojam darbvirsmas būvējumu, jo Godot 4 C# WebAssembly (HTML5) eksports nav pilnībā atbalstīts visās vidēs.
+- Saglabāšanas dati tiek rakstīti `user://` mapē, jo eksportētā būvējumā `res://` ir iepakots `.pck` failā un ir tikai lasāms.
+
+## Izmantotie resursi un licences
+- Saskarnes un spēles kods: paša veidots Godot 4 C# projekts
+- Skaņas efekti: ģenerēti programmiski / Kenney UI Audio (licence: CC0 1.0 Public Domain)</code></pre>
+<div class="result">Pilna eksporta sagatavošana, <code>user://</code> rakstāmības pārbaude un <code>README.md</code> dokumentācija ar <code>itch.io</code> saiti un licencēm.</div>
 </div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tava Godot C# spēle ir eksportēta kā darbvirsmas programma, pārbaudīta ārpus redaktora un publicēta internetā kā lejupielādējams ZIP arhīvs.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tava Godot 4 C# spēle ir eksportēta kā darbvirsmas programma mapē <code>build/</code> (kas pievienota <code>.gitignore</code>), pārbaudīta no izpakota <code>ZIP</code> arhīva ārpus Godot redaktora un publicēta vietnē <code>itch.io</code>.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>README.md ievietota publiskā saite uz tavu spēli itch.io vietnē.</li>
-<li>Ekrānuzņēmums ar eksportēto spēli, kas darbojas ārpus Godot redaktora.</li>
-<li>Ekrānuzņēmums ar Godot eksporta logu, kurā redzams darbvirsmas profils.</li>
-<li>README.md: kāpēc Godot 4 C# projektam šajā kursā publicējam lejupielādējamu darbvirsmas build, nevis Tīmekļa build.</li>
+<li>Papildinātam <code>.gitignore</code> failam (ar <code>build/</code> un <code>*.zip</code>) un <code>README.md</code> ar publisko saiti uz tavu spēli <code>itch.io</code> vietnē.</li>
+<li>Ekrānuzņēmumam ar Godot <b>Project -&gt; Export</b> logu un darbvirsmas profilu.</li>
+<li>Ekrānuzņēmumam ar izpakoto spēli, kas darbojas ārpus Godot redaktora.</li>
+<li><code>README.md</code> skaidrojumam: kāpēc <code>ZIP</code> arhīvā jāiekļauj visi eksportētie faili (ne tikai <code>.exe</code>), kāpēc Godot 4 C# projektam veidojam darbvirsmas būvējumu un kādas licences ir izmantotajiem resursiem.</li>
 </ul>
-<p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
+<p><b>Kā iesniedz:</b> Veic <code>git commit</code> un <code>git push</code>. Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, <code>README.md</code> pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>
 </section>
 <section>

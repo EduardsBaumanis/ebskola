@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_5/prog2_5main">5. tēma</a> / 5.3</p>
 <h1>5.3 Saglabāšana/ielāde architecture (arhitektūra)</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem saglabāšanas vietām un automātiskā saglabāšana.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Izveidot pilnvērtīgu saglabāšanas sistēmu ar vairākiem saglabāšanas vietām un automātiskā saglabāšana.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.17. File I/O (failu ievade un izvade)</a>
 <a href="/sasnRez">SR 2.4.6. Plāno izstrādes procesu</a>
@@ -114,138 +114,418 @@ public bool ParbauditVersiju(Dictionary dati)
 }</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Izveido SaveManager ar saglabāšanas vietām</h2>
-<p class="task-files"><b>Kur strādāt:</b> Papildini esošo <code>Scripts/SaveManager.cs</code> ar SlotPath, Save un Load. Šajā stundā SaveManager veido kā <code>public partial class SaveManager : Node</code> un piesaisti Node bērnam scēnā <code>Scenes/FileDemo.tscn</code>; <code>Scripts/FileDemo.cs</code> pārbaudes pielāgo šim mezglam. Slotu dati nonāk <code>user://slot1.json</code> un <code>user://slot2.json</code>.</p>
+<p class="task-number">1. uzdevums</p><h2>Izveido <code>SaveManager</code> ar numurētām saglabāšanas vietām (<code>slots</code>)</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Scēnā <code>Scenes/FileDemo.tscn</code> pievieno jaunu bērnmezglu <code>SaveManager</code> (<code>Node</code>) un piesaisti tam esošo skriptu <code>Scripts/SaveManager.cs</code>.<br>
+2) Failā <code>Scripts/SaveManager.cs</code> pievieno metodes <code>SlotPath(int slot)</code>, <code>SlotExists(int slot)</code>, <code>SaveSlotData(int slot, Dictionary data)</code> un <code>LoadSlotData(int slot)</code>.<br>
+3) Pārbaudes izsaukumus raksti failā <code>Scripts/FileDemo.cs</code> metodē <code>_Ready()</code>.</p>
 
-<p>Beigās spēlētājs varēs izvēlēties, kurā vietā saglabāt.</p>
+<p>Daudzās spēlēs spēlētājs var uzturēt vairākus neatkarīgus saglabāšanas failus jeb vietas (piemēram, 1. vietu sev un 2. vietu brālim vai māsai). Pievienosim <code>SaveManager</code> klasei numurētu vietu atbalstu (<code>user://slot1.json</code>, <code>user://slot2.json</code>).</p>
 <ol class="step-list">
-<li><b>Izveido</b> class <code>SaveManager</code> ar method <code class="language-csharp">private string SlotPath(int slot)</code>.</li>
-<li><b>Atgriez</b> tajā ceļu <code>user://slot1.json</code> atbilstoši numuram.</li>
-<li><b>Uzraksti</b> method <code class="language-csharp">public void Save(int slot)</code> un <code class="language-csharp">public bool Load(int slot)</code>.</li>
-<li><b>Saglabā</b> dažādus datus slotos 1 un 2.</li>
-<li><b>Ielādē</b> saglabāšanas vietu 1 un pārbaudi, ka dati ir pareizie.</li>
-<li><b>Ielādē</b> saglabāšanas vietu 2 un salīdzini.</li>
-<li><b>Uzraksti</b> method, kas pasaka, kuri sloti vispār eksistē.</li>
+<li><b>Atver</b> scēnu <code>Scenes/FileDemo.tscn</code>, pievieno saknes mezglam <code>FileDemo</code> bērnmezglu <code>Node</code>, pārsauc to par <code>SaveManager</code> un piesaisti tam skriptu <code>Scripts/SaveManager.cs</code>:
+<pre><code>FileDemo (Node, skripts Scripts/FileDemo.cs)
+└── SaveManager (Node, skripts Scripts/SaveManager.cs)</code></pre>
+</li>
+<li><b>Atver</b> failu <code>Scripts/SaveManager.cs</code> un pievieno metodes <code>SlotPath(int slot)</code> un <code>SlotExists(int slot)</code>:
+<pre><code class="language-csharp">public string SlotPath(int slot) =&gt; $"user://slot{slot}.json";
+
+public bool SlotExists(int slot) =&gt; FileAccess.FileExists(SlotPath(slot));</code></pre>
+</li>
+<li><b>Tajā pašā <code>Scripts/SaveManager.cs</code> failā</b> pievieno metodes <code>SaveSlotData(int slot, Dictionary data)</code> un <code>LoadSlotData(int slot)</code>, kas ieraksta un nolasa vārdnīcu konkrētajā saglabāšanas vietā:
+<pre><code class="language-csharp">public void SaveSlotData(int slot, Dictionary data)
+{
+    string path = SlotPath(slot);
+    using FileAccess file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+    if (file != null)
+    {
+        file.StoreString(Json.Stringify(data, "    "));
+        GD.Print($"[SaveManager] Saglabāta {slot}. vieta ({path})");
+    }
+}
+
+public Dictionary LoadSlotData(int slot)
+{
+    if (!SlotExists(slot)) return new Dictionary();
+
+    using FileAccess file = FileAccess.Open(SlotPath(slot), FileAccess.ModeFlags.Read);
+    if (file == null) return new Dictionary();
+
+    Json json = new();
+    if (json.Parse(file.GetAsText()) != Error.Ok) return new Dictionary();
+    return json.Data.AsGodotDictionary();
+}</code></pre>
+</li>
+<li><b>Atver</b> failu <code>Scripts/FileDemo.cs</code> un metodē <code>_Ready()</code> iegūsti <code>SaveManager</code> mezglu ar <code>GetNode&lt;SaveManager&gt;("SaveManager")</code>, saglabā atšķirīgus datus 1. un 2. vietā un pārbaudi, kuras vietas eksistē (1., 2. un 3.):
+<pre><code class="language-csharp">SaveManager saveManager = GetNode&lt;SaveManager&gt;("SaveManager");
+
+saveManager.SaveSlotData(1, new Dictionary { ["player"] = "Anna", ["level"] = 4 });
+saveManager.SaveSlotData(2, new Dictionary { ["player"] = "Jānis", ["level"] = 9 });
+
+GD.Print($"[FileDemo] Slot 1 eksistē: {saveManager.SlotExists(1)}, Slot 2 eksistē: {saveManager.SlotExists(2)}, Slot 3 eksistē: {saveManager.SlotExists(3)}");
+GD.Print("[FileDemo] Slot 1 saturs: ", saveManager.LoadSlotData(1));
+GD.Print("[FileDemo] Slot 2 saturs: ", saveManager.LoadSlotData(2));</code></pre>
+</li>
+<li><b>Nospied</b> <b>Build</b> un palaid scēnu (<code>F5</code>): pārliecinies, ka 1. un 2. vieta glabā katra savus datus, bet 3. vieta atgriež <code>false</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> abi sloti glabā atšķirīgus datus, un method pareizi pasaka, kuri sloti ir aizpildīti.</p>
+<p class="done-when"><b>Gatavs, kad:</b> <code>user://slot1.json</code> un <code>user://slot2.json</code> glabā atšķirīgus datus un metode <code>SlotExists(...)</code> pareizi nosaka, kuras saglabāšanas vietas ir aizpildītas.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Liec objektiem saglabāt sevi pašiem</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/ISaveable.cs</code> tikai interfeisam. Metodes ievies <code>Scripts/Player.cs</code> un <code>Scripts/Inventory.cs</code>; reģistrēšanas sarakstu un saglabāšanas ciklu pievieno <code>Scripts/SaveManager.cs</code>.</p>
+<p class="task-number">2. uzdevums</p><h2>Liec objektiem saglabāt sevi pašiem ar <code>ISaveable</code> saskarni</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Mapē <code>Scripts/</code> izveido jaunu failu <code>Scripts/ISaveable.cs</code> (saskarne <code>public interface ISaveable</code>).<br>
+2) Mapē <code>Scripts/</code> izveido failu <code>Scripts/PlayerProfile.cs</code> (mezgls, kas implementē <code>ISaveable</code>) un pievieno to kā bērnmezglu <code>PlayerProfile</code> scēnā <code>Scenes/FileDemo.tscn</code>.<br>
+3) Failā <code>Scripts/SaveManager.cs</code> pievieno <code>List&lt;ISaveable&gt;</code> sarakstu un metodes <code>RegisterSaveable</code>, <code>Save(int slot)</code> un <code>Load(int slot)</code>.</p>
 
-<p>Beigās katrs objekts pats zinās, ko par sevi saglabāt.</p>
+<p>Lai <code>SaveManager</code> klasei nebūtu jāzina visu spēles objektu privātie lauki, ieviesīsim saskarni <code>ISaveable</code>: katrs reģistrētais objekts pats sagatavos savu <code>Dictionary</code> ar <code>SaveState()</code> un pats to atjaunos ar <code>LoadState(...)</code>.</p>
 <ol class="step-list">
-<li><b>Izveido</b> interfeisu <code class="language-csharp">public interface ISaveable</code> ar divām method.</li>
-<li><b>Pieteic</b> tajā <code class="language-csharp">Dictionary SaveState();</code>.</li>
-<li><b>Pieteic</b> arī <code class="language-csharp">void LoadState(Dictionary state);</code>.</li>
-<li><b>Liec</b> spēlētāja class implementēt <code>ISaveable</code> un abas method.</li>
-<li><b>Liec</b> arī inventāra class to pašu.</li>
-<li><b>Savāc</b> <code>SaveManager</code> visus <code>ISaveable</code> objektus vienā sarakstā.</li>
-<li><b>Izsauc</b> loop (ciklā) katram <code>SaveState()</code> un saliec rezultātus vienā <code>Dictionary</code> (vārdnīca).</li>
-</ol>
-<pre><code class="language-csharp">using Godot;
-using Godot.Collections;
-using System.Collections.Generic;
+<li><b>Mapē <code>Scripts/</code></b> izveido jaunu C# failu <code>Scripts/ISaveable.cs</code> un definē tajā saskarni:
+<pre><code class="language-csharp">using Godot.Collections;
 
 public interface ISaveable
 {
+    string SaveKey { get; }
     Dictionary SaveState();
     void LoadState(Dictionary state);
-}
+}</code></pre>
+</li>
+<li><b>Mapē <code>Scripts/</code></b> izveido jaunu C# skriptu <code>Scripts/PlayerProfile.cs</code>, kas glabā spēlētāja vārdu, rekorda līmeni un kopējos pieredzes punktus (<code>TotalXp</code>) un implementē <code>ISaveable</code>:
+<pre><code class="language-csharp">using Godot;
+using Godot.Collections;
 
-public partial class SaveManager : Node
+public partial class PlayerProfile : Node, ISaveable
 {
-    private readonly List&lt;ISaveable&gt; saveables = new();
+    public string SaveKey =&gt; "player_profile";
 
-    public void RegisterSaveable(ISaveable saveable)
+    public string PlayerName { get; set; } = "Anna";
+    public int BestLevel { get; set; } = 1;
+    public int TotalXp { get; set; } = 0;
+
+    public Dictionary SaveState()
     {
-        saveables.Add(saveable);
+        return new Dictionary
+        {
+            ["name"] = PlayerName,
+            ["best_level"] = BestLevel,
+            ["total_xp"] = TotalXp
+        };
+    }
+
+    public void LoadState(Dictionary state)
+    {
+        if (state.ContainsKey("name")) PlayerName = state["name"].AsString();
+        if (state.ContainsKey("best_level")) BestLevel = state["best_level"].AsInt32();
+        if (state.ContainsKey("total_xp")) TotalXp = state["total_xp"].AsInt32();
     }
 }</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> viens <code>Save()</code> izsaukums saglabā gan spēlētāju, gan inventāru, un <code>SaveManager</code> nezina to iekšējo uzbūvi.</p>
+</li>
+<li><b>Atver</b> scēnu <code>Scenes/FileDemo.tscn</code>, pievieno saknei <code>FileDemo</code> vēl vienu <code>Node</code> bērnmezglu, pārsauc to par <code>PlayerProfile</code> un piesaisti tam skriptu <code>Scripts/PlayerProfile.cs</code>.</li>
+<li><b>Atver</b> failu <code>Scripts/SaveManager.cs</code>, pievieno <code>using System.Collections.Generic;</code>, sarakstu <code>private readonly List&lt;ISaveable&gt; saveables = new();</code> un metodes <code>RegisterSaveable(...)</code>, <code>Save(int slot)</code> un <code>Load(int slot)</code>:
+<pre><code class="language-csharp">private readonly List&lt;ISaveable&gt; saveables = new();
+
+public void RegisterSaveable(ISaveable item)
+{
+    if (item != null &amp;&amp; !saveables.Contains(item))
+    {
+        saveables.Add(item);
+    }
+}
+
+public void Save(int slot)
+{
+    Dictionary allData = new();
+    foreach (ISaveable item in saveables)
+    {
+        allData[item.SaveKey] = item.SaveState();
+    }
+    SaveSlotData(slot, allData);
+}
+
+public bool Load(int slot)
+{
+    Dictionary allData = LoadSlotData(slot);
+    if (allData.Count == 0) return false;
+
+    foreach (ISaveable item in saveables)
+    {
+        if (allData.ContainsKey(item.SaveKey))
+        {
+            item.LoadState(allData[item.SaveKey].AsGodotDictionary());
+        }
+    }
+    return true;
+}</code></pre>
+</li>
+<li><b>Atver</b> failu <code>Scripts/FileDemo.cs</code> un metodē <code>_Ready()</code> reģistrē <code>PlayerProfile</code> pie <code>SaveManager</code>, saglabā 1. un 2. vietu ar dažādiem datiem un pēc tam ielādē 1. vietu atpakaļ:
+<pre><code class="language-csharp">PlayerProfile profile = GetNode&lt;PlayerProfile&gt;("PlayerProfile");
+saveManager.RegisterSaveable(profile);
+
+profile.PlayerName = "Anna";
+profile.BestLevel = 5;
+profile.TotalXp = 320;
+saveManager.Save(1);
+
+profile.PlayerName = "Jānis";
+profile.BestLevel = 9;
+profile.TotalXp = 850;
+saveManager.Save(2);
+
+saveManager.Load(1);
+GD.Print($"[FileDemo] Pēc Slot 1 ielādes: {profile.PlayerName}, BestLevel={profile.BestLevel}, TotalXp={profile.TotalXp}");</code></pre>
+</li>
+<li><b>Nospied</b> <b>Build</b> un palaid scēnu (<code>F5</code>): pārliecinies, ka pēc <code>saveManager.Load(1)</code> profila lauki atkal ir <code>Anna, BestLevel=5, TotalXp=320</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> <code>SaveManager</code> saglabā un atjauno visus reģistrētos <code>ISaveable</code> objektus ciklā, nezinot to iekšējos laukus.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Pievieno automātiskā saglabāšana un versiju</h2>
-<p class="task-files"><b>Kur strādāt:</b> Versijas pārbaudi un Timer signāla apstrādātāju raksti <code>Scripts/SaveManager.cs</code>; Timer pievieno tā mezglam scēnā <code>Scenes/FileDemo.tscn</code>. Automātiskajai saglabāšanai rezervē slotu 0 (<code>user://slot0.json</code>).</p>
+<p class="task-number">3. uzdevums</p><h2>Pievieno formāta versiju (<code>version</code>) un automātisko saglabāšanu (<code>autosave</code>)</h2>
+<p class="task-files"><b>Kur strādāt:</b>
+1) Failā <code>Scripts/SaveManager.cs</code> pievieno versijas pārbaudi (<code>CurrentVersion = 1</code>) un automātiskās saglabāšanas taimeri (0. vietā — <code>user://slot0.json</code>).<br>
+2) Pārbaudei ar roku nomaini <code>"version": 2</code> failā <code>user://slot1.json</code>.<br>
+3) Secinājumus pieraksti projekta saknes failā <code>README.md</code>.</p>
 
-<p>Beigās spēle saglabāsies pati, un vecie faili neradīs kļūdas.</p>
+<p>Pievienosim divus drošības mehānismus: formāta versijas numuru <code>"version": 1</code> (lai nākotnē vecs fails nesalauztu spēli) un automātisko saglabāšanu atsevišķā <code>0.</code> vietā (<code>user://slot0.json</code>), kas nepārraksta spēlētāja manuāli saglabātās 1. un 2. vietas.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> saglabātajam <code>Dictionary</code> lauku <code>version</code> ar vērtību 1.</li>
-<li><b>Pārbaudi</b> ielādējot, vai versija sakrīt.</li>
-<li><b>Izdrukā</b> brīdinājumu un lieto noklusējumus, ja versija ir citāda.</li>
-<li><b>Pievieno</b> <code>Timer</code> (taimeris) node, kas ik pēc 60 sekundēm izsauc automātiskā saglabāšana.</li>
-<li><b>Saglabā</b> automātiskā saglabāšana atsevišķā saglabāšanas vietā, lai tas nepārrakstītu spēlētāja saglabāšanas vietu.</li>
-<li><b>Palaid</b> spēli un pagaidi vienu automātiskā saglabāšana loop.</li>
-<li><b>Nomaini</b> failā versiju uz 2 un pārbaudi brīdinājumu.</li>
+<li><b>Atver</b> failu <code>Scripts/SaveManager.cs</code> un klases augšdaļā pievieno versijas konstanti un automātiskās saglabāšanas intervālu (testēšanai — <code>10</code> sekundes):
+<pre><code class="language-csharp">private const int CurrentVersion = 1;
+[Export] public float AutosaveInterval { get; set; } = 10.0f;
+private double autosaveTimer = 0.0;</code></pre>
+</li>
+<li><b>Tajā pašā <code>Scripts/SaveManager.cs</code> failā</b> metodē <code>Save(int slot)</code> ieraksti versijas numuru un laika zīmogu:
+<pre><code class="language-csharp">allData["version"] = CurrentVersion;
+allData["timestamp"] = Time.GetUnixTimeFromSystem();</code></pre>
+Un metodē <code>Load(int slot)</code> pirms <code>foreach</code> cikla pievieno versijas pārbaudi:
+<pre><code class="language-csharp">if (!allData.ContainsKey("version") || allData["version"].AsInt32() != CurrentVersion)
+{
+    GD.PrintErr($"[SaveManager] Nesaderīga faila versija {slot}. vietā (gaidīta v{CurrentVersion}) — ielāde atcelta!");
+    return false;
+}</code></pre>
+</li>
+<li><b>Tajā pašā <code>Scripts/SaveManager.cs</code> failā</b> pievieno metodi <code>_Process(double delta)</code>, kas ik pēc <code>AutosaveInterval</code> sekundēm automātiski saglabā stāvokli <code>0.</code> vietā (<code>user://slot0.json</code>):
+<pre><code class="language-csharp">public override void _Process(double delta)
+{
+    if (saveables.Count == 0) return;
+
+    autosaveTimer += delta;
+    if (autosaveTimer &gt;= AutosaveInterval)
+    {
+        autosaveTimer = 0.0;
+        Save(0);
+        GD.Print("[SaveManager] Automātiskā saglabāšana (autosave) pabeigta 0. vietā.");
+    }
+}</code></pre>
+</li>
+<li><b>Nospied</b> <b>Build</b>, palaid scēnu (<code>F5</code>) un uzgaidi 10 sekundes: pārliecinies, ka Output konsolē parādās <code>Automātiskā saglabāšana (autosave) pabeigta 0. vietā</code> un <code>user://</code> mapē ir izveidots fails <code>slot0.json</code>.</li>
+<li><b>Pārbaudi versiju kontroli:</b> failā <code>Scripts/FileDemo.cs</code> īslaicīgi aizkomentē <code>saveManager.Save(1);</code>, atver <code>user://slot1.json</code> teksta redaktorā, nomaini <code>"version": 1</code> uz <code>"version": 2</code>, saglabā failu un palaid spēli (<code>F5</code>) — pārliecinies, ka konsolē parādās brīdinājums <code>Nesaderīga faila versija 1. vietā (gaidīta v1)</code>!</li>
+<li><b>Projekta saknē</b> atver <code>README.md</code> un pieraksti:
+<ul>
+<li>kāpēc <code>SaveManager</code> klasei nav jāzina, kādi tieši lauki atrodas <code>PlayerProfile</code> iekšienē;</li>
+<li>kāpēc automātisko saglabāšanu (`autosave`) raksta atsevišķā vietā (`slot0.json`), nevis pārraksta spēlētāja 1. vietu.</li>
+</ul>
+</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> automātiskā saglabāšana fails parādās pats, un ar nepareizu versiju spēle brīdina, nevis avarē.</p>
+<p class="done-when"><b>Gatavs, kad:</b> ik pēc 10 sekundēm tiek atjaunots <code>user://slot0.json</code>, bet mēģinājums ielādēt failu ar <code>"version": 2</code> izvada brīdinājumu un nesalauž spēli.</p>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Parādi saglabāšanas vietu izvēlni</summary>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scenes/SaveMenu.tscn</code> ar Control sakni un piesaisti tai <code>Scripts/SaveMenu.cs</code>. Tajā raksti pogu apstrādātājus un statusa atjaunošanu; slota pārbaudes un dzēšanas metodes pievieno <code>Scripts/SaveManager.cs</code>.</p>
+<summary>Papildu uzdevums — Pievieno saglabāšanas vietas dzēšanas metodi <code>DeleteSlot(int slot)</code></summary>
+<p class="task-files"><b>Kur strādāt:</b> Pievieno metodi <code>DeleteSlot(int slot)</code> failā <code>Scripts/SaveManager.cs</code> un pārbaudi to no <code>Scripts/FileDemo.cs</code>.</p>
 
-<p>Ja pamatdarbs ir gatavs, ļauj slotus izvēlēties uz ekrāna.</p>
+<p>Ja pamatdarbs ir gatavs, pievieno iespēju izdzēst saglabāšanas vietu no diska un pārbaudīt, ka <code>SlotExists(slot)</code> pēc tam atgriež <code>false</code>.</p>
 <ol class="step-list">
-<li><b>Izveido</b> UI (lietotāja saskarne) ar trim pogām - pa vienai katram slotam.</li>
-<li><b>Parādi</b> pie katras, vai slots (saglabāšanas vietas) ir tukšs vai aizpildīts.</li>
-<li><b>Ielādē</b> attiecīgo saglabāšanas vietu, nospiežot pogu.</li>
-<li><b>Pievieno</b> pogu slota dzēšanai.</li>
-<li><b>Pārbaudi</b>, ka pēc dzēšanas slots rāda 'tukšs'.</li>
+<li><b>Failā <code>Scripts/SaveManager.cs</code></b> pievieno metodi <code>public void DeleteSlot(int slot)</code>, kas pārbauda <code>if (SlotExists(slot))</code> un izdzēš failu ar <code>DirAccess.RemoveAbsolute(ProjectSettings.GlobalizePath(SlotPath(slot)));</code>.</li>
+<li><b>Failā <code>Scripts/FileDemo.cs</code></b> izsauc <code>saveManager.DeleteSlot(2);</code> un izdrukā <code>saveManager.SlotExists(2)</code> pirms un pēc dzēšanas.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> izvēlnē redzams katra slota statuss, un slotus var ielādēt un dzēst ar pogām.</p>
+<p class="done-when"><b>Gatavs, kad:</b> pēc <code>DeleteSlot(2)</code> izsaukuma fails <code>slot2.json</code> tiek izdzēsts un <code>SlotExists(2)</code> atgriež <code>false</code>.</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary>
 <div class="code-example">
+<p><b>1. fails — <code>Scripts/ISaveable.cs</code>:</b></p>
+<pre><code class="language-csharp">using Godot.Collections;
+
+public interface ISaveable
+{
+    string SaveKey { get; }
+    Dictionary SaveState();
+    void LoadState(Dictionary state);
+}</code></pre>
+<p><b>2. fails — <code>Scripts/PlayerProfile.cs</code> (piesaistīts <code>FileDemo/PlayerProfile</code> mezglam):</b></p>
+<pre><code class="language-csharp">using Godot;
+using Godot.Collections;
+
+public partial class PlayerProfile : Node, ISaveable
+{
+    public string SaveKey =&gt; "player_profile";
+
+    public string PlayerName { get; set; } = "Anna";
+    public int BestLevel { get; set; } = 1;
+    public int TotalXp { get; set; } = 0;
+
+    public Dictionary SaveState()
+    {
+        return new Dictionary
+        {
+            ["name"] = PlayerName,
+            ["best_level"] = BestLevel,
+            ["total_xp"] = TotalXp
+        };
+    }
+
+    public void LoadState(Dictionary state)
+    {
+        if (state.ContainsKey("name")) PlayerName = state["name"].AsString();
+        if (state.ContainsKey("best_level")) BestLevel = state["best_level"].AsInt32();
+        if (state.ContainsKey("total_xp")) TotalXp = state["total_xp"].AsInt32();
+    }
+}</code></pre>
+<p><b>3. fails — <code>Scripts/SaveManager.cs</code> (piesaistīts <code>FileDemo/SaveManager</code> mezglam):</b></p>
 <pre><code class="language-csharp">using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
 
 public partial class SaveManager : Node
 {
-    private readonly List&lt;Node&gt; saveables = new();
-    private float autosaveTimer = 0.0f;
+    private const int CurrentVersion = 1;
+
+    [Export] public float AutosaveInterval { get; set; } = 10.0f;
+
+    private readonly List&lt;ISaveable&gt; saveables = new();
+    private double autosaveTimer = 0.0;
+
+    public string SlotPath(int slot) =&gt; $"user://slot{slot}.json";
+
+    public bool SlotExists(int slot) =&gt; FileAccess.FileExists(SlotPath(slot));
+
+    public void RegisterSaveable(ISaveable item)
+    {
+        if (item != null &amp;&amp; !saveables.Contains(item))
+        {
+            saveables.Add(item);
+        }
+    }
 
     public override void _Process(double delta)
     {
-        autosaveTimer += (float)delta;
-        if (autosaveTimer &gt;= 300.0f)  // 5 min
+        if (saveables.Count == 0) return;
+
+        autosaveTimer += delta;
+        if (autosaveTimer &gt;= AutosaveInterval)
         {
-            SaveToSlot(0);  // 0 = autosave
-            autosaveTimer = 0.0f;
+            autosaveTimer = 0.0;
+            Save(0);
+            GD.Print("[SaveManager] Automātiskā saglabāšana (autosave) pabeigta 0. vietā.");
         }
     }
 
-    public void SaveToSlot(int slot)
+    public void Save(int slot)
     {
-        Dictionary allData = new();
-        foreach (Node node in saveables)
+        Dictionary allData = new()
         {
-            if (node.HasMethod("SaveState"))
+            ["version"] = CurrentVersion,
+            ["timestamp"] = Time.GetUnixTimeFromSystem()
+        };
+
+        foreach (ISaveable item in saveables)
+        {
+            allData[item.SaveKey] = item.SaveState();
+        }
+
+        SaveSlotData(slot, allData);
+    }
+
+    public bool Load(int slot)
+    {
+        Dictionary allData = LoadSlotData(slot);
+        if (allData.Count == 0) return false;
+
+        if (!allData.ContainsKey("version") || allData["version"].AsInt32() != CurrentVersion)
+        {
+            GD.PrintErr($"[SaveManager] Nesaderīga faila versija {slot}. vietā (gaidīta v{CurrentVersion}) — ielāde atcelta!");
+            return false;
+        }
+
+        foreach (ISaveable item in saveables)
+        {
+            if (allData.ContainsKey(item.SaveKey))
             {
-                allData[node.GetPath().ToString()] = node.Call("SaveState");
+                item.LoadState(allData[item.SaveKey].AsGodotDictionary());
             }
         }
-        allData["timestamp"] = Time.GetUnixTimeFromSystem();
-        allData["version"] = 1;
 
-        string path = $"user://save_{slot}.json";
+        GD.Print($"[SaveManager] Veiksmīgi ielādēta {slot}. vieta.");
+        return true;
+    }
+
+    public void SaveSlotData(int slot, Dictionary data)
+    {
+        string path = SlotPath(slot);
         using FileAccess file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
-        file?.StoreString(Json.Stringify(allData, "  "));
+        if (file != null)
+        {
+            file.StoreString(Json.Stringify(data, "    "));
+            GD.Print($"[SaveManager] Saglabāta {slot}. vieta ({path})");
+        }
+    }
+
+    public Dictionary LoadSlotData(int slot)
+    {
+        if (!SlotExists(slot)) return new Dictionary();
+
+        using FileAccess file = FileAccess.Open(SlotPath(slot), FileAccess.ModeFlags.Read);
+        if (file == null) return new Dictionary();
+
+        Json json = new();
+        Error err = json.Parse(file.GetAsText());
+        if (err != Error.Ok)
+        {
+            GD.PrintErr($"[SaveManager] Bojāts JSON {slot}. vietā!");
+            return new Dictionary();
+        }
+
+        return json.Data.AsGodotDictionary();
     }
 }</code></pre>
-<div class="result">3 saglabāšanas vieta ar metadata (level, time played, last saglabāt), automātiskā saglabāšana ik 5 min, korekta ielādēt.</div>
+<p><b>4. fails — <code>Scripts/FileDemo.cs</code> (piesaistīts <code>Scenes/FileDemo.tscn</code> saknes mezglam <code>FileDemo</code>):</b></p>
+<pre><code class="language-csharp">using Godot;
+
+public partial class FileDemo : Node
+{
+    public override void _Ready()
+    {
+        SaveManager saveManager = GetNode&lt;SaveManager&gt;("SaveManager");
+        PlayerProfile profile = GetNode&lt;PlayerProfile&gt;("PlayerProfile");
+
+        saveManager.RegisterSaveable(profile);
+
+        // Saglabājam 1. vietā Annas datus
+        profile.PlayerName = "Anna";
+        profile.BestLevel = 5;
+        profile.TotalXp = 320;
+        saveManager.Save(1);
+
+        // Saglabājam 2. vietā Jāņa datus
+        profile.PlayerName = "Jānis";
+        profile.BestLevel = 9;
+        profile.TotalXp = 850;
+        saveManager.Save(2);
+
+        GD.Print($"[FileDemo] Slot 1 eksistē: {saveManager.SlotExists(1)}, Slot 2 eksistē: {saveManager.SlotExists(2)}, Slot 3 eksistē: {saveManager.SlotExists(3)}");
+
+        // Ielādējam atpakaļ 1. vietu
+        saveManager.Load(1);
+        GD.Print($"[FileDemo] Pēc Slot 1 ielādes: {profile.PlayerName}, BestLevel={profile.BestLevel}, TotalXp={profile.TotalXp}");
+    }
+}</code></pre>
+<div class="result">Vairākas saglabāšanas vietas (<code>slot1.json</code>, <code>slot2.json</code>), modulāra saglabāšana caur <code>ISaveable</code> saskarni, versijas pārbaude un automātiskā saglabāšana <code>slot0.json</code> failā.</div>
 </div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tavā spēlē ir <code>SaveManager</code> ar vairākiem saglabāšanas vietām, objekti paši saglabā savus datus caur <code>ISaveable</code> interfeisu, darbojas automātiskā saglabāšana, un saglabātajam failam ir versijas pārbaude.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tavā projektā ir <code>SaveManager</code> ar vairākām saglabāšanas vietām, objekti paši saglabā savus datus caur <code>ISaveable</code> saskarni, darbojas automātiskā saglabāšana (<code>slot0.json</code>) un tiek pārbaudīta faila versija.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>Faili <code>SaveManager.cs</code> un <code>ISaveable.cs</code>.</li>
-<li>Divi paraugi saglabāto JSON failu no dažādiem saglabāšanas vietām.</li>
-<li>Ekrānuzņēmums ar brīdinājumu par nepareizu versiju.</li>
-<li>README.md: kāpēc <code>SaveManager</code> nav jāzina, kas tieši ir spēlētāja iekšienē.</li>
+<li>Failiem <code>Scripts/ISaveable.cs</code>, <code>Scripts/PlayerProfile.cs</code>, <code>Scripts/SaveManager.cs</code> un <code>Scripts/FileDemo.cs</code>.</li>
+<li>Diviem saglabāto JSON failu paraugiem (<code>slot1.json</code> un <code>slot2.json</code>) un ekrānuzņēmumam ar brīdinājumu par nesaderīgu versiju.</li>
+<li>Failam <code>README.md</code> ar skaidrojumu, kāpēc <code>SaveManager</code> nav jāzina <code>PlayerProfile</code> iekšējie lauki un kāpēc <code>autosave</code> glabā atsevišķā vietā.</li>
 </ul>
 <p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>

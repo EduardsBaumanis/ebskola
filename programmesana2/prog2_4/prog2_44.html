@@ -61,7 +61,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_4/prog2_4main">4. tēma</a> / 4.4</p>
 <h1>4.4 Pathfinding (ceļa meklēšana) ar A*</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Saprast un implementēt pathfinding algoritmu spēles AI (mākslīgais intelekts).</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Saprast un implementēt pathfinding algoritmu spēles AI (mākslīgais intelekts).</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.19. Algoritmu efektivitāte</a>
 <a href="/sasnRez">SR 2.4.16. Data structure (datu struktūras)</a>
@@ -109,130 +109,209 @@ public override void _PhysicsProcess(double delta)
 }</code></pre>
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums</p><h2>Sagatavo navigation region</h2>
-<p class="task-files"><b>Kur strādāt:</b> Godot redaktorā atver spēles līmeņa scēnu un šajā tēmā saglabā to kā <code>Scenes/Arena.tscn</code>. Tajā veido navigācijas reģionu un sienas.</p>
+<p class="task-number">1. uzdevums</p><h2>Sagatavo NavigationRegion2D un sienas scēnā Arena.tscn</h2>
+<p class="task-files"><b>Kur strādāt:</b> Godot redaktorā atver 4.3. stundā izveidoto spēles laukuma scēnu <code>Scenes/Arena.tscn</code>. Tajā zem saknes <code>Arena</code> pievieno <code>NavigationRegion2D</code> un divus <code>StaticBody2D</code> sienu mezglus (<code>Wall1</code> un <code>Wall2</code>), un izcep (<b>Bake</b>) navigācijas daudzstūri.</p>
 
-<p>Beigās Godot zinās, pa kurām vietām drīkst staigāt.</p>
+<p>Beigās Godot redaktorā redzēsi zilu navigācijas tīklu, kas aptver brīvo grīdu un automātiski apiet abas sienas.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> scēnai node <code>NavigationRegion2D</code> (2D navigācijas reģions).</li>
-<li><b>Izveido</b> tam <code>NavigationPolygon</code> (navigācijas daudzstūris) resursu Inspector panelī.</li>
-<li><b>Uzzīmē</b> daudzstūri, kas aptver visu staigājamo laukumu.</li>
-<li><b>Pievieno</b> laukumā divas sienas kā <code>StaticBody2D</code> (nekustīga 2D ķermeņa mezgls).</li>
-<li><b>Izgriez</b> navigācijas daudzstūrī caurumus ap sienām.</li>
-<li><b>Nospied</b> <b>Bake NavigationPolygon (aprēķināt navigācijas daudzstūri)</b>.</li>
-<li><b>Pārbaudi</b>, ka zilā zona neiet pāri sienām.</li>
+<li>Godot redaktorā atver <code>Scenes/Arena.tscn</code>. <b>Scene</b> panelī atlasi sakni <code>Arena</code>, ar <b>+</b> pievieno mezglu <code>NavigationRegion2D</code> un pārvelc to saraksta augšgalā (pirms <code>Player</code> un <code>Enemy</code>).</li>
+<li>Atlasi <code>NavigationRegion2D</code> un kā tā bērnmezglu pievieno <code>StaticBody2D</code> ar nosaukumu <code>Wall1</code> pozīcijā <code>(450, 260)</code>. Zem <code>Wall1</code> pievieno <code>CollisionShape2D</code> (<code>New RectangleShape2D</code> ar izmēru <code>40 × 260</code>) un pelēku <code>Polygon2D</code> (<code>Visual</code>, punkti <code>(-20,-130)</code>, <code>(20,-130)</code>, <code>(20,130)</code>, <code>(-20,130)</code>).</li>
+<li>Atlasi <code>Wall1</code>, nospied <b>Ctrl+D</b>, lai izveidotu otru sienu <code>Wall2</code> zem <code>NavigationRegion2D</code>, un novieto <code>Wall2</code> pozīcijā <code>(800, 460)</code> (tagad <code>Wall1</code> atrodas tieši starp <code>Player</code> <code>(200, 360)</code> un <code>Enemy</code> <code>(700, 360)</code>).</li>
+<li>Atlasi <code>NavigationRegion2D</code> un <b>Inspector</b> panelī laukā <b>Navigation Polygon</b> izvēlies <b>New NavigationPolygon</b>. Noklikšķini uz izveidotā resursa, atver sadaļu <b>Geometry → Parsed Geometry Type</b> un izvēlies <code>Static Colliders</code> (lai cepot tiktu izgrieztas <code>StaticBody2D</code> sienas).</li>
+<li>2D skatloga augšējā rīkjoslā izvēlies punktu zīmēšanas rīku (<b>Create Points</b>) un apvelc ārējo četrstūri pa spēles laukuma malām: <code>(20, 20)</code> → <code>(1260, 20)</code> → <code>(1260, 700)</code> → <code>(20, 700)</code> un noslēdz kontūru sākumpunktā.</li>
+<li>Augšējā rīkjoslā nospied <b>Bake NavigationPolygon</b>. Pārliecinies, ka zilā zona klāj laukumu, bet ap <code>Wall1</code> un <code>Wall2</code> ir izgriezti caurumi, un saglabā <code>Scenes/Arena.tscn</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> navigation region aptver grīdu, bet ne sienas, un tā ir redzama redaktorā zilā krāsā.</p>
+<pre><code>Arena (Node2D) — Scenes/Arena.tscn
+├── NavigationRegion2D (ar izceptu NavigationPolygon 1280×720)
+│   ├── Wall1 (StaticBody2D + CollisionShape2D + Visual)
+│   └── Wall2 (StaticBody2D + CollisionShape2D + Visual)
+├── Player (no Scenes/Player.tscn)
+└── Enemy  (no Scenes/Enemy.tscn)</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> <code>Scenes/Arena.tscn</code> redzama gaiši zila navigācijas zona, kas neiet pāri <code>Wall1</code> un <code>Wall2</code> sienām.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums</p><h2>Liec ienaidniekam sekot ceļam</h2>
-<p class="task-files"><b>Kur strādāt:</b> NavigationAgent2D pievieno ienaidnieka scēnā <code>Scenes/Enemy.tscn</code> (saglabā tajā esošo ienaidnieku, ja atsevišķas scēnas vēl nav). Papildini <code>Scripts/Enemy.cs</code>: aģenta atsauci glabā klases laukā, atrodi to <code>_Ready()</code>, mērķa un kustības kodu pievieno <code>_PhysicsProcess()</code> dzīšanās stāvoklim.</p>
+<p class="task-number">2. uzdevums</p><h2>Pievieno NavigationAgent2D un liec ienaidniekam apiet sienu</h2>
+<p class="task-files"><b>Kur strādāt:</b> Atver ienaidnieka scēnu <code>Scenes/Enemy.tscn</code> un pievieno tai bērnmezglu <code>NavigationAgent2D</code>. Pēc tam papildini <code>Scripts/Enemy.cs</code>: aģenta lauku pievieno klasē, mezglu atrodi <code>_Ready()</code>, bet ceļa sekošanas metodi <code>ChasePlayer()</code> izsauc no <code>_PhysicsProcess()</code>.</p>
 
-<p>Beigās ienaidnieks apstaigās sienu, nevis iestrēgs tajā.</p>
+<p>Beigās ienaidnieks pats atradīs ceļu apkārt sienai un nonāks pie spēlētāja.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> ienaidniekam child node (bērnu) <code>NavigationAgent2D</code>.</li>
-<li><b>Atver</b> ienaidnieka C# failu un pārliecinies, ka sākumā ir <code class="language-csharp">using Godot;</code>.</li>
-<li><b>Paņem</b> aģentu kodā ar <code class="language-csharp">NavigationAgent2D agent = GetNode&lt;NavigationAgent2D&gt;("NavigationAgent2D");</code>.</li>
-<li><b>Iestati</b> mērķi ar <code class="language-csharp">agent.TargetPosition = playerPos;</code>.</li>
-<li><b>Paņem</b> nākamo punktu ar <code class="language-csharp">Vector2 next = agent.GetNextPathPosition();</code>.</li>
-<li><b>Virzies</b> uz to ar <code class="language-csharp">(next - Position).Normalized() * Speed</code>.</li>
-<li><b>Būvē</b> un noliec spēlētāju aiz sienas.</li>
+<li>Godot redaktorā atver <code>Scenes/Enemy.tscn</code>, atlasi sakni <code>Enemy</code>, ar <b>+</b> pievieno bērnmezglu <code>NavigationAgent2D</code> (atstāj nosaukumu <code>NavigationAgent2D</code>) un saglabā scēnu.</li>
+<li>Atver failu <code>Scripts/Enemy.cs</code> un klases <code>Enemy</code> laukos pievieno <code class="language-csharp">protected NavigationAgent2D navAgent;</code> un <code class="language-csharp">[Export] public bool UsePathfinding = true;</code>.</li>
+<li>Faila <code>Scripts/Enemy.cs</code> metodē <code>_Ready()</code> (blakus <code>player</code> atrašanai) atrodi aģenta mezglu: <code class="language-csharp">navAgent = GetNodeOrNull&lt;NavigationAgent2D&gt;("NavigationAgent2D");</code>.</li>
+<li>Failā <code>Scripts/Enemy.cs</code> pievieno metodi <code class="language-csharp">protected void ChasePlayer()</code> pēc parauga zemāk: tā uzdod mērķi <code class="language-csharp">navAgent.TargetPosition = player.GlobalPosition;</code>, nolasa nākamo pagrieziena punktu ar <code class="language-csharp">navAgent.GetNextPathPosition()</code> un virza ienaidnieku uz to ar <code>MoveAndSlide()</code>.</li>
+<li>Metodē <code>_PhysicsProcess(double delta)</code> failā <code>Scripts/Enemy.cs</code> palielini pamanīšanas attālumu no <code>300.0f</code> uz <code>600.0f</code> (un atgriešanās slieksni uz <code>700.0f</code>), bet <code>case EnemyState.Chase:</code> zarā aizstāj veco taisno kustību ar izsaukumu <code class="language-csharp">ChasePlayer();</code>.</li>
+<li>Saglabā failu, nospied <b>Build</b> un palaid <code>Scenes/Arena.tscn</code> ar <b>F6</b>. Nostājies ar spēlētāju aiz <code>Wall1</code> vai <code>Wall2</code> un pārliecinies, ka ienaidnieks apiet sienu apkārt.</li>
 </ol>
-<pre><code class="language-csharp">private NavigationAgent2D navAgent;
-[Export] public float Speed = 180.0f;
+<pre><code class="language-csharp">// Scripts/Enemy.cs — lauki, _Ready() un ChasePlayer() metode:
+protected NavigationAgent2D navAgent;
+[Export] public bool UsePathfinding = true;
 
 public override void _Ready()
 {
-    navAgent = GetNode&lt;NavigationAgent2D&gt;("NavigationAgent2D");
+    player = GetParent()?.GetNodeOrNull&lt;Node2D&gt;("Player");
+    navAgent = GetNodeOrNull&lt;NavigationAgent2D&gt;("NavigationAgent2D");
 }
 
-// Metodē _PhysicsProcess(double delta) dzīšanās režīmā:
-navAgent.TargetPosition = playerPos;
-if (!navAgent.IsNavigationFinished())
+protected void ChasePlayer()
 {
-    Vector2 nextPos = navAgent.GetNextPathPosition();
-    Vector2 dir = (nextPos - Position).Normalized();
+    Vector2 dir;
+    if (UsePathfinding &amp;&amp; navAgent != null)
+    {
+        navAgent.TargetPosition = player.GlobalPosition;
+        Vector2 nextPos = navAgent.GetNextPathPosition();
+        dir = (nextPos - GlobalPosition).Normalized();
+    }
+    else
+    {
+        dir = (player.GlobalPosition - GlobalPosition).Normalized();
+    }
+
     Velocity = dir * Speed;
     MoveAndSlide();
 }</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> ienaidnieks apiet sienu apkārt un nonāk pie spēlētāja, nevis spiežas sienā.</p>
+<p class="done-when"><b>Gatavs, kad:</b> ienaidnieks scēnā <code>Scenes/Arena.tscn</code> apiet <code>Wall1</code> un <code>Wall2</code> un sasniedz spēlētāju, nevis spiežas sienā.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums</p><h2>Salīdzini taisno kustību ar pathfinding</h2>
-<p class="task-files"><b>Kur strādāt:</b> Taisno kustību un ceļa sekošanu pārmaiņus izmēģini <code>Scripts/Enemy.cs</code> metodē <code>_PhysicsProcess()</code>. Spēlētāja vietu maini <code>Scenes/Arena.tscn</code>; rezultātus raksti <code>README.md</code>.</p>
+<p class="task-number">3. uzdevums</p><h2>Salīdzini taisno kustību ar A* pathfinding</h2>
+<p class="task-files"><b>Kur strādāt:</b> Taisno kustību un A* ceļa meklēšanu salīdzini, pārslēdzot <code>UsePathfinding</code> īpašību scēnā <code>Scenes/Arena.tscn</code> (<code>Enemy</code> mezgla <b>Inspector</b> panelī) vai failā <code>Scripts/Enemy.cs</code>. Rezultātus pieraksti <code>README.md</code>.</p>
 
-<p>Beigās tu redzēsi, ko tieši pathfinding atrisina.</p>
+<p>Beigās tu praktiski redzēsi un varēsi izskaidrot, ko atrisina A* ceļa meklēšana.</p>
 <ol class="step-list">
-<li><b>Nomaini</b> kodu uz taisnu kustību tieši pret spēlētāju, bez agenta.</li>
-<li><b>Noliec</b> spēlētāju aiz sienas un palaid.</li>
-<li><b>Pieraksti</b>, kur ienaidnieks apstājās.</li>
-<li><b>Ieliec</b> pathfinding kodu atpakaļ un atkārto to pašu testu.</li>
-<li><b>Pieraksti</b>, cik ilgi tagad aizņēma nonākšana pie spēlētāja.</li>
-<li><b>Pārbaudi</b>, kas notiek, ja spēlētājs ir ārpus navigācijas zonas.</li>
-<li><b>Pieraksti</b>, ko dara <code>g</code> un ko <code>h</code> A* algoritmā.</li>
+<li>Atver <code>Scenes/Arena.tscn</code>, atlasi mezglu <code>Enemy</code> un <b>Inspector</b> panelī izslēdz <b>Use Pathfinding</b> (<code>false</code>), lai metodē <code>ChasePlayer()</code> izpildītos taisnās kustības <code>else</code> zars.</li>
+<li>Palaid scēnu ar <b>F6</b>, novieto spēlētāju tieši aiz <code>Wall1</code> un novēro, kur ienaidnieks apstājas. Pieraksti šo novērojumu <code>README.md</code>.</li>
+<li>Apturi spēli, <code>Enemy</code> mezgla <b>Inspector</b> panelī atkal ieslēdz <b>Use Pathfinding</b> (<code>true</code>), palaid ar <b>F6</b> un atkārto to pašu testu aiz sienas.</li>
+<li>Ar <code>WASD</code> aizved spēlētāju pašā ekrāna malā ārpus zilās <code>NavigationRegion2D</code> zonas un pārbaudi, ka ienaidnieks pieiet līdz tuvākajai sasniedzamajai navigācijas tīkla robežai.</li>
+<li>Failā <code>README.md</code> pieraksti abu testu salīdzinājumu un vienā teikumā paskaidro, ko A* novērtējuma formulā <code>f(n) = g(n) + h(n)</code> nozīmē <code>g(n)</code> un ko — <code>h(n)</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> bez pathfinding ienaidnieks iestrēgst pie sienas, bet ar to - apiet apkārt.</p>
+<p class="done-when"><b>Gatavs, kad:</b> <code>UsePathfinding = true</code> ir atjaunots, un <code>README.md</code> ir salīdzināta kustība ar un bez pathfinding, kā arī izskaidrots <code>g</code> un <code>h</code>.</p>
 </section>
 <details class="course-help extra-task">
-<summary>Papildu uzdevums - Zīmē ceļu uz ekrāna</summary>
-<p class="task-files"><b>Kur strādāt:</b> Line2D pievieno <code>Scenes/Enemy.tscn</code>. Tā atsauci un punktu atjaunošanu pievieno <code>Scripts/Enemy.cs</code>: mezglu atrodi <code>_Ready()</code>, ceļu atjauno <code>_PhysicsProcess()</code>.</p>
+<summary>Papildu uzdevums — Uzzīmē plānoto ceļu uz ekrāna ar Line2D</summary>
+<p class="task-files"><b>Kur strādāt:</b> Mezglu <code>Line2D</code> (<code>PathLine</code>) pievieno ienaidnieka scēnā <code>Scenes/Enemy.tscn</code>. Tā atsauci un punktu atjaunošanu pievieno failā <code>Scripts/Enemy.cs</code>: mezglu atrodi <code>_Ready()</code>, bet līnijas punktus atjauno <code>ChasePlayer()</code>.</p>
 
-<p>Ja pamatdarbs ir gatavs, parādi, pa kuru ceļu ienaidnieks iet.</p>
+<p>Ja pamatdarbs ir gatavs, uzzīmē ekrānā līniju, pa kuru <code>NavigationAgent2D</code> plāno vest ienaidnieku.</p>
 <ol class="step-list">
-<li><b>Paņem</b> pilnu ceļu ar <code class="language-csharp">agent.GetCurrentNavigationPath();</code>.</li>
-<li><b>Pievieno</b> scēnai <code>Line2D</code> (2D līnija) node.</li>
-<li><b>Iestati</b> tā punktus uz ceļa punktiem katrā kadrā.</li>
-<li><b>Palaid</b> un vēro, kā līnija mainās, kustinot spēlētāju.</li>
-<li><b>Pieraksti</b>, cik punktu parasti ir ceļā.</li>
+<li>Atver <code>Scenes/Enemy.tscn</code>, atlasi sakni <code>Enemy</code> un pievieno bērnmezglu <code>Line2D</code> ar nosaukumu <code>PathLine</code> (<b>Inspector</b> iestati <b>Width</b> = <code>2</code>).</li>
+<li>Failā <code>Scripts/Enemy.cs</code> pievieno lauku <code class="language-csharp">private Line2D pathLine;</code> un metodē <code>_Ready()</code> ieraksti: <code class="language-csharp">pathLine = GetNodeOrNull&lt;Line2D&gt;("PathLine"); if (pathLine != null) pathLine.TopLevel = true;</code> (<code>TopLevel = true</code> nodrošina, ka pasaules koordinātu punkti nezīmējas ar nobīdi).</li>
+<li>Metodē <code>ChasePlayer()</code> (kad <code>UsePathfinding</code> ir patiess) pievieno: <code class="language-csharp">if (pathLine != null) pathLine.Points = navAgent.GetCurrentNavigationPath();</code>.</li>
+<li>Palaid <code>Scenes/Arena.tscn</code> ar <b>F6</b>, kustini spēlētāju ap abām sienām un vēro, kā līnija reāllaikā pārrēķina īsāko maršrutu.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> ekrānā redzama līnija, kas rāda ienaidnieka plānoto ceļu ap sienu.</p>
+<p class="done-when"><b>Gatavs, kad:</b> spēles logā redzama līnija no ienaidnieka līdz spēlētājam, kas apliecas ap sienu stūriem.</p>
 </details>
-<details class="course-help" id="pilnais-piemers"><summary>Paplašināts koda piemērs</summary>
-<div class="code-example">
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary>
+<p>Šis ir pilnais <code>Scripts/Enemy.cs</code> fails pēc 4.3. stundas stāvokļu mašīnas un 4.4. stundas <code>NavigationAgent2D</code> apvienošanas.</p>
+<h3>Scripts/Enemy.cs</h3>
 <pre><code class="language-csharp">using Godot;
+
+public enum EnemyState
+{
+    Idle,   // gaida
+    Patrol, // patrulē
+    Chase,  // dzenas pakaļ
+    Attack, // uzbrūk
+    Dead    // gala stāvoklis
+}
 
 public partial class Enemy : CharacterBody2D
 {
-    private NavigationAgent2D navAgent;
-    private Player player;
-    [Export] public float Speed = 180.0f;
+    public string EnemyName = "Pretinieks";
+    [Export] public float Speed = 150.0f;
+    [Export] public int Hp = 30;
+    [Export] public bool UsePathfinding = true;
+
+    protected EnemyState state = EnemyState.Patrol;
+    protected Node2D player;
+    protected NavigationAgent2D navAgent;
+
+    public bool IsAlive =&gt; state != EnemyState.Dead;
 
     public override void _Ready()
     {
-        navAgent = GetNode&lt;NavigationAgent2D&gt;("NavigationAgent2D");
-        navAgent.AvoidanceEnabled = true;
-        UpdateTarget();
+        player = GetParent()?.GetNodeOrNull&lt;Node2D&gt;("Player");
+        navAgent = GetNodeOrNull&lt;NavigationAgent2D&gt;("NavigationAgent2D");
+    }
+
+    protected void ChangeState(EnemyState newState)
+    {
+        if (state == EnemyState.Dead || state == newState) return;
+        GD.Print("Stāvokļa maiņa: ", state, " -&gt; ", newState);
+        state = newState;
+    }
+
+    protected void ChasePlayer()
+    {
+        Vector2 dir;
+        if (UsePathfinding &amp;&amp; navAgent != null)
+        {
+            navAgent.TargetPosition = player.GlobalPosition;
+            Vector2 nextPos = navAgent.GetNextPathPosition();
+            dir = (nextPos - GlobalPosition).Normalized();
+        }
+        else
+        {
+            dir = (player.GlobalPosition - GlobalPosition).Normalized();
+        }
+
+        Velocity = dir * Speed;
+        MoveAndSlide();
+    }
+
+    public void TakeDamage(int amount)
+    {
+        if (!IsAlive || amount &lt;= 0) return;
+        Hp -= amount;
+        if (Hp &lt;= 0)
+        {
+            Hp = 0;
+            ChangeState(EnemyState.Dead);
+            Velocity = Vector2.Zero;
+            Modulate = new Color(0.5f, 0.5f, 0.5f, 0.6f);
+        }
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (navAgent.IsNavigationFinished()) return;
+        if (Input.IsKeyPressed(Key.K))
+            TakeDamage(30);
 
-        Vector2 next = navAgent.GetNextPathPosition();
-        Vector2 direction = (next - Position).Normalized();
+        if (player == null || !IsAlive) return;
 
-        Velocity = direction * Speed;
-        MoveAndSlide();
-    }
+        float dist = GlobalPosition.DistanceTo(player.GlobalPosition);
 
-    private void UpdateTarget()
-    {
-        if (player != null) navAgent.TargetPosition = player.Position;
+        switch (state)
+        {
+            case EnemyState.Idle:
+            case EnemyState.Patrol:
+                Velocity = Vector2.Zero;
+                if (dist &lt; 600.0f) ChangeState(EnemyState.Chase);
+                break;
+
+            case EnemyState.Chase:
+                ChasePlayer();
+                if (dist &lt; 60.0f) ChangeState(EnemyState.Attack);
+                else if (dist &gt; 700.0f) ChangeState(EnemyState.Patrol);
+                break;
+
+            case EnemyState.Attack:
+                Velocity = Vector2.Zero;
+                if (dist &gt;= 80.0f) ChangeState(EnemyState.Chase);
+                break;
+
+            case EnemyState.Dead:
+                break;
+        }
     }
 }</code></pre>
-<div class="result">Ienaidnieks atrod ceļu ap šķēršļiem un dzenas spēlētājam pa optimālo trasi, vairāki ienaidnieki nesaduras.</div>
-</div>
 </details>
 <section id="iesniegsana">
 <div class="hand-in-box">
 <h2>Ko sagatavo</h2>
-<p class="merkis"><b>Stundas mērķis:</b> Tavā līmenī ir izcepts navigation region, un ienaidnieks ar <code>NavigationAgent2D</code> apiet sienas, lai nonāktu pie spēlētāja, nevis iestrēgst pret tām.</p>
+<p class="merkis"><b>Stundas mērķis:</b> Tavā līmenī <code>Scenes/Arena.tscn</code> ir izcepts <code>NavigationRegion2D</code>, un ienaidnieks ar <code>NavigationAgent2D</code> apiet sienas, lai nonāktu pie spēlētāja, nevis iestrēgst pret tām.</p>
 <p><b>GitHub krātuvē jābūt:</b></p>
 <ul>
-<li>README.md ievietota video saite, kurā ienaidnieks apiet sienu, lai nonāktu pie spēlētāja.</li>
-<li>Ekrānuzņēmums ar navigation region redaktorā (zilā zona ap sienām).</li>
-<li>Fails <code>Enemy.cs</code> ar <code>NavigationAgent2D</code> kodu.</li>
-<li>README.md: ko A* algoritmā nozīmē <code>g</code> un ko <code>h</code>.</li>
+<li>Fails <code>Scripts/Enemy.cs</code> ar <code>NavigationAgent2D</code> kodu un scēnas <code>Scenes/Arena.tscn</code> un <code>Scenes/Enemy.tscn</code>.</li>
+<li>Ekrānuzņēmums ar izcepto <code>NavigationRegion2D</code> redaktorā (zilā zona ap <code>Wall1</code> un <code>Wall2</code>).</li>
+<li><code>README.md</code> ievietota video saite, kurā ienaidnieks apiet sienu, un skaidrojums, ko A* algoritmā nozīmē <code>g</code> un ko <code>h</code>.</li>
 </ul>
 <p><b>Kā iesniedz:</b> Veic commit (izmaiņu fiksējums) un push (nosūtīšana uz attālo krātuvi). Skolotāja norādītajā vietā ievieto tikai GitHub krātuves saiti; visiem prasītajiem failiem, README.md pierakstiem un pierādījumiem jābūt pašā krātuvē.</p>
 </div>

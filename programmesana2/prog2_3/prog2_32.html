@@ -56,7 +56,7 @@
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana2/prog2_3/prog2_3main">3. tēma</a> / 3.2</p>
 <h1>3.2 Mantošana: kopīgais kods un atšķirīgas lomas</h1>
-<p class="lesson-goal"><b>Stundas uzdevums:</b> Izveido dalībnieku lomas, kuras izmanto kopīgu kodu, bet uz vienādu sodu reaģē atšķirīgi.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Izveido dalībnieku lomas, kuras izmanto kopīgu kodu, bet uz vienādu sodu reaģē atšķirīgi.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.18. Objektorientētā programmēšana</a>
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
@@ -109,11 +109,11 @@ public class SkolenaBilete : Bilete
         base.AprekinatMaksu(samazinata);
     }
 }</code></pre>
-<p>Funkcija <code>Math.Max(a, b)</code> (no <code>System</code> bibliotēkas) atgriež lielāko no diviem skaitļiem, nodrošinot noteiktu zemāko robežu. Izsaukums <code>base.AprekinatMaksu(...)</code> izpilda kopīgo bāzes klases versiju — ja priekšā izlaistu <code>base.</code>, metode bezgalīgi izsauktu pati sevi. Metodes, kuru darbība visiem paveidiem ir vienāda, pārrakstīt nevajag.</p>
+<p>Funkcija <code>Math.Max(a, b)</code> (no <code>System</code> bibliotēkas) atgriež lielāko no diviem skaitļiem, nodrošinot noteiktu zemāko robežu. Izsaukums <code>base.AprekinatMaksu(...)</code> izpilda kopīgo bāzes klases versiju - ja priekšā izlaistu <code>base.</code>, metode bezgalīgi izsauktu pati sevi. Metodes, kuru darbība visiem paveidiem ir vienāda, pārrakstīt nevajag.</p>
 </div>
 <div class="logic-box" id="viena-komanda"><h3>Polimorfisms un kopīgs objektu saraksts (<code>List&lt;T&gt;</code>)</h3>
 <p>Dinamiskajā sarakstā <code>List&lt;BazesTips&gt;</code> (pieslēdzot <code>using System.Collections.Generic;</code>) ar metodi <code>Add(...)</code> drīkst vienuviet ievietot gan pašas bāzes klases, gan jebkuras no tās atvasinātās klases objektus, jo katrs atvasinātais objekts vienlaikus pieder bāzes tipam.</p>
-<p>Šķērsojot šādu sarakstu ar <code>foreach</code> ciklu un izsaucot <code>virtual</code> metodi, C# izpildes laikā automātiski izvēlas katra konkrētā objekta īsto <code>override</code> versiju — šo īpašību sauc par <b>polimorfismu</b>. Gluži kā viedtālrunī nospiežot vienu komandu „Nosūtīt” dažādu paziņojumu sarakstam, e-pasta, īsziņas un lietotnes ziņojums katrs tiek piegādāts pēc sava kanāla noteikumiem bez atsevišķām <code>if</code> pārbaudēm ciklā:</p>
+<p>Šķērsojot šādu sarakstu ar <code>foreach</code> ciklu un izsaucot <code>virtual</code> metodi, C# izpildes laikā automātiski izvēlas katra konkrētā objekta īsto <code>override</code> versiju - šo īpašību sauc par <b>polimorfismu</b>. Gluži kā viedtālrunī nospiežot vienu komandu „Nosūtīt” dažādu paziņojumu sarakstam, e-pasta, īsziņas un lietotnes ziņojums katrs tiek piegādāts pēc sava kanāla noteikumiem bez atsevišķām <code>if</code> pārbaudēm ciklā:</p>
 <pre><code class="language-csharp">using System.Collections.Generic;
 
 List&lt;Bilete&gt; biletes = new List&lt;Bilete&gt;();
@@ -126,29 +126,43 @@ foreach (Bilete b in biletes)
     GD.Print(b.Ipashnieks, ": ", b.GetAtlikums()); // 80 un 140
 }</code></pre>
 </div></section>
-<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Izveido kapteiņa lomu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Captain.cs</code> ar Captain klasi. Kapteiņa izveidi un izdrukas pievieno esošā <code>Scripts/LessonDemo.cs</code> metodei <code>_Ready()</code>.</p>
+<section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p><h2>Izveido atvasināto kapteiņa klasi <code>Scripts/Captain.cs</code></h2>
+<p class="task-files"><b>Kur strādāt:</b> Turpini 3.1. stundas projektu <code>TournamentSim</code>. Izveido jaunu C# failu <code>Scripts/Captain.cs</code> (mezglam <b>nepievieno</b>). Kapteiņa objekta izveidi un izdrukas raksti failā <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>.</p>
 <ol class="step-list">
-<li>Turpini 3.1. gala versiju ar privātu <code>energy</code> un divu parametru konstruktoru (klases nosaukumus lasi šādi: <code>Participant</code> — dalībnieks, <code>Captain</code> — kapteinis, <code>Presenter</code> — prezentētājs).</li>
-<li>Failā <code>Captain.cs</code> izveido atvasināto klasi pēc parauga zemāk (<code>: base(name, 150)</code> tālāk izsauc <code>Participant</code> konstruktoru ar enerģiju <code>150</code>, bet privātais <code>energy</code> paliek <code>Participant</code> pārziņā). <code>LessonDemo</code> izveido kapteini ar <code>new Captain("Anna")</code> un izdrukā vārdu, <code>GetEnergy()</code> un <code>IsActive()</code>.</li>
-<li>Uz brīdi noņem <code>: base(name, 150)</code> konstruktora izsaukumu un izpēti <b>Build</b> kļūdu (C# meklē <code>Participant</code> konstruktoru bez argumentiem, kura mums nav). Pēc tam atjauno izsaukumu.</li>
+<li><b>Pārliecinies</b>, ka failā <code>Scripts/Participant.cs</code> ir 3.1. stundas gala versija ar privātu lauku <code>private int energy;</code> un divu parametru konstruktoru <code>public Participant(string name, int energy)</code>.</li>
+<li><b>Izveido</b> mapē <code>Scripts/</code> jaunu C# failu <code>res://Scripts/Captain.cs</code> (nepievienojot to scēnas mezglam) ar deklarāciju <code class="language-csharp">public class Captain : Participant</code>.</li>
+<li><b>Pievieno</b> failā <code>Scripts/Captain.cs</code> konstruktoru <code class="language-csharp">public Captain(string name) : base(name, 150) { }</code>, kas nodod saņemto vārdu un kapteiņa sākuma enerģiju <code>150</code> bāzes klases <code>Participant</code> konstruktoram.</li>
+<li><b>Atver</b> failu <code>Scripts/LessonDemo.cs</code> un metodē <code>_Ready()</code> izveido kapteiņa objektu <code class="language-csharp">Captain anna = new Captain("Anna");</code> un izdrukā mantoto lauku un metožu rezultātus: <code>anna.Name</code>, <code>anna.GetEnergy()</code> un <code>anna.IsActive()</code>.</li>
+<li><b>Izmēģini</b> failā <code>Scripts/Captain.cs</code> uz brīdi izdzēst daļu <code>: base(name, 150)</code> un nospied <b>Build</b> — izlasi kompilatora kļūdu (jo <code>Participant</code> klasei nav konstruktora bez parametriem), pieraksti secinājumu <code>README.md</code> un pēc tam atjauno <code>: base(name, 150)</code>.</li>
 </ol>
-<pre><code class="language-csharp">public class Captain : Participant
+<pre><code class="language-csharp">// 1. Fails: Scripts/Captain.cs (1. uzdevuma versija)
+public class Captain : Participant
 {
     public Captain(string name) : base(name, 150)
     {
     }
-}</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> kapteinis sāk ar 150 punktiem un lieto mantotās metodes.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Maini kapteiņa reakciju uz sodu</h2>
-<p class="task-files"><b>Kur strādāt:</b> <code>virtual</code> pievieno <code>Scripts/Participant.cs</code>; stability lauku un <code>override</code> metodi — <code>Scripts/Captain.cs</code>. Sodu pārbaudes raksti <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>.</p>
+}
+
+// 2. Fails: Scripts/LessonDemo.cs (metodē _Ready())
+Captain anna = new Captain("Anna");
+GD.Print(anna.Name, ": ", anna.GetEnergy(), ", aktīva: ", anna.IsActive()); // Anna: 150, aktīva: true</code></pre>
+<p class="done-when"><b>Gatavs, kad:</b> <code>Captain</code> objekts sāk ar <code>150</code> enerģijas punktiem un izmanto no <code>Participant</code> mantotās metodes <code>GetEnergy()</code> un <code>IsActive()</code>.</p></section>
+<section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p><h2>Pārraksti kapteiņa reakciju uz sodu ar <code>virtual</code> un <code>override</code></h2>
+<p class="task-files"><b>Kur strādāt:</b> Atslēgvārdu <code>virtual</code> pievieno failā <code>Scripts/Participant.cs</code> metodei <code>ApplyPenalty()</code>. Lauku <code>stability</code> un <code>override</code> metodi pievieno failā <code>Scripts/Captain.cs</code>. Sodu pārbaudes raksti failā <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>.</p>
 <ol class="step-list">
-<li><code>Participant</code> metodē <code>ApplyPenalty</code> pievieno <code>virtual</code> (<code>public virtual void ApplyPenalty(int amount)</code>). <code>Captain</code> pievieno <code>stability</code> lauku un <code>override</code> metodi pēc parauga zemāk (ievēro <code>base.ApplyPenalty(reduced)</code>, lai pozitīvs sods vienmēr atņemtu vismaz <code>1</code> punktu un metode neizsauktu pati sevi).</li>
-<li>Pārbaudi atsevišķi sodu <code>20</code> (izvēle starp <code>1</code> un <code>10</code> → piemēro <code>10</code>) un sodu <code>6</code> (izvēle starp <code>1</code> un <code>-4</code> → piemēro <code>1</code>). Katrā pārbaudē izveido jaunu kapteini, lai sākuma enerģija būtu <code>150</code>.</li>
-<li>Izdrukā vērtību pirms un pēc soda. Paredzamie rezultāti: <code>140</code> un <code>149</code>.</li>
-<li>Uz brīdi noņem <code>virtual</code> no <code>Participant</code>, pieraksti kļūdas iemeslu un pēc tam to atjauno.</li>
+<li><b>Atver</b> bāzes klases failu <code>Scripts/Participant.cs</code> un metodei <code>ApplyPenalty</code> pievieno atslēgvārdu <code>virtual</code>:
+<code class="language-csharp">public virtual void ApplyPenalty(int amount)</code>.</li>
+<li><b>Atver</b> failu <code>Scripts/Captain.cs</code>, tā pirmajā rindā pievieno <code class="language-csharp">using System;</code> un klases iekšienē pievieno privātu lauku <code class="language-csharp">private int stability = 10;</code>.</li>
+<li><b>Pievieno</b> failā <code>Scripts/Captain.cs</code> pārrakstīto metodi <code class="language-csharp">public override void ApplyPenalty(int amount)</code>, kas samazina pozitīvu sodu par <code>stability</code> (bet atstāj vismaz <code>1</code> punktu ar <code>Math.Max(1, amount - stability)</code>) un nodod to bāzes metodei ar <code class="language-csharp">base.ApplyPenalty(reduced);</code>.</li>
+<li><b>Atver</b> failu <code>Scripts/LessonDemo.cs</code> un metodē <code>_Ready()</code> pārbaudi abus robežgadījumus katram ar jaunu kapteiņa objektu (lai abi sāktu no <code>150</code>):
+pirmajam piemēro <code>ApplyPenalty(20)</code> (zaudē <code>20 - 10 = 10</code>, paliek <code>140</code>), otrajam — <code>ApplyPenalty(6)</code> (izvēlas <code>Math.Max(1, -4) = 1</code>, paliek <code>149</code>).</li>
+<li><b>Izmēģini</b> failā <code>Scripts/Participant.cs</code> uz brīdi noņemt vārdu <code>virtual</code> un nospied <b>Build</b> — pieraksti <code>README.md</code>, kāpēc bez <code>virtual</code> atvasinātā klase nedrīkst lietot <code>override</code>, un pēc tam atjauno <code>virtual</code>.</li>
 </ol>
-<pre><code class="language-csharp">using System;
+<pre><code class="language-csharp">// 1. Fails: Scripts/Participant.cs — atjauno metodes galveni:
+public virtual void ApplyPenalty(int amount)
+
+// 2. Fails: Scripts/Captain.cs — pilns kods ar override:
+using System;
 
 public class Captain : Participant
 {
@@ -163,35 +177,56 @@ public class Captain : Participant
         base.ApplyPenalty(reduced);
     }
 }</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> kapteinis zaudē attiecīgi 10 un 1 punktu; enerģija nekļūst negatīva.</p></section>
-<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Pārbaudi dažādas lomas vienā sarakstā</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Presenter.cs</code>. Sarakstu un <code>foreach</code> raksti <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>; <code>using System.Collections.Generic;</code> pievieno faila sākumā.</p>
+<p class="done-when"><b>Gatavs, kad:</b> kapteinis pie soda <code>20</code> zaudē <code>10</code> punktus (<code>150 → 140</code>), bet pie soda <code>6</code> zaudē vismaz <code>1</code> punktu (<code>150 → 149</code>).</p></section>
+<section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p><h2>Izveido <code>Scripts/Presenter.cs</code> un pārbaudi lomas vienā sarakstā</h2>
+<p class="task-files"><b>Kur strādāt:</b> Izveido jaunu failu <code>Scripts/Presenter.cs</code> (mezglam <b>nepievieno</b>). Kopīgo sarakstu <code>List&lt;Participant&gt;</code> un <code>foreach</code> ciklu raksti failā <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>.</p>
 <ol class="step-list">
-<li>Izveido <code>Presenter.cs</code>: šajā projektā tā sākuma enerģija ir <code>80</code>, un pozitīvam sodam tas pieskaita <code>5</code> (skati pilno piemēru zemāk).</li>
-<li><code>List&lt;Participant&gt;</code> sarakstā ievieto parastu dalībnieku (ar <code>100</code> punktiem), <code>Captain</code> un <code>Presenter</code>.</li>
-<li>Vienā <code>foreach</code> ciklā katram piemēro sodu <code>20</code> un izdrukā enerģiju pirms un pēc (lomu atšķirību salīdzini arī pēc zaudēto punktu skaita, jo sākuma enerģijas atšķiras).</li>
-<li>Salīdzini rezultātus ar tabulu zemāk. README paskaidro, kāpēc ciklā nevajag atsevišķu <code>if</code> katrai lomai.</li>
+<li><b>Izveido</b> mapē <code>Scripts/</code> jaunu C# failu <code>res://Scripts/Presenter.cs</code> ar klasi <code class="language-csharp">public class Presenter : Participant</code>, kuras konstruktors izsauc <code>: base(name, 80)</code>, bet metode <code>override void ApplyPenalty(int amount)</code> pozitīvam sodam pieskaita <code>5</code> un izsauc <code>base.ApplyPenalty(amount + 5);</code>.</li>
+<li><b>Atver</b> failu <code>Scripts/LessonDemo.cs</code>, faila augšgalā pievieno <code class="language-csharp">using System.Collections.Generic;</code> un metodē <code>_Ready()</code> izveido sarakstu <code class="language-csharp">List&lt;Participant&gt; party = new List&lt;Participant&gt;();</code>.</li>
+<li><b>Pievieno</b> sarakstam <code>party</code> trīs dažādu klašu objektus: <code>new Participant("Ieva", 100)</code>, <code>new Captain("Anna")</code> un <code>new Presenter("Jānis")</code>.</li>
+<li><b>Uzraksti</b> <code>foreach (Participant p in party)</code> ciklu, kas katram saglabā enerģiju pirms soda, izsauc <code>p.ApplyPenalty(20);</code> un izdrukā enerģiju pirms un pēc soda.</li>
+<li><b>Salīdzini</b> <b>Output</b> rezultātus ar tabulu zemāk un <code>README.md</code> paskaidro, kāpēc vienā <code>foreach</code> ciklā nav jāraksta atsevišķi <code>if</code> nosacījumi katrai lomai.</li>
 </ol>
-<pre><code class="language-csharp">List&lt;Participant&gt; party = new List&lt;Participant&gt;();
+<pre><code class="language-csharp">// 1. Fails: Scripts/Presenter.cs
+public class Presenter : Participant
+{
+    public Presenter(string name) : base(name, 80) { }
+
+    public override void ApplyPenalty(int amount)
+    {
+        if (amount &lt;= 0) return;
+        base.ApplyPenalty(amount + 5);
+    }
+}
+
+// 2. Fails: Scripts/LessonDemo.cs (metodē _Ready())
+List&lt;Participant&gt; party = new List&lt;Participant&gt;();
 party.Add(new Participant("Ieva", 100));
 party.Add(new Captain("Anna"));
 party.Add(new Presenter("Jānis"));
 
 foreach (Participant p in party)
 {
+    int before = p.GetEnergy();
     p.ApplyPenalty(20);
-    GD.Print(p.Name, ": ", p.GetEnergy());
+    GD.Print(p.Name, ": ", before, " -&gt; ", p.GetEnergy());
 }</code></pre>
 <div class="table-scroll" role="region" aria-label="Vienāds sods dažādām lomām" tabindex="0"><table><thead><tr><th scope="col">Loma</th><th scope="col">Sākums</th><th scope="col">Sods 20 nozīmē</th><th scope="col">Pēc soda</th></tr></thead><tbody>
-<tr><td>Parasts dalībnieks</td><td>100</td><td>Zaudē 20</td><td>80</td></tr>
-<tr><td>Captain</td><td>150</td><td>Zaudē 20 − 10 = 10</td><td>140</td></tr>
-<tr><td>Presenter</td><td>80</td><td>Zaudē 20 + 5 = 25</td><td>55</td></tr>
+<tr><td>Parasts dalībnieks (<code>Participant</code>)</td><td>100</td><td>Zaudē 20</td><td>80</td></tr>
+<tr><td>Kapteinis (<code>Captain</code>)</td><td>150</td><td>Zaudē 20 − 10 = 10</td><td>140</td></tr>
+<tr><td>Prezentētājs (<code>Presenter</code>)</td><td>80</td><td>Zaudē 20 + 5 = 25</td><td>55</td></tr>
 </tbody></table></div>
-<p class="done-when"><b>Gatavs, kad:</b> viens cikls dod visus trīs tabulā paredzētos rezultātus.</p></section>
-<details class="course-help extra-task"><summary>Papildu uzdevums — Pievieno TimeKeeper lomu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/TimeKeeper.cs</code> ar atvasināto klasi. Jauno objektu pievieno sarakstam <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>.</p>
-<p>Izveido vēl vienu atvasināto klasi ar sākuma enerģiju 100. Tās ApplyPenalty pozitīvam sodam pieskaita 10 un izsauc bāzes metodi. Pievieno sarakstam: pēc soda 20 jāpaliek 70. Noslēguma projektā izmantosim arī šo lomu; tās piemērs būs dots.</p></details>
-<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>Participant.cs</h3>
+<p class="done-when"><b>Gatavs, kad:</b> viens <code>foreach</code> cikls izvada visus trīs tabulā paredzētos rezultātus (<code>100 → 80</code>, <code>150 → 140</code> un <code>80 → 55</code>).</p></section>
+<details class="course-help extra-task"><summary>Papildu uzdevums - Pievieno laika uzrauga lomu <code>Scripts/TimeKeeper.cs</code></summary>
+<p class="task-files"><b>Kur strādāt:</b> Izveido jaunu C# failu <code>Scripts/TimeKeeper.cs</code> un pievieno tā objektu sarakstam <code>party</code> failā <code>Scripts/LessonDemo.cs</code> metodē <code>_Ready()</code>.</p>
+<p>Ja pamatdarbs ir gatavs, izveido vēl vienu atvasināto lomu, kuru izmantosim arī 3.6. stundas noslēguma projektā.</p>
+<ol class="step-list">
+<li><b>Izveido</b> failu <code>res://Scripts/TimeKeeper.cs</code> ar klasi <code class="language-csharp">public class TimeKeeper : Participant</code> un konstruktoru <code class="language-csharp">public TimeKeeper(string name) : base(name, 100) { }</code>.</li>
+<li><b>Pievieno</b> tajā pārrakstītu metodi <code class="language-csharp">public override void ApplyPenalty(int amount)</code>, kas pozitīvam sodam pieskaita <code>10</code> un izsauc <code class="language-csharp">base.ApplyPenalty(amount + 10);</code>.</li>
+<li><b>Pievieno</b> failā <code>Scripts/LessonDemo.cs</code> sarakstam <code>party.Add(new TimeKeeper("Kārlis"));</code> un pārbaudi, ka pēc soda <code>20</code> tam enerģija mainās <code>100 → 70</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> <code>TimeKeeper</code> objekts vienā sarakstā ar pārējām lomām pēc soda <code>20</code> uzrāda <code>100 → 70</code>.</p></details>
+<details class="course-help" id="pilnais-piemers"><summary>Pilnie faili salīdzināšanai — gatavs 3.2. stundas risinājums</summary><p>Katru piemēru liec norādītajā failā. Aizstāj iepriekšējo tās pašas klases versiju; divas vienādi nosauktas klases vienā projektā neveido.</p><h3>1. fails: <code>Scripts/Participant.cs</code></h3>
 <pre><code class="language-csharp" id="kods-participant-cs">public class Participant
 {
     public string Name;
@@ -222,7 +257,7 @@ foreach (Participant p in party)
         return energy &gt; 0;
     }
 }</code></pre>
-<h3>Captain.cs</h3>
+<h3>2. fails: <code>Scripts/Captain.cs</code></h3>
 <pre><code class="language-csharp" id="kods-captain-cs">using System;
 
 public class Captain : Participant
@@ -238,7 +273,7 @@ public class Captain : Participant
         base.ApplyPenalty(reduced);
     }
 }</code></pre>
-<h3>Presenter.cs</h3>
+<h3>3. fails: <code>Scripts/Presenter.cs</code></h3>
 <pre><code class="language-csharp" id="kods-presenter-cs">public class Presenter : Participant
 {
     public Presenter(string name) : base(name, 80) { }
@@ -249,7 +284,7 @@ public class Captain : Participant
         base.ApplyPenalty(amount + 5);
     }
 }</code></pre>
-<h3>LessonDemo.cs</h3>
+<h3>4. fails: <code>Scripts/LessonDemo.cs</code> (piesaistīts <code>LessonDemo</code> saknei scēnā <code>Scenes/LessonDemo.tscn</code>)</h3>
 <pre><code class="language-csharp" id="kods-lessondemo-cs">using Godot;
 using System.Collections.Generic;
 
@@ -271,7 +306,9 @@ public partial class LessonDemo : Node
     }
 }</code></pre>
 </details>
-<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2><p>GitHub krātuvē saglabā projektu un šādus pierādījumus:</p><ul><li>Participant.cs, Captain.cs, Presenter.cs un pārbaudes skripts.</li><li>Izdruka ar sākuma enerģiju un rezultātu pēc vienāda soda.</li><li>README: base un override skaidrojums saviem vārdiem; virtual noņemšanas pārbaude.</li></ul><p>Saglabā failus, veic commit ar izmaiņu aprakstu un push. Skolotāja norādītajā vietā iesniedz krātuves saiti.</p></div></section>
+<section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2>
+<p class="merkis"><b>Stundas mērķis:</b> No bāzes klases <code>Participant</code> izveidotas atvasinātās lomu klases <code>Captain</code> un <code>Presenter</code>, kas ar <code>override</code> un <code>base.ApplyPenalty(...)</code> atšķirīgi aprēķina sodu vienā kopīgā <code>List&lt;Participant&gt;</code> sarakstā.</p>
+<p><b>GitHub krātuvē saglabā projektu un šādus pierādījumus:</b></p><ul><li>Failus <code>Scripts/Participant.cs</code>, <code>Scripts/Captain.cs</code>, <code>Scripts/Presenter.cs</code> un <code>Scripts/LessonDemo.cs</code>.</li><li><b>Output</b> izdruku ar sākuma enerģiju un rezultātu pēc vienāda soda (<code>100 → 80</code>, <code>150 → 140</code>, <code>80 → 55</code>).</li><li><code>README.md</code>: <code>: base(...)</code>, <code>virtual</code> un <code>override</code> skaidrojums saviem vārdiem un novērojums par <code>virtual</code> noņemšanu.</li></ul><p><b>Kā iesniedz:</b> Saglabā failus, veic <code>git commit</code> un <code>git push</code>. Skolotāja norādītajā vietā iesniedz GitHub krātuves saiti.</p></div></section>
 <section><h2>Ja kaut kas nestrādā</h2><ul><li><b>override kļūda:</b> Participant metodei jābūt virtual, un metodes nosaukumam, parametriem un atgriežamajam tipam abās klasēs jāsakrīt.</li><li><b>Math vai List nav atrasts:</b> faila sākumā pievieno attiecīgi using System; vai using System.Collections.Generic;.</li><li><b>Metode izsauc sevi:</b> pārbaudi, vai atvasinātā klase lieto base.ApplyPenalty(...).</li></ul></section>
 <details class="course-help"><summary>Izmantotā dokumentācija</summary><p><a href="https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/inheritance">Microsoft: mantošana</a></p></details>
 <nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
