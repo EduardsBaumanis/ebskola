@@ -70,5 +70,3 @@ SR 1.4.2 paredz testēšanas rezultātu dokumentēšanu. Tāpēc projektos sagla
 Vietne paliek statiska; būvēšanas solis nav vajadzīgs. Nodarbību HTML failus var rediģēt tieši. Visiem kursiem ir kopīgs nodarbību noformējums failā `../lesson.css` un soļu/kopēšanas atbalsts failā `../lesson.js`. Kursu un tēmu pārskati izmanto `../style.css` komponentus.
 
 Pilns sākuma kods ir gan nodarbības HTML, gan failā `sakuma-kodi/NN.html`. Mainot piemēru, atjauno abas kopijas. 2.5. un 2.6. nodarbības ZIP komplektā jābūt atbilstošajam kodam un lokālajiem resursiem. Mājaslapas kodā ievietotais paraugs jāiekodē kā HTML teksts (`&lt;`, `&gt;`, `&amp;`); lejupielādējamais fails ir īsts HTML.
-
-Pārbaudei izmanto `python3 scripts/check_datorika9.py`. Pārlūka pārbaudes skaidrojums ir `scripts/README.md`.
