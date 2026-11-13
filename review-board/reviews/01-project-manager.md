@@ -23,7 +23,7 @@ Workers ran: 1 Project Manager, 2 Standards, 3 Methodology, 4 Web, 5 Python,
 | # | Item | Positions | Decision |
 |---|------|-----------|----------|
 | 1 | SR-reference format differs per course (pills vs full-text vs `D.x.x.x`) | Worker 2: standardize on `sasnRez` anchors. Worker 11: make labels uniform. Author: apply the Programmēšana II example. | Applied the P2 pattern everywhere (112 lessons): visible `.lesson-meta`, `SR {code}. {Title}` (verbatim from `sasnRez.html`), link to `/sasnRez`; Robotika uses `SR D.7.x.x.`. Done. |
-| 2 | Missing files referenced by docs (`programmesana2/img/`, `macibu-satura-audits.md`) | Worker 11: remove stale references. Worker 2: recreate the coverage audit doc. | Recreate `macibu-satura-audits.md` (it's load-bearing for teachers); recreate or drop the `img/` references. |
+| 2 | Missing files referenced by docs (`programmesana2/img/`, `macibu-satura-audits.md`) | Worker 11: remove stale references. Worker 2: recreate the coverage audit doc. | Resolved: `macibu-satura-audits.md` created; `img/` references dropped. |
 | 3 | Time plans visible on student pages in P1/Robotika but teacher-only in Datorika 9 | Worker 3: unify. Worker 10: keep visible, it helps students plan. | Keep a short plan on student pages everywhere, move the detailed 10/15/20/25 split to teacher docs only. |
 | 4 | `.godot/` build artifacts | Worker 6/11 initially flagged as committed; verified they are already ignored per-project. | No `git rm` needed — `.godot/` is untracked and ignored. Added a root `.gitignore` for OS/Python noise. |
 | 5 | Buggy nested-path redirects in `_redirects` | Worker 11: delete redirects once source links are fixed. Worker 10: fix the links first. | Fix the source links in HTML first, keep redirects temporarily, then remove after a crawl confirms clean. |
@@ -36,10 +36,9 @@ Workers ran: 1 Project Manager, 2 Standards, 3 Methodology, 4 Web, 5 Python,
   are already ignored by each project's own `.gitignore` (`.godot/`, `bin/`,
   `obj/`, `*.tmp`) and are not tracked by git. No `git rm` is needed.
   Fix: none required; a root `.gitignore` was added for OS/Python noise.
-- **Severity: Major · Worker: 11** — `README.md` references files that do not exist:
-  `programmesana2/img/README.md` and `programmesana2/img/SOURCES.md`; and
-  `datorika9/SKOLOTAJAM.md` references a root `macibu-satura-audits.md` that is
-  absent. Fix: recreate or remove each reference.
+- **Resolved · Worker: 11** — missing-file references reconciled: `macibu-satura-audits.md`
+  created at the repo root; the stale `programmesana2/img/` references removed
+  from `README.md`.
 
 ### B. Links & redirects
 - **Resolved · Workers: 10, 11** — the `prog1_6` source links were already absolute
@@ -73,8 +72,7 @@ Workers ran: 1 Project Manager, 2 Standards, 3 Methodology, 4 Web, 5 Python,
 
 1. **Repo hygiene** — confirmed `.godot/` already ignored; added a root `.gitignore` for OS/Python noise. *(QA)*
 2. ~~Fix broken links in `prog1_6` area; clean corrective redirects.~~ Done — links already correct; 4 stale redirects removed. *(QA + UX)*
-3. **Reconcile missing files** — recreate `macibu-satura-audits.md`; decide fate of
-   the `img/` references and update `README.md`/`SKOLOTAJAM.md`. *(QA + Standards)*
+3. ~~Reconcile missing files.~~ Done — `macibu-satura-audits.md` created; `img/` refs dropped. *(QA + Standards)*
 4. ~~Standardize SR references across all four courses.~~ Done — P2 pattern applied everywhere. *(Standards + QA)*
 5. **Unify the lesson skeleton** and time-plan visibility. *(Methodology + UX)*
 6. **Run per-course technical audits** (Web → Python → Godot → Robotics). *(Workers 4–7)*
@@ -86,8 +84,7 @@ Workers ran: 1 Project Manager, 2 Standards, 3 Methodology, 4 Web, 5 Python,
 - ~~check script~~ Resolved: the helper-scripts folder and its references were
   removed; no check scripts are kept in the repo.
 - `programmesana2/img/README.md` and `SOURCES.md` are documented but absent — create
-  them, or remove the references from `README.md`?
-- ~~SR numbering~~ Resolved: `SR {code}. {Title}` (verbatim titles) is the standard;
+  ~~`programmesana2/img/README.md` / `SOURCES.md`~~ Resolved: references removed.(verbatim titles) is the standard;
   Robotika's `D.7.x.x` codes also carry the `SR ` prefix.
 - Are the nested-path `_redirects` rules serving live traffic yet, or can the source
   links be fixed and the rules removed immediately?

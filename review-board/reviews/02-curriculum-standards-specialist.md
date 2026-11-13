@@ -18,17 +18,15 @@ Severity: `Critical | Major | Minor | Nit`.
 - **Resolved** — SR references standardized to the Programmēšana II pattern in all
   four courses: visible `.lesson-meta` with `SR {code}. {Title}` links to
   `/sasnRez`, titles verbatim from `sasnRez.html`, Robotika using `SR D.7.x.x.`.
-- **Major · missing artifact** — `datorika9/SKOLOTAJAM.md` points to
-  `../macibu-satura-audits.md` (the Datorika 9 coverage list), but the file does
-  not exist in the repo. This is the single document that tells a teacher *which
-  SR parts are actually practiced*. Fix: recreate it and keep it in sync.
+- **Resolved** — `macibu-satura-audits.md` recreated at the repo root with the
+  per-lesson SR coverage table; the `SKOLOTAJAM.md` link now resolves.
 
 ## Improvement plan
 
 1. (Resolved) One citation format is applied: `SR {code}. {Title}` → `/sasnRez`
    everywhere (P2 pattern); Robotika uses `SR D.7.x.x.`.
-2. Build/restore the coverage matrix (`macibu-satura-audits.md` for Datorika 9,
-   and an equivalent per course) so every SR link is traceable to a task step.
+2. (Resolved) `macibu-satura-audits.md` restored for Datorika 9; per-course
+   equivalents remain future work.
 3. Audit each course's 148 lessons for SR links that are missing, wrong-numbered
    or overclaimed (a task must actually exercise the cited part).
 4. Verify every cited SR code exists in `sasnRez.html`; flag any link to a code

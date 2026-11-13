@@ -14,11 +14,8 @@ Severity: `Critical | Major | Minor | Nit`.
 
 ## Findings
 
-- **Major · missing files referenced by docs** —
-  `README.md` references `programmesana2/img/README.md` and
-  `programmesana2/img/SOURCES.md` — neither exists.
-  `datorika9/SKOLOTAJAM.md` references `../macibu-satura-audits.md` — absent.
-  Fix: recreate the load-bearing audit file; recreate or remove the `img/` references.
+- **Resolved · missing files** — `macibu-satura-audits.md` created at the repo root;
+  the stale `programmesana2/img/` references removed from `README.md`.
 - **Nit · `.godot/` on disk but already ignored** — `.godot/` directories exist
   under `prog2_1/pong` and `prog2_2/platformer`, but each project's own
   `.gitignore` (`.godot/`, `bin/`, `obj/`, `*.tmp`) already ignores them, and
@@ -44,9 +41,8 @@ Severity: `Critical | Major | Minor | Nit`.
 
 1. (Resolved) `.godot/` is already ignored per-project; added a root `.gitignore`
    for OS/Python noise. No build artifacts were tracked, so no `git rm` was needed.
-2. Recreate or remove the five missing documented files; fix `README.md` and
-   `datorika9/SKOLOTAJAM.mremaining missing documented files (`macibu-satura-audits.md`,
-   `programmesana2/img/`); fix `README.md` and (Resolved) Crawled `prog1_6` links — all absolute and correct; removed the 4
+2. (Resolved) `macibu-satura-audits.md` created; `programmesana2/img/` references removed.
+3. (Resolved) Crawled `prog1_6` links — all absolute and correct; removed the 4
    stale corrective redirects from `_redirects`.
 4. (Resolved) SR-reference markup standardized across all four courses (with Worker 2).
 5. (Resolved) No check script is kept in the repo; starter-code sync is verified manually.
@@ -54,6 +50,5 @@ Severity: `Critical | Major | Minor | Nit`.
 
 ## Open questions
 
-- Should the `programmesana2/img/` documentation be recreated, or should the
-  references be removed?
+- (Resolved) The `programmesana2/img/` references were removed.
  

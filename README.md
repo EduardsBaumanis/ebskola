@@ -71,7 +71,6 @@ python3 programmesana2/prog2_2/parbaudes/check.py --godot /cels/uz/Godot.NET --d
 │   └── prog1_1/..prog1_12/     # 12 tēmu mapes (katrā prog1_Nmain.html un 6 nodarbības)
 ├── programmesana2/             # Programmēšana II (Godot 4 .NET un C#)
 │   ├── programmesana2.html     # Kursa pārskats
-│   ├── img/                    # Kursa ekrānuzņēmumi, shēmas un avotu saraksts (SOURCES.md)
 │   └── prog2_1/..prog2_6/      # 6 tēmu mapes (katrā prog2_Nmain.html un 6 nodarbības)
 │       ├── kods/               # Starpposmu C# skripti (1. un 2. tēmā)
 │       ├── parbaudes/          # Automatizētie Godot/C# pārbaudes skripti (1. un 2. tēmā)
@@ -118,7 +117,6 @@ Visu kursu nodarbības izmanto vienotu lasīšanas izkārtojumu (`style.css` + `
 
 - [`datorika9/SKOLOTAJAM.md`](datorika9/SKOLOTAJAM.md) — Datorika 9 kursa darba organizācija, stundu laika sadalījums, vērtēšana, Windows/Git sagatavošana un sasniedzamo rezultātu robežas.
 - [`programmesana2/prog2_1/SKOLOTAJAM.md`](programmesana2/prog2_1/SKOLOTAJAM.md) — Programmēšana II 1. tēmas (*Pong*) metodiskais izvērtējums, darba secība un automatizēto pārbaužu apraksts.
-- [`programmesana2/img/README.md`](programmesana2/img/README.md) un [`programmesana2/img/SOURCES.md`](programmesana2/img/SOURCES.md) — Godot ekrānuzņēmumu nosaukumu konvencija un attēlu avoti.
 
 ## Licence
 
