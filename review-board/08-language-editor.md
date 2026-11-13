@@ -61,4 +61,4 @@ any terminology decision the project owner should confirm.
 
 - The site is entirely in Latvian; technical terms often have an English source.
 - `paligm.html` is the authoritative glossary; lessons link to it.
-- Lesson steps are imperative and short by design (see `datorika9/SKOLOTAJAM.md`).
+- Lesson steps are imperative and short by design.

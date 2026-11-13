@@ -64,8 +64,7 @@ python3 programmesana2/prog2_2/parbaudes/check.py --godot /cels/uz/Godot.NET --d
 │   ├── dat9_1main.html..5main  # 5 tēmu pārskata lapas
 │   ├── dat9_11.html..dat9_56   # 30 nodarbību lapas
 │   ├── git.html                # Git un GitHub palīdzības lapa
-│   ├── sakuma-kodi/            # Lejupielādējamie sākuma kodi (11.html..56.html, 25.zip, 26.zip, resursi)
-│   └── SKOLOTAJAM.md           # Metodiskie un darba organizācijas norādījumi skolotājam
+│   └── sakuma-kodi/            # Lejupielādējamie sākuma kodi (11.html..56.html, 25.zip, 26.zip, resursi)
 ├── programmesana1/             # Programmēšana I (Python)
 │   ├── programmesana1.html     # Kursa pārskats
 │   └── prog1_1/..prog1_12/     # 12 tēmu mapes (katrā prog1_Nmain.html un 6 nodarbības)
@@ -112,11 +111,6 @@ Visu kursu nodarbības izmanto vienotu lasīšanas izkārtojumu (`style.css` + `
    - pievieno saiti tēmas `*main.html` lapā un visās attiecīgās tēmas nodarbību `.sidebar-nav` izvēlnēs;
    - pievieno `.html` → bezpaplašinājuma pāradresācijas likumu failā `_redirects`;
    - pievieno jauno kanonisko URL failā `sitemap.xml`.
-
-## Papildu dokumentācija
-
-- [`datorika9/SKOLOTAJAM.md`](datorika9/SKOLOTAJAM.md) — Datorika 9 kursa darba organizācija, stundu laika sadalījums, vērtēšana, Windows/Git sagatavošana un sasniedzamo rezultātu robežas.
-- [`programmesana2/prog2_1/SKOLOTAJAM.md`](programmesana2/prog2_1/SKOLOTAJAM.md) — Programmēšana II 1. tēmas (*Pong*) metodiskais izvērtējums, darba secība un automatizēto pārbaužu apraksts.
 
 ## Licence
 

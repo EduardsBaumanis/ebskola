@@ -32,8 +32,7 @@ Severity: `Critical | Major | Minor | Nit`.
   4 course + 25 topic mains + 148 lessons + git), but every `lastmod` is `2026-10-26`.
   Set real per-page dates on next change.
 - **Verification item · `_headers`** — confirm Cloudflare Pages `_headers`
-  wildcards (`/*/SKOLOTAJAM.md`, `/*/*/SKOLOTAJAM.md`) match across path segments;
-  if not, teacher notes could be indexed.
+  wildcards match across path segments as intended.
 - **Verification item · starter-code sync** — enforce the two-copy rule for
   Datorika 9 (in-page `#pilnais-kods` vs `sakuma-kodi/NN.html`) manually on edit.
 

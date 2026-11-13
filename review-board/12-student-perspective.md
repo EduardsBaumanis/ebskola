@@ -63,6 +63,6 @@ the one change that would help the student most.
 
 - Lessons are designed for students with minimal prior computing experience.
 - The site deliberately uses short steps, visible goals and expandable full code
-  to reduce cognitive load (see `datorika9/SKOLOTAJAM.md`).
+  to reduce cognitive load.
 - The classroom environment is Windows + VS Code + Git/GitHub (or SPIKE/Arduino
   for Robotics), with English UI labels the student may not know.

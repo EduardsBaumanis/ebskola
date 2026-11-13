@@ -10,8 +10,8 @@ Severity legend used throughout: `Critical` (blocks students/teachers), `Major`
 
 ## 1. Scope
 
-Reviewed: repo structure, `README.md`, `datorika9/` (incl. `SKOLOTAJAM.md`,
-`sakuma-kodi/`), `programmesana1/`, `programmesana2/` (incl. `kods/`, `parbaudes/`,
+Reviewed: repo structure, `README.md`, `datorika9/` (incl. `sakuma-kodi/`),
+`programmesana1/`, `programmesana2/` (incl. `kods/`, `parbaudes/`,
 full projects), `robotika/`, `style.css`, `lesson.css`, `lesson.js`, `_redirects`,
 `_headers`, `sitemap.xml`, `paligm.html`, `sasnRez.html`.
 

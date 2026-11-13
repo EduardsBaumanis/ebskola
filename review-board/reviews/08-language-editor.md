@@ -8,7 +8,7 @@ Severity: `Critical | Major | Minor | Nit`.
 ## What I reviewed
 
 - Sampled lessons: `datorika9/dat9_11.html`, `programmesana1/prog1_1/prog1_11.html`,
-  `robotika/rbtk7_11.html`, plus `README.md` and `datorika9/SKOLOTAJAM.md`.
+  `robotika/rbtk7_11.html`, plus `README.md`.
 - The terminology conventions in `README.md` (terms, EN→LV glossary pointer).
 
 ## Findings

@@ -63,8 +63,8 @@ plus the single highest-impact improvement.
 
 ## Assumed project context
 
-- ebSkola lessons use one shared skeleton and a fixed 3-task model; the Datorika 9
-  grading rules are documented in `datorika9/SKOLOTAJAM.md`.
+- ebSkola lessons use one shared skeleton and a fixed 3-task model; grading rules
+  live with the lessons.
 - Steps are checkable in-browser via `lesson.js`; checkmarks are not a grade.
 - The third task is the graded submission; tasks 1–2 build toward it and the
   extra task is optional.

@@ -11,7 +11,7 @@ Severity: `Critical | Major | Minor | Nit`.
 - SR references in sampled lessons: `datorika9/dat9_11.html` (pills +
   `teacher-meta` caveat), `programmesana1/prog1_1/prog1_11.html` (full-text
   `.lesson-meta`), `robotika/rbtk7_11.html` (plain-text `D.7.1.1., D.7.2.1.`).
-- The coverage policy documented in `datorika9/SKOLOTAJAM.md` and `README.md`.
+- The coverage policy documented in `README.md`.
 
 ## Findings
 
@@ -19,7 +19,7 @@ Severity: `Critical | Major | Minor | Nit`.
   four courses: visible `.lesson-meta` with `SR {code}. {Title}` links to
   `/sasnRez`, titles verbatim from `sasnRez.html`, Robotika using `SR D.7.x.x.`.
 - **Resolved** — `macibu-satura-audits.md` recreated at the repo root with the
-  per-lesson SR coverage table; the `SKOLOTAJAM.md` link now resolves.
+  per-lesson SR coverage table.
 
 ## Improvement plan
 

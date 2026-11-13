@@ -66,5 +66,5 @@ End with a short per-lesson verdict: "SR claims supported" or "SR claims need co
 - ebSkola links lessons to SRs via `.lesson-meta` and a `teacher-meta` block
   that states the practice is partial by design.
 - `sasnRez.html` holds the authoritative SR list; the Datorika 9 coverage is
-  documented in `datorika9/SKOLOTAJAM.md`.
+  documented in `macibu-satura-audits.md`.
 - A lesson's SR link is a practical-application marker, not full certification.

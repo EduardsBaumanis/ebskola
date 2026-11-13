@@ -7,8 +7,8 @@ Severity: `Critical | Major | Minor | Nit`.
 
 ## What I reviewed
 
-- Repo layout: `programmesana2/prog2_1/{kods/1_3,1_4, parbaudes, pong, pong.zip,
-  SKOLOTAJAM.md}`, `prog2_2/{kods/2_1..2_3, parbaudes, platformer, platformer.zip}`.
+- Repo layout: `programmesana2/prog2_1/{kods/1_3,1_4, parbaudes, pong, pong.zip}`,
+  `prog2_2/{kods/2_1..2_3, parbaudes, platformer, platformer.zip}`.
 - `programmesana2/prog2_1/parbaudes/check.py` and `prog2_2/parbaudes/check.py`.
 - `README.md` verification instructions (`--godot`, `--dotnet` flags).
 

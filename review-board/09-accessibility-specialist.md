@@ -62,6 +62,6 @@ single highest-impact improvement.
 ## Assumed project context
 
 - The site is designed with short, checkable steps and an expandable full code
-  block specifically to support UDHS students (see `datorika9/SKOLOTAJAM.md`).
+  block specifically to support UDHS students.
 - Accessibility is a stated design goal, not a compliance checklist for the
   author — you keep recommendations proportionate to a small open-source project.

@@ -9,8 +9,7 @@ Severity: `Critical | Major | Minor | Nit`.
 - The shared lesson skeleton and its conventions from `README.md`.
 - Sampled lessons: `datorika9/dat9_11.html`, `programmesana1/prog1_1/prog1_11.html`,
   `robotika/rbtk7_11.html`.
-- `lesson.js` (step checkboxes, progress, localStorage) and the grading rules in
-  `datorika9/SKOLOTAJAM.md`.
+- `lesson.js` (step checkboxes, progress, localStorage).
 
 ## Findings
 
@@ -29,7 +28,7 @@ Severity: `Critical | Major | Minor | Nit`.
   when the next migration happens.
 - **Verification item** — confirm every topic-closing lesson (x.6) that is a graded
   project actually includes the `.assessment-rubric` SLA table; `dat9_16.html` is
-  referenced by SKOLOTAJAM as the example.
+  the example.
 
 ## Improvement plan
 
