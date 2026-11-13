@@ -118,43 +118,44 @@ public override void _Ready()
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p>
 <h2>Savieno punktus, servi, uzvaru un jaunu partiju</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Game.cs</code> ar pilno piemēra kodu un piesaisti to <code>Scenes/Main.tscn</code> saknei <code>Main</code>. HUD mezglus izveido tajā pašā scēnā.</p>
-<p><b>Pilnas spēles pamatprasības un klašu sadarbība:</b> divu spēlētāju vadība, atlēkšana no raketēm un sienām, pareizi punkti, uzvara pie 5 punktiem, redzamas norādes un <code>R</code> jaunai partijai; pirms pirmās un katras nākamās izspēles bumba gaida <code>Space</code>, un serves virziens pēc katra punkta mainās. <code>Paddle.cs</code> atbild par vienas raketes kustību, <code>Ball.cs</code> - par lidojumu, atlēkšanu un <code>ExitSide</code>, bet <code>Game.cs</code> nolasa iziešanas pusi, piešķir punktu, atjaunina tekstu un vada spēles sākumu un beigas.</p>
+<p class="task-files"><b>Kur strādāt:</b> Saskarni <code>HUD</code> (<code>Score</code>, <code>Message</code>, <code>Instructions</code>) izveido scēnā <code>Scenes/Main.tscn</code>. Vadības skriptu <code>Scripts/Game.cs</code> izveido un piesaisti scēnas <code>Scenes/Main.tscn</code> saknes mezglam <code>Main</code>.</p>
+<p><b>Gatavās scēnas <code>Scenes/Main.tscn</code> pilnais mezglu koks (pārbaudi nosaukumus un atkāpes!):</b></p>
+<pre><code>Main (Node2D, skripts: Scripts/Game.cs)
+├── PaddleLeft  (Scenes/Paddle.tscn, Scripts/Paddle.cs)
+├── PaddleRight (Scenes/Paddle.tscn, Scripts/Paddle.cs)
+├── Ball        (Scenes/Ball.tscn,   Scripts/Ball.cs)
+├── WallTop     (StaticBody2D)
+├── WallBottom  (StaticBody2D)
+├── CenterLine  (Line2D)
+└── HUD         (CanvasLayer)
+    ├── Score        (Label, Position: (480, 35),  Size: (320, 60), Font Size: 40)
+    ├── Message      (Label, Position: (160, 100), Size: (960, 80), Font Size: 20)
+    └── Instructions (Label, Position: (160, 650), Size: (960, 45), Font Size: 18)</code></pre>
 
-<ol class="step-list"><li>Main.tscn saknei pievieno <code>CanvasLayer</code> (zīmēšanas slānis) child node (bērnu) ar nosaukumu <code>HUD</code> (spēles informācijas panelis). Tam pievieno trīs <code>Label</code> (teksta etiķete) child node ar precīziem nosaukumiem <code>Score</code>, <code>Message</code>, <code>Instructions</code>. Iestati to Pozīcija, Izmērs un fontu pēc tabulas; Horizontal (horizontāli) Alignment = Center, Autowrap Mode = Word Smart.</li>
-<li>Main Node2D (2D mezgls) saknei pievieno <code>res://Scripts/Game.cs</code> ar pilno kodu zemāk. Class (klase) ir <code>Game : Node2D</code>, lai gan node (mezgla) nosaukums ir Main. Vienam node piesaisti vienu skriptu; vecu Main.cs piemēru papildus nevajag.</li>
-<li>Pārbaudi GetNode ceļus pēc koka. Tieši zem Main jābūt PaddleLeft, PaddleRight, Ball un HUD. Game _Ready pēc child node sagatavošanas aptur 1.5 bumbas automātisko startu un parāda sākuma norādes.</li>
-<li>Build un F5: sākumā redzams 0 : 0, bumba nekustas. Nospied Space; ļauj bumbai iziet pa labo malu - kreisajam 1 punkts (atbilstoši <code>ExitSide</code> tabulai zemāk). Pārbaudi arī pretējo malu. Pēc punkta raketes un bumba ir centrā, punkti saglabājas un bumba gaida nākamo Space.</li>
-<li>Īsai pārbaudei Main Inspector Target Score iestati 1. Pie pirmā punkta jāparādās uzvarētājam; bumba un raketes apstājas. Space vairs nesāk spēli, R atjauno 0 : 0. <b>Atjauno Target Score = 5</b> un izspēlē pilnu partiju.</li>
-<li>Izmēģini R arī partijas vidū: atjaunojas abi punkti, sākuma pozīcijas, vadība un gaidīšana pirms serves. ResetBall nodzēš ExitSide, lai viena iziešana nedotu vairākus punktus.</li>
+<ol class="step-list"><li><b>Izveido <code>HUD</code> un trīs <code>Label</code> mezglus scēnā <code>Scenes/Main.tscn</code>:</b> atver <code>Main.tscn</code>, <b>Scene</b> panelī atlasi sakni <code>Main</code> un ar <b>+</b> pievieno <code>CanvasLayer</code> ar nosaukumu <code>HUD</code>. Zem <code>HUD</code> pievieno trīs <code>Label</code> bērnmezglus ar precīziem nosaukumiem <code>Score</code>, <code>Message</code> un <code>Instructions</code>.</li>
+<li><b>Nokonfigurē <code>Score</code>, <code>Message</code> un <code>Instructions</code> izkārtojumu:</b> atlasi katru <code>Label</code> un <b>Inspector</b> panelī iestati tabulā zemāk norādīto <b>Layout → Transform → Position / Size</b> un <b>Theme Overrides → Font Sizes → Font Size</b>. Visiem trim iestati <b>Horizontal Alignment</b> = <b>Center</b> un <b>Autowrap Mode</b> = <b>Word Smart</b>.</li>
+<li><b>Izveido un piesaisti skriptu <code>Scripts/Game.cs</code> pie <code>Main</code> saknes:</b> <b>Scene</b> panelī ar labo peles pogu klikšķini uz saknes mezgla <code>Main</code> → <b>Attach Script</b>. Izvēlies <b>Language: C#</b> un ceļu <code>res://Scripts/Game.cs</code> (failā deklarēta klase <code>public partial class Game : Node2D</code>, lai gan mezgls scēnā saucas <code>Main</code>). Aizstāj faila saturu ar pilno <code>Game.cs</code> kodu zemāk.</li>
+<li><b>Pārbaudi <code>GetNode</code> ceļus un <code>Game.cs</code> sadarbību:</b> salīdzini <code>Main.tscn</code> mezglu koku ar paraugu augstāk (<code>PaddleLeft</code>, <code>PaddleRight</code>, <code>Ball</code> un <code>HUD</code> jāatrodas tieši zem <code>Main</code>). <code>Game._Ready()</code> sagatavo tekstus un ar <code>PrepareServe()</code> aptur 1.5. stundas automātisko bumbas kustību, gaidot <b>Space</b>.</li>
+<li><b>Pārbaudi punktu skaitīšanu un servi ar F5:</b> saglabā skriptu un scēnu, spied <b>Build</b> un <b>F5</b>. Sākumā redzams <code>0 : 0</code> un bumba nekustas. Nospied <b>Space</b>; ļauj bumbai iziet aiz labās malas (<code>ExitSide = 1</code> → kreisajam +1 punkts) un pēc tam aiz kreisās malas (<code>ExitSide = -1</code> → labajam +1 punkts). Pēc katra punkta bumba un raketes atgriežas sākuma vietās un gaida nākamo <b>Space</b>.</li>
+<li><b>Pārbaudi uzvaru un restartu ar <code>R</code>:</b> īsai pārbaudei <b>Inspector</b> panelī pie <code>Main</code> iestati <b>Target Score</b> = <code>1</code>, palaid ar <b>F5</b> un gūsti 1 punktu (parādās uzvarētājs, bumba un raketes apstājas, tad <b>R</b> atjauno <code>0 : 0</code>). Pēc pārbaudes <b>atjauno <code>Target Score = 5</code></b>, izspēlē pilnu partiju un izmēģini <b>R</b> arī partijas vidū.</li>
 </ol>
 <div class="table-scroll" role="region" aria-label="Bumbas iziešana" tabindex="0"><table><thead><tr><th scope="col">Bumbas iziešana</th><th scope="col">Kurš iegūst punktu?</th></tr>
 </thead>
-<tbody><tr><td>Pa kreisi, ExitSide = -1</td><td>Labais spēlētājs.</td></tr>
-<tr><td>Pa labi, ExitSide = 1</td><td>Kreisais spēlētājs.</td></tr>
-<tr><td>ExitSide = 0</td><td>Neviens; nav jaunas iziešanas.</td></tr>
+<tbody><tr><td>Pa kreisi, <code>ExitSide = -1</code></td><td>Labais spēlētājs (<code>ScoreRight++</code>).</td></tr>
+<tr><td>Pa labi, <code>ExitSide = 1</code></td><td>Kreisais spēlētājs (<code>ScoreLeft++</code>).</td></tr>
+<tr><td><code>ExitSide = 0</code></td><td>Neviens; nav jaunas iziešanas.</td></tr>
 </tbody>
 </table>
 </div>
-<div class="table-scroll" role="region" aria-label="Label nosaukums" tabindex="0"><table><thead><tr><th scope="col">Label nosaukums</th><th scope="col">Pozīcija</th><th scope="col">Izmērs</th><th scope="col">Font Size (fonta izmērs)</th></tr>
+<div class="table-scroll" role="region" aria-label="Label nosaukums" tabindex="0"><table><thead><tr><th scope="col">Label mezgls zem <code>HUD</code></th><th scope="col">Position</th><th scope="col">Size</th><th scope="col">Font Size</th></tr>
 </thead>
-<tbody><tr><td>Score</td><td>(480,35)</td><td>(320,60)</td><td>40</td></tr>
-<tr><td>Message</td><td>(160,100)</td><td>(960,80)</td><td>20</td></tr>
-<tr><td>Instructions</td><td>(160,650)</td><td>(960,45)</td><td>18</td></tr>
+<tbody><tr><td><code>Score</code></td><td><code>(480, 35)</code></td><td><code>(320, 60)</code></td><td><code>40</code></td></tr>
+<tr><td><code>Message</code></td><td><code>(160, 100)</code></td><td><code>(960, 80)</code></td><td><code>20</code></td></tr>
+<tr><td><code>Instructions</code></td><td><code>(160, 650)</code></td><td><code>(960, 45)</code></td><td><code>18</code></td></tr>
 </tbody>
 </table>
-</div><pre><code>Main (Node2D, Game.cs)
-├── PaddleLeft (Paddle.tscn, Paddle.cs)
-├── PaddleRight (Paddle.tscn, Paddle.cs)
-├── Ball (Ball.tscn, Ball.cs)
-├── WallTop, WallBottom (StaticBody2D)
-├── CenterLine (Line2D)
-└── HUD (CanvasLayer)
-    ├── Score (Label)
-    ├── Message (Label)
-    └── Instructions (Label)</code></pre>
-<details class="course-help"><summary>1.6 Game.cs - pilns fails salīdzināšanai</summary>
-<p><a href="pong/Scripts/Game.cs" download>Lejupielādēt Game.cs</a>. Aizstāj tikai atbilstošā faila saturu; neveido otru tāda paša nosaukuma class.</p>
+</div><details class="course-help" id="pilnais-piemers"><summary>1.6 Game.cs - pilns fails salīdzināšanai</summary>
+<p><a href="pong/Scripts/Game.cs" download>Lejupielādēt Game.cs</a>. Atver failu <code>Scripts/Game.cs</code> un aizstāj tā saturu ar šo kodu.</p>
 <pre><code class="language-csharp">using Godot;
 
 public partial class Game : Node2D
@@ -254,29 +255,29 @@ public partial class Game : Node2D
     }
 }</code></pre>
 </details>
-<p class="done-when"><b>Gatavs, kad:</b> var pabeigt partiju līdz 5 punktiem un atkārtot to ar R; uzvarētājs un vadība redzami spēlē.</p>
+<p class="done-when"><b>Gatavs, kad:</b> var pabeigt pilnu Pong partiju līdz 5 punktiem ar servi (<b>Space</b>) un restartu (<b>R</b>), un spēlē redzams gan uzvarētājs, gan vadības norādes.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p>
 <h2>Piešķir spēlei savu dizainu un sacensības stāstu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Tekstus un laukuma noformējumu maini <code>Scenes/Main.tscn</code>; kopīgo raketes un bumbas izskatu - <code>Scenes/Paddle.tscn</code> un <code>Scenes/Ball.tscn</code>. Attēlus glabā <code>Art/</code>, pamatojumu - <code>README.md</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Spēles tekstus un laukuma dizainu pielāgo scēnā <code>Scenes/Main.tscn</code>; kopīgo rakešu un bumbas izskatu maini scēnās <code>Scenes/Paddle.tscn</code> un <code>Scenes/Ball.tscn</code>; attēlus saglabā mapē <code>Art/</code>, bet stāstu un dizaina pamatojumu raksti failā <code>README.md</code>.</p>
 
-<ol class="step-list"><li>Izdomā spēles nosaukumu un trīs teikumos apraksti, <b>kas sacenšas, ko simbolizē bumba un kāds ir sacensības mērķis</b>. Tas var būt kosmosa duelis, zemūdeņu spēle vai paša izdomāts sporta veids.</li>
-<li>Pēc Build atlasi Main. Inspector laukos <code>Game Title</code>, <code>Left Name</code>, <code>Right Name</code>, <code>Mission</code> un <code>Victory Text</code> ievadi savu nosaukumu, abu komandu vārdus, stāsta ievadu un noslēgumu. Tie jāredz pašā spēlē, ne tikai README.md.</li>
-<li>Izmaini vismaz trīs vizuālus elementus: rakešu noformējumu, bumbu, fonu, sienas, viduslīniju vai rezultāta uzrakstu. Maini Polygon2D (2D daudzstūris) krāsas/figūras vai izmanto paša zīmētus attēlus. Saglabā salasāmu rezultātu un labi saskatāmu bumbu.</li>
-<li>Ja lieto PNG: izveido Art mapi, importē attēlu un attiecīgajai objekta saknei pievieno Sprite2D (2D attēla mezgls) ar šo Texture; paslēp veco Visual. Mēro attēlu, saglabājot fizikas saknes Mērogs (1,1) un sākotnējo sadursmes izmēru: rakete 24 × 120, bumba 20 × 20. Ārējiem resursiem norādi autoru un lietošanas atļauju.</li>
-<li>Pamato vismaz trīs dizaina izvēles README.md un pārbaudi spēli pēc izmaiņām. Ja maini spēles tempu, abām raketēm saglabā vienādus nosacījumus un pieraksti izmēģinātos ātrumus. Pamatpartija joprojām beidzas pie 5 punktiem.</li>
+<ol class="step-list"><li><b>Uzraksti spēles stāstu failā <code>README.md</code>:</b> izvēlies spēles nosaukumu un <code>README.md</code> failā trīs īsos teikumos apraksti, <b>kas sacenšas, ko simbolizē bumba un kāds ir sacensības mērķis</b> (piemēram, divas zemūdenes sargā pērli vai kosmosa komandas sacenšas par enerģijas kodolu).</li>
+<li><b>Nomaini spēles tekstus scēnā <code>Scenes/Main.tscn</code>:</b> atver <code>Main.tscn</code>, <b>Scene</b> panelī atlasi saknes mezglu <code>Main</code> (kam piesaistīts <code>Game.cs</code>) un <b>Inspector</b> panelī nomaini visus piecus tekstus: <code>Game Title</code>, <code>Left Name</code>, <code>Right Name</code>, <code>Mission</code> un <code>Victory Text</code>. Palaid ar <b>F5</b> un pārliecinies, ka teksti redzami spēles ekrānā.</li>
+<li><b>Pielāgo vismaz trīs vizuālos elementus (<code>Paddle.tscn</code>, <code>Ball.tscn</code>, <code>Main.tscn</code>):</b> maini rakešu (<code>Paddle.tscn → Visual</code>), bumbas (<code>Ball.tscn → Visual</code>), sienu (<code>WallTop</code>/<code>WallBottom → Visual</code>), viduslīnijas (<code>CenterLine</code>) vai rezultāta uzrakstu (<code>HUD/*</code> krāsu un fontu) izskatu, saglabājot labu kontrastu un salasāmu rezultātu.</li>
+<li><b>(Pēc izvēles) Pievieno PNG attēlus ar <code>Sprite2D</code>:</b> ja lieto attēlus, izveido mapi <code>res://Art</code>, iekopē tajā PNG failus, attiecīgajai scēnai pievieno <code>Sprite2D</code> ar izvēlēto <b>Texture</b> un paslēp veco <code>Visual</code>. Maini tikai <code>Sprite2D</code> mērogu, saglabājot fizikas saknes <b>Scale</b> = <code>(1, 1)</code> un sadursmes formas izmēru (rakete <code>24 × 120</code>, bumba <code>20 × 20</code>); ārējiem attēliem norādi autoru un licenci failā <code>README.md</code>.</li>
+<li><b>Pamato dizaina izvēles failā <code>README.md</code>:</b> failā <code>README.md</code> pamato vismaz trīs savas dizaina izvēles un pārbaudi spēli pēc izmaiņām ar <b>F5</b> (abām raketēm saglabā vienādu ātrumu, un pamatpartijai jābeidzas pie <code>Target Score = 5</code>).</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> spēlei ir savs nosaukums, komandas, sākuma un uzvaras teksts, kā arī vismaz trīs pamatotas vizuālas izmaiņas.</p>
+<p class="done-when"><b>Gatavs, kad:</b> spēlē redzams tavs nosaukums, abas komandas, sākuma un uzvaras teksti, kā arī vismaz trīs pamatotas vizuālas izmaiņas.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p>
 <h2>Izspēlē pilnu partiju un pārbaudi arī kļūdu situācijas</h2>
-<p class="task-files"><b>Kur strādāt:</b> Testu rezultātus raksti <code>README.md</code>. Koda kļūdu labo atbilstošajā failā: raketes vadība - <code>Scripts/Paddle.cs</code>, bumbas kustība - <code>Scripts/Ball.cs</code>, punkti un uzvara - <code>Scripts/Game.cs</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Testēšanas tabulu un klasesbiedru atsauksmi ieraksti failā <code>README.md</code>. Ja testos atklājas kļūda, labo attiecīgo failu: raketes vadību — <code>Scripts/Paddle.cs</code>, bumbas kustību un atlēkšanu — <code>Scripts/Ball.cs</code>, punktus, uzvaru un HUD tekstus — <code>Scripts/Game.cs</code>, bet objektu pozīcijas un slāņus — <code>Scenes/Main.tscn</code>.</p>
 
-<ol class="step-list"><li>Palūdz diviem klasesbiedriem sākt spēli bez mutiskām norādēm. Viņiem no ekrāna jāsaprot vadība, Space nozīme un uzvaras nosacījums. Pieraksti vienu ieteikumu.</li>
-<li>Veic visas zemāk norādītās pārbaudes un README.md atzīmē sagaidāmo un faktisko rezultātu. Pārbaudi gan kreisā, gan labā spēlētāja uzvaru.</li>
-<li>Īsteno vienu testētāja ieteikumu vai izlabo atrasto kļūdu. Ja mainīji ātrumu, formu vai tekstu, vēlreiz izspēlē attiecīgo situāciju.</li>
-<li>Atver projekta kopiju atsevišķā mapē bez .godot cache (kešatmiņas): Importēt, Build, F5. Pārliecinies, ka visi attēli, scēnas un skripti tiešām ir iesniegtajā projektā.</li>
-<li>Ieraksti īsu video ar sava dizaina skatu, vadību, atlēkšanu, punktu iegūšanu, uzvaras tekstu un R. Saglabā visu ar Commit un Push un iesniedz GitHub krātuves saiti.</li>
+<ol class="step-list"><li><b>Veic klasesbiedru pārbaudi:</b> palūdz diviem klasesbiedriem izspēlēt tavu spēli <b>bez mutiskiem norādījumiem</b> — viņiem vadība (<b>W/S</b>, <b>↑/↓</b>, <b>Space</b>, <b>R</b>) un mērķis jāsaprot no spēles ekrāna. Pieraksti vismaz vienu viņu novērojumu vai ieteikumu failā <code>README.md</code>.</li>
+<li><b>Izpildi visas 7 pārbaudes un aizpildi <code>README.md</code>:</b> pārbaudi katru tabulas rindu zemāk (ieskaitot kreisā un labā spēlētāja uzvaru pie 5 punktiem un <b>R</b> spēles vidū) un failā <code>README.md</code> pieraksti sagaidāmo un faktisko rezultātu.</li>
+<li><b>Veic vismaz vienu uzlabojumu:</b> īsteno vienu testētāja ieteikumu vai izlabo atrasto nepilnību (piemēram, precizē <code>HUD/Message</code> novietojumu vai kontrastu scēnā <code>Scenes/Main.tscn</code>, vai pielāgo ātrumu), atkārto pārbaudi un apraksti izmaiņu failā <code>README.md</code>.</li>
+<li><b>Pārbaudi tīru projekta kopiju bez kešatmiņas:</b> nokopē visu projekta mapi jaunā vietā <b>bez</b> <code>.godot/</code>, <code>bin/</code> un <code>obj/</code> mapēm, atver to Godot .NET (<b>Import → project.godot</b>), nospied <b>Build</b> un <b>F5</b>, lai pārliecinātos, ka neviens skripts, scēna vai attēls netrūkst.</li>
+<li><b>Sagatavo demonstrācijas video un iesniedz GitHub krātuvi:</b> ieraksti īsu video ar sava dizaina spēli (sākums, vadība, atlēkšana, punktu maiņa, uzvaras teksts un restarts ar <b>R</b>), veic <code>git commit</code> un <code>git push</code> un iesniedz GitHub krātuves saiti.</li>
 </ol>
 <div class="table-scroll" role="region" aria-label="Pārbaude" tabindex="0"><table><thead><tr><th scope="col">Pārbaude</th><th scope="col">Sagaidāmais rezultāts</th></tr>
 </thead>
@@ -289,12 +290,12 @@ public partial class Game : Node2D
 <tr><td>R spēles vidū un pēc uzvaras</td><td>Abi punkti 0, atjaunotas pozīcijas un vadība, bumba gaida Space; pārbaudi vismaz divas jaunas partijas.</td></tr>
 </tbody>
 </table>
-</div><p class="done-when"><b>Gatavs, kad:</b> abi spēlētāji saprot un var izspēlēt spēli, tabulas pārbaudes izdodas un pēc uzvaras iespējama jauna partija.</p>
+</div><p class="done-when"><b>Gatavs, kad:</b> abi spēlētāji saprot un var izspēlēt pilnu Pong partiju, visas 7 pārbaudes izdodas un rezultāti ir dokumentēti <code>README.md</code>.</p>
 </section>
 <details class="course-help extra-task"><summary>Papildu uzdevums - izveido treniņa variantu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Atver <code>Scenes/Main.tscn</code> un Inspector maini bumbas un abu rakešu ātrumu. Salīdzinājumu pieraksti <code>README.md</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Atver scēnu <code>Scenes/Main.tscn</code> un <b>Inspector</b> panelī maini bumbas (<code>Ball</code>) <b>Base Speed</b> un abu rakešu (<code>PaddleLeft</code>, <code>PaddleRight</code>) <b>Speed</b>; salīdzinājumu pieraksti failā <code>README.md</code>.</p>
 
-<p>Saglabā savu pamatversiju Git. Inspector samazini Ball Base (bāzes klase) Speed un abu rakešu Speed līdz iesācējam piemērotam tempam. Dod klasesbiedram salīdzināt abus variantus, pieraksti rezultātu un izvēlies savam projektam pamatotu tempu. Sarežģītāks pretinieks, skaņas vai izvēlnes var būt turpmāks extension (paplašinājums).</p>
+<p>Vispirms saglabā pamatversiju Git. Tad scēnā <code>Scenes/Main.tscn</code> samazini <code>Ball</code> īpašību <b>Base Speed</b> un abu rakešu <b>Speed</b> līdz iesācējam piemērotam tempam, dod klasesbiedram salīdzināt abus variantus, pieraksti novērojumus <code>README.md</code> un atstāj savam projektam pamatotu tempu.</p>
 </details>
 <section id="piemers"><h2>Atbalsts: pilns Pong piemērs</h2>
 <div class="logic-box"><p><a class="btn" href="pong.zip" download>Lejupielādēt Pong (ZIP)</a></p>

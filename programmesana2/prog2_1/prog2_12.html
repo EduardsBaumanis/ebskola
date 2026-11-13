@@ -87,51 +87,64 @@ Telpa (Node2D)
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p>
 <h2>Izveido atkārtoti izmantojamu raketi</h2>
-<p class="task-files"><b>Kur strādāt:</b> Godot redaktorā izveido <code>Scenes/Paddle.tscn</code>. Šajā uzdevumā veido scēnu; C# skripts vēl nav vajadzīgs.</p>
+<p class="task-files"><b>Kur strādāt:</b> Godot redaktorā izveido jaunu scēnu <code>Scenes/Paddle.tscn</code>. (Šajā stundā veidojam tikai scēnas un mezglus; C# skriptus pievienosim 1.3. un 1.4. stundā.)</p>
+<p><b>Raketes scēnas <code>Scenes/Paddle.tscn</code> mezglu koks:</b></p>
+<pre><code>Paddle (CharacterBody2D, Position: (0, 0), Motion Mode: Floating, Layer: 2, Mask: 1)
+├── CollisionShape2D (RectangleShape2D, Size: (24, 120), Position: (0, 0))
+└── Visual (Polygon2D, 4 punkti: (-12,-60), (12,-60), (12,60), (-12,60), Position: (0, 0))</code></pre>
 
-<ol class="step-list"><li>Izveido jaunu scēnu: Other Node → <code>CharacterBody2D</code>. Sakni nosauc <code>Paddle</code>, saglabā <code>res://Scenes/Paddle.tscn</code>. Saknes Pozīcija = (0,0), Mērogs = (1,1), Motion Mode = <b>Floating</b>.</li>
-<li>Pievieno child node <code>CollisionShape2D</code>. Inspector Shape → New RectangleShape2D (jauna 2D taisnstūra forma) → Size = <code>(24,120)</code>. Bērna Pozīcija = (0,0). Dzeltenajam brīdinājumam par tukšu formu jāpazūd.</li>
-<li>Pievieno child node <code>Polygon2D</code>, nosauc <code>Visual</code>. Inspector īpašībā Polygon ievadi četras virsotnes: <code>(-12,-60), (12,-60), (12,60), (-12,60)</code>. Iestati gaišu Krāsa; Pozīcija = (0,0). Forma un izskats tagad ir vienāda izmēra.</li>
-<li>Paddle saknes Sadursme sadaļā noņem sākotnējos ķeksīšus un ieslēdz <b>Layer tikai 2</b>, <b>Mask tikai 1</b>. Šeit runa ir par ķeksīšu numuriem.</li>
-<li>Saglabā Paddle.tscn. 2D redaktorā pārbaudi, ka redzamais taisnstūris sakrīt ar sadursmes formu.</li>
+<ol class="step-list"><li><b>Izveido scēnu <code>Scenes/Paddle.tscn</code>:</b> augšējā izvēlnē izvēlies <b>Scene → New Scene</b>, kreisajā panelī spied <b>Other Node</b>, meklē <code>CharacterBody2D</code> un spied <b>Create</b>. Ar <b>F2</b> pārdēvē saknes mezglu par <code>Paddle</code> un ar <b>Ctrl+S</b> saglabā scēnu mapē <code>res://Scenes/Paddle.tscn</code>.</li>
+<li><b>Iestati <code>Paddle</code> saknes īpašības:</b> <b>Scene</b> panelī atlasi <code>Paddle</code>. <b>Inspector</b> panelī pārliecinies, ka <b>Transform → Position</b> ir <code>(0, 0)</code> un <b>Scale</b> ir <code>(1, 1)</code>, bet laukā <b>Motion Mode</b> izvēlies <b>Floating</b> (jo rakete peldēs bez gravitācijas).</li>
+<li><b>Pievieno sadursmes formu <code>CollisionShape2D</code> zem <code>Paddle</code>:</b> atlasi <code>Paddle</code> un ar <b>+</b> pievieno bērnmezglu <code>CollisionShape2D</code>. <b>Inspector</b> laukā <b>Shape</b> izvēlies <b>New RectangleShape2D</b>, noklikšķini uz izveidotās taisnstūra formas un iestati <b>Size</b> = <code>(24, 120)</code>. Pašam <code>CollisionShape2D</code> mezglam atstāj <b>Transform → Position</b> = <code>(0, 0)</code>.</li>
+<li><b>Pievieno redzamo izskatu <code>Visual</code> zem <code>Paddle</code>:</b> atkal atlasi sakni <code>Paddle</code> (nevis <code>CollisionShape2D</code>!) un ar <b>+</b> pievieno <code>Polygon2D</code> bērnmezglu ar nosaukumu <code>Visual</code>. <b>Inspector</b> sadaļā <b>Data → Polygon</b> iestati <b>Size</b> = <code>4</code> un ievadi četras virsotnes: <code>(-12, -60)</code>, <code>(12, -60)</code>, <code>(12, 60)</code>, <code>(-12, 60)</code>. Laukā <b>Color</b> izvēlies gaišu krāsu un pārbaudi, ka <code>Visual</code> <b>Position</b> ir <code>(0, 0)</code>.</li>
+<li><b>Iestati <code>Paddle</code> sadursmju slāņus un saglabā:</b> <b>Scene</b> panelī atlasi sakni <code>Paddle</code>. <b>Inspector</b> sadaļā <b>Collision</b> rindā <b>Layer</b> atstāj ieslēgtu tikai kvadrātiņu <b>2</b> (izslēdz 1), bet rindā <b>Mask</b> — tikai <b>1</b>. Nospied <b>Ctrl+S</b>, lai saglabātu <code>Scenes/Paddle.tscn</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> Paddle.tscn satur vienu fizikas sakni un divus child node: Visual un CollisionShape2D.</p>
+<p class="done-when"><b>Gatavs, kad:</b> scēna <code>Scenes/Paddle.tscn</code> satur sakni <code>Paddle</code> (<code>CharacterBody2D</code>) un divus bērnmezglus (<code>CollisionShape2D</code> un <code>Visual</code>) pozīcijā <code>(0, 0)</code>.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p>
 <h2>Izveido bumbu un saliec Main scēnu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Godot redaktorā izveido <code>Scenes/Ball.tscn</code> un ievieto abas raketes un bumbu esošajā <code>Scenes/Main.tscn</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Vispirms izveido jaunu bumbas scēnu <code>Scenes/Ball.tscn</code>. Pēc tam pārslēdzies uz galveno scēnu <code>Scenes/Main.tscn</code> un ievieto tajā divus <code>Paddle.tscn</code> eksemplārus (<code>PaddleLeft</code>, <code>PaddleRight</code>) un vienu <code>Ball.tscn</code> eksemplāru (<code>Ball</code>).</p>
+<p><b>Abu scēnu mezglu koks (nejauc tās kopā!):</b></p>
+<pre><code>1) Bumbas veidnes scēna Scenes/Ball.tscn:
+Ball (CharacterBody2D, Position: (0, 0), Motion Mode: Floating, Layer: 3, Mask: 1 un 2)
+├── CollisionShape2D (RectangleShape2D, Size: (20, 20), Position: (0, 0))
+└── Visual (Polygon2D, 4 punkti: (-10,-10), (10,-10), (10,10), (-10,10), Position: (0, 0))
 
-<ol class="step-list"><li>Jaunā scēnā izveido CharacterBody2D sakni <code>Ball</code>, Motion Mode = Floating; saglabā <code>res://Scenes/Ball.tscn</code>. Saknes Pozīcija = (0,0), Mērogs = (1,1).</li>
-<li>Ball pievieno CollisionShape2D ar <b>RectangleShape2D (2D taisnstūra forma) Size (20,20)</b>. Pamatversijā bumba ir mazs kvadrāts, lai izskats un forma sakristu. Visual Polygon2D punkti: <code>(-10,-10), (10,-10), (10,10), (-10,10)</code>; izvēlies gaišu krāsu.</li>
-<li>Ball saknei iestati <b>Layer tikai 3</b>, <b>Mask 1 un 2</b>. Tā noteiks sienas un raketes. Saglabā.</li>
-<li>Atver <code>Main.tscn</code>. No FileSystem ievelc Paddle.tscn divas reizes tieši zem Main - abi spēlētāji izmantos vienu kopīgu <code>Paddle.tscn</code> scēnu, bet katrai instance būs sava pozīcija un vēlāk sava vadība. Pārsauc instance <code>PaddleLeft</code> un <code>PaddleRight</code> un iestati Pozīcija attiecīgi <code>(60,360)</code> un <code>(1220,360)</code>.</li>
-<li>Ievelc arī Ball.tscn instance ar nosaukumu <code>Ball</code>, Pozīcija = <code>(640,360)</code>. Main saknes Pozīcija saglabā (0,0). Saglabā visu un palaid F5.</li>
+2) Galvenā spēles scēna Scenes/Main.tscn:
+Main (Node2D, Position: (0, 0))
+├── PaddleLeft  (ievilkts Scenes/Paddle.tscn eksemplārs, Position: (60, 360))
+├── PaddleRight (ievilkts Scenes/Paddle.tscn eksemplārs, Position: (1220, 360))
+└── Ball        (ievilkts Scenes/Ball.tscn eksemplārs, Position: (640, 360))</code></pre>
+
+<ol class="step-list"><li><b>Izveido jaunu scēnu <code>Scenes/Ball.tscn</code>:</b> izvēlies <b>Scene → New Scene → Other Node</b>, meklē <code>CharacterBody2D</code> un spied <b>Create</b>. Pārdēvē sakni par <code>Ball</code>, <b>Inspector</b> panelī iestati <b>Motion Mode</b> = <b>Floating</b>, <b>Transform → Position</b> = <code>(0, 0)</code> un ar <b>Ctrl+S</b> saglabā kā <code>res://Scenes/Ball.tscn</code>.</li>
+<li><b>Scēnā <code>Scenes/Ball.tscn</code> pievieno <code>CollisionShape2D</code> un <code>Visual</code>:</b> zem <code>Ball</code> pievieno <code>CollisionShape2D</code> ar <b>New RectangleShape2D</b> un <b>Size</b> = <code>(20, 20)</code>. Tad atkal atlasi <code>Ball</code> un pievieno <code>Polygon2D</code> ar nosaukumu <code>Visual</code>, <b>Data → Polygon</b> punktiem <code>(-10, -10)</code>, <code>(10, -10)</code>, <code>(10, 10)</code>, <code>(-10, 10)</code> un gaišu <b>Color</b>.</li>
+<li><b>Scēnā <code>Scenes/Ball.tscn</code> iestati slāņus:</b> atlasi sakni <code>Ball</code> un <b>Inspector → Collision</b> rindā <b>Layer</b> ieslēdz tikai <b>3</b> (izslēdz 1), bet rindā <b>Mask</b> ieslēdz gan <b>1</b>, gan <b>2</b> (lai bumba pamanītu gan sienas 1. slānī, gan raketes 2. slānī). Saglabā <code>Scenes/Ball.tscn</code> (<b>Ctrl+S</b>).</li>
+<li><b>Galvenajā scēnā <code>Scenes/Main.tscn</code> ievieto abas raketes:</b> atver cilni <code>Main.tscn</code>. No <b>FileSystem</b> paneļa divas reizes ievelc <code>Scenes/Paddle.tscn</code> tieši uz saknes mezgla <code>Main</code>. Pirmo eksemplāru pārdēvē par <code>PaddleLeft</code> un tā <b>Inspector → Transform → Position</b> iestati <code>(60, 360)</code>; otro pārdēvē par <code>PaddleRight</code> un iestati <b>Position</b> = <code>(1220, 360)</code>.</li>
+<li><b>Galvenajā scēnā <code>Scenes/Main.tscn</code> ievieto bumbu un palaid F5:</b> no <b>FileSystem</b> ievelc <code>Scenes/Ball.tscn</code> uz saknes mezgla <code>Main</code>, pārliecinies, ka eksemplāra nosaukums ir <code>Ball</code>, un iestati tā <b>Transform → Position</b> = <code>(640, 360)</code>. Saglabā <code>Scenes/Main.tscn</code> un nospied <b>F5</b>.</li>
 </ol>
-<pre><code>Main (Node2D, Scenes/Main.tscn)
-├── PaddleLeft (Scenes/Paddle.tscn instance)
-├── PaddleRight (Scenes/Paddle.tscn instance)
-└── Ball (Scenes/Ball.tscn instance)
-
-Paddle / Ball (CharacterBody2D)
-├── Visual (Polygon2D)
-└── CollisionShape2D</code></pre>
-<p class="done-when"><b>Gatavs, kad:</b> vienā logā redzamas abas raketes un bumba; tie vēl nekustas.</p>
+<div class="table-scroll" role="region" aria-label="Eksemplāru pozīcijas Main.tscn" tabindex="0"><table>
+<thead><tr><th scope="col">Eksemplārs scēnā <code>Scenes/Main.tscn</code></th><th scope="col">No kuras scēnas ievilkts</th><th scope="col">Transform → Position</th><th scope="col">Vieta ekrānā</th></tr></thead>
+<tbody><tr><td><code>PaddleLeft</code></td><td><code>Scenes/Paddle.tscn</code></td><td><code>(60, 360)</code></td><td>Kreisajā malā pa vidu</td></tr>
+<tr><td><code>PaddleRight</code></td><td><code>Scenes/Paddle.tscn</code></td><td><code>(1220, 360)</code></td><td>Labajā malā pa vidu</td></tr>
+<tr><td><code>Ball</code></td><td><code>Scenes/Ball.tscn</code></td><td><code>(640, 360)</code></td><td>Laukuma centrā</td></tr></tbody>
+</table></div>
+<p class="done-when"><b>Gatavs, kad:</b> nospiežot <b>F5</b>, spēles logā redzamas abas raketes malās un bumba centrā.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p>
 <h2>Pārbaudi, ko maina scēnā un ko instance</h2>
-<p class="task-files"><b>Kur strādāt:</b> Kopīgo raketes izskatu maini <code>Scenes/Paddle.tscn</code>, atsevišķo rakešu īpašības - <code>Scenes/Main.tscn</code>. Skaidrojumu raksti <code>README.md</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Kopīgo raketes izskatu pārbaudi scēnā <code>Scenes/Paddle.tscn</code>, bet atsevišķu eksemplāru īpašības — scēnā <code>Scenes/Main.tscn</code>. Secinājumus pieraksti failā <code>README.md</code>.</p>
 
-<ol class="step-list"><li>Atver Paddle.tscn un nomaini Visual Krāsa. Saglabā un atver Main: jaunā krāsa redzama abām raketēm, jo abas izmanto vienu scēnu.</li>
-<li>Pašā Main scēnā atlasītajai PaddleRight instance nomaini <b>Modulate</b> krāsu. Pārbaudi, ka šī izmaiņa skar tikai labo raketi.</li>
-<li>Uz laiku Main scēnā PaddleLeft Position.Y maini no 360 uz 200. Pārvietojas gan attēls, gan forma; X paliek 60. <b>Atjauno Y = 360</b>. Izmaiņas veic instance, nevis Paddle.tscn saknei.</li>
-<li>README.md izskaidro atšķirību starp node, scēnu un instance. Pievieno koka ekrānuzņēmumu un pārbaudi precīzus PaddleLeft, PaddleRight un Ball nosaukumus. Tie būs C# kodā izmantotie ceļi.</li>
+<ol class="step-list"><li><b>Maini kopīgo krāsu veidnē <code>Scenes/Paddle.tscn</code>:</b> atver cilni <code>Paddle.tscn</code>, atlasi <code>Visual</code> un <b>Inspector → Color</b> izvēlies citu gaišu krāsu. Saglabā (<b>Ctrl+S</b>) un pārslēdzies uz cilni <code>Main.tscn</code> — jaunā krāsa automātiski parādās abām raketēm (<code>PaddleLeft</code> un <code>PaddleRight</code>).</li>
+<li><b>Maini tonējumu tikai vienam eksemplāram scēnā <code>Scenes/Main.tscn</code>:</b> cilnē <code>Main.tscn</code> <b>Scene</b> panelī atlasi tikai <code>PaddleRight</code> un <b>Inspector → Visibility → Modulate</b> izvēlies atšķirīgu krāsu. Pārliecinies, ka šī izmaiņa ietekmē tikai labo raketi.</li>
+<li><b>Pārbaudi eksemplāra pozīciju scēnā <code>Scenes/Main.tscn</code>:</b> cilnē <code>Main.tscn</code> atlasi <code>PaddleLeft</code> un <b>Inspector → Transform → Position</b> uz laiku nomaini <code>y</code> no <code>360</code> uz <code>200</code> — redzamais taisnstūris un sadursmes forma pārvietojas kopā kā viens vesels. Pēc pārbaudes <b>atjauno <code>PaddleLeft</code> Position = <code>(60, 360)</code></b> un saglabā <code>Main.tscn</code>.</li>
+<li><b>Dokumentē secinājumus failā <code>README.md</code>:</b> projekta <code>README.md</code> failā īsi izskaidro atšķirību starp <b>Node</b> (mezglu), <b>Scene</b> (scēnas veidni <code>.tscn</code>) un <b>Instance</b> (eksemplāru), kā arī pievieno <code>Main.tscn</code> mezglu koka ekrānuzņēmumu.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> proti nomainīt kopīgu izskatu un tikai vienas instance īpašību; visas sākuma pozīcijas ir atjaunotas.</p>
+<p class="done-when"><b>Gatavs, kad:</b> izproti atšķirību starp izmaiņām veidnē <code>Scenes/Paddle.tscn</code> un eksemplārā <code>Scenes/Main.tscn</code>, un visi objekti atrodas savās sākuma pozīcijās.</p>
 </section>
-<details class="course-help extra-task"><summary>Papildu uzdevums - pievieno savu emblēmu</summary>
-<p class="task-files"><b>Kur strādāt:</b> Godot redaktorā papildini <code>Scenes/Paddle.tscn</code> ar emblēmas mezglu.</p>
+<details class="course-help extra-task" id="pilnais-piemers"><summary>Papildu uzdevums - pievieno savu emblēmu raketei</summary>
+<p class="task-files"><b>Kur strādāt:</b> Godot redaktorā papildini scēnu <code>Scenes/Paddle.tscn</code> ar dekoratīvu <code>Polygon2D</code> bērnmezglu.</p>
 
-<p>Paddle.tscn pievieno vēl vienu Polygon2D child node ar savu mazu simbolu. Simbolam jāpaliek raketes robežās; galveno sadursmes formu nemaini. Pārbaudi, ka simbols parādās abām instance.</p>
+<p>Atver <code>Scenes/Paddle.tscn</code>, atlasi sakni <code>Paddle</code> un ar <b>+</b> pievieno vēl vienu <code>Polygon2D</code> bērnmezglu (piemēram, <code>Emblem</code>) ar mazu četru vai trīs virsotņu simbolu raketes vidū. Galveno <code>CollisionShape2D</code> nemaini. Saglabā <code>Paddle.tscn</code> un pārbaudi cilnē <code>Main.tscn</code>, ka simbols parādās abām raketēm.</p>
 </details>
 <section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2>
 <p class="merkis"><b>Stundas mērķis:</b> ir redzams Pong sākuma laukums ar vienotu node struktūru.</p>

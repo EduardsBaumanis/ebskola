@@ -93,27 +93,36 @@ public partial class Sistema : Node
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p>
 <h2>Pārbaudi .NET SDK un redaktora versiju</h2>
-<p class="task-files"><b>Kur strādāt:</b> Komandas izpildi VS Code terminālī, atverot Pong projekta mapi. Versijas pieraksti projekta <code>README.md</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Pārbaudi Godot redaktorā (<b>Help → About</b>), izpildi <code>dotnet</code> komandas <b>VS Code</b> terminālī (atverot <code>Pong</code> projekta saknes mapi), bet atrastās versijas pieraksti failā <code>README.md</code>.</p>
 
-<ol class="step-list"><li>Godot izvēlnē Help → About pārbaudi, ka lieto .NET variantu. Parastā Godot versijā Attach Script valodu sarakstā C# nebūs.</li>
-<li>Atver VS Code terminal (termināli) un izpildi <code>dotnet --list-sdks</code> un <code>dotnet --version</code>. Sarakstam jābūt netukšam. Pieraksti Godot un SDK versiju README.md.</li>
-<li>Ja SDK nav, instalē to no <a href="https://dotnet.microsoft.com/download">oficiālās .NET lejupielādes</a>. Kursa piemērā izmantots .NET 8 SDK; citas Godot versijas gadījumā ievēro tās SDK prasības. Atver Godot un terminal no jauna.</li>
-<li>VS Code atver visu Pong projekta mapi. Pagaidām neizpildi dotnet build (būvējums), ja .csproj vēl nav - to izveidos nākamais uzdevums (arī Build pogas neesamība tukšā projektā pirms pirmā C# skripta pievienošanas ir normāla).</li>
+<ol class="step-list"><li><b>Pārbaudi Godot .NET variantu:</b> Godot redaktorā atver <b>Help → About Godot</b> un pārliecinies, ka versijas nosaukumā ir <b>.NET</b> (parastajā Godot versijā bez .NET pie <b>Attach Script</b> valodu sarakstā nebūs C#).</li>
+<li><b>Pārbaudi .NET SDK no VS Code termināļa:</b> atver <code>Pong</code> projekta saknes mapi programmā <b>VS Code</b>, atver <b>Terminal → New Terminal</b> un secīgi izpildi abas komandas:
+<pre><code class="language-bash">dotnet --list-sdks
+dotnet --version</code></pre>
+Sarakstam jābūt netukšam (kursa piemērā izmantots <code>.NET 8</code> SDK). Pieraksti savu Godot .NET versiju un .NET SDK versiju failā <code>README.md</code>.</li>
+<li><b>Uzstādi .NET SDK (ja saraksts bija tukšs):</b> lejupielādē un instalē SDK no <a href="https://dotnet.microsoft.com/download">oficiālās .NET lejupielādes lapas</a>, pēc tam aizver un no jauna atver gan Godot, gan VS Code.</li>
+<li><b>Negaidi vēl pogu <code>Build</code>:</b> kamēr projektā nav izveidots neviens <code>.cs</code> fails, mapē vēl nav <code>Pong.csproj</code> un Godot augšā nerāda pogu <b>Build</b> — tas ir normāli, to izveidosi nākamajā uzdevumā.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> terminal atrod SDK un Pong ir atvērts Godot .NET redaktorā.</p>
+<p class="done-when"><b>Gatavs, kad:</b> terminālī komanda <code>dotnet --list-sdks</code> parāda vismaz vienu SDK, abas versijas ir ierakstītas <code>README.md</code> un <code>Pong</code> ir atvērts Godot .NET redaktorā.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p>
 <h2>Izveido un palaid BuildCheck.cs</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/BuildCheck.cs</code>, aizstāj tā saturu ar doto pilno failu un piesaisti to <code>Scenes/Main.tscn</code> mezglam <code>BuildCheck</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Scēnā <code>Scenes/Main.tscn</code> pievieno diagnostikas mezglu <code>BuildCheck</code> un tam piesaisti jaunu C# skriptu <code>Scripts/BuildCheck.cs</code>.</p>
+<p><b>Scēnas <code>Scenes/Main.tscn</code> papildinājums 2. uzdevumā:</b></p>
+<pre><code>Main (Node2D, Scenes/Main.tscn)
+├── PaddleLeft (Scenes/Paddle.tscn)
+├── PaddleRight (Scenes/Paddle.tscn)
+├── Ball (Scenes/Ball.tscn)
+└── BuildCheck (Node, skripts: Scripts/BuildCheck.cs - pagaidu tests)</code></pre>
 
-<ol class="step-list"><li>Main.tscn saknei pievieno <code>Node</code> child node (bērnu) ar nosaukumu <code>BuildCheck</code>. Atlasot šo node (mezglu), izvēlies Attach Script, valodu C# un ceļu <code>res://Scripts/BuildCheck.cs</code>.</li>
-<li>Aizstāj skripta saturu ar pilno failu zemāk. <code>BuildCheck.cs</code> satur <code>public partial class BuildCheck : Node</code>; class (klases) un faila nosaukumi sakrīt.</li>
-<li>Saglabā skriptu un scēnu. Nospied <b>Build</b>; ja package (pakotnes) jālejupielādē pirmo reizi, sagaidi procesa beigas. Turpini tikai tad, kad nav compiler error (kompilācijas kļūdu).</li>
-<li>Palaid F5 un atver Output. Jāparādās <code>C# build darbojas.</code> - tas apliecina pilnu pārbaudes ķēdi (<b>skripta izveide → veiksmīgs Build → izdruka spēles palaišanas laikā</b>). Apturi spēli; projekta mapē atrodi <code>Pong.csproj</code> un Godot ģenerēto risinājuma failu, ja tas ir izveidots.</li>
-<li>VS Code terminal no Pong mapes izpildi <code>dotnet build</code>. Tas pats kods jāspēj kompilēt arī no terminal.</li>
+<ol class="step-list"><li><b>Pievieno mezglu <code>BuildCheck</code> scēnā <code>Scenes/Main.tscn</code>:</b> atver <code>Scenes/Main.tscn</code>, <b>Scene</b> panelī atlasi sakni <code>Main</code>, spied <b>+</b>, meklē vienkāršu <code>Node</code> (baltā ikona) un spied <b>Create</b>. Ar <b>F2</b> pārdēvē to par <code>BuildCheck</code>.</li>
+<li><b>Izveido skriptu <code>Scripts/BuildCheck.cs</code>:</b> ar labo peles pogu klikšķini uz <code>BuildCheck</code> → <b>Attach Script</b>, izvēlies <b>Language: C#</b>, laukā <b>Path</b> norādi <code>res://Scripts/BuildCheck.cs</code> un spied <b>Create</b>. Atver <code>Scripts/BuildCheck.cs</code> un aizstāj tā saturu ar pilno kodu zemāk (klases nosaukumam <code>BuildCheck</code> un bāzes tipam <code>Node</code> jāsakrīt ar failu un mezglu).</li>
+<li><b>Kompilē ar pogu <code>Build</code>:</b> saglabā <code>Scripts/BuildCheck.cs</code> un <code>Scenes/Main.tscn</code> (<b>Ctrl+S</b>). Godot augšējā joslā spied pogu <b>Build</b> (pirmajā reizē sagaidi, kamēr .NET lejupielādē pakotnes) un pārliecinies, ka nav kompilācijas kļūdu.</li>
+<li><b>Palaid ar F5 un pārbaudi <code>Output</code>:</b> nospied <b>Run Project (F5)</b> un redaktora apakšā atver cilni <b>Output</b> — tur jāparādās rindai <code>C# build darbojas.</code> Apturi spēli ar <b>F8</b> un pārbaudi, ka projekta saknes mapē ir izveidots fails <code>Pong.csproj</code>.</li>
+<li><b>Pārbaudi kompilāciju terminālī:</b> VS Code terminālī (<code>Pong</code> saknes mapē blakus <code>Pong.csproj</code>) izpildi komandu <code>dotnet build</code> — arī tai jābeidzas ar <code>Build succeeded</code>.</li>
 </ol>
-<details class="course-help"><summary>1.3 BuildCheck.cs - pilns fails salīdzināšanai</summary>
-<p><a href="kods/1_3/BuildCheck.cs" download>Lejupielādēt BuildCheck.cs</a>. Aizstāj tikai atbilstošā faila saturu; neveido otru tāda paša nosaukuma class.</p>
+<details class="course-help" id="pilnais-piemers"><summary>1.3 BuildCheck.cs - pilns fails salīdzināšanai</summary>
+<p><a href="kods/1_3/BuildCheck.cs" download>Lejupielādēt BuildCheck.cs</a>. Atver failu <code>Scripts/BuildCheck.cs</code> un aizstāj tā saturu ar šo kodu.</p>
 <pre><code class="language-csharp">using Godot;
 
 public partial class BuildCheck : Node
@@ -124,23 +133,23 @@ public partial class BuildCheck : Node
     }
 }</code></pre>
 </details>
-<p class="done-when"><b>Gatavs, kad:</b> abi compilation veidi izdodas, un F5 laikā redzama tieši šī skripta izdruka.</p>
+<p class="done-when"><b>Gatavs, kad:</b> gan Godot <b>Build</b>, gan termināļa <code>dotnet build</code> izdodas bez kļūdām, un pēc <b>F5</b> panelī <b>Output</b> ir redzama ziņa <code>C# build darbojas.</code></p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p>
 <h2>Pieslēdz koda redaktoru un atrodi vienu kļūdu</h2>
-<p class="task-files"><b>Kur strādāt:</b> Tekstu un pagaidu semikola kļūdu maini <code>Scripts/BuildCheck.cs</code> metodē <code>_Ready()</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Ārējo redaktoru iestati Godot <b>Editor Settings</b>; teksta un pagaidu semikola izmaiņas veic failā <code>Scripts/BuildCheck.cs</code> metodē <code>_Ready()</code>; pirmās kļūdas tekstu ieraksti <code>README.md</code>.</p>
 
-<ol class="step-list"><li>Godot <b>Editor → Editor Settings → Dotnet → Editor</b> kā External Editor izvēlies Visual Studio Code. VS Code uzstādi Microsoft <b>C#</b> extension (paplašinājumu). Veicot dubultklikšķi uz BuildCheck.cs, jāsākas rediģēšanai.</li>
-<li>Nomaini izdrukas tekstu, saglabā, Build un F5. Salīdzini jauno izdruku ar iepriekšējo. Saglabāts fails un veiksmīgi pārkompilēts kods ir divi atsevišķi soļi.</li>
-<li>Uz laiku izdzēs semikolu pēc GD.Print un nospied Build. Nokopē pirmās kļūdas tekstu ar failu un rindas numuru. <b>Atjauno semikolu</b>, tad atkārto Build un F5.</li>
-<li>Pārskati Source Control: saglabā .cs, .csproj, risinājuma failu (.sln vai .slnx, ja tāds ģenerēts), .tscn un skriptu .uid failus, ja tie izveidoti. .godot, bin un obj paliek ignorēti. Veic Commit un Push.</li>
+<ol class="step-list"><li><b>Pieslēdz VS Code kā C# redaktoru:</b> Godot augšējā izvēlnē atver <b>Editor → Editor Settings → Dotnet → Editor</b> un laukā <b>External Editor</b> izvēlies <b>Visual Studio Code</b>. Programmā VS Code uzstādi Microsoft paplašinājumu <b>C#</b> (Extensions panelī). Tagad, Godot redaktorā uzklikšķinot uz <code>BuildCheck.cs</code>, fails atvērsies VS Code.</li>
+<li><b>Maini izdrukas tekstu failā <code>Scripts/BuildCheck.cs</code>:</b> metodē <code>_Ready()</code> nomaini <code>GD.Print("C# build darbojas.");</code> uz citu tekstu (piemēram, savu sveicienu), saglabā failu (<b>Ctrl+S</b>), Godot spied <b>Build</b> un tad <b>F5</b> — redzi, ka izdrukas atjaunošanai vajadzīgi abi soļi (saglabāt + Build).</li>
+<li><b>Izraisi un nolasi vienu kompilācijas kļūdu:</b> failā <code>Scripts/BuildCheck.cs</code> uz laiku izdzēs semikolu <code>;</code> rindas <code>GD.Print(...)</code> beigās, saglabā un Godot spied <b>Build</b>. Apakšējā <b>MSBuild / Errors</b> panelī nokopē pirmās kļūdas tekstu ar faila nosaukumu un rindas numuru un ielīmē to failā <code>README.md</code>. Pēc tam <b>atjauno semikolu <code>;</code></b>, saglabā, nospied <b>Build</b> un <b>F5</b>.</li>
+<li><b>Saglabā izmaiņas GitHub:</b> VS Code cilnē <b>Source Control</b> pārbaudi, ka izmaiņās ir <code>Scripts/BuildCheck.cs</code>, <code>Scenes/Main.tscn</code>, <code>Pong.csproj</code>, <code>.sln</code> (vai <code>.slnx</code>) un <code>.uid</code> faili, bet <code>.godot/</code>, <code>bin/</code> un <code>obj/</code> paliek ignorēti. Veic <b>Commit</b> un <b>Push / Sync Changes</b>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> proti rediģēt, kompilēt, nolasīt kļūdu un atgriezt projektu strādājošā stāvoklī.</p>
+<p class="done-when"><b>Gatavs, kad:</b> proti rediģēt C# failu VS Code, kompilēt ar <b>Build</b>, nolasīt kompilācijas kļūdu un projekts ir atjaunots strādājošā stāvoklī un nosūtīts uz GitHub.</p>
 </section>
 <details class="course-help extra-task"><summary>Papildu uzdevums - izveido savu BUILD.md atgādni</summary>
-<p class="task-files"><b>Kur strādāt:</b> Projekta saknes mapē izveido <code>BUILD.md</code> un ieraksti tajā atgādni.</p>
+<p class="task-files"><b>Kur strādāt:</b> Projekta saknes mapē (blakus <code>project.godot</code>) izveido failu <code>BUILD.md</code>.</p>
 
-<p>Pieraksti Godot un SDK versiju, projekta atvēršanas ceļu, Build/F5 darbības, komandas un atrastās kļūdas risinājumu. Palūdz klasesbiedram pēc pieraksta atrast, kur jālabo skripts.</p>
+<p>Failā <code>BUILD.md</code> īsi saraksti savu darba kārtību: Godot un .NET SDK versijas, soļus koda rediģēšanai (<code>Ctrl+S</code> → <code>Build</code> → <code>F5</code>), termināļa komandu <code>dotnet build</code> un kā izlabot semikola kļūdu.</p>
 </details>
 <section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2>
 <p class="merkis"><b>Stundas mērķis:</b> vide ir pārbaudīta ar īstu C# compilation un izpildi.</p>

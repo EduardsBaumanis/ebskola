@@ -107,15 +107,25 @@ Vector2 sakumaVieta = new Vector2(640, 360); // 2D koordinātas (X, Y)</code></p
 </div></section>
 <section class="logic-box lesson-task" id="uzdevums-1"><p class="task-number">1. uzdevums</p>
 <h2>Pievieno Paddle.cs kopīgajai raketes scēnai</h2>
-<p class="task-files"><b>Kur strādāt:</b> Izveido <code>Scripts/Paddle.cs</code>, aizstāj tā saturu ar doto pilno failu un piesaisti to <code>Scenes/Paddle.tscn</code> saknei.</p>
+<p class="task-files"><b>Kur strādāt:</b> Skriptu <code>Scripts/Paddle.cs</code> izveido un piesaisti raketes veidnes scēnas <code>Scenes/Paddle.tscn</code> saknes mezglam <code>Paddle</code> (<b>nevis</b> katrai raketei atsevišķi scēnā <code>Main.tscn</code>!). Pēc tam palaid spēli no <code>Scenes/Main.tscn</code>.</p>
+<p><b>Kā viens skripts darbojas abām raketēm:</b></p>
+<pre><code>Veidne Scenes/Paddle.tscn:
+Paddle (CharacterBody2D, skripts: Scripts/Paddle.cs)
+├── CollisionShape2D
+└── Visual
 
-<ol class="step-list"><li>Atver <code>Paddle.tscn</code>, izvēlies tās CharacterBody2D (vadāma 2D tēla mezgls) sakni un Attach Script → C# → <code>res://Scripts/Paddle.cs</code>. Aizstāj automātiski ģenerēto kustības paraugu ar pilno kodu zemāk - <code>public partial class Paddle : CharacterBody2D</code> deklarē klasi, kas atbilst <code>Paddle</code> scēnas saknes tipam un faila nosaukumam <code>Paddle.cs</code>.</li>
-<li>Pārbaudi Speed (ātrums), InputUp, InputDown un IsActive. <code>{ get; set; }</code> ir īpašība, kuru cits skripts vēlāk varēs nolasīt un mainīt, lai pēc uzvaras apturētu raketes.</li>
-<li>Saglabā un Build. Atver Main.tscn un ar F5 pārbaudi Output: jābūt divām rindām, vienai no PaddleLeft, otrai no PaddleRight.</li>
-<li>Pārliecinies, ka projektā ir tikai <b>viens Paddle.cs</b>; šīs class instance Main scēnā drīkst saukties <code>PaddleLeft</code> un <code>PaddleRight</code> - abas izmanto vienu class, bet katrai ir savas vērtības.</li>
+Galvenā scēna Scenes/Main.tscn:
+Main (Node2D)
+├── PaddleLeft  (izmanto Scripts/Paddle.cs no Paddle.tscn!)
+└── PaddleRight (izmanto to pašu Scripts/Paddle.cs no Paddle.tscn!)</code></pre>
+
+<ol class="step-list"><li><b>Izveido un piesaisti skriptu <code>Scripts/Paddle.cs</code> scēnā <code>Scenes/Paddle.tscn</code>:</b> atver cilni <code>Scenes/Paddle.tscn</code>, <b>Scene</b> panelī ar labo peles pogu klikšķini uz saknes mezgla <code>Paddle</code> (<code>CharacterBody2D</code>) → <b>Attach Script</b>. Izvēlies <b>Language: C#</b>, ceļu <code>res://Scripts/Paddle.cs</code> un spied <b>Create</b>.</li>
+<li><b>Ievieto pilno kodu failā <code>Scripts/Paddle.cs</code>:</b> atver <code>Scripts/Paddle.cs</code> savā VS Code redaktorā, izdzēs Godot automātiski ģenerēto paraugu un aizstāj ar pilno kodu zemāk. Saglabā failu (<b>Ctrl+S</b>) un saglabā scēnu <code>Paddle.tscn</code>.</li>
+<li><b>Pārbaudi deklarētos laukus failā <code>Scripts/Paddle.cs</code>:</b> atrodi eksportētos laukus <code>Speed</code> (<code>float</code>), <code>InputUp</code> un <code>InputDown</code> (<code>string</code>), kā arī īpašību <code>IsActive</code> (<code>bool</code>), kas vēlāk 1.6. stundā ļaus apturēt raketes pēc uzvaras.</li>
+<li><b>Kompilē un pārbaudi <code>Output</code> paneli:</b> Godot nospied <b>Build</b>, pārslēdzies uz <code>Scenes/Main.tscn</code> un palaid spēli ar <b>F5</b>. Apakšējā <b>Output</b> panelī jāparādās <b>divām</b> izdrukām — pa vienai no <code>PaddleLeft</code> un <code>PaddleRight</code> (projektā ir tikai viens fails <code>Paddle.cs</code>, un abi eksemplāri to izmanto).</li>
 </ol>
-<details class="course-help"><summary>1.4 Paddle.cs - pilns fails salīdzināšanai</summary>
-<p><a href="kods/1_4/Paddle.cs" download>Lejupielādēt Paddle.cs</a>. Aizstāj tikai atbilstošā faila saturu; neveido otru tāda paša nosaukuma class.</p>
+<details class="course-help" id="pilnais-piemers"><summary>1.4 Paddle.cs - pilns fails salīdzināšanai</summary>
+<p><a href="kods/1_4/Paddle.cs" download>Lejupielādēt Paddle.cs</a>. Atver failu <code>Scripts/Paddle.cs</code> un aizstāj tā saturu ar šo kodu.</p>
 <pre><code class="language-csharp">using Godot;
 
 public partial class Paddle : CharacterBody2D
@@ -131,34 +141,38 @@ public partial class Paddle : CharacterBody2D
     }
 }</code></pre>
 </details>
-<p class="done-when"><b>Gatavs, kad:</b> abas raketes izdrukā savu node nosaukumu un datus; izskats Main scēnā ir saglabāts.</p>
+<p class="done-when"><b>Gatavs, kad:</b> projektā ir viens <code>Scripts/Paddle.cs</code>, tas piesaistīts <code>Scenes/Paddle.tscn</code> un pēc <b>F5</b> panelī <b>Output</b> parādās gan <code>PaddleLeft</code>, gan <code>PaddleRight</code> izdruka.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-2"><p class="task-number">2. uzdevums</p>
 <h2>Iestati katrai raketei savus datus</h2>
-<p class="task-files"><b>Kur strādāt:</b> Rakešu vērtības maini <code>Scenes/Main.tscn</code> Inspector panelī; pagaidu izdruku pievieno <code>Scripts/Paddle.cs</code> metodes <code>_Ready()</code> beigās.</p>
+<p class="task-files"><b>Kur strādāt:</b> Katras raketes individuālās vērtības (<code>Input Up</code>, <code>Input Down</code>, <code>Speed</code>) iestati scēnā <code>Scenes/Main.tscn</code> <b>Inspector</b> panelī; pagaidu pozīcijas izdruku uz laiku pievieno failā <code>Scripts/Paddle.cs</code> metodē <code>_Ready()</code>.</p>
 
-<ol class="step-list"><li>Main scēnā atlasi PaddleLeft. Inspector pēc Build redzami skripta lauki: Speed = <code>420</code>, Input Up = <code>p1_up</code>, Input Down = <code>p1_down</code>.</li>
-<li>Atlasi PaddleRight un tikai šai instance iestati Input Up = <code>p2_up</code>, Input Down = <code>p2_down</code>. Pati Input Map tiks izveidota 1.5 stundā.</li>
-<li>Uz laiku PaddleRight Speed maini uz 300. Palaid F5: izdrukā kreisajai paliek 420, labajai ir 300. <b>Atjauno labajai 420</b>. Tas apliecina, ka kopīgs skripts nenozīmē kopīgu lauka vērtību.</li>
-<li>Paddle.cs _Ready beigās pievieno <code>GD.Print($"Pozīcija: {Position}");</code>. Main scēnā pozīcijām jābūt (60,360) un (1220,360). Pārbaudi ar F5, tad šo papildu izdruku noņem.</li>
+<ol class="step-list"><li><b>Pārbaudi <code>PaddleLeft</code> datus scēnā <code>Scenes/Main.tscn</code>:</b> atver cilni <code>Main.tscn</code>, <b>Scene</b> panelī atlasi <code>PaddleLeft</code> un <b>Inspector</b> panelī pārliecinies, ka zem skripta sadaļas redzami lauki <b>Speed</b> = <code>420</code>, <b>Input Up</b> = <code>p1_up</code>, <b>Input Down</b> = <code>p1_down</code>.</li>
+<li><b>Nomaini <code>PaddleRight</code> ievades nosaukumus scēnā <code>Scenes/Main.tscn</code>:</b> <b>Scene</b> panelī atlasi <code>PaddleRight</code> un tikai šim eksemplāram <b>Inspector</b> panelī nomaini <b>Input Up</b> uz <code>p2_up</code> un <b>Input Down</b> uz <code>p2_down</code> (pašus taustiņus Input Map pievienosim 1.5. stundā).</li>
+<li><b>Izmēģini individuālu <code>Speed</code> scēnā <code>Scenes/Main.tscn</code>:</b> atlasi <code>PaddleRight</code>, uz laiku iestati <b>Speed</b> = <code>300</code>, saglabā un palaid ar <b>F5</b> — <b>Output</b> panelī kreisajai raketei paliek <code>420</code>, bet labajai ir <code>300</code>. Apturi ar <b>F8</b> un <b>atjauno <code>PaddleRight</code> Speed = <code>420</code></b>.</li>
+<li><b>Pārbaudi pozīciju izdruku failā <code>Scripts/Paddle.cs</code>:</b> atver <code>Scripts/Paddle.cs</code> un metodes <code>_Ready()</code> beigās uz laiku pievieno <code>GD.Print($"Pozīcija: {Position}");</code>. Saglabā, nospied <b>Build</b> un <b>F5</b> — <b>Output</b> panelī jābūt <code>(60, 360)</code> un <code>(1220, 360)</code>. Pēc pārbaudes izdzēs šo <code>GD.Print</code> rindu no <code>Scripts/Paddle.cs</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> abām instance ir atšķirīgi ievades nosaukumi, vienāds ātrums un pareizas pozīcijas.</p>
+<p class="done-when"><b>Gatavs, kad:</b> scēnā <code>Scenes/Main.tscn</code> kreisajai raketei ir <code>p1_up / p1_down</code>, labajai <code>p2_up / p2_down</code>, abām <code>Speed = 420</code> un pareizas pozīcijas.</p>
 </section>
 <section class="logic-box lesson-task" id="uzdevums-3"><p class="task-number">3. uzdevums</p>
 <h2>Paskaidro vērtības un saglabā strādājošo versiju</h2>
-<p class="task-files"><b>Kur strādāt:</b> Tabulu un skaidrojumu raksti <code>README.md</code>. Pagaidu skaitīšanas rindas ievieto <code>Scripts/Paddle.cs</code> metodē <code>_Ready()</code>; diagnostikas mezglu noņem no <code>Scenes/Main.tscn</code>.</p>
+<p class="task-files"><b>Kur strādāt:</b> Datu tipu tabulu un skaidrojumu raksti failā <code>README.md</code>; pagaidu skaitīšanas eksperimentu veic failā <code>Scripts/Paddle.cs</code> metodē <code>_Ready()</code>; diagnostikas mezglu <code>BuildCheck</code> noņem no scēnas <code>Scenes/Main.tscn</code>.</p>
 
-<ol class="step-list"><li>README.md izveido tabulu: lauks, type, vērtība kreisajai raketei, vērtība labajai raketei un tā nozīme spēlē.</li>
-<li>_Ready sākumā uz laiku ievieto <code>int testScore = 0;</code>, tad <code>testScore += 1;</code> un <code>GD.Print(testScore);</code>. Katrā jaunā F5 palaišanā katra rakete izdrukā 1, nevis turpina iepriekšējo skaitu. Pieraksti, kāpēc. Pēc tam šīs trīs pārbaudes rindas noņem.</li>
-<li>Paskaidro atšķirību starp Speed noklusējumu C# kodā un Inspector saglabāto vērtību. Ja koda maiņa neparādās, apskati instance īpašības; ar atiestatīšanas ikonu var atjaunot noklusējumu.</li>
-<li>No Main.tscn noņem diagnostikas BuildCheck node, jo vide jau pārbaudīta; BuildCheck.cs failu drīkst paturēt. Saglabā, Build, F5 un pārliecinies, ka palikušas divas raketes izdrukas. Veic Commit un Push.</li>
+<ol class="step-list"><li><b>Izveido mainīgo tabulu failā <code>README.md</code>:</b> projekta <code>README.md</code> failā pievieno tabulu ar piecām kolonnām: <i>Lauks</i>, <i>C# tips</i> (<code>float</code>, <code>string</code>, <code>bool</code>), <i>PaddleLeft vērtība</i>, <i>PaddleRight vērtība</i> un <i>Nozīme spēlē</i>.</li>
+<li><b>Veic pagaidu <code>testScore</code> pārbaudi failā <code>Scripts/Paddle.cs</code>:</b> metodes <code>_Ready()</code> sākumā uz laiku ieraksti:
+<pre><code class="language-csharp">int testScore = 0;
+testScore += 1;
+GD.Print(testScore);</code></pre>
+Saglabā, spied <b>Build</b> un <b>F5</b> — abas raketes katrā spēles palaišanā izdrukā <code>1</code>, jo lokālais mainīgais <code>testScore</code> katru reizi sākas no <code>0</code>. Pieraksti šo secinājumu <code>README.md</code> un pēc tam <b>izdzēs visas 3 <code>testScore</code> rindas</b> no <code>Scripts/Paddle.cs</code>.</li>
+<li><b>Paskaidro Inspector un koda noklusējuma prioritāti (<code>README.md</code>):</b> vienā teikumā failā <code>README.md</code> pieraksti, kāpēc scēnā <b>Inspector</b> panelī iestatītā vērtība pārraksta <code>[Export]</code> noklusējuma vērtību C# kodā.</li>
+<li><b>Attīri scēnu <code>Scenes/Main.tscn</code> un saglabā GitHub:</b> atver <code>Scenes/Main.tscn</code>, ar labo peles pogu uz 1.3. stundas diagnostikas mezgla <code>BuildCheck</code> → <b>Delete Node(s)</b> (pašu failu <code>Scripts/BuildCheck.cs</code> drīkst atstāt). Saglabā, spied <b>Build</b> un <b>F5</b>, lai <b>Output</b> panelī paliek tikai abas raketes izdrukas, tad veic <b>Commit</b> un <b>Push</b>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> projekts paliek bez pagaidu eksperimentiem, un katras raketes dati ir saprotami un pārbaudīti.</p>
+<p class="done-when"><b>Gatavs, kad:</b> projekts ir bez pagaidu <code>BuildCheck</code> mezgla un pagaidu izdrukām, <code>README.md</code> satur datu tabulu un izmaiņas ir nosūtītas uz GitHub.</p>
 </section>
-<details class="course-help extra-task"><summary>Papildu uzdevums - salīdzini ar Python</summary>
-<p class="task-files"><b>Kur strādāt:</b> Salīdzinājumu ar Python raksti projekta <code>README.md</code>.</p>
+<details class="course-help extra-task"><summary>Papildu uzdevums - salīdzini C# ar Python</summary>
+<p class="task-files"><b>Kur strādāt:</b> Salīdzinājumu pieraksti projekta saknes failā <code>README.md</code>.</p>
 
-<p>README.md salīdzini <code>print</code> un GD.Print, variable type deklarēšanu, <code>true</code> (patiess) un <code>True</code>, figūriekavas un atkāpes. Pie katra C# piemēra paskaidro, ko tas dara tavas raketes class.</p>
+<p>Failā <code>README.md</code> īsi salīdzini C# un Python sintaksi pēc 4 pazīmēm: <code>GD.Print(...)</code> pret <code>print(...)</code>, obligātais datu tips (<code>float</code>, <code>string</code>, <code>bool</code>), mazais <code>true</code> pret <code>True</code> un figūriekavas <code>{ }</code> + semikoli <code>;</code> pret atkāpēm. Pie katra punkta pievieno piemēru no <code>Scripts/Paddle.cs</code>.</p>
 </details>
 <section id="iesniegsana"><div class="hand-in-box"><h2>Ko sagatavo</h2>
 <p class="merkis"><b>Stundas mērķis:</b> raketes scēnai ir reāla C# class ar nākamajā stundā izmantojamiem datiem.</p>
