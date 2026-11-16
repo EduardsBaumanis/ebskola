@@ -24,6 +24,7 @@ paste it into a chat as the system/role prompt, then give it a concrete task
 | 10 | Instructional & UX Designer | `10-instructional-designer.md` | Learner flow, navigation, visual and course-page coherence |
 | 11 | Technical QA & Consistency Reviewer | `11-qa-consistency.md` | Links, code blocks, starter-code sync, SEO/Schema.org, conventions |
 | 12 | Student Perspective Reviewer | `12-student-perspective.md` | Beginner empathy: difficulty, motivation, clarity |
+| 13 | Lesson Quality & Clarity Reviewer | `13-lesson-clarity-reviewer.md` | Theory & task clarity: precise steps, plain wording, code-backed theory |
 
 ## Suggested workflow
 

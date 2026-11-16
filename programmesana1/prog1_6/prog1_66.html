@@ -62,14 +62,9 @@
 <a href="/sasnRez">SR 2.4.5. Veic datu analīzi un vizualizāciju.</a>
 </div>
 <section>
-<div class="info-box">
-<p><b>70 min plāns:</b> Ievads un kritēriju pārruna (~10 min) · 1. uzdevums (~15 min) - ielādē jautājumus no JSON · 2. uzdevums (~25 min) - uzraksti spēles ciklu ar punktiem · 3. uzdevums (~20 min) - saglabā rezultātu CSV un parādi TOP 5. Papildu uzdevumu sāc tikai tad, ja pārējie trīs ir gatavi.</p>
-<p><b>Pirms sāc:</b> šis ir 6. tēmas noslēguma projekts. Atver VS Code, izveido failu <code>66.py</code> un sagatavo failu <code>66_jautajumi.json</code> ar vismaz 5 jautājumiem, pirms sāc rakstīt spēles kodu.</p>
-</div>
-</section><section>
 <h2>Teorija: dati atrodas ārpus koda</h2>
 <div class="logic-box">
-<p>Programma sākumā nolasa jautājumus no <code>66_jautajumi.json</code> faila - katrā ierakstā ir jautājuma teksts, atbilžu varianti un pareizās atbildes indekss. Spēlētājs ievada savu vārdu un atbild uz 5 nejauši izvēlētiem jautājumiem. Pēc spēles rezultāts (vārds, punkti) tiek pievienots <code>66_highscore.csv</code> failam. Visbeidzot tiek izvadīts TOP 5 spēlētāju saraksts.</p>
+<p>Programma sākumā nolasa jautājumus no <code>66_jautajumi.json</code> faila — katrā ierakstā ir jautājuma teksts, atbilžu varianti un pareizās atbildes indekss. Spēlētājs ievada savu vārdu un atbild uz 5 nejauši izvēlētiem jautājumiem. Pēc spēles rezultāts (vārds, punkti) tiek pievienots <code>66_highscore.csv</code> failam. Visbeidzot tiek izvadīts TOP 5 spēlētāju saraksts.</p>
 </div>
 <div class="code-example">
 <pre><code class="language-python">with open("66_highscore.csv", "a", encoding="utf-8") as fails:
@@ -79,6 +74,7 @@ with open("66_jautajumi.json", "r", encoding="utf-8") as fails:
     jautajumi = json.load(fails)</code></pre>
 <div class="result">Iepriekš apgūts: failu režīmi, with open, JSON un CSV rindas.</div>
 </div>
+<details class="course-help"><summary>Pašpārbaude: ar kādu režīmu pievieno rezultātu CSV failam?</summary><p>Ar „a” (append) — tas pievieno rindu faila beigās, neizdzēšot iepriekšējos ierakstus.</p></details>
 </section><section>
 <h2>Darba uzdevuma gaita</h2>
 <div class="logic-box">
@@ -86,7 +82,7 @@ with open("66_jautajumi.json", "r", encoding="utf-8") as fails:
 <ol>
 <li>Failā <code>66_jautajumi.json</code> <b>izveido</b> vismaz 10 jautājumus formātā:
 <pre><code class="language-python">[
-  {"jautajums": "Cik ir 2+2?", "varianti": ["3","4","5"], "pareiza": 1},
+  {"teksts": "Cik ir 2+2?", "varianti": ["3","4","5"], "pareizais": 1},
   ...
 ]</code></pre></li>
 <li>Failā <code class="language-python">66.py</code> (vai modulī <code class="language-python">66_data.py</code>) <b>izveido</b> funkciju <code class="language-python">ielade_jautajumus()</code>, kas atver JSON ar <code class="language-python">with open()</code> un atgriež sarakstu.</li>
@@ -166,7 +162,7 @@ with open("66_jautajumi.json", "r", encoding="utf-8") as fails:
 <li><b>Atlasi</b> tikai tos jautājumus, kas atbilst izvēlei.</li>
 <li><b>Pārbaudi</b>, ka spēle strādā arī tad, ja kategorijā ir mazāk par 5 jautājumiem.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> spēle uzdod tikai izvēlētās kategorijas jautājumus un neavarē, ja to ir maz.</p>
+<p class="done-when"><b>Gatavs, kad:</b> spēle uzdod tikai izvēlētās kategorijas jautājumus un nesalūzt, ja to ir maz.</p>
 </details><section>
 <h2>Biežākās kļūdas (un kā tās labot)</h2>
 <ul>
@@ -225,7 +221,7 @@ with open("66_jautajumi.json", "r", encoding="utf-8") as fails:
 <li>Jautājumi tiek ielādēti no <code>66_jautajumi.json</code> faila, nevis cietkodēti.</li>
 <li>Pēc spēles rezultāts tiek pievienots <code>66_highscore.csv</code> (nevis pārrakstīts).</li>
 <li>TOP 5 saraksts tiek izvadīts pareizā sakārtotā secībā.</li>
-<li>Programma neavarē, ja CSV vai JSON fails ir tukšs.</li>
+<li>Programma nesalūzt, ja CSV vai JSON fails ir tukšs.</li>
 <li>GitHub vēsturē ir vismaz 4 saturīgi <i>commit</i> ar skaidriem ziņojumiem.</li>
 </ul>
 </section><section>
