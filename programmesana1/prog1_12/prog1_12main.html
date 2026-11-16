@@ -242,7 +242,10 @@ document.getElementById("forma").addEventListener("submit", async (e) =&gt; {
 <div class="logic-box">
 <h3>12.5 Izvietošana un drošība</h3>
 <pre><code class="language-python">import os
+from dotenv import load_dotenv      # pip install python-dotenv
 from flask import Flask
+
+load_dotenv()                       # lokāli nolasa .env - BEZ ŠĪ būs None
 
 app = Flask(__name__)
 
@@ -251,7 +254,7 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-key")
 
 # .env fails (LOKĀLI, .gitignore sarakstā):
-#   DATABASE_URL=postgres://...
+#   DATABASE_URL=postgresql://...
 #   SECRET_KEY=...
 
 # Pirms izvietošanas:

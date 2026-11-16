@@ -82,6 +82,18 @@ CREATE TABLE speletaji (
 );</code></pre>
 </div>
 </section><section>
+<h2>Pirms sāc: uzstādi PostgreSQL (Windows)</h2>
+<p>Šie soļi jāveic vienu reizi. Beigās datorā darbosies PostgreSQL, un tev būs logs, kurā rakstīt SQL komandas.</p>
+<ol class="step-list">
+<li><b>Lejupielādē instalētāju:</b> atver pārlūkā <code>postgresql.org/download/windows</code>, nospied saiti <b>Download the installer</b> un izvēlies jaunāko versiju slejā <b>Windows x86-64</b>.</li>
+<li><b>Palaid</b> lejupielādēto failu un spied <b>Next</b>, līdz parādās komponentu saraksts. Atstāj ieķeksētus <b>PostgreSQL Server</b>, <b>pgAdmin 4</b> un <b>Command Line Tools</b>.</li>
+<li><b>Izdomā paroli</b> lietotājam <code>postgres</code>, kad instalētājs to prasa, un pieraksti to. Šo paroli vajadzēs visā 10. tēmā, un vēlāk to nekur nevar apskatīt.</li>
+<li><b>Atstāj</b> portu <code>5432</code> un pārējos iestatījumus nemainītus un spied <b>Next</b> līdz <b>Finish</b>. Ja beigās piedāvā palaist <b>Stack Builder</b>, noņem ķeksi — to nevajag.</li>
+<li><b>Atver</b> Start izvēlnē programmu <b>SQL Shell (psql)</b>.</li>
+<li><b>Nospied Enter</b> četras reizes (Server, Database, Port, Username — der iekavās piedāvātās vērtības), tad ieraksti savu paroli un nospied Enter. Kamēr raksti paroli, ekrānā nekas neparādās — tas ir normāli.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> SQL Shell logā redzi rindu <code>postgres=#</code>. Tajā rakstīsi visas šīs tēmas SQL komandas.</p>
+</section><section>
 <h2>Praktiskie uzdevumi</h2>
 
 
@@ -91,9 +103,9 @@ CREATE TABLE speletaji (
 <p class="task-number">1. uzdevums - </p><h2>Izveido datubāzi un pieslēdzies</h2>
 <p>Beigās tev būs sava datubāze, kurā strādāt visu tēmu.</p>
 <ol class="step-list">
-<li><b>Atver</b> pgAdmin vai izpildi terminālī <code class="language-bash">psql -U postgres</code>.</li>
+<li><b>Atver</b> <b>SQL Shell (psql)</b> un pieslēdzies, kā aprakstīts sadaļā "Pirms sāc" — rindas sākumā jābūt <code>postgres=#</code>.</li>
 <li><b>Izpildi</b> <code class="language-sql">CREATE DATABASE spele;</code>.</li>
-<li><b>Pieslēdzies</b> tai ar <code class="language-bash">\c spele</code> vai izvēlies to pgAdmin sarakstā.</li>
+<li><b>Pieslēdzies</b> tai ar <code class="language-bash">\c spele</code> — rindas sākums nomainās uz <code>spele=#</code>.</li>
 <li><b>Izpildi</b> <code class="language-sql">SELECT version();</code>.</li>
 <li><b>Pieraksti</b>, kāda PostgreSQL versija tev uzstādīta.</li>
 <li><b>Pieraksti</b>, ar kādu lietotājvārdu tu pieslēdzies.</li>
@@ -139,6 +151,7 @@ CREATE TABLE speletaji (
 <h2>Biežākās kļūdas</h2>
 <div class="logic-box">
 <ul>
+<li><b><code>psql</code> terminālī nav atpazīts:</b> Windows instalētājs nepievieno <code>psql</code> parastajam terminālim. Atver Start izvēlnē <b>SQL Shell (psql)</b>.</li>
 <li><b>Aizmirsi paroli postgres lietotājam:</b> Instalācijas laikā saglabā paroli pārvaldnieka rīkā (piem., Bitwarden).</li>
 <li><b>Tabulu nevar dzēst:</b> Vispirms ar <code>DROP TABLE IF EXISTS speletaji CASCADE;</code> - CASCADE noņem arī saistītos objektus.</li>
 <li><b>SERIAL nepilda:</b> Saglabā skripta failu un pārbaudi pareizrakstību (S-E-R-I-A-L).</li>

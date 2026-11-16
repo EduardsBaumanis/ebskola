@@ -102,12 +102,21 @@ SECRET_KEY = os.getenv("SECRET_KEY")</code></pre>
 <ol class="step-list">
 <li><b>Atrodi</b> failā <code>125.py</code> visas vietas, kur ierakstīta parole vai atslēga.</li>
 <li><b>Aizstāj</b> katru ar <code class="language-python">os.environ.get("DATABASE_URL")</code>.</li>
-<li><b>Pievieno</b> faila augšā <code class="language-python">import os</code>.</li>
-<li><b>Izveido</b> failu <code>.env</code> ar īstajām vērtībām.</li>
+<li><b>Uzstādi</b> bibliotēku, kas nolasa <code>.env</code> failu: VS Code terminālī izpildi <code class="language-bash">pip install python-dotenv</code>.</li>
+<li><b>Pievieno</b> faila <code>125.py</code> pašā augšā šīs trīs rindas. Tām jābūt pirms visām rindām, kurās ir <code>os.environ.get</code>:
+<pre><code class="language-python">import os
+from dotenv import load_dotenv
+load_dotenv()  # nolasa .env failu un ieliek vērtības vides mainīgajos</code></pre>
+</li>
+<li><b>Izveido</b> tajā pašā mapē, kur atrodas <code>125.py</code>, failu ar nosaukumu tieši <code>.env</code> un ieraksti tajā īstās vērtības. Katrā rindā ir <code>NOSAUKUMS=vērtība</code>, bez atstarpēm ap <code>=</code> un bez pēdiņām:
+<pre><code class="language-bash">DATABASE_URL=postgresql://postgres:TAVA_PAROLE@localhost:5432/spele
+SECRET_KEY=gars-nejauss-teksts</code></pre>
+</li>
+<li><b>Pārbaudi</b>, ka vērtība tiek nolasīta: zem <code>load_dotenv()</code> uz brīdi pievieno <code class="language-python">print(os.environ.get("DATABASE_URL") is not None)</code> un palaid <code>125.py</code>. Jāizdrukājas <code>True</code>. Pēc tam šo rindu izdzēs.</li>
 <li><b>Pievieno</b> <code>.gitignore</code> failam rindu <code>.env</code>.</li>
 <li><b>Izpildi</b> <code class="language-bash">git status</code> un pārliecinies, ka <code>.env</code> tur nav.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> <code>git status</code> nerāda <code>.env</code>, un kodā nav neviena ierakstīta paroles teksta.</p>
+<p class="done-when"><b>Gatavs, kad:</b> pārbaude izdrukāja <code>True</code>, <code>git status</code> nerāda <code>.env</code>, un kodā nav neviena ierakstīta paroles teksta.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-2">
 <p class="task-number">2. uzdevums - </p><h2>Sagatavo projektu izvietošanai</h2>
 <p>Beigās serveris varēs palaist tavu lietotni bez tavas palīdzības.</p>
@@ -148,6 +157,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")</code></pre>
 <h2>Biežākās kļūdas</h2>
 <div class="logic-box">
 <ul>
+<li><b><code>os.environ.get(...)</code> lokāli atgriež <code>None</code>:</b> Python pats <code>.env</code> failu nelasa. Pārbaudi, vai ir uzstādīts <code>python-dotenv</code>, vai <code>load_dotenv()</code> ir izsaukts pirms <code>os.environ.get</code> un vai fails saucas tieši <code>.env</code> (nevis <code>.env.txt</code>) un atrodas blakus <code>125.py</code>.</li>
+<li><b><code>ModuleNotFoundError: No module named 'dotenv'</code>:</b> Izpildi <code>pip install python-dotenv</code> tajā pašā terminālī, kurā palaid <code>125.py</code>. Bibliotēkas nosaukums ir <code>python-dotenv</code>, bet importē <code>dotenv</code>.</li>
 <li><b>.env failā ielikts GitHub:</b> Slepenās atslēgas tagad publiski. Atsauc tās un izveido jaunas. Nekad neielādē <code>.env</code>!</li>
 <li><b>App nedarbojas mākonī, bet darbojās lokāli:</b> Pārbaudi vides mainīgos un Python versiju (<code>runtime.txt</code>).</li>
 <li><b>DB savienojuma kļūdas:</b> Pārliecinies, ka <code>DATABASE_URL</code> izmanto SSL un pareizu psycopg2 sintakse (Render dod URL sākot ar <code>postgres://</code> - pielāgo uz <code>postgresql://</code>).</li>
@@ -158,8 +169,11 @@ SECRET_KEY = os.getenv("SECRET_KEY")</code></pre>
 <div class="code-example">
 <pre><code class="language-python"># 125.py - produkcijai gatavs
 import os
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 import psycopg2
+
+load_dotenv()  # lokāli nolasa .env; mākonī faila nav, un vērtības dod Render
 
 app = Flask(__name__)
 
