@@ -52,6 +52,9 @@ python3 programmesana2/prog2_2/parbaudes/check.py --godot /cels/uz/Godot.NET --d
 ├── style.css                   # Globālais dizains, krāsu sistēma un sākumlapas/pārskatu stili
 ├── lesson.css                  # Kopīgais nodarbību izkārtojums (.course-lesson), SLA tabulas un drukas stili
 ├── lesson.js                   # Sākuma koda kopēšana ([data-copy]) un soļu progress (localStorage)
+├── test.css                    # Atkārtojuma testu lapu (*_test.html) stili
+├── test.js                     # Atkārtojuma testu vērtēšana un rezultāta nosūtīšana uz /api/tests
+├── functions/api/tests.js      # Cloudflare Pages funkcija: ieraksta testa rezultātu Google Sheets tabulā
 ├── paligm.html                 # Programmēšanas špikeris un EN→LV terminu vārdnīca
 ├── sasnRez.html                # Izglītības standarta sasniedzamo rezultātu saraksts
 ├── _redirects                  # Kanonisko bezpaplašinājuma URL un pāradresāciju noteikumi
@@ -63,6 +66,7 @@ python3 programmesana2/prog2_2/parbaudes/check.py --godot /cels/uz/Godot.NET --d
 │   ├── datorika9.html          # Kursa pārskats
 │   ├── dat9_1main.html..5main  # 5 tēmu pārskata lapas
 │   ├── dat9_11.html..dat9_56   # 30 nodarbību lapas
+│   ├── dat9_12_test.html..     # Atkārtojuma testi: 5 jautājumi par iepriekšējo nodarbību
 │   ├── git.html                # Git un GitHub palīdzības lapa
 │   └── sakuma-kodi/            # Lejupielādējamie sākuma kodi (11.html..56.html, 25.zip, 26.zip, resursi)
 ├── programmesana1/             # Programmēšana I (Python)
@@ -111,6 +115,14 @@ Visu kursu nodarbības izmanto vienotu lasīšanas izkārtojumu (`style.css` + `
    - pievieno saiti tēmas `*main.html` lapā un visās attiecīgās tēmas nodarbību `.sidebar-nav` izvēlnēs;
    - pievieno `.html` → bezpaplašinājuma pāradresācijas likumu failā `_redirects`;
    - pievieno jauno kanonisko URL failā `sitemap.xml`.
+
+## Atkārtojuma testi
+
+Tests `datorika9/dat9_{T}{S}_test.html` ir domāts nodarbības `{T}.{S}` sākumam un atkārto **iepriekšējo** nodarbību (piemēram, `dat9_12_test.html` jautā par 1.1). Skolēns ieraksta vārdu, izvēlas klasi (9.a, 9.b, 9.c) un atbild uz pieciem jautājumiem. Pēc iesniegšanas lapa parāda pareizās atbildes, bet `test.js` nosūta rezultātu uz `/api/tests`, kur `functions/api/tests.js` to pievieno kā jaunu rindu Google Sheets tabulā (laiks, tests, klase, vārds, punkti, katra atbilde).
+
+- **Jauns tests:** nokopē esošu `*_test.html`, nomaini virsrakstu, saites un `data-test` vērtību. Katram jautājumam ir `<fieldset class="test-question" data-correct="b">` ar četrām atbildēm (`value="a"`..`"d"`) un skaidrojumu `.test-explain`. Pievieno pāradresāciju failā `_redirects`. Testu lapas nav meklētāju indeksā (`noindex`) un nav jāpievieno `sitemap.xml`.
+- **Google Sheets pieslēgums (vienreiz):** Google Cloud projektā ieslēdz *Google Sheets API*, servisa kontam izveido JSON atslēgu, tabulu kopīgo ar servisa konta e-pastu kā redaktoram un Cloudflare Pages iestatījumos pievieno noslēpumu `GOOGLE_SERVICE_ACCOUNT_JSON` ar visu JSON faila saturu. Atslēgas failu repozitorijā neglabā. Pārbaude: `https://ebskola.lv/api/tests` atbild `{"ok":true,"sheet":"connected"}`.
+- Funkcija darbojas tikai publicētajā vietnē. Lokālā priekšskatījumā tests novērtē atbildes, bet rezultātu nenosūta.
 
 ## Licence
 
