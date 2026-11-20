@@ -74,8 +74,9 @@
 <a href="/sasnRez">SR 2.4.11. Lieto standartizētas bibliotēkas un API.</a>
 <a href="/sasnRez">SR 2.4.7. Izstrādā lietotāja saskarni (UI), ievērojot lietojamības principus.</a>
 </div>
-<section>
+<section id="teorija">
 <h2>Teorija: REST principi</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_12/testi/prog1_123_test">Sākt testu →</a></p>
 <div class="logic-box">
 <p><b>REST</b> (Representational State Transfer) ir API projektēšanas stils, kas nosaka:</p>
 <ul>
@@ -112,7 +113,7 @@
 <li><b>Uzraksti</b> otru funkciju tai pašai adresei ar <code class="language-python">methods=["POST"]</code>.</li>
 <li><b>Piešķir</b> katram jaunam ierakstam <code>id</code>.</li>
 <li><b>Atgriez</b> pēc izveides statusa kodu 201.</li>
-<li><b>Pārbaudi</b> abus maršrutus ar <code>curl</code> vai pārlūku.</li>
+<li><b>Pārbaudi</b> GET pārlūkā, atverot <code>http://localhost:5000/api/rezultati</code>, bet POST — ar 12.2 stundas klientu <code>122_klients.py</code>, kurā adresi nomaini uz <code>http://localhost:5000/api/rezultati</code>.</li>
 </ol>
 <p class="done-when"><b>Gatavs, kad:</b> viena adrese ar GET atgriež sarakstu, bet ar POST pievieno ierakstu un atgriež 201.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-2">
@@ -122,9 +123,9 @@
 <li><b>Pārbaudi</b>, vai <code class="language-python">request.json</code> satur atslēgu <code>vards</code>.</li>
 <li><b>Atgriez</b> statusa kodu 400 ar paskaidrojumu, ja tās nav.</li>
 <li><b>Pārbaudi</b>, vai <code>punkti</code> ir skaitlis un nav negatīvs.</li>
-<li><b>Nosūti</b> POST pieprasījumu bez vārda un pieraksti atbildi.</li>
-<li><b>Nosūti</b> pieprasījumu ar negatīviem punktiem un pieraksti atbildi.</li>
-<li><b>Nosūti</b> derīgu pieprasījumu un pārbaudi, ka tas izdodas.</li>
+<li><b>Nosūti</b> ar klientu POST pieprasījumu bez vārda, piemēram <code class="language-python">json={"punkti": 50}</code>, un pieraksti atbildi.</li>
+<li><b>Nosūti</b> pieprasījumu ar negatīviem punktiem, piemēram <code class="language-python">json={"vards": "Anna", "punkti": -5}</code>, un pieraksti atbildi.</li>
+<li><b>Nosūti</b> derīgu pieprasījumu, piemēram <code class="language-python">json={"vards": "Anna", "punkti": 120}</code>, un pārbaudi, ka tas izdodas.</li>
 <li><b>Pieraksti</b> vienu secinājumu: kāpēc validācija jāveic serverī, nevis pārlūkā.</li>
 </ol>
 <p class="done-when"><b>Gatavs, kad:</b> trūkstoši vai nederīgi dati atgriež 400 ar paskaidrojumu, bet derīgi - 201.</p>
@@ -148,7 +149,10 @@
 <li><b>Uzraksti</b> <code class="language-python">@app.route("/api/rezultati/&lt;int:id&gt;", methods=["DELETE"])</code>.</li>
 <li><b>Atrodi</b> ierakstu pēc <code>id</code> un izdzēs to.</li>
 <li><b>Atgriez</b> statusa kodu 404, ja ieraksta nav.</li>
-<li><b>Pārbaudi</b> ar <code class="language-bash">curl -X DELETE http://localhost:5000/api/rezultati/1</code>.</li>
+<li><b>Pārbaudi</b> ar klientu: aizstāj tajā <code>requests.post(...)</code> rindu ar šo un palaid:
+<pre><code class="language-python">r = requests.delete("http://localhost:5000/api/rezultati/1")
+print(r.status_code)</code></pre>
+</li>
 <li><b>Pārbaudi</b>, ka GET vairs šo ierakstu nerāda.</li>
 </ol>
 <p class="done-when"><b>Gatavs, kad:</b> esošs ieraksts tiek izdzēsts, bet neesoša dzēšana atgriež 404.</p>

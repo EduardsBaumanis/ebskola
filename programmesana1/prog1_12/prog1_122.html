@@ -75,8 +75,9 @@
 <a href="/sasnRez">SR 2.4.15. Veido modulāras programmas un funkcijas.</a>
 <a href="/sasnRez">SR 2.4.2. Argumentēti izvēlas programmēšanas rīkus un bibliotēkas.</a>
 </div>
-<section>
+<section id="teorija">
 <h2>Teorija: Flask pamatkomponenti</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_12/testi/prog1_122_test">Sākt testu →</a></p>
 <div class="logic-box">
 <p><b>Flask</b> ir mikro-ietvars Python - tikai 100 KB, bet pietiekams reāliem projektiem. Instalācija: <code>pip install flask</code>.</p>
 <pre><code class="language-python">from flask import Flask, jsonify, request
@@ -152,7 +153,14 @@ if __name__ == "__main__":
 <li><b>Pievieno</b> maršrutu ar <code class="language-python">methods=["POST"]</code>.</li>
 <li><b>Nolasi</b> tajā <code class="language-python">dati = request.json</code>.</li>
 <li><b>Pievieno</b> datus sarakstam un atgriez tos ar statusa kodu 201.</li>
-<li><b>Izmēģini</b> to ar <code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"vards":"Jānis"}' http://localhost:5000/api/speletaji</code>.</li>
+<li><b>Izmēģini POST ar Python klientu.</b> Atstāj serveri strādājam. Tajā pašā mapē izveido failu <code>122_klients.py</code> (bibliotēka <code>requests</code> ir uzstādīta 9.1 stundā):
+<pre><code class="language-python">import requests
+
+r = requests.post(&quot;http://localhost:5000/api/speletaji&quot;, json={&quot;vards&quot;: &quot;Jānis&quot;})
+print(r.status_code, r.json())</code></pre>
+Atver jaunu termināli (<b>Terminal → New Terminal</b>), ja vajag, aktivizē vidi ar <code class="language-bash">venv\Scripts\activate</code> un izpildi <code class="language-bash">python 122_klients.py</code>. Terminālī jāparādās:
+<pre><code class="language-none">201 {'vards': 'Jānis'}</code></pre>
+</li>
 <li><b>Atver</b> GET maršrutu un pārbaudi, ka jaunais ieraksts tur ir.</li>
 <li><b>Pieraksti</b> vienu secinājumu: kāpēc dati pazūd, kad serveri restartē.</li>
 </ol>

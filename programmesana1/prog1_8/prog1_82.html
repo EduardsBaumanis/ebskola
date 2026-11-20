@@ -34,7 +34,6 @@
 <link rel="stylesheet" href="../../lesson.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "8.2 Prasību specifikācija - Lietotāju stāsti · Prog I", "description": "Prasību specifikācija programmatūras projektēšanā: formulēt funkcionālās prasības un lietotāju stāstus (User Stories) no lietotāja skatpunkta.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_8/prog1_82", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 8. tēma: Projektēšana un plānošana", "url": "https://ebskola.lv/programmesana1/prog1_8/prog1_8main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "8. tēma: Projektēšana un plānošana", "item": "https://ebskola.lv/programmesana1/prog1_8/prog1_8main"}, {"@type": "ListItem", "position": 4, "name": "8.2 Prasību specifikācija - Lietotāju stāsti · Prog I", "item": "https://ebskola.lv/programmesana1/prog1_8/prog1_82"}]}]}</script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-markdown.min.js"></script>
 <script defer src="../../lesson.js"></script>
@@ -63,7 +62,7 @@
 <a href="/programmesana1/prog1_8/prog1_81">8.1 Problēmas formulēšana un automatizācija</a>
 <a aria-current="page" class="active" href="/programmesana1/prog1_8/prog1_82">8.2 Prasību specifikācija - Lietotāju stāsti</a>
 <a href="/programmesana1/prog1_8/prog1_83">8.3 Datu modelis un UI plūsma</a>
-<a href="/programmesana1/prog1_8/prog1_84">8.4 Prezentācijas māksla - Pitch sagatavošana</a>
+<a href="/programmesana1/prog1_8/prog1_84">8.4 Testēšana ar unittest</a>
 <a href="/programmesana1/prog1_8/prog1_85">8.5 Sasniedzamie rezultāti un resursu plānošana</a>
 <a href="/programmesana1/prog1_8/prog1_86">8.6 Noslēguma projekts: Projektējuma aizstāvēšana</a>
 </nav>
@@ -81,41 +80,34 @@
 <li><b>Izveidot</b> prioritizētu funkciju sarakstu (Backlog) "Krustiņi un nullītes" projektam.</li>
 </ul>
 </div>
-<section>
+<section id="teorija">
 <h2>Teorija: User Stories - Kāpēc un Kā?</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_8/testi/prog1_82_test">Sākt testu →</a></p>
 <div class="logic-box">
 <ul>
 <li><b>Kas ir User Story?</b> Tas ir īss, vienkāršs funkcijas apraksts, kas uzrakstīts no tās personas viedokļa, kura šo funkciju izmantos.</li>
 <li><b>Zelta formula:</b> "Kā <code class="language-python">[lietotājs]</code>, es vēlos <code class="language-python">[darbība]</code>, lai <code class="language-python">[ieguvums]</code>."
                 <ul>
-<li>Piemērs: "Kā spēlētājs, es vēlos redzēt savu inventāru, lai zinātu, kādus priekšmetus esmu savācis."</li>
+<li>Piemērs: "Kā spēlētājs, es vēlos, lai spēle pati paziņo uzvarētāju, lai nav jāskaita zīmes pašam."</li>
 </ul>
 </li>
 <li><b>Akceptēšanas kritēriji:</b> Pārbaudes saraksts, kas definē, kad uzdevums ir pabeigts.
                 <ul>
-<li>Piemērs: 1) Saraksts ir redzams, nospiežot pogu 'I'. 2) Tukšs saraksts izvada ziņojumu "Soma ir tukša".</li>
+<li>Piemērs: 1) Ja rindā, kolonnā vai diagonālē ir trīs vienādas zīmes, parādās uzvarētājs. 2) Ja laukums ir pilns un uzvarētāja nav, parādās „Neizšķirts”. 8.4 stundā šos kritērijus pārvērtīsi automātiskos testos.</li>
 </ul>
 </li>
 <li><b>Prioritāte:</b> Ne visas funkcijas ir vienlīdz svarīgas. Mēs sākam ar tām, bez kurām spēle nav spēlējama (MVP - Minimum Viable Product).</li>
 </ul>
 </div>
-</section><section>
-<h2>Vides sagatavošana (Windows)</h2>
-<p>Šodienas prasību specifikāciju mēs rakstīsim Markdown (<code class="language-python">.md</code>) failā, kas ir standartizēts veids, kā programmētāji veido dokumentāciju GitHub vidē.</p>
+</section><section class="lesson-prep" id="pirms-sac">
+<h2>Pirms sāc</h2>
 <ol class="step-list">
-<li><b>Atver</b> <b>PowerShell</b>.</li>
-<li><b>Ieej</b> sava projekta mapē:</li>
+<li><b>Atver GitHub Desktop</b> un pārbaudi, vai augšā kreisajā stūrī pie <b>Current repository</b> (pašreizējā krātuve) ir <code>programmesana-pamatkurss</code>.</li>
+<li><b>Nospied Fetch origin</b> (pārbaudīt jaunumus). Ja poga pārvēršas par <b>Pull origin</b> (saņemt izmaiņas), nospied arī to.</li>
+<li><b>Izvēlies Repository → Open in Visual Studio Code.</b> Atveras VS Code ar tavu krātuvi.</li>
+<li><b>Atrodi mapi <code>tema08</code></b> VS Code kreisajā pusē — šīs stundas faili būs tajā. Ja tādas mapes vēl nav, ar peles labo pogu noklikšķini tukšā vietā zem failu saraksta, izvēlies <b>New Folder</b> (jauna mape) un nosauc to <code>tema08</code>.</li>
 </ol>
-<pre><code class="language-powershell">
-cd KrustiniNullites_Arhitektura
-    </code></pre>
-<ol class="step-list" start="3">
-<li><b>Izveido</b> prasību dokumentu un atver to kodu redaktorā:</li>
-</ol>
-<pre><code class="language-powershell">
-ni 82.md
-code 82.md
-    </code></pre>
+<p>Prasību specifikāciju rakstīsi Markdown failā (<code>.md</code>) — tāpat kā <code>README.md</code> 1.5 stundā.</p>
 </section><section>
 <h2>Praktiskie uzdevumi</h2>
 
@@ -177,24 +169,24 @@ code 82.md
 <h2>Koda piemērs (pārbaudāmi akceptēšanas kritēriji - grūtākā daļa)</h2>
 <div class="code-example">
 <pre><code class="language-markdown">## User Story
-Kā spēlētājs, es vēlos redzēt savu inventāru,
-lai zinātu, kādus priekšmetus esmu savācis.
+Kā spēlētājs, es vēlos, lai spēle pati paziņo uzvarētāju,
+lai nav jāskaita zīmes pašam.
 
 ## Akceptēšanas kritēriji - PĀRBAUDĀMI (tā vajag)
-- [ ] Nospiežot "i", ekrānā parādās saraksts ar visiem priekšmetiem
-- [ ] Tukšs inventārs rāda tekstu "Inventārs ir tukšs", nevis kļūdu
-- [ ] Katram priekšmetam redzams nosaukums un skaits
-- [ ] No inventāra var atgriezties spēlē ar "q"
+- [ ] Ja rindā ir trīs vienādas zīmes, parādās "Uzvar X" vai "Uzvar O"
+- [ ] Tas pats notiek ar kolonnu un abām diagonālēm
+- [ ] Ja laukums ir pilns un uzvarētāja nav, parādās "Neizšķirts"
+- [ ] Kamēr uzvarētāja nav, spēle prasa nākamo gājienu
 
   Uz katru var atbildēt tikai JĀ vai NĒ.
 
 ## Akceptēšanas kritēriji - NEPĀRBAUDĀMI (tā nevajag)
-- [ ] Inventārs izskatās labi          &lt;-- kā to izmērīt?
-- [ ] Inventārs strādā ātri            &lt;-- cik ātri? 1 s? 10 ms?
-- [ ] Lietotājam ir ērti               &lt;-- kuram lietotājam?
+- [ ] Uzvaras paziņojums izskatās labi   &lt;-- kā to izmērīt?
+- [ ] Spēle strādā ātri                  &lt;-- cik ātri? 1 s? 10 ms?
+- [ ] Spēlētājam ir ērti                 &lt;-- kuram spēlētājam?
 
 ## Ārpus apjoma
-- Priekšmetu pārdošana (nav šajā versijā)</code></pre>
+- Spēle pret datoru (nav šajā versijā)</code></pre>
 <div class="result">
             Pārbaudāmie kritēriji ļauj vienā minūtē pateikt, vai funkcija ir gatava: paņem sarakstu un izej cauri punktiem. Nepārbaudāmie kritēriji noved pie strīda ar skolotāju vai komandas biedru, jo katram "izskatās labi" nozīmē ko citu.
         </div>

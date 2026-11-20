@@ -34,7 +34,6 @@
 <link rel="stylesheet" href="../../lesson.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "8.1 Problēmas formulēšana un automatizācija · Prog I", "description": "Plānot spēles arhitektūru pirms koda rakstīšanas, definējot problēmu, lietotāja vajadzības un sistēmas galvenās daļas.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_8/prog1_81", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 8. tēma: Projektēšana un plānošana", "url": "https://ebskola.lv/programmesana1/prog1_8/prog1_8main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "8. tēma: Projektēšana un plānošana", "item": "https://ebskola.lv/programmesana1/prog1_8/prog1_8main"}, {"@type": "ListItem", "position": 4, "name": "8.1 Problēmas formulēšana un automatizācija · Prog I", "item": "https://ebskola.lv/programmesana1/prog1_8/prog1_81"}]}]}</script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-markdown.min.js"></script>
 <script defer src="../../lesson.js"></script>
@@ -63,13 +62,13 @@
 <a aria-current="page" class="active" href="/programmesana1/prog1_8/prog1_81">8.1 Problēmas formulēšana un automatizācija</a>
 <a href="/programmesana1/prog1_8/prog1_82">8.2 Prasību specifikācija - Lietotāju stāsti</a>
 <a href="/programmesana1/prog1_8/prog1_83">8.3 Datu modelis un UI plūsma</a>
-<a href="/programmesana1/prog1_8/prog1_84">8.4 Prezentācijas māksla - Pitch sagatavošana</a>
+<a href="/programmesana1/prog1_8/prog1_84">8.4 Testēšana ar unittest</a>
 <a href="/programmesana1/prog1_8/prog1_85">8.5 Sasniedzamie rezultāti un resursu plānošana</a>
 <a href="/programmesana1/prog1_8/prog1_86">8.6 Noslēguma projekts: Projektējuma aizstāvēšana</a>
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_8/prog1_8main">8. tēma</a> / 8.1</p>
 <h1>8.1 Problēmas formulēšana un automatizācija</h1>
-<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Pārtraukt būt tikai "kodētājam" un kļūt par "sistēmu arhitektu". Pirms mēs būvējam jaudīgu spēles dzinēju, mums ir jāsaprot, kādu tieši problēmu mēs risinām un kuras darbības mēs varam deleģēt datoram, lai atvieglotu savu darbu nākotnē.</p>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Pārtraukt būt tikai "kodētājam" un kļūt par "sistēmu arhitektu". Pirms mēs būvējam krustiņu un nullīšu spēli, mums ir jāsaprot, kādu tieši problēmu mēs risinām un kuras darbības mēs varam deleģēt datoram, lai atvieglotu savu darbu nākotnē.</p>
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.1. Analizē problēmu, identificē datus un veic dekompozīciju.</a>
 </div>
@@ -81,12 +80,13 @@
 <li><b>Analizēt</b> atšķirību starp manuālu datu apstrādi un programmatūras vadītu automatizāciju.</li>
 </ul>
 </div>
-<section>
+<section id="teorija">
 <h2>Teorija: No Problēmas līdz Automatizācijai</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_8/testi/prog1_81_test">Sākt testu →</a></p>
 <div class="logic-box">
 <ul>
 <li><b>Projektēšanas sākumpunkts:</b> Programmēšana nesākas ar kodu, bet ar problēmas saprašanu. Ja nezinām, ko precīzi risinām, kods būs haotisks un grūti labojams.</li>
-<li><b>Problēmas formulēšana (Problem Statement):</b> Tas ir skaidrs apraksts tam, kas pašlaik kavē izstrādi (piemēram: "Jauna stāsta pievienošana spēlei prasa manuāli mainīt 20 Python funkcijas, kas rada loģikas kļūdas").</li>
+<li><b>Problēmas formulēšana (Problem Statement):</b> Tas ir skaidrs apraksts tam, kas pašlaik kavē izstrādi (piemēram: "Pēc katra koda labojuma visas 8 uzvaras līnijas jāpārbauda, izspēlējot spēli ar roku, un kļūdas paliek nepamanītas").</li>
 <li><b>Automatizācija izstrādē:</b>
 <ul>
 <li>Rutīnas darbu (datu ievade, aprēķini, navigācija) nodošana datoram.</li>
@@ -95,30 +95,20 @@
 </li>
 <li><b>Ko mēs automatizēsim "Krustiņi un nullītes" projektā?</b>
 <ul>
-<li><b>Satura ielāde:</b> Tekstus vairs nerakstīsim kodā, bet ielādēsim automātiski no CSV faila.</li>
-<li><b>Lokāciju sasaiste:</b> Izmantosim ID sistēmu, lai dators pats zinātu, kurp spēlētājam jādodas, neizmantojot milzīgus <code class="language-python">if/else</code> blokus.</li>
+<li><b>Uzvarētāja noteikšana:</b> dators pats pārbaudīs visas 8 uzvaras līnijas (3 rindas, 3 kolonnas, 2 diagonāles), lai spēlētājiem nav jāskatās pašiem.</li>
+<li><b>Pārbaude pēc labojuma:</b> tā vietā, lai pēc katra koda labojuma spēli izspēlētu ar roku, automātiski testi to pārbaudīs sekundes daļā (8.4 stundā).</li>
 </ul>
 </li>
 </ul>
 </div>
-</section><section>
-<h2>Vides sagatavošana (Windows)</h2>
-<p>Šajā tēmā mēs strādāsim pie arhitektūras dokumentācijas. Sagatavo darba vidi jaunam projektam.</p>
+</section><section class="lesson-prep" id="pirms-sac">
+<h2>Pirms sāc</h2>
 <ol class="step-list">
-<li><b>Atver</b> <b>PowerShell</b>.</li>
-<li><b>Izveido</b> mapi jaunajam arhitektūras projektam un ieej tajā:</li>
+<li><b>Atver GitHub Desktop</b> un pārbaudi, vai augšā kreisajā stūrī pie <b>Current repository</b> (pašreizējā krātuve) ir <code>programmesana-pamatkurss</code>.</li>
+<li><b>Nospied Fetch origin</b> (pārbaudīt jaunumus). Ja poga pārvēršas par <b>Pull origin</b> (saņemt izmaiņas), nospied arī to.</li>
+<li><b>Izvēlies Repository → Open in Visual Studio Code.</b> Atveras VS Code ar tavu krātuvi.</li>
+<li><b>Atrodi mapi <code>tema08</code></b> VS Code kreisajā pusē — šīs stundas faili būs tajā. Ja tādas mapes vēl nav, ar peles labo pogu noklikšķini tukšā vietā zem failu saraksta, izvēlies <b>New Folder</b> (jauna mape) un nosauc to <code>tema08</code>.</li>
 </ol>
-<pre><code class="language-powershell">
-mkdir KrustiniNullites_Arhitektura
-cd KrustiniNullites_Arhitektura
-    </code></pre>
-<ol class="step-list" start="3">
-<li><b>Izveido</b> plānošanas failu, kurā šodien fiksēsi savas idejas:</li>
-</ol>
-<pre><code class="language-powershell">
-ni 81.txt
-code 81.txt
-    </code></pre>
 </section><section>
 <h2>Praktiskie uzdevumi</h2>
 
@@ -186,20 +176,20 @@ Spēli ir grūti papildināt un tas aizņem daudz laika.
   - nav skaidrs, kad problēma būtu atrisināta
 
 ## Spēcīgs formulējums (tāds ir vajadzīgs)
-Katras jaunas lokācijas pievienošana prasa manuāli labot 20 Python
-funkcijas un aizņem ~40 minūtes. Nedēļā pievienoju 3 lokācijas, tātad
-2 stundas nedēļā aiziet kopēšanai, un 4 no 10 reizēm rodas kļūda
-nepareizā ID dēļ.
+Pēc katra koda labojuma jāizspēlē vismaz 8 partijas, lai pārbaudītu
+visas uzvaras līnijas. Tas aizņem ~15 minūtes. Nedēļā labojumu ir ~6,
+tātad 1,5 stundas nedēļā aiziet pārbaudēm, un 3 no 10 reizēm kļūda
+paliek nepamanīta.
 
   Kāpēc tas ir spēcīgs:
-  - ir skaitļi: 20 funkcijas, 40 minūtes, 2 stundas, 4 no 10
-  - ir nosaukta konkrēta darbība: lokācijas pievienošana
+  - ir skaitļi: 8 partijas, 15 minūtes, 1,5 stundas, 3 no 10
+  - ir nosaukta konkrēta darbība: pārbaude pēc koda labojuma
   - NAV minēts risinājums - tikai problēma
 
 ## Ārpus formulējuma (šeit to NErakstām)
-Uztaisīšu CSV failu un ielasīšu ar csv.DictReader.   &lt;-- tas ir risinājums</code></pre>
+Uzrakstīšu automātiskus testus ar unittest.   &lt;-- tas ir risinājums</code></pre>
 <div class="result">
-            Spēcīgais formulējums ļauj vēlāk pārbaudīt, vai problēma tiešām atrisināta: ja pēc automatizācijas lokācijas pievienošana aizņem 2 minūtes, nevis 40, mērķis ir sasniegts. Vājo formulējumu pārbaudīt nevar, tāpēc nekad nav skaidrs, kad apstāties.
+            Spēcīgais formulējums ļauj vēlāk pārbaudīt, vai problēma tiešām atrisināta: ja pēc automatizācijas pārbaude aizņem dažas sekundes, nevis 15 minūtes, mērķis ir sasniegts. Vājo formulējumu pārbaudīt nevar, tāpēc nekad nav skaidrs, kad apstāties.
         </div>
 </div>
 </section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">

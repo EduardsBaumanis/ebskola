@@ -74,6 +74,7 @@ python3 programmesana2/prog2_2/parbaudes/check.py --godot /cels/uz/Godot.NET --d
 ├── programmesana1/             # Programmēšana I (Python)
 │   ├── programmesana1.html     # Kursa pārskats
 │   └── prog1_1/..prog1_12/     # 12 tēmu mapes (katrā prog1_Nmain.html un 6 nodarbības)
+│       └── testi/              # Atkārtojuma testi prog1_NS_test.html (visās 12 tēmās)
 ├── programmesana2/             # Programmēšana II (Godot 4 .NET un C#)
 │   ├── programmesana2.html     # Kursa pārskats
 │   └── prog2_1/..prog2_6/      # 6 tēmu mapes (katrā prog2_Nmain.html un 6 nodarbības)
@@ -92,14 +93,14 @@ Visu kursu nodarbības izmanto vienotu lasīšanas izkārtojumu (`style.css` + `
 
 - **Failu numerācija:**
   - `datorika9/`: `dat9_{T}/nodarbibas/dat9_{T}{S}.html`, `dat9_{T}/testi/dat9_{T}{S}_test.html` un `dat9_{T}/dat9_{T}main.html` (`T` = 1..5, `S` = 1..6). Kopīgie faili (`datorika9.html`, `git.html`, `priekskatijumi.css`, `img/`, `sakuma-kodi/`) paliek kursa mapes saknē.
-  - `programmesana1/`: `prog1_{T}/prog1_{T}{S}.html` un `prog1_{T}/prog1_{T}main.html` (`T` = 1..12, `S` = 1..6).
+  - `programmesana1/`: `prog1_{T}/prog1_{T}{S}.html`, `prog1_{T}/testi/prog1_{T}{S}_test.html` un `prog1_{T}/prog1_{T}main.html` (`T` = 1..12, `S` = 1..6).
   - `programmesana2/`: `prog2_{T}/prog2_{T}{S}.html` un `prog2_{T}/prog2_{T}main.html` (`T` = 1..6, `S` = 1..6).
   - `robotika/`: `rbtk7_{T}{S}.html` un `rbtk7_{T}main.html` (`T` = 1..2, `S` = 1..5).
 - **Standarta stundas struktūra:**
   1. Kursa augšējā josla (`.course-topbar`) un tēmas nodarbību sānjosla (`.sidebar-nav`).
   2. Stundas virsraksts `<h1>` formātā `{Tēma}.{Stunda} {Nosaukums}` un mērķis (`.lesson-goal`).
   3. Sasniedzamo rezultātu saites (`.lesson-meta`) uz `/sasnRez`.
-  4. Teorijas sadaļa ar `.logic-box` skaidrojumiem, koda piemēriem un uzskatāmām tabulām. *(Datorika 9, no 1.2)* Teorijas sadaļas pašā sākumā, tieši zem `<h2>`, ir poga `<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="…_test">Sākt testu →</a></p>` uz nodarbības atkārtojuma testu — tas ir skolēna pirmais darbs pirms jaunās teorijas.
+  4. Teorijas sadaļa ar `.logic-box` skaidrojumiem, koda piemēriem un uzskatāmām tabulām. *(Datorika 9 no 1.2; Programmēšana I, no 1.2)* Teorijas sadaļas (`<section id="teorija">`) pašā sākumā, tieši zem `<h2>`, ir poga `<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="…_test">Sākt testu →</a></p>` uz nodarbības atkārtojuma testu — tas ir skolēna pirmais darbs pirms jaunās teorijas.
   5. *(Datorika 9)* Sākuma koda bloks (`#sakuma-kods`) ar kopēšanas pogu (`data-copy="pilnais-kods"`) un lejupielādes saiti no `sakuma-kodi/`.
   6. Trīs secīgi pamatuzdevumi (`<section class="logic-box lesson-task" id="uzdevums-1">` līdz `id="uzdevums-3">`), katrā numurēti soļi `<ol class="step-list">` un pabeigtības kritērijs `<p class="done-when">`. Skripts `lesson.js` visiem `.lesson-task > .step-list > li` elementiem automātiski pievieno izvēles rūtiņas un saglabā progresu pārlūka `localStorage`.
   7. Izvēles papildu uzdevums (`<details class="course-help extra-task">`).
@@ -120,10 +121,16 @@ Visu kursu nodarbības izmanto vienotu lasīšanas izkārtojumu (`style.css` + `
 
 ## Atkārtojuma testi
 
-Tests `datorika9/dat9_{T}/testi/dat9_{T}{S}_test.html` ir domāts nodarbības `{T}.{S}` sākumam un atkārto **iepriekšējo** nodarbību (piemēram, `dat9_12_test.html` jautā par 1.1). Skolēns atsevišķos laukos ieraksta vārdu un uzvārdu (`name="vards"`, `name="uzvards"`), izvēlas klasi (9.a, 9.b, 9.c) un atbild uz pieciem jautājumiem. Pēc iesniegšanas lapa parāda pareizās atbildes, bet `test.js` nosūta rezultātu uz `/api/tests`, kur `functions/api/tests.js` to pievieno kā jaunu rindu Google Sheets tabulā (laiks, tests, klase, vārds, uzvārds, punkti, jautājumu skaits, katra atbilde).
+Tests `datorika9/dat9_{T}/testi/dat9_{T}{S}_test.html` vai `programmesana1/prog1_{T}/testi/prog1_{T}{S}_test.html` ir domāts nodarbības `{T}.{S}` sākumam un atkārto **iepriekšējo** nodarbību (piemēram, `dat9_12_test.html` jautā par 1.1). Skolēns atsevišķos laukos ieraksta vārdu un uzvārdu (`name="vards"`, `name="uzvards"`), izvēlas klasi un atbild uz pieciem jautājumiem. Pēc iesniegšanas lapa parāda pareizās atbildes, bet `test.js` nosūta rezultātu uz `/api/tests`, kur `functions/api/tests.js` to pievieno kā jaunu rindu Google Sheets tabulā (laiks, tests, klase, vārds, uzvārds, punkti, jautājumu skaits, katra atbilde).
+
+- **Kursi, klases un tabulas lapas:** kursu nosaka `data-test` sākums, un katram kursam ir sava tabulas lapa (cilne), ko atrod pēc tās kārtas, nevis nosaukuma (sarakstu `COURSES` skati failā `functions/api/tests.js`):
+  - `dat9_…` — klases 9.a, 9.b, 9.c → **1.** lapa;
+  - `prog1_…` — klases 11.a, 11.b, 11.c, 12.a, 12.b, 12.c → **2.** lapa. Tabulā jābūt vismaz divām lapām; virsraksta rindu tukšā lapā funkcija ieraksta pati.
+
+  Klase, kas neatbilst kursam, tiek noraidīta, tāpēc jaunai klasei vai kursam papildini gan `<select name="klase">` testu lapās, gan `COURSES`.
 
 - **Jauns tests:** nokopē esošu `*_test.html` tēmas mapē `testi/`, nomaini virsrakstu, saites un `data-test` vērtību. Katram jautājumam ir `<fieldset class="test-question" data-correct="b">` ar četrām atbildēm (`value="a"`..`"d"`) un skaidrojumu `.test-explain`. Pievieno pāradresāciju failā `_redirects` un nodarbības teorijas sākumā pogu `.start-test` ar saiti uz testu (nokopē no citas nodarbības un nomaini saiti). Testu lapas nav meklētāju indeksā (`noindex`) un nav jāpievieno `sitemap.xml`.
-- **Google Sheets pieslēgums (vienreiz):** Google Cloud projektā ieslēdz *Google Sheets API*, servisa kontam izveido JSON atslēgu, tabulu kopīgo ar servisa konta e-pastu kā redaktoram un Cloudflare Pages iestatījumos pievieno noslēpumu `GOOGLE_SERVICE_ACCOUNT_JSON` ar visu JSON faila saturu. Atslēgas failu repozitorijā neglabā. Pārbaude: `https://ebskola.lv/api/tests` atbild `{"ok":true,"sheet":"connected","header":"current"}`.
+- **Google Sheets pieslēgums (vienreiz):** Google Cloud projektā ieslēdz *Google Sheets API*, servisa kontam izveido JSON atslēgu, tabulu kopīgo ar servisa konta e-pastu kā redaktoram un Cloudflare Pages iestatījumos pievieno noslēpumu `GOOGLE_SERVICE_ACCOUNT_JSON` ar visu JSON faila saturu. Atslēgas failu repozitorijā neglabā. Pārbaude: `https://ebskola.lv/api/tests` atbild `{"ok":true,"sheet":"connected","header":"current","tabs":{"dat9":"current","prog1":"current"}}` (`"empty"` — lapā vēl nav neviena rezultāta, `"missing"` — tabulā nav tik daudz lapu).
 - **Tabula bez kolonnas „Uzvārds”:** ja pārbaude atbild `"header":"old"`, tabula izveidota pirms vārda un uzvārda sadalīšanas, un rezultāti tiek rakstīti ar pilnu vārdu kolonnā „Vārds”. Ar peles labo pogu uzklikšķini uz kolonnas E („Punkti”) burta → *Insert 1 column left* un šūnā E1 ieraksti `Uzvārds`. Turpmākie rezultāti uzvārdu rakstīs atsevišķi; vecās rindas paliek ar pilnu vārdu kolonnā „Vārds”.
 - Funkcija darbojas tikai publicētajā vietnē. Lokālā priekšskatījumā tests novērtē atbildes, bet rezultātu nenosūta.
 

@@ -2,7 +2,11 @@
 //
 // POST saves one test result (sent by /test.js) as a new row in the Google Sheet.
 // GET  checks the setup and answers {"ok": true} when the sheet can be reached, with
-//      "header": "empty" | "old" | "current" (old = no separate "Uzvārds" column yet).
+//      "header": "empty" | "old" | "current" (old = no separate "Uzvārds" column yet) for the
+//      first tab, and "tabs": the same for each course's tab ("missing" = no such tab yet).
+//
+// Each course writes to its own tab (see COURSES): Datorika 9 to the first tab,
+// Programmēšana I to the second. Tabs are found by position, so they may be renamed.
 //
 // Columns: Laiks, Tests, Klase, Vārds, Uzvārds, Punkti, No, then one per question.
 // A sheet started earlier has no "Uzvārds" column; its rows keep the full name in "Vārds"
@@ -17,12 +21,14 @@
 //      Then redeploy. Never commit the JSON file to this repository.
 
 const SHEET_ID = "1w5BbnJJ1YUyZqJHmi3LzQEWp6iySepI_ksfUdXYGHNw";
-const SHEET_API = "https://sheets.googleapis.com/v4/spreadsheets/" + SHEET_ID + "/values/";
+const SHEET_API = "https://sheets.googleapis.com/v4/spreadsheets/" + SHEET_ID;
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
-// A range without a tab name means the first tab, whatever it is called.
-const FIRST_CELL = "A1";
 
-const CLASSES = ["9.a", "9.b", "9.c"];
+// The test id ("dat9_12_test") starts with the course; "tab" is the tab's position, 0 = first.
+const COURSES = [
+  { prefix: "dat9_", tab: 0, classes: ["9.a", "9.b", "9.c"] },
+  { prefix: "prog1_", tab: 1, classes: ["11.a", "11.b", "11.c", "12.a", "12.b", "12.c"] },
+];
 const MAX_QUESTIONS = 10;
 const HEADER = ["Laiks", "Tests", "Klase", "Vārds", "Uzvārds", "Punkti", "No"];
 // Header row of sheets started before surnames got their own column: E1 is "Punkti".
@@ -32,9 +38,12 @@ const MAX_NAME = 40;
 
 // Reused while the same worker instance stays alive.
 let cachedToken = null;
-// Set once the sheet has the current header. A sheet never goes back to the old layout,
-// so only this state is cached; an empty or old-layout sheet is checked again on each result.
-let headerCurrent = false;
+// Tab titles by position, read once from the spreadsheet; cleared when a request fails,
+// in case the teacher renamed or moved a tab.
+let cachedTabs = null;
+// Tabs (by position) that have the current header. A tab never goes back to the old layout,
+// so only this state is cached; an empty or old-layout tab is checked again on each result.
+const headerCurrent = new Set();
 
 class SetupError extends Error {
   constructor(code, detail) {
@@ -112,14 +121,38 @@ async function sheets(env, path, options) {
   const response = await fetch(SHEET_API + path, request);
   const data = await response.json().catch(function () { return {}; });
   if (!response.ok) {
+    cachedTabs = null;
     throw new SetupError("sheet", (data.error && data.error.message) || "Google Sheets answered " + response.status + ".");
   }
   return data;
 }
 
+// A1 range on the tab at this position. The first tab needs no name: a range without one
+// always means the first tab, whatever it is called.
+async function tabRange(env, tab, cells) {
+  if (tab === 0) return cells;
+  if (!cachedTabs) {
+    const data = await sheets(env, "?fields=sheets.properties(index,title)");
+    cachedTabs = (data.sheets || [])
+      .map(function (sheet) { return sheet.properties; })
+      .sort(function (a, b) { return a.index - b.index; })
+      .map(function (properties) { return properties.title; });
+  }
+  const title = cachedTabs[tab];
+  if (title === undefined) {
+    cachedTabs = null;
+    throw new SetupError("no-tab", "The spreadsheet has no tab number " + (tab + 1) + ". Add one; results for this course go there.");
+  }
+  return "'" + title.replace(/'/g, "''") + "'!" + cells;
+}
+
+function values(range) {
+  return "/values/" + encodeURIComponent(range);
+}
+
 // "empty" (nothing written yet), "old" (no Uzvārds column) or "current".
-async function headerLayout(env) {
-  const data = await sheets(env, HEADER_ROW);
+async function headerLayout(env, tab) {
+  const data = await sheets(env, values(await tabRange(env, tab, HEADER_ROW)));
   const row = (data.values && data.values[0]) || [];
   if (!row.some(function (cell) { return String(cell).trim(); })) return "empty";
   return String(row[4] || "").trim() === "Punkti" ? "old" : "current";
@@ -150,14 +183,16 @@ function readResult(body) {
   }
   const answers = body.answers;
   if (!/^[a-z0-9_]{3,40}$/.test(test)) return null;
+  const course = COURSES.find(function (entry) { return test.startsWith(entry.prefix); });
+  if (!course) return null;
   if (!vards || vards.length > MAX_NAME || uzvards.length > MAX_NAME) return null;
   if ((vards + uzvards).length < 2) return null;
-  if (!CLASSES.includes(body.klase)) return null;
+  if (!course.classes.includes(body.klase)) return null;
   if (!Array.isArray(answers) || answers.length < 1 || answers.length > MAX_QUESTIONS) return null;
   for (const answer of answers) {
     if (!answer || typeof answer.a !== "string" || !/^[A-D]$/.test(answer.a) || typeof answer.ok !== "boolean") return null;
   }
-  return { test: test, vards: vards, uzvards: uzvards, klase: body.klase, answers: answers };
+  return { test: test, tab: course.tab, vards: vards, uzvards: uzvards, klase: body.klase, answers: answers };
 }
 
 function clean(value) {
@@ -185,7 +220,8 @@ export async function onRequestPost(context) {
   const marks = result.answers.map(function (answer) { return answer.a + (answer.ok ? " ✓" : " ✗"); });
 
   try {
-    const layout = headerCurrent ? "current" : await headerLayout(context.env);
+    const tab = result.tab;
+    const layout = headerCurrent.has(tab) ? "current" : await headerLayout(context.env, tab);
     const name = layout === "old"
       ? [(result.vards + " " + result.uzvards).trim()]
       : [result.vards, result.uzvards];
@@ -194,27 +230,39 @@ export async function onRequestPost(context) {
       rows.unshift(HEADER.concat(result.answers.map(function (_, index) { return (index + 1) + ". jautājums"; })));
     }
     // RAW stores the name as plain text, so it can never run as a formula.
-    await sheets(context.env, FIRST_CELL + ":append?valueInputOption=RAW&insertDataOption=INSERT_ROWS", {
+    const range = await tabRange(context.env, tab, "A1");
+    await sheets(context.env, values(range) + ":append?valueInputOption=RAW&insertDataOption=INSERT_ROWS", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ values: rows }),
     });
-    if (layout !== "old") headerCurrent = true;
+    if (layout !== "old") headerCurrent.add(tab);
   } catch (error) {
     return fail(error);
   }
   return json({ ok: true });
 }
 
+// "header" is the first tab (Datorika 9); "tabs" lists every course's tab by its test prefix,
+// with "missing" when the spreadsheet does not have that many tabs yet.
 export async function onRequestGet(context) {
-  let layout;
+  const tabs = {};
   try {
-    layout = await headerLayout(context.env);
+    for (const course of COURSES) {
+      const key = course.prefix.replace(/_$/, "");
+      try {
+        tabs[key] = await headerLayout(context.env, course.tab);
+      } catch (error) {
+        if (!(error instanceof SetupError && error.code === "no-tab")) throw error;
+        tabs[key] = "missing";
+      }
+    }
   } catch (error) {
     return fail(error);
   }
-  const reply = { ok: true, sheet: "connected", header: layout };
-  if (layout === "old") {
+  const layout = tabs.dat9;
+  const reply = { ok: true, sheet: "connected", header: layout, tabs: tabs };
+  if (Object.values(tabs).includes("old")) {
     reply.hint = "Insert a column \"Uzvārds\" left of \"Punkti\" (column E) to store surnames separately.";
   }
   return json(reply);

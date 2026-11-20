@@ -35,7 +35,6 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "7.1 Meklēšanas pamati · Python", "description": "Salīdzināt lineāro un bināro meklēšanu, uzrakstīt pirmos meklēšanas algoritmus un saprast, kā datu kārtošana ietekmē ātrumu.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_7/prog1_71", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 7. tēma: Algoritmi un to efektivitāte", "url": "https://ebskola.lv/programmesana1/prog1_7/prog1_7main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "7. tēma: Algoritmi un to efektivitāte", "item": "https://ebskola.lv/programmesana1/prog1_7/prog1_7main"}, {"@type": "ListItem", "position": 4, "name": "7.1 Meklēšanas pamati · Python", "item": "https://ebskola.lv/programmesana1/prog1_7/prog1_71"}]}]}</script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 <script defer src="../../lesson.js"></script>
 </head>
 <body class="page-reference course-lesson has-sidebar">
@@ -63,7 +62,7 @@
 <a href="/programmesana1/prog1_7/prog1_72">7.2 Kārtošanas loģika</a>
 <a href="/programmesana1/prog1_7/prog1_73">7.3 Big O un Sarežģītība</a>
 <a href="/programmesana1/prog1_7/prog1_74">7.4 Iebūvēto funkciju ātrums</a>
-<a href="/programmesana1/prog1_7/prog1_75">7.5 Iebūvēto funkciju efektivitāte</a>
+<a href="/programmesana1/prog1_7/prog1_75">7.5 Datu struktūras izvēle</a>
 <a href="/programmesana1/prog1_7/prog1_76">7.6 Noslēguma projekts: "Koda lauzējs: AI Efektivitāte"</a>
 </nav>
 </aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_7/prog1_7main">7. tēma</a> / 7.1</p>
@@ -72,8 +71,9 @@
 <div class="lesson-meta">
 <a href="/sasnRez">SR 2.4.19. Analizē algoritmu efektivitāti un sarežģītību.</a>
 </div>
-<section>
+<section id="teorija">
 <h2>Teorija: Meklēšanas algoritmi</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_7/testi/prog1_71_test">Sākt testu →</a></p>
 <div class="logic-box">
 <ul>
 <li><b>Algoritms:</b> Precīza instrukciju virkne konkrēta uzdevuma veikšanai (piemēram, kā atrast "Slepeno atslēgu" starp 1000 priekšmetiem).</li>
@@ -110,24 +110,15 @@ def binary(saraksts, mērķis):
         else: hi = mid - 1
     return -1</code></pre>
 </div>
-</section><section>
-<h2>Vides sagatavošana (Windows)</h2>
-<p>Pirms rakstām kodu, izveidosim pareizu struktūru mūsu jaunajai tēmai.</p>
+</section><section class="lesson-prep" id="pirms-sac">
+<h2>Pirms sāc</h2>
 <ol class="step-list">
-<li><b>Atver</b> <b>PowerShell</b> vai <b>Command Prompt</b>.</li>
-<li><b>Izveido</b> jaunu mapi 7. tēmai un ieej tajā, izpildot šīs komandas:</li>
+<li><b>Atver GitHub Desktop</b> un pārbaudi, vai augšā kreisajā stūrī pie <b>Current repository</b> (pašreizējā krātuve) ir <code>programmesana-pamatkurss</code>.</li>
+<li><b>Nospied Fetch origin</b> (pārbaudīt jaunumus). Ja poga pārvēršas par <b>Pull origin</b> (saņemt izmaiņas), nospied arī to.</li>
+<li><b>Izvēlies Repository → Open in Visual Studio Code.</b> Atveras VS Code ar tavu krātuvi.</li>
+<li><b>Atrodi mapi <code>tema07</code></b> VS Code kreisajā pusē — šīs stundas faili būs tajā. Ja tādas mapes vēl nav, ar peles labo pogu noklikšķini tukšā vietā zem failu saraksta, izvēlies <b>New Folder</b> (jauna mape) un nosauc to <code>tema07</code>.</li>
+<li><b>Izveido failu:</b> ar peles labo pogu noklikšķini uz mapes <code>tema07</code>, izvēlies <b>New File</b> (jauns fails) un nosauc to <code>71.py</code>.</li>
 </ol>
-<pre><code class="language-powershell">
-mkdir Tema7_Algoritmi
-cd Tema7_Algoritmi
-    </code></pre>
-<ol class="step-list" start="3">
-<li><b>Izveido</b> tukšu Python failu šodienas stundai un atver to kodu redaktorā (piemēram, VS Code):</li>
-</ol>
-<pre><code class="language-powershell">
-ni 71.py
-code .
-    </code></pre>
 </section><section>
 <h2>Praktiskie uzdevumi</h2>
 

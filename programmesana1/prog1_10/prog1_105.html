@@ -75,17 +75,19 @@
 <a href="/sasnRez">SR 2.4.11. Lieto standartizētas bibliotēkas un API.</a>
 <a href="/sasnRez">SR 3.2.5. Analizē un mazina digitālās drošības riskus.</a>
 </div>
-<section>
+<section id="teorija">
 <h2>Teorija: psycopg2 - Python ↔ PostgreSQL tilts</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_10/testi/prog1_105_test">Sākt testu →</a></p>
 <div class="logic-box">
 <p><code class="language-python">psycopg2</code> ir Python bibliotēka, kas savieno tavu kodu ar PostgreSQL datubāzi. Instalācija: <code class="language-python">pip install psycopg2-binary</code>.</p>
 <pre><code class="language-python">import psycopg2
+from parole_105 import PAROLE   # parole ir atsevišķā failā, kas ierakstīts .gitignore
 
 conn = psycopg2.connect(
     host="localhost",
     database="spele",
     user="postgres",
-    password="tavs_parole"
+    password=PAROLE
 )
 cur = conn.cursor()
 
@@ -109,14 +111,21 @@ conn.close()</code></pre>
 <p class="task-number">1. uzdevums - </p><h2>Pieslēdzies datubāzei no Python</h2>
 <p>Beigās Python varēs lasīt tavu datubāzi.</p>
 <ol class="step-list">
-<li><b>Uzstādi</b> bibliotēku: VS Code terminālī izpildi <code class="language-bash">pip install psycopg2-binary</code>. Ja projektā lieto 9.1 stundas virtuālo vidi, vispirms aktivizē to ar <code class="language-bash">venv\Scripts\activate</code>.</li>
-<li><b>Pārbaudi</b> ar <code class="language-bash">pip list</code>, ka sarakstā ir <code>psycopg2-binary</code>.</li>
+<li><b>Uzstādi</b> bibliotēku: VS Code terminālī izpildi <code class="language-bash">pip install psycopg2-binary</code>. Ja projektā lieto 9.1 stundas virtuālo vidi, vispirms aktivizē to ar <code class="language-bash">venv\Scripts\activate</code>. Pēc tam ar <code class="language-bash">pip list</code> pārbaudi, ka sarakstā ir <code>psycopg2-binary</code>.</li>
 <li><b>Izveido</b> failu <code>105.py</code> un ieraksti <code class="language-python">import psycopg2</code>.</li>
-<li><b>Izveido</b> savienojumu ar <code class="language-python">psycopg2.connect(host=..., database="spele", user=..., password=...)</code>.</li>
+<li><b>Izveido paroles failu:</b> tajā pašā mapē izveido failu <code>parole_105.py</code> ar vienu rindu un ieraksti tajā paroli, ko izdomāji 10.1 stundā, instalējot PostgreSQL:
+<pre><code class="language-python">PAROLE = "tava_parole"</code></pre>
+</li>
+<li><b>Izveido savienojumu</b> failā <code>105.py</code> zem rindas <code>import psycopg2</code>:
+<pre><code class="language-python">from parole_105 import PAROLE
+
+conn = psycopg2.connect(host="localhost", database="spele",
+                        user="postgres", password=PAROLE)</code></pre>
+</li>
 <li><b>Izveido</b> kursoru ar <code class="language-python">cur = conn.cursor()</code>.</li>
 <li><b>Izpildi</b> <code class="language-python">cur.execute("SELECT COUNT(*) FROM speletaji")</code>.</li>
 <li><b>Izdrukā</b> rezultātu ar <code class="language-python">cur.fetchone()</code>.</li>
-<li><b>Pievieno</b> <code>.gitignore</code> failam rindu, kas neļauj nosūtīt paroles failu.</li>
+<li><b>Pievieno</b> failam <code>.gitignore</code> rindu <code>parole_105.py</code>, lai parole nenonāktu GitHub.</li>
 </ol>
 <p class="done-when"><b>Gatavs, kad:</b> Python izdrukā spēlētāju skaitu, un parole nav ierakstīta failā, kas nonāk GitHub.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-2">
@@ -127,7 +136,7 @@ conn.close()</code></pre>
 <li><b>Izpildi</b> tajā <code class="language-python">cur.execute("INSERT INTO speletaji (vards, punkti) VALUES (%s, %s)", (vards, punkti))</code>.</li>
 <li><b>Pievieno</b> <code class="language-python">conn.commit()</code> pēc ievades.</li>
 <li><b>Izsauc</b> funkciju ar jaunu spēlētāju.</li>
-<li><b>Pārbaudi</b> pgAdmin, vai rinda tiešām parādījās.</li>
+<li><b>Pārbaudi</b> SQL Shell logā ar <code class="language-sql">SELECT * FROM speletaji;</code>, vai rinda tiešām parādījās.</li>
 <li><b>Izņem</b> <code>commit()</code> un mēģini vēlreiz ar citu vārdu.</li>
 <li><b>Pieraksti</b>, kāpēc bez <code>commit()</code> dati nesaglabājas.</li>
 </ol>
@@ -171,10 +180,11 @@ conn.close()</code></pre>
 <div class="code-example">
 <pre><code class="language-python">import psycopg2
 from psycopg2.extras import RealDictCursor
+from parole_105 import PAROLE
 
 with psycopg2.connect(
     host="localhost", database="spele",
-    user="postgres", password="parole"
+    user="postgres", password=PAROLE
 ) as conn:
     with conn.cursor(cursor_factory=RealDictCursor) as cur:
         # DROŠA INSERT

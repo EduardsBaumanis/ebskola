@@ -74,8 +74,9 @@
 <a href="/sasnRez">SR 2.4.7. Izstrādā lietotāja saskarni (UI), ievērojot lietojamības principus.</a>
 <a href="/sasnRez">SR 2.4.11. Lieto standartizētas bibliotēkas un API.</a>
 </div>
-<section>
+<section id="teorija">
 <h2>Teorija: fetch() un async - pārlūks runā ar serveri</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_12/testi/prog1_124_test">Sākt testu →</a></p>
 <div class="logic-box">
 <p>JavaScript <code>fetch()</code> API ļauj nosūtīt HTTP pieprasījumus no pārlūka uz serveri.</p>
 <pre><code class="language-javascript">// GET pieprasījums
@@ -112,11 +113,17 @@ CORS(app)  # atļauj visiem; produkcijā konkrēti norādi atļautos domēnus</c
 <p class="task-number">1. uzdevums - </p><h2>Izsauc savu API ar fetch</h2>
 <p>Beigās pārlūks pats paņems datus no tava servera.</p>
 <ol class="step-list">
-<li><b>Izveido</b> failu <code>124_index.html</code> ar tukšu <code>&lt;script&gt;</code> bloku.</li>
+<li><b>Uzstādi flask-cors:</b> VS Code terminālī (ar aktivizētu vidi) izpildi <code class="language-bash">pip install flask-cors</code>. Bez tā pārlūks bloķēs pieprasījumus no tavas lapas uz serveri.</li>
+<li><b>Atļauj pieprasījumus no lapas:</b> 12.3 stundas failā <code>123.py</code> pievieno šīs rindas — importu faila augšā, <code>CORS(app)</code> zem rindas <code>app = Flask(__name__)</code>. Tad palaid <code>123.py</code> un atstāj to strādājam.
+<pre><code class="language-python">from flask_cors import CORS
+
+CORS(app)</code></pre>
+</li>
+<li><b>Izveido</b> tajā pašā mapē failu <code>124_index.html</code> ar tukšu <code>&lt;script&gt;</code> bloku.</li>
 <li><b>Uzraksti</b> <code class="language-javascript">async function ielade() {</code>.</li>
 <li><b>Ieraksti</b> tajā <code class="language-javascript">const r = await fetch("http://localhost:5000/api/rezultati");</code>.</li>
 <li><b>Pievieno</b> <code class="language-javascript">const dati = await r.json();</code> un <code class="language-javascript">console.log(dati);</code>.</li>
-<li><b>Izsauc</b> funkciju un atver lapu pārlūkā.</li>
+<li><b>Izsauc</b> funkciju un atver lapu pārlūkā: mapes logā divreiz noklikšķini uz <code>124_index.html</code>.</li>
 <li><b>Atver</b> F12 konsoli un pārbaudi, vai dati parādījās.</li>
 </ol>
 <p class="done-when"><b>Gatavs, kad:</b> konsolē redzams masīvs ar rezultātiem, nevis kļūdas paziņojums.</p>
@@ -129,7 +136,7 @@ CORS(app)  # atļauj visiem; produkcijā konkrēti norādi atļautos domēnus</c
 <li><b>Uzbūvē</b> katrai rindai HTML tekstu ar vārdu un punktiem.</li>
 <li><b>Ieliec</b> to tabulā ar <code class="language-javascript">document.getElementById("saraksts").innerHTML = ...</code>.</li>
 <li><b>Pārlādē</b> lapu un pārbaudi tabulu.</li>
-<li><b>Pievieno</b> pārbaudi <code class="language-javascript">if (!r.ok)</code> ar paziņojumu par kļūdu.</li>
+<li><b>Pievieno kļūdu apstrādi:</b> ieliec <code>fetch</code> izsaukumu blokā <code class="language-javascript">try { … } catch (kluda) { … }</code> un pārbaudi arī <code class="language-javascript">if (!r.ok)</code>. Izslēgts serveris neatbild vispār, tāpēc šo kļūdu noķer tikai <code>catch</code>. Kā tas izskatās, redzi pilnajā risinājumā lapas beigās.</li>
 <li><b>Apturi</b> serveri un pārlādē lapu, lai redzētu kļūdas apstrādi.</li>
 </ol>
 <p class="done-when"><b>Gatavs, kad:</b> ar ieslēgtu serveri tabula ir aizpildīta, bet ar izslēgtu parādās tavs kļūdas paziņojums.</p>
@@ -147,16 +154,16 @@ CORS(app)  # atļauj visiem; produkcijā konkrēti norādi atļautos domēnus</c
 </ol>
 <p class="done-when"><b>Gatavs, kad:</b> pēc pogas nospiešanas jaunais rezultāts parādās tabulā, un lapa nepārlādējas.</p>
 </section><details class="course-help extra-task">
-<summary>Papildu uzdevums - Atrisini CORS kļūdu</summary>
-<p>Ja pamatdarbs ir gatavs, uzzini, kāpēc pārlūks bloķē svešus pieprasījumus.</p>
+<summary>Papildu uzdevums - Pārbaudi, ko dara CORS</summary>
+<p>Ja pamatdarbs ir gatavs, uzzini, kāpēc pārlūks bloķē pieprasījumus uz citu adresi.</p>
 <ol class="step-list">
-<li><b>Atver</b> <code>124_index.html</code> no diska un mēģini izsaukt API.</li>
+<li><b>Ieliec</b> failā <code>123.py</code> <code>#</code> priekšā rindai <code>CORS(app)</code> un palaid serveri no jauna.</li>
+<li><b>Pārlādē</b> lapu <code>124_index.html</code> un atver F12 konsoli.</li>
 <li><b>Izlasi</b> konsolē kļūdu, kurā minēts vārds <code>CORS</code>.</li>
-<li><b>Instalē</b> serverī <code class="language-bash">pip install flask-cors</code>.</li>
-<li><b>Pievieno</b> failā <code>124.py</code> kodam <code class="language-python">CORS(app)</code>.</li>
-<li><b>Pārlādē</b> lapu un pārbaudi, ka kļūda pazuda.</li>
+<li><b>Noņem</b> <code>#</code>, palaid serveri vēlreiz un pārlādē lapu.</li>
+<li><b>Pieraksti</b>, kurš bloķēja pieprasījumu — pārlūks vai serveris.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> pirms labojuma konsolē ir CORS kļūda, pēc tā dati ielādējas.</p>
+<p class="done-when"><b>Gatavs, kad:</b> bez <code>CORS(app)</code> konsolē ir CORS kļūda, bet ar to dati atkal ielādējas.</p>
 </details><section>
 <h2>Biežākās kļūdas</h2>
 <div class="logic-box">
@@ -167,40 +174,67 @@ CORS(app)  # atļauj visiem; produkcijā konkrēti norādi atļautos domēnus</c
 </ul>
 </div>
 </section><section>
-<h2>Koda piemērs</h2>
+<h2>Pilns risinājums: 124_index.html</h2>
 <div class="code-example">
-<pre><code class="language-html">&lt;!-- 124_index.html --&gt;
-&lt;form id="forma"&gt;
-  &lt;input id="vards" placeholder="Vārds"&gt;
-  &lt;input id="punkti" type="number" placeholder="Punkti"&gt;
-  &lt;button&gt;Saglabāt&lt;/button&gt;
-&lt;/form&gt;
-&lt;table id="saraksts"&gt;&lt;/table&gt;
+<details class="course-help"><summary>Parādīt pilnu risinājumu</summary>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;lv&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;Rezultāti&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Rezultāti&lt;/h1&gt;
+  &lt;p id=&quot;zinojums&quot;&gt;&lt;/p&gt;
+  &lt;form id=&quot;forma&quot;&gt;
+    &lt;input id=&quot;vards&quot; placeholder=&quot;Vārds&quot; required&gt;
+    &lt;input id=&quot;punkti&quot; type=&quot;number&quot; placeholder=&quot;Punkti&quot; required&gt;
+    &lt;button&gt;Saglabāt&lt;/button&gt;
+  &lt;/form&gt;
+  &lt;table id=&quot;saraksts&quot;&gt;&lt;/table&gt;
 
-&lt;script&gt;
-async function atjaunot() {
-  const dati = await (await fetch("/api/rezultati")).json();
-  document.getElementById("saraksts").innerHTML =
-    dati.map(r =&gt; `&lt;tr&gt;&lt;td&gt;${r.vards}&lt;/td&gt;&lt;td&gt;${r.punkti}&lt;/td&gt;&lt;/tr&gt;`).join("");
-}
+  &lt;script&gt;
+    const API = &quot;http://localhost:5000/api/rezultati&quot;;
 
-document.getElementById("forma").onsubmit = async (e) =&gt; {
-  e.preventDefault();
-  await fetch("/api/rezultati", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      vards: vards.value,
-      punkti: parseInt(punkti.value)
-    })
-  });
-  forma.reset();
-  atjaunot();
-};
+    async function ielade() {
+      const zinojums = document.getElementById(&quot;zinojums&quot;);
+      try {
+        const r = await fetch(API);
+        if (!r.ok) {
+          zinojums.textContent = &quot;Serveris atbildēja ar kļūdu &quot; + r.status;
+          return;
+        }
+        const dati = await r.json();
+        let rindas = &quot;&lt;tr&gt;&lt;th&gt;Vārds&lt;/th&gt;&lt;th&gt;Punkti&lt;/th&gt;&lt;/tr&gt;&quot;;
+        for (const ieraksts of dati) {
+          rindas += &quot;&lt;tr&gt;&lt;td&gt;&quot; + ieraksts.vards + &quot;&lt;/td&gt;&lt;td&gt;&quot; + ieraksts.punkti + &quot;&lt;/td&gt;&lt;/tr&gt;&quot;;
+        }
+        document.getElementById(&quot;saraksts&quot;).innerHTML = rindas;
+        zinojums.textContent = &quot;&quot;;
+      } catch (kluda) {
+        zinojums.textContent = &quot;Neizdevās sazināties ar serveri. Vai 123.py ir palaists?&quot;;
+      }
+    }
 
-atjaunot();
-&lt;/script&gt;</code></pre>
-<div class="result">Lapa rāda dinamisku tabulu;<br/>Forma pievieno datus;<br/>Tabula atjaunojas automātiski.</div>
+    document.getElementById(&quot;forma&quot;).addEventListener(&quot;submit&quot;, async (e) =&gt; {
+      e.preventDefault();
+      const vards = document.getElementById(&quot;vards&quot;).value;
+      const punkti = Number(document.getElementById(&quot;punkti&quot;).value);
+      await fetch(API, {
+        method: &quot;POST&quot;,
+        headers: {&quot;Content-Type&quot;: &quot;application/json&quot;},
+        body: JSON.stringify({vards, punkti})
+      });
+      e.target.reset();
+      ielade();
+    });
+
+    ielade();
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</details>
+<div class="result">Ar ieslēgtu <code>123.py</code> lapa parāda tabulu, un forma pievieno jaunu rezultātu bez lapas pārlādes. Ar izslēgtu serveri virs formas parādās teksts „Neizdevās sazināties ar serveri”.</div>
 </div>
 </section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
 <a class="nav-btn" href="/programmesana1/prog1_12/prog1_123">⬅ Iepriekšējā stunda</a>

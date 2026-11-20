@@ -34,7 +34,6 @@
 <link rel="stylesheet" href="../../lesson.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "8.5 Sasniedzamie rezultāti un resursu plānošana · Prog I", "description": "Izveidot reālistisku programmatūras izstrādes ceļa karti (Roadmap), sadalot apjomīgu projektu pārbaudāmos posmos un sasniedzamos rezultātos.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_8/prog1_85", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 8. tēma: Projektēšana un plānošana", "url": "https://ebskola.lv/programmesana1/prog1_8/prog1_8main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "8. tēma: Projektēšana un plānošana", "item": "https://ebskola.lv/programmesana1/prog1_8/prog1_8main"}, {"@type": "ListItem", "position": 4, "name": "8.5 Sasniedzamie rezultāti un resursu plānošana · Prog I", "item": "https://ebskola.lv/programmesana1/prog1_8/prog1_85"}]}]}</script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
 <script defer src="../../lesson.js"></script>
 </head>
@@ -62,7 +61,7 @@
 <a href="/programmesana1/prog1_8/prog1_81">8.1 Problēmas formulēšana un automatizācija</a>
 <a href="/programmesana1/prog1_8/prog1_82">8.2 Prasību specifikācija - Lietotāju stāsti</a>
 <a href="/programmesana1/prog1_8/prog1_83">8.3 Datu modelis un UI plūsma</a>
-<a href="/programmesana1/prog1_8/prog1_84">8.4 Prezentācijas māksla - Pitch sagatavošana</a>
+<a href="/programmesana1/prog1_8/prog1_84">8.4 Testēšana ar unittest</a>
 <a aria-current="page" class="active" href="/programmesana1/prog1_8/prog1_85">8.5 Sasniedzamie rezultāti un resursu plānošana</a>
 <a href="/programmesana1/prog1_8/prog1_86">8.6 Noslēguma projekts: Projektējuma aizstāvēšana</a>
 </nav>
@@ -81,33 +80,30 @@
 <li><b>Izveidot</b> laika grafiku, prioritizējot kritiskās funkcijas.</li>
 </ul>
 </div>
-<section>
+<section id="teorija">
 <h2>Teorija: Resursi un "Definition of Done"</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_8/testi/prog1_85_test">Sākt testu →</a></p>
 <div class="logic-box">
 <ul>
 <li><b>Resursu veidi IT projektā:</b>
 <ul>
-<li><b>Tehniskie:</b> Python vide, bibliotēkas (<code class="language-python">csv</code>, <code class="language-python">json</code>), VS Code paplašinājumi.</li>
+<li><b>Tehniskie:</b> Python vide, bibliotēkas (<code class="language-python">unittest</code>, <code class="language-python">random</code>), VS Code paplašinājumi.</li>
 <li><b>Informatīvie:</b> Oficiālā dokumentācija, algoritmu špikeri, iepriekšējo tēmu koda paraugi.</li>
 <li><b>Cilvēkresursi:</b> Tavs un klasesbiedru laiks (īpaši testēšanas fāzē).</li>
 </ul>
 </li>
-<li><b>Starprezultāti (Milestones):</b> Kontrolpunkti projektā, kas palīdz sekot progresam (piemēram: "CSV dzinējs ielādē datus bez kļūdām").</li>
-<li><b>Pabeigta darba definīcija (DoD):</b> Skaidri kritēriji, kad funkcija skaitās gatava (piemēram: "Kods ir PEP 8 saderīgs, funkcijām ir docstrings un tās ir notestētas").</li>
+<li><b>Starprezultāti (Milestones):</b> Kontrolpunkti projektā, kas palīdz sekot progresam (piemēram: "Funkcija uzvaretajs() atrod uzvarētāju visās 8 līnijās").</li>
+<li><b>Pabeigta darba definīcija (DoD):</b> Skaidri kritēriji, kad funkcija skaitās gatava (piemēram: "Kods ir PEP 8 saderīgs, funkcijām ir docstring, un visi testi failā <code>test_84.py</code> iziet — terminālī redzams <code>OK</code>").</li>
 </ul>
 </div>
-</section><section>
-<h2>Vides sagatavošana (Windows)</h2>
-<p>Plānošanai izmantosim Markdown (<code class="language-python">.md</code>) failu, kas programmētāju vidē ir standarts darbu sarakstu veidošanai.</p>
+</section><section class="lesson-prep" id="pirms-sac">
+<h2>Pirms sāc</h2>
 <ol class="step-list">
-<li><b>Atver</b> <b>PowerShell</b>.</li>
-<li><b>Ieej</b> projekta mapē un izveido plāna failu:</li>
+<li><b>Atver GitHub Desktop</b> un pārbaudi, vai augšā kreisajā stūrī pie <b>Current repository</b> (pašreizējā krātuve) ir <code>programmesana-pamatkurss</code>.</li>
+<li><b>Nospied Fetch origin</b> (pārbaudīt jaunumus). Ja poga pārvēršas par <b>Pull origin</b> (saņemt izmaiņas), nospied arī to.</li>
+<li><b>Izvēlies Repository → Open in Visual Studio Code.</b> Atveras VS Code ar tavu krātuvi.</li>
+<li><b>Atrodi mapi <code>tema08</code></b> VS Code kreisajā pusē — šīs stundas faili būs tajā. Ja tādas mapes vēl nav, ar peles labo pogu noklikšķini tukšā vietā zem failu saraksta, izvēlies <b>New Folder</b> (jauna mape) un nosauc to <code>tema08</code>.</li>
 </ol>
-<pre><code class="language-powershell">
-cd KrustiniNullites_Arhitektura
-ni 85.md
-code 85.md
-    </code></pre>
 </section><section>
 <h2>Praktiskie uzdevumi</h2>
 
@@ -157,7 +153,7 @@ code 85.md
 <ol class="step-list">
 <li><b>Pievieno</b> sadaļu <code>## Definition of Done</code>.</li>
 <li><b>Uzraksti</b> piecus kritērijus ar rūtiņām <code>- [ ]</code>.</li>
-<li><b>Iekļauj</b> vismaz vienu par testēšanu un vienu par dokumentāciju.</li>
+<li><b>Iekļauj</b> kritēriju <code>- [ ] Visi testi failā test_84.py iziet (OK)</code> un vienu kritēriju par dokumentāciju.</li>
 <li><b>Pārbaudi</b>, vai neviens kritērijs nav viedokļa jautājums.</li>
 <li><b>Salīdzini</b> tos ar 8.2 stundas akceptēšanas kritērijiem.</li>
 </ol>
@@ -165,16 +161,19 @@ code 85.md
 </details><section>
 <h2>Koda piemērs</h2>
 <div class="code-example">
-<pre><code class="language-powershell">
-# Projekta Izstrādes Ceļa Karte
+<pre><code class="language-markdown"># Krustiņi un nullītes - izstrādes ceļa karte
 ## Starprezultāti
-1. CSV Dzinējs (4h) - Gatavs, kad dati nolasīti vārdnīcā.
-2. Spēles Loģika (6h) - Gatavs, kad spēlētājs var pārvietoties starp ID.
+1. Laukums un gājieni (4 h) - gatavs, kad divi spēlētāji pēc kārtas ieliek X un O.
+2. Uzvarētāja pārbaude (3 h) - gatavs, kad visi testi failā test_84.py iziet (OK).
+3. Spēles cikls (3 h) - gatavs, kad spēle beidzas ar uzvaru vai neizšķirtu.
 
 ## Riski un risinājumi
-- Nepareiza lietotāja ievade -&gt; Tiks izmantota .upper().strip() metode.
-- ID nesakritības -&gt; Tiks ieviesta pārbaude, vai mērķa ID eksistē vārdnīcā.
-</code></pre>
+- Nepareiza ievade (burti, aizņemta rūtiņa) -&gt; pārbaude ar try/except un if.
+- Uzvaras pārbaude nepamana diagonāli -&gt; tests test_x_diagonale to atklāj.
+
+## Definition of Done
+- [ ] Visi testi failā test_84.py iziet (OK)
+- [ ] README apraksta, kā palaist spēli un testus</code></pre>
 <div class="logic-box">
 <b>Padoms:</b> Labs plānotājs vienmēr atstāj 20% laika rezervi neparedzētām kļūdām!
         </div>
