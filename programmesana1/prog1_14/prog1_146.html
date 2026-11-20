@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11.6 Noslēguma projekts: Klases turnīra simulators — ebSkola</title>
+<meta name="description" content="Programmēšana I (Python): Apvienot visas OOP prasmes - klases, mantošanu un polimorfismu - pilnvērtīgā klases turnīra simulatorā.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_11/prog1_116">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="11.6 Noslēguma projekts: Klases turnīra simulators">
+<meta property="og:description" content="Programmēšana I (Python): Apvienot visas OOP prasmes - klases, mantošanu un polimorfismu - pilnvērtīgā klases turnīra simulatorā.">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_11/prog1_116">
+<meta property="og:image" content="https://ebskola.lv/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ebSkola — datorikas, programmēšanas un robotikas mācību materiāli">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="../../lesson.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "11.6 Noslēguma projekts: Klases turnīra simulators", "description": "Programmēšana I (Python): Apvienot visas OOP prasmes - klases, mantošanu un polimorfismu - pilnvērtīgā klases turnīra simulatorā.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_11/prog1_116", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 11. tēma: Objektorientētā programmēšana", "url": "https://ebskola.lv/programmesana1/prog1_11/prog1_11main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "11. tēma: Objektorientētā programmēšana", "item": "https://ebskola.lv/programmesana1/prog1_11/prog1_11main"}, {"@type": "ListItem", "position": 4, "name": "11.6 Noslēguma projekts: Klases turnīra simulators", "item": "https://ebskola.lv/programmesana1/prog1_11/prog1_116"}]}]}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script defer src="../../lesson.js"></script>
+</head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="topbar">
+<div class="wrap row">
+<a class="brand" href="/">
+<span class="glyph">›_</span>
+<span class="name">ebskola<span>.lv</span></span>
+</a>
+<nav aria-label="Galvenā navigācija" class="nav">
+<a href="/programmesana1/programmesana1">Prog I</a>
+<a href="/programmesana1/prog1_11/prog1_11main">11. tēma</a>
+<a href="/sasnRez#prog1">rezultāti</a>
+<a href="/paligm">palīgmateriāli</a>
+</nav>
+<div class="spacer"></div>
+</div>
+</header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>11. Tēma - Objektorientētā programmēšana</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_11/prog1_11main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_11/prog1_111">11.1 Klases un objekti</a>
+<a href="/programmesana1/prog1_11/prog1_112">11.2 Konstruktori un atribūti</a>
+<a href="/programmesana1/prog1_11/prog1_113">11.3 Metodes un self</a>
+<a href="/programmesana1/prog1_11/prog1_114">11.4 Mantošana un super()</a>
+<a href="/programmesana1/prog1_11/prog1_115">11.5 Polimorfisms un dunder metodes</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_11/prog1_116">11.6 Noslēguma projekts: Klases turnīra simulators</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_11/prog1_11main">11. tēma</a> / 11.6</p>
+<h1>11.6 Noslēguma projekts: Klases turnīra simulators</h1>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Apvienot visas OOP prasmes - klases, mantošanu un polimorfismu - pilnvērtīgā klases turnīra simulatorā.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.18. Lieto objektorientētās programmēšanas (OOP) pamatus.</a>
+<a href="/sasnRez">SR 2.4.15. Veido modulāras programmas un funkcijas.</a>
+<a href="/sasnRez">SR 2.4.14. Izmanto algoritmu vadības struktūras (sazarojumi, cikli).</a>
+</div>
+<section id="teorija">
+<h2>Teorija: Simulatora apraksts un arhitektūra</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_11/testi/prog1_116_test">Sākt testu →</a></p>
+<div class="logic-box">
+<p>Tavs <b>klases turnīra simulators</b> izmantos visas OOP iespējas:</p>
+<ul>
+<li><b>Bāzes klase</b> <code>Dalibnieks</code> - kopīga visiem (enerģija, vards, sanem_punktus, vai_aktivs).</li>
+<li><b>Bērnu klases</b>: <code>Kapteinis</code> (stabilitāte), <code>Prezentetajs</code> (idejas), <code>LaikaSargs</code> (precīzs temps).</li>
+<li><b>Šķēršļi</b>: <code>PrinteraRinda</code>, <code>WiFiPauze</code>, <code>PazudusaisMarkieris</code> - katrs ar savu stilu.</li>
+<li><b>Polimorfisms</b>: visiem ir <code>gajiens()</code>, bet darbība atšķiras.</li>
+<li><b>Turnīra cikls</b>: nejauši klases izaicinājumi, rundām balstīti gājieni.</li>
+</ul>
+<p><b>Failu struktūra:</b> visu simulatora kodu raksti failā <code>116.py</code>:</p>
+<pre><code class="language-python">prog1_11/
+├── 116.py              # Dalibnieks, lomas (Kapteinis, Prezentetajs), šķēršļi un turnīra cikls
+└── 116_turnirs.txt     # turnīra notikumu žurnāls (papildu uzdevumā)</code></pre>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
+
+
+
+
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Uzbūvē bāzes klasi un divas lomas</h2>
+<p>Beigās tev būs strādājoša dalībnieku hierarhija.</p>
+<ol class="step-list">
+<li><b>Izveido</b> failu <code>116.py</code>.</li>
+<li><b>Uzraksti</b> klasi <code>Dalibnieks</code> ar <code>vards</code>, <code>energija</code> un <code>temps</code>.</li>
+<li><b>Pievieno</b> tai metodes <code>vai_aktivs()</code> un <code>sanem_punktus()</code>.</li>
+<li><b>Izveido</b> bērna klasi <code>Kapteinis</code> ar lielāku enerģiju.</li>
+<li><b>Izveido</b> bērna klasi <code>Prezentetajs</code> ar lielāku tempu.</li>
+<li><b>Izveido</b> pa vienam objektam un izdrukā to sākuma vērtības.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> abas lomas mantojušas kopīgās metodes, bet to sākuma vērtības atšķiras.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Pievieno šķēršļus un polimorfismu</h2>
+<p>Beigās katram šķērslim būs sava iedarbība.</p>
+<ol class="step-list">
+<li><b>Izveido</b> klasi <code>Skerslis</code> ar metodi <code class="language-python">def iedarbojas(self, dalibnieks):</code>.</li>
+<li><b>Izveido</b> bērna klasi <code>PrinteraRinda</code>, kas atņem enerģiju.</li>
+<li><b>Izveido</b> bērna klasi <code>WiFiPauze</code>, kas samazina tempu.</li>
+<li><b>Ieliec</b> abus šķēršļus vienā sarakstā.</li>
+<li><b>Izsauc</b> ciklā katram <code>iedarbojas()</code> uz viena dalībnieka.</li>
+<li><b>Izdrukā</b> dalībnieka stāvokli pēc katra šķēršļa.</li>
+<li><b>Pārbaudi</b>, ka cikls nezina, kurš šķērslis tieši ir.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> viens cikls apstrādā abus šķēršļus, un katrs iedarbojas atšķirīgi.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Palaid turnīra ciklu un statistiku</h2>
+<p>Beigās simulators noskaidros turnīra uzvarētāju.</p>
+<ol class="step-list">
+<li><b>Izveido</b> sarakstu ar vismaz trim dalībniekiem.</li>
+<li><b>Uzraksti</b> ciklu, kas turpinās, kamēr aktīvi vismaz divi dalībnieki.</li>
+<li><b>Izvēlies</b> katrā kārtā nejaušu šķērsli ar <code class="language-python">random.choice()</code>.</li>
+<li><b>Piemēro</b> to nejaušam dalībniekam un izdrukā notikumu.</li>
+<li><b>Izdrukā</b> beigās uzvarētāju un kārtu skaitu.</li>
+<li><b>Palaid</b> simulāciju trīs reizes un pieraksti rezultātus.</li>
+<li><b>Veic</b> commit, push un iesniedz krātuves saiti.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> trīs palaišanas reizēs uzvar dažādi dalībnieki, un cikls vienmēr beidzas.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Pievieno turnīra žurnālu</summary>
+<p>Ja pamatdarbs ir gatavs, saglabā visu notikumu vēsturi.</p>
+<ol class="step-list">
+<li><b>Izveido</b> sarakstu <code>zurnals</code> pirms cikla.</li>
+<li><b>Pievieno</b> tam katru notikumu kā tekstu.</li>
+<li><b>Izdrukā</b> beigās visu žurnālu ar numerāciju.</li>
+<li><b>Saglabā</b> žurnālu failā <code>116_turnirs.txt</code>.</li>
+<li><b>Pārbaudi</b>, ka fails satur visas kārtas.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> failā <code>116_turnirs.txt</code> ir tikpat rindu, cik turnīrā bija kārtu.</p>
+</details><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Bāzes klases secība:</b> Failā <code>116.py</code> bāzes klasei <code>Dalibnieks</code> un <code>Skerslis</code> vienmēr jābūt definētām <b>pirms</b> bērnu klasēm, kas no tām manto.</li>
+<li><b>Bezgalīgs cikls turnīrā:</b> Aizmirsts atjaunināt enerģiju vai pārbaudīt <code>vai_aktivs()</code>.</li>
+<li><b>Klases atribūts list:</b> <code>self.punktu_vesture = []</code> konstruktorā - NEKAD klases līmenī (visi dalītu vienu sarakstu).</li>
+</ul>
+</div>
+</section><section>
+<h2>Koda piemērs</h2>
+<div class="code-example">
+<pre><code class="language-python">import random
+
+class Dalibnieks:
+    def __init__(self, vards, energija, temps):
+        self.vards = vards
+        self.energija = energija
+        self.temps = temps
+
+    def vai_aktivs(self): return self.energija &gt; 0
+    def sanem_punktus(self, b): self.energija = max(0, self.energija - b)
+    def __str__(self): return f"{self.vards} ({self.energija} enerģija)"
+
+class Kapteinis(Dalibnieks):
+    def __init__(self, vards):
+        super().__init__(vards, energija=150, temps=15)
+        self.stabilitate = 5
+    def sanem_punktus(self, b): super().sanem_punktus(max(0, b - self.stabilitate))
+
+class PrinteraRinda(Dalibnieks):
+    def __init__(self):
+        super().__init__("PrinteraRinda", energija=40, temps=8)
+
+anna = Kapteinis("Anna")
+printeris = PrinteraRinda()
+
+while anna.vai_aktivs() and printeris.vai_aktivs():
+    printeris.sanem_punktus(anna.temps)
+    if printeris.vai_aktivs(): anna.sanem_punktus(printeris.temps)
+
+uzvaretajs = anna if anna.vai_aktivs() else printeris
+print(f"Uzvarētājs: {uzvaretajs}")</code></pre>
+<div class="result">Uzvarētājs: Anna (130 enerģija)</div>
+</div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_11/prog1_115">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_11/prog1_11main">Tēmas apkopojums ➡</a>
+</nav></main>
+
+
+
+
+
+
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="foot-brand" href="/"><span class="glyph">›_</span> ebskola.lv</a>
+        <p>Atvērti, bezmaksas mācību materiāli datorikā, programmēšanā un robotikā latviešu valodā.</p>
+        <div class="foot-social">
+          <a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">LinkedIn</a>
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Kursi</h4>
+        <ul>
+          <li><a href="/datorika9/datorika9">Datorika 9. klasei</a></li>
+          <li><a href="/programmesana1/programmesana1">Programmēšana I</a></li>
+          <li><a href="/programmesana2/programmesana2">Programmēšana II</a></li>
+          <li><a href="/robotika/robotika">Robotika</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resursi</h4>
+        <ul>
+          <li><a href="/sasnRez">Sasniedzamie rezultāti</a></li>
+          <li><a href="/paligm">Palīgmateriāli</a></li>
+          <li><a href="/#structure">Visu tēmu indekss</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Projekts</h4>
+        <ul>
+          <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a></li>
+          <li><a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">Sazināties</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div class="left">
+        <span>© 2026 ebSkola</span>
+        <span>Izstrādājis Eduards Baumanis</span>
+      </div>
+    </div>
+  </div>
+</footer></body>
+</html>

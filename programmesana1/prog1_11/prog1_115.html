@@ -4,17 +4,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>11.5 Polimorfisms un dunder metodes · Python — ebSkola</title>
-<meta name="description" content="Izprast polimorfismu un Python speciālās (&quot;dunder&quot;) metodes objektu pielāgošanai.">
+<title>9.5 Interaktivitāte pārlūkprogrammā · Python — ebSkola</title>
+<meta name="description" content="Programmēšana I (Python): Pievienot interaktivitāti, izmantojot session_state, callback-us un dinamisku satura atjauninājumu.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_11/prog1_115">
+<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_9/prog1_95">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="11.5 Polimorfisms un dunder metodes · Python">
-<meta property="og:description" content="Izprast polimorfismu un Python speciālās (&quot;dunder&quot;) metodes objektu pielāgošanai.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_11/prog1_115">
+<meta property="og:title" content="9.5 Interaktivitāte pārlūkprogrammā · Python">
+<meta property="og:description" content="Programmēšana I (Python): Pievienot interaktivitāti, izmantojot session_state, callback-us un dinamisku satura atjauninājumu.">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_9/prog1_95">
 <meta property="og:image" content="https://ebskola.lv/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -32,11 +32,10 @@
 <link rel="stylesheet" href="../../style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css">
 <link rel="stylesheet" href="../../lesson.css">
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "11.5 Polimorfisms un dunder metodes · Python", "description": "Izprast polimorfismu un Python speciālās (\"dunder\") metodes objektu pielāgošanai.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_11/prog1_115", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 11. tēma: Objektorientētā programmēšana", "url": "https://ebskola.lv/programmesana1/prog1_11/prog1_11main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "11. tēma: Objektorientētā programmēšana", "item": "https://ebskola.lv/programmesana1/prog1_11/prog1_11main"}, {"@type": "ListItem", "position": 4, "name": "11.5 Polimorfisms un dunder metodes · Python", "item": "https://ebskola.lv/programmesana1/prog1_11/prog1_115"}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "9.5 Interaktivitāte pārlūkprogrammā · Python", "description": "Programmēšana I (Python): Pievienot interaktivitāti, izmantojot session_state, callback-us un dinamisku satura atjauninājumu.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_9/prog1_95", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 9. tēma: Web integrācija un bibliotēkas", "url": "https://ebskola.lv/programmesana1/prog1_9/prog1_9main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "9. tēma: Web integrācija un bibliotēkas", "item": "https://ebskola.lv/programmesana1/prog1_9/prog1_9main"}, {"@type": "ListItem", "position": 4, "name": "9.5 Interaktivitāte pārlūkprogrammā · Python", "item": "https://ebskola.lv/programmesana1/prog1_9/prog1_95"}]}]}</script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
 <script defer src="../../lesson.js"></script>
 </head>
 <body class="page-reference course-lesson has-sidebar">
@@ -48,7 +47,7 @@
 </a>
 <nav aria-label="Galvenā navigācija" class="nav">
 <a href="/programmesana1/programmesana1">Prog I</a>
-<a href="/programmesana1/prog1_11/prog1_11main">11. tēma</a>
+<a href="/programmesana1/prog1_9/prog1_9main">9. tēma</a>
 <a href="/sasnRez#prog1">rezultāti</a>
 <a href="/paligm">palīgmateriāli</a>
 </nav>
@@ -57,53 +56,52 @@
 </header>
 <aside aria-label="Tēmas navigācija" class="sidebar-nav">
 <div class="sidebar-kicker">Programmēšana I</div>
-<h3>11. Tēma - Objektorientētā programmēšana</h3>
+<h3>9. Tēma - Web Integrācija un Bibliotēkas</h3>
 <nav aria-label="Tēmas nodarbības" class="sidebar-links">
-<a class="topic-main" href="/programmesana1/prog1_11/prog1_11main">Tēmas sākums</a>
-<a href="/programmesana1/prog1_11/prog1_111">11.1 Klases un objekti</a>
-<a href="/programmesana1/prog1_11/prog1_112">11.2 Konstruktori un atribūti</a>
-<a href="/programmesana1/prog1_11/prog1_113">11.3 Metodes un self</a>
-<a href="/programmesana1/prog1_11/prog1_114">11.4 Mantošana un super()</a>
-<a aria-current="page" class="active" href="/programmesana1/prog1_11/prog1_115">11.5 Polimorfisms un dunder metodes</a>
-<a href="/programmesana1/prog1_11/prog1_116">11.6 Noslēguma projekts: Klases turnīra simulators</a>
+<a class="topic-main" href="/programmesana1/prog1_9/prog1_9main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_9/prog1_91">9.1 Ārējās bibliotēkas un instalēšana</a>
+<a href="/programmesana1/prog1_9/prog1_92">9.2 Atvērtā koda licences un dokumentācija</a>
+<a href="/programmesana1/prog1_9/prog1_93">9.3 Python pārvēršana tīmekļa saskarnē</a>
+<a href="/programmesana1/prog1_9/prog1_94">9.4 HTML un Python sasaiste</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_9/prog1_95">9.5 Interaktivitāte pārlūkprogrammā</a>
+<a href="/programmesana1/prog1_9/prog1_96">9.6 Noslēguma projekts: "Krustiņi un nullītes" pārlūkā</a>
 </nav>
-</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_11/prog1_11main">11. tēma</a> / 11.5</p>
-<h1>11.5 Polimorfisms un dunder metodes</h1>
-<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Izprast polimorfismu un Python speciālās ("dunder") metodes objektu pielāgošanai.</p>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_9/prog1_9main">9. tēma</a> / 9.5</p>
+<h1>9.5 Interaktivitāte pārlūkprogrammā</h1>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Pievienot interaktivitāti, izmantojot session_state, callback-us un dinamisku satura atjauninājumu.</p>
 <div class="lesson-meta">
-<a href="/sasnRez">SR 2.4.18. Lieto objektorientētās programmēšanas (OOP) pamatus.</a>
-<a href="/sasnRez">SR 2.4.11. Lieto standartizētas bibliotēkas un API.</a>
+<a href="/sasnRez">SR 2.4.7. Izstrādā lietotāja saskarni (UI), ievērojot lietojamības principus.</a>
+<a href="/sasnRez">SR 2.4.14. Izmanto algoritmu vadības struktūras (sazarojumi, cikli).</a>
 </div>
 <section id="teorija">
-<h2>Teorija: Polimorfisms un dunder (__metode__)</h2>
-<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_11/testi/prog1_115_test">Sākt testu →</a></p>
+<h2>Teorija: session_state un interaktivitāte</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_9/testi/prog1_95_test">Sākt testu →</a></p>
 <div class="logic-box">
-<p><b>Polimorfisms</b> = daudzas formas. Dažādas klases ar to pašu metodes nosaukumu, bet atšķirīgu uzvedību.</p>
-<pre><code class="language-python">class Dalibnieks:
-    def runa(self): print("Dalibnieks runā vispārīgi.")
+<p><code class="language-python">st.session_state</code> ir Streamlit galvenā funkcija interaktivitātei - datu glabāšana starp pārlādēm.</p>
+<pre><code class="language-python">import streamlit as st
 
-class Prezentetajs(Dalibnieks):
-    def runa(self): print("Slaids ir gatavs, un neviens nepaniko!")
+# Inicializācija (tikai pirmoreiz)
+if "klikski" not in st.session_state:
+    st.session_state.klikski = 0
+if "saraksts" not in st.session_state:
+    st.session_state.saraksts = []
 
-class Kapteinis(Dalibnieks):
-    def runa(self): print("Komanda gatava, marķieris atrasts!")
+# Atjaunināšana
+if st.button("Klikšķini mani"):
+    st.session_state.klikski += 1
 
-# Polimorfisms - vienots interfeiss, dažāda uzvedība
-for v in [Dalibnieks(), Prezentetajs(), Kapteinis()]:
-    v.runa()</code></pre>
-<p><b>Dunder metodes</b> (<i>double underscore</i>) ir iebūvētie āķi, kas ļauj klasei darboties ar Python operatoriem un funkcijām:</p>
-<div aria-label="Tabula" class="table-scroll" role="region" tabindex="0"><table>
-<thead><tr><th>Metode</th><th>Aktivizē</th></tr></thead>
-<tbody>
-<tr><td><code>__str__</code></td><td><code>str(o)</code> un <code>print(o)</code></td></tr>
-<tr><td><code>__repr__</code></td><td><code>repr(o)</code>, REPL izvade</td></tr>
-<tr><td><code>__eq__</code></td><td><code>o1 == o2</code></td></tr>
-<tr><td><code>__lt__</code>, <code>__gt__</code></td><td><code>&lt;</code>, <code>&gt;</code> (sortēšana)</td></tr>
-<tr><td><code>__add__</code></td><td><code>o1 + o2</code></td></tr>
-<tr><td><code>__len__</code></td><td><code>len(o)</code></td></tr>
-<tr><td><code>__contains__</code></td><td><code>x in o</code></td></tr>
-</tbody>
-</table></div>
+st.write(f"Klikšķi: {st.session_state.klikski}")
+
+# Forma - apkopo visus inputus pirms iesniegšanas
+with st.form("speletajs"):
+    vards = st.text_input("Vārds")
+    punkti = st.number_input("Punkti")
+    iesniegt = st.form_submit_button("Pievienot")
+
+if iesniegt:
+    st.session_state.saraksts.append({"vards": vards, "punkti": punkti})
+
+st.dataframe(st.session_state.saraksts)</code></pre>
 </div>
 </section><section>
 <h2>Praktiskie uzdevumi</h2>
@@ -112,81 +110,95 @@ for v in [Dalibnieks(), Prezentetajs(), Kapteinis()]:
 
 
 </section><section class="logic-box lesson-task" id="uzdevums-1">
-<p class="task-number">1. uzdevums - </p><h2>Pārraksti vienu metodi vairākās klasēs</h2>
-<p>Beigās vienam metodes nosaukumam būs trīs dažādas uzvedības.</p>
+<p class="task-number">1. uzdevums - </p><h2>Saglabā skaitītāju ar session_state</h2>
+<p>Beigās tu redzēsi, kāpēc parasts mainīgais Streamlit lapā nestrādā.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> failā <code>115.py</code> klasei <code>Dalibnieks</code> metodi <code class="language-python">def runa(self):</code> ar vispārīgu tekstu.</li>
-<li><b>Pievieno</b> klasei <code>Kapteinis</code> tādu pašu metodi ar citu tekstu.</li>
-<li><b>Pievieno</b> klasei <code>Prezentetajs</code> vēl vienu variantu.</li>
-<li><b>Izveido</b> pa vienam objektam no katras klases.</li>
-<li><b>Izsauc</b> katram <code>runa()</code> atsevišķi.</li>
-<li><b>Pieraksti</b>, kura klase noteica, kurš teksts izdrukājās.</li>
+<li><b>Izveido</b> failu <code>95.py</code>, ieraksti <code class="language-python">klikski = 0</code> un pogu, kas to palielina.</li>
+<li><b>Izdrukā</b> vērtību un nospied pogu vairākas reizes.</li>
+<li><b>Pieraksti</b>, kāpēc skaitlis nepieaug.</li>
+<li><b>Nomaini</b> uz <code class="language-python">if "klikski" not in st.session_state:</code> ar sākuma vērtību 0.</li>
+<li><b>Palielini</b> pogas iekšpusē <code class="language-python">st.session_state.klikski += 1</code>.</li>
+<li><b>Nospied</b> pogu piecas reizes un pārbaudi skaitli.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> viens metodes nosaukums dod trīs dažādas izvades atkarībā no objekta klases.</p>
+<p class="done-when"><b>Gatavs, kad:</b> ar parastu mainīgo skaitlis vienmēr paliek 1, bet ar <code>session_state</code> tas sasniedz 5.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-2">
-<p class="task-number">2. uzdevums - </p><h2>Izsauc tās vienā ciklā</h2>
-<p>Beigās viens cikls apkalpos jebkuru lomu skaitu.</p>
+<p class="task-number">2. uzdevums - </p><h2>Uzbūvē To-Do sarakstu ar formu</h2>
+<p>Beigās tavs saraksts saglabāsies starp klikšķiem.</p>
 <ol class="step-list">
-<li><b>Izveido</b> sarakstu ar visiem trim objektiem.</li>
-<li><b>Uzraksti</b> ciklu <code class="language-python">for d in dalibnieki:</code>.</li>
-<li><b>Izsauc</b> ciklā <code class="language-python">d.runa()</code>.</li>
-<li><b>Palaid</b> un pārbaudi, ka izdrukājas trīs dažādi teksti.</li>
-<li><b>Pievieno</b> sarakstam vēl vienu jaunu lomu.</li>
-<li><b>Palaid</b> vēlreiz un pārbaudi, vai cikls bija jāmaina.</li>
-<li><b>Pieraksti</b> vienu secinājumu: kāpēc te nevajag <code>if</code> pēc klases nosaukuma.</li>
+<li><b>Izveido</b> <code class="language-python">if "todo" not in st.session_state:</code> ar tukšu sarakstu.</li>
+<li><b>Pievieno</b> <code class="language-python">with st.form("forma", clear_on_submit=True):</code>.</li>
+<li><b>Ieliec</b> formā <code class="language-python">st.text_input("Jauns uzdevums")</code>.</li>
+<li><b>Ieliec</b> formā <code class="language-python">st.form_submit_button("+ Pievienot")</code>.</li>
+<li><b>Pievieno</b> ievadīto tekstu sarakstam, ja poga nospiesta un lauks nav tukšs.</li>
+<li><b>Izdrukā</b> visu sarakstu ar ciklu.</li>
+<li><b>Pievieno</b> trīs uzdevumus un pārbaudi, ka visi paliek redzami.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> pievienojot ceturto lomu, cikls strādā bez izmaiņām.</p>
+<p class="done-when"><b>Gatavs, kad:</b> pēc trim pievienošanām sarakstā ir trīs ieraksti, un ievades lauks katru reizi iztukšojas.</p>
 </section><section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums - </p><h2>Pievieno __str__ un __repr__</h2>
-<p>Beigās objekts pats zinās, kā izskatīties izdrukā.</p>
+<p class="task-number">3. uzdevums - </p><h2>Pievieno dzēšanu un notīrīšanu</h2>
+<p>Beigās lietotājs varēs arī izņemt uzdevumus, ne tikai pievienot.</p>
 <ol class="step-list">
-<li><b>Izdrukā</b> objektu bez papildu metodēm un pieraksti rezultātu.</li>
-<li><b>Pievieno</b> klasei <code class="language-python">def __str__(self):</code>, kas atgriež vārdu un enerģiju.</li>
-<li><b>Izdrukā</b> objektu vēlreiz un salīdzini.</li>
-<li><b>Pievieno</b> <code class="language-python">def __repr__(self):</code> ar tehnisku pierakstu.</li>
-<li><b>Izdrukā</b> sarakstu ar objektiem un pieraksti, kura metode nostrādāja.</li>
-<li><b>Pieraksti</b>, kur lieto <code>__str__</code> un kur <code>__repr__</code>.</li>
-<li><b>Pārbaudi</b>, ka <code class="language-python">print(objekts)</code> un <code class="language-python">print([objekts])</code> dod dažādu rezultātu.</li>
+<li><b>Pievieno</b> katram uzdevumam pogu ar unikālu <code>key</code> parametru.</li>
+<li><b>Izdzēs</b> attiecīgo elementu no saraksta, kad poga nospiesta.</li>
+<li><b>Palaid</b> un izdzēs vidējo uzdevumu.</li>
+<li><b>Pārbaudi</b>, vai pārējie palika savās vietās.</li>
+<li><b>Pievieno</b> pogu <code>Notīrīt visu</code>, kas iztukšo sarakstu.</li>
+<li><b>Nospied</b> to un pārbaudi, ka lapa neavarē ar tukšu sarakstu.</li>
+<li><b>Pieraksti</b> vienu secinājumu: kāpēc katrai pogai vajag savu <code>key</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> atsevišķi izdrukāts objekts rāda <code>__str__</code>, bet sarakstā - <code>__repr__</code>.</p>
+<p class="done-when"><b>Gatavs, kad:</b> vidējā uzdevuma dzēšana neizjauc pārējos, un tukšs saraksts nerada kļūdu.</p>
 </section><details class="course-help extra-task">
-<summary>Papildu uzdevums - Pievieno salīdzināšanu</summary>
-<p>Ja pamatdarbs ir gatavs, ļauj kārtot dalībniekus pēc enerģijas.</p>
+<summary>Papildu uzdevums - Pievieno atzīmi par izpildi</summary>
+<p>Ja pamatdarbs ir gatavs, ļauj atzīmēt uzdevumus kā pabeigtus.</p>
 <ol class="step-list">
-<li><b>Pievieno</b> klasei <code class="language-python">def __lt__(self, cits):</code>.</li>
-<li><b>Atgriez</b> tajā <code class="language-python">return self.energija &lt; cits.energija</code>.</li>
-<li><b>Izsauc</b> <code class="language-python">sorted(dalibnieki)</code>.</li>
-<li><b>Izdrukā</b> sakārtoto sarakstu.</li>
-<li><b>Pieraksti</b>, kāpēc bez <code>__lt__</code> kārtošana neizdevās.</li>
+<li><b>Nomaini</b> saraksta elementus uz vārdnīcām ar atslēgām <code>teksts</code> un <code>gatavs</code>.</li>
+<li><b>Pievieno</b> katram <code class="language-python">st.checkbox()</code> ar unikālu key.</li>
+<li><b>Atjaunini</b> vārdnīcas vērtību pēc atzīmēšanas.</li>
+<li><b>Izdrukā</b> atsevišķi, cik uzdevumi pabeigti no kopējā skaita.</li>
+<li><b>Pārbaudi</b>, ka atzīme saglabājas pēc lapas pārlādes.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> <code>sorted()</code> sakārto dalībniekus pēc enerģijas, nevis met <code>TypeError</code>.</p>
+<p class="done-when"><b>Gatavs, kad:</b> lapa rāda, piemēram, <code>2 no 3 pabeigti</code>, un atzīmes nepazūd.</p>
 </details><section>
 <h2>Biežākās kļūdas</h2>
 <div class="logic-box">
 <ul>
-<li><b>__str__ atgriež ne-string:</b> Vienmēr atgriež <code>str</code>, citādi <code>TypeError</code>.</li>
-<li><b>__eq__ bez __hash__:</b> Ja klase salīdzināma, bet maināma - definē <code>__hash__ = None</code>.</li>
-<li><b>Aizmirsts atgriezt vērtību:</b> <code>__lt__</code>, <code>__eq__</code> - vienmēr <code>return True/False</code>.</li>
+<li><b>session_state inicializācija katru reizi:</b> Vienmēr <code>if "x" not in st.session_state:</code>.</li>
+<li><b>Aizmirsts unique key:</b> Vairākām pogām vienā lapā <code>key="unik"</code>.</li>
+<li><b>Mainās stāvokli ārpus formas:</b> Forma apvieno visus ievades - bez tās katrs ievads pārlādē lapu.</li>
 </ul>
 </div>
 </section><section>
 <h2>Koda piemērs</h2>
 <div class="code-example">
-<pre><code class="language-python">class Dalibnieks:
-    def __init__(self, vards, energija): self.vards = vards; self.energija = energija
-    def __str__(self): return f"{self.vards} ({self.energija} enerģija)"
-    def __repr__(self): return f"Dalibnieks({self.vards!r}, energija={self.energija})"
-    def __lt__(self, other): return self.energija &lt; other.energija
-    def __eq__(self, other): return self.energija == other.energija
+<pre><code class="language-python">import streamlit as st
 
-dalibnieki = [Dalibnieks("Anna", 100), Dalibnieks("Jānis", 80), Dalibnieks("Eva", 120)]
-for v in sorted(dalibnieki):
-    print(v)</code></pre>
-<div class="result">Jānis (80 enerģija)<br/>Anna (100 enerģija)<br/>Eva (120 enerģija)</div>
+st.title("▸ Mans To-Do")
+
+if "todo" not in st.session_state:
+    st.session_state.todo = []
+
+with st.form("forma", clear_on_submit=True):
+    jauns = st.text_input("Jauns uzdevums")
+    ok = st.form_submit_button("+ Pievienot")
+
+if ok and jauns:
+    st.session_state.todo.append({"teksts": jauns, "izpildīts": False})
+
+for i, t in enumerate(st.session_state.todo):
+    col1, col2 = st.columns([10, 1])
+    with col1:
+        st.session_state.todo[i]["izpildīts"] = st.checkbox(
+            t["teksts"], value=t["izpildīts"], key=f"cb{i}"
+        )
+    with col2:
+        if st.button("✕", key=f"d{i}"):
+            st.session_state.todo.pop(i)
+            st.rerun()</code></pre>
+<div class="result">Pievieno uzdevumus → atzīmē kā izpildītus → dzēš ar ✕.<br/>Saraksts saglabājas starp lapas pārlādēm.</div>
 </div>
 </section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
-<a class="nav-btn" href="/programmesana1/prog1_11/prog1_114">⬅ Iepriekšējā stunda</a>
-<a class="nav-btn" href="/programmesana1/prog1_11/prog1_116">Nākamā stunda ➡</a>
+<a class="nav-btn" href="/programmesana1/prog1_9/prog1_94">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_9/prog1_96">Nākamā stunda ➡</a>
 </nav></main>
 
 

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10.4 JOIN un sarežģīti vaicājumi · PostgreSQL — ebSkola</title>
+<meta name="description" content="Programmēšana I (Python): Apgūt SQL JOIN un agregācijas funkcijas, lai apvienotu datus no vairākām tabulām un iegūtu noderīgus kopsavilkumus.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_10/prog1_104">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="10.4 JOIN un sarežģīti vaicājumi · PostgreSQL">
+<meta property="og:description" content="Programmēšana I (Python): Apgūt SQL JOIN un agregācijas funkcijas, lai apvienotu datus no vairākām tabulām un iegūtu noderīgus kopsavilkumus.">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_10/prog1_104">
+<meta property="og:image" content="https://ebskola.lv/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ebSkola — datorikas, programmēšanas un robotikas mācību materiāli">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="../../lesson.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "10.4 JOIN un sarežģīti vaicājumi · PostgreSQL", "description": "Programmēšana I (Python): Apgūt SQL JOIN un agregācijas funkcijas, lai apvienotu datus no vairākām tabulām un iegūtu noderīgus kopsavilkumus.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_10/prog1_104", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 10. tēma: Datubāzes un PostgreSQL", "url": "https://ebskola.lv/programmesana1/prog1_10/prog1_10main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "10. tēma: Datubāzes un PostgreSQL", "item": "https://ebskola.lv/programmesana1/prog1_10/prog1_10main"}, {"@type": "ListItem", "position": 4, "name": "10.4 JOIN un sarežģīti vaicājumi · PostgreSQL", "item": "https://ebskola.lv/programmesana1/prog1_10/prog1_104"}]}]}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+<script defer src="../../lesson.js"></script>
+</head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="topbar">
+<div class="wrap row">
+<a class="brand" href="/">
+<span class="glyph">›_</span>
+<span class="name">ebskola<span>.lv</span></span>
+</a>
+<nav aria-label="Galvenā navigācija" class="nav">
+<a href="/programmesana1/programmesana1">Prog I</a>
+<a href="/programmesana1/prog1_10/prog1_10main">10. tēma</a>
+<a href="/sasnRez#prog1">rezultāti</a>
+<a href="/paligm">palīgmateriāli</a>
+</nav>
+<div class="spacer"></div>
+</div>
+</header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>10. Tēma - Datubāzes un PostgreSQL</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_10/prog1_10main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_10/prog1_101">10.1 Ievads datubāzēs un PostgreSQL</a>
+<a href="/programmesana1/prog1_10/prog1_102">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+<a href="/programmesana1/prog1_10/prog1_103">10.3 Tabulu projektēšana un saites</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_10/prog1_104">10.4 JOIN un sarežģīti vaicājumi</a>
+<a href="/programmesana1/prog1_10/prog1_105">10.5 Python ↔ PostgreSQL (psycopg2)</a>
+<a href="/programmesana1/prog1_10/prog1_106">10.6 Noslēguma projekts: Highscore datubāze</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_10/prog1_10main">10. tēma</a> / 10.4</p>
+<h1>10.4 JOIN un sarežģīti vaicājumi</h1>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Apvienot datus no vairākām tabulām, izmantojot JOIN un agregētas funkcijas.</p>
+<div class="lesson-meta">
+<a href="/sasnRez">SR 2.4.4. Iegūst, atlasa un apstrādā datus no dažādiem avotiem.</a>
+<a href="/sasnRez">SR 2.4.5. Veic datu analīzi un vizualizāciju.</a>
+</div>
+<section id="teorija">
+<h2>Teorija: JOIN un agregēti vaicājumi</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_10/testi/prog1_104_test">Sākt testu →</a></p>
+<div class="logic-box">
+<p><b>JOIN</b> apvieno rindas no divām vai vairākām tabulām, balstoties uz attiecībām (parasti FK ↔ PK).</p>
+<pre><code class="language-sql">-- INNER JOIN - tikai tās rindas, kurām ir atbilstība abās tabulās
+SELECT s.vards, sp.punkti, sp.spelets
+FROM speletaji s
+INNER JOIN speles sp ON s.id = sp.speletajs_id
+ORDER BY sp.spelets DESC;
+
+-- LEFT JOIN - visi spēlētāji, ieskaitot tos bez spēlēm
+SELECT s.vards, COUNT(sp.id) AS speles_skaits
+FROM speletaji s
+LEFT JOIN speles sp ON s.id = sp.speletajs_id
+GROUP BY s.vards;
+
+-- Apvienots: TOP 5 spēlētāju kopējie punkti
+SELECT s.vards, SUM(sp.punkti) AS kopa
+FROM speletaji s
+INNER JOIN speles sp ON s.id = sp.speletajs_id
+GROUP BY s.vards
+ORDER BY kopa DESC
+LIMIT 5;</code></pre>
+</div>
+</section><section>
+<h2>Praktiskie uzdevumi</h2>
+
+
+
+
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Savieno tabulas ar INNER JOIN</h2>
+<p>Beigās viens vaicājums parādīs datus no abām tabulām.</p>
+<ol class="step-list">
+<li><b>Izveido</b> failu <code>104.sql</code> un uzraksti <code class="language-sql">SELECT s.vards, sp.punkti FROM speletaji s</code>.</li>
+<li><b>Pievieno</b> <code class="language-sql">INNER JOIN speles sp ON s.id = sp.speletajs_id</code>.</li>
+<li><b>Izpildi</b> un pieraksti, cik rindu atgriezās.</li>
+<li><b>Pievieno</b> <code class="language-sql">ORDER BY sp.punkti DESC</code>.</li>
+<li><b>Pievieno</b> arī kolonnu <code>sp.spelets</code>.</li>
+<li><b>Pieraksti</b>, ko nozīmē burti <code>s</code> un <code>sp</code> vaicājumā.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> rezultātā katrā rindā ir gan spēlētāja vārds, gan viņa spēles punkti.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Salīdzini INNER un LEFT JOIN</h2>
+<p>Beigās tu zināsi, kurš JOIN paslēpj datus.</p>
+<ol class="step-list">
+<li><b>Pārliecinies</b>, ka vienam spēlētājam nav nevienas spēles.</li>
+<li><b>Izpildi</b> savu <code>INNER JOIN</code> vaicājumu un meklē šo spēlētāju rezultātā.</li>
+<li><b>Pieraksti</b>, vai viņš tur ir.</li>
+<li><b>Nomaini</b> <code>INNER JOIN</code> uz <code>LEFT JOIN</code> un izpildi vēlreiz.</li>
+<li><b>Pieraksti</b>, kas tagad redzams punktu kolonnā šim spēlētājam.</li>
+<li><b>Pieraksti</b>, cik rindu atgriež katrs variants.</li>
+<li><b>Pieraksti</b> vienu secinājumu: kad lietot <code>LEFT JOIN</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar <code>INNER JOIN</code> spēlētājs bez spēlēm pazūd, bet ar <code>LEFT JOIN</code> viņš ir redzams ar <code>NULL</code>.</p>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Izveido TOP sarakstu ar GROUP BY</h2>
+<p>Beigās tev būs īsts rezultātu kopsavilkums.</p>
+<ol class="step-list">
+<li><b>Uzraksti</b> vaicājumu ar <code class="language-sql">COUNT(sp.id) AS speles_skaits</code>.</li>
+<li><b>Pievieno</b> <code class="language-sql">SUM(sp.punkti) AS kopa</code> un <code class="language-sql">MAX(sp.punkti) AS rekords</code>.</li>
+<li><b>Pievieno</b> <code class="language-sql">GROUP BY s.vards</code>.</li>
+<li><b>Izpildi</b> un pārbaudi, vai katrs spēlētājs parādās tikai vienu reizi.</li>
+<li><b>Izņem</b> <code>GROUP BY</code> rindu un izlasi kļūdu.</li>
+<li><b>Pievieno</b> <code class="language-sql">ORDER BY kopa DESC LIMIT 5</code>.</li>
+<li><b>Pieraksti</b> vienu secinājumu: kāpēc pie agregātfunkcijām vajag <code>GROUP BY</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> katrs spēlētājs rezultātā parādās vienu reizi ar savu spēļu skaitu, kopsummu un rekordu.</p>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Filtrē grupas ar HAVING</summary>
+<p>Ja pamatdarbs ir gatavs, atlasi tikai aktīvos spēlētājus.</p>
+<ol class="step-list">
+<li><b>Pievieno</b> vaicājumam <code class="language-sql">HAVING COUNT(sp.id) &gt;= 2</code>.</li>
+<li><b>Izpildi</b> un pieraksti, cik spēlētāju palika.</li>
+<li><b>Mēģini</b> to pašu ar <code>WHERE</code> un izlasi kļūdu.</li>
+<li><b>Pieraksti</b>, ar ko <code>HAVING</code> atšķiras no <code>WHERE</code>.</li>
+<li><b>Pievieno</b> arī <code class="language-sql">AVG(sp.punkti)::INT AS videjie</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> rezultātā ir tikai spēlētāji ar vismaz divām spēlēm, un tu vari izskaidrot <code>HAVING</code>.</p>
+</details><section>
+<h2>Biežākās kļūdas</h2>
+<div class="logic-box">
+<ul>
+<li><b>Aizmirsta GROUP BY:</b> Lietojot agregātu (COUNT, SUM), visi neagregētie lauki jāpievieno GROUP BY.</li>
+<li><b>Cartesian product:</b> Bez ON nosacījuma JOIN reizina rindu skaitus - vienmēr norādi <code>ON</code>.</li>
+<li><b>NULL salīdzinājums:</b> <code>WHERE x = NULL</code> nav pareizi - lieto <code>WHERE x IS NULL</code>.</li>
+</ul>
+</div>
+</section><section>
+<h2>Koda piemērs</h2>
+<div class="code-example">
+<pre><code class="language-python">-- TOP 5 spēlētāji ar pilnu statistiku (104.sql)
+SELECT
+    s.vards,
+    COUNT(sp.id) AS speles_skaits,
+    SUM(sp.punkti) AS kopa,
+    AVG(sp.punkti)::INT AS videjie,
+    MAX(sp.punkti) AS rekords
+FROM speletaji s
+INNER JOIN speles sp ON s.id = sp.speletajs_id
+GROUP BY s.vards
+ORDER BY kopa DESC
+LIMIT 5;</code></pre>
+<div class="result">vards | speles | kopa | videjie | rekords<br/>Anna  | 5      | 600  | 120     | 200<br/>Jānis | 3      | 450  | 150     | 200</div>
+</div>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_10/prog1_103">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_10/prog1_105">Nākamā stunda ➡</a>
+</nav></main>
+
+
+
+
+
+
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="foot-brand" href="/"><span class="glyph">›_</span> ebskola.lv</a>
+        <p>Atvērti, bezmaksas mācību materiāli datorikā, programmēšanā un robotikā latviešu valodā.</p>
+        <div class="foot-social">
+          <a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">LinkedIn</a>
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Kursi</h4>
+        <ul>
+          <li><a href="/datorika9/datorika9">Datorika 9. klasei</a></li>
+          <li><a href="/programmesana1/programmesana1">Programmēšana I</a></li>
+          <li><a href="/programmesana2/programmesana2">Programmēšana II</a></li>
+          <li><a href="/robotika/robotika">Robotika</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resursi</h4>
+        <ul>
+          <li><a href="/sasnRez">Sasniedzamie rezultāti</a></li>
+          <li><a href="/paligm">Palīgmateriāli</a></li>
+          <li><a href="/#structure">Visu tēmu indekss</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Projekts</h4>
+        <ul>
+          <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a></li>
+          <li><a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">Sazināties</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div class="left">
+        <span>© 2026 ebSkola</span>
+        <span>Izstrādājis Eduards Baumanis</span>
+      </div>
+    </div>
+  </div>
+</footer></body>
+</html>
