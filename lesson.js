@@ -25,9 +25,13 @@ document.querySelectorAll("[data-copy]").forEach(function (button) {
 const taskSteps = Array.from(document.querySelectorAll(".lesson-task > .step-list > li"));
 if (taskSteps.length) {
   // Keep existing Datorika 9 marks when moving to the shared script.
-  const prefix = document.body.classList.contains("datorika-kurss")
-    ? "datorika9-2026-09-soļi:" : "ebskola-soļi-v1:";
-  const key = prefix + location.pathname.replace(/\/$/, "").replace(/\.html$/, "");
+  const datorika = document.body.classList.contains("datorika-kurss");
+  const path = location.pathname.replace(/\/$/, "").replace(/\.html$/, "");
+  // Datorika 9 lessons moved from /datorika9/dat9_11 into /datorika9/dat9_1/nodarbibas/dat9_11;
+  // the key keeps the old flat path so marks saved before the move still load.
+  const key = datorika
+    ? "datorika9-2026-09-soļi:/datorika9/" + path.split("/").pop()
+    : "ebskola-soļi-v1:" + path;
   let saved = [];
   try {
     const value = JSON.parse(localStorage.getItem(key) || "[]");

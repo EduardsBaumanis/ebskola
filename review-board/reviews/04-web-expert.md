@@ -6,7 +6,7 @@ Severity: `Critical | Major | Minor | Nit`.
 
 ## What I reviewed
 
-- `datorika9/dat9_11.html` in full (theory, starter code, tasks, diagnostics).
+- `datorika9/dat9_1/nodarbibas/dat9_11.html` in full (theory, starter code, tasks, diagnostics).
 - The course's two-copy starter-code rule (in-page `#pilnais-kods` + `sakuma-kodi/`).
 - `datorika9/sakuma-kodi/` inventory (11–56 present; `25.zip`, `26.zip` present).
 

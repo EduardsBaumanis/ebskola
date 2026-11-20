@@ -6,7 +6,7 @@ teaching materials for computer science, programming and robotics (grades 7–12
 
 Each persona is a self-contained prompt. To use one, copy the whole file and
 paste it into a chat as the system/role prompt, then give it a concrete task
-(e.g., "Review `datorika9/dat9_11.html`.").
+(e.g., "Review `datorika9/dat9_1/nodarbibas/dat9_11.html`.").
 
 ## The board
 

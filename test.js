@@ -8,6 +8,8 @@
 
   const questions = Array.from(form.querySelectorAll(".test-question"));
   const nameInput = form.elements.vards;
+  // Lapa, kas vēl nav atjaunota, var saturēt tikai vienu lauku "Vārds, uzvārds".
+  const surnameInput = form.elements.uzvards || null;
   const classSelect = form.elements.klase;
   const button = form.querySelector(".test-submit");
   const status = form.querySelector(".test-status");
@@ -24,8 +26,24 @@
     status.className = "test-status" + (state ? " " + state : "");
   }
 
+  function clean(text) {
+    return text.replace(/\s+/g, " ").trim();
+  }
+
+  // Vārds un uzvārds atsevišķi; vecajā vienlauka formā pirmais vārds ir vārds, pārējais — uzvārds.
+  function person() {
+    if (surnameInput) return { vards: clean(nameInput.value), uzvards: clean(surnameInput.value) };
+    const parts = clean(nameInput.value).split(" ");
+    return { vards: parts[0], uzvards: parts.slice(1).join(" ") };
+  }
+
   function firstProblem() {
-    if (nameInput.value.trim().length < 2) return { field: nameInput, text: "Ieraksti savu vārdu un uzvārdu." };
+    if (surnameInput) {
+      if (clean(nameInput.value).length < 2) return { field: nameInput, text: "Ieraksti savu vārdu." };
+      if (clean(surnameInput.value).length < 2) return { field: surnameInput, text: "Ieraksti savu uzvārdu." };
+    } else if (clean(nameInput.value).length < 2) {
+      return { field: nameInput, text: "Ieraksti savu vārdu un uzvārdu." };
+    }
     if (!classSelect.value) return { field: classSelect, text: "Izvēlies savu klasi." };
     const index = questions.findIndex(function (question) { return !chosen(question); });
     if (index >= 0) {
@@ -57,13 +75,16 @@
       if (explanation) explanation.hidden = false;
       return { a: pick.value.toUpperCase(), ok: ok };
     });
+    const who = person();
     result = {
       test: form.dataset.test,
-      name: nameInput.value.trim(),
+      vards: who.vards,
+      uzvards: who.uzvards,
       klase: classSelect.value,
       answers: answers,
     };
     nameInput.readOnly = true;
+    if (surnameInput) surnameInput.readOnly = true;
     classSelect.disabled = true;
 
     const score = answers.filter(function (answer) { return answer.ok; }).length;

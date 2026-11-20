@@ -7,7 +7,7 @@ Severity: `Critical | Major | Minor | Nit`.
 
 ## What I reviewed
 
-- `datorika9/dat9_11.html`, `programmesana1/prog1_1/prog1_11.html`,
+- `datorika9/dat9_1/nodarbibas/dat9_11.html`, `programmesana1/prog1_1/prog1_11.html`,
   `robotika/rbtk7_11.html` — read as a first-time student at each grade level.
 
 ## Findings

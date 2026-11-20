@@ -8,7 +8,7 @@ Severity: `Critical | Major | Minor | Nit`.
 ## What I reviewed
 
 - `sasnRez.html` (authoritative SR list) and its `#datorika9` anchor.
-- SR references in sampled lessons: `datorika9/dat9_11.html` (pills +
+- SR references in sampled lessons: `datorika9/dat9_1/nodarbibas/dat9_11.html` (pills +
   `teacher-meta` caveat), `programmesana1/prog1_1/prog1_11.html` (full-text
   `.lesson-meta`), `robotika/rbtk7_11.html` (plain-text `D.7.1.1., D.7.2.1.`).
 - The coverage policy documented in `README.md`.

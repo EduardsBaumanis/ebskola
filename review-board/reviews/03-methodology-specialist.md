@@ -7,7 +7,7 @@ Severity: `Critical | Major | Minor | Nit`.
 ## What I reviewed
 
 - The shared lesson skeleton and its conventions from `README.md`.
-- Sampled lessons: `datorika9/dat9_11.html`, `programmesana1/prog1_1/prog1_11.html`,
+- Sampled lessons: `datorika9/dat9_1/nodarbibas/dat9_11.html`, `programmesana1/prog1_1/prog1_11.html`,
   `robotika/rbtk7_11.html`.
 - `lesson.js` (step checkboxes, progress, localStorage).
 

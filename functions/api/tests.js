@@ -1,7 +1,12 @@
 // Cloudflare Pages Function: /api/tests
 //
 // POST saves one test result (sent by /test.js) as a new row in the Google Sheet.
-// GET  checks the setup and answers {"ok": true} when the sheet can be reached.
+// GET  checks the setup and answers {"ok": true} when the sheet can be reached, with
+//      "header": "empty" | "old" | "current" (old = no separate "Uzvārds" column yet).
+//
+// Columns: Laiks, Tests, Klase, Vārds, Uzvārds, Punkti, No, then one per question.
+// A sheet started earlier has no "Uzvārds" column; its rows keep the full name in "Vārds"
+// until a column "Uzvārds" is inserted left of "Punkti" (column E). Then rows split by themselves.
 //
 // Setup, done once:
 //   1. Google Cloud, project "ebskolasheet": enable "Google Sheets API".
@@ -19,11 +24,17 @@ const FIRST_CELL = "A1";
 
 const CLASSES = ["9.a", "9.b", "9.c"];
 const MAX_QUESTIONS = 10;
-const HEADER = ["Laiks", "Tests", "Klase", "Vārds", "Punkti", "No"];
+const HEADER = ["Laiks", "Tests", "Klase", "Vārds", "Uzvārds", "Punkti", "No"];
+// Header row of sheets started before surnames got their own column: E1 is "Punkti".
+// Rows for such a sheet keep the full name in "Vārds" until the teacher inserts the column.
+const HEADER_ROW = "A1:G1";
+const MAX_NAME = 40;
 
 // Reused while the same worker instance stays alive.
 let cachedToken = null;
-let headerChecked = false;
+// Set once the sheet has the current header. A sheet never goes back to the old layout,
+// so only this state is cached; an empty or old-layout sheet is checked again on each result.
+let headerCurrent = false;
 
 class SetupError extends Error {
   constructor(code, detail) {
@@ -106,9 +117,12 @@ async function sheets(env, path, options) {
   return data;
 }
 
-async function sheetIsEmpty(env) {
-  const data = await sheets(env, FIRST_CELL);
-  return !data.values;
+// "empty" (nothing written yet), "old" (no Uzvārds column) or "current".
+async function headerLayout(env) {
+  const data = await sheets(env, HEADER_ROW);
+  const row = (data.values && data.values[0]) || [];
+  if (!row.some(function (cell) { return String(cell).trim(); })) return "empty";
+  return String(row[4] || "").trim() === "Punkti" ? "old" : "current";
 }
 
 function fail(error) {
@@ -124,16 +138,30 @@ function fail(error) {
 function readResult(body) {
   if (!body || typeof body !== "object") return null;
   const test = typeof body.test === "string" ? body.test : "";
-  const name = typeof body.name === "string" ? body.name.replace(/\s+/g, " ").trim() : "";
+  let vards = clean(body.vards);
+  let uzvards = clean(body.uzvards);
+  if (!vards && !uzvards) {
+    // Pages opened before the name was split send one "name": first word is the given name.
+    const full = clean(body.name);
+    if (full.length > 60) return null;
+    const space = full.indexOf(" ");
+    vards = space < 0 ? full : full.slice(0, space);
+    uzvards = space < 0 ? "" : full.slice(space + 1);
+  }
   const answers = body.answers;
   if (!/^[a-z0-9_]{3,40}$/.test(test)) return null;
-  if (name.length < 2 || name.length > 60) return null;
+  if (!vards || vards.length > MAX_NAME || uzvards.length > MAX_NAME) return null;
+  if ((vards + uzvards).length < 2) return null;
   if (!CLASSES.includes(body.klase)) return null;
   if (!Array.isArray(answers) || answers.length < 1 || answers.length > MAX_QUESTIONS) return null;
   for (const answer of answers) {
     if (!answer || typeof answer.a !== "string" || !/^[A-D]$/.test(answer.a) || typeof answer.ok !== "boolean") return null;
   }
-  return { test: test, name: name, klase: body.klase, answers: answers };
+  return { test: test, vards: vards, uzvards: uzvards, klase: body.klase, answers: answers };
+}
+
+function clean(value) {
+  return typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "";
 }
 
 export async function onRequestPost(context) {
@@ -154,12 +182,15 @@ export async function onRequestPost(context) {
 
   const time = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Riga" });
   const score = result.answers.filter(function (answer) { return answer.ok; }).length;
-  const row = [time, result.test, result.klase, result.name, score, result.answers.length];
-  for (const answer of result.answers) row.push(answer.a + (answer.ok ? " ✓" : " ✗"));
+  const marks = result.answers.map(function (answer) { return answer.a + (answer.ok ? " ✓" : " ✗"); });
 
   try {
-    const rows = [row];
-    if (!headerChecked && await sheetIsEmpty(context.env)) {
+    const layout = headerCurrent ? "current" : await headerLayout(context.env);
+    const name = layout === "old"
+      ? [(result.vards + " " + result.uzvards).trim()]
+      : [result.vards, result.uzvards];
+    const rows = [[time, result.test, result.klase].concat(name, [score, result.answers.length], marks)];
+    if (layout === "empty") {
       rows.unshift(HEADER.concat(result.answers.map(function (_, index) { return (index + 1) + ". jautājums"; })));
     }
     // RAW stores the name as plain text, so it can never run as a formula.
@@ -168,7 +199,7 @@ export async function onRequestPost(context) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ values: rows }),
     });
-    headerChecked = true;
+    if (layout !== "old") headerCurrent = true;
   } catch (error) {
     return fail(error);
   }
@@ -176,10 +207,15 @@ export async function onRequestPost(context) {
 }
 
 export async function onRequestGet(context) {
+  let layout;
   try {
-    await sheetIsEmpty(context.env);
+    layout = await headerLayout(context.env);
   } catch (error) {
     return fail(error);
   }
-  return json({ ok: true, sheet: "connected" });
+  const reply = { ok: true, sheet: "connected", header: layout };
+  if (layout === "old") {
+    reply.hint = "Insert a column \"Uzvārds\" left of \"Punkti\" (column E) to store surnames separately.";
+  }
+  return json(reply);
 }
