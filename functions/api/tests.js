@@ -6,7 +6,8 @@
 //      first tab, and "tabs": the same for each course's tab ("missing" = no such tab yet).
 //
 // Each course writes to its own tab (see COURSES): Datorika 9 to the first tab,
-// Programmēšana I to the second. Tabs are found by position, so they may be renamed.
+// Programmēšana I to the second, Programmēšana II to the third. Tabs are found by
+// position, so they may be renamed.
 //
 // Columns: Laiks, Tests, Klase, Vārds, Uzvārds, Punkti, No, then one per question.
 // A sheet started earlier has no "Uzvārds" column; its rows keep the full name in "Vārds"
@@ -28,6 +29,7 @@ const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const COURSES = [
   { prefix: "dat9_", tab: 0, classes: ["9.a", "9.b", "9.c"] },
   { prefix: "prog1_", tab: 1, classes: ["11.a", "11.b", "11.c", "12.a", "12.b", "12.c"] },
+  { prefix: "prog2_", tab: 2, classes: ["12.a", "12.b", "12.c"] },
 ];
 const MAX_QUESTIONS = 10;
 const HEADER = ["Laiks", "Tests", "Klase", "Vārds", "Uzvārds", "Punkti", "No"];

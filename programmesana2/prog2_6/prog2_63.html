@@ -74,6 +74,7 @@
 <a href="/sasnRez">SR 2.4.15. Modulāras programmas</a>
 </div>
 <section id="teorija"><h2>Teorija: skaņas atskaņošana, decibelu skala un skaņas kopnes (<code>Audio Buses</code>)</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana2/prog2_6/testi/prog2_63_test">Sākt testu →</a></p>
 <div class="logic-box"><h3>Skaņas plūsmas (<code>AudioStreamPlayer</code>) un skaļums decibelos (<code>dB</code>)</h3>
 <p>Audio failu atskaņošanai Godot izmanto mezglu <b><code>AudioStreamPlayer</code></b> (vienmērīgai skaņai neatkarīgi no vietas ekrānā) vai <code>AudioStreamPlayer2D</code> (pozicionālai skaņai, kas kļūst klusāka attālinoties). Īpašībai <code>Stream</code> piešķir ielādētu skaņas resursu (piemēram, <code>.ogg</code> vai <code>.wav</code> failu) un atskaņošanu sāk ar metodi <code>Play()</code>; ja uz viena un tā paša mezgla <code>Play()</code> izsauc atkārtoti, pirms iepriekšējais ieraksts beidzies, skaņa tiek pārtraukta un sākta no sākuma.</p>
 <p>Cilvēka dzirde skaņas intensitātes izmaiņas uztver <b>logaritmiski</b>, nevis lineāri, tāpēc skaļumu programmēšanā regulē <b>decibelos (<code>VolumeDb</code>)</b>: <code>0 dB</code> atbilst oriģinālajam ieraksta līmenim bez pastiprinājuma, savukārt negatīvas vērtības (piemēram, <code>-10 dB</code> vai <code>-40 dB</code>) skaņu pakāpeniski klusina, ko var vienmērīgi animēt ar <code>Tween</code>:</p>
@@ -185,7 +186,7 @@ public void PlaySfx()
 <li><b>Atver</b> <code>Scripts/MainMenu.cs</code> un metodē <code>_Ready()</code> atrodi abus slīdņus un pieslēdz notikumu <code>ValueChanged</code>:
 <code class="language-csharp">musicSlider.ValueChanged += OnMusicVolumeChanged;</code> un
 <code class="language-csharp">sfxSlider.ValueChanged += OnSfxVolumeChanged;</code>.</li>
-<li><b>Izveido</b> palīgmetodi <code class="language-csharp">private void SetBusVolume(string busName, double valueDb)</code>, kas atrod kopnes indeksu ar <code class="language-csharp">int busIndex = AudioServer.GetBusIndex(busName);</code> un uzstāda skaļumu ar <code class="language-csharp">AudioServer.SetBusVolumeDb(busIndex, (float)valueDb);</code> un apklusināšanu pie minimuma <code class="language-csharp">AudioServer.SetBusMute(busIndex, valueDb &lt;= -39.5);</code>.</li>
+<li><b>Izveido</b> palīgmetodi <code class="language-csharp">private void SetBusVolume(string busName, double valueDb)</code>, kas atrod kopnes indeksu ar <code class="language-csharp">int busIndex = AudioServer.GetBusIndex(busName);</code> un uzstāda skaļumu ar <code class="language-csharp">AudioServer.SetBusVolumeDb(busIndex, (float)valueDb);</code> un apklusināšanu pie minimuma <code class="language-csharp">AudioServer.SetBusMute(busIndex, valueDb &lt;= -40.0);</code>.</li>
 <li><b>Palaid</b> spēli, atver „Iestatījumi", pavelc <code>MusicSlider</code> pa kreisi līdz galam (<code>-40 dB</code>) un nospied pogu „Aizvērt" — pārliecinies, ka mūzika apklust, bet klikšķa skaņas efekts (<code>SFX</code>) joprojām skan pilnā skaļumā.</li>
 </ol>
 <p class="done-when"><b>Gatavs, kad:</b> abi slīdņi (<code>MusicSlider</code> un <code>SfxSlider</code>) neatkarīgi regulē katrs savas kopnes skaļumu un pie <code>-40 dB</code> pilnībā apklusina attiecīgo kopni.</p>
@@ -260,10 +261,10 @@ public partial class AudioManager : Node
         if (musicPlayer == null) return;
         musicPlayer.VolumeDb = -40.0f;
         musicPlayer.Play();
-        CreateTween().TweenProperty(musicPlayer, "volume_db", -6.0f, duration);
+        CreateTween().TweenProperty(musicPlayer, "volume_db", 0.0f, duration);
     }
 
-    public Tween FadeOutMusic(double duration = 0.5)
+    public Tween FadeOutMusic(double duration = 0.6)
     {
         if (musicPlayer == null) return null;
         return CreateTween().TweenProperty(musicPlayer, "volume_db", -40.0f, duration);
@@ -369,7 +370,7 @@ public partial class MainMenu : Control
             busIdx = AudioServer.GetBusIndex("Master");
         }
         AudioServer.SetBusVolumeDb(busIdx, (float)valueDb);
-        AudioServer.SetBusMute(busIdx, valueDb &lt;= -39.5);
+        AudioServer.SetBusMute(busIdx, valueDb &lt;= -40.0);
     }
 
     private void OnStartPressed()
