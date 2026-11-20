@@ -6,13 +6,13 @@ Publiskā vietne: <https://ebskola.lv/>
 
 ## Kursu un satura pārskats
 
-Vietnē ir **4 kursi**, **25 tēmas** un **148 nodarbības**, kā arī vienots programmēšanas špikeris un sasniedzamo rezultātu katalogs:
+Vietnē ir **4 kursi**, **25 tēmas** un **148 nodarbības** (vēl 4 Programmēšanas I un 4 Programmēšanas II tēmas tiek izstrādātas), kā arī vienots programmēšanas špikeris un sasniedzamo rezultātu katalogs:
 
 | Sadaļa | Mape / fails | Klase | Apjoms | Saturs |
 |---|---|---|---|---|
 | **Datorika 9. klasei** | `datorika9/` | 9. klase | 5 tēmas · 30 nodarbības | Tīmekļa tehnoloģijas (`HTML`, `CSS`, `JavaScript`), dizaina domāšana, multivide, `Git`/`GitHub` darba plūsma `VS Code` vidē un pārlūkspēles izstrāde ar publicēšanu `GitHub Pages`. Katrai nodarbībai ir pilns sākuma kods `datorika9/sakuma-kodi/`. |
-| **Programmēšana I** | `programmesana1/` | 10.–12. klase | 12 tēmas · 72 nodarbības | `Python` pamati, vadības struktūras, funkcijas, datu kolekcijas, datu pastāvība (`JSON`, `CSV`), algoritmi, programmatūras projektēšana, tīmekļa integrācija (`Flask`), datubāzes (`PostgreSQL` / `SQL`), OOP un izvietošana. |
-| **Programmēšana II** | `programmesana2/` | 11.–12. klase | 6 tēmas · 36 nodarbības | Padziļināts 2D spēļu un lietotņu izstrādes kurss ar `Godot 4 .NET` un `C#`: *Pong*, *Platformer*, *RPG* (klases turnīra simulators), *Top-down Shooter*, *Roguelike* un publicēta *Puzzle* spēle. Ietver pilnus projektus un automatizētus testus (`prog2_1/`, `prog2_2/`). |
+| **Programmēšana I** | `programmesana1/` | 10.–12. klase | 16 tēmas (7., 9., 12. un 15. tiek izstrādāta) · 72 nodarbības | `Python` pamati, vadības struktūras, funkcijas, datu kolekcijas, datu pastāvība (`JSON`, `CSV`), algoritmi, programmatūras projektēšana, tīmekļa integrācija (`Flask`), datubāzes (`PostgreSQL` / `SQL`), OOP un izvietošana. |
+| **Programmēšana II** | `programmesana2/` | 11.–12. klase | 10 tēmas (6., 7., 9. un 10. tiek izstrādāta) · 36 nodarbības | Padziļināts 2D spēļu un lietotņu izstrādes kurss ar `Godot 4 .NET` un `C#`: *Pong*, *Platformer*, *RPG* (klases turnīra simulators), *Top-down Shooter*, *Roguelike* un publicēta *Puzzle* spēle. Ietver pilnus projektus un automatizētus testus (`prog2_1/`, `prog2_2/`). |
 | **Robotika** | `robotika/` | 7.–9. klase | 2 tēmas · 10 nodarbības | Praktiska robotika un elektronika: `LEGO SPIKE Prime` kustību, sensoru un manipulatoru programmēšana un ievads `Arduino` (`C++`) shēmās un mikrokontrolieros. |
 | **Palīgmateriāli** | `paligm.html` | 7.–12. klase | 15 sadaļas | Programmēšanas špikeris vienuviet: `HTML`, `CSS`, `JavaScript`, `Python`, `PostgreSQL`/`SQL`, `Git`, `VS Code` īsceļi, regulārās izteiksmes, `HTTP`/`API`, drošība, izvietošana, atkļūdošana, plānošana un EN→LV terminu vārdnīca. |
 | **Sasniedzamie rezultāti** | `sasnRez.html` | 7.–12. klase | Standarta pārskats | MK noteikumu Nr. 416 un Nr. 747 sasniedzamie rezultāti datorikā un programmēšanā. |
@@ -73,12 +73,12 @@ python3 programmesana2/prog2_2/parbaudes/check.py --godot /cels/uz/Godot.NET --d
 │   └── sakuma-kodi/            # Lejupielādējamie sākuma kodi (11.html..56.html, 25.zip, 26.zip, resursi)
 ├── programmesana1/             # Programmēšana I (Python)
 │   ├── programmesana1.html     # Kursa pārskats
-│   └── prog1_1/..prog1_12/     # 12 tēmu mapes (katrā prog1_Nmain.html un 6 nodarbības)
-│       └── testi/              # Atkārtojuma testi prog1_NS_test.html (visās 12 tēmās)
+│   └── prog1_1/..prog1_16/     # 16 tēmu mapes (katrā prog1_Nmain.html un 6 nodarbības; 7., 9., 12. un 15. tēmā pagaidām tikai plāns prog1_Nplan.md)
+│       └── testi/              # Atkārtojuma testi prog1_NS_test.html (visās izveidotajās tēmās)
 ├── programmesana2/             # Programmēšana II (Godot 4 .NET un C#)
 │   ├── programmesana2.html     # Kursa pārskats
-│   └── prog2_1/..prog2_6/      # 6 tēmu mapes (katrā prog2_Nmain.html un 6 nodarbības)
-│       └── testi/              # Atkārtojuma testi prog2_NS_test.html (visās 6 tēmās)
+│   └── prog2_1/..prog2_10/     # 10 tēmu mapes (katrā prog2_Nmain.html un 6 nodarbības; 6., 7., 9. un 10. tēmā pagaidām tikai plāns prog2_Nplan.md)
+│       └── testi/              # Atkārtojuma testi prog2_NS_test.html (visās izveidotajās tēmās)
 │       ├── kods/               # Starpposmu C# skripti (1. un 2. tēmā)
 │       ├── parbaudes/          # Automatizētie Godot/C# pārbaudes skripti (1. un 2. tēmā)
 │       └── pong/, platformer/  # Pilni izpildāmi paraugprojekti un to .zip arhīvi
@@ -94,8 +94,8 @@ Visu kursu nodarbības izmanto vienotu lasīšanas izkārtojumu (`style.css` + `
 
 - **Failu numerācija:**
   - `datorika9/`: `dat9_{T}/nodarbibas/dat9_{T}{S}.html`, `dat9_{T}/testi/dat9_{T}{S}_test.html` un `dat9_{T}/dat9_{T}main.html` (`T` = 1..5, `S` = 1..6). Kopīgie faili (`datorika9.html`, `git.html`, `priekskatijumi.css`, `img/`, `sakuma-kodi/`) paliek kursa mapes saknē.
-  - `programmesana1/`: `prog1_{T}/prog1_{T}{S}.html`, `prog1_{T}/testi/prog1_{T}{S}_test.html` un `prog1_{T}/prog1_{T}main.html` (`T` = 1..12, `S` = 1..6).
-  - `programmesana2/`: `prog2_{T}/prog2_{T}{S}.html`, `prog2_{T}/testi/prog2_{T}{S}_test.html` un `prog2_{T}/prog2_{T}main.html` (`T` = 1..6, `S` = 1..6).
+  - `programmesana1/`: `prog1_{T}/prog1_{T}{S}.html`, `prog1_{T}/testi/prog1_{T}{S}_test.html` un `prog1_{T}/prog1_{T}main.html` (`T` = 1..16, `S` = 1..6).
+  - `programmesana2/`: `prog2_{T}/prog2_{T}{S}.html`, `prog2_{T}/testi/prog2_{T}{S}_test.html` un `prog2_{T}/prog2_{T}main.html` (`T` = 1..10, `S` = 1..6).
   - `robotika/`: `rbtk7_{T}{S}.html` un `rbtk7_{T}main.html` (`T` = 1..2, `S` = 1..5).
 - **Standarta stundas struktūra:**
   1. Kursa augšējā josla (`.course-topbar`) un tēmas nodarbību sānjosla (`.sidebar-nav`).

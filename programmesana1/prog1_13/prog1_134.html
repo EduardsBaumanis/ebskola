@@ -4,17 +4,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>10.4 JOIN un sarežģīti vaicājumi · PostgreSQL — ebSkola</title>
+<title>13.4 JOIN un sarežģīti vaicājumi · PostgreSQL — ebSkola</title>
 <meta name="description" content="Programmēšana I (Python): Apgūt SQL JOIN un agregācijas funkcijas, lai apvienotu datus no vairākām tabulām un iegūtu noderīgus kopsavilkumus.">
 <meta name="author" content="Eduards Baumanis">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
-<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_10/prog1_104">
+<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_13/prog1_134">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="lv_LV">
 <meta property="og:site_name" content="ebSkola">
-<meta property="og:title" content="10.4 JOIN un sarežģīti vaicājumi · PostgreSQL">
+<meta property="og:title" content="13.4 JOIN un sarežģīti vaicājumi · PostgreSQL">
 <meta property="og:description" content="Programmēšana I (Python): Apgūt SQL JOIN un agregācijas funkcijas, lai apvienotu datus no vairākām tabulām un iegūtu noderīgus kopsavilkumus.">
-<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_10/prog1_104">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_13/prog1_134">
 <meta property="og:image" content="https://ebskola.lv/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="../../style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css">
 <link rel="stylesheet" href="../../lesson.css">
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "10.4 JOIN un sarežģīti vaicājumi · PostgreSQL", "description": "Programmēšana I (Python): Apgūt SQL JOIN un agregācijas funkcijas, lai apvienotu datus no vairākām tabulām un iegūtu noderīgus kopsavilkumus.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_10/prog1_104", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 10. tēma: Datubāzes un PostgreSQL", "url": "https://ebskola.lv/programmesana1/prog1_10/prog1_10main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "10. tēma: Datubāzes un PostgreSQL", "item": "https://ebskola.lv/programmesana1/prog1_10/prog1_10main"}, {"@type": "ListItem", "position": 4, "name": "10.4 JOIN un sarežģīti vaicājumi · PostgreSQL", "item": "https://ebskola.lv/programmesana1/prog1_10/prog1_104"}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "13.4 JOIN un sarežģīti vaicājumi · PostgreSQL", "description": "Programmēšana I (Python): Apgūt SQL JOIN un agregācijas funkcijas, lai apvienotu datus no vairākām tabulām un iegūtu noderīgus kopsavilkumus.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_13/prog1_134", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 13. tēma: Datubāzes un PostgreSQL", "url": "https://ebskola.lv/programmesana1/prog1_13/prog1_13main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "13. tēma: Datubāzes un PostgreSQL", "item": "https://ebskola.lv/programmesana1/prog1_13/prog1_13main"}, {"@type": "ListItem", "position": 4, "name": "13.4 JOIN un sarežģīti vaicājumi · PostgreSQL", "item": "https://ebskola.lv/programmesana1/prog1_13/prog1_134"}]}]}</script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-sql.min.js"></script>
@@ -48,7 +48,7 @@
 </a>
 <nav aria-label="Galvenā navigācija" class="nav">
 <a href="/programmesana1/programmesana1">Prog I</a>
-<a href="/programmesana1/prog1_10/prog1_10main">10. tēma</a>
+<a href="/programmesana1/prog1_13/prog1_13main">13. tēma</a>
 <a href="/sasnRez#prog1">rezultāti</a>
 <a href="/paligm">palīgmateriāli</a>
 </nav>
@@ -57,26 +57,25 @@
 </header>
 <aside aria-label="Tēmas navigācija" class="sidebar-nav">
 <div class="sidebar-kicker">Programmēšana I</div>
-<h3>10. Tēma - Datubāzes un PostgreSQL</h3>
+<h3>13. Tēma - Datubāzes un PostgreSQL</h3>
 <nav aria-label="Tēmas nodarbības" class="sidebar-links">
-<a class="topic-main" href="/programmesana1/prog1_10/prog1_10main">Tēmas sākums</a>
-<a href="/programmesana1/prog1_10/prog1_101">10.1 Ievads datubāzēs un PostgreSQL</a>
-<a href="/programmesana1/prog1_10/prog1_102">10.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
-<a href="/programmesana1/prog1_10/prog1_103">10.3 Tabulu projektēšana un saites</a>
-<a aria-current="page" class="active" href="/programmesana1/prog1_10/prog1_104">10.4 JOIN un sarežģīti vaicājumi</a>
-<a href="/programmesana1/prog1_10/prog1_105">10.5 Python ↔ PostgreSQL (psycopg2)</a>
-<a href="/programmesana1/prog1_10/prog1_106">10.6 Noslēguma projekts: Highscore datubāze</a>
+<a class="topic-main" href="/programmesana1/prog1_13/prog1_13main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_13/prog1_131">13.1 Ievads datubāzēs un PostgreSQL</a>
+<a href="/programmesana1/prog1_13/prog1_132">13.2 SQL CRUD: SELECT, INSERT, UPDATE, DELETE</a>
+<a href="/programmesana1/prog1_13/prog1_133">13.3 Tabulu projektēšana un saites</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_13/prog1_134">13.4 JOIN un sarežģīti vaicājumi</a>
+<a href="/programmesana1/prog1_13/prog1_135">13.5 Python ↔ PostgreSQL (psycopg2)</a>
+<a href="/programmesana1/prog1_13/prog1_136">13.6 Noslēguma projekts: Highscore datubāze</a>
 </nav>
-</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_10/prog1_10main">10. tēma</a> / 10.4</p>
-<h1>10.4 JOIN un sarežģīti vaicājumi</h1>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_13/prog1_13main">13. tēma</a> / 13.4</p>
+<h1>13.4 JOIN un sarežģīti vaicājumi</h1>
 <p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Apvienot datus no vairākām tabulām, izmantojot JOIN un agregētas funkcijas.</p>
 <div class="lesson-meta">
-<a href="/sasnRez">SR 2.4.4. Iegūst, atlasa un apstrādā datus no dažādiem avotiem.</a>
-<a href="/sasnRez">SR 2.4.5. Veic datu analīzi un vizualizāciju.</a>
+<a href="/sasnRez#prog1-o-2-3-4" title="Veido datubāzes, novēršot datu dublēšanos, veic datu apstrādi (t. sk. atlasi un pārstrukturēšanu), izmantojot vaicājumus, formas un pārskatus.">SR 2.3.4. Datubāzes un vaicājumi</a>
 </div>
 <section id="teorija">
 <h2>Teorija: JOIN un agregēti vaicājumi</h2>
-<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_10/testi/prog1_104_test">Sākt testu →</a></p>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_13/testi/prog1_134_test">Sākt testu →</a></p>
 <div class="logic-box">
 <p><b>JOIN</b> apvieno rindas no divām vai vairākām tabulām, balstoties uz attiecībām (parasti FK ↔ PK).</p>
 <pre><code class="language-sql">-- INNER JOIN - tikai tās rindas, kurām ir atbilstība abās tabulās
@@ -109,7 +108,7 @@ LIMIT 5;</code></pre>
 <p class="task-number">1. uzdevums - </p><h2>Savieno tabulas ar INNER JOIN</h2>
 <p>Beigās viens vaicājums parādīs datus no abām tabulām.</p>
 <ol class="step-list">
-<li><b>Izveido</b> failu <code>104.sql</code> un uzraksti <code class="language-sql">SELECT s.vards, sp.punkti FROM speletaji s</code>.</li>
+<li><b>Izveido</b> failu <code>134.sql</code> un uzraksti <code class="language-sql">SELECT s.vards, sp.punkti FROM speletaji s</code>.</li>
 <li><b>Pievieno</b> <code class="language-sql">INNER JOIN speles sp ON s.id = sp.speletajs_id</code>.</li>
 <li><b>Izpildi</b> un pieraksti, cik rindu atgriezās.</li>
 <li><b>Pievieno</b> <code class="language-sql">ORDER BY sp.punkti DESC</code>.</li>
@@ -166,7 +165,7 @@ LIMIT 5;</code></pre>
 </section><section>
 <h2>Koda piemērs</h2>
 <div class="code-example">
-<pre><code class="language-python">-- TOP 5 spēlētāji ar pilnu statistiku (104.sql)
+<pre><code class="language-python">-- TOP 5 spēlētāji ar pilnu statistiku (134.sql)
 SELECT
     s.vards,
     COUNT(sp.id) AS speles_skaits,
@@ -181,8 +180,8 @@ LIMIT 5;</code></pre>
 <div class="result">vards | speles | kopa | videjie | rekords<br/>Anna  | 5      | 600  | 120     | 200<br/>Jānis | 3      | 450  | 150     | 200</div>
 </div>
 </section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
-<a class="nav-btn" href="/programmesana1/prog1_10/prog1_103">⬅ Iepriekšējā stunda</a>
-<a class="nav-btn" href="/programmesana1/prog1_10/prog1_105">Nākamā stunda ➡</a>
+<a class="nav-btn" href="/programmesana1/prog1_13/prog1_133">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_13/prog1_135">Nākamā stunda ➡</a>
 </nav></main>
 
 
