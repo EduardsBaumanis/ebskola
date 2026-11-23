@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9.5 Attēli, skaņa un video lietotnei · Programmēšana I — ebSkola</title>
+<meta name="description" content="Programmēšana I: sagatavo attēlus tīmeklim ar Python un Pillow (izmērs, ūdenszīme, WebP), apstrādā balss ierakstu Audacity un samontē īsu ekrāna video Clipchamp.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_9/prog1_95">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="9.5 Attēli, skaņa un video lietotnei · Programmēšana I">
+<meta property="og:description" content="Programmēšana I: sagatavo attēlus tīmeklim ar Python un Pillow (izmērs, ūdenszīme, WebP), apstrādā balss ierakstu Audacity un samontē īsu ekrāna video Clipchamp.">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_9/prog1_95">
+<meta property="og:image" content="https://ebskola.lv/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ebSkola — datorikas, programmēšanas un robotikas mācību materiāli">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="../../lesson.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "9.5 Attēli, skaņa un video lietotnei · Programmēšana I", "description": "Programmēšana I: sagatavo attēlus tīmeklim ar Python un Pillow (izmērs, ūdenszīme, WebP), apstrādā balss ierakstu Audacity un samontē īsu ekrāna video Clipchamp.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_9/prog1_95", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 9. tēma: Izstrādes modeļi, dizains un IT profesijas", "url": "https://ebskola.lv/programmesana1/prog1_9/prog1_9main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "9. tēma: Izstrādes modeļi, dizains un IT profesijas", "item": "https://ebskola.lv/programmesana1/prog1_9/prog1_9main"}, {"@type": "ListItem", "position": 4, "name": "9.5 Attēli, skaņa un video lietotnei · Programmēšana I", "item": "https://ebskola.lv/programmesana1/prog1_9/prog1_95"}]}]}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer src="../../lesson.js"></script>
+</head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="topbar">
+<div class="wrap row">
+<a class="brand" href="/">
+<span class="glyph">›_</span>
+<span class="name">ebskola<span>.lv</span></span>
+</a>
+<nav aria-label="Galvenā navigācija" class="nav">
+<a href="/programmesana1/programmesana1">Prog I</a>
+<a href="/programmesana1/prog1_9/prog1_9main">9. tēma</a>
+<a href="/sasnRez#prog1">rezultāti</a>
+<a href="/paligm">palīgmateriāli</a>
+</nav>
+<div class="spacer"></div>
+</div>
+</header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>9. Tēma - Izstrādes modeļi, dizains un IT profesijas</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_9/prog1_9main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_9/prog1_91">9.1 Dzīves cikls un izstrādes modeļi</a>
+<a href="/programmesana1/prog1_9/prog1_92">9.2 Lomas komandā un IT profesijas</a>
+<a href="/programmesana1/prog1_9/prog1_93">9.3 Līdzīgu risinājumu salīdzināšana</a>
+<a href="/programmesana1/prog1_9/prog1_94">9.4 Informācijas dizains</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_9/prog1_95">9.5 Attēli, skaņa un video</a>
+<a href="/programmesana1/prog1_9/prog1_96">9.6 Noslēguma projekts: Prototips iterācijās</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_9/prog1_9main">9. tēma</a> / 9.5</p>
+<h1>9.5 Attēli, skaņa un video lietotnei</h1>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Šajā stundā tu <b>sagatavosi</b> attēlus ar Python programmu, <b>apstrādāsi</b> skaņu un <b>samontēsi</b> īsu video, kas parāda tavu lietotni.</p>
+<div class="lesson-meta">
+<a href="/sasnRez#prog1-v-2-2-3" title="Veido un apstrādā digitālus attēlus, audio un videodatnes, lietojot dažādas lietotnes atbilstoši dotajam uzdevumam.">SR 2.2.3. Attēli, audio un video (vispārīgais līmenis)</a>
+</div>
+<section id="teorija">
+<h2>Teorija: cik liels ir fails un kāpēc</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_9/testi/prog1_95_test">Sākt testu →</a></p>
+<div class="logic-box">
+<p><b>Rastra attēls</b> sastāv no pikseļiem (krāsainiem punktiem), piemēram, foto vai ekrānuzņēmums. Ja to palielina, tas kļūst izplūdis. <b>Vektorattēls</b> sastāv no formām (līnijām, apļiem, tekstiem), tāpēc to var palielināt bez zuduma. 9.4 stundas piemēri bija vektorattēli SVG formātā.</p>
+<p><b>Izšķirtspēja</b> ir pikseļu skaits platumā un augstumā, piemēram, 2400×1600. Katram pikselim vajag 3 baitus (sarkanais, zaļais, zilais), tāpēc bez saspiešanas tāds attēls aizņemtu 2400 × 1600 × 3 = 11 520 000 baitu, aptuveni 11 MB. Formāti attēlu <b>saspiež</b>:</p>
+<div class="table-scroll" role="region" aria-label="Attēlu formāti" tabindex="0"><table class="theory-table">
+<thead><tr><th>Formāts</th><th>Saspiešana</th><th>Der</th></tr></thead>
+<tbody>
+<tr><td><b>PNG</b></td><td>bez zudumiem; caurspīdīgums</td><td>ekrānuzņēmumi, zīmējumi ar vienkrāsainiem laukumiem</td></tr>
+<tr><td><b>JPG</b></td><td>ar zudumiem (izmet sīkumus, ko acs nepamana); bez caurspīdīguma</td><td>foto</td></tr>
+<tr><td><b>WebP</b></td><td>abi veidi; caurspīdīgums</td><td>tīmeklim: bieži mazāks par abiem, bet ne vienmēr (to pārbaudīsi papildu uzdevumā)</td></tr>
+<tr><td><b>SVG</b></td><td>vektors, teksts</td><td>ikonas, logo, diagrammas</td></tr>
+</tbody>
+</table></div>
+<p>Tīmekļa lapā attēlam reti vajag vairāk nekā 800–1200 pikseļu platumu. Foto no telefona (4000 pikseļu un vairāki MB) pirms ielikšanas lapā <b>samazina</b>, citādi lapa ielādējas lēni.</p>
+<p><b>Skaņa.</b> Mikrofons mēra skaņas spiedienu daudzas reizes sekundē. Šo biežumu sauc par <b>iztveršanas frekvenci</b> (<i>sample rate</i>): 44 100 Hz nozīmē 44 100 mērījumu sekundē. Balsij pietiek ar vienu kanālu (mono). 10 sekundes mono ieraksta bez saspiešanas (WAV) ir ap 860 KB, bet MP3 formātā ap 160 KB. <b>Normalizēšana</b> pastiprina ierakstu tā, ka skaļākā vieta ir tieši zem maksimuma, piemēram, −1 dB: klusa balss kļūst skaidri dzirdama, bet nesāk krakšķēt.</p>
+<p><b>Video</b> ir daudz attēlu sekundē ar skaņu. Tīmekļa demonstrācijai pietiek ar 1280×720 (720p) un 30–60 sekundēm. Pat tad MP4 fails viegli sasniedz vairākus desmitus MB. Tāpēc video <b>nekomitē</b> Git krātuvē: Git saglabā katru faila versiju uz visiem laikiem, un krātuve kļūst smaga. Video augšupielādē, piemēram, Google Drive, un krātuvē ieliek saiti.</p>
+<p><b>Svešs saturs.</b> Attēlam, mūzikai vai video, ko neesi radījis pats, pēc noklusējuma ir autortiesības: tos drīkst lietot tikai ar atļauju. <b>Creative Commons</b> licences atļauj lietot ar nosacījumiem: <b>CC0</b> - bez nosacījumiem, <b>CC BY</b> - norādi autoru, <b>CC BY-SA</b> - norādi autoru un dalies ar tādu pašu licenci, <b>NC</b> - tikai nekomerciāli. Tādu saturu var meklēt, piemēram, <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> vai <a href="https://openverse.org" target="_blank" rel="noopener">Openverse</a>. Programmatūras licences apgūsi <a href="/programmesana1/prog1_11/prog1_112">11.2 stundā</a>.</p>
+<p>Attēlus Python apstrādā ar bibliotēku <b>Pillow</b> (<code>PIL</code>). Tā nav standarta bibliotēkā, tāpēc 1. uzdevumā to uzstādīsi ar <code>pip</code>.</p>
+<details class="course-help"><summary>Pašpārbaude: tev ir ekrānuzņēmums ar tekstu un foto no ekskursijas. Kādu formātu katram izvēlēsies?</summary><p>Ekrānuzņēmumam PNG vai WebP: tajā ir lieli vienkrāsaini laukumi un ass teksts, ko JPG izplūdina. Foto - JPG vai WebP: tajā ir tūkstošiem krāsu, un PNG fails būtu ļoti liels.</p></details>
+</div>
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Uzstādi Pillow un izveido sīktēlu</h2>
+<p>Beigās tava programma uzzīmēs attēlu, nolasīs tā izmēru un režīmu un izveidos no tā mazu kopiju (sīktēlu).</p>
+<ol class="step-list">
+<li><b>Uzstādi Pillow:</b> VS Code augšējā izvēlnē izvēlies <b>Terminal → New Terminal</b>. Apakšā atvērtajā terminālī ieraksti šo rindu un nospied Enter:
+<pre><code class="language-none">python -m pip install pillow</code></pre>
+<p>Pēc brīža pēdējā rindā jābūt <code>Successfully installed pillow-…</code> (versijas numurs var būt cits). <code>python -m pip</code> uzstāda bibliotēku tieši tam Python, ar kuru palaid savas programmas.</p>
+</li>
+<li><b>Izveido failu</b> <code>tema09/pillow_95.py</code> un ieraksti:
+<pre><code class="language-python">from pathlib import Path
+from PIL import Image, ImageDraw
+
+MAPE = Path(__file__).parent
+
+# Uzzīmē paraugu: zils fons ar dzeltenu apli
+attels = Image.new("RGB", (1600, 1200), "#1864ab")
+zimulis = ImageDraw.Draw(attels)
+zimulis.ellipse((500, 300, 1100, 900), fill="#ffd43b")
+attels.save(MAPE / "paraugs_95.png")
+
+# Atver to no jauna un apskati
+attels = Image.open(MAPE / "paraugs_95.png")
+print("Izmērs:", attels.size)
+print("Režīms:", attels.mode)
+print("Formāts:", attels.format)
+
+attels.thumbnail((400, 400))
+print("Sīktēla izmērs:", attels.size)
+attels.save(MAPE / "paraugs_mazs_95.jpg")
+
+for nosaukums in ["paraugs_95.png", "paraugs_mazs_95.jpg"]:
+    print(nosaukums, (MAPE / nosaukums).stat().st_size, "baiti")</code></pre>
+<p><code>Image.new</code> izveido jaunu attēlu, <code>ImageDraw</code> zīmē uz tā. <code>thumbnail((400, 400))</code> samazina attēlu tā, lai tas ietilptu 400×400 kvadrātā, bet malu attiecība nemainās. Formātu Pillow nosaka pēc faila paplašinājuma.</p>
+</li>
+<li><b>Palaid programmu</b> ar <b>Run</b> pogu. Terminālī jāparādās:
+<pre><code class="language-none">Izmērs: (1600, 1200)
+Režīms: RGB
+Formāts: PNG
+Sīktēla izmērs: (400, 300)
+paraugs_95.png 10639 baiti
+paraugs_mazs_95.jpg 4457 baiti</code></pre>
+<p>Ar citu Pillow versiju baitu skaits var nedaudz atšķirties. <b>RGB</b> nozīmē trīs krāsu kanālus. PNG ar caurspīdīgumu būtu <b>RGBA</b> (A ir caurspīdīgums).</p>
+</li>
+<li><b>Apskati attēlus:</b> VS Code kreisajā pusē noklikšķini uz <code>paraugs_95.png</code> un pēc tam uz <code>paraugs_mazs_95.jpg</code>. Abi izskatās vienādi, tikai otrs ir mazāks.</li>
+<li><b>Izmēģini citu izmēru:</b> nomaini <code>thumbnail((400, 400))</code> uz <code>thumbnail((200, 200))</code> un palaid. Sīktēla izmērs tagad ir <code>(200, 150)</code>, nevis <code>(200, 200)</code>, jo malu attiecība 4:3 saglabājas. Atgriez <code>(400, 400)</code> un palaid vēlreiz: šo sīktēlu izmantosi 3. uzdevumā.</li>
+<li><b>Pieraksti secinājumu.</b> <code>README.md</code> beigās pievieno šīs rindas, pabeidz teikumu un saglabā:
+<pre><code class="language-none">### 9.5 Attēli, skaņa un video
+
+paraugs_95.png ir 1 920 000 pikseļu, bet tikai ap 10 KB, jo</code></pre>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> terminālī ir 3. soļa sešas rindas, mapē <code>tema09</code> ir <code>paraugs_95.png</code> un 400×300 <code>paraugs_mazs_95.jpg</code>, un <code>README.md</code> ir pabeigts teikums.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>1. solis: <code>'python' is not recognized</code></b> vai atveras Microsoft Store. Python nav uzstādīts vai VS Code to neredz. Pārbaudi to, kā <a href="/programmesana1/prog1_1/prog1_11">1.1 stundā</a>, un aizver un atver VS Code no jauna.</li>
+<li><b>1. solis: <code>WARNING: … is not on PATH</code></b> - to var neņemt vērā, ja pēdējā rindā ir <code>Successfully installed</code>.</li>
+<li><b>1. solis: <code>Requirement already satisfied</code></b> - Pillow jau ir uzstādīts. Turpini ar 2. soli.</li>
+<li><b>3. solis: <code>ModuleNotFoundError: No module named 'PIL'</code></b> - Pillow ir uzstādīts citam Python. VS Code apakšējā labajā stūrī noklikšķini uz Python versijas un izvēlies to, kas ir no Microsoft Store, vai atkārto 1. soli tieši VS Code terminālī.</li>
+<li><b>6. solis: nezini, kāpēc fails ir tik mazs.</b> Paskaties uz attēlu: tajā ir tikai divas krāsas un lieli vienādi laukumi. PNG to saglabā kā "nākamie 500 pikseļi ir zili", nevis katru pikseli atsevišķi.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Uzraksti attēlu sagatavotāju atteli_95.py</h2>
+<p>Beigās programma visus attēlus no mapes <code>atteli_ievade</code> samazinās līdz 800 pikseļu platumam, pievienos tavu vārdu kā ūdenszīmi un saglabās WebP kopijas mapē <code>atteli_gatavi</code>.</p>
+<ol class="step-list">
+<li><b>Izveido failu</b> <code>tema09/atteli_95.py</code> un ieraksti tā sākumu. Rindā <code>UZRAKSTS</code> ieraksti savu vārdu un uzvārda pirmo burtu:
+<pre><code class="language-python">from pathlib import Path
+from PIL import Image, ImageDraw
+
+MAPE = Path(__file__).parent
+IEVADE = MAPE / "atteli_ievade"
+IZVADE = MAPE / "atteli_gatavi"
+MAX_PLATUMS = 800
+UZRAKSTS = "© Anna B. 2026"</code></pre>
+</li>
+<li><b>Pievieno prakses attēlu veidotāju</b> (divas tukšas rindas virs tā):
+<pre><code class="language-python">def izveido_prakses_attelus():
+    IEVADE.mkdir()
+    for nosaukums, izmers in [("ainava.jpg", (2400, 1600)), ("ekrans.png", (1920, 1080))]:
+        troksnis = Image.effect_noise(izmers, 60).convert("RGB")
+        krasa = Image.new("RGB", izmers, "#2b8a3e")
+        Image.blend(krasa, troksnis, 0.4).save(IEVADE / nosaukums)
+    print("Izveidoju prakses mapi ar 2 attēliem.")</code></pre>
+<p>Funkcija izveido divus lielus attēlus ar zaļu "troksni", kas saspiežas tikpat slikti kā īsts foto. 9.6 stundā šajā mapē ieliksi savus prototipu foto.</p>
+</li>
+<li><b>Pievieno apstrādes funkciju</b> un aizpildi četras vietas <code>___</code>:
+<pre><code class="language-python">def apstradat(fails):
+    attels = Image.open(fails)
+    platums, augstums = attels.size
+    jaunais_augstums = round(augstums * MAX_PLATUMS / ___)
+    attels = attels.resize((MAX_PLATUMS, ___))
+    zimulis = ImageDraw.Draw(attels)
+    zimulis.text((10, attels.height - 30), UZRAKSTS, fill="white", font_size=20)
+    jauns = IZVADE / (fails.___ + ".webp")
+    attels.save(jauns, quality=___)
+    pirms = fails.stat().st_size // 1024
+    pec = jauns.stat().st_size // 1024
+    print(f"{fails.name}: {platums}x{augstums}, {pirms} KB -&gt; {jauns.name}: {attels.width}x{attels.height}, {pec} KB")</code></pre>
+<p>Jauno augstumu aprēķina tā, lai malu attiecība nemainītos. <code>fails.stem</code> ir nosaukums bez paplašinājuma (<code>ainava</code>). <code>quality</code> ir saspiešanas kvalitāte no 1 līdz 100: tīmeklim der 80. <code>// 1024</code> pārvērš baitus kilobaitos.</p>
+</li>
+<li><b>Pievieno izsaukumu</b> faila beigās, bez atkāpes, un saglabā:
+<pre><code class="language-python">if not IEVADE.exists():
+    izveido_prakses_attelus()
+IZVADE.mkdir(exist_ok=True)
+for fails in sorted(IEVADE.iterdir()):
+    apstradat(fails)</code></pre>
+</li>
+<li><b>Palaid programmu</b> ar <b>Run</b> pogu. Terminālī jāparādās (ar citu Pillow versiju KB var nedaudz atšķirties):
+<pre><code class="language-none">Izveidoju prakses mapi ar 2 attēliem.
+ainava.jpg: 2400x1600, 1293 KB -&gt; ainava.webp: 800x533, 60 KB
+ekrans.png: 1920x1080, 4480 KB -&gt; ekrans.webp: 800x450, 65 KB</code></pre>
+<p>Ekrāna attēls kļuva gandrīz 70 reizes mazāks, un lapā tas izskatīsies tikpat labi.</p>
+</li>
+<li><b>Apskati rezultātu:</b> VS Code kreisajā pusē atver <code>atteli_gatavi/ainava.webp</code>. Apakšējā kreisajā stūrī jābūt tavam uzrakstam baltiem burtiem.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> terminālī ir 5. soļa trīs rindas, mapē <code>atteli_gatavi</code> ir divi <code>.webp</code> faili 800 pikseļu platumā, un tajos redzams tavs uzraksts.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>3. solis, vietas <code>___</code>:</b> <code>/ platums</code>, <code>(MAX_PLATUMS, jaunais_augstums)</code>, <code>fails.stem</code> un <code>quality=80</code>.</li>
+<li><b><code>TypeError: … got an unexpected keyword argument 'font_size'</code></b> - Pillow ir vecs. Terminālī izpildi <code>python -m pip install --upgrade pillow</code> un palaid vēlreiz.</li>
+<li><b><code>FileNotFoundError</code> pie <code>save</code></b> - mapes <code>atteli_gatavi</code> nav. Pārbaudi, vai rinda <code>IZVADE.mkdir(exist_ok=True)</code> ir pirms cikla <code>for</code>.</li>
+<li><b>Attēls ir saspiests vai izstiepts.</b> Formulā jādala ar <code>platums</code>, nevis <code>augstums</code>. 2400×1600 attēlam jāsanāk 800×533.</li>
+<li><b>Gribi sākt no jauna.</b> Izdzēs abas mapes <code>atteli_ievade</code> un <code>atteli_gatavi</code> (peles labā poga → <b>Delete</b>) un palaid. Programma tās izveidos no jauna.</li>
+<li><b>VS Code neparāda <code>.webp</code> attēlu.</b> Ar peles labo pogu izvēlies <b>Reveal in File Explorer</b> un atver to ar dubultklikšķi.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pārbaudi ar neērtiem failiem un samontē video</h2>
+<p>Beigās programma izlaidīs failus, kas nav attēli, un nepalielinās mazus attēlus, Git neredzēs lielos failus, un tev būs balss ieraksts un 30–60 sekunžu video ar saiti <code>README.md</code>.</p>
+<p>Turpini failā <code>tema09/atteli_95.py</code> pēc 2. uzdevuma.</p>
+<ol class="step-list">
+<li><b>Ieliec divus neērtus failus:</b> ar peles labo pogu noklikšķini uz <code>paraugs_mazs_95.jpg</code> (no 1. uzdevuma) → <b>Copy</b>, tad ar peles labo pogu uz mapes <code>atteli_ievade</code> → <b>Paste</b>. Mapē <code>atteli_ievade</code> izveido arī tukšu failu <code>piezimes.txt</code>. Palaid programmu. Terminālī parādās:
+<pre><code class="language-none">ainava.jpg: 2400x1600, 1293 KB -&gt; ainava.webp: 800x533, 60 KB
+ekrans.png: 1920x1080, 4480 KB -&gt; ekrans.webp: 800x450, 65 KB
+paraugs_mazs_95.jpg: 400x300, 4 KB -&gt; paraugs_mazs_95.webp: 800x600, 5 KB
+Traceback (most recent call last):
+…
+PIL.UnidentifiedImageError: cannot identify image file '…piezimes.txt'</code></pre>
+<p>Divas problēmas: 400 pikseļu sīktēls tika <b>palielināts</b> līdz 800 un kļuva izplūdis, un programma apstājās pie teksta faila.</p>
+</li>
+<li><b>Izlaid failus, kas nav attēli:</b> pirmajā rindā pievieno <code>UnidentifiedImageError</code>, lai tā būtu <code>from PIL import Image, ImageDraw, UnidentifiedImageError</code>. Funkcijā <code>apstradat</code> rindu <code>attels = Image.open(fails)</code> aizstāj ar šīm rindām, saglabā un palaid:
+<pre><code class="language-python">    try:
+        attels = Image.open(fails)
+    except UnidentifiedImageError:
+        print(f"Izlaižu {fails.name}: tas nav attēls")
+        return</code></pre>
+<p>Pēdējā rindā tagad ir <code>Izlaižu piezimes.txt: tas nav attēls</code>, un programma vairs neapstājas.</p>
+</li>
+<li><b>Nepalielini mazus attēlus:</b> abas rindas <code>jaunais_augstums = …</code> un <code>attels = attels.resize(…)</code> ieliec zem nosacījuma (iezīmē tās un nospied <code>Tab</code>), lai sanāk:
+<pre><code class="language-python">    if platums &gt; MAX_PLATUMS:
+        jaunais_augstums = round(augstums * MAX_PLATUMS / platums)
+        attels = attels.resize((MAX_PLATUMS, jaunais_augstums))</code></pre>
+<p>Saglabā un palaid. Terminālī jāparādās:</p>
+<pre><code class="language-none">ainava.jpg: 2400x1600, 1293 KB -&gt; ainava.webp: 800x533, 60 KB
+ekrans.png: 1920x1080, 4480 KB -&gt; ekrans.webp: 800x450, 65 KB
+paraugs_mazs_95.jpg: 400x300, 4 KB -&gt; paraugs_mazs_95.webp: 400x300, 3 KB
+Izlaižu piezimes.txt: tas nav attēls</code></pre>
+</li>
+<li><b>Paslēp lielos failus no Git:</b> VS Code kreisajā pusē krātuves saknē atver failu <code>.gitignore</code> (to izveidoji <a href="/programmesana1/prog1_1/prog1_14">1.4 stundā</a>), faila beigās pievieno šīs rindas un saglabā:
+<pre><code class="language-none"># 9.5: lieli mediju faili un oriģinālie attēli
+*.mp4
+*.wav
+tema09/atteli_ievade/</code></pre>
+<p>Rinda <code>*.png</code> tur jau ir kopš 1.4 stundas. Pārslēdzies uz GitHub Desktop: zem <b>Changes</b> vairs nav neviena faila no <code>atteli_ievade</code>. Krātuvē nonāks tikai mazie, gatavie WebP attēli.</p>
+</li>
+<li><b>Ieraksti balss pavadījumu:</b> atver <b>Audacity</b>, nospied sarkano pogu <b>Record</b> un 10–15 sekundes runā, piemēram: <i>"Šī ir koncerta lapa no 9.4 stundas. Programma pārbaudīja krāsas, un tagad visi teksti ir labi salasāmi."</i> Nospied melno kvadrātu <b>Stop</b>. Ar peli iezīmē lieko klusumu sākumā un nospied <code>Delete</code>, tāpat beigās. Tad iezīmē visu ar <code>Ctrl+A</code> un izvēlies <b>Effect → Volume and Compression → Normalize…</b>, atstāj <i>-1.0 dB</i> un nospied <b>Apply</b>. Saglabā ar <b>File → Export Audio…</b> kā MP3 failu <code>tema09/balss_95.mp3</code>.</li>
+<li><b>Ieraksti un samontē video:</b> atver <b>Clipchamp</b> (Windows izvēlnē Sākt ieraksti <i>Clipchamp</i>) un izvēlies <b>Create a new video</b>. Kreisajā pusē izvēlies <b>Record &amp; create → Screen</b> un 30–60 sekundes ieraksti ekrānu: pārlūkā atvērto <code>afisa_94.html</code> un VS Code ar <code>kontrasts_94.py</code> izdruku. Nospied <b>Save and edit</b>. Ar <b>Import media</b> pievieno <code>balss_95.mp3</code> un ievelc to laika joslā zem video. Nospied <b>Export</b> un izvēlies <b>720p</b>.</li>
+<li><b>Augšupielādē video un saglabā saiti:</b> augšupielādē MP4 failu savā Google Drive, koplieto to ar savu skolu kā <b>Viewer</b>, kā <a href="/programmesana1/prog1_7/prog1_72">7.2 stundā</a>, un nokopē saiti.</li>
+<li><b>Pieraksti rezultātus.</b> <code>README.md</code> zem sava teikuma par PNG pievieno šīs rindas, aizpildi tās un saglabā:
+<pre><code class="language-none">| Fails | Pirms | Pēc |
+|---|---|---|
+| ainava | 2400x1600, 1293 KB (JPG) |  |
+| ekrans | 1920x1080, 4480 KB (PNG) |  |
+| balss_95.mp3 | ... sekundes | ... KB |
+
+Video (... sekundes, 720p, ... MB): saite
+
+Ja video izmantotu mūziku, ko neesmu radījis, man vajadzētu</code></pre>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> programma izdrukā 3. soļa četras rindas, GitHub Desktop neredz <code>atteli_ievade</code>, mapē <code>tema09</code> ir <code>balss_95.mp3</code>, un <code>README.md</code> ir aizpildīta tabula un video saite, ko klasesbiedrs var atvērt ar savu skolas kontu.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>2. solis: <code>NameError: name 'UnidentifiedImageError' is not defined</code></b> - tas nav pievienots pirmajā rindā aiz <code>ImageDraw,</code>.</li>
+<li><b>3. solis: <code>UnboundLocalError</code> vai <code>NameError</code> ar <code>jaunais_augstums</code>.</b> Kādā citā rindā vēl palicis <code>jaunais_augstums</code>. Uzrakstam jāizmanto <code>attels.height</code>, kā 2. uzdevumā.</li>
+<li><b>4. solis: GitHub Desktop joprojām rāda <code>atteli_ievade</code>.</b> Pārbaudi, vai rindā ir slīpsvītra <code>/</code>, nevis <code>\</code>, un vai <code>.gitignore</code> ir krātuves saknē, nevis mapē <code>tema09</code>. Ja faili jau bija komitēti agrāk, pajautā skolotājam.</li>
+<li><b>5. solis: datorā nav Audacity.</b> Pajautā skolotājam, vai to drīkst uzstādīt no <a href="https://www.audacityteam.org" target="_blank" rel="noopener">audacityteam.org</a>. Ja nē, ieraksti balsi ar Windows <b>Skaņas ierakstītāju</b> (<i>Sound Recorder</i>) un README pieraksti, ka normalizēt nevarēji.</li>
+<li><b>5. solis: izvēlnē nav <b>Volume and Compression</b>.</b> Vecākā Audacity versijā <b>Normalize…</b> ir tieši izvēlnē <b>Effect</b>, bet eksports ir <b>File → Export → Export as MP3</b>.</li>
+<li><b>6. solis: Clipchamp prasa pieteikties.</b> Piesakies ar skolas Microsoft kontu, ja tāds ir, vai pajautā skolotājam. Ja Clipchamp nav pieejams, ieraksti ekrānu ar <b>Snipping Tool</b> video režīmā (bez balss) un README to pieraksti.</li>
+<li><b>6. solis: video ir garāks par minūti.</b> Laika joslā noklikšķini uz video un velc tā labo malu pa kreisi, lai nogrieztu beigas.</li>
+<li><b>7. solis: video fails ir pārāk liels augšupielādei.</b> Eksportē vēlreiz ar <b>480p</b> vai saīsini video.</li>
+</ul>
+</details>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Kurš formāts ir mazākais?</summary>
+<p>Ja pamatdarbs ir gatavs, saglabā vienu un to pašu attēlu trijos formātos un salīdzini izmērus.</p>
+<ol class="step-list">
+<li><b>Izveido failu</b> <code>tema09/formati_95.py</code> un ieraksti:
+<pre><code class="language-python">from pathlib import Path
+from PIL import Image
+
+MAPE = Path(__file__).parent
+for avots in ["atteli_ievade/ainava.jpg", "paraugs_95.png"]:
+    attels = Image.open(MAPE / avots)
+    attels = attels.resize((800, round(attels.height * 800 / attels.width)))
+    print(avots)
+    for formats in ["png", "jpg", "webp"]:
+        cels = MAPE / f"formats_95.{formats}"
+        attels.save(cels)
+        print(f"  {formats}: {cels.stat().st_size // 1024} KB")</code></pre>
+</li>
+<li><b>Palaid.</b> Terminālī jāparādās:
+<pre><code class="language-none">atteli_ievade/ainava.jpg
+  png: 377 KB
+  jpg: 54 KB
+  webp: 64 KB
+paraugs_95.png
+  png: 9 KB
+  jpg: 11 KB
+  webp: 3 KB</code></pre>
+<p>Trokšņainai "ainavai" mazākais ir JPG, bet attēlam ar diviem vienkrāsainiem laukumiem JPG ir pat lielāks par PNG. Formātu izvēlas pēc attēla satura.</p>
+</li>
+<li><b>Izmēģini ar savu foto:</b> ieliec <code>atteli_ievade</code> savu foto vai ekrānuzņēmumu, sarakstā <code>avots</code> pievieno tā nosaukumu un palaid. Pieraksti <code>README.md</code>, kurš formāts uzvarēja.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> tu zini, kurš formāts ir mazākais trīs dažādiem attēliem, un vari pateikt, kāpēc.</p>
+</details><section class="lesson-wrapup" id="stundas-beigas">
+<h2>Stundas beigās</h2>
+<ol class="step-list">
+<li><b>Saglabā visus failus:</b> VS Code izvēlies <b>File → Save All</b>. Aizver Audacity un Clipchamp.</li>
+<li><b>Apskati izmaiņas:</b> pārslēdzies uz GitHub Desktop. Zem <b>Changes</b> (izmaiņas) jābūt <code>.gitignore</code>, <code>tema09/pillow_95.py</code>, <code>tema09/atteli_95.py</code>, mapei <code>tema09/atteli_gatavi</code>, <code>paraugs_mazs_95.jpg</code>, <code>balss_95.mp3</code> un <code>README.md</code>, bet ne MP4 failam. <code>paraugs_95.png</code> sarakstā nav, jo 1.4 stundā <code>.gitignore</code> ierakstīji <code>*.png</code>.</li>
+<li><b>Apraksti un fiksē:</b> laukā <b>Summary</b> (kopsavilkums) ieraksti <code>Pievieno 9.5 attēlu sagatavotāju, balsi un video saiti</code> un nospied <b>Commit to main</b>.</li>
+<li><b>Nosūti:</b> nospied <b>Push origin</b> (nosūtīt uz GitHub).</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> GitHub vietnē mapē <code>tema09</code> redzams <code>atteli_95.py</code> un <code>atteli_gatavi</code>, bet nav mapes <code>atteli_ievade</code>.</p>
+</section><section>
+<details class="course-help"><summary>Parādīt pilnu risinājumu</summary>
+<p>Fails <code>tema09/atteli_95.py</code> pēc 3. uzdevuma (uzraksts būs tavs):</p>
+<pre><code class="language-python">from pathlib import Path
+from PIL import Image, ImageDraw, UnidentifiedImageError
+
+MAPE = Path(__file__).parent
+IEVADE = MAPE / "atteli_ievade"
+IZVADE = MAPE / "atteli_gatavi"
+MAX_PLATUMS = 800
+UZRAKSTS = "© Anna B. 2026"
+
+
+def izveido_prakses_attelus():
+    IEVADE.mkdir()
+    for nosaukums, izmers in [("ainava.jpg", (2400, 1600)), ("ekrans.png", (1920, 1080))]:
+        troksnis = Image.effect_noise(izmers, 60).convert("RGB")
+        krasa = Image.new("RGB", izmers, "#2b8a3e")
+        Image.blend(krasa, troksnis, 0.4).save(IEVADE / nosaukums)
+    print("Izveidoju prakses mapi ar 2 attēliem.")
+
+
+def apstradat(fails):
+    try:
+        attels = Image.open(fails)
+    except UnidentifiedImageError:
+        print(f"Izlaižu {fails.name}: tas nav attēls")
+        return
+    platums, augstums = attels.size
+    if platums &gt; MAX_PLATUMS:
+        jaunais_augstums = round(augstums * MAX_PLATUMS / platums)
+        attels = attels.resize((MAX_PLATUMS, jaunais_augstums))
+    zimulis = ImageDraw.Draw(attels)
+    zimulis.text((10, attels.height - 30), UZRAKSTS, fill="white", font_size=20)
+    jauns = IZVADE / (fails.stem + ".webp")
+    attels.save(jauns, quality=80)
+    pirms = fails.stat().st_size // 1024
+    pec = jauns.stat().st_size // 1024
+    print(f"{fails.name}: {platums}x{augstums}, {pirms} KB -&gt; {jauns.name}: {attels.width}x{attels.height}, {pec} KB")
+
+
+if not IEVADE.exists():
+    izveido_prakses_attelus()
+IZVADE.mkdir(exist_ok=True)
+for fails in sorted(IEVADE.iterdir()):
+    apstradat(fails)</code></pre>
+<p>Piezīmju piemērs failā <code>README.md</code> (tavi skaitļi un saite būs citi):</p>
+<pre><code class="language-none">### 9.5 Attēli, skaņa un video
+
+paraugs_95.png ir 1 920 000 pikseļu, bet tikai ap 10 KB, jo tajā ir tikai divas krāsas un lieli vienādi laukumi, ko PNG saspiež bez zudumiem.
+
+| Fails | Pirms | Pēc |
+|---|---|---|
+| ainava | 2400x1600, 1293 KB (JPG) | 800x533, 60 KB (WebP) |
+| ekrans | 1920x1080, 4480 KB (PNG) | 800x450, 65 KB (WebP) |
+| balss_95.mp3 | 12 sekundes | 190 KB |
+
+Video (45 sekundes, 720p, 14 MB): https://drive.google.com/file/d/.../view
+
+Ja video izmantotu mūziku, ko neesmu radījis, man vajadzētu atrast mūziku ar Creative Commons licenci, piemēram, CC BY, un video aprakstā norādīt autoru, nosaukumu un licenci.</code></pre>
+</details>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_9/prog1_94">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_9/prog1_96">Nākamā stunda ➡</a>
+</nav></main>
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="foot-brand" href="/"><span class="glyph">›_</span> ebskola.lv</a>
+        <p>Atvērti, bezmaksas mācību materiāli datorikā, programmēšanā un robotikā latviešu valodā.</p>
+        <div class="foot-social">
+          <a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">LinkedIn</a>
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Kursi</h4>
+        <ul>
+          <li><a href="/datorika9/datorika9">Datorika 9. klasei</a></li>
+          <li><a href="/programmesana1/programmesana1">Programmēšana I</a></li>
+          <li><a href="/programmesana2/programmesana2">Programmēšana II</a></li>
+          <li><a href="/robotika/robotika">Robotika</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resursi</h4>
+        <ul>
+          <li><a href="/sasnRez">Sasniedzamie rezultāti</a></li>
+          <li><a href="/paligm">Palīgmateriāli</a></li>
+          <li><a href="/#structure">Visu tēmu indekss</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Projekts</h4>
+        <ul>
+          <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a></li>
+          <li><a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">Sazināties</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div class="left">
+        <span>© 2026 ebSkola</span>
+        <span>Izstrādājis Eduards Baumanis</span>
+      </div>
+    </div>
+  </div>
+</footer></body>
+</html>

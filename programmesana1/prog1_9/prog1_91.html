@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9.1 Programmatūras dzīves cikls un izstrādes modeļi · Programmēšana I — ebSkola</title>
+<meta name="description" content="Programmēšana I: sakārto izstrādes darbus pa dzīves cikla posmiem, salīdzini ūdenskrituma, V-modeli, pakāpenisko un iteratīvo izstrādi un uzraksti Python programmu, kas projektam iesaka piemērotāko modeli.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_9/prog1_91">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="9.1 Programmatūras dzīves cikls un izstrādes modeļi · Programmēšana I">
+<meta property="og:description" content="Programmēšana I: sakārto izstrādes darbus pa dzīves cikla posmiem, salīdzini ūdenskrituma, V-modeli, pakāpenisko un iteratīvo izstrādi un uzraksti Python programmu, kas projektam iesaka piemērotāko modeli.">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_9/prog1_91">
+<meta property="og:image" content="https://ebskola.lv/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ebSkola — datorikas, programmēšanas un robotikas mācību materiāli">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="../../lesson.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "9.1 Programmatūras dzīves cikls un izstrādes modeļi · Programmēšana I", "description": "Programmēšana I: sakārto izstrādes darbus pa dzīves cikla posmiem, salīdzini ūdenskrituma, V-modeli, pakāpenisko un iteratīvo izstrādi un uzraksti Python programmu, kas projektam iesaka piemērotāko modeli.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_9/prog1_91", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 9. tēma: Izstrādes modeļi, dizains un IT profesijas", "url": "https://ebskola.lv/programmesana1/prog1_9/prog1_9main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "9. tēma: Izstrādes modeļi, dizains un IT profesijas", "item": "https://ebskola.lv/programmesana1/prog1_9/prog1_9main"}, {"@type": "ListItem", "position": 4, "name": "9.1 Programmatūras dzīves cikls un izstrādes modeļi · Programmēšana I", "item": "https://ebskola.lv/programmesana1/prog1_9/prog1_91"}]}]}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer src="../../lesson.js"></script>
+</head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="topbar">
+<div class="wrap row">
+<a class="brand" href="/">
+<span class="glyph">›_</span>
+<span class="name">ebskola<span>.lv</span></span>
+</a>
+<nav aria-label="Galvenā navigācija" class="nav">
+<a href="/programmesana1/programmesana1">Prog I</a>
+<a href="/programmesana1/prog1_9/prog1_9main">9. tēma</a>
+<a href="/sasnRez#prog1">rezultāti</a>
+<a href="/paligm">palīgmateriāli</a>
+</nav>
+<div class="spacer"></div>
+</div>
+</header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>9. Tēma - Izstrādes modeļi, dizains un IT profesijas</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_9/prog1_9main">Tēmas sākums</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_9/prog1_91">9.1 Dzīves cikls un izstrādes modeļi</a>
+<a href="/programmesana1/prog1_9/prog1_92">9.2 Lomas komandā un IT profesijas</a>
+<a href="/programmesana1/prog1_9/prog1_93">9.3 Līdzīgu risinājumu salīdzināšana</a>
+<a href="/programmesana1/prog1_9/prog1_94">9.4 Informācijas dizains</a>
+<a href="/programmesana1/prog1_9/prog1_95">9.5 Attēli, skaņa un video</a>
+<a href="/programmesana1/prog1_9/prog1_96">9.6 Noslēguma projekts: Prototips iterācijās</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_9/prog1_9main">9. tēma</a> / 9.1</p>
+<h1>9.1 Programmatūras dzīves cikls un izstrādes modeļi</h1>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Šajā stundā tu <b>sakārtosi</b> izstrādes darbus pa dzīves cikla posmiem un <b>uzrakstīsi</b> programmu, kas projektam iesaka piemērotāko izstrādes modeli.</p>
+<div class="lesson-meta">
+<a href="/sasnRez#prog1-v-2-4-2" title="Nosauc un raksturo ar piemēriem programmatūras dzīves cikla galvenos posmus – specificēšana, projektēšana, izstrāde, testēšana, uzturēšana.">SR 2.4.2. Dzīves cikla posmi (vispārīgais līmenis)</a>
+<a href="/sasnRez#prog1-o-2-4-2" title="Nosauc un raksturo ar piemēriem dažus programmatūras izstrādes modeļus, t. sk. ūdenskrituma, V-modeli, pakāpeniskās un interaktīvās.">SR 2.4.2. Izstrādes modeļi</a>
+</div>
+<section id="teorija">
+<h2>Teorija: no idejas līdz programmai, ko lieto</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_9/testi/prog1_91_test">Sākt testu →</a></p>
+<div class="logic-box">
+<p>Katra programma iziet cauri pieciem <b>dzīves cikla</b> (<i>software life cycle</i>) posmiem. Tu tos jau esi izgājis savos projektos, tikai tos nesauci vārdā:</p>
+<div class="table-scroll" role="region" aria-label="Dzīves cikla posmi" tabindex="0"><table class="theory-table">
+<thead><tr><th>Posms</th><th>Jautājums</th><th>Piemērs no tava kursa</th></tr></thead>
+<tbody>
+<tr><td><b>Specificēšana</b></td><td><i>Ko</i> programmai jādara?</td><td>7.2 stundas prasību tabula: kam ko koplietot un ar kādām tiesībām</td></tr>
+<tr><td><b>Projektēšana</b></td><td><i>Kā</i> to uzbūvēs?</td><td>7.6 stundā izlēmi kolonnas A–D (uzdevums, atbildīgais, termiņš, statuss), pirms rakstīji skriptu</td></tr>
+<tr><td><b>Izstrāde</b></td><td>Kā uzrakstīt kodu?</td><td>7.1 stundā uzrakstīji <code>kartot_71.py</code></td></tr>
+<tr><td><b>Testēšana</b></td><td>Vai tas strādā, arī ar neērtiem datiem?</td><td>7.1 stundas 3. uzdevums: fails bez paplašinājuma un aizņemts nosaukums</td></tr>
+<tr><td><b>Uzturēšana</b></td><td>Ko mainīt, kad programmu jau lieto?</td><td>7.5 stundas papildu uzdevumā pielāgoji skriptu savai 5.4 aptaujai</td></tr>
+</tbody>
+</table></div>
+<p><b>Izstrādes modelis</b> nosaka, kādā secībā un cik reižu šos posmus iziet. Četri pazīstamākie:</p>
+<div class="table-scroll" role="region" aria-label="Izstrādes modeļi" tabindex="0"><table class="theory-table">
+<thead><tr><th>Modelis</th><th>Kā notiek</th><th>Lietotājs redz rezultātu</th><th>Der, ja</th></tr></thead>
+<tbody>
+<tr><td><b>Ūdenskritums</b> (<i>waterfall</i>)</td><td>pieci posmi pēc kārtas, katrs vienu reizi; atpakaļ neiet</td><td>tikai beigās</td><td>prasības ir skaidras un nemainīsies, piemēram, programma pēc gatava nolikuma</td></tr>
+<tr><td><b>V-modelis</b></td><td>kā ūdenskritums, bet katram posmam pretī ir savs testēšanas līmenis, ko izplāno jau sākumā</td><td>beigās, pēc pārbaudes ar lietotāju</td><td>kļūda ir dārga: medicīna, automašīnas, bankas</td></tr>
+<tr><td><b>Pakāpeniskā izstrāde</b> (<i>incremental</i>)</td><td>produktu sadala daļās; katru daļu izstrādā līdz galam un nodod lietošanā</td><td>pēc pirmās daļas</td><td>prasības ir zināmas, bet kaut ko strādājošu vajag drīz</td></tr>
+<tr><td><b>Iteratīvā izstrāde</b> (<i>iterative</i>)</td><td>visu produktu uztaisa vienkāršu, tad vairākās kārtās (iterācijās) uzlabo pēc atsauksmēm</td><td>pēc pirmās kārtas</td><td>prasības nav skaidras vai mainīsies</td></tr>
+</tbody>
+</table></div>
+<p>V-modeļa vārds nāk no tā zīmējuma. Kreisajā pusē posmi iet uz leju līdz kodam, labajā pusē testēšana iet atpakaļ uz augšu, un katrs līmenis pārbauda savu pretējo posmu:</p>
+<pre><code class="language-none">Specificēšana ─────────────────────── Pārbaude ar lietotāju: vai dara, ko prasīja?
+    Projektēšana ─────────────── Integrācijas tests: vai daļas strādā kopā?
+        Funkciju projektējums ─── Vienību tests: vai katra funkcija strādā?
+                    Izstrāde (kods)</code></pre>
+<p>Pakāpenisko un iteratīvo izstrādi viegli sajaukt. Iedomājies, ka glezno ainavu. <b>Pakāpeniski</b>: vispirms līdz galam uzglezno debesis, tad kokus, tad māju. <b>Iteratīvi</b>: vispirms ar zīmuli uzskicē visu ainavu, tad visu iekrāso, tad visu precizē.</p>
+<p>Modeli izvēlas pēc trim jautājumiem: vai prasības <b>mainīsies</b>, cik <b>dārga</b> ir kļūda (risks) un cik <b>drīz</b> lietotājam vajag kaut ko strādājošu (termiņš). Šos trīs jautājumus 2. uzdevumā uzdos tava programma.</p>
+<details class="course-help"><summary>Pašpārbaude: klase taisa lietotni skolas ballei, bet vēl nezina, ko skolēni no tās gribēs. Kāds modelis der?</summary><p>Iteratīvā izstrāde. Prasības mainīsies, tāpēc labāk ātri parādīt vienkāršu versiju un uzlabot to pēc skolēnu atsauksmēm, nevis mēnesi plānot to, ko neviens negribēs.</p></details>
+</div>
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Sakārto 12 izstrādes darbus pa posmiem</h2>
+<p>Beigās tavā <code>README.md</code> būs tabula, kurā katrs no 12 darbiem ir piekārtots vienam no pieciem dzīves cikla posmiem.</p>
+<ol class="step-list">
+<li><b>Atver piezīmes:</b> VS Code kreisajā pusē noklikšķini uz <code>README.md</code> un nospied <code>Ctrl+End</code>, lai nokļūtu faila beigās.</li>
+<li><b>Ielīmē veidni:</b> faila beigās pievieno šīs rindas un saglabā ar <code>Ctrl+S</code>:
+<pre><code class="language-none">### 9.1 Dzīves cikls un izstrādes modeļi
+
+| Nr. | Darbs | Posms |
+|---|---|---|
+| 1 | Izlabo kļūdu, ko lietotājs atrada pēc programmas izlaišanas |  |
+| 2 | Uzraksti lietotāja stāstu "Kā skolēns es gribu redzēt rītdienas stundas" |  |
+| 3 | Uzzīmē plūsmas diagrammu galvenajai funkcijai |  |
+| 4 | Palaid programmu ar tukšu failu un pieraksti, kas notiek |  |
+| 5 | Uzraksti funkciju ieteikt() |  |
+| 6 | Vienojies ar pasūtītāju, ko programma darīs un ko nedarīs |  |
+| 7 | Izlem, kādas kolonnas būs CSV failā |  |
+| 8 | Klasesbiedrs izmēģina programmu un pasaka, kur apmaldījās |  |
+| 9 | Pielāgo programmu jaunai Python versijai |  |
+| 10 | Uzraksti prasību "Programma nedrīkst pārrakstīt esošus failus" |  |
+| 11 | Izveido commit ar jauno funkciju |  |
+| 12 | Sadali programmu funkcijās un nosaki, ko katra atgriež |  |</code></pre>
+</li>
+<li><b>Aizpildi kolonnu Posms:</b> katrā rindā ieraksti vienu no pieciem vārdiem: <code>Specificēšana</code>, <code>Projektēšana</code>, <code>Izstrāde</code>, <code>Testēšana</code> vai <code>Uzturēšana</code>. Lai izlemtu, izmanto teorijas tabulas kolonnu <b>Jautājums</b>.</li>
+<li><b>Pārbaudi skaitu:</b> saskaiti, cik reizes tabulā ir katrs posms. Pareizi aizpildītā tabulā <b>Specificēšana</b> un <b>Projektēšana</b> ir pa 3 reizēm, pārējie trīs posmi pa 2 reizēm. Ja skaits nesakrīt, pārskati rindas, par kurām šaubījies.</li>
+<li><b>Pievieno savu piemēru:</b> zem tabulas atstāj tukšu rindu, pievieno šo teikumu, pabeidz to ar piemēru no sava projekta (ne no teorijas tabulas) un saglabā:
+<pre><code class="language-none">Savā projektā uzturēšana bija, kad es</code></pre>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> Markdown priekšskatījumā (<code>Ctrl+Shift+V</code>) visās 12 rindās ir aizpildīta kolonna <b>Posms</b>, posmu skaits sakrīt ar 4. soli, un zem tabulas ir pabeigts teikums par uzturēšanu.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>Nevari izšķirt specificēšanu un projektēšanu.</b> Specificēšana saka, <i>ko</i> lietotājs saņems, un to var saprast arī cilvēks, kas neprogrammē. Projektēšana saka, <i>kā</i> to uzbūvēs: failus, funkcijas, kolonnas.</li>
+<li><b>Nevari izšķirt testēšanu un uzturēšanu.</b> Testēšana notiek, pirms programmu atdod lietotājiem. Uzturēšana notiek pēc tam, kad tā jau tiek lietota.</li>
+<li><b>Vai commit ir izstrāde?</b> Jā. Commit saglabā koda izmaiņas, tātad tas ir daļa no koda rakstīšanas.</li>
+<li><b>Priekšskatījumā tabula ir viena gara rinda.</b> Virs rindas <code>| Nr. | Darbs | Posms |</code> jābūt tukšai rindai, un otrajai rindai jābūt tieši <code>|---|---|---|</code>.</li>
+<li><b>5. solis: nezini piemēru.</b> Atceries, kad mainīji jau gatavu programmu, piemēram, pievienoji jautājumus 6.6 quiz spēlei vai izlaboji kļūdu, ko pamanīja klasesbiedrs.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Uzraksti modeļu ieteicēju modeli_91.py</h2>
+<p>Beigās tava programma trim projektiem ieteiks izstrādes modeli un pateiks, kāpēc.</p>
+<ol class="step-list">
+<li><b>Izveido mapi <code>tema09</code>:</b> VS Code kreisajā pusē ar peles labo pogu noklikšķini tukšā vietā zem failu saraksta, izvēlies <b>New Folder</b> (jauna mape), ieraksti <code>tema09</code> un nospied Enter.</li>
+<li><b>Izveido failu:</b> ar peles labo pogu noklikšķini uz mapes <code>tema09</code>, izvēlies <b>New File</b>, ieraksti <code>modeli_91.py</code> un nospied Enter.</li>
+<li><b>Ieraksti modeļu vārdnīcu:</b>
+<pre><code class="language-python"># Četri izstrādes modeļi un projekti, kuriem tie der vislabāk
+MODELI = {
+    "Ūdenskritums": {
+        "prasibas_mainas": False,
+        "risks": "zems",
+        "termins": "garš",
+        "kad": "prasības ir skaidras jau sākumā, un rezultātu gaida beigās",
+    },
+    "V-modelis": {
+        "prasibas_mainas": False,
+        "risks": "augsts",
+        "termins": "garš",
+        "kad": "kļūda ir dārga, tāpēc katram posmam ir savs testēšanas līmenis",
+    },
+    "Pakāpeniskā izstrāde": {
+        "prasibas_mainas": False,
+        "risks": "zems",
+        "termins": "īss",
+        "kad": "pirmo strādājošo daļu vajag drīz, pārējās nāk pēc kārtas",
+    },
+    "Iteratīvā izstrāde": {
+        "prasibas_mainas": True,
+        "risks": "zems",
+        "termins": "īss",
+        "kad": "prasības mainīsies, tāpēc visu produktu uzlabo vairākās kārtās",
+    },
+}</code></pre>
+<p>Katram modelim ir trīs pazīmes no teorijas: vai prasības mainās, kāds ir risks un vai termiņš pirmajai strādājošajai daļai ir īss vai garš. <code>"kad"</code> ir iemesls, ko programma izdrukās.</p>
+</li>
+<li><b>Pievieno funkciju</b> zem vārdnīcas (divas tukšas rindas starp tām) un aizpildi četras vietas <code>___</code>:
+<pre><code class="language-python">def ieteikt(prasibas_mainas, risks, termins):
+    labakais = ""
+    labakie_punkti = -1
+    for nosaukums, ipasibas in MODELI.items():
+        punkti = 0
+        if ipasibas["prasibas_mainas"] == prasibas_mainas:
+            punkti += 1
+        if ipasibas["risks"] == ___:
+            punkti += 1
+        if ipasibas["termins"] == ___:
+            punkti += 1
+        if punkti > ___:
+            labakais = nosaukums
+            labakie_punkti = punkti
+    return labakais, labakie_punkti, MODELI[___]["kad"]</code></pre>
+<p>Funkcija katram modelim saskaita, cik no trim pazīmēm sakrīt ar projektu, un atceras modeli ar visvairāk punktiem. <code>labakie_punkti</code> sākumā ir <code>-1</code>, lai pirmais modelis vienmēr būtu labāks par "neko".</p>
+</li>
+<li><b>Pievieno projektus un izsaukumu</b> faila beigās, bez atkāpes, un saglabā ar <code>Ctrl+S</code>:
+<pre><code class="language-python">PROJEKTI = [
+    ("Skolas ēdienkartes lietotne", True, "zems", "īss"),
+    ("Zāļu devu kalkulators slimnīcai", False, "augsts", "garš"),
+    ("Failu kārtotājs pēc gatava apraksta", False, "zems", "garš"),
+]
+
+for apraksts, mainas, risks, termins in PROJEKTI:
+    modelis, punkti, iemesls = ieteikt(mainas, risks, termins)
+    print(f"{apraksts}: {modelis} ({punkti} no 3)")
+    print(f"   Kāpēc: {iemesls}")</code></pre>
+<p>Katrs projekts ir kortežs (<i>tuple</i>): apraksts un trīs atbildes. Ēdienkartes lietotnes prasības mainīsies (skolēni gribēs ko jaunu), bet kļūda zāļu devās ir dārga.</p>
+</li>
+<li><b>Palaid programmu</b> ar <b>Run</b> pogu. Terminālī jāparādās:
+<pre><code class="language-none">Skolas ēdienkartes lietotne: Iteratīvā izstrāde (3 no 3)
+   Kāpēc: prasības mainīsies, tāpēc visu produktu uzlabo vairākās kārtās
+Zāļu devu kalkulators slimnīcai: V-modelis (3 no 3)
+   Kāpēc: kļūda ir dārga, tāpēc katram posmam ir savs testēšanas līmenis
+Failu kārtotājs pēc gatava apraksta: Ūdenskritums (3 no 3)
+   Kāpēc: prasības ir skaidras jau sākumā, un rezultātu gaida beigās</code></pre>
+</li>
+<li><b>Pārbaudi ceturto modeli:</b> faila pašās beigās pievieno rindu, palaid un tad to izdzēs:
+<pre><code class="language-python">print(ieteikt(False, "zems", "īss"))</code></pre>
+<p>Pēdējā rindā terminālī jāparādās:</p>
+<pre><code class="language-none">('Pakāpeniskā izstrāde', 3, 'pirmo strādājošo daļu vajag drīz, pārējās nāk pēc kārtas')</code></pre>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> terminālī visi trīs projekti saņem <code>3 no 3</code> un katrs citu modeli, un 7. solī funkcija atgriež <code>Pakāpeniskā izstrāde</code>.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>4. solis, četras vietas <code>___</code>:</b> <code>== risks</code>, <code>== termins</code>, <code>punkti &gt; labakie_punkti</code> un <code>MODELI[labakais]["kad"]</code>.</li>
+<li><b><code>KeyError: 'risks'</code></b> - vārdnīcā kādam modelim atslēga uzrakstīta citādi, piemēram, <code>"riski"</code>. Visiem četriem modeļiem atslēgām jābūt vienādām.</li>
+<li><b><code>KeyError: ''</code></b> - <code>labakais</code> palika tukšs, jo rindā <code>if punkti &gt; …</code> ir salīdzināts ar ko citu vai pēc <code>if</code> trūkst rindas <code>labakais = nosaukums</code>.</li>
+<li><b><code>SyntaxError</code> vārdnīcā.</b> Pārbaudi komatus: aiz katras rindas <code>"atslēga": vērtība</code> un aiz katras modeļa aizverošās iekavas <code>}</code> ir komats.</li>
+<li><b><code>ValueError: not enough values to unpack (expected 3, got 2)</code></b> - funkcija atgriež divas vērtības, bet cikls gaida trīs. Rindā <code>return</code> jābūt trim vērtībām, atdalītām ar komatiem.</li>
+<li><b>Visi projekti saņem Ūdenskritumu.</b> Salīdzinājumā ir <code>&gt;=</code> vai <code>==</code>, nevis <code>&gt;</code>, vai rinda <code>punkti = 0</code> ir virs cikla <code>for</code>, nevis tajā.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pārbaudi ieteicēju ar neērtiem projektiem</h2>
+<p>Beigās programma pamanīs drukas kļūdu ievadē un vienādu punktu skaitu, un tavā <code>README.md</code> būs paskaidrojums, kur programmas ieteikums ir apšaubāms.</p>
+<p>Turpini failā <code>tema09/modeli_91.py</code> pēc 2. uzdevuma.</p>
+<ol class="step-list">
+<li><b>Pievieno trīs neērtus projektus:</b> sarakstā <code>PROJEKTI</code> zem pēdējā projekta pievieno šīs rindas, saglabā un palaid:
+<pre><code class="language-python">    ("Skolas robota vadības programma", True, "augsts", "garš"),
+    ("Maksājumu lietotne, pirmā daļa vajadzīga drīz", False, "augsts", "īss"),
+    ("Zāļu devu kalkulators ar drukas kļūdu", False, "Augsts", "garš"),</code></pre>
+<p>Terminālī jaunajiem projektiem parādās:</p>
+<pre><code class="language-none">Skolas robota vadības programma: V-modelis (2 no 3)
+   Kāpēc: kļūda ir dārga, tāpēc katram posmam ir savs testēšanas līmenis
+Maksājumu lietotne, pirmā daļa vajadzīga drīz: V-modelis (2 no 3)
+   Kāpēc: kļūda ir dārga, tāpēc katram posmam ir savs testēšanas līmenis
+Zāļu devu kalkulators ar drukas kļūdu: Ūdenskritums (2 no 3)
+   Kāpēc: prasības ir skaidras jau sākumā, un rezultātu gaida beigās</code></pre>
+<p>Kļūdu nav, bet ir trīs problēmas. Robota prasības mainīsies, bet V-modelis pieņem, ka tās nemainās. Maksājumu lietotnei arī pakāpeniskā izstrāde iegūst 2 punktus, bet programma to nepasaka. Un zāļu kalkulators ar <code>"Augsts"</code> (lielais A) saņem citu modeli nekā ar <code>"augsts"</code>.</p>
+</li>
+<li><b>Salabo drukas kļūdu:</b> funkcijas <code>ieteikt</code> sākumā, tieši zem rindas <code>def ieteikt(…):</code>, pievieno šīs rindas, saglabā un palaid:
+<pre><code class="language-python">    if risks not in ["zems", "augsts"] or termins not in ["īss", "garš"]:
+        return "nav zināms", 0, f"nepareiza ievade: risks={risks}, termins={termins}"</code></pre>
+<p>Pēdējam projektam terminālī jāparādās:</p>
+<pre><code class="language-none">Zāļu devu kalkulators ar drukas kļūdu: nav zināms (0 no 3)
+   Kāpēc: nepareiza ievade: risks=Augsts, termins=garš</code></pre>
+</li>
+<li><b>Pamani vienādus punktus:</b> funkcijā izdari trīs izmaiņas: zem rindas <code>labakie_punkti = -1</code> pievieno <code>vienadi = []</code>, bloku <code>if punkti &gt; labakie_punkti:</code> papildini ar <code>elif</code>, un pirms <code>return</code> pievieno pārbaudi. Funkcijas beigām jāizskatās tā:
+<pre><code class="language-python">        if punkti &gt; labakie_punkti:
+            labakais = nosaukums
+            labakie_punkti = punkti
+            vienadi = [nosaukums]
+        elif punkti == labakie_punkti:
+            vienadi.append(nosaukums)
+    if len(vienadi) &gt; 1:
+        return labakais, labakie_punkti, "vienādi der " + " un ".join(vienadi) + ", jāizlemj cilvēkam"
+    return labakais, labakie_punkti, MODELI[labakais]["kad"]</code></pre>
+<p><code>vienadi</code> ir saraksts ar visiem modeļiem, kuriem ir tikpat daudz punktu kā labākajam. Kad atrod labāku modeli, sarakstu sāk no jauna.</p>
+</li>
+<li><b>Palaid un pārbaudi maksājumu lietotni.</b> Terminālī jāparādās:
+<pre><code class="language-none">Maksājumu lietotne, pirmā daļa vajadzīga drīz: V-modelis (2 no 3)
+   Kāpēc: vienādi der V-modelis un Pakāpeniskā izstrāde, jāizlemj cilvēkam</code></pre>
+<p>Pārējo projektu rezultāti nemainās. Robotam programma joprojām iesaka V-modeli: to programma ar trim pazīmēm nevar pamanīt, to jāizvērtē tev.</p>
+</li>
+<li><b>Pievieno savu ideju:</b> izdomā lietotni, ko gribētu izveidot pats (pie tās strādāsi arī 9.6 stundā). Sarakstā <code>PROJEKTI</code> pievieno rindu ar tās aprakstu un trim atbildēm, piemēram, <code>("Mana ideja: mājasdarbu atgādinātājs", True, "zems", "īss"),</code>. Saglabā un palaid.</li>
+<li><b>Pieraksti secinājumus.</b> <code>README.md</code> zem sava teikuma par uzturēšanu pievieno šīs rindas, pabeidz visus trīs teikumus un saglabā:
+<pre><code class="language-none">Apšaubāms ieteikums: robota programmai programma iesaka V-modeli, bet
+
+Mana ideja: ...; programma iesaka ..., un es piekrītu / nepiekrītu, jo
+
+Kursa tēmu projekti līdz šim tika veidoti pēc modeļa ..., jo</code></pre>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> terminālī drukas kļūdas projekts saņem <code>nav zināms</code>, maksājumu lietotnei ir rinda <code>vienādi der V-modelis un Pakāpeniskā izstrāde</code>, ir rinda ar tavu ideju, un <code>README.md</code> zem <code>### 9.1</code> ir trīs pabeigti teikumi.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>1. solis: <code>SyntaxError</code> sarakstā.</b> Jaunās rindas jāieliek pirms aizverošās iekavas <code>]</code>, un pirms tām esošās rindas beigās jābūt komatam.</li>
+<li><b>2. solis: joprojām <code>Ūdenskritums</code>.</b> Jaunās rindas ir ieliktas zem cikla <code>for</code> vai ar citu atkāpi. Tām jābūt tieši zem rindas <code>def ieteikt(…):</code>, ar četru atstarpju atkāpi.</li>
+<li><b>2. solis: arī pareizie projekti saņem <code>nav zināms</code>.</b> Sarakstos <code>["zems", "augsts"]</code> un <code>["īss", "garš"]</code> vārdi uzrakstīti citādi nekā vārdnīcā <code>MODELI</code>, piemēram, <code>"iss"</code> bez garumzīmes.</li>
+<li><b>3. solis: <code>NameError: name 'vienadi' is not defined</code></b> - trūkst rindas <code>vienadi = []</code>, vai tā ir cikla iekšpusē. Tai jābūt pirms <code>for</code>, blakus <code>labakie_punkti = -1</code>.</li>
+<li><b>4. solis: vienādi parādās visiem projektiem.</b> Rinda <code>vienadi = [nosaukums]</code> trūkst <code>if</code> blokā, tāpēc saraksts nesākas no jauna, kad atrod labāku modeli.</li>
+<li><b>6. solis: nezini, kāds modelis bija kursa projektiem.</b> Padomā par 7.6 projektu: vai tu to uzbūvēji pa gatavām daļām (analīze, skripts, koplietošana) vai uztaisīji visu vienkāršu un tad uzlaboji? Abas atbildes var būt pareizas, ja tās pamato.</li>
+</ul>
+</details>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Jautā lietotājam</summary>
+<p>Ja pamatdarbs ir gatavs, liec programmai pašai pajautāt trīs atbildes, nevis rakstīt tās sarakstā.</p>
+<ol class="step-list">
+<li><b>Aizstāj projektu sarakstu:</b> izdzēs sarakstu <code>PROJEKTI</code> un ciklu <code>for</code> faila beigās un to vietā ieraksti:
+<pre><code class="language-python">print("Apraksti savu projektu.")
+mainas = input("Vai prasības mainīsies? (j/n): ") == "j"
+risks = input("Cik dārga ir kļūda? (zems/augsts): ")
+termins = input("Cik drīz vajag pirmo strādājošo daļu? (īss/garš): ")
+modelis, punkti, iemesls = ieteikt(mainas, risks, termins)
+print(f"Iesaku: {modelis} ({punkti} no 3)")
+print(f"Kāpēc: {iemesls}")</code></pre>
+<p><code>input(…) == "j"</code> ir <code>True</code>, ja lietotājs ieraksta <code>j</code>, un <code>False</code> visos citos gadījumos.</p>
+</li>
+<li><b>Palaid un atbildi</b> <code>j</code>, <code>zems</code>, <code>īss</code>. Pēdējās divas rindas ir:
+<pre><code class="language-none">Iesaku: Iteratīvā izstrāde (3 no 3)
+Kāpēc: prasības mainīsies, tāpēc visu produktu uzlabo vairākās kārtās</code></pre>
+</li>
+<li><b>Palaid vēlreiz un atbildi</b> <code>n</code>, <code>liels</code>, <code>īss</code>. Programma saka <code>nav zināms</code>, jo 3. uzdevuma pārbaude noķer vārdu <code>liels</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> programma pēc trim atbildēm iesaka modeli, bet nepareizai atbildei saka <code>nav zināms</code>.</p>
+</details><section class="lesson-wrapup" id="stundas-beigas">
+<h2>Stundas beigās</h2>
+<ol class="step-list">
+<li><b>Saglabā visus failus:</b> VS Code izvēlies <b>File → Save All</b>.</li>
+<li><b>Apskati izmaiņas:</b> pārslēdzies uz GitHub Desktop. Zem <b>Changes</b> (izmaiņas) jābūt <code>tema09/modeli_91.py</code> un <code>README.md</code>.</li>
+<li><b>Apraksti un fiksē:</b> laukā <b>Summary</b> (kopsavilkums) ieraksti <code>Pievieno 9.1 izstrādes modeļu ieteicēju un piezīmes</code> un nospied <b>Commit to main</b>.</li>
+<li><b>Nosūti:</b> nospied <b>Push origin</b> (nosūtīt uz GitHub).</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> GitHub vietnē mapē <code>tema09</code> redzams fails <code>modeli_91.py</code>.</p>
+</section><section>
+<details class="course-help"><summary>Parādīt pilnu risinājumu</summary>
+<p>Fails <code>tema09/modeli_91.py</code> pēc 3. uzdevuma (pēdējā projekta rinda būs tava):</p>
+<pre><code class="language-python"># Četri izstrādes modeļi un projekti, kuriem tie der vislabāk
+MODELI = {
+    "Ūdenskritums": {
+        "prasibas_mainas": False,
+        "risks": "zems",
+        "termins": "garš",
+        "kad": "prasības ir skaidras jau sākumā, un rezultātu gaida beigās",
+    },
+    "V-modelis": {
+        "prasibas_mainas": False,
+        "risks": "augsts",
+        "termins": "garš",
+        "kad": "kļūda ir dārga, tāpēc katram posmam ir savs testēšanas līmenis",
+    },
+    "Pakāpeniskā izstrāde": {
+        "prasibas_mainas": False,
+        "risks": "zems",
+        "termins": "īss",
+        "kad": "pirmo strādājošo daļu vajag drīz, pārējās nāk pēc kārtas",
+    },
+    "Iteratīvā izstrāde": {
+        "prasibas_mainas": True,
+        "risks": "zems",
+        "termins": "īss",
+        "kad": "prasības mainīsies, tāpēc visu produktu uzlabo vairākās kārtās",
+    },
+}
+
+
+def ieteikt(prasibas_mainas, risks, termins):
+    if risks not in ["zems", "augsts"] or termins not in ["īss", "garš"]:
+        return "nav zināms", 0, f"nepareiza ievade: risks={risks}, termins={termins}"
+    labakais = ""
+    labakie_punkti = -1
+    vienadi = []
+    for nosaukums, ipasibas in MODELI.items():
+        punkti = 0
+        if ipasibas["prasibas_mainas"] == prasibas_mainas:
+            punkti += 1
+        if ipasibas["risks"] == risks:
+            punkti += 1
+        if ipasibas["termins"] == termins:
+            punkti += 1
+        if punkti &gt; labakie_punkti:
+            labakais = nosaukums
+            labakie_punkti = punkti
+            vienadi = [nosaukums]
+        elif punkti == labakie_punkti:
+            vienadi.append(nosaukums)
+    if len(vienadi) &gt; 1:
+        return labakais, labakie_punkti, "vienādi der " + " un ".join(vienadi) + ", jāizlemj cilvēkam"
+    return labakais, labakie_punkti, MODELI[labakais]["kad"]
+
+
+PROJEKTI = [
+    ("Skolas ēdienkartes lietotne", True, "zems", "īss"),
+    ("Zāļu devu kalkulators slimnīcai", False, "augsts", "garš"),
+    ("Failu kārtotājs pēc gatava apraksta", False, "zems", "garš"),
+    ("Skolas robota vadības programma", True, "augsts", "garš"),
+    ("Maksājumu lietotne, pirmā daļa vajadzīga drīz", False, "augsts", "īss"),
+    ("Zāļu devu kalkulators ar drukas kļūdu", False, "Augsts", "garš"),
+    ("Mana ideja: mājasdarbu atgādinātājs", True, "zems", "īss"),
+]
+
+for apraksts, mainas, risks, termins in PROJEKTI:
+    modelis, punkti, iemesls = ieteikt(mainas, risks, termins)
+    print(f"{apraksts}: {modelis} ({punkti} no 3)")
+    print(f"   Kāpēc: {iemesls}")</code></pre>
+<p>Terminālī parādās:</p>
+<pre><code class="language-none">Skolas ēdienkartes lietotne: Iteratīvā izstrāde (3 no 3)
+   Kāpēc: prasības mainīsies, tāpēc visu produktu uzlabo vairākās kārtās
+Zāļu devu kalkulators slimnīcai: V-modelis (3 no 3)
+   Kāpēc: kļūda ir dārga, tāpēc katram posmam ir savs testēšanas līmenis
+Failu kārtotājs pēc gatava apraksta: Ūdenskritums (3 no 3)
+   Kāpēc: prasības ir skaidras jau sākumā, un rezultātu gaida beigās
+Skolas robota vadības programma: V-modelis (2 no 3)
+   Kāpēc: kļūda ir dārga, tāpēc katram posmam ir savs testēšanas līmenis
+Maksājumu lietotne, pirmā daļa vajadzīga drīz: V-modelis (2 no 3)
+   Kāpēc: vienādi der V-modelis un Pakāpeniskā izstrāde, jāizlemj cilvēkam
+Zāļu devu kalkulators ar drukas kļūdu: nav zināms (0 no 3)
+   Kāpēc: nepareiza ievade: risks=Augsts, termins=garš
+Mana ideja: mājasdarbu atgādinātājs: Iteratīvā izstrāde (3 no 3)
+   Kāpēc: prasības mainīsies, tāpēc visu produktu uzlabo vairākās kārtās</code></pre>
+<p>Piezīmju piemērs failā <code>README.md</code> (tavi teikumi būs citi):</p>
+<pre><code class="language-none">### 9.1 Dzīves cikls un izstrādes modeļi
+
+| Nr. | Darbs | Posms |
+|---|---|---|
+| 1 | Izlabo kļūdu, ko lietotājs atrada pēc programmas izlaišanas | Uzturēšana |
+| 2 | Uzraksti lietotāja stāstu "Kā skolēns es gribu redzēt rītdienas stundas" | Specificēšana |
+| 3 | Uzzīmē plūsmas diagrammu galvenajai funkcijai | Projektēšana |
+| 4 | Palaid programmu ar tukšu failu un pieraksti, kas notiek | Testēšana |
+| 5 | Uzraksti funkciju ieteikt() | Izstrāde |
+| 6 | Vienojies ar pasūtītāju, ko programma darīs un ko nedarīs | Specificēšana |
+| 7 | Izlem, kādas kolonnas būs CSV failā | Projektēšana |
+| 8 | Klasesbiedrs izmēģina programmu un pasaka, kur apmaldījās | Testēšana |
+| 9 | Pielāgo programmu jaunai Python versijai | Uzturēšana |
+| 10 | Uzraksti prasību "Programma nedrīkst pārrakstīt esošus failus" | Specificēšana |
+| 11 | Izveido commit ar jauno funkciju | Izstrāde |
+| 12 | Sadali programmu funkcijās un nosaki, ko katra atgriež | Projektēšana |
+
+Savā projektā uzturēšana bija, kad es 6.6 quiz spēlei pievienoju jaunus jautājumus JSON failā, kad spēle jau strādāja.
+
+Apšaubāms ieteikums: robota programmai programma iesaka V-modeli, bet robota prasības mainīsies, un V-modelis pieņem, ka tās ir zināmas jau sākumā. Labāk derētu iteratīvā izstrāde ar rūpīgu testēšanu katrā kārtā.
+
+Mana ideja: mājasdarbu atgādinātājs; programma iesaka iteratīvo izstrādi, un es piekrītu, jo vēl nezinu, kādus atgādinājumus klasesbiedri gribēs.
+
+Kursa tēmu projekti līdz šim tika veidoti pēc pakāpeniskās izstrādes modeļa, jo 7.6 projektu uzbūvēju pa daļām, un katra daļa bija gatava, pirms sāku nākamo.</code></pre>
+</details>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_9/prog1_9main">⬅ Tēmas apkopojums</a>
+<a class="nav-btn" href="/programmesana1/prog1_9/prog1_92">Nākamā stunda ➡</a>
+</nav></main>
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="foot-brand" href="/"><span class="glyph">›_</span> ebskola.lv</a>
+        <p>Atvērti, bezmaksas mācību materiāli datorikā, programmēšanā un robotikā latviešu valodā.</p>
+        <div class="foot-social">
+          <a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">LinkedIn</a>
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Kursi</h4>
+        <ul>
+          <li><a href="/datorika9/datorika9">Datorika 9. klasei</a></li>
+          <li><a href="/programmesana1/programmesana1">Programmēšana I</a></li>
+          <li><a href="/programmesana2/programmesana2">Programmēšana II</a></li>
+          <li><a href="/robotika/robotika">Robotika</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resursi</h4>
+        <ul>
+          <li><a href="/sasnRez">Sasniedzamie rezultāti</a></li>
+          <li><a href="/paligm">Palīgmateriāli</a></li>
+          <li><a href="/#structure">Visu tēmu indekss</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Projekts</h4>
+        <ul>
+          <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a></li>
+          <li><a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">Sazināties</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div class="left">
+        <span>© 2026 ebSkola</span>
+        <span>Izstrādājis Eduards Baumanis</span>
+      </div>
+    </div>
+  </div>
+</footer></body>
+</html>
