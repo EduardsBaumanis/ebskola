@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7.6 Noslēguma projekts: Klases pasākuma plānotājs · Programmēšana I — ebSkola</title>
+<meta name="description" content="Programmēšana I noslēguma projekts: koplietots Google Sheets pasākuma plānotājs ar Apps Script izvēlni, kas atzīmē nokavētos uzdevumus un sagatavo sarakstu katram, pareizām piekļuves tiesībām un noformētu lietošanas instrukciju.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_7/prog1_76">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="7.6 Noslēguma projekts: Klases pasākuma plānotājs · Programmēšana I">
+<meta property="og:description" content="Programmēšana I noslēguma projekts: koplietots Google Sheets pasākuma plānotājs ar Apps Script izvēlni, kas atzīmē nokavētos uzdevumus un sagatavo sarakstu katram, pareizām piekļuves tiesībām un noformētu lietošanas instrukciju.">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_7/prog1_76">
+<meta property="og:image" content="https://ebskola.lv/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ebSkola — datorikas, programmēšanas un robotikas mācību materiāli">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="../../lesson.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "7.6 Noslēguma projekts: Klases pasākuma plānotājs · Programmēšana I", "description": "Programmēšana I noslēguma projekts: koplietots Google Sheets pasākuma plānotājs ar Apps Script izvēlni, kas atzīmē nokavētos uzdevumus un sagatavo sarakstu katram, pareizām piekļuves tiesībām un noformētu lietošanas instrukciju.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_7/prog1_76", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 7. tēma: Lietotņu automatizācija un digitālā sadarbība", "url": "https://ebskola.lv/programmesana1/prog1_7/prog1_7main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "7. tēma: Lietotņu automatizācija un digitālā sadarbība", "item": "https://ebskola.lv/programmesana1/prog1_7/prog1_7main"}, {"@type": "ListItem", "position": 4, "name": "7.6 Noslēguma projekts: Klases pasākuma plānotājs · Programmēšana I", "item": "https://ebskola.lv/programmesana1/prog1_7/prog1_76"}]}]}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="../../lesson.js"></script>
+</head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="topbar">
+<div class="wrap row">
+<a class="brand" href="/">
+<span class="glyph">›_</span>
+<span class="name">ebskola<span>.lv</span></span>
+</a>
+<nav aria-label="Galvenā navigācija" class="nav">
+<a href="/programmesana1/programmesana1">Prog I</a>
+<a href="/programmesana1/prog1_7/prog1_7main">7. tēma</a>
+<a href="/sasnRez#prog1">rezultāti</a>
+<a href="/paligm">palīgmateriāli</a>
+</nav>
+<div class="spacer"></div>
+</div>
+</header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>7. Tēma - Lietotņu automatizācija un digitālā sadarbība</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_7/prog1_7main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_7/prog1_71">7.1 Ko var automatizēt?</a>
+<a href="/programmesana1/prog1_7/prog1_72">7.2 Koplietošana un piekļuves tiesības</a>
+<a href="/programmesana1/prog1_7/prog1_73">7.3 Liels strukturēts dokuments</a>
+<a href="/programmesana1/prog1_7/prog1_74">7.4 Saziņas un laika plānošanas rīki</a>
+<a href="/programmesana1/prog1_7/prog1_75">7.5 Skripti izklājlapā</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_7/prog1_76">7.6 Noslēguma projekts: Klases pasākuma plānotājs</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_7/prog1_7main">7. tēma</a> / 7.6</p>
+<h1>7.6 Noslēguma projekts: Klases pasākuma plānotājs</h1>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Šajā projektā tu <b>izveidosi</b> koplietotu pasākuma plānotāju: izklājlapu ar skriptu, kas atzīmē nokavētos uzdevumus un sagatavo katram savu uzdevumu sarakstu, pareizas piekļuves tiesības un noformētu lietošanas instrukciju.</p>
+<div class="lesson-meta">
+<a href="/sasnRez#prog1-o-2-3-2" title="Izmanto dažādās lietotnēs pieejamās programmēšanas iespējas, izstrādājot vienkāršas programmas (skriptus), piedāvāto datu apstrādes iespēju papildināšanai un lietotāja darba produktivitātes paaugstināšanai.">SR 2.3.2. Skripti lietotnēs</a>
+<a href="/sasnRez#prog1-v-2-3-2" title="Izmanto dažādu lietotņu piedāvātās dokumentu koplietošanas iespējas, nosakot atšķirīgiem lietotājiem atšķirīgas piekļuves, rediģēšanas un komentēšanas tiesības un iespējas.">SR 2.3.2. Dokumentu koplietošana un tiesības (vispārīgais līmenis)</a>
+<a href="/sasnRez#prog1-v-2-3-3" title="Sagatavo, rediģē un formatē lielus strukturētus dokumentus, iekļaujot dažādus objektus (t. sk. attēlus, tabulas, vēres, mijnorādes, galvenes, kājenes, automātiskos satura, attēlu, priekšmetu (alfabētiskos) rādītājus, kā arī literatūras (avotu) sarakstu un atsauces uz tiem) un izmantojot lietotnēs iebūvētos darba efektivitātes un automatizācijas rīkus.">SR 2.3.3. Lieli strukturēti dokumenti (vispārīgais līmenis)</a>
+<a href="/sasnRez#prog1-v-2-4-1" title="Analizē vienkāršus ikdienas darba procesus, atpazīst automatizācijai piemērotas daļas un raksturo automatizācijas iespējas.">SR 2.4.1. Automatizācijas iespējas (vispārīgais līmenis)</a>
+</div>
+<section id="teorija">
+<h2>Projekta uzdevums</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_7/testi/prog1_76_test">Sākt testu →</a></p>
+<div class="logic-box">
+<p>Klase gatavo pasākumu, piemēram, Ziemassvētku vakaru. Šodien darbi ir pierakstīti kāda burtnīcā vai izkaisīti čatā, un neviens nezina, kas ir nokavēts. Tu izveidosi plānotāju, kas to atrisina. Projektā izmantosi visu tēmu:</p>
+<div aria-label="Tabula" class="table-scroll" role="region" tabindex="0"><table class="theory-table">
+<thead><tr><th>Daļa</th><th>Ko izveidosi</th><th>No kuras stundas</th></tr></thead>
+<tbody>
+<tr><td>Procesa analīze</td><td>tabula <code>README.md</code>: kas šodien notiek ar roku un ko plānotājs automatizēs</td><td><a href="/programmesana1/prog1_7/prog1_71">7.1</a></td></tr>
+<tr><td>Plānotājs</td><td>Google izklājlapa ar uzdevumiem, atbildīgajiem, termiņiem un statusu</td><td><a href="/programmesana1/prog1_7/prog1_74">7.4</a>, <a href="/programmesana1/prog1_7/prog1_75">7.5</a></td></tr>
+<tr><td>Skripts</td><td>izvēlne <b>Plānotājs</b>: nokavēto atzīmēšana un saraksts pa cilvēkiem</td><td><a href="/programmesana1/prog1_7/prog1_75">7.5</a></td></tr>
+<tr><td>Piekļuve</td><td>organizatori rediģē, klase komentē, skolotājs skata</td><td><a href="/programmesana1/prog1_7/prog1_72">7.2</a></td></tr>
+<tr><td>Instrukcija</td><td>2–3 lappušu Word dokuments ar stiliem, satura rādītāju un attēlu parakstiem, saglabāts kā PDF</td><td><a href="/programmesana1/prog1_7/prog1_73">7.3</a></td></tr>
+</tbody>
+</table></div>
+<p>Skriptā ir viena jauna lieta: krāsa. <code>lapa.getRange(rinda, 1, 1, 4)</code> ir vienas rindas četras šūnas (no kolonnas A, 1 rinda, 4 kolonnas), un <code>setBackground('#f4cccc')</code> tās iekrāso. <code>setBackground(null)</code> krāsu noņem. Izklājlapas rindas sākas ar 1, bet saraksts <code>dati</code> ar 0, tāpēc sarakstā <code>dati[i]</code> ir izklājlapas rinda <code>i + 1</code>.</p>
+<p>Datumu salīdzina tāpat kā skaitļus: <code>termins &lt; sodien</code> nozīmē "termiņš jau ir pagājis". Ja šūnā ir teksts, nevis datums, tad <code>termins instanceof Date</code> ir <code>false</code>.</p>
+<p>Plānotāju var veidot divatā: viens ir īpašnieks, otrs organizators ar rediģēšanas tiesībām. Abiem <code>README.md</code> ir savs ieraksts.</p>
+</div>
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Analizē procesu un izveido plānotāja tabulu</h2>
+<p>Beigās tavā <code>README.md</code> būs procesa analīze, un Google izklājlapā būs lapa <code>Uzdevumi</code> ar sešiem pasākuma darbiem.</p>
+<ol class="step-list">
+<li><b>Ielīmē analīzes veidni:</b> VS Code atver <code>README.md</code>, faila beigās pievieno šīs rindas un aiz <code>Pasākums:</code> ieraksti, kādu pasākumu plānojat:
+<pre><code class="language-none">### 7.6 Klases pasākuma plānotājs
+
+- Pasākums:
+
+| Nr. | Solis šodien | A/D/N | Plānotājā? | Kāpēc |
+|---|---|---|---|---|
+| 1 |  |  |  |  |
+| 2 |  |  |  |  |
+| 3 |  |  |  |  |
+| 4 |  |  |  |  |
+| 5 |  |  |  |  |</code></pre>
+</li>
+<li><b>Apraksti, kā klase plāno šodien:</b> kolonnā <b>Solis šodien</b> secībā ieraksti vismaz piecus soļus, kā jūsu klase līdz šim gatavoja pasākumu, piemēram, <i>Kāds pieraksta darbus burtnīcā</i>.</li>
+<li><b>Novērtē un izlem:</b> kolonnā <b>A/D/N</b> atzīmē katru soli kā <a href="/programmesana1/prog1_7/prog1_71">7.1 stundā</a>. Kolonnā <b>Plānotājā?</b> ieraksti <code>jā</code> vai <code>nē</code>, un kolonnā <b>Kāpēc</b> pamato abos gadījumos. Saglabā ar <code>Ctrl+S</code>.</li>
+<li><b>Izveido izklājlapu:</b> <code>sheets.google.com</code> nospied <b>Tukša izklājlapa</b>, nosauc to <code>7.6 Pasākuma plānotājs</code> un apakšā pārdēvē cilni <b>Lapa1</b> par <code>Uzdevumi</code>.</li>
+<li><b>Ielīmē uzdevumus:</b> iezīmē zemāk esošo bloku, nospied <code>Ctrl+C</code>, izklājlapā noklikšķini šūnā A1 un nospied <code>Ctrl+V</code>. Formula <code>=TODAY()-3</code> nozīmē "pirms trim dienām", tāpēc piemērs der jebkurā dienā.
+<pre><code class="language-none">Uzdevums	Atbildīgais	Termiņš	Statuss
+Izvēlēties datumu	Anna	=TODAY()-5	Gatavs
+Rezervēt zāli	Jānis	=TODAY()-3	Procesā
+Izveidot ielūgumu	Anna	=TODAY()-2	Procesā
+Sastādīt viesu sarakstu	Marta	=TODAY()+3	Jādara
+Sagatavot mūziku	Pēteris	=TODAY()+5	Jādara
+Nopirkt uzkodas	Jānis	=TODAY()+7	Jādara</code></pre>
+</li>
+<li><b>Pārbaudi datumus:</b> kolonnā C jābūt datumiem, nevis tekstam <code>=TODAY()-5</code>. Noklikšķini uz C2: formulu joslā redzi <code>=TODAY()-5</code>, bet šūnā datumu pirms piecām dienām.</li>
+<li><b>Pievieno statusa izvēlni:</b> iezīmē šūnas D2–D30 un izvēlies <b>Ievietošana → Nolaižamā izvēlne</b> (<i>Insert → Dropdown</i>). Labajā panelī jābūt trim variantiem: <code>Gatavs</code>, <code>Procesā</code>, <code>Jādara</code>. Ja kāda trūkst, pievieno to ar <b>Pievienot citu vienumu</b>. Nospied <b>Gatavs</b> (<i>Done</i>).</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> <code>README.md</code> priekšskatījumā (<code>Ctrl+Shift+V</code>) visas piecas tabulas rindas ir aizpildītas, bet lapā <code>Uzdevumi</code> ir 7 rindas ar datumiem kolonnā C un izvēlnes bultiņu katrā statusa šūnā.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>2. solis: nezini, kā klase plāno.</b> Piemērs: <i>Klases stundā vienojas par datumu</i> (N), <i>Kāds pieraksta darbus burtnīcā</i> (A), <i>Audzinātājs čatā atgādina katram</i> (D), <i>Pirms pasākuma pārbauda, kas nav izdarīts</i> (A), <i>Savāc naudu uzkodām</i> (N).</li>
+<li><b>3. solis: A solis, bet plānotājā "nē".</b> Tas ir atļauts, ja pamato, piemēram, <i>Varētu automatizēt, bet tam vajag e-pasta atļaujas, ko skola nedod</i>.</li>
+<li><b>5. solis: viss ielīmējās kolonnā A.</b> Iezīmē kolonnu A un izvēlies <b>Dati → Sadalīt tekstu kolonnās</b>.</li>
+<li><b>6. solis: šūnā redzams teksts <code>=TODAY()-5</code>.</b> Noklikšķini uz šūnas, nospied <code>F2</code> un Enter. Ja tas nepalīdz, ieraksti formulu no jauna.</li>
+<li><b>6. solis: šūnā ir <code>#NAME?</code>.</b> Tavas izklājlapas valodā formulas nosaukums ir citāds. Ieraksti <code>=</code> un sāc rakstīt <code>TOD</code>: izvēlies piedāvāto funkciju, kas atgriež šodienas datumu.</li>
+<li><b>7. solis: šūnās parādās sarkans trijstūris.</b> Šūnas teksts neatbilst nevienam variantam, piemēram, <code>Procesa</code> bez garumzīmes. Izvēlies pareizo no izvēlnes.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Uzraksti plānotāja skriptu un pārbaudi to ar jauniem datiem</h2>
+<p>Beigās izklājlapā būs izvēlne <b>Plānotājs</b>, kas iekrāso nokavētos uzdevumus un izveido lapu <b>Pa cilvēkiem</b>, un tā pareizi strādās arī ar jaunām rindām un atkārtotu palaišanu.</p>
+<ol class="step-list">
+<li><b>Atver skriptu un ieraksti sākumu:</b> izvēlies <b>Paplašinājumi → Apps Script</b>, nosauc projektu <code>7.6 Plānotājs</code>, izdzēs visu failā <code>Code.gs</code> un ieraksti:
+<pre><code class="language-javascript">const LAPA = 'Uzdevumi';   // kolonnas: A uzdevums, B atbildīgais, C termiņš, D statuss
+
+function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu('Plānotājs')
+    .addItem('Atzīmēt nokavētos', 'atzimetNokavetos')
+    .addItem('Saraksts pa cilvēkiem', 'sarakstsPaCilvekiem')
+    .addToUi();
+}</code></pre>
+</li>
+<li><b>Pievieno nokavēto atzīmēšanu</b> un aizpildi trīs vietas <code>___</code>:
+<pre><code class="language-javascript">function atzimetNokavetos() {
+  const lapa = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LAPA);
+  const dati = lapa.getDataRange().getValues();
+  const sodien = new Date();
+  sodien.setHours(0, 0, 0, 0);
+  let nokaveti = 0;
+  for (let i = 1; i &lt; dati.length; i++) {
+    if (dati[i][0] === '') {
+      continue;
+    }
+    const termins = dati[i][2];
+    const statuss = dati[i][3];
+    const rinda = lapa.getRange(i + ___, 1, 1, 4);   // tabulas rindas sākas ar 1
+    if (!(termins instanceof Date)) {
+      rinda.setBackground('#fff2cc');              // dzeltens: pārbaudi datumu
+    } else if (termins &lt; ___ &amp;&amp; statuss !== '___') {
+      rinda.setBackground('#f4cccc');              // sarkans: nokavēts
+      nokaveti += 1;
+    } else {
+      rinda.setBackground(null);                   // bez krāsas
+    }
+  }
+  SpreadsheetApp.getUi().alert('Nokavēti uzdevumi: ' + nokaveti);
+}</code></pre>
+<p><code>&amp;&amp;</code> JavaScript nozīmē to pašu, ko Python <code>and</code>. <code>alert</code> parāda logu ar ziņu.</p>
+</li>
+<li><b>Pievieno sarakstu pa cilvēkiem,</b> aizpildi divas vietas <code>___</code> un saglabā ar <code>Ctrl+S</code>:
+<pre><code class="language-javascript">function sarakstsPaCilvekiem() {
+  const tabula = SpreadsheetApp.getActiveSpreadsheet();
+  const dati = tabula.getSheetByName(LAPA).getDataRange().getValues();
+  let pec = {};
+  for (let i = 1; i &lt; dati.length; i++) {
+    const uzdevums = dati[i][0];
+    const kurs = dati[i][1];
+    if (uzdevums === '' || dati[i][3] === 'Gatavs') {
+      continue;
+    }
+    if (pec[kurs] === undefined) {
+      pec[kurs] = [];
+    }
+    pec[kurs].push(___);
+  }
+  let lapa = tabula.getSheetByName('Pa cilvēkiem');
+  if (lapa === null) {
+    lapa = tabula.insertSheet('Pa cilvēkiem');
+  }
+  lapa.___();
+  lapa.appendRow(['Atbildīgais', 'Uzdevumi']);
+  for (let kurs in pec) {
+    lapa.appendRow([kurs, pec[kurs].join(', ')]);
+  }
+}</code></pre>
+<p><code>||</code> nozīmē <code>or</code>. <code>push</code> pievieno saraksta beigās tāpat kā Python <code>append</code>, un <code>join(', ')</code> savieno sarakstu vienā tekstā.</p>
+</li>
+<li><b>Palaid nokavēto atzīmēšanu:</b> izklājlapā nospied <code>F5</code>, izvēlies <b>Plānotājs → Atzīmēt nokavētos</b> un atļauj piekļuvi tāpat kā 7.5 stundā. Tad izvēlies to vēlreiz. Parādās logs <code>Nokavēti uzdevumi: 2</code>, un rindas 3 (<code>Rezervēt zāli</code>) un 4 (<code>Izveidot ielūgumu</code>) ir sarkanas. Rinda 2 nav sarkana, jo tā ir <code>Gatavs</code>.</li>
+<li><b>Palaid sarakstu:</b> izvēlies <b>Plānotājs → Saraksts pa cilvēkiem</b>. Jaunajā lapā <b>Pa cilvēkiem</b> jābūt:
+<pre><code class="language-none">Atbildīgais   Uzdevumi
+Jānis         Rezervēt zāli, Nopirkt uzkodas
+Anna          Izveidot ielūgumu
+Marta         Sastādīt viesu sarakstu
+Pēteris       Sagatavot mūziku</code></pre>
+</li>
+<li><b>Pārbaudi ar jauniem datiem:</b> lapā <b>Uzdevumi</b> rindā 8 ieraksti <code>Saskaņot ar direktoru</code>, <code>Marta</code>, <code>nākamnedēļ</code>, <code>Jādara</code>, bet rindā 9 - <code>Savākt naudu</code>, <code>Pēteris</code>, <code>=TODAY()-4</code>, <code>Jādara</code>. Palaid abas izvēlnes komandas divreiz. Logs saka <code>Nokavēti uzdevumi: 3</code>, rinda 8 ir dzeltena (teksts, nevis datums), rinda 9 sarkana, un lapā <b>Pa cilvēkiem</b> ir tikai piecas rindas:
+<pre><code class="language-none">Atbildīgais   Uzdevumi
+Jānis         Rezervēt zāli, Nopirkt uzkodas
+Anna          Izveidot ielūgumu
+Marta         Sastādīt viesu sarakstu, Saskaņot ar direktoru
+Pēteris       Sagatavot mūziku, Savākt naudu</code></pre>
+</li>
+<li><b>Pārbaudi statusa maiņu:</b> šūnā D3 izvēlies <code>Gatavs</code> un palaid abas komandas vēlreiz. Logs saka <code>Nokavēti uzdevumi: 2</code>, rinda 3 vairs nav sarkana, un Jānim sarakstā palicis tikai <code>Nopirkt uzkodas</code>.</li>
+<li><b>Saglabā kodu krātuvē:</b> Apps Script redaktorā nospied <code>Ctrl+A</code>, <code>Ctrl+C</code>. VS Code mapē <code>tema07</code> izveido failu <code>planotajs_76.js</code>, ielīmē kodu un saglabā.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pēc 7. soļa logs rāda <code>Nokavēti uzdevumi: 2</code>, sarkanas ir rindas 4 un 9, dzeltena rinda 8, lapā <b>Pa cilvēkiem</b> ir piecas rindas, un VS Code mapē <code>tema07</code> ir <code>planotajs_76.js</code>.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>2.–3. solis, vietas <code>___</code>:</b> <code>lapa.getRange(i + 1, 1, 1, 4)</code>, <code>termins &lt; sodien &amp;&amp; statuss !== 'Gatavs'</code>, <code>pec[kurs].push(uzdevums)</code> un <code>lapa.clear()</code>.</li>
+<li><b>4. solis: izvēlnes <b>Plānotājs</b> nav.</b> Pagaidi 10 sekundes un nospied <code>F5</code> vēlreiz. Pārbaudi, vai kods ir saglabāts un funkcija saucas tieši <code>onOpen</code>.</li>
+<li><b>4. solis: <code>TypeError: Cannot read properties of null (reading 'getDataRange')</code></b> - cilne nesaucas tieši <code>Uzdevumi</code> (1. uzdevuma 4. solis).</li>
+<li><b>4. solis: iekrāsojas nepareiza rinda, viena zem vajadzīgās vai virs tās.</b> Pārbaudi <code>i + 1</code>: saraksta indekss <code>i</code> ir par vienu mazāks nekā izklājlapas rinda.</li>
+<li><b>4. solis: sarkana ir arī rinda 2 (<code>Gatavs</code>).</b> Teksts kodā <code>'Gatavs'</code> atšķiras no šūnas teksta. Salīdzini burtus.</li>
+<li><b>4. solis: visas rindas ir dzeltenas.</b> Kolonnā C ir teksts, nevis datumi. Atkārto 1. uzdevuma 6. soli.</li>
+<li><b>6. solis: lapā <b>Pa cilvēkiem</b> tabula ir divreiz.</b> Trūkst <code>lapa.clear()</code> vai tas ir zem <code>appendRow</code> rindām.</li>
+<li><b>Logs <code>Nokavēti uzdevumi</code> parādās redaktorā, nevis izklājlapā.</b> Tas ir normāli, ja palaid ar <b>Run</b> redaktorā: logs parādās izklājlapas cilnē, un skripts gaida, līdz tur nospied <b>OK</b>.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Koplieto plānotāju un uzraksti lietošanas instrukciju</h2>
+<p>Beigās plānotājs būs koplietots trim lomām ar pārbaudītām tiesībām, un mapē <code>tema07</code> būs lietošanas instrukcija PDF formātā.</p>
+<ol class="step-list">
+<li><b>Organizatoram dod rediģēšanu:</b> izklājlapā nospied <b>Share</b> (kopīgot), ieraksti klasesbiedra (organizatora) e-pastu, atstāj lomu <b>Editor</b> un nospied <b>Send</b>.</li>
+<li><b>Skolotājam dod skatīšanu:</b> atver <b>Share</b> vēlreiz, ieraksti skolotāja e-pastu, izvēlies <b>Viewer</b>, noņem ķeksīti <b>Notify people</b> un nospied <b>Share</b>.</li>
+<li><b>Klasei dod komentēšanu ar saiti:</b> atver <b>Share</b>, sadaļā <b>General access</b> noklikšķini uz <b>Restricted</b> un izvēlies savas skolas nosaukumu. Pa labi izvēlies lomu <b>Commenter</b>, nospied <b>Copy link</b> un <b>Done</b>. <code>README.md</code> zem analīzes tabulas pievieno rindu <code>- Plānotāja saite:</code> un ielīmē saiti aiz tās.</li>
+<li><b>Pārbaudi tiesības:</b> <code>README.md</code> zem saites pievieno šo tabulu. Organizators mēģina mainīt statusu; cits klasesbiedrs atver saiti un mēģina mainīt šūnu, pievienot komentāru (labā poga uz šūnas → <b>Komentārs</b>, <i>Comment</i>) un atrast izvēlni <b>Plānotājs</b>. Aizpildi aili <b>Faktiski</b> un saglabā:
+<pre><code class="language-none">| Kas | Darbība | Gaidīts | Faktiski |
+|---|---|---|---|
+| Organizators (Editor) | maina statusu | var |  |
+| Klasesbiedrs ar saiti (Commenter) | maina šūnu | nevar |  |
+| Klasesbiedrs ar saiti (Commenter) | pievieno komentāru | var |  |
+| Klasesbiedrs ar saiti (Commenter) | redz izvēlni Plānotājs | nevar |  |</code></pre>
+</li>
+<li><b>Sagatavo instrukciju Word:</b> atver jaunu Word dokumentu, ielīmē zemāk esošo tekstu ar <b>Paturēt tikai tekstu</b> un piešķir stilus tāpat kā <a href="/programmesana1/prog1_7/prog1_73">7.3 stundas</a> 1. uzdevumā: 1. rindai <b>Nosaukums</b>, 2. rindai <b>Apakšvirsraksts</b>, piecām nodaļām <b>Virsraksts 1</b>. Rindas <code>Kas ir plānotājs</code> sākumā ievieto <b>Automātisks satura rādītājs 1</b> un <code>Ctrl+Enter</code>. Saglabā ar <code>F12</code> mapē <code>tema07</code> kā <code>instrukcija_76</code>.
+<pre><code class="language-none">Klases pasākuma plānotājs
+Lietošanas instrukcija
+Kas ir plānotājs
+Plānotājs ir Google izklājlapa, kurā klase pieraksta visus pasākuma darbus, atbildīgos un termiņus. Skripts pats atrod nokavētos darbus un sagatavo katram savu sarakstu.
+Kā pievienot uzdevumu
+Lapā Uzdevumi pirmajā tukšajā rindā ieraksti uzdevumu, atbildīgo un termiņu formātā GGGG-MM-DD un izvēlies statusu.
+Kā atzīmēt nokavētos uzdevumus
+Izvēlnē Plānotājs izvēlies Atzīmēt nokavētos. Nokavētie uzdevumi kļūst sarkani, bet uzdevumi ar nepareizu datumu dzelteni.
+Kā redzēt savus uzdevumus
+Izvēlnē Plānotājs izvēlies Saraksts pa cilvēkiem. Lapā Pa cilvēkiem katram atbildīgajam ir viņa nepabeigtie uzdevumi.
+Kas var ko darīt
+Organizatori var rediģēt, klase var komentēt, skolotājs var skatīt. Izvēlni Plānotājs redz tikai organizatori.</code></pre>
+</li>
+<li><b>Pievieno trīs ekrānuzņēmumus ar parakstiem:</b> zem nodaļas <code>Kā pievienot uzdevumu</code> teksta - lapa <b>Uzdevumi</b>; zem <code>Kā atzīmēt nokavētos uzdevumus</code> - atvērta izvēlne <b>Plānotājs</b> vai sarkanās rindas; zem <code>Kā redzēt savus uzdevumus</code> - lapa <b>Pa cilvēkiem</b>. Katram ar peles labo pogu → <b>Ievietot parakstu…</b> ar etiķeti <b>Ilustrācija</b> un īsu aprakstu.</li>
+<li><b>Atjaunini un saglabā PDF:</b> nospied <code>Ctrl+A</code>, <code>F9</code> un izvēlies <b>Atjaunināt visu satura rādītāju</b>. Saglabā ar <code>Ctrl+S</code>, tad <code>F12</code>, sarakstā <b>Saglabāt kā tipu</b> izvēlies <b>PDF</b> un nospied <b>Saglabāt</b>.</li>
+<li><b>Pieraksti secinājumu.</b> <code>README.md</code> zem tiesību tabulas atstāj tukšu rindu, pievieno šos teikumus, pabeidz tos un saglabā:
+<pre><code class="language-none">Plānotājs neautomatizē soli ..., jo
+
+Ja es turpinātu projektu, nākamais, ko automatizētu, būtu</code></pre>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> izklājlapas <b>Share</b> logā ir organizators (<b>Editor</b>), skolotājs (<b>Viewer</b>) un skolas saite (<b>Commenter</b>); tiesību tabulā visas ailes <b>Faktiski</b> sakrīt ar <b>Gaidīts</b>; mapē <code>tema07</code> ir <code>instrukcija_76.pdf</code> ar satura rādītāju un trim parakstītām ilustrācijām.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>3. solis: skolas nosaukuma vietā ir tikai <b>Anyone with the link</b>.</b> Tavs konts nav skolas konts, vai skola atļauj koplietot ārpus skolas. Izvēlies <b>Anyone with the link</b> ar <b>Commenter</b> un <code>README.md</code> pieraksti, kāpēc tas ir lielāks risks (7.2 stunda).</li>
+<li><b>3. solis: skolotājs ar saiti var arī komentēt.</b> Tā ir: cilvēks saņem augstākās no savām tiesībām, un saite dod komentēšanu visiem skolā. Ja skolotājam jābūt tikai skatītājam, klasi pievieno pa e-pastiem, nevis ar saiti. Pieraksti to <code>README.md</code>.</li>
+<li><b>4. solis: klasesbiedrs ar saiti var mainīt šūnas.</b> Saitei ir loma <b>Editor</b>. Atkārto 3. soli un izvēlies <b>Commenter</b>.</li>
+<li><b>4. solis: klasesbiedrs ar saiti redz izvēlni <b>Plānotājs</b>.</b> Viņam ir rediģēšanas tiesības citā veidā, piemēram, pa e-pastu. Pārbaudi <b>Share</b> logu. Komentētājam <code>onOpen</code> nedarbojas, tāpēc izvēlne neparādās.</li>
+<li><b>5. solis: nav mapes <code>tema07</code> saglabāšanas logā.</b> GitHub Desktop → <b>Repository → Show in Explorer</b> → <code>tema07</code>, nokopē adresi un ielīmē to loga adreses joslā (7.3 stunda).</li>
+<li><b>Instrukcija ir tikai 1 lappuse.</b> Palielini ekrānuzņēmumus līdz teksta platumam un pārbaudi, vai satura rādītājs ir atsevišķā lappusē (<code>Ctrl+Enter</code>).</li>
+</ul>
+</details>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Nosūti uzdevumu sarakstu sev pa e-pastu</summary>
+<p>Ja pamatdarbs ir gatavs, pievieno komandu, kas lapu <b>Pa cilvēkiem</b> nosūta tev pašam. Skripts sūta tikai uz tavu adresi, tāpēc klasesbiedri vēstules nesaņem. Tam vajag vēl vienu atļauju; daļa skolu to neļauj.</p>
+<ol class="step-list">
+<li><b>Pievieno funkciju</b> Apps Script faila beigās:
+<pre><code class="language-javascript">function nosutitSev() {
+  const tabula = SpreadsheetApp.getActiveSpreadsheet();
+  const rindas = tabula.getSheetByName('Pa cilvēkiem').getDataRange().getValues();
+  let teksts = '';
+  for (let i = 1; i &lt; rindas.length; i++) {
+    teksts += rindas[i][0] + ': ' + rindas[i][1] + '\n';
+  }
+  const adrese = Session.getActiveUser().getEmail();
+  MailApp.sendEmail(adrese, 'Pasākuma uzdevumi', teksts);
+  SpreadsheetApp.getUi().alert('Nosūtīju sarakstu uz ' + adrese);
+}</code></pre>
+</li>
+<li><b>Pievieno izvēlnes rindu:</b> funkcijā <code>onOpen</code> zem rindas <code>.addItem('Saraksts pa cilvēkiem', 'sarakstsPaCilvekiem')</code> ieraksti <code>.addItem('Nosūtīt man sarakstu', 'nosutitSev')</code> un saglabā.</li>
+<li><b>Palaid:</b> izklājlapā <code>F5</code>, <b>Plānotājs → Nosūtīt man sarakstu</b>, atļauj e-pasta sūtīšanu un palaid vēlreiz.</li>
+<li><b>Atjaunini kodu krātuvē:</b> nokopē visu kodu vēlreiz failā <code>tema07/planotajs_76.js</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> tavā skolas e-pastā ir vēstule <code>Pasākuma uzdevumi</code>, un katrā tās rindā ir atbildīgais un viņa uzdevumi.</p>
+</details><section>
+<h2>Snieguma līmeņa apraksts (SLA)</h2>
+<div aria-label="Tabula" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr>
+<th>Kritēriji</th>
+<th class="level-header">Sācis apgūt (1-3)</th>
+<th class="level-header">Turpina apgūt (4-6)</th>
+<th class="level-header">Apguvis (7-8)</th>
+<th class="level-header">Apguvis padziļināti (9-10)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Procesa analīze</b> (1. uzdevums, 1.–3. solis)</td>
+<td>Tabulas nav vai tajā ir mazāk par trim soļiem.</td>
+<td>Soļi ir, bet A/D/N vai <b>Plānotājā?</b> nav pamatots.</td>
+<td>Vismaz pieci soļi, katram A/D/N un pamatojums gan tam, kas automatizēts, gan tam, kas nav.</td>
+<td>Pamatots arī vismaz viens A solis, ko apzināti neautomatizēja (piemēram, atļauju vai drošības dēļ).</td>
+</tr>
+<tr>
+<td><b>Skripts</b> (2. uzdevums, 4.–8. solis)</td>
+<td>Izvēlne neparādās, vai skripts beidzas ar kļūdu.</td>
+<td>Strādā viena komanda, vai atkārtota palaišana dubulto sarakstu.</td>
+<td>Abas komandas pareizi strādā ar jaunajām rindām un statusa maiņu, nekas nedubultojas, un kods ir <code>planotajs_76.js</code>.</td>
+<td>Pievienots papildu uzdevums vai cits paša uzlabojums, kas aprakstīts <code>README.md</code>.</td>
+</tr>
+<tr>
+<td><b>Piekļuves tiesības</b> (3. uzdevums, 1.–4. solis)</td>
+<td>Koplietots tikai ar saiti vai visiem ar vienu lomu.</td>
+<td>Lomas atbilst prasībām, bet nav pārbaudes tabulas.</td>
+<td>Trīs lomas pēc prasībām, un pārbaudes tabulā visas rindas sakrīt.</td>
+<td><code>README.md</code> paskaidro, ko skolas saite dod skolotājam, un kā to novērst.</td>
+</tr>
+<tr>
+<td><b>Lietošanas instrukcija</b> (3. uzdevums, 5.–7. solis)</td>
+<td>Nav PDF, vai teksts ir bez stiliem.</td>
+<td>Stili ir, bet satura rādītājs vai attēlu numuri rakstīti ar roku.</td>
+<td>PDF ar automātisku satura rādītāju un trim ilustrācijām ar Word parakstiem.</td>
+<td>Ir arī mijnorāde uz ilustrāciju vai galvene ar lappušu numuriem.</td>
+</tr>
+</tbody>
+</table></div>
+</section><section>
+<h2>Pašpārbaude pirms nodošanas</h2>
+<div class="logic-box">
+<ul>
+<li>[ ] <code>README.md</code> sadaļā <b>7.6</b> ir analīzes tabula, plānotāja saite, tiesību tabula un divi teikumi.</li>
+<li>[ ] Izvēlne <b>Plānotājs</b> parādās pēc <code>F5</code>, un abas komandas strādā bez kļūdas.</li>
+<li>[ ] Palaižot komandas divreiz, lapā <b>Pa cilvēkiem</b> nekas nedubultojas.</li>
+<li>[ ] <b>Share</b> logā ir tieši trīs piekļuves: <b>Editor</b>, <b>Viewer</b> un skolas saite ar <b>Commenter</b>.</li>
+<li>[ ] PDF instrukcijā, noklikšķinot uz satura rādītāja rindas, var nokļūt pareizajā nodaļā.</li>
+<li>[ ] Mapē <code>tema07</code> ir <code>planotajs_76.js</code>, <code>instrukcija_76.docx</code> un <code>instrukcija_76.pdf</code>.</li>
+</ul>
+</div>
+</section><section class="lesson-wrapup" id="stundas-beigas">
+<h2>Stundas beigās</h2>
+<ol class="step-list">
+<li><b>Aizver Word</b>, lai mapē nepaliktu pagaidu fails <code>~$…</code>.</li>
+<li><b>Saglabā visus failus:</b> VS Code izvēlies <b>File → Save All</b>.</li>
+<li><b>Apskati izmaiņas:</b> pārslēdzies uz GitHub Desktop. Zem <b>Changes</b> (izmaiņas) jābūt <code>tema07/planotajs_76.js</code>, <code>tema07/instrukcija_76.docx</code>, <code>tema07/instrukcija_76.pdf</code> un <code>README.md</code>.</li>
+<li><b>Apraksti un fiksē:</b> laukā <b>Summary</b> (kopsavilkums) ieraksti <code>Pievieno 7.6 pasākuma plānotāju un instrukciju</code> un nospied <b>Commit to main</b>.</li>
+<li><b>Nosūti:</b> nospied <b>Push origin</b> (nosūtīt uz GitHub).</li>
+<li><b>Pabeidz dēli:</b> 7.4 stundas dēlī <code>Tēma 7</code> pārvelc karti <code>7.6 Pasākuma plānotājs</code> uz <b>Done</b>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> GitHub vietnē mapē <code>tema07</code> redzami visi trīs jaunie faili, un dēlī visas trīs kartes ir kolonnā <b>Done</b>.</p>
+</section><section>
+<details class="course-help"><summary>Parādīt pilnu risinājumu</summary>
+<p>Fails <code>Code.gs</code> (un <code>tema07/planotajs_76.js</code>) pēc 2. uzdevuma:</p>
+<pre><code class="language-javascript">const LAPA = 'Uzdevumi';   // kolonnas: A uzdevums, B atbildīgais, C termiņš, D statuss
+
+function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu('Plānotājs')
+    .addItem('Atzīmēt nokavētos', 'atzimetNokavetos')
+    .addItem('Saraksts pa cilvēkiem', 'sarakstsPaCilvekiem')
+    .addToUi();
+}
+
+function atzimetNokavetos() {
+  const lapa = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LAPA);
+  const dati = lapa.getDataRange().getValues();
+  const sodien = new Date();
+  sodien.setHours(0, 0, 0, 0);
+  let nokaveti = 0;
+  for (let i = 1; i &lt; dati.length; i++) {
+    if (dati[i][0] === '') {
+      continue;
+    }
+    const termins = dati[i][2];
+    const statuss = dati[i][3];
+    const rinda = lapa.getRange(i + 1, 1, 1, 4);   // tabulas rindas sākas ar 1
+    if (!(termins instanceof Date)) {
+      rinda.setBackground('#fff2cc');              // dzeltens: pārbaudi datumu
+    } else if (termins &lt; sodien &amp;&amp; statuss !== 'Gatavs') {
+      rinda.setBackground('#f4cccc');              // sarkans: nokavēts
+      nokaveti += 1;
+    } else {
+      rinda.setBackground(null);                   // bez krāsas
+    }
+  }
+  SpreadsheetApp.getUi().alert('Nokavēti uzdevumi: ' + nokaveti);
+}
+
+function sarakstsPaCilvekiem() {
+  const tabula = SpreadsheetApp.getActiveSpreadsheet();
+  const dati = tabula.getSheetByName(LAPA).getDataRange().getValues();
+  let pec = {};
+  for (let i = 1; i &lt; dati.length; i++) {
+    const uzdevums = dati[i][0];
+    const kurs = dati[i][1];
+    if (uzdevums === '' || dati[i][3] === 'Gatavs') {
+      continue;
+    }
+    if (pec[kurs] === undefined) {
+      pec[kurs] = [];
+    }
+    pec[kurs].push(uzdevums);
+  }
+  let lapa = tabula.getSheetByName('Pa cilvēkiem');
+  if (lapa === null) {
+    lapa = tabula.insertSheet('Pa cilvēkiem');
+  }
+  lapa.clear();
+  lapa.appendRow(['Atbildīgais', 'Uzdevumi']);
+  for (let kurs in pec) {
+    lapa.appendRow([kurs, pec[kurs].join(', ')]);
+  }
+}</code></pre>
+<p>Lapa <b>Pa cilvēkiem</b> pēc 2. uzdevuma 7. soļa:</p>
+<pre><code class="language-none">Atbildīgais   Uzdevumi
+Anna          Izveidot ielūgumu
+Marta         Sastādīt viesu sarakstu, Saskaņot ar direktoru
+Pēteris       Sagatavot mūziku, Savākt naudu
+Jānis         Nopirkt uzkodas</code></pre>
+<p>Faila <code>README.md</code> sadaļas paraugs (tava analīze un teikumi būs citi):</p>
+<pre><code class="language-none">### 7.6 Klases pasākuma plānotājs
+
+- Pasākums: Ziemassvētku vakars 11.b klasei
+
+| Nr. | Solis šodien | A/D/N | Plānotājā? | Kāpēc |
+|---|---|---|---|---|
+| 1 | Klases stundā vienojas par datumu | N | nē | Jāvienojas cilvēkiem |
+| 2 | Kāds pieraksta darbus burtnīcā | A | jā | Tabulā redz visi, nevis tikai viens |
+| 3 | Audzinātājs čatā atgādina katram | D | jā | Skripts sagatavo sarakstu, cilvēks to nosūta |
+| 4 | Pirms pasākuma pārbauda, kas nav izdarīts | A | jā | Termiņu salīdzināšana ir noteikums |
+| 5 | Savāc naudu uzkodām | N | nē | Nauda ir jāsavāc ar rokām |
+
+- Plānotāja saite: https://docs.google.com/spreadsheets/d/.../edit?usp=sharing
+
+| Kas | Darbība | Gaidīts | Faktiski |
+|---|---|---|---|
+| Organizators (Editor) | maina statusu | var | var |
+| Klasesbiedrs ar saiti (Commenter) | maina šūnu | nevar | nevar |
+| Klasesbiedrs ar saiti (Commenter) | pievieno komentāru | var | var |
+| Klasesbiedrs ar saiti (Commenter) | redz izvēlni Plānotājs | nevar | nevar |
+
+Plānotājs neautomatizē soli 3 pilnībā, jo e-pasta sūtīšanai vajag papildu atļauju, un skola to neļauj.
+
+Ja es turpinātu projektu, nākamais, ko automatizētu, būtu atgādinājums kalendārā katram termiņam, kā 7.4 stundā.</code></pre>
+</details>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_7/prog1_75">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_7/prog1_7main">Tēmas apkopojums ➡</a>
+</nav></main>
+
+
+
+
+
+
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="foot-brand" href="/"><span class="glyph">›_</span> ebskola.lv</a>
+        <p>Atvērti, bezmaksas mācību materiāli datorikā, programmēšanā un robotikā latviešu valodā.</p>
+        <div class="foot-social">
+          <a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">LinkedIn</a>
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Kursi</h4>
+        <ul>
+          <li><a href="/datorika9/datorika9">Datorika 9. klasei</a></li>
+          <li><a href="/programmesana1/programmesana1">Programmēšana I</a></li>
+          <li><a href="/programmesana2/programmesana2">Programmēšana II</a></li>
+          <li><a href="/robotika/robotika">Robotika</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resursi</h4>
+        <ul>
+          <li><a href="/sasnRez">Sasniedzamie rezultāti</a></li>
+          <li><a href="/paligm">Palīgmateriāli</a></li>
+          <li><a href="/#structure">Visu tēmu indekss</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Projekts</h4>
+        <ul>
+          <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a></li>
+          <li><a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">Sazināties</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div class="left">
+        <span>© 2026 ebSkola</span>
+        <span>Izstrādājis Eduards Baumanis</span>
+      </div>
+    </div>
+  </div>
+</footer></body>
+</html>

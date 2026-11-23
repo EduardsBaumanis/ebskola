@@ -1,6 +1,13 @@
 # 7. tēma — Lietotņu automatizācija un digitālā sadarbība (plāns)
 
-> **Status:** plan only. No lesson pages exist yet. Write the lessons with
+> **Status:** all six lessons and their tests (`testi/prog1_71_test` …
+> `prog1_76_test`) written (2026-11-23), waiting for review.
+> `prog1_8/testi/prog1_81_test` now reviews 7.6 (its 6.6 questions moved to
+> `prog1_71_test`). `prog1_7main.html` is written and linked from the topic 6
+> and 8 pages, the course page (topic card and project card), the home page
+> index, the `README.md` counts and `sitemap.xml`. The whole topic is waiting
+> for review; nothing is checked in a browser or on a school account yet.
+> Write the lessons with
 > `plan.md` section 4 (the task standard) and decisions D1–D8, F1–F4.
 
 ## Why this topic exists
@@ -87,8 +94,14 @@ code is also copied into the repository as `.js` files, so it has a history.
   check what they can and cannot do.
 - **Task 2 (build):** set up a project folder on Drive with three
   permission levels for a given brief: teacher can comment, teammate can
-  edit, everyone with the link can view the final PDF only. Add the teacher
-  as a collaborator on the GitHub repository.
+  edit, everyone with the link can view the final PDF only.
+  *Changed when written:* the teacher is **not** added as a GitHub
+  collaborator. On a personal-account repository a collaborator always gets
+  write access (Read/Triage/Write exist only for organisation repositories),
+  and the course repository is public (1.2), so the teacher can already read
+  it. The theory explains this as least privilege; task 3 checks that the repo
+  is readable from a private browser window; the extra task adds a classmate
+  as collaborator and removes them again.
 - **Task 3 (test):** a classmate tries to edit, comment and download as each
   role. Record a table of expected vs actual results in the README. Fix any
   wrong setting.
@@ -114,6 +127,10 @@ code is also copied into the repository as `.js` files, so it has a history.
   is numbered by hand. Export to PDF and commit the PDF to `tema07/`.
 - **Watch out:** Google Docs has no automatic list of figures or index, and
   Word does. Say which features each program has (see open questions).
+  *Written in desktop Word with the Latvian interface* (labels checked in
+  Word 16 on a school PC; English names given once in the theory). The
+  document describes `kartot_71.py` from 7.1 instead of the topic 6 quiz, so
+  it depends only on the previous lesson.
 
 ### 7.4 Saziņas un laika plānošanas rīki
 
@@ -151,6 +168,11 @@ code is also copied into the repository as `.js` files, so it has a history.
 - **Task 2 (build):** a script that reads the answers sheet from the 5.4
   survey, counts the answers per option, and writes a summary to a new sheet.
   `onOpen` adds the menu item "ebSkola → Apkopot".
+  *Changed when written:* 5.4 lets each student write their own questions,
+  so there is no fixed answers sheet to build on. The lesson gives an
+  8-row answers table in Google Forms layout to paste; the column and the
+  allowed answers are constants (`KOLONNA`, `ATBILDES`). The extra task runs
+  the same script on the student's own 5.4 responses sheet.
 - **Task 3 (test):** empty rows, an unexpected answer and a re-run that must
   not duplicate the summary. Copy the final code into `tema07/apkopot_75.js`
   and commit it.
@@ -188,3 +210,6 @@ code is also copied into the repository as `.js` files, so it has a history.
    can. Is Word available, or is that part covered with a note?
 3. **E-mail in 7.6.** `MailApp` needs extra authorisation and can hit the
    school's sending limits. Keep it optional?
+   *Decided when written:* optional extra task only, and it sends to the
+   student's own address (`Session.getActiveUser().getEmail()`), so no
+   classmate receives mail.

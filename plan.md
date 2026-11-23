@@ -174,13 +174,12 @@ for step wording ("**what:** where to click and what to type").
 
 **Lesson level**
 
-- L1. A "Pirms sāc" box before task 1 with the same routine in every lesson:
-  open GitHub Desktop, check **Current repository**, **Fetch origin** (and
-  **Pull origin** if it appears), then **Repository → Open in Visual Studio
-  Code**. Use the menu path, not the button on the start screen: the button
-  disappears as soon as there are uncommitted changes. Then: which file to create or continue, in which
-  folder, what must be installed, and which earlier file is needed (with a
-  link to that lesson).
+- L1. No "Pirms sāc" section (removed 2026-11-23). The start routine (GitHub
+  Desktop → **Fetch origin** → **Repository → Open in Visual Studio Code**) is
+  taught once, at the end of 1.3, and not repeated. What used to go in "Pirms
+  sāc" goes into the first step that needs it: creating the `temaNN` folder,
+  installing a tool (L5), or the earlier file to continue (S8, with a link to
+  that lesson).
 - L2. The goal is one plain sentence about what the student will have at the
   end ("Šajā stundā tu uzrakstīsi programmu, kas…"), not a list of teacher verbs.
 - L3. Latvian term first, English in brackets once: "datu tipu pārveidošana
@@ -234,23 +233,15 @@ for step wording ("**what:** where to click and what to type").
 - X2. Keep the page structure: `section.lesson-task#uzdevums-1..3`,
   `.task-number`, `ol.step-list > li`, `.done-when`, `details.course-help`.
   `lesson.js` attaches the step checkboxes to `.lesson-task > .step-list > li`.
-  The fixed blocks are `section.lesson-prep#pirms-sac` and
-  `section.lesson-wrapup#stundas-beigas` (styled in `lesson.css`). Expected
+  The fixed block is `section.lesson-wrapup#stundas-beigas` (styled in
+  `lesson.css`); there is no `section.lesson-prep#pirms-sac`. Expected
   terminal output is a `<pre><code class="language-none">` inside the step.
   Lesson 1.3 is the reference page for all of this.
 - X3. Do not touch `<head>` metadata unless the lesson title changes.
 - X4. A file that is imported never starts with a digit; the lesson number
   goes last (`punkti_43.py`).
 
-**Example: the two fixed blocks (L1, L6), here for 2.1**
-
-> **Pirms sāc**
-> 1. Atver **GitHub Desktop** un pārbaudi, vai augšā kreisajā stūrī pie
->    **Current repository** ir `programmesana-pamatkurss`.
-> 2. Nospied **Fetch origin**. Ja poga pārvēršas par **Pull origin**, nospied
->    arī to.
-> 3. Izvēlies **Repository → Open in Visual Studio Code**.
-> 4. VS Code kreisajā pusē mapē `tema02` izveido jaunu failu `21.py`.
+**Example: the fixed end block (L6), here for 2.1**
 
 > **Stundas beigās**
 > 1. Saglabā visus failus ar `Ctrl+S`.
@@ -339,13 +330,13 @@ standard. 1.3 is rewritten (2026-11-16) and waits for the author's review;
 2.1 and 5.1 follow after that review.
 
 - 1.3 is where the GitHub Desktop routine and the README notebook begin; every
-  later "Pirms sāc" and "Stundas beigās" copies it.
+  later "Stundas beigās" copies it.
 - 2.1 is the first ordinary code lesson and becomes the template.
 - 5.1 is where steps first turn vague, so it tests the "Iestrēgi?" block.
 
 During the pilot, also settle these once:
 
-- the look of "Pirms sāc", "Iestrēgi?", "Stundas beigās" and the
+- the look of "Iestrēgi?", "Stundas beigās" and the
   expected-output block in `lesson.css`;
 - on a school computer: that **Open in Visual Studio Code** works with VS Code
   installed from Microsoft Store, and that the working-directory setting (F1)
@@ -407,7 +398,8 @@ that would help this student most, in order.
 Apply the review findings to programmesana1/prog1_T/prog1_TS.html so the
 lesson follows the decisions in plan.md section 3 and meets every rule in
 section 4. In particular:
-- "Pirms sāc" starts in GitHub Desktop and opens VS Code from there;
+- there is no "Pirms sāc" section; the folder, install or earlier file a task
+  needs goes into that task's first step;
 - each task ends with a collapsed "Iestrēgi?" block, and the "Biežākās
   kļūdas" section is gone, with its useful entries moved into those blocks;
 - every "Pieraksti" step goes to README.md under this lesson's heading;
@@ -431,7 +423,7 @@ When done, list what changed per task, and anything you could not verify
 
 ```text
 You are a student who has only done lessons up to T.(S-1). Open
-programmesana1/prog1_T/prog1_TS.html and follow it from "Pirms sāc" to
+programmesana1/prog1_T/prog1_TS.html and follow it from task 1 to
 "Stundas beigās", typing exactly what the steps say into new files in the
 scratchpad. Do not use knowledge the lesson does not give. Open "Iestrēgi?"
 only when a step cannot be done without it, and say which steps needed it.
@@ -440,7 +432,7 @@ Report every point where a step was ambiguous, where your output differed from
 the lesson, or where "Gatavs, kad" could not be checked on screen. Then check
 the page itself: three tasks with ids uzdevums-1..3, steps are direct <li>
 children of ol.step-list, each task has one "Iestrēgi?" block, no "Biežākās
-kļūdas" section, no macOS/Linux text, code blocks have language-* classes,
+kļūdas" and no "Pirms sāc" section, no macOS/Linux text, code blocks have language-* classes,
 prev/next links are right. Report only; do not fix.
 ```
 
@@ -495,8 +487,8 @@ Tips for prompting:
   has a long name and lands in Downloads; spell out rename and move into the
   repository folder. 6.5 task 1 depends on a file from 6.4. 6.6: one set of
   instructions.
-- **Topic 8.** Replace the PowerShell "Vides sagatavošana" with the standard
-  "Pirms sāc" (D1). Give skeletons with gaps for binary search and bubble
+- **Topic 8.** Remove the PowerShell "Vides sagatavošana" (D1); the folder
+  step goes into the first task that needs it (L1). Give skeletons with gaps for binary search and bubble
   sort. 8.3–8.5 describe the timing pattern in words ("izmēri ar `time.time()`
   pirms un pēc"); show it once as a code block. Separate 8.4 and 8.5 (D7).
 - **Topic 10.** Add `unittest` (D5, F3). Replace the PowerShell setup (D1).
@@ -515,7 +507,8 @@ Tips for prompting:
   rather than mixing in pgAdmin. 13.5: step-by-step connection with the
   password kept out of the file.
 - **Topic 14.** 14.3–14.5 extend the class from the previous lesson; each
-  needs a "Pirms sāc" with the class to copy. Otherwise close to the standard.
+  needs a task 1 that starts with "Turpini failā …" and shows the class to
+  copy (S8). Otherwise close to the standard.
 - **Topic 16.** `curl` with single quotes does not work the same in Windows
   PowerShell; give a tested command or a small Python client. 16.4 needs
   HTML/JS given in full. 16.5: `165.py` is never created, the code example
@@ -540,7 +533,7 @@ when Prompt D is done for the topic.
 | 4 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 5 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 6 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
-| 7 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
+| 7 | ◐ | ◐ | ◐ | ◐ | ◐ | ◐ | ◐ |
 | 8 | ☐ | ☐ | ☐ | ◐ | ☐ | ☐ | ☐ |
 | 9 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |
 | 10 | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ | ☐ |

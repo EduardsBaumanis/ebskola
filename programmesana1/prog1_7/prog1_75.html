@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7.5 Skripti izklājlapā: Google Apps Script · Programmēšana I — ebSkola</title>
+<meta name="description" content="Programmēšana I: uzraksti Google Apps Script funkciju izklājlapai un izvēlnes pogu, kas vienā klikšķī saskaita aptaujas atbildes un izveido kopsavilkuma lapu. Pirmā JavaScript stunda ar Python salīdzinājumu.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_7/prog1_75">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="7.5 Skripti izklājlapā: Google Apps Script · Programmēšana I">
+<meta property="og:description" content="Programmēšana I: uzraksti Google Apps Script funkciju izklājlapai un izvēlnes pogu, kas vienā klikšķī saskaita aptaujas atbildes un izveido kopsavilkuma lapu. Pirmā JavaScript stunda ar Python salīdzinājumu.">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_7/prog1_75">
+<meta property="og:image" content="https://ebskola.lv/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ebSkola — datorikas, programmēšanas un robotikas mācību materiāli">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="../../lesson.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "7.5 Skripti izklājlapā: Google Apps Script · Programmēšana I", "description": "Programmēšana I: uzraksti Google Apps Script funkciju izklājlapai un izvēlnes pogu, kas vienā klikšķī saskaita aptaujas atbildes un izveido kopsavilkuma lapu. Pirmā JavaScript stunda ar Python salīdzinājumu.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_7/prog1_75", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 7. tēma: Lietotņu automatizācija un digitālā sadarbība", "url": "https://ebskola.lv/programmesana1/prog1_7/prog1_7main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "7. tēma: Lietotņu automatizācija un digitālā sadarbība", "item": "https://ebskola.lv/programmesana1/prog1_7/prog1_7main"}, {"@type": "ListItem", "position": 4, "name": "7.5 Skripti izklājlapā: Google Apps Script · Programmēšana I", "item": "https://ebskola.lv/programmesana1/prog1_7/prog1_75"}]}]}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer src="../../lesson.js"></script>
+</head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="topbar">
+<div class="wrap row">
+<a class="brand" href="/">
+<span class="glyph">›_</span>
+<span class="name">ebskola<span>.lv</span></span>
+</a>
+<nav aria-label="Galvenā navigācija" class="nav">
+<a href="/programmesana1/programmesana1">Prog I</a>
+<a href="/programmesana1/prog1_7/prog1_7main">7. tēma</a>
+<a href="/sasnRez#prog1">rezultāti</a>
+<a href="/paligm">palīgmateriāli</a>
+</nav>
+<div class="spacer"></div>
+</div>
+</header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>7. Tēma - Lietotņu automatizācija un digitālā sadarbība</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_7/prog1_7main">Tēmas sākums</a>
+<a href="/programmesana1/prog1_7/prog1_71">7.1 Ko var automatizēt?</a>
+<a href="/programmesana1/prog1_7/prog1_72">7.2 Koplietošana un piekļuves tiesības</a>
+<a href="/programmesana1/prog1_7/prog1_73">7.3 Liels strukturēts dokuments</a>
+<a href="/programmesana1/prog1_7/prog1_74">7.4 Saziņas un laika plānošanas rīki</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_7/prog1_75">7.5 Skripti izklājlapā</a>
+<a href="/programmesana1/prog1_7/prog1_76">7.6 Noslēguma projekts: Klases pasākuma plānotājs</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_7/prog1_7main">7. tēma</a> / 7.5</p>
+<h1>7.5 Skripti izklājlapā: Google Apps Script</h1>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Šajā stundā tu <b>uzrakstīsi</b> savu funkciju izklājlapai un izvēlnes pogu, kas vienā klikšķī sakārto aptaujas atbildes kopsavilkumā.</p>
+<div class="lesson-meta">
+<a href="/sasnRez#prog1-o-2-3-2" title="Izmanto dažādās lietotnēs pieejamās programmēšanas iespējas, izstrādājot vienkāršas programmas (skriptus), piedāvāto datu apstrādes iespēju papildināšanai un lietotāja darba produktivitātes paaugstināšanai.">SR 2.3.2. Skripti lietotnēs</a>
+</div>
+<section id="teorija">
+<h2>Teorija: programma lietotnes iekšienē</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_7/testi/prog1_75_test">Sākt testu →</a></p>
+<div class="logic-box">
+<p>Daudzas biroja lietotnes var programmēt. Tā tu pievieno iespēju, kuras lietotnē nav, vai vienu klikšķi ielieki vairāku darbu vietā.</p>
+<ul>
+<li><b>Google Sheets un Docs</b> - <b>Apps Script</b> (valoda JavaScript).</li>
+<li><b>Excel</b> - VBA vai Office Scripts (TypeScript).</li>
+<li><b>LibreOffice</b> - Basic vai Python.</li>
+</ul>
+<p>Šajā stundā lietosi Apps Script. Tā ir tava pirmā <b>JavaScript</b> programma; to vēlreiz izmantosi 16. tēmā. Lielākā daļa ir tāda pati kā Python, tikai citā pierakstā:</p>
+<div aria-label="Tabula" class="table-scroll" role="region" tabindex="0"><table class="theory-table">
+<thead><tr><th>Python</th><th>JavaScript (Apps Script)</th></tr></thead>
+<tbody>
+<tr><td><code>def punkti(atbilde):</code></td><td><code>function PUNKTI(atbilde) {</code></td></tr>
+<tr><td>bloku nosaka atkāpe</td><td>bloks ir starp <code>{</code> un <code>}</code>; atkāpe ir tikai lasāmībai</td></tr>
+<tr><td><code>skaits = 0</code></td><td><code>let skaits = 0;</code> (mainīsies) vai <code>const KOLONNA = 2;</code> (nemainīsies)</td></tr>
+<tr><td><code>if a == b:</code></td><td><code>if (a === b) {</code></td></tr>
+<tr><td><code>for i in range(1, len(dati)):</code></td><td><code>for (let i = 1; i &lt; dati.length; i++) {</code></td></tr>
+<tr><td><code>skaits += 1</code></td><td><code>skaits += 1;</code></td></tr>
+<tr><td><code>x in saraksts</code></td><td><code>saraksts.includes(x)</code></td></tr>
+<tr><td><code>not</code>, <code>True</code>, <code>False</code></td><td><code>!</code>, <code>true</code>, <code>false</code></td></tr>
+<tr><td><code>vardnica = {}</code>, <code>if k not in vardnica:</code></td><td><code>let obj = {};</code>, <code>if (obj[k] === undefined) {</code></td></tr>
+<tr><td><code># komentārs</code></td><td><code>// komentārs</code></td></tr>
+</tbody>
+</table></div>
+<p>Saraksti un to indeksi strādā tāpat kā Python: pirmais elements ir <code>[0]</code>. Izklājlapas dati skriptā ir saraksts ar rindām, un katra rinda ir saraksts ar šūnām. Tāpēc šūna C2 ir <code>dati[1][2]</code>: 2. rinda ir indekss 1, kolonna C ir indekss 2.</p>
+<p>Vienkāršākais skripts ir <b>pielāgota funkcija</b> (<i>custom function</i>), ko raksta šūnā tāpat kā <code>=SUM()</code>:</p>
+<pre><code class="language-javascript">function DIVREIZ(x) {
+  return x * 2;
+}</code></pre>
+<p>Šūnā <code>=DIVREIZ(5)</code> parāda <code>10</code>. Funkcijas nosaukumu raksta ar lielajiem burtiem, lai to atšķirtu no parastajām funkcijām.</p>
+<p>Funkcija <code>onOpen</code> ir īpaša: Google to palaiž pats katru reizi, kad izklājlapa tiek atvērta. Tajā pievieno savu izvēlni.</p>
+<details class="course-help"><summary>Pašpārbaude: kurā šūnā ir <code>dati[3][1]</code>?</summary><p>B4. Indekss 3 ir 4. rinda, indekss 1 ir kolonna B.</p></details>
+</div>
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Uzraksti pielāgotu funkciju =PUNKTI()</h2>
+<p>Beigās izklājlapas kolonnā E katrai atbildei būs punkti, ko aprēķina tava funkcija, un apakšā to summa <code>17</code>.</p>
+<ol class="step-list">
+<li><b>Izveido izklājlapu:</b> atver <code>sheets.google.com</code> ar skolas kontu un nospied <b>Tukša izklājlapa</b> (<i>Blank spreadsheet</i>). Augšā kreisajā stūrī noklikšķini uz <b>Izklājlapa bez nosaukuma</b> un ieraksti <code>7.5 Aptauja</code>.</li>
+<li><b>Nosauc lapu:</b> apakšā veic dubultklikšķi uz cilnes <b>Lapa1</b> (<i>Sheet1</i>), ieraksti <code>Atbildes</code> un nospied Enter.</li>
+<li><b>Ielīmē aptaujas atbildes:</b> iezīmē visu zemāk esošo bloku, nospied <code>Ctrl+C</code>, izklājlapā noklikšķini šūnā A1 un nospied <code>Ctrl+V</code>. Tā izskatās Google Forms atbilžu lapa: aizņemtas kolonnas A–D un rindas 1–9.
+<pre><code class="language-none">Laikspiedols	Vārds	Vai tev patīk spēle?	Ieteikums
+2026-11-20 10:01	Anna	Ļoti patīk	Vairāk līmeņu
+2026-11-20 10:03	Jānis	Patīk	Ātrāks taimeris
+2026-11-20 10:04	Marta	Ļoti patīk	Labs dizains
+2026-11-20 10:06	Pēteris	Nepatīk	Pārāk grūti
+2026-11-20 10:07	Līga	Patīk	Pievienot skaņu
+2026-11-20 10:09	Kārlis	Ļoti patīk	Vairāk jautājumu
+2026-11-20 10:10	Elza	Patīk	Lielāki burti
+2026-11-20 10:12	Roberts	Nepatīk	Garlaicīgi</code></pre>
+</li>
+<li><b>Atver skriptu redaktoru:</b> izvēlnē izvēlies <b>Paplašinājumi → Apps Script</b> (<i>Extensions → Apps Script</i>). Jaunā cilnē atveras fails <code>Code.gs</code> ar rindām <code>function myFunction() { }</code>.</li>
+<li><b>Uzraksti funkciju:</b> izdzēs visu failā <code>Code.gs</code>, ieraksti šo kodu un saglabā ar <code>Ctrl+S</code>:
+<pre><code class="language-javascript">function PUNKTI(atbilde) {
+  if (atbilde === 'Ļoti patīk') {
+    return 3;
+  }
+  if (atbilde === 'Patīk') {
+    return 2;
+  }
+  if (atbilde === 'Nepatīk') {
+    return 1;
+  }
+  return 0;
+}</code></pre>
+<p>Augšā kreisajā stūrī noklikšķini uz <b>Untitled project</b> (projekts bez nosaukuma), ieraksti <code>7.5 Apkopotājs</code> un nospied <b>Rename</b>.</p>
+</li>
+<li><b>Izmanto funkciju šūnā:</b> atgriezies izklājlapas cilnē. Šūnā E1 ieraksti <code>Punkti</code>, šūnā E2 ieraksti <code>=PUNKTI(C2)</code> un nospied Enter. Brīdi rakstīts <code>Loading…</code>, tad parādās <code>3</code>.</li>
+<li><b>Nokopē formulu uz leju:</b> noklikšķini uz E2, nospied <code>Ctrl+C</code>, iezīmē šūnas E3–E9 un nospied <code>Ctrl+V</code>. Kolonnā parādās <code>2, 3, 1, 2, 3, 2, 1</code>.</li>
+<li><b>Saskaiti punktus:</b> šūnā E10 ieraksti <code>=SUM(E2:E9)</code> un nospied Enter.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> šūnā E10 ir <code>17</code>, un, noklikšķinot uz E2, formulu joslā redzi <code>=PUNKTI(C2)</code>.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>3. solis: viss ielīmējās kolonnā A.</b> Iezīmē kolonnu A un izvēlies <b>Dati → Sadalīt tekstu kolonnās</b> (<i>Data → Split text to columns</i>). Kā atdalītāju izvēlies tabulēšanu vai automātisku noteikšanu.</li>
+<li><b>4. solis: izvēlnē nav <b>Apps Script</b> vai atveras kļūda.</b> Skolas administrators var būt izslēdzis Apps Script. Pajautā skolotājam.</li>
+<li><b>6. solis: šūnā ir <code>#NAME?</code></b> - funkcijas nosaukums šūnā atšķiras no koda (piemēram, <code>PUNKTII</code>), vai kods nav saglabāts. Saglabā ar <code>Ctrl+S</code> un ieraksti formulu vēlreiz.</li>
+<li><b>6. solis: šūnā ir <code>0</code>, nevis <code>3</code>.</b> Teksts kodā atšķiras no teksta šūnā, piemēram, <code>Loti patīk</code> bez garumzīmes. Salīdzini abus burtu pa burtam.</li>
+<li><b>Saglabājot redaktors raksta <code>Syntax error</code>.</b> Pietrūkst iekavas <code>}</code> vai <code>)</code>. Katrai atverošajai iekavai jābūt aizverošajai: salīdzini savu kodu ar 5. soli.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Uzraksti apkopošanas skriptu un izvēlni ebSkola</h2>
+<p>Beigās skripts saskaitīs, cik reizes izvēlēta katra atbilde, ierakstīs to jaunā lapā <code>Kopsavilkums</code>, un izklājlapā būs izvēlne <b>ebSkola</b>.</p>
+<p>Turpini Apps Script failā <code>Code.gs</code>, kurā jau ir funkcija <code>PUNKTI</code> no 1. uzdevuma.</p>
+<ol class="step-list">
+<li><b>Pievieno konstanti:</b> zem funkcijas <code>PUNKTI</code> atstāj tukšu rindu un ieraksti:
+<pre><code class="language-javascript">const KOLONNA = 2;   // 0 = A, 1 = B, 2 = C</code></pre>
+<p>Atbildes uz jautājumu ir kolonnā C, tāpēc indekss ir 2.</p>
+</li>
+<li><b>Pievieno apkopošanas funkciju</b> zem konstantes un aizpildi trīs vietas <code>___</code>:
+<pre><code class="language-javascript">function apkopot() {
+  const tabula = SpreadsheetApp.getActiveSpreadsheet();
+  const dati = tabula.getSheetByName('Atbildes').getDataRange().getValues();
+  let skaits = {};
+  for (let i = 1; i &lt; dati.length; i++) {
+    let atbilde = dati[i][___];
+    if (skaits[atbilde] === undefined) {
+      skaits[atbilde] = 0;
+    }
+    skaits[atbilde] += 1;
+  }
+  let lapa = tabula.getSheetByName('Kopsavilkums');
+  if (lapa === null) {
+    lapa = tabula.insertSheet('___');
+  }
+  lapa.appendRow(['Atbilde', 'Skaits']);
+  for (let atbilde in skaits) {
+    lapa.appendRow([atbilde, skaits[___]]);
+  }
+}</code></pre>
+<p><code>getValues()</code> dod visas lapas šūnas kā sarakstu ar rindām. Cikls sākas ar <code>i = 1</code>, jo rinda 0 ir virsraksti. <code>appendRow</code> pievieno rindu lapas beigās.</p>
+</li>
+<li><b>Saglabā un palaid:</b> nospied <code>Ctrl+S</code>. Rīkjoslā sarakstā blakus pogai <b>Debug</b> izvēlies <code>apkopot</code> un nospied <b>Run</b> (izpildīt).</li>
+<li><b>Atļauj skriptam piekļūt izklājlapai:</b> pirmajā reizē parādās logs <b>Authorization required</b> (vajadzīga atļauja). Nospied <b>Review permissions</b>, izvēlies savu skolas kontu un nospied <b>Allow</b> (atļaut). Apakšā žurnālā parādās <code>Execution completed</code> (izpilde pabeigta).</li>
+<li><b>Apskati kopsavilkumu:</b> atgriezies izklājlapas cilnē. Apakšā ir jauna lapa <b>Kopsavilkums</b>, un tajā ir:
+<pre><code class="language-none">Atbilde      Skaits
+Ļoti patīk   3
+Patīk        3
+Nepatīk      2</code></pre>
+</li>
+<li><b>Pievieno izvēlni:</b> Apps Script faila beigās pievieno šo funkciju un saglabā ar <code>Ctrl+S</code>:
+<pre><code class="language-javascript">function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu('ebSkola')
+    .addItem('Apkopot', 'apkopot')
+    .addToUi();
+}</code></pre>
+<p><code>addItem('Apkopot', 'apkopot')</code>: pirmais ir teksts izvēlnē, otrais ir funkcija, ko palaist.</p>
+</li>
+<li><b>Pārbaudi izvēlni:</b> izklājlapas cilnē nospied <code>F5</code>. Pēc dažām sekundēm augšējā izvēlnē aiz <b>Palīdzība</b> (<i>Help</i>) parādās <b>ebSkola</b>. Atver to: tajā ir <b>Apkopot</b>. Vēl nespied to.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> lapā <b>Kopsavilkums</b> ir četras rindas kā 5. solī, un izklājlapas augšējā izvēlnē ir <b>ebSkola → Apkopot</b>.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>2. solis, vietas <code>___</code>:</b> <code>dati[i][KOLONNA]</code>, <code>tabula.insertSheet('Kopsavilkums')</code> un <code>skaits[atbilde]</code>.</li>
+<li><b><code>TypeError: Cannot read properties of null (reading 'getDataRange')</code></b> - nav lapas ar nosaukumu <code>Atbildes</code>. Pārbaudi cilnes nosaukumu (1. uzdevuma 2. solis): tam jābūt tieši tādam, bez atstarpes beigās.</li>
+<li><b><code>ReferenceError: KOLONNA is not defined</code></b> - trūkst 1. soļa rindas vai tajā ir cits nosaukums.</li>
+<li><b>4. solis: parādās <b>Google hasn't verified this app</b>.</b> Nospied <b>Advanced</b> (papildu) un <b>Go to 7.5 Apkopotājs (unsafe)</b>. Tā ir tava paša programma, tāpēc tas ir droši.</li>
+<li><b>4. solis: skola neļauj dot atļauju.</b> Pajautā skolotājam; daļa skolu atļauj skriptus tikai pēc administratora iestatījuma.</li>
+<li><b>5. solis: kopsavilkumā ir tikai virsraksts.</b> <code>KOLONNA</code> norāda uz tukšu kolonnu, vai lapā <b>Atbildes</b> dati nesākas šūnā A1.</li>
+<li><b>7. solis: izvēlne neparādās.</b> Pagaidi 10 sekundes un nospied <code>F5</code> vēlreiz. Pārbaudi, vai funkcijas nosaukums ir tieši <code>onOpen</code> (ar lielo O vidū) un vai kods ir saglabāts.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pārbaudi skriptu: atkārtota palaišana, tukša rinda, negaidīta atbilde</h2>
+<p>Beigās skriptu var palaist cik reizes grib, un kopsavilkums vienmēr būs pareizs. Kods būs saglabāts arī tavā GitHub krātuvē.</p>
+<ol class="step-list">
+<li><b>Palaid no izvēlnes:</b> izklājlapā izvēlies <b>ebSkola → Apkopot</b> un atver lapu <b>Kopsavilkums</b>. Tabula tagad ir divreiz: rindās 1–4 un 5–8. <code>appendRow</code> vienmēr pievieno beigās un veco neizdzēš.</li>
+<li><b>Salabo:</b> Apps Script funkcijā <code>apkopot</code> zem bloka <code>if (lapa === null) { … }</code> pievieno rindu, saglabā un palaid vēlreiz no izvēlnes:
+<pre><code class="language-javascript">  lapa.clear();</code></pre>
+<p>Lapā <b>Kopsavilkums</b> atkal ir tikai četras rindas, cik reizes arī palaistu.</p>
+</li>
+<li><b>Pievieno tukšu rindu:</b> lapā <b>Atbildes</b> ar peles labo pogu noklikšķini uz rindas numura <b>5</b> un izvēlies <b>Ievietot 1 rindu virs</b> (<i>Insert 1 row above</i>). Palaid <b>ebSkola → Apkopot</b>. Kopsavilkumā parādās lieka rinda ar tukšu atbildi:
+<pre><code class="language-none">Atbilde      Skaits
+Ļoti patīk   3
+Patīk        3
+             1
+Nepatīk      2</code></pre>
+</li>
+<li><b>Salabo:</b> ciklā <code>for</code> zem rindas <code>let atbilde = dati[i][KOLONNA];</code> pievieno šīs rindas, saglabā un palaid vēlreiz. Tukšās atbildes rinda pazūd.
+<pre><code class="language-javascript">    if (atbilde === '') {
+      continue;
+    }</code></pre>
+</li>
+<li><b>Pievieno negaidītu atbildi:</b> tukšajā rindā 5 ieraksti B5 <code>Ilze</code> un C5 <code>patīk</code> (ar mazo burtu). Palaid <b>ebSkola → Apkopot</b>. Kopsavilkumā <code>patīk</code> ir atsevišķa rinda, lai gan tā ir tā pati atbilde:
+<pre><code class="language-none">Atbilde      Skaits
+Ļoti patīk   3
+Patīk        3
+patīk        1
+Nepatīk      2</code></pre>
+</li>
+<li><b>Salabo ar atļauto atbilžu sarakstu:</b> zem rindas <code>const KOLONNA = 2;</code> pievieno pirmo rindu, bet ciklā zem bloka <code>if (atbilde === '') { … }</code> - pārējās trīs. Saglabā un palaid:
+<pre><code class="language-javascript">const ATBILDES = ['Ļoti patīk', 'Patīk', 'Nepatīk'];</code></pre>
+<pre><code class="language-javascript">    if (!ATBILDES.includes(atbilde)) {
+      atbilde = 'Cits';
+    }</code></pre>
+<p>Kopsavilkumā jābūt:</p>
+<pre><code class="language-none">Atbilde      Skaits
+Ļoti patīk   3
+Patīk        3
+Cits         1
+Nepatīk      2</code></pre>
+</li>
+<li><b>Saglabā kodu krātuvē:</b> Apps Script redaktorā noklikšķini kodā, nospied <code>Ctrl+A</code> un <code>Ctrl+C</code>. VS Code mapē <code>tema07</code> izveido failu <code>apkopot_75.js</code>, ielīmē kodu ar <code>Ctrl+V</code> un saglabā.</li>
+<li><b>Pieraksti secinājumus.</b> <code>README.md</code> faila beigās pievieno šīs rindas, pabeidz abus teikumus un saglabā:
+<pre><code class="language-none">### 7.5 Skripti izklājlapā
+
+JavaScript cikls for atšķiras no Python cikla for ar to, ka
+
+Bez lapa.clear() atkārtota palaišana</code></pre>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pēc vairākām <b>ebSkola → Apkopot</b> palaišanām lapā <b>Kopsavilkums</b> ir tieši piecas rindas ar <code>Cits 1</code>, un VS Code mapē <code>tema07</code> ir fails <code>apkopot_75.js</code> ar visu kodu.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>2. solis: tabula joprojām ir divreiz.</b> Rinda <code>lapa.clear();</code> ir zem <code>appendRow</code> rindām vai kods nav saglabāts. Tai jābūt pirms pirmās <code>appendRow</code> rindas.</li>
+<li><b>2. solis: <code>TypeError: Cannot read properties of null (reading 'clear')</code></b> - rinda <code>lapa.clear();</code> ir virs bloka <code>if (lapa === null)</code>, un lapas <b>Kopsavilkums</b> vēl nav. Pārnes rindu zem bloka.</li>
+<li><b>3. solis: tukšās rindas kopsavilkumā nav.</b> Tukšā rinda ir zem pēdējās atbildes, nevis starp tām. Ievieto to virs 5. rindas, kā rakstīts.</li>
+<li><b>4. solis: tukšā rinda joprojām ir kopsavilkumā.</b> Jaunās rindas ir virs <code>let atbilde = …</code>, nevis zem tās, vai kods nav saglabāts.</li>
+<li><b>6. solis: arī pareizās atbildes kļūst par <code>Cits</code>.</b> Teksts sarakstā <code>ATBILDES</code> atšķiras no teksta šūnās. Salīdzini burtus un garumzīmes.</li>
+<li><b>6. solis: <code>ReferenceError: ATBILDES is not defined</code></b> - trūkst rindas <code>const ATBILDES = …</code> vai tā ir funkcijas iekšienē zem tās izmantošanas.</li>
+<li><b>VS Code piedāvā instalēt paplašinājumu JavaScript failam.</b> Tas nav vajadzīgs: aizver paziņojumu.</li>
+</ul>
+</details>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Apkopo savas 5.4 aptaujas atbildes</summary>
+<p>Ja pamatdarbs ir gatavs, palaid to pašu skriptu uz īstajām atbildēm no savas <a href="/programmesana1/prog1_5/prog1_54">5.4 stundas</a> aptaujas.</p>
+<ol class="step-list">
+<li><b>Atver atbilžu izklājlapu:</b> Google Forms atver savu 5.4 aptauju, cilnē <b>Atbildes</b> (<i>Responses</i>) nospied <b>Skatīt izklājlapā</b> (<i>View in Sheets</i>).</li>
+<li><b>Ielīmē skriptu:</b> šajā izklājlapā izvēlies <b>Paplašinājumi → Apps Script</b>, izdzēs visu un ielīmē kodu no <code>tema07/apkopot_75.js</code>.</li>
+<li><b>Pielāgo trīs vietas:</b> nomaini <code>'Atbildes'</code> pret savas lapas nosaukumu (parasti <code>Veidlapas atbildes 1</code> vai <code>Form Responses 1</code>), <code>KOLONNA</code> pret sava izvēles jautājuma kolonnas indeksu un <code>ATBILDES</code> pret savām atbilžu izvēlēm.</li>
+<li><b>Saglabā, atsvaidzini un palaid:</b> <code>Ctrl+S</code>, izklājlapā <code>F5</code>, tad <b>ebSkola → Apkopot</b> un atļauj piekļuvi kā 2. uzdevuma 4. solī.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> tavā 5.4 aptaujas izklājlapā ir lapa <b>Kopsavilkums</b> ar tavu atbilžu skaitu.</p>
+</details><section class="lesson-wrapup" id="stundas-beigas">
+<h2>Stundas beigās</h2>
+<ol class="step-list">
+<li><b>Saglabā visus failus:</b> VS Code izvēlies <b>File → Save All</b>.</li>
+<li><b>Apskati izmaiņas:</b> pārslēdzies uz GitHub Desktop. Zem <b>Changes</b> (izmaiņas) jābūt <code>tema07/apkopot_75.js</code> un <code>README.md</code>.</li>
+<li><b>Apraksti un fiksē:</b> laukā <b>Summary</b> (kopsavilkums) ieraksti <code>Pievieno 7.5 Apps Script apkopotāju</code> un nospied <b>Commit to main</b>.</li>
+<li><b>Nosūti:</b> nospied <b>Push origin</b> (nosūtīt uz GitHub).</li>
+<li><b>Atjaunini dēli:</b> 7.4 stundas dēlī <code>Tēma 7</code> pārvelc karti <code>7.5 Apps Script apkopojums</code> uz <b>Done</b>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> GitHub vietnē mapē <code>tema07</code> redzams <code>apkopot_75.js</code>, un, to atverot, kods ir iekrāsots kā JavaScript.</p>
+</section><section>
+<details class="course-help"><summary>Parādīt pilnu risinājumu</summary>
+<p>Fails <code>Code.gs</code> (un <code>tema07/apkopot_75.js</code>) pēc 3. uzdevuma:</p>
+<pre><code class="language-javascript">function PUNKTI(atbilde) {
+  if (atbilde === 'Ļoti patīk') {
+    return 3;
+  }
+  if (atbilde === 'Patīk') {
+    return 2;
+  }
+  if (atbilde === 'Nepatīk') {
+    return 1;
+  }
+  return 0;
+}
+
+const KOLONNA = 2;   // 0 = A, 1 = B, 2 = C
+const ATBILDES = ['Ļoti patīk', 'Patīk', 'Nepatīk'];
+
+function apkopot() {
+  const tabula = SpreadsheetApp.getActiveSpreadsheet();
+  const dati = tabula.getSheetByName('Atbildes').getDataRange().getValues();
+  let skaits = {};
+  for (let i = 1; i &lt; dati.length; i++) {
+    let atbilde = dati[i][KOLONNA];
+    if (atbilde === '') {
+      continue;
+    }
+    if (!ATBILDES.includes(atbilde)) {
+      atbilde = 'Cits';
+    }
+    if (skaits[atbilde] === undefined) {
+      skaits[atbilde] = 0;
+    }
+    skaits[atbilde] += 1;
+  }
+  let lapa = tabula.getSheetByName('Kopsavilkums');
+  if (lapa === null) {
+    lapa = tabula.insertSheet('Kopsavilkums');
+  }
+  lapa.clear();
+  lapa.appendRow(['Atbilde', 'Skaits']);
+  for (let atbilde in skaits) {
+    lapa.appendRow([atbilde, skaits[atbilde]]);
+  }
+}
+
+function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu('ebSkola')
+    .addItem('Apkopot', 'apkopot')
+    .addToUi();
+}</code></pre>
+<p>Lapa <b>Kopsavilkums</b> pēc 3. uzdevuma:</p>
+<pre><code class="language-none">Atbilde      Skaits
+Ļoti patīk   3
+Patīk        3
+Cits         1
+Nepatīk      2</code></pre>
+<p>Faila <code>README.md</code> sadaļa (teikumu beigas būs tavas):</p>
+<pre><code class="language-none">### 7.5 Skripti izklājlapā
+
+JavaScript cikls for atšķiras no Python cikla for ar to, ka skaitītāju, beigu nosacījumu un soli raksta pašā ciklā: for (let i = 1; i &lt; dati.length; i++).
+
+Bez lapa.clear() atkārtota palaišana pievieno kopsavilkumu vēlreiz zem vecā, un skaitļi dubultojas.</code></pre>
+</details>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_7/prog1_74">⬅ Iepriekšējā stunda</a>
+<a class="nav-btn" href="/programmesana1/prog1_7/prog1_76">Nākamā stunda ➡</a>
+</nav></main>
+
+
+
+
+
+
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="foot-brand" href="/"><span class="glyph">›_</span> ebskola.lv</a>
+        <p>Atvērti, bezmaksas mācību materiāli datorikā, programmēšanā un robotikā latviešu valodā.</p>
+        <div class="foot-social">
+          <a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">LinkedIn</a>
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Kursi</h4>
+        <ul>
+          <li><a href="/datorika9/datorika9">Datorika 9. klasei</a></li>
+          <li><a href="/programmesana1/programmesana1">Programmēšana I</a></li>
+          <li><a href="/programmesana2/programmesana2">Programmēšana II</a></li>
+          <li><a href="/robotika/robotika">Robotika</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resursi</h4>
+        <ul>
+          <li><a href="/sasnRez">Sasniedzamie rezultāti</a></li>
+          <li><a href="/paligm">Palīgmateriāli</a></li>
+          <li><a href="/#structure">Visu tēmu indekss</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Projekts</h4>
+        <ul>
+          <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a></li>
+          <li><a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">Sazināties</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div class="left">
+        <span>© 2026 ebSkola</span>
+        <span>Izstrādājis Eduards Baumanis</span>
+      </div>
+    </div>
+  </div>
+</footer></body>
+</html>

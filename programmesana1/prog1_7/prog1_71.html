@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7.1 Ko var automatizēt? Ikdienas darba procesi · Programmēšana I — ebSkola</title>
+<meta name="description" content="Programmēšana I: apraksti ikdienas darbu soli pa solim, atrodi soļus, ko var automatizēt, un uzraksti Python programmu, kas sakārto failus mapēs pēc paplašinājuma.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://ebskola.lv/programmesana1/prog1_7/prog1_71">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="7.1 Ko var automatizēt? Ikdienas darba procesi · Programmēšana I">
+<meta property="og:description" content="Programmēšana I: apraksti ikdienas darbu soli pa solim, atrodi soļus, ko var automatizēt, un uzraksti Python programmu, kas sakārto failus mapēs pēc paplašinājuma.">
+<meta property="og:url" content="https://ebskola.lv/programmesana1/prog1_7/prog1_71">
+<meta property="og:image" content="https://ebskola.lv/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ebSkola — datorikas, programmēšanas un robotikas mācību materiāli">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico" sizes="48x48">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../icon-192.png">
+<link rel="manifest" href="../../manifest.json">
+<meta name="theme-color" content="#222831">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="../../lesson.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "7.1 Ko var automatizēt? Ikdienas darba procesi · Programmēšana I", "description": "Programmēšana I: apraksti ikdienas darbu soli pa solim, atrodi soļus, ko var automatizēt, un uzraksti Python programmu, kas sakārto failus mapēs pēc paplašinājuma.", "inLanguage": "lv", "url": "https://ebskola.lv/programmesana1/prog1_7/prog1_71", "learningResourceType": "Lesson", "educationalLevel": "Vidējā izglītība (10.–12. klase)", "isPartOf": {"@type": "Course", "name": "Programmēšana I — 7. tēma: Lietotņu automatizācija un digitālā sadarbība", "url": "https://ebskola.lv/programmesana1/prog1_7/prog1_7main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Programmēšana I", "item": "https://ebskola.lv/programmesana1/programmesana1"}, {"@type": "ListItem", "position": 3, "name": "7. tēma: Lietotņu automatizācija un digitālā sadarbība", "item": "https://ebskola.lv/programmesana1/prog1_7/prog1_7main"}, {"@type": "ListItem", "position": 4, "name": "7.1 Ko var automatizēt? Ikdienas darba procesi · Programmēšana I", "item": "https://ebskola.lv/programmesana1/prog1_7/prog1_71"}]}]}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+<script defer src="../../lesson.js"></script>
+</head>
+<body class="page-reference course-lesson has-sidebar">
+<a class="skip-link" href="#saturs">Uz mācību saturu</a><header class="topbar">
+<div class="wrap row">
+<a class="brand" href="/">
+<span class="glyph">›_</span>
+<span class="name">ebskola<span>.lv</span></span>
+</a>
+<nav aria-label="Galvenā navigācija" class="nav">
+<a href="/programmesana1/programmesana1">Prog I</a>
+<a href="/programmesana1/prog1_7/prog1_7main">7. tēma</a>
+<a href="/sasnRez#prog1">rezultāti</a>
+<a href="/paligm">palīgmateriāli</a>
+</nav>
+<div class="spacer"></div>
+</div>
+</header>
+<aside aria-label="Tēmas navigācija" class="sidebar-nav">
+<div class="sidebar-kicker">Programmēšana I</div>
+<h3>7. Tēma - Lietotņu automatizācija un digitālā sadarbība</h3>
+<nav aria-label="Tēmas nodarbības" class="sidebar-links">
+<a class="topic-main" href="/programmesana1/prog1_7/prog1_7main">Tēmas sākums</a>
+<a aria-current="page" class="active" href="/programmesana1/prog1_7/prog1_71">7.1 Ko var automatizēt?</a>
+<a href="/programmesana1/prog1_7/prog1_72">7.2 Koplietošana un piekļuves tiesības</a>
+<a href="/programmesana1/prog1_7/prog1_73">7.3 Liels strukturēts dokuments</a>
+<a href="/programmesana1/prog1_7/prog1_74">7.4 Saziņas un laika plānošanas rīki</a>
+<a href="/programmesana1/prog1_7/prog1_75">7.5 Skripti izklājlapā</a>
+<a href="/programmesana1/prog1_7/prog1_76">7.6 Noslēguma projekts: Klases pasākuma plānotājs</a>
+</nav>
+</aside><main class="course-content" id="saturs"><p class="breadcrumb"><a href="/programmesana1/prog1_7/prog1_7main">7. tēma</a> / 7.1</p>
+<h1>7.1 Ko var automatizēt? Ikdienas darba procesi</h1>
+<p class="lesson-goal"><b>Sasniedzamais rezultāts:</b> Šajā stundā tu <b>aprakstīsi</b> vienu savu ikdienas darbu soli pa solim, <b>atradīsi</b> tajā atkārtojošās daļas un <b>uzrakstīsi</b> programmu, kas vienu no tām izdara tavā vietā.</p>
+<div class="lesson-meta">
+<a href="/sasnRez#prog1-v-2-4-1" title="Analizē vienkāršus ikdienas darba procesus, atpazīst automatizācijai piemērotas daļas un raksturo automatizācijas iespējas.">SR 2.4.1. Automatizācijas iespējas (vispārīgais līmenis)</a>
+</div>
+<section id="teorija">
+<h2>Teorija: kuru soli var uzticēt datoram</h2>
+<p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/programmesana1/prog1_7/testi/prog1_71_test">Sākt testu →</a></p>
+<div class="logic-box">
+<p><b>Process</b> ir darbs, ko dara soli pa solim. Tam ir <b>ievade</b> (ar ko sāc) un <b>izvade</b> (kas ir beigās). Piemēram, lejupielāžu mapes sakārtošanā ievade ir mape ar 60 dažādiem failiem, bet izvade ir tā pati mape, kurā faili ir sakārtoti apakšmapēs.</p>
+<p>Soli var <b>automatizēt</b> (uzticēt programmai), ja uz visiem trim jautājumiem atbilde ir "jā":</p>
+<ol>
+<li><b>Vai solis atkārtojas?</b> To dara daudzas reizes vai ar daudziem failiem.</li>
+<li><b>Vai to dara pēc noteikuma?</b> Noteikumu var uzrakstīt vienā teikumā: "ja …, tad …".</li>
+<li><b>Vai dati jau ir datorā?</b> Nekas nav jāpārraksta no papīra vai jāpajautā cilvēkam.</li>
+</ol>
+<p>Soli nevar automatizēt, ja tajā jāspriež (piemēram, jāizlemj, kurš foto ir labākais) vai jārunā ar cilvēkiem. Katru soli atzīmē ar vienu burtu:</p>
+<ul>
+<li><b>A</b> - automatizējams: programma to var izdarīt pilnībā.</li>
+<li><b>D</b> - daļēji: programma sagatavo, cilvēks izlemj.</li>
+<li><b>N</b> - nav automatizējams.</li>
+</ul>
+<p>Tā izskatās lejupielāžu mapes sakārtošanas analīze. Šādu tabulu tu rakstīsi 1. uzdevumā:</p>
+<pre><code class="language-none">| Nr. | Solis | A/D/N | Kāpēc |
+|---|---|---|---|
+| 1 | Atver mapi Lejupielādes | A | Vienmēr tā pati mape |
+| 2 | Apskata katra faila paplašinājumu | A | Paplašinājums ir faila nosaukumā |
+| 3 | Pārvieto failu mapē ar tā tipa nosaukumu | A | Atkārtojas katram failam pēc viena noteikuma |
+| 4 | Pārdēvē foto pēc tā, kas tajā redzams | D | Datumu dators zina, bet saturu jāapraksta cilvēkam |
+| 5 | Izlemj, kurus failus izdzēst | N | Jāspriež, vai fails vēl vajadzīgs |</code></pre>
+<p>2. un 3. soli šajā stundā izdarīs tava programma. Tai vajag divus jaunus rīkus no Python standarta bibliotēkas, tie nav jāinstalē:</p>
+<ul>
+<li><b><code>Path</code> no <code>pathlib</code></b> - faila vai mapes ceļš (<i>path</i>). Ar zīmi <code>/</code> ceļam pievieno nākamo daļu.</li>
+<li><b><code>shutil.move(no, uz)</code></b> - pārvieto failu uz citu vietu.</li>
+</ul>
+<p>Paplašinājumu no faila nosaukuma iegūst tā:</p>
+<pre><code class="language-python">from pathlib import Path
+
+fails = Path("prakse_71") / "Foto1.JPG"
+print(fails)
+print(fails.name)
+print(fails.suffix)
+print(fails.suffix.lower()[1:])</code></pre>
+<p>Terminālī parādās:</p>
+<pre><code class="language-none">prakse_71\Foto1.JPG
+Foto1.JPG
+.JPG
+jpg</code></pre>
+<p><code>.lower()</code> pārvērš burtus par mazajiem, lai <code>.JPG</code> un <code>.jpg</code> nonāktu vienā mapē. <code>[1:]</code> nogriež punktu.</p>
+<details class="course-help"><summary>Pašpārbaude: kāpēc solis "pārdēvē foto pēc datuma" ir A, bet "pārdēvē foto pēc tā, kas redzams" ir D?</summary><p>Uzņemšanas datums jau ir saglabāts failā, un to var nolasīt pēc noteikuma. To, kas redzams bildē, jāizlemj cilvēkam. Dators var piedāvāt nosaukumu, bet pārbauda cilvēks.</p></details>
+</div>
+</section><section class="logic-box lesson-task" id="uzdevums-1">
+<p class="task-number">1. uzdevums - </p><h2>Apraksti savu ikdienas darbu un atzīmē soļus</h2>
+<p>Beigās tavā <code>README.md</code> būs tabula ar viena tava ikdienas darba soļiem, un katram solim būs burts A, D vai N ar iemeslu.</p>
+<ol class="step-list">
+<li><b>Atver piezīmes:</b> VS Code kreisajā pusē noklikšķini uz <code>README.md</code> un nospied <code>Ctrl+End</code>, lai nokļūtu faila beigās.</li>
+<li><b>Ielīmē veidni:</b> faila beigās pievieno šīs rindas un saglabā ar <code>Ctrl+S</code>:
+<pre><code class="language-none">### 7.1 Ko var automatizēt?
+
+- **Process:**
+- **Ievade:**
+- **Izvade:**
+
+| Nr. | Solis | A/D/N | Kāpēc |
+|---|---|---|---|
+| 1 |  |  |  |
+| 2 |  |  |  |
+| 3 |  |  |  |
+| 4 |  |  |  |
+| 5 |  |  |  |</code></pre>
+</li>
+<li><b>Izvēlies procesu:</b> aiz <code>**Process:**</code> ieraksti vienu no šiem darbiem vai savu: <i>mājas darba nodošana</i>, <i>telefona foto sakārtošana pēc ekskursijas</i>, <i>gatavošanās kontroldarbam</i>.</li>
+<li><b>Ieraksti ievadi un izvadi:</b> aiz <code>**Ievade:**</code> uzraksti, ar ko darbs sākas (piemēram, <i>120 foto telefonā</i>), aiz <code>**Izvade:**</code> - kas ir beigās (piemēram, <i>foto datorā mapēs pa dienām</i>).</li>
+<li><b>Uzraksti soļus:</b> kolonnā <b>Solis</b> secībā ieraksti, ko tu dari. Viens solis ir viena darbība, piemēram, <i>Pieslēdz telefonu datoram</i>. Ja soļu ir vairāk par pieciem, pievieno rindas ar <code>| 6 |  |  |  |</code>.</li>
+<li><b>Novērtē katru soli:</b> kolonnā <b>A/D/N</b> ieraksti burtu. Uzdod trīs jautājumus no teorijas: vai solis atkārtojas, vai to dara pēc noteikuma, vai dati jau ir datorā.</li>
+<li><b>Uzraksti iemeslu:</b> kolonnā <b>Kāpēc</b> katram solim uzraksti vienu īsu teikumu, piemēram, <i>Atkārtojas katram foto</i> vai <i>Jāizlemj, kuri foto ir izdevušies</i>.</li>
+<li><b>Pabeidz teikumu</b> zem tabulas (atstāj vienu tukšu rindu pirms tā) un saglabā ar <code>Ctrl+S</code>:
+<pre><code class="language-none">Programma varētu manā vietā izdarīt soli Nr. ..., jo</code></pre>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> nospiežot <code>Ctrl+Shift+V</code> (Markdown priekšskatījums), zem virsraksta <b>7.1 Ko var automatizēt?</b> redzi tabulu ar vismaz pieciem soļiem, un katrā rindā ir burts A, D vai N un iemesls.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>Priekšskatījumā tabula ir viena gara teksta rinda.</b> Virs rindas <code>| Nr. | Solis |</code> jābūt tukšai rindai, un katrai tabulas rindai jāsākas un jābeidzas ar <code>|</code>. Otrajai rindai jābūt tieši <code>|---|---|---|---|</code>.</li>
+<li><b>Nezini, kā sadalīt darbu soļos.</b> Iedomājies, ka to dari tagad, un pēc katras darbības pajautā sev: "Ko es daru tālāk?" Mājas darba nodošanai tas varētu būt: <i>Atver uzdevumu</i>, <i>Uzraksti darbu</i>, <i>Saglabā failu ar pareizu nosaukumu</i>, <i>Augšupielādē failu</i>, <i>Pārbaudi, vai fails ir pievienots</i>.</li>
+<li><b>1. solis: nav faila <code>README.md</code> vai tajā nav sadaļas <code>## Piezīmes</code>.</b> Piezīmju klade sākas <a href="/programmesana1/prog1_1/prog1_13">1.3 stundas</a> 3. uzdevumā. Izveido sadaļu, kā aprakstīts tur, un turpini ar 2. soli.</li>
+<li><b>Nevari izlemt starp A un D.</b> Ja programma var izdarīt visu, bet kādam vēl jāpārbauda vai jāizvēlas, raksti D.</li>
+<li><b>Visi soļi sanāk N.</b> Izvēlies citu darbu, kurā ir daudz failu vai daudz vienādu darbību, piemēram, foto sakārtošanu.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-2">
+<p class="task-number">2. uzdevums - </p><h2>Uzraksti kārtošanas programmu kartot_71.py</h2>
+<p>Beigās programma pati būs izveidojusi prakses mapi ar pieciem failiem un sakārtojusi tos apakšmapēs pēc paplašinājuma.</p>
+<p><b>Svarīgi:</b> programma strādā tikai ar mapi <code>prakse_71</code>, ko tā pati izveido blakus savam failam. Nekad nemaini mainīgo <code>MAPE</code> uz savu Dokumentu, Lejupielāžu vai Darbvirsmas mapi. Pārvietotus failus atpakaļ nāktos likt ar roku.</p>
+<ol class="step-list">
+<li><b>Izveido mapi <code>tema07</code>:</b> VS Code kreisajā pusē ar peles labo pogu noklikšķini tukšā vietā zem failu saraksta, izvēlies <b>New Folder</b> (jauna mape), ieraksti <code>tema07</code> un nospied Enter. Ja mape jau ir, izlaid šo soli.</li>
+<li><b>Izveido failu:</b> ar peles labo pogu noklikšķini uz mapes <code>tema07</code>, izvēlies <b>New File</b> (jauns fails), ieraksti <code>kartot_71.py</code> un nospied Enter.</li>
+<li><b>Ieraksti programmas sākumu:</b>
+<pre><code class="language-python">from pathlib import Path
+import shutil
+
+# Prakses mape atrodas blakus šim failam: tema07/prakse_71
+MAPE = Path(__file__).parent / "prakse_71"
+TIKAI_PARADIT = True    # True = tikai parāda, False = tiešām pārvieto</code></pre>
+<p><code>__file__</code> ir šī faila ceļš, <code>.parent</code> ir mape, kurā tas atrodas (<code>tema07</code>). Tāpēc prakses mape vienmēr būs <code>tema07</code> iekšā.</p>
+</li>
+<li><b>Pievieno funkciju, kas izveido prakses failus.</b> Zem iepriekšējām rindām atstāj divas tukšas rindas un ieraksti:
+<pre><code class="language-python">def izveido_prakses_failus():
+    MAPE.mkdir()
+    for nosaukums in ["foto1.jpg", "foto2.JPG", "referats.docx", "dziesma.mp3", "piezimes.txt"]:
+        (MAPE / nosaukums).write_text("prakses fails", encoding="utf-8")
+    print("Izveidoju prakses mapi ar 5 failiem.")</code></pre>
+</li>
+<li><b>Pievieno kārtošanas funkciju</b> zem tās (atkal divas tukšas rindas). Ieraksti šo kodu un aizpildi trīs vietas <code>___</code>:
+<pre><code class="language-python">def kartot():
+    parvietoti = 0
+    for fails in MAPE.iterdir():
+        if not fails.is_file():
+            continue                        # mapes neaiztiek
+        pap = fails.___.lower()[1:]         # ".JPG" -> "jpg"
+        merkis = MAPE / ___
+        if TIKAI_PARADIT:
+            print(f"[tikai parādu] {fails.name} -> {pap}/")
+        else:
+            merkis.mkdir(exist_ok=True)
+            shutil.move(fails, merkis / ___)
+            print(f"{fails.name} -> {pap}/")
+            parvietoti += 1
+    print(f"Pārvietoti faili: {parvietoti}")</code></pre>
+<p><code>MAPE.iterdir()</code> dod pēc kārtas visu, kas ir mapē. <code>is_file()</code> ir <code>True</code> failam un <code>False</code> mapei. <code>mkdir(exist_ok=True)</code> izveido mapi tikai tad, ja tās vēl nav.</p>
+</li>
+<li><b>Pievieno izsaukumu</b> faila pašās beigās, bez atkāpes, un saglabā ar <code>Ctrl+S</code>:
+<pre><code class="language-python">if not MAPE.exists():
+    izveido_prakses_failus()
+kartot()</code></pre>
+</li>
+<li><b>Palaid programmu</b> ar <b>Run</b> pogu (trijstūris augšējā labajā stūrī). Tā tikai parāda, ko darītu. Terminālī jāparādās:
+<pre><code class="language-none">Izveidoju prakses mapi ar 5 failiem.
+[tikai parādu] dziesma.mp3 -> mp3/
+[tikai parādu] foto1.jpg -> jpg/
+[tikai parādu] foto2.JPG -> jpg/
+[tikai parādu] piezimes.txt -> txt/
+[tikai parādu] referats.docx -> docx/
+Pārvietoti faili: 0</code></pre>
+<p>VS Code kreisajā pusē mapē <code>tema07</code> tagad ir mape <code>prakse_71</code> ar pieciem failiem un bez apakšmapēm.</p>
+</li>
+<li><b>Ieslēdz īsto režīmu:</b> nomaini rindu <code>TIKAI_PARADIT = True</code> uz šo, saglabā un palaid vēlreiz:
+<pre><code class="language-python">TIKAI_PARADIT = False   # True = tikai parāda, False = tiešām pārvieto</code></pre>
+<p>Terminālī jāparādās:</p>
+<pre><code class="language-none">dziesma.mp3 -> mp3/
+foto1.jpg -> jpg/
+foto2.JPG -> jpg/
+piezimes.txt -> txt/
+referats.docx -> docx/
+Pārvietoti faili: 5</code></pre>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> VS Code kreisajā pusē, atverot <code>prakse_71</code> (bultiņa pie nosaukuma), redzi tikai četras mapes: <code>docx</code>, <code>jpg</code>, <code>mp3</code> un <code>txt</code>, un mapē <code>jpg</code> ir gan <code>foto1.jpg</code>, gan <code>foto2.JPG</code>.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>5. solis, trīs vietas <code>___</code>:</b> <code>pap = fails.suffix.lower()[1:]</code>, <code>merkis = MAPE / pap</code> un <code>shutil.move(fails, merkis / fails.name)</code>.</li>
+<li><b><code>NameError: name '___' is not defined</code></b> - kāda vieta <code>___</code> vēl nav aizpildīta. Kļūdas tekstā redzams rindas numurs.</li>
+<li><b><code>TypeError: 'str' object is not callable</code></b> - tu uzrakstīji <code>fails.suffix()</code> ar iekavām. <code>suffix</code> ir vērtība, nevis funkcija: raksti <code>fails.suffix</code>.</li>
+<li><b><code>NameError: name 'izveido_prakses_failus' is not defined</code></b> - 6. soļa rindas ir uzrakstītas virs funkcijām. Pārnes tās uz faila pašām beigām.</li>
+<li><b>Programma neko neizdrukā.</b> Trūkst 6. soļa rindu vai rindai <code>kartot()</code> priekšā ir atstarpes.</li>
+<li><b>Prakses failus nevar atvērt kā bildi vai dziesmu.</b> Tā tam jābūt: to saturs ir tikai teksts <code>prakses fails</code>.</li>
+<li><b>Gribi sākt no jauna.</b> Ar peles labo pogu noklikšķini uz <code>prakse_71</code>, izvēlies <b>Delete</b> (dzēst) un apstiprini. Nākamā palaišana izveidos mapi no jauna.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Pārbaudi programmu ar neērtiem failiem</h2>
+<p>Beigās programma pareizi apstrādās failu bez paplašinājuma un vairs nepārrakstīs failu, kas mērķa mapē jau ir.</p>
+<p>Turpini failā <code>tema07/kartot_71.py</code>. Tajā jābūt 2. uzdevuma kodam ar <code>TIKAI_PARADIT = False</code>.</p>
+<ol class="step-list">
+<li><b>Palaid programmu vēlreiz</b>, neko nemainot. Terminālī jāparādās:
+<pre><code class="language-none">Pārvietoti faili: 0</code></pre>
+<p>Faili jau ir apakšmapēs, un <code>is_file()</code> mapes izlaiž. Programmu var palaist atkārtoti, un tā neko nesabojā.</p>
+</li>
+<li><b>Izveido failu bez paplašinājuma:</b> ar peles labo pogu noklikšķini uz mapes <code>prakse_71</code>, izvēlies <b>New File</b>, ieraksti <code>LASI_MANI</code> (bez punkta) un nospied Enter.</li>
+<li><b>Palaid un atrodi kļūdu.</b> Terminālī parādās:
+<pre><code class="language-none">LASI_MANI -> /
+Pārvietoti faili: 1</code></pre>
+<p>Programma saka, ka pārvietoja failu, bet <code>LASI_MANI</code> joprojām ir mapē <code>prakse_71</code>. Failam nav paplašinājuma, tāpēc <code>pap</code> ir tukšs teksts <code>""</code>, un mērķa mape ir pati <code>prakse_71</code>.</p>
+</li>
+<li><b>Salabo:</b> zem rindas <code>pap = fails.suffix.lower()[1:]</code>, ar tādu pašu atkāpi, pievieno šīs rindas. Saglabā un palaid:
+<pre><code class="language-python">        if pap == "":
+            pap = "bez_tipa"</code></pre>
+<p>Terminālī jāparādās:</p>
+<pre><code class="language-none">LASI_MANI -> bez_tipa/
+Pārvietoti faili: 1</code></pre>
+</li>
+<li><b>Izveido failu ar aizņemtu nosaukumu:</b> mapē <code>prakse_71</code> izveido jaunu failu <code>piezimes.txt</code> (tāpat kā 2. solī), ieraksti tajā <code>Jaunās piezīmes</code> un saglabā ar <code>Ctrl+S</code>. Mapē <code>txt</code> jau ir fails ar tādu pašu nosaukumu.</li>
+<li><b>Palaid un apskati veco failu.</b> Terminālī parādās:
+<pre><code class="language-none">piezimes.txt -> txt/
+Pārvietoti faili: 1</code></pre>
+<p>Atver <code>prakse_71/txt/piezimes.txt</code>. Tajā tagad ir <code>Jaunās piezīmes</code>. Vecais teksts <code>prakses fails</code> ir pazudis, un programma par to nebrīdināja.</p>
+</li>
+<li><b>Salabo:</b> zem rindas <code>merkis = MAPE / pap</code>, ar tādu pašu atkāpi, pievieno šīs rindas un saglabā:
+<pre><code class="language-python">        if (merkis / fails.name).exists():
+            print(f"Izlaižu {fails.name}: mapē {pap}/ jau ir šāds fails")
+            continue</code></pre>
+<p>Atkārto 5. soli (failā ieraksti <code>Vēl citas piezīmes</code>) un palaid. Terminālī jāparādās:</p>
+<pre><code class="language-none">Izlaižu piezimes.txt: mapē txt/ jau ir šāds fails
+Pārvietoti faili: 0</code></pre>
+</li>
+<li><b>Pieraksti secinājumus.</b> Atver <code>README.md</code>, zem virsraksta <code>### 7.1 Ko var automatizēt?</code> (zem sava teikuma) pievieno šīs rindas, pabeidz abus teikumus un saglabā:
+<pre><code class="language-none">Programmu, kas pārvieto failus, vispirms palaiž ar TIKAI_PARADIT = True, jo
+
+Bez pārbaudes exists() mana programma</code></pre>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> pēdējā palaišanā terminālī ir rinda <code>Izlaižu piezimes.txt: mapē txt/ jau ir šāds fails</code>, mapē <code>prakse_71/bez_tipa</code> ir fails <code>LASI_MANI</code>, un <code>README.md</code> zem <code>### 7.1</code> ir divi pabeigti teikumi.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>1. solis: programma atkal pārvieto failus.</b> Mapē <code>prakse_71</code> ir palikuši faili. Apskati, kuri, un salīdzini savu kodu ar 2. uzdevuma 5. soli.</li>
+<li><b>3. solis: jau tagad redzi <code>LASI_MANI -> bez_tipa/</code>.</b> Tu jau esi pievienojis 4. soļa rindas. Turpini ar 5. soli.</li>
+<li><b>4. solis: <code>IndentationError: expected an indented block after 'if' statement</code></b> - rindai <code>pap = "bez_tipa"</code> vajag vēl četras atstarpes vairāk nekā rindai <code>if</code>.</li>
+<li><b>4. solis: joprojām redzi <code>LASI_MANI -> /</code>.</b> Jaunās rindas ir zem <code>merkis = MAPE / pap</code>, nevis virs tās. Pareizā secība:
+<pre><code class="language-python">        pap = fails.suffix.lower()[1:]      # ".JPG" -> "jpg"
+        if pap == "":
+            pap = "bez_tipa"
+        merkis = MAPE / pap</code></pre>
+</li>
+<li><b>7. solis: <code>piezimes.txt</code> paliek mapē <code>prakse_71</code>.</b> Tā tam jābūt: programma to izlaida, lai nesabojātu veco failu. Vari to izdzēst ar peles labo pogu → <b>Delete</b>.</li>
+</ul>
+</details>
+</section><details class="course-help extra-task">
+<summary>Papildu uzdevums - Kārto pēc grupām, nevis paplašinājumiem</summary>
+<p>Ja pamatdarbs ir gatavs, liec programmai likt <code>.jpg</code> un <code>.png</code> vienā mapē <code>atteli</code>, bet <code>.docx</code> un <code>.txt</code> mapē <code>dokumenti</code>.</p>
+<ol class="step-list">
+<li><b>Pievieno vārdnīcu</b> zem rindas <code>TIKAI_PARADIT = False</code>:
+<pre><code class="language-python">GRUPAS = {
+    "jpg": "atteli",
+    "png": "atteli",
+    "docx": "dokumenti",
+    "txt": "dokumenti",
+    "mp3": "muzika",
+}</code></pre>
+</li>
+<li><b>Nomaini paplašinājumu pret grupu:</b> zem rindas <code>pap = "bez_tipa"</code>, ar tādu pašu atkāpi kā <code>if pap == "":</code>, pievieno:
+<pre><code class="language-python">        pap = GRUPAS.get(pap, pap)</code></pre>
+<p><code>get</code> atgriež grupu no vārdnīcas. Ja paplašinājuma vārdnīcā nav, paliek pats paplašinājums.</p>
+</li>
+<li><b>Izdzēs veco prakses mapi:</b> ar peles labo pogu noklikšķini uz <code>prakse_71</code> un izvēlies <b>Delete</b>.</li>
+<li><b>Palaid.</b> Terminālī jāparādās:
+<pre><code class="language-none">Izveidoju prakses mapi ar 5 failiem.
+dziesma.mp3 -> muzika/
+foto1.jpg -> atteli/
+foto2.JPG -> atteli/
+piezimes.txt -> dokumenti/
+referats.docx -> dokumenti/
+Pārvietoti faili: 5</code></pre>
+</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> mapē <code>prakse_71</code> ir tikai trīs mapes: <code>atteli</code>, <code>dokumenti</code> un <code>muzika</code>.</p>
+</details><section class="lesson-wrapup" id="stundas-beigas">
+<h2>Stundas beigās</h2>
+<ol class="step-list">
+<li><b>Saglabā visus failus:</b> VS Code izvēlies <b>File → Save All</b>.</li>
+<li><b>Apskati izmaiņas:</b> pārslēdzies uz GitHub Desktop. Zem <b>Changes</b> (izmaiņas) jābūt <code>tema07/kartot_71.py</code>, vairākiem failiem no <code>tema07/prakse_71</code> un <code>README.md</code>.</li>
+<li><b>Apraksti un fiksē:</b> laukā <b>Summary</b> (kopsavilkums) ieraksti <code>Pievieno 7.1 kārtošanas programmu un piezīmes</code> un nospied <b>Commit to main</b>.</li>
+<li><b>Nosūti:</b> nospied <b>Push origin</b> (nosūtīt uz GitHub).</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> GitHub vietnē mapē <code>tema07</code> redzams fails <code>kartot_71.py</code> un mape <code>prakse_71</code>.</p>
+</section><section>
+<details class="course-help"><summary>Parādīt pilnu risinājumu</summary>
+<p>Fails <code>tema07/kartot_71.py</code> pēc 3. uzdevuma:</p>
+<pre><code class="language-python">from pathlib import Path
+import shutil
+
+# Prakses mape atrodas blakus šim failam: tema07/prakse_71
+MAPE = Path(__file__).parent / "prakse_71"
+TIKAI_PARADIT = False   # True = tikai parāda, False = tiešām pārvieto
+
+
+def izveido_prakses_failus():
+    MAPE.mkdir()
+    for nosaukums in ["foto1.jpg", "foto2.JPG", "referats.docx", "dziesma.mp3", "piezimes.txt"]:
+        (MAPE / nosaukums).write_text("prakses fails", encoding="utf-8")
+    print("Izveidoju prakses mapi ar 5 failiem.")
+
+
+def kartot():
+    parvietoti = 0
+    for fails in MAPE.iterdir():
+        if not fails.is_file():
+            continue                        # mapes neaiztiek
+        pap = fails.suffix.lower()[1:]      # ".JPG" -> "jpg"
+        if pap == "":
+            pap = "bez_tipa"
+        merkis = MAPE / pap
+        if (merkis / fails.name).exists():
+            print(f"Izlaižu {fails.name}: mapē {pap}/ jau ir šāds fails")
+            continue
+        if TIKAI_PARADIT:
+            print(f"[tikai parādu] {fails.name} -> {pap}/")
+        else:
+            merkis.mkdir(exist_ok=True)
+            shutil.move(fails, merkis / fails.name)
+            print(f"{fails.name} -> {pap}/")
+            parvietoti += 1
+    print(f"Pārvietoti faili: {parvietoti}")
+
+
+if not MAPE.exists():
+    izveido_prakses_failus()
+kartot()</code></pre>
+<p>Ja mapi <code>prakse_71</code> izdzēš un programmu palaiž, terminālī parādās:</p>
+<pre><code class="language-none">Izveidoju prakses mapi ar 5 failiem.
+dziesma.mp3 -> mp3/
+foto1.jpg -> jpg/
+foto2.JPG -> jpg/
+piezimes.txt -> txt/
+referats.docx -> docx/
+Pārvietoti faili: 5</code></pre>
+<p>Piezīmju piemērs failā <code>README.md</code> (tavs process un teikumi būs citi):</p>
+<pre><code class="language-none">### 7.1 Ko var automatizēt?
+
+- **Process:** telefona foto sakārtošana pēc ekskursijas
+- **Ievade:** 120 foto telefonā
+- **Izvade:** foto datorā mapēs pa dienām
+
+| Nr. | Solis | A/D/N | Kāpēc |
+|---|---|---|---|
+| 1 | Pieslēdz telefonu datoram | N | Jāizdara ar rokām |
+| 2 | Nokopē visus foto datorā | A | Vienmēr visi faili no vienas mapes |
+| 3 | Saliek foto mapēs pēc uzņemšanas dienas | A | Datums jau ir saglabāts failā |
+| 4 | Izdzēš izplūdušos foto | D | Programma var atrast tumšos, bet izlemj cilvēks |
+| 5 | Izvēlas labākos foto klases grupai | N | Jāspriež, kuri foto ir labi |
+
+Programma varētu manā vietā izdarīt soli Nr. 3, jo tas atkārtojas katram foto pēc viena noteikuma.
+
+Programmu, kas pārvieto failus, vispirms palaiž ar TIKAI_PARADIT = True, jo tā var redzēt, ko tā darīs, pirms kaut kas tiek pārvietots.
+
+Bez pārbaudes exists() mana programma pārrakstītu veco failu ar tādu pašu nosaukumu un neko nepateiktu.</code></pre>
+</details>
+</section><nav aria-label="Nodarbību navigācija" class="stundas-navigacija">
+<a class="nav-btn" href="/programmesana1/prog1_7/prog1_7main">⬅ Tēmas apkopojums</a>
+<a class="nav-btn" href="/programmesana1/prog1_7/prog1_72">Nākamā stunda ➡</a>
+</nav></main>
+
+
+
+
+
+
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="foot-brand" href="/"><span class="glyph">›_</span> ebskola.lv</a>
+        <p>Atvērti, bezmaksas mācību materiāli datorikā, programmēšanā un robotikā latviešu valodā.</p>
+        <div class="foot-social">
+          <a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">LinkedIn</a>
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Kursi</h4>
+        <ul>
+          <li><a href="/datorika9/datorika9">Datorika 9. klasei</a></li>
+          <li><a href="/programmesana1/programmesana1">Programmēšana I</a></li>
+          <li><a href="/programmesana2/programmesana2">Programmēšana II</a></li>
+          <li><a href="/robotika/robotika">Robotika</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resursi</h4>
+        <ul>
+          <li><a href="/sasnRez">Sasniedzamie rezultāti</a></li>
+          <li><a href="/paligm">Palīgmateriāli</a></li>
+          <li><a href="/#structure">Visu tēmu indekss</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Projekts</h4>
+        <ul>
+          <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a></li>
+          <li><a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">Sazināties</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div class="left">
+        <span>© 2026 ebSkola</span>
+        <span>Izstrādājis Eduards Baumanis</span>
+      </div>
+    </div>
+  </div>
+</footer></body>
+</html>
