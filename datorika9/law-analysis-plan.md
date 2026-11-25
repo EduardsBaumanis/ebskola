@@ -320,6 +320,36 @@ Map old → new numbers, then:
 | D4 | The `D.7.x.x` Robotika table: replace it with real MK 747 codes (mostly 2.8.x, 2.6.x and 2.3.x in the 9. or 6. klase column), or keep it as a separate, clearly labelled course scheme? | Replace it with real codes in a separate task for the Robotika course. |
 | D5 | Renumber topics after the planned topics are added? | Ask after phase 4. |
 
+**Decided:**
+
+- **D1 (2026-11-25).** The default, minus the borderline results 1.1.2,
+  1.1.3, 1.3.4, 2.8.1, 2.8.2, 3.4.3 and 3.4.4. That leaves 36 results in
+  scope: 1.1.1, 1.2.x, 1.3.1–1.3.3, 1.4.x, 1.5.1, 2.3–2.6, 3.3.1 and
+  3.3.3–3.3.6.
+- **D2.** Robotika covers 2.8.
+- **D4 (2026-11-23).** The Robotika lessons cite real 9. klase codes through
+  `sasnRez.html#robotika`.
+- **Phase 4 (2026-11-25).** The 16 gaps are planned in
+  `dat9_6/dat9_6plan.md` (Biroja lietotnes) and `dat9_7/dat9_7plan.md`
+  (Tīkli, internets un drošība).
+- **D5 (2026-11-25).** Keep the order. Topics 1–5 stay as they are, and the
+  new topics are 6 and 7. No renumbering, so phase 5 steps 1–3 and 5 are not
+  needed. Step 4 (planned cards) was done on 2026-11-25:
+  - `datorika9.html`: two dashed cards for topics 6 and 7, and the scope
+    fact "7 tēmas · 42 nodarbības";
+  - `index.html`: the file tree shows 7 topics. The index card still counts
+    only the built 5 / 30, as for Programmēšana;
+  - `README.md`: the course row and the folder notes.
+- **Lesson 1.1 (2026-11-25).** It now tells students to register GitHub with
+  their personal email, not the school one.
+- **Other answers (2026-11-25):**
+  - Microsoft 365 for topic 6.
+  - Students use their personal email for website accounts, because the
+    school email is blocked for registration on most sites.
+  - `ping` and `tracert` are allowed.
+- **`macibu-satura-audits.md`** was deleted by the author on 2026-11-23. Don't
+  recreate it.
+
 ---
 
 ## 7. Prompts
