@@ -10,7 +10,7 @@ Vietnē ir **4 kursi**, **27 tēmas** un **160 nodarbības** (vēl 2 Programmē�
 
 | Sadaļa | Mape / fails | Klase | Apjoms | Saturs |
 |---|---|---|---|---|
-| **Datorika 9. klasei** | `datorika9/` | 9. klase | 5 tēmas · 30 nodarbības | Tīmekļa tehnoloģijas (`HTML`, `CSS`, `JavaScript`), dizaina domāšana, multivide, `Git`/`GitHub` darba plūsma `VS Code` vidē un pārlūkspēles izstrāde ar publicēšanu `GitHub Pages`. Katrai nodarbībai ir pilns sākuma kods `datorika9/sakuma-kodi/`. |
+| **Datorika 9. klasei** | `datorika9/` | 9. klase | 7 tēmas (6. un 7. tiek izstrādāta) · 30 nodarbības | Tīmekļa tehnoloģijas (`HTML`, `CSS`, `JavaScript`), dizaina domāšana, multivide, `Git`/`GitHub` darba plūsma `VS Code` vidē un pārlūkspēles izstrāde ar publicēšanu `GitHub Pages`. Katrai nodarbībai ir pilns sākuma kods `datorika9/sakuma-kodi/`. |
 | **Programmēšana I** | `programmesana1/` | 10.–12. klase | 16 tēmas (12. un 15. tiek izstrādāta) · 84 nodarbības | `Python` pamati, vadības struktūras, funkcijas, datu kolekcijas, datu pastāvība (`JSON`, `CSV`), algoritmi, programmatūras projektēšana, tīmekļa integrācija (`Flask`), datubāzes (`PostgreSQL` / `SQL`), OOP un izvietošana. |
 | **Programmēšana II** | `programmesana2/` | 11.–12. klase | 10 tēmas (6., 7., 9. un 10. tiek izstrādāta) · 36 nodarbības | Padziļināts 2D spēļu un lietotņu izstrādes kurss ar `Godot 4 .NET` un `C#`: *Pong*, *Platformer*, *RPG* (klases turnīra simulators), *Top-down Shooter*, *Roguelike* un publicēta *Puzzle* spēle. Ietver pilnus projektus un automatizētus testus (`prog2_1/`, `prog2_2/`). |
 | **Robotika** | `robotika/` | 7.–9. klase | 2 tēmas · 10 nodarbības | Praktiska robotika un elektronika: `LEGO SPIKE Prime` kustību, sensoru un manipulatoru programmēšana un ievads `Arduino` (`C++`) shēmās un mikrokontrolieros. |
@@ -64,7 +64,7 @@ python3 programmesana2/prog2_2/parbaudes/check.py --godot /cels/uz/Godot.NET --d
 ├── manifest.json               # Web lietotnes manifests un ikonu metadati
 ├── datorika9/                  # Datorika 9. klasei
 │   ├── datorika9.html          # Kursa pārskats
-│   ├── dat9_1/..dat9_5/        # 5 tēmu mapes (katrā dat9_Nmain.html — tēmas pārskats)
+│   ├── dat9_1/..dat9_7/        # 7 tēmu mapes (katrā dat9_Nmain.html — tēmas pārskats; 6. un 7. tēmā pagaidām tikai plāns dat9_Nplan.md)
 │   │   ├── nodarbibas/         # 6 tēmas nodarbību lapas (dat9_N1.html..dat9_N6.html)
 │   │   └── testi/              # Atkārtojuma testi dat9_NS_test.html (mape ir arī tēmām bez testiem)
 │   ├── git.html                # Git un GitHub palīdzības lapa
