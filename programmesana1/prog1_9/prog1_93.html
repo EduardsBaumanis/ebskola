@@ -206,14 +206,41 @@ for nr, (nosaukums, punkti) in enumerate(rezultati, start=1):
 </section><section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums - </p><h2>Maini svarus un pārbaudi datus</h2>
 <p>Beigās programma pirms reitinga pārbaudīs, vai svari kopā ir 1 un vai katrs vērtējums ir no 1 līdz 5, un tā rēķinās ar tavām trim lietotnēm.</p>
-<p>Turpini failā <code>tema09/salidzinat_93.py</code> pēc 2. uzdevuma.</p>
+<p>Turpini failā <code>tema09/salidzinat_93.py</code>.</p>
+<details class="course-help"><summary>Tajā jau jābūt šim kodam (2. uzdevuma beigās)</summary>
+<pre><code class="language-python"># Kritēriji un to svari: cik svarīgs ir katrs kritērijs (kopā 1, tas ir, 100%)
+KRITERIJI = {
+    "funkcijas": 0.3,
+    "pieejamība": 0.2,
+    "bezsaiste": 0.2,
+    "cena": 0.2,
+    "privātums": 0.1,
+}
+
+# Katras lietotnes vērtējums katrā kritērijā no 1 (slikti) līdz 5 (ļoti labi)
+VERTEJUMI = {
+    "Lietotne A": {"funkcijas": 5, "pieejamība": 4, "bezsaiste": 2, "cena": 2, "privātums": 3},
+    "Lietotne B": {"funkcijas": 3, "pieejamība": 3, "bezsaiste": 4, "cena": 5, "privātums": 2},
+    "Lietotne C": {"funkcijas": 4, "pieejamība": 3, "bezsaiste": 5, "cena": 3, "privātums": 4},
+}
+
+
+def kopvertejums(vertejumi):
+    summa = 0
+    for kriterijs, svars in KRITERIJI.items():
+        summa += svars * vertejumi[kriterijs]
+    return summa
+
+
+rezultati = []
+for nosaukums, vertejumi in VERTEJUMI.items():
+    rezultati.append((nosaukums, kopvertejums(vertejumi)))
+rezultati = sorted(rezultati, key=lambda x: x[1], reverse=True)
+
+for nr, (nosaukums, punkti) in enumerate(rezultati, start=1):
+    print(f"{nr}. {nosaukums} - {punkti:.2f} no 5")</code></pre>
+</details>
 <ol class="step-list">
-<li><b>Padari cenu svarīgāku:</b> vārdnīcā <code>KRITERIJI</code> nomaini <code>"cena": 0.2</code> uz <code>"cena": 0.4</code>, saglabā un palaid. Terminālī parādās:
-<pre><code class="language-none">1. Lietotne B - 4.50 no 5
-2. Lietotne C - 4.40 no 5
-3. Lietotne A - 3.80 no 5</code></pre>
-<p>Uzvarētājs nomainījās, jo B ir lētākā. Bet tagad svari kopā ir 1.2, nevis 1, un kopvērtējums vairs nav "no 5": ja cenai dotu 0.6, B saņemtu 5.50 no 5. Programmai to vajadzētu pamanīt.</p>
-</li>
 <li><b>Pievieno pārbaudi</b> zem funkcijas <code>kopvertejums</code> (ar divām tukšām rindām katrā pusē):
 <pre><code class="language-python">def parbaudit():
     kludas = []
@@ -228,29 +255,35 @@ for nr, (nosaukums, punkti) in enumerate(rezultati, start=1):
     return kludas</code></pre>
 <p>Funkcija nekā neizdrukā, bet atgriež sarakstu ar visām atrastajām kļūdām. Tukšs saraksts nozīmē, ka dati ir pareizi.</p>
 </li>
-<li><b>Izsauc pārbaudi pirms reitinga:</b> iezīmē visas rindas no <code>rezultati = []</code> līdz faila beigām un nospied <code>Tab</code>, lai tām visām pieliktu 4 atstarpes. Virs tām, bez atkāpes, ieraksti:
+<li><b>Izsauc pārbaudi pirms reitinga:</b> iezīmē visas rindas no <code>rezultati = []</code> līdz faila beigām un nospied <code>Tab</code>, lai tām visām pieliktu 4 atstarpes. Virs tām, bez atkāpes, ieraksti šīs rindas, saglabā un palaid:
 <pre><code class="language-python">kludas = parbaudit()
 if len(kludas) &gt; 0:
     print("Dati nav pareizi:")
     for kluda in kludas:
         print("-", kluda)
 else:</code></pre>
-<p>Saglabā un palaid. Terminālī jāparādās:</p>
-<pre><code class="language-none">Dati nav pareizi:
-- svaru summa ir 1.2000000000000002, nevis 1</code></pre>
-<p>Pārbaude strādā. Garā aste <code>…0002</code> ir dīvaina, bet par to nākamajā solī.</p>
-</li>
-<li><b>Atgriez cenai 0.2 un atrodi kļūdu pārbaudē:</b> nomaini atpakaļ uz <code>"cena": 0.2</code>, saglabā un palaid. Svari ir pareizi, bet terminālī parādās:
+<p>Terminālī parādās:</p>
 <pre><code class="language-none">Dati nav pareizi:
 - svaru summa ir 0.9999999999999999, nevis 1</code></pre>
-<p>Dators daļskaitļus kā 0.1 un 0.2 glabā divnieku sistēmā, tāpēc tikai aptuveni, un summa iznāk mazliet zem 1. Daļskaitļus nekad nesalīdzina ar <code>==</code> vai <code>!=</code> tieši. Salabo rindu <code>if kopa != 1:</code> uz šo, saglabā un palaid:</p>
-<pre><code class="language-python">    if round(kopa, 2) != 1:</code></pre>
-<p><code>round(kopa, 2)</code> noapaļo līdz diviem cipariem aiz komata: 0.9999999999999999 kļūst par 1.0. Tagad atkal parādās 2. uzdevuma reitings ar Lietotni C pirmajā vietā.</p>
+<p>Dīvaini: 0.3 + 0.2 + 0.2 + 0.2 + 0.1 ir tieši 1, bet pārbaude saka, ka nav. Kļūda ir pašā pārbaudē, ne svaros.</p>
 </li>
-<li><b>Padari cenu svarīgāku pareizi:</b> nomaini <code>"cena": 0.4</code> un <code>"funkcijas": 0.1</code> (summa atkal ir 1), saglabā un palaid. Terminālī jāparādās:
+<li><b>Salabo daļskaitļu salīdzināšanu:</b> dators daļskaitļus kā 0.1 un 0.2 glabā tikai aptuveni, tāpēc summa iznāk mazliet zem 1. Daļskaitļus tieši ar <code>==</code> vai <code>!=</code> nesalīdzina. Nomaini rindu <code>if kopa != 1:</code> uz šo, saglabā un palaid:
+<pre><code class="language-python">    if round(kopa, 2) != 1:</code></pre>
+<p><code>round(kopa, 2)</code> noapaļo līdz diviem cipariem aiz komata: 0.9999999999999999 kļūst par 1.0. Terminālī atkal jāparādās 2. uzdevuma reitingam:</p>
+<pre><code class="language-none">1. Lietotne C - 3.80 no 5
+2. Lietotne B - 3.50 no 5
+3. Lietotne A - 3.40 no 5</code></pre>
+</li>
+<li><b>Maini vienu svaru:</b> vārdnīcā <code>KRITERIJI</code> nomaini <code>"cena": 0.2</code> uz <code>"cena": 0.4</code>, saglabā un palaid. Terminālī jāparādās:
+<pre><code class="language-none">Dati nav pareizi:
+- svaru summa ir 1.2000000000000002, nevis 1</code></pre>
+<p>Bez pārbaudes programma tagad izdrukātu, ka uzvar B ar 4.50 "no 5", bet ar svaru summu 1.2 kopvērtējums var pārsniegt 5. Pārbaude to noķer.</p>
+</li>
+<li><b>Padari cenu svarīgāku pareizi:</b> lai summa atkal būtu 1, nomaini arī <code>"funkcijas": 0.3</code> uz <code>"funkcijas": 0.1</code>, saglabā un palaid. Terminālī jāparādās:
 <pre><code class="language-none">1. Lietotne B - 3.90 no 5
 2. Lietotne C - 3.60 no 5
 3. Lietotne A - 2.80 no 5</code></pre>
+<p>Uzvarētājs nomainījās no C uz B, jo B ir lētākā.</p>
 </li>
 <li><b>Pārbaudi nepareizu vērtējumu:</b> Lietotnei B nomaini <code>"privātums": 2</code> uz <code>"privātums": 22</code> (kā drukas kļūda), saglabā un palaid. Terminālī jāparādās:
 <pre><code class="language-none">Dati nav pareizi:
@@ -269,10 +302,10 @@ Divi dizaina soļi, ko veidotāji noteikti veica, un pierādījumi:</code></pre>
 <p class="done-when"><b>Gatavs, kad:</b> programma ar pareiziem datiem izdrukā reitingu, ar svaru summu 1.2 vai vērtējumu 22 - kļūdu, tajā ir tavas trīs lietotnes, un <code>README.md</code> zem tabulas ir trīs pabeigti teikumi.</p>
 <details class="course-help"><summary>Iestrēgi?</summary>
 <ul>
-<li><b>3. solis: <code>IndentationError: expected an indented block after 'else' statement</code></b> - rindas zem <code>else:</code> nav pārbīdītas. Iezīmē tās un nospied <code>Tab</code>. Atpakaļ pa kreisi tās pārbīda <code>Shift+Tab</code>.</li>
-<li><b>3. solis: reitings parādās arī tad, ja ir kļūdas.</b> Kāda reitinga rinda palikusi bez atkāpes, ārpus <code>else</code>. Visām rindām no <code>rezultati = []</code> līdz beigām jābūt ar 4 atstarpēm vairāk.</li>
-<li><b>3. solis: <code>NameError: name 'parbaudit' is not defined</code></b> - funkcija ir uzrakstīta zem rindas <code>kludas = parbaudit()</code>. Pārnes to augstāk.</li>
-<li><b>4. solis: joprojām <code>0.9999999999999999</code>.</b> Pārbaudi, vai rindā ir <code>round(kopa, 2)</code>, nevis <code>round(kopa)</code>. Bez otrā skaitļa <code>round</code> noapaļo līdz veselam skaitlim, un tad arī 1.2 kļūst par 1.</li>
+<li><b>2. solis: <code>IndentationError: expected an indented block after 'else' statement</code></b> - rindas zem <code>else:</code> nav pārbīdītas. Iezīmē tās un nospied <code>Tab</code>. Atpakaļ pa kreisi tās pārbīda <code>Shift+Tab</code>.</li>
+<li><b>2. solis: reitings parādās arī tad, ja ir kļūdas.</b> Kāda reitinga rinda palikusi bez atkāpes, ārpus <code>else</code>. Visām rindām no <code>rezultati = []</code> līdz beigām jābūt ar 4 atstarpēm vairāk.</li>
+<li><b>2. solis: <code>NameError: name 'parbaudit' is not defined</code></b> - funkcija ir uzrakstīta zem rindas <code>kludas = parbaudit()</code>. Pārnes to augstāk.</li>
+<li><b>3. solis: joprojām <code>0.9999999999999999</code>.</b> Pārbaudi, vai rindā ir <code>round(kopa, 2)</code>, nevis <code>round(kopa)</code>. Bez otrā skaitļa <code>round</code> noapaļo līdz veselam skaitlim, un tad arī 1.2 kļūst par 1.</li>
 <li><b>7. solis: <code>KeyError</code> ar tavu kritēriju.</b> Ja pievienoji jaunu kritēriju vārdnīcā <code>KRITERIJI</code>, tas jāpievieno arī katras lietotnes vērtējumiem.</li>
 <li><b>7. solis: nezini, kā izvēlēties svarus.</b> Sāc ar svarīgāko kritēriju tavam lietotājam (piemēram, 0.4), tad nākamo (0.3) un pārējiem sadali atlikušo. Pārbaude pateiks, ja summa nav 1.</li>
 </ul>

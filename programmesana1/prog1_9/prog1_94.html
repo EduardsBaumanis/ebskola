@@ -294,7 +294,47 @@ balts uz #0055aa: 7.29:1 - der (AA)</code></pre>
 </section><section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums - </p><h2>Pārbaudi kalkulatoru un salabo afišas krāsas</h2>
 <p>Beigās kalkulators būs pārbaudīts ar robežgadījumiem, sapratīs arī īso krāsas pierakstu, un koncerta tīmekļa lapā visi krāsu pāri sasniegs AA.</p>
-<p>Turpini failā <code>tema09/kontrasts_94.py</code> pēc 2. uzdevuma.</p>
+<p>Turpini failā <code>tema09/kontrasts_94.py</code>.</p>
+<details class="course-help"><summary>Tajā jau jābūt šim kodam (2. uzdevuma beigās)</summary>
+<pre><code class="language-python">def hex_uz_rgb(krasa):
+    krasa = krasa.lstrip("#")
+    return int(krasa[0:2], 16), int(krasa[2:4], 16), int(krasa[4:6], 16)
+
+
+def kanals(vertiba):
+    c = vertiba / 255
+    if c &lt;= 0.04045:
+        return c / 12.92
+    return ((c + 0.055) / 1.055) ** 2.4
+
+
+def gaisums(krasa):
+    r, g, b = hex_uz_rgb(krasa)
+    return 0.2126 * kanals(r) + 0.7152 * kanals(g) + 0.0722 * kanals(b)
+
+
+def kontrasts(krasa1, krasa2):
+    l1 = gaisums(krasa1)
+    l2 = gaisums(krasa2)
+    if l1 &lt; l2:
+        l1, l2 = l2, l1
+    return (l1 + 0.05) / (l2 + 0.05)
+
+
+def vertet(teksts, fons, liels=False):
+    k = kontrasts(teksts, fons)
+    robeza = 4.5
+    if liels:
+        robeza = 3
+    if k &gt;= robeza:
+        return f"{k:.2f}:1 - der (AA)"
+    return f"{k:.2f}:1 - nepietiek, vajag vismaz {robeza}:1"
+
+
+print("#777777 uz balta:", vertet("#777777", "#ffffff"))
+print("#767676 uz balta:", vertet("#767676", "#ffffff"))
+print("balts uz #0055aa:", vertet("#ffffff", "#0055aa"))</code></pre>
+</details>
 <ol class="step-list">
 <li><b>Pārbaudi robežas:</b> faila beigās pievieno šīs rindas, saglabā un palaid:
 <pre><code class="language-python">print("melns uz balta:", vertet("#000000", "#ffffff"))
@@ -306,12 +346,15 @@ balts uz melna: 21.00:1 - der (AA)
 vienāda krāsa: 1.00:1 - nepietiek, vajag vismaz 4.5:1</code></pre>
 <p>Lielākais iespējamais kontrasts ir 21, mazākais 1, un secība nav svarīga. Ja tev ir citi skaitļi, formulā ir kļūda.</p>
 </li>
-<li><b>Izmēģini īso pierakstu:</b> CSS krāsu <code>#ffffff</code> drīkst rakstīt arī kā <code>#fff</code>. Pievieno rindu <code>print("īss pieraksts:", vertet("#fff", "#000"))</code> un palaid. Programma apstājas:
+<li><b>Izmēģini īso pierakstu:</b> CSS krāsu <code>#ffffff</code> drīkst rakstīt arī kā <code>#fff</code>. Faila beigās pievieno rindu <code>print("īss pieraksts:", vertet("#fff", "#000"))</code>, saglabā un palaid. Programma apstājas, un pēdējā rinda terminālī ir:
 <pre><code class="language-none">ValueError: invalid literal for int() with base 16: ''</code></pre>
-<p>No <code>"fff"</code> daļa <code>[4:6]</code> ir tukša. Salabo: funkcijā <code>hex_uz_rgb</code> zem rindas <code>krasa = krasa.lstrip("#")</code> pievieno:</p>
+<p>No <code>"fff"</code> daļa <code>[4:6]</code> ir tukša, un tukšu tekstu nevar pārvērst skaitlī.</p>
+</li>
+<li><b>Salabo īso pierakstu:</b> funkcijā <code>hex_uz_rgb</code> zem rindas <code>krasa = krasa.lstrip("#")</code>, ar tādu pašu atkāpi, pievieno šīs rindas, saglabā un palaid:
 <pre><code class="language-python">    if len(krasa) == 3:
         krasa = krasa[0] * 2 + krasa[1] * 2 + krasa[2] * 2</code></pre>
-<p><code>"f" * 2</code> ir <code>"ff"</code>, tāpēc <code>"fff"</code> kļūst par <code>"ffffff"</code>. Palaid: pēdējā rindā jābūt <code>īss pieraksts: 21.00:1 - der (AA)</code>.</p>
+<p><code>"f" * 2</code> ir <code>"ff"</code>, tāpēc <code>"fff"</code> kļūst par <code>"ffffff"</code>. Pēdējā rindā terminālī jābūt:</p>
+<pre><code class="language-none">īss pieraksts: 21.00:1 - der (AA)</code></pre>
 </li>
 <li><b>Izveido koncerta lapu:</b> mapē <code>tema09</code> izveido failu <code>afisa_94.html</code>, ielīmē šo kodu un saglabā:
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
@@ -368,12 +411,12 @@ Tīmekļa lapas priekšrocība: ...; trūkums: ...</code></pre>
 <p class="done-when"><b>Gatavs, kad:</b> terminālī visi pieci afišas pāri saka <code>der (AA)</code>, rinda <code>īss pieraksts</code> rāda <code>21.00:1</code>, <code>afisa_94.html</code> ir tās pašas krāsas kā sarakstā <code>PARI</code>, un <code>README.md</code> zem <code>### 9.4</code> ir abi secinājumi.</p>
 <details class="course-help"><summary>Iestrēgi?</summary>
 <ul>
-<li><b>2. solis: joprojām <code>ValueError</code>.</b> Jaunās rindas ir virs <code>lstrip("#")</code> (tad garums ir 4, nevis 3) vai ar citu atkāpi. Tām jābūt tieši zem <code>lstrip</code> rindas, ar 4 atstarpēm.</li>
-<li><b>3. solis: pārlūkā redzams kods, nevis lapa.</b> Fails saucas <code>afisa_94.html.txt</code> vai tika atvērts teksta redaktorā. Pārdēvē to un atver ar dubultklikšķi vai velc failu pārlūka logā.</li>
-<li><b>3. solis: garumzīmes pārlūkā izskatās dīvaini.</b> Trūkst rindas <code>&lt;meta charset="utf-8"&gt;</code>.</li>
-<li><b>5. solis: nezini, kādu krāsu izvēlēties.</b> Šīs der: virsrakstam <code>#8a6600</code>, laika joslas fonam <code>#1f7a74</code>, pogas fonam <code>#5b5fb8</code>, piezīmei <code>#6b6b6b</code>. Vari izmēģināt arī savas: tumšāks teksts uz gaiša fona vai tumšāks fons zem balta teksta palielina kontrastu.</li>
-<li><b>5. solis: programma saka "der", bet lapa nemainījās.</b> Tu nomainīji krāsu tikai sarakstā <code>PARI</code>. Nomaini to arī <code>afisa_94.html</code> CSS, saglabā un pārlūkā nospied <code>F5</code>.</li>
-<li><b>6. solis: kas ir plakāta trūkums?</b> Apskati teorijas tabulu <b>Viena ziņa dažādos medijos</b> un padomā par šo konkrēto plakātu: piemēram, uz tā nav, kā pieteikties.</li>
+<li><b>3. solis: joprojām <code>ValueError</code>.</b> Jaunās rindas ir virs <code>lstrip("#")</code> (tad garums ir 4, nevis 3) vai ar citu atkāpi. Tām jābūt tieši zem <code>lstrip</code> rindas, ar 4 atstarpēm.</li>
+<li><b>4. solis: pārlūkā redzams kods, nevis lapa.</b> Fails saucas <code>afisa_94.html.txt</code> vai tika atvērts teksta redaktorā. Pārdēvē to un atver ar dubultklikšķi vai velc failu pārlūka logā.</li>
+<li><b>4. solis: garumzīmes pārlūkā izskatās dīvaini.</b> Trūkst rindas <code>&lt;meta charset="utf-8"&gt;</code>.</li>
+<li><b>6. solis: nezini, kādu krāsu izvēlēties.</b> Šīs der: virsrakstam <code>#8a6600</code>, laika joslas fonam <code>#1f7a74</code>, pogas fonam <code>#5b5fb8</code>, piezīmei <code>#6b6b6b</code>. Vari izmēģināt arī savas: tumšāks teksts uz gaiša fona vai tumšāks fons zem balta teksta palielina kontrastu.</li>
+<li><b>6. solis: programma saka "der", bet lapa nemainījās.</b> Tu nomainīji krāsu tikai sarakstā <code>PARI</code>. Nomaini to arī <code>afisa_94.html</code> CSS, saglabā un pārlūkā nospied <code>F5</code>.</li>
+<li><b>7. solis: kas ir plakāta trūkums?</b> Apskati teorijas tabulu <b>Viena ziņa dažādos medijos</b> un padomā par šo konkrēto plakātu: piemēram, uz tā nav, kā pieteikties.</li>
 </ul>
 </details>
 </section><details class="course-help extra-task">

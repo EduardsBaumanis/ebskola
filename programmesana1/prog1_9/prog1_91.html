@@ -240,7 +240,65 @@ Failu kārtotājs pēc gatava apraksta: Ūdenskritums (3 no 3)
 </section><section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums - </p><h2>Pārbaudi ieteicēju ar neērtiem projektiem</h2>
 <p>Beigās programma pamanīs drukas kļūdu ievadē un vienādu punktu skaitu, un tavā <code>README.md</code> būs paskaidrojums, kur programmas ieteikums ir apšaubāms.</p>
-<p>Turpini failā <code>tema09/modeli_91.py</code> pēc 2. uzdevuma.</p>
+<p>Turpini failā <code>tema09/modeli_91.py</code>.</p>
+<details class="course-help"><summary>Tajā jau jābūt šim kodam (2. uzdevuma beigās)</summary>
+<pre><code class="language-python"># Četri izstrādes modeļi un projekti, kuriem tie der vislabāk
+MODELI = {
+    "Ūdenskritums": {
+        "prasibas_mainas": False,
+        "risks": "zems",
+        "termins": "garš",
+        "kad": "prasības ir skaidras jau sākumā, un rezultātu gaida beigās",
+    },
+    "V-modelis": {
+        "prasibas_mainas": False,
+        "risks": "augsts",
+        "termins": "garš",
+        "kad": "kļūda ir dārga, tāpēc katram posmam ir savs testēšanas līmenis",
+    },
+    "Pakāpeniskā izstrāde": {
+        "prasibas_mainas": False,
+        "risks": "zems",
+        "termins": "īss",
+        "kad": "pirmo strādājošo daļu vajag drīz, pārējās nāk pēc kārtas",
+    },
+    "Iteratīvā izstrāde": {
+        "prasibas_mainas": True,
+        "risks": "zems",
+        "termins": "īss",
+        "kad": "prasības mainīsies, tāpēc visu produktu uzlabo vairākās kārtās",
+    },
+}
+
+
+def ieteikt(prasibas_mainas, risks, termins):
+    labakais = ""
+    labakie_punkti = -1
+    for nosaukums, ipasibas in MODELI.items():
+        punkti = 0
+        if ipasibas["prasibas_mainas"] == prasibas_mainas:
+            punkti += 1
+        if ipasibas["risks"] == risks:
+            punkti += 1
+        if ipasibas["termins"] == termins:
+            punkti += 1
+        if punkti &gt; labakie_punkti:
+            labakais = nosaukums
+            labakie_punkti = punkti
+    return labakais, labakie_punkti, MODELI[labakais]["kad"]
+
+
+PROJEKTI = [
+    ("Skolas ēdienkartes lietotne", True, "zems", "īss"),
+    ("Zāļu devu kalkulators slimnīcai", False, "augsts", "garš"),
+    ("Failu kārtotājs pēc gatava apraksta", False, "zems", "garš"),
+]
+
+for apraksts, mainas, risks, termins in PROJEKTI:
+    modelis, punkti, iemesls = ieteikt(mainas, risks, termins)
+    print(f"{apraksts}: {modelis} ({punkti} no 3)")
+    print(f"   Kāpēc: {iemesls}")</code></pre>
+</details>
 <ol class="step-list">
 <li><b>Pievieno trīs neērtus projektus:</b> sarakstā <code>PROJEKTI</code> zem pēdējā projekta pievieno šīs rindas, saglabā un palaid:
 <pre><code class="language-python">    ("Skolas robota vadības programma", True, "augsts", "garš"),
@@ -262,8 +320,22 @@ Zāļu devu kalkulators ar drukas kļūdu: Ūdenskritums (2 no 3)
 <pre><code class="language-none">Zāļu devu kalkulators ar drukas kļūdu: nav zināms (0 no 3)
    Kāpēc: nepareiza ievade: risks=Augsts, termins=garš</code></pre>
 </li>
-<li><b>Pamani vienādus punktus:</b> funkcijā izdari trīs izmaiņas: zem rindas <code>labakie_punkti = -1</code> pievieno <code>vienadi = []</code>, bloku <code>if punkti &gt; labakie_punkti:</code> papildini ar <code>elif</code>, un pirms <code>return</code> pievieno pārbaudi. Funkcijas beigām jāizskatās tā:
-<pre><code class="language-python">        if punkti &gt; labakie_punkti:
+<li><b>Pamani vienādus punktus:</b> izdzēs visu funkciju <code>ieteikt</code> (no rindas <code>def ieteikt</code> līdz tās pēdējai rindai <code>return</code>) un tās vietā ieraksti šo. Jaunās ir rindas ar <code>vienadi</code> un pēdējā <code>if</code>:
+<pre><code class="language-python">def ieteikt(prasibas_mainas, risks, termins):
+    if risks not in ["zems", "augsts"] or termins not in ["īss", "garš"]:
+        return "nav zināms", 0, f"nepareiza ievade: risks={risks}, termins={termins}"
+    labakais = ""
+    labakie_punkti = -1
+    vienadi = []
+    for nosaukums, ipasibas in MODELI.items():
+        punkti = 0
+        if ipasibas["prasibas_mainas"] == prasibas_mainas:
+            punkti += 1
+        if ipasibas["risks"] == risks:
+            punkti += 1
+        if ipasibas["termins"] == termins:
+            punkti += 1
+        if punkti &gt; labakie_punkti:
             labakais = nosaukums
             labakie_punkti = punkti
             vienadi = [nosaukums]
