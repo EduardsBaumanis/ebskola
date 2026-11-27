@@ -101,6 +101,18 @@
 </ol>
 <p>Ar trim lietotājiem skaitļi nav precīzi, bet jau tik maz cilvēku atrod lielākās problēmas. Ja vairākiem ir viena problēma, tā ir jālabo.</p>
 <p>Ja tavs modelis ir iteratīvs (9.1), šis projekts ir tā mazā versija: uzzīmē, pārbaudi, uzlabo, pārbaudi vēlreiz. Projekta beigās tu novērtēsi, vai izvēlētais modelis tiešām atbilda tam, kā darbs noritēja.</p>
+<h3>Projekts pa stundām</h3>
+<p>Projekts aizņem četras stundas. Katrā stundā izpildi vienu uzdevumu:</p>
+<div class="table-scroll" role="region" aria-label="Projekts pa stundām" tabindex="0"><table class="theory-table">
+<thead><tr><th>Stunda</th><th>Ko dari</th><th>Uzdevums</th></tr></thead>
+<tbody>
+<tr><td>1.</td><td>izvēlies modeli, uzzīmē variantus A un B, sagatavo to attēlus</td><td>1. uzdevums</td></tr>
+<tr><td>2.</td><td>uzraksti analīzes programmu, tad testē grupā (1. iterācija)</td><td>2. uzdevums</td></tr>
+<tr><td>3.</td><td>izvēlies variantu, uzlabo to, testē citā grupā (2. iterācija), atjaunini plānu</td><td>3. uzdevums</td></tr>
+<tr><td>4.</td><td>ieraksti balsi, samontē video un nodod projektu</td><td>4. uzdevums</td></tr>
+</tbody>
+</table></div>
+<p><b>Testēšana grupās.</b> 2. stundā klase sadalās grupās pa četri. Katrs pēc kārtas ir testa vadītājs, bet pārējie trīs ir viņa lietotāji, tāpēc katram ir trīs lietotāji. 3. stundā sadalieties citās grupās, lai 2. iterācijā tevi testē cilvēki, kas tavu prototipu vēl nav redzējuši.</p>
 </div>
 </section><section class="logic-box lesson-task" id="uzdevums-1">
 <p class="task-number">1. uzdevums - </p><h2>Izvēlies modeli un uzzīmē divus variantus</h2>
@@ -126,9 +138,10 @@
 <li><b>Uzzīmē variantu A:</b> uz A5 vai A4 lapas ar zīmuli uzzīmē lietotnes galveno ekrānu telefona izmērā. Uz atsevišķām lapām uzzīmē ekrānus, kas atveras pēc pogām, kas vajadzīgas abiem uzdevumiem. Uz katras lapas stūrī uzraksti <b>A</b>.</li>
 <li><b>Uzzīmē variantu B</b>, kas ir tiešām citāds, nevis tikai citā krāsā: cits izkārtojums, cita navigācija vai cits veids, kā parādīt galveno informāciju (piemēram, saraksts pret kalendāru). Uz katras lapas uzraksti <b>B</b>.</li>
 <li><b>Nofotografē un pārnes uz datoru:</b> ar telefonu nofotografē abu variantu galvenos ekrānus labā gaismā no augšas. Augšupielādē foto savā Google Drive, datorā tos lejupielādē un ieliec mapē <code>tema09/atteli_ievade</code> ar nosaukumiem <code>prototips_A.jpg</code> un <code>prototips_B.jpg</code>.</li>
-<li><b>Iemāci <code>atteli_95.py</code> pagriezt telefona foto.</b> Telefons pagriezienu saglabā failā kā atzīmi, un Pillow to pats neņem vērā, tāpēc vertikāls foto var izrādīties guļus. Failā <code>tema09/atteli_95.py</code> pirmajā rindā pievieno <code>ImageOps</code>, lai tā būtu:
+<li><b>Pievieno <code>ImageOps</code>:</b> telefons pagriezienu saglabā failā kā atzīmi, un Pillow to pats neņem vērā, tāpēc vertikāls foto var izrādīties guļus. Failā <code>tema09/atteli_95.py</code> pirmo rindu nomaini uz šo:
 <pre><code class="language-python">from PIL import Image, ImageDraw, ImageOps, UnidentifiedImageError</code></pre>
-<p>Funkcijā <code>apstradat</code> tieši virs rindas <code>platums, augstums = attels.size</code> pievieno:</p>
+</li>
+<li><b>Pagriez foto pirms apstrādes:</b> funkcijā <code>apstradat</code> tieši virs rindas <code>platums, augstums = attels.size</code> pievieno šo rindu (ar 4 atstarpēm) un saglabā:
 <pre><code class="language-python">    attels = ImageOps.exif_transpose(attels)</code></pre>
 <p><code>exif_transpose</code> pagriež attēlu tā, kā tas bija redzams telefonā.</p>
 </li>
@@ -152,16 +165,16 @@ prototips_B.jpg: 3000x4000, 2610 KB -&gt; prototips_B.webp: 800x1067, 55 KB</cod
 <li><b>3. solis: B sanāk līdzīgs A.</b> Pajautā sev: kur ir galvenā poga? Kā redzama informācija: saraksts, kartītes, kalendārs vai grafiks? Kas ir pirmajā ekrānā? Variantā B nomaini vismaz divas no šīm lietām.</li>
 <li><b>Gribi zīmēt datorā, nevis uz papīra.</b> To drīkst darīt ar jebkuru zīmēšanas vai prototipēšanas rīku, ko atļauj skola. Eksportē attēlus kā PNG un ieliec tos <code>atteli_ievade</code>.</li>
 <li><b>4. solis: nevari pārnest foto uz datoru.</b> Nosūti tos sev pa e-pastu vai pieslēdz telefonu ar vadu un nokopē no mapes <i>DCIM</i>.</li>
-<li><b>6. solis: <code>NameError: name 'ImageOps' is not defined</code></b> - 5. solī pirmajā rindā nav pievienots <code>ImageOps</code>.</li>
-<li><b>6. solis: attēls joprojām ir guļus.</b> Rinda <code>exif_transpose</code> ir zem <code>platums, augstums = …</code> vai pēc <code>resize</code>. Tai jābūt tieši aiz bloka <code>try</code>/<code>except</code>.</li>
-<li><b>7. solis: priekšskatījumā redzams tikai teksts <code>Variants A</code>.</b> Ceļā ir kļūda. <code>README.md</code> ir krātuves saknē, tāpēc ceļš sākas ar <code>tema09/</code>.</li>
+<li><b>7. solis: <code>NameError: name 'ImageOps' is not defined</code></b> - 5. solī pirmajā rindā nav pievienots <code>ImageOps</code>.</li>
+<li><b>7. solis: attēls joprojām ir guļus.</b> 6. soļa rinda <code>exif_transpose</code> ir zem <code>platums, augstums = …</code> vai pēc <code>resize</code>. Tai jābūt tieši aiz bloka <code>try</code>/<code>except</code>.</li>
+<li><b>8. solis: priekšskatījumā redzams tikai teksts <code>Variants A</code>.</b> Ceļā ir kļūda. <code>README.md</code> ir krātuves saknē, tāpēc ceļš sākas ar <code>tema09/</code>.</li>
 </ul>
 </details>
 </section><section class="logic-box lesson-task" id="uzdevums-2">
 <p class="task-number">2. uzdevums - </p><h2>Uzraksti analīzes programmu un veic 1. iterāciju</h2>
-<p>Beigās tava programma no testu faila izdrukās vidējo laiku katram variantam un uzdevumam un trīs biežākās problēmas, un tu būsi izvēlējies labāko variantu pēc saviem datiem.</p>
+<p>Beigās tava programma no testu faila izdrukās vidējo laiku katram variantam un uzdevumam un trīs biežākās problēmas, un failā būs tavi 1. iterācijas dati.</p>
 <ol class="step-list">
-<li><b>Izveido testu failu ar piemēra datiem:</b> mapē <code>tema09</code> izveido <code>tests_96.csv</code>, ielīmē šīs rindas un saglabā. Ar tām pārbaudīsi programmu; 7. solī tās aizstāsi ar saviem datiem.
+<li><b>Izveido testu failu ar piemēra datiem:</b> mapē <code>tema09</code> izveido <code>tests_96.csv</code>, ielīmē šīs rindas un saglabā. Ar tām pārbaudīsi programmu; 8. solī tās aizstāsi ar saviem datiem.
 <pre><code class="language-none">iteracija,variants,lietotajs,uzdevums,laiks_s,problema
 1,A,Jānis,pievienot,48,neatrada pogu Pievienot
 1,A,Jānis,atrast,20,
@@ -245,8 +258,74 @@ for iteracija in ["1"]:
   nesaprata datuma lauku - 2
   nav meklēšanas - 2</code></pre>
 </li>
-<li><b>Veic 1. iterāciju:</b> atrodi trīs lietotājus (klasesbiedrus no citas grupas vai ģimenes locekļus) un testē katru, kā teorijā aprakstīts: abi tavi uzdevumi abos variantos, pusei sāc ar B. Tad <code>tests_96.csv</code> izdzēs visas piemēra rindas (pirmo rindu ar kolonnu nosaukumiem atstāj) un ieraksti 12 savas rindas ar <code>iteracija</code> <code>1</code>. Saglabā un palaid programmu.</li>
-<li><b>Izvēlies variantu pēc datiem.</b> <code>README.md</code> zem attēliem pievieno šīs rindas, aizpildi tās ar saviem skaitļiem un saglabā:
+<li><b>Testē grupā (1. iterācija):</b> savā grupā (skat. teorijā <b>Testēšana grupās</b>) testē trīs lietotājus, kā teorijā aprakstīts: abi tavi uzdevumi abos variantos, pusei sāc ar B. Katru rezultātu pieraksti uz papīra: lietotājs, variants, uzdevums, sekundes un problēma.</li>
+<li><b>Ieraksti savus datus:</b> <code>tests_96.csv</code> izdzēs visas piemēra rindas (pirmo rindu ar kolonnu nosaukumiem atstāj) un ieraksti 12 savas rindas ar <code>iteracija</code> <code>1</code>. Saglabā un palaid <code>analize_96.py</code>: tagad tā izdrukā tavus skaitļus.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> ar piemēra datiem programma izdrukāja tieši 6. soļa problēmas, <code>tests_96.csv</code> ir tavas 12 rindas no trim lietotājiem, un programma tās nolasa bez kļūdām.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>3.–4. solis, vietas <code>___</code>:</b> <code>!= iteracija</code>, <code>r["laiks_s"]</code>, <code>len(saraksts)</code>, <code>x[1]</code> un <code>top[:3]</code>.</li>
+<li><b><code>ValueError: invalid literal for int() with base 10: '35s'</code></b> - kolonnā <code>laiks_s</code> ir burti. Ieraksti tikai skaitli sekundēs: <code>35</code>, nevis <code>35s</code> vai <code>0:35</code>.</li>
+<li><b><code>KeyError: 'laiks_s'</code></b> - pirmā CSV rinda ir izdzēsta vai pārrakstīta. Tai jābūt tieši <code>iteracija,variants,lietotajs,uzdevums,laiks_s,problema</code>.</li>
+<li><b>Programma neko neizdrukā zem vidējā laika.</b> Kolonnā <code>iteracija</code> ir kas cits, nevis <code>1</code>, piemēram, <code>1.</code> vai atstarpe. Programma salīdzina tekstu <code>"1"</code>.</li>
+<li><b>Problēmā ir komats, un rinda sabojājās.</b> Komats atdala kolonnas. Problēmu raksti bez komatiem.</li>
+<li><b>7. solis: lietotājs jautā, kas jādara.</b> Nolasi uzdevumu vēlreiz tieši tāpat, bet nepaskaidro, kur spiest. Ja tev gribas palīdzēt, tā ir problēma, kas jāpieraksta.</li>
+<li><b>8. solis: viens lietotājs izdarīja tikai vienā variantā.</b> Ieraksti tikai to, kas notika. Programma rāda, cik lietotāju ir katram vidējam laikam.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-3">
+<p class="task-number">3. uzdevums - </p><h2>Uzlabo variantu, veic 2. iterāciju un atjaunini plānu</h2>
+<p>Beigās tev būs izvēlēts un uzlabots variants, 2. iterācijas dati, salīdzinājums ar 1. iterāciju un atjaunināts darba plāns ar pamatojumu.</p>
+<p>Turpini failā <code>tema09/analize_96.py</code>. Failā <code>tema09/tests_96.csv</code> ir tavas 12 rindas no 2. uzdevuma 8. soļa.</p>
+<details class="course-help"><summary>Failā analize_96.py jau jābūt šim kodam (2. uzdevuma beigās)</summary>
+<pre><code class="language-python">import csv
+from pathlib import Path
+
+FAILS = Path(__file__).parent / "tests_96.csv"
+
+
+def nolasit():
+    with open(FAILS, encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
+def videjie_laiki(rindas, iteracija):
+    laiki = {}
+    for r in rindas:
+        if r["iteracija"] != iteracija:
+            continue
+        atslega = r["variants"] + ", " + r["uzdevums"]
+        if atslega not in laiki:
+            laiki[atslega] = []
+        laiki[atslega].append(int(r["laiks_s"]))
+    for atslega, saraksts in sorted(laiki.items()):
+        videjais = sum(saraksts) / len(saraksts)
+        print(f"  {atslega}: {videjais:.1f} s ({len(saraksts)} lietotāji)")
+
+
+def biezakas_problemas(rindas, iteracija):
+    skaits = {}
+    for r in rindas:
+        problema = r["problema"].strip().lower()
+        if r["iteracija"] != iteracija or problema == "":
+            continue
+        if problema not in skaits:
+            skaits[problema] = 0
+        skaits[problema] += 1
+    top = sorted(skaits.items(), key=lambda x: x[1], reverse=True)
+    for problema, cik in top[:3]:
+        print(f"  {problema} - {cik}")
+
+
+rindas = nolasit()
+for iteracija in ["1"]:
+    print(f"{iteracija}. iterācija, vidējais laiks:")
+    videjie_laiki(rindas, iteracija)
+    print(f"{iteracija}. iterācija, biežākās problēmas:")
+    biezakas_problemas(rindas, iteracija)</code></pre>
+</details>
+<ol class="step-list">
+<li><b>Izvēlies variantu pēc datiem.</b> <code>README.md</code> zem attēliem pievieno šīs rindas, aizpildi tās ar saviem skaitļiem no <code>analize_96.py</code> un saglabā:
 <pre><code class="language-none">#### 1. iterācija
 
 | Variants | 1. uzdevums, s | 2. uzdevums, s | Biežākā problēma |
@@ -256,31 +335,13 @@ for iteracija in ["1"]:
 
 Izvēlos variantu ..., jo (skaitļi). No otra varianta paņemšu ..., jo</code></pre>
 </li>
-</ol>
-<p class="done-when"><b>Gatavs, kad:</b> ar piemēra datiem programma izdrukā tieši 6. soļa problēmas, <code>tests_96.csv</code> ir tavas 12 rindas no trim lietotājiem, programma tās nolasa bez kļūdām, un <code>README.md</code> ir 1. iterācijas tabula un izvēle ar skaitļiem.</p>
-<details class="course-help"><summary>Iestrēgi?</summary>
-<ul>
-<li><b>3.–4. solis, vietas <code>___</code>:</b> <code>!= iteracija</code>, <code>r["laiks_s"]</code>, <code>len(saraksts)</code>, <code>x[1]</code> un <code>top[:3]</code>.</li>
-<li><b><code>ValueError: invalid literal for int() with base 10: '35s'</code></b> - kolonnā <code>laiks_s</code> ir burti. Ieraksti tikai skaitli sekundēs: <code>35</code>, nevis <code>35s</code> vai <code>0:35</code>.</li>
-<li><b><code>KeyError: 'laiks_s'</code></b> - pirmā CSV rinda ir izdzēsta vai pārrakstīta. Tai jābūt tieši <code>iteracija,variants,lietotajs,uzdevums,laiks_s,problema</code>.</li>
-<li><b>Programma neko neizdrukā zem vidējā laika.</b> Kolonnā <code>iteracija</code> ir kas cits, nevis <code>1</code>, piemēram, <code>1.</code> vai atstarpe. Programma salīdzina tekstu <code>"1"</code>.</li>
-<li><b>Problēmā ir komats, un rinda sabojājās.</b> Komats atdala kolonnas. Problēmu raksti bez komatiem.</li>
-<li><b>7. solis: lietotājs jautā, kas jādara.</b> Nolasi uzdevumu vēlreiz tieši tāpat, bet nepaskaidro, kur spiest. Ja tev gribas palīdzēt, tā ir problēma, kas jāpieraksta.</li>
-<li><b>7. solis: viens lietotājs izdarīja tikai vienā variantā.</b> Ieraksti tikai to, kas notika. Programma rāda, cik lietotāju ir katram vidējam laikam.</li>
-</ul>
-</details>
-</section><section class="logic-box lesson-task" id="uzdevums-3">
-<p class="task-number">3. uzdevums - </p><h2>Uzlabo variantu, veic 2. iterāciju un atjaunini plānu</h2>
-<p>Beigās tev būs uzlabots variants, 2. iterācijas dati, salīdzinājums ar 1. iterāciju, atjaunināts darba plāns ar pamatojumu un 60 sekunžu video.</p>
-<p>Turpini failos <code>tema09/analize_96.py</code> un <code>tema09/tests_96.csv</code> pēc 2. uzdevuma.</p>
-<ol class="step-list">
 <li><b>Uzlabo izvēlēto variantu:</b> uzzīmē to no jauna ar izmaiņām, kas novērš biežākās problēmas no 1. iterācijas, un uz lapām uzraksti, piemēram, <b>B2</b>. <code>README.md</code> pievieno sarakstu, kurā katrai izmaiņai ir problēma vai skaitlis, kas to pamato:
 <pre><code class="language-none">#### Izmaiņas variantā ...2
 
 - ... , jo 1. iterācijā ...</code></pre>
 </li>
-<li><b>Sagatavo attēlu:</b> nofotografē jauno variantu, ieliec <code>tema09/atteli_ievade/prototips_B2.jpg</code> (vai <code>A2</code>), palaid <code>atteli_95.py</code> un pievieno attēlu <code>README.md</code> tāpat kā 1. uzdevuma 7. solī.</li>
-<li><b>Veic 2. iterāciju:</b> testē trīs lietotājus ar tiem pašiem diviem uzdevumiem tikai jaunajā variantā. Labāk ņem citus cilvēkus nekā 1. iterācijā, jo tie jau zina uzdevumus. <code>tests_96.csv</code> beigās pievieno sešas rindas ar <code>iteracija</code> <code>2</code> un variantu <code>B2</code> (vai <code>A2</code>).</li>
+<li><b>Sagatavo attēlu:</b> nofotografē jauno variantu, ieliec <code>tema09/atteli_ievade/prototips_B2.jpg</code> (vai <code>A2</code>), palaid <code>atteli_95.py</code> un pievieno attēlu <code>README.md</code> tāpat kā 1. uzdevuma 8. solī.</li>
+<li><b>Veic 2. iterāciju:</b> citā grupā (skat. teorijā <b>Testēšana grupās</b>) testē trīs lietotājus ar tiem pašiem diviem uzdevumiem tikai jaunajā variantā. <code>tests_96.csv</code> beigās pievieno sešas rindas ar <code>iteracija</code> <code>2</code> un variantu <code>B2</code> (vai <code>A2</code>).</li>
 <li><b>Salīdzini iterācijas:</b> programmas beigās nomaini <code>for iteracija in ["1"]:</code> uz <code>for iteracija in ["1", "2"]:</code>, saglabā un palaid. Ar piemēra datiem 2. iterācijas daļa izskatītos tā (tavi skaitļi būs citi):
 <pre><code class="language-none">2. iterācija, vidējais laiks:
   B2, atrast: 16.0 s (3 lietotāji)
@@ -309,17 +370,48 @@ Kas mainījās plānā un kāpēc: ...</code></pre>
 <li><b>Novērtē modeli:</b> zem plāna pabeidz teikumu par to, vai 1. uzdevumā izvēlētais modelis atbilda tam, kā darbs noritēja:
 <pre><code class="language-none">Izvēlējos modeli ..., un darbs noritēja (tāpat / citādi), jo ...</code></pre>
 </li>
-<li><b>Izveido video:</b> Clipchamp, kā <a href="/programmesana1/prog1_9/prog1_95">9.5 stundā</a>, samontē 45–75 sekunžu video no saviem trim WebP attēliem un <code>analize_96.py</code> izdrukas ekrānuzņēmuma. Ieraksti balsi: kāda ir lietotne, kurš variants uzvarēja un kāpēc, ko mainīji un kā mainījās skaitļi. Eksportē 720p, augšupielādē Google Drive, koplieto ar skolu kā <b>Viewer</b> un saiti ieliec <code>README.md</code> rindā <code>Video: …</code>.</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> programma izdrukā abas iterācijas no taviem datiem, <code>README.md</code> ir trīs prototipu attēli, abu iterāciju tabulas, izmaiņas ar pamatojumu, atjaunināts plāns, modeļa novērtējums un video saite, ko klasesbiedrs var atvērt.</p>
+<p class="done-when"><b>Gatavs, kad:</b> programma izdrukā abas iterācijas no taviem datiem, un <code>README.md</code> ir trīs prototipu attēli, abu iterāciju tabulas ar izvēli, izmaiņas ar pamatojumu, atjaunināts plāns un modeļa novērtējums.</p>
 <details class="course-help"><summary>Iestrēgi?</summary>
 <ul>
-<li><b>1. solis: nezini, ko mainīt.</b> Sāc ar problēmu, kas bija visbiežāk, un ar uzdevumu, kur izvēlētais variants bija lēnāks par otru. Bieži labākais risinājums ir paņemt to daļu no otra varianta, kas tur strādāja labāk.</li>
-<li><b>3. solis: nav citu lietotāju.</b> Var testēt tos pašus, bet pieraksti to <code>README.md</code>: viņi jau zināja uzdevumus, tāpēc ātrāks laiks var nebūt tikai tava uzlabojuma nopelns.</li>
-<li><b>4. solis: 2. iterācijai nekas neparādās.</b> Jaunajās rindās kolonnā <code>iteracija</code> nav tieši <code>2</code>, vai cikla sarakstā ir <code>[“1”, “2”]</code> ar slīpajām pēdiņām no Word. Pārraksti pēdiņas VS Code.</li>
-<li><b>5. solis: jaunais variants nav ātrāks.</b> Tas ir labs rezultāts, ja to pamato: pieraksti, ko tas nozīmē, un ieplāno, ko mainīt 3. iterācijā. Testi ir tieši tam, lai to uzzinātu, pirms raksta kodu.</li>
-<li><b>6. solis: plāns nemainījās.</b> Padomā, kas notiks tālāk: vai vajag vēl vienu iterāciju kādai problēmai? Vai kāds uzdevums jāpārdomā? Pat "3. iterācijā labot datuma lauku" ir izmaiņa ar pamatojumu.</li>
-<li><b>8. solis: Clipchamp nav pieejams.</b> Rīkojies kā 9.5 stundas "Iestrēgi?" sadaļā un pieraksti to <code>README.md</code>.</li>
+<li><b>1. solis: abi varianti bija līdzīgi ātri.</b> Izvēlies to, kuram bija mazāk problēmu, un pieraksti, ka laiki bija līdzīgi.</li>
+<li><b>2. solis: nezini, ko mainīt.</b> Sāc ar problēmu, kas bija visbiežāk, un ar uzdevumu, kur izvēlētais variants bija lēnāks par otru. Bieži labākais risinājums ir paņemt to daļu no otra varianta, kas tur strādāja labāk.</li>
+<li><b>4. solis: nav citu lietotāju.</b> Var testēt tos pašus, bet pieraksti to <code>README.md</code>: viņi jau zināja uzdevumus, tāpēc ātrāks laiks var nebūt tikai tava uzlabojuma nopelns.</li>
+<li><b>5. solis: 2. iterācijai nekas neparādās.</b> Jaunajās rindās kolonnā <code>iteracija</code> nav tieši <code>2</code>, vai cikla sarakstā ir <code>[“1”, “2”]</code> ar slīpajām pēdiņām no Word. Pārraksti pēdiņas VS Code.</li>
+<li><b>6. solis: jaunais variants nav ātrāks.</b> Tas ir labs rezultāts, ja to pamato: pieraksti, ko tas nozīmē, un ieplāno, ko mainīt 3. iterācijā. Testi ir tieši tam, lai to uzzinātu, pirms raksta kodu.</li>
+<li><b>7. solis: plāns nemainījās.</b> Padomā, kas notiks tālāk: vai vajag vēl vienu iterāciju kādai problēmai? Vai kāds uzdevums jāpārdomā? Pat "3. iterācijā labot datuma lauku" ir izmaiņa ar pamatojumu.</li>
+</ul>
+</details>
+</section><section class="logic-box lesson-task" id="uzdevums-4">
+<p class="task-number">4. uzdevums - </p><h2>Ieraksti balsi un samontē video</h2>
+<p>Beigās tev būs 45–75 sekunžu video: trīs prototipu attēli ar tavu balsi, kas pastāsta, kas mainījās un kāpēc.</p>
+<ol class="step-list">
+<li><b>Uzraksti video tekstu:</b> <code>README.md</code> zem modeļa novērtējuma pievieno šīs rindas, aizpildi tās ar saviem skaitļiem un saglabā:
+<pre><code class="language-none">#### Video teksts
+
+Mana lietotne ir ..., un tā palīdz ...
+Es uzzīmēju divus variantus: A ... un B ...
+1. iterācijā uzvarēja variants ..., jo (skaitļi).
+Variantā ...2 es mainīju ..., un (skaitlis) mainījās no ... uz ...
+Tālāk es plānoju ...</code></pre>
+</li>
+<li><b>Ieraksti balsi:</b> atver <b>Audacity</b>, nospied sarkano pogu <b>Record</b>, lēnām nolasi savu tekstu un nospied melno kvadrātu <b>Stop</b>.</li>
+<li><b>Nogriez klusumu:</b> ar peli iezīmē klusumu pirms pirmā vārda un nospied <code>Delete</code>. Tāpat izdzēs klusumu pēc pēdējā vārda.</li>
+<li><b>Normalizē skaļumu:</b> nospied <code>Ctrl+A</code>, izvēlies <b>Effect → Volume and Compression → Normalize…</b>, atstāj <i>-1.0 dB</i> un nospied <b>Apply</b>. Klusa balss kļūst skaidri dzirdama, bet nekrakšķ (9.5 stundas teorija).</li>
+<li><b>Saglabā MP3:</b> izvēlies <b>File → Export Audio…</b>, formātā izvēlies <b>MP3</b> un saglabā failu kā <code>tema09/balss_96.mp3</code>.</li>
+<li><b>Pievieno failus Clipchamp:</b> atver <b>Clipchamp</b> (Windows izvēlnē Sākt ieraksti <i>Clipchamp</i>), izvēlies <b>Create a new video</b>, nospied <b>Import media</b> un izvēlies trīs prototipu <code>.webp</code> failus no <code>tema09/atteli_gatavi</code> un <code>balss_96.mp3</code>.</li>
+<li><b>Saliec laika joslā:</b> ievelc attēlus laika joslā secībā A, B, B2, bet balsi zem tiem. Velc katra attēla labo malu, līdz attēli kopā ir tikpat gari kā balss.</li>
+<li><b>Eksportē video:</b> augšā labajā stūrī nospied <b>Export</b> un izvēlies <b>720p</b>. MP4 fails saglabājas datorā; krātuvē tas nenonāks, jo 9.5 stundā <code>.gitignore</code> pievienoji <code>*.mp4</code>.</li>
+</ol>
+<p class="done-when"><b>Gatavs, kad:</b> mapē <code>tema09</code> ir <code>balss_96.mp3</code>, un datorā ir 45–75 sekunžu MP4 video, kurā mainās trīs attēli un dzirdama tava balss.</p>
+<details class="course-help"><summary>Iestrēgi?</summary>
+<ul>
+<li><b>2. solis: datorā nav Audacity.</b> Pajautā skolotājam, vai to drīkst uzstādīt no <a href="https://www.audacityteam.org" target="_blank" rel="noopener">audacityteam.org</a>. Ja nē, ieraksti balsi ar Windows <b>Skaņas ierakstītāju</b> (<i>Sound Recorder</i>), izlaid 3.–4. soli un <code>README.md</code> pieraksti, ka normalizēt nevarēji.</li>
+<li><b>2. solis: ierakstā nav skaņas.</b> Audacity rīkjoslā pie mikrofona ikonas izvēlies pareizo mikrofonu un ieraksti vēlreiz.</li>
+<li><b>4.–5. solis: izvēlnē nav <b>Volume and Compression</b> vai <b>Export Audio…</b>.</b> Vecākā Audacity versijā <b>Normalize…</b> ir tieši izvēlnē <b>Effect</b>, bet eksports ir <b>File → Export → Export as MP3</b>.</li>
+<li><b>6. solis: Clipchamp prasa pieteikties.</b> Piesakies ar skolas Microsoft kontu, ja tāds ir, vai pajautā skolotājam. Ja Clipchamp nav pieejams, iesniedz <code>balss_96.mp3</code> un attēlus bez video un <code>README.md</code> to pieraksti.</li>
+<li><b>7. solis: video ir garāks vai īsāks par balsi.</b> Velc pēdējā attēla labo malu, līdz tā beigas sakrīt ar balss beigām.</li>
+<li><b>Video sanāk garāks par 75 sekundēm.</b> Saīsini tekstu 1. solī un ieraksti balsi vēlreiz.</li>
 </ul>
 </details>
 </section><details class="course-help extra-task">
@@ -364,7 +456,7 @@ for uzdevums in ["pievienot", "atrast"]:
 </thead>
 <tbody>
 <tr>
-<td><b>Varianti</b> (1. uzdevums, 2.–7. solis)</td>
+<td><b>Varianti</b> (1. uzdevums, 2.–8. solis)</td>
 <td>Ir viens variants vai divi gandrīz vienādi.</td>
 <td>Divi varianti, bet atšķiras tikai krāsā vai sīkumos.</td>
 <td>Divi tiešām atšķirīgi varianti, sagatavoti ar <code>atteli_95.py</code> un redzami <code>README.md</code>.</td>
@@ -378,25 +470,25 @@ for uzdevums in ["pievienot", "atrast"]:
 <td>Programma arī salīdzina variantus procentos (papildu uzdevums) vai pārbauda datus pirms aprēķina.</td>
 </tr>
 <tr>
-<td><b>Izmaiņas no datiem</b> (3. uzdevums, 1.–5. solis)</td>
+<td><b>Izmaiņas no datiem</b> (3. uzdevums, 1.–6. solis)</td>
 <td>Variants nav uzlabots vai 2. iterācijas nav.</td>
 <td>Izmaiņas ir, bet nav saistītas ar 1. iterācijas datiem.</td>
 <td>Katrai izmaiņai ir problēma vai skaitlis no 1. iterācijas, un 2. iterācija rāda tās ietekmi.</td>
 <td>Atzīts arī tas, kas neizdevās, un paskaidrots, kāpēc skaitļi var maldināt (maz lietotāju, tie paši cilvēki).</td>
 </tr>
 <tr>
-<td><b>Plāns un modelis</b> (1. uzdevums, 1. solis; 3. uzdevums, 6.–7. solis)</td>
+<td><b>Plāns un modelis</b> (1. uzdevums, 1. solis; 3. uzdevums, 7.–8. solis)</td>
 <td>Plāna vai modeļa nav.</td>
 <td>Ir tikai sākotnējais plāns, vai modelis nosaukts bez pamatojuma.</td>
 <td>Atjaunināts plāns ar pamatojumu no datiem, un modeļa izvēle salīdzināta ar to, kā darbs noritēja.</td>
 <td>Paskaidrots, kurš cits 9.1 modelis derētu un kad.</td>
 </tr>
 <tr>
-<td><b>Video</b> (3. uzdevums, 8. solis)</td>
+<td><b>Video</b> (4. uzdevums)</td>
 <td>Video nav vai saite neatveras.</td>
 <td>Video ir, bet bez balss vai bez skaitļiem.</td>
-<td>45–75 sekundes, ar balsi, rāda variantus un 1. un 2. iterācijas skaitļus; saiti var atvērt ar skolas kontu.</td>
-<td>Video ir arī virsraksti vai paraksti uz ekrāna, un balss ir normalizēta.</td>
+<td>45–75 sekundes, ar normalizētu balsi; rāda trīs variantus, un balss nosauc 1. un 2. iterācijas skaitļus; saiti var atvērt ar skolas kontu.</td>
+<td>Video ir arī teksts uz ekrāna ar galvenajiem skaitļiem.</td>
 </tr>
 </tbody>
 </table></div>
@@ -409,18 +501,19 @@ for uzdevums in ["pievienot", "atrast"]:
 <li>[ ] <code>analize_96.py</code> palaižas bez kļūdām un izdrukā abas iterācijas.</li>
 <li>[ ] Katrai izmaiņai variantā ir pamatojums ar problēmu vai skaitli.</li>
 <li>[ ] Mapē <code>tema09/atteli_gatavi</code> ir <code>prototips_A.webp</code>, <code>prototips_B.webp</code> un uzlabotā varianta attēls, un neviens nav guļus.</li>
-<li>[ ] Video saite atveras klasesbiedram ar skolas kontu, un MP4 fails nav krātuvē.</li>
+<li>[ ] Mapē <code>tema09</code> ir <code>balss_96.mp3</code>, video saite atveras klasesbiedram ar skolas kontu, un MP4 fails nav krātuvē.</li>
 </ul>
 </div>
 </section><section class="lesson-wrapup" id="stundas-beigas">
 <h2>Stundas beigās</h2>
 <ol class="step-list">
+<li><b>Augšupielādē video:</b> augšupielādē MP4 failu savā Google Drive, koplieto to ar savu skolu kā <b>Viewer</b>, kā <a href="/programmesana1/prog1_7/prog1_72">7.2 stundā</a>, un saiti ieliec <code>README.md</code> zem video teksta rindā <code>Video: …</code>. Ja fails ir pārāk liels, eksportē to vēlreiz ar <b>480p</b>.</li>
 <li><b>Saglabā visus failus:</b> VS Code izvēlies <b>File → Save All</b>.</li>
-<li><b>Apskati izmaiņas:</b> pārslēdzies uz GitHub Desktop. Zem <b>Changes</b> jābūt <code>tema09/analize_96.py</code>, <code>tema09/tests_96.csv</code>, <code>tema09/atteli_95.py</code>, prototipu <code>.webp</code> failiem un <code>README.md</code>, bet ne <code>.jpg</code> foto no <code>atteli_ievade</code>.</li>
-<li><b>Apraksti un fiksē:</b> laukā <b>Summary</b> (kopsavilkums) ieraksti <code>Pievieno 9.6 prototipu, testu datus un analīzi</code> un nospied <b>Commit to main</b>.</li>
+<li><b>Apskati izmaiņas:</b> pārslēdzies uz GitHub Desktop. Zem <b>Changes</b> jābūt <code>tema09/analize_96.py</code>, <code>tema09/tests_96.csv</code>, <code>tema09/atteli_95.py</code>, <code>tema09/balss_96.mp3</code>, prototipu <code>.webp</code> failiem un <code>README.md</code>, bet ne <code>.jpg</code> foto no <code>atteli_ievade</code> un ne MP4 video.</li>
+<li><b>Apraksti un fiksē:</b> laukā <b>Summary</b> (kopsavilkums) ieraksti <code>Pievieno 9.6 prototipu, testu datus, analīzi un video saiti</code> un nospied <b>Commit to main</b>.</li>
 <li><b>Nosūti:</b> nospied <b>Push origin</b> (nosūtīt uz GitHub).</li>
 </ol>
-<p class="done-when"><b>Gatavs, kad:</b> GitHub vietnē atverot <code>README.md</code>, sadaļā <b>9.6</b> redzami visi trīs prototipu attēli.</p>
+<p class="done-when"><b>Gatavs, kad:</b> GitHub vietnē atverot <code>README.md</code>, sadaļā <b>9.6</b> redzami visi trīs prototipu attēli un video saite.</p>
 </section><section>
 <details class="course-help"><summary>Parādīt pilnu risinājumu</summary>
 <p>Fails <code>tema09/analize_96.py</code> pēc 3. uzdevuma:</p>
@@ -547,6 +640,14 @@ Izmaiņas palīdzēja: atrast kļuva vairāk nekā divreiz ātrāk (34.3 s -> 16
 Kas mainījās plānā un kāpēc: pievienoju 3. iterāciju, jo datuma lauks joprojām radīja problēmu, un palielināju lietotāju skaitu, jo ar 3 lietotājiem viens lēns cilvēks stipri maina vidējo laiku.
 
 Izvēlējos modeli iteratīvā izstrāde, un darbs noritēja tāpat, jo katra testa kārta parādīja jaunu problēmu, un plānu nevarēju uzrakstīt līdz galam jau sākumā.
+
+#### Video teksts
+
+Mana lietotne ir mājasdarbu atgādinātājs, un tā palīdz neaizmirst termiņus.
+Es uzzīmēju divus variantus: A ar sarakstu un pogu apakšā un B ar kalendāru un pogu "+" augšā.
+1. iterācijā uzvarēja variants B, jo pievienot mājasdarbu tajā bija divreiz ātrāk: 23.7 sekundes pret 48.
+Variantā B2 es pievienoju meklēšanu, un atrast kļuva vairāk nekā divreiz ātrāk: no 34.3 uz 16 sekundēm.
+Tālāk es plānoju vēl vienu iterāciju datuma laukam, un tad sākšu programmēt.
 
 Video: https://drive.google.com/file/d/.../view</code></pre>
 </details>

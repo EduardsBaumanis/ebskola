@@ -206,7 +206,39 @@ for nr, (prasme, cik) in enumerate(top[:___], start=1):
 </section><section class="logic-box lesson-task" id="uzdevums-3">
 <p class="task-number">3. uzdevums - </p><h2>Apvieno vienas prasmes dažādās rakstības</h2>
 <p>Beigās programma "Python", "python", "Python 3" un "English" saskaitīs pareizi, tu būsi pievienojis piecus īstus sludinājumus, un <code>README.md</code> būs tavas pārdomas par savu nākotnes lomu.</p>
-<p>Turpini failos <code>tema09/prasmes_92.py</code> un <code>tema09/sludinajumi_92.csv</code> pēc 2. uzdevuma.</p>
+<p>Turpini failā <code>tema09/prasmes_92.py</code>. Fails <code>tema09/sludinajumi_92.csv</code> ir tāds pats kā 2. uzdevuma 1. solī.</p>
+<details class="course-help"><summary>Failā prasmes_92.py jau jābūt šim kodam (2. uzdevuma beigās)</summary>
+<pre><code class="language-python">import csv
+from pathlib import Path
+
+FAILS = Path(__file__).parent / "sludinajumi_92.csv"
+
+
+def nolasit_prasmes():
+    prasmes = []
+    with open(FAILS, encoding="utf-8") as f:
+        for rinda in csv.DictReader(f):
+            for prasme in rinda["prasmes"].split(";"):
+                prasmes.append(prasme)
+    return prasmes
+
+
+def saskaitit(prasmes):
+    skaits = {}
+    for prasme in prasmes:
+        if prasme not in skaits:
+            skaits[prasme] = 0
+        skaits[prasme] += 1
+    return skaits
+
+
+prasmes = nolasit_prasmes()
+skaits = saskaitit(prasmes)
+print(f"Prasmes sludinājumos: {len(prasmes)}, dažādas: {len(skaits)}")
+top = sorted(skaits.items(), key=lambda x: x[1], reverse=True)
+for nr, (prasme, cik) in enumerate(top[:10], start=1):
+    print(f"{nr}. {prasme} - {cik}")</code></pre>
+</details>
 <ol class="step-list">
 <li><b>Apskati visus nosaukumus:</b> faila beigās uz brīdi pievieno rindu <code>print(sorted(skaits))</code> un palaid. Pēdējā rindā ir visas prasmes alfabēta secībā:
 <pre><code class="language-none">['', ' Python ', 'CSS', 'Docker', 'English', 'Excel', 'Figma', 'Git', 'HTML', 'JS', 'JavaScript', 'Jira', 'Linux', 'Power BI', 'Python', 'Python 3', 'REST API', 'React', 'SQL', 'angļu valoda', 'git', 'komandas darbs', 'lietotāju izpēte', 'mākonis', 'python', 'testēšana']</code></pre>
@@ -239,14 +271,27 @@ for nr, (prasme, cik) in enumerate(top[:___], start=1):
 10. power bi - 1</code></pre>
 <p>Python ir 5, kā saskaitīji ar aci, un Git ir 4 + 1 = 5. Prasmju kopā ir par vienu mazāk (38), jo tukšā prasme vairs netiek skaitīta.</p>
 </li>
-<li><b>Apvieno sinonīmus:</b> <code>English</code> un <code>angļu valoda</code> ir tas pats, bet ar <code>lower()</code> to nesalabo. Zem rindas <code>FAILS = …</code> pievieno vārdnīcu:
+<li><b>Pievieno sinonīmu vārdnīcu:</b> <code>English</code> un <code>angļu valoda</code> ir tas pats, bet ar <code>lower()</code> to nesalabo. Zem rindas <code>FAILS = …</code> pievieno šīs rindas un saglabā:
 <pre><code class="language-python">SINONIMI = {
     "english": "angļu valoda",
     "js": "javascript",
 }</code></pre>
-<p>Funkcijā <code>normalizet</code> nomaini pēdējo rindu <code>return prasme</code> uz šo, saglabā un palaid:</p>
+</li>
+<li><b>Izmanto vārdnīcu funkcijā:</b> funkcijā <code>normalizet</code> nomaini pēdējo rindu <code>return prasme</code> uz šo, saglabā un palaid:
 <pre><code class="language-python">    return SINONIMI.get(prasme, prasme)</code></pre>
-<p><code>get</code> atgriež sinonīma vērtību, bet, ja prasmes vārdnīcā nav, paliek pati prasme (7.1 stunda). Tagad <code>4. angļu valoda - 4</code> un <code>7. javascript - 2</code>, bet <code>dažādas: 19</code>.</p>
+<p><code>get</code> atgriež sinonīma vērtību, bet, ja prasmes vārdnīcā nav, paliek pati prasme (7.1 stunda). Terminālī jāparādās:</p>
+<pre><code class="language-none">Prasmes sludinājumos: 38, dažādas: 19
+1. python - 5
+2. git - 5
+3. sql - 4
+4. angļu valoda - 4
+5. komandas darbs - 3
+6. linux - 2
+7. javascript - 2
+8. docker - 2
+9. excel - 1
+10. power bi - 1</code></pre>
+<p>Tagad <code>angļu valoda</code> ir 4 un <code>javascript</code> ir 2.</p>
 </li>
 <li><b>Pārbaudi funkciju tieši:</b> faila beigās uz brīdi pievieno rindu, palaid un tad to izdzēs:
 <pre><code class="language-python">print(normalizet("  PYTHON 3 "), normalizet("JS"), normalizet("Git"))</code></pre>
@@ -268,10 +313,10 @@ Nākamā prasme, ko gribu apgūt: ..., jo</code></pre>
 <ul>
 <li><b>3. solis: <code>NameError: name 'normalizet' is not defined</code></b> - funkcija ir uzrakstīta zem rindas <code>prasmes = nolasit_prasmes()</code>. Tai jābūt virs funkcijas <code>nolasit_prasmes</code>.</li>
 <li><b>3. solis: joprojām <code>Python - 2</code>.</b> Rinda <code>prasme = normalizet(prasme)</code> ir zem <code>prasmes.append(prasme)</code>, nevis virs tās, tāpēc sarakstā nonāk vecā rakstība.</li>
-<li><b>4. solis: <code>English</code> joprojām atsevišķi.</b> Vārdnīcā atslēgai jābūt ar mazajiem burtiem <code>"english"</code>, jo <code>get</code> notiek pēc <code>lower()</code>.</li>
-<li><b>6. solis: tavai prasmei pazuda daļa.</b> Prasmēs vai lomā ir komats, tāpēc CSV tās sadala vairākās kolonnās. Komatus aizstāj ar <code>;</code> vai izdzēs.</li>
-<li><b>6. solis: sludinājumā prasības ir garos teikumos.</b> Ieraksti tikai prasmes nosaukumu: no <i>"Pieredze darbā ar SQL datubāzēm"</i> ieraksti <code>SQL</code>.</li>
-<li><b>6. solis: sludinājums ir angļu valodā.</b> Tas nekas: prasmju nosaukumi bieži ir angliski. Ja tu ieraksti <code>English</code>, sinonīmu vārdnīca to saskaitīs kopā ar <code>angļu valoda</code>.</li>
+<li><b>5. solis: <code>English</code> joprojām atsevišķi.</b> Vārdnīcā atslēgai jābūt ar mazajiem burtiem <code>"english"</code>, jo <code>get</code> notiek pēc <code>lower()</code>.</li>
+<li><b>7. solis: tavai prasmei pazuda daļa.</b> Prasmēs vai lomā ir komats, tāpēc CSV tās sadala vairākās kolonnās. Komatus aizstāj ar <code>;</code> vai izdzēs.</li>
+<li><b>7. solis: sludinājumā prasības ir garos teikumos.</b> Ieraksti tikai prasmes nosaukumu: no <i>"Pieredze darbā ar SQL datubāzēm"</i> ieraksti <code>SQL</code>.</li>
+<li><b>7. solis: sludinājums ir angļu valodā.</b> Tas nekas: prasmju nosaukumi bieži ir angliski. Ja tu ieraksti <code>English</code>, sinonīmu vārdnīca to saskaitīs kopā ar <code>angļu valoda</code>.</li>
 </ul>
 </details>
 </section><details class="course-help extra-task">
