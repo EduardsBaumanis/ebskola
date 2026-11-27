@@ -350,13 +350,16 @@ function parbaudit() {
       <code>&lt;script&gt;</code> daļas funkcijā <code>parbaudit()</code> atrodi nosacījumu bloku zem komentāra <code>// === 2. un 3. UZDEVUMS — MAINI ŠEIT ... ===</code>.
      </li>
      <li>
-      Uzraksti <b>pirmo</b> zaru <code>if (punkti &lt; 0) { ... }</code>, kurā mainīgajam <code>zina</code> piešķir brīdinājumu par negatīviem punktiem (piemēram, <code>"Kļūda: punkti nevar būt negatīvi!"</code>).
+      Tur jau ir divi zari: <code>if (punkti &gt;= 10)</code> un <code>else</code>. Tieši virs rindas <code>if (punkti &gt;= 10) {</code> ieraksti jaunu <b>pirmo</b> zaru:
+      <pre><code>if (punkti &lt; 0) {
+  zina = "Kļūda: punkti nevar būt negatīvi!";
+}</code></pre>
      </li>
      <li>
-      Uzreiz aiz pirmā zara aizverošās figūriekavas <code>}</code> pievieno <b>otro</b> zaru <code>else if (punkti &gt;= 10) { ... }</code>, kurā <code>zina</code> saņem uzvaras paziņojumu <code>"Uzvara!"</code>.
+      Esošās rindas <code>if (punkti &gt;= 10) {</code> priekšā ieraksti vārdu <code>else</code> un atstarpi. Rinda kļūst <code>else if (punkti &gt;= 10) {</code> — tas ir <b>otrais</b> zars ar ziņu <code>"Uzvara!"</code>.
      </li>
      <li>
-      Noslēdz ķēdi ar <b>trešo</b> zaru <code>else { ... }</code> (bez apaļajām nosacījuma iekavām!), kurā <code>zina</code> saņem tekstu <code>"Turpini spēli!"</code>.
+      Esošais <code>else { ... }</code> ar <code>"Turpini spēli!"</code> paliek kā <b>trešais</b> zars. Tam nav apaļo iekavu ar nosacījumu.
      </li>
      <li>
       Pārskati figūriekavu pārus: katram no trim zariem jābūt savām <code>{</code> un <code>}</code>, un aiz rindas <code>document.getElementById("atbilde").textContent = zina;</code> jāpaliek noslēdzošajai <code>}</code> visai funkcijai <code>parbaudit()</code>.
@@ -391,7 +394,10 @@ function parbaudit() {
       HTML daļā tieši zem <code>&lt;h1&gt;</code> virsraksta (komentāra vietā virs <code>&lt;div class="panelis"&gt;</code>) pievieno rindkopu <code>&lt;p id="noteikumi"&gt;</code>, kurā skaidri norādi spēlētājam, ka uzvarai nepieciešami vismaz <code>20</code> punkti.
      </li>
      <li>
-      Pielāgo visas trīs <code>zina</code> atbildes savai spēlei, turklāt <code>else</code> zarā aprēķini arī atlikušos punktus ar <code>20 - punkti</code> un iekļauj šo skaitli turpināšanas ziņā.
+      Pielāgo visas trīs <code>zina</code> atbildes savai spēlei.
+     </li>
+     <li>
+      <code>else</code> zarā iekļauj ziņā trūkstošos punktus, piemēram: <code>zina = "Turpini! Līdz uzvarai vēl: " + (20 - punkti);</code>
      </li>
      <li>
       Saglabā failu ar <b>Ctrl+S</b> un pārlūkā nospied <b>Ctrl+R</b>, lai lapā parādītos jaunie noteikumi.
@@ -405,13 +411,39 @@ function parbaudit() {
      <li>
       Pārlūkā atver <b>F12 → Console</b> un pārbaudi, ka nav nevienas sarkanas kļūdas; ja nepieciešams, izlabo kodu un saglabā gala versiju ar <b>Ctrl+S</b>.
      </li>
+     <li>
+      Saglabā un nosūti darbu uz GitHub pēc zemāk dotās <a href="#git-atgadne">pogu atgādnes</a>. GitHub projektā pārbaudi, ka tur ir <code>33.html</code>.
+     </li>
     </ol>
     <p class="done-when">
      <b>
       Gatavs, kad:
      </b>
-     gan lapas noteikumos, gan kodā uzvaras robeža ir <code>20</code>, ievade <code>-1</code> dod brīdinājumu, <code>19</code> rāda turpināšanu ar trūkstošo <code>1</code> punktu, <code>20</code> rāda uzvaru, un konsolē nav kļūdu.
+     gan lapas noteikumos, gan kodā uzvaras robeža ir <code>20</code>, ievade <code>-1</code> dod brīdinājumu, <code>19</code> rāda turpināšanu ar trūkstošo <code>1</code> punktu, <code>20</code> rāda uzvaru, konsolē nav kļūdu, un <code>33.html</code> ir GitHub.
     </p>
+    <div class="submission">
+     <h3>Iesniedz 3. uzdevuma rezultātu</h3>
+     <p>Iesniedz GitHub projekta <code>datorika9-tema3</code> saiti skolotāja norādītajā vietā. Projektā jābūt <code>33.html</code>.</p>
+     <p><b>Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:</b></p>
+     <ul class="assessment-checks">
+      <li>Funkcijā <code>parbaudit()</code> ir trīs zari pareizā secībā: <code>if (punkti &lt; 0)</code>, <code>else if (punkti &gt;= 20)</code>, <code>else</code>.</li>
+      <li>Ievade <code>-1</code> dod brīdinājumu, <code>0</code> un <code>19</code> — turpināšanu ar trūkstošajiem punktiem, <code>20</code> un <code>21</code> — uzvaru.</li>
+      <li>Rindkopa <code>#noteikumi</code> pasaka, ka uzvarai vajag vismaz 20 punktus, un <b>Console</b> nav kļūdu.</li>
+     </ul>
+     <p>1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei. Visu tēmas projektu vērtē <a href="/datorika9/dat9_3/nodarbibas/dat9_36#vertesana">3.6. nodarbībā</a>.</p>
+    </div>
+    <details class="course-help" id="git-atgadne">
+     <summary>Saglabā un nosūti uz GitHub — pogu atgādne</summary>
+     <p class="workplace">Vide: VS Code / Source Control → GitHub pārlūkā</p>
+     <ol class="step-list">
+      <li>VS Code jābūt atvērtai mapei <code>Desktop/datorika9-tema3</code>. Ar <b>File → Save All</b> saglabā failus un atver <b>Source Control</b> ar <b>Ctrl+Shift+G</b>.</li>
+      <li>Pie <b>Changes</b> nospied <b>+</b> (<b>Stage All Changes</b>). Pārbaudi, ka faili pārvietojas uz <b>Staged Changes</b>.</li>
+      <li>Ziņas laukā ieraksti <code>Pabeigts 3.3 darbs</code> un spied <b>Commit</b>.</li>
+      <li>Ja šī tēmas mape vēl nav GitHub, spied <b>Publish to GitHub</b> un izvēlies <b>Publish to GitHub public repository</b> ar nosaukumu <code>datorika9-tema3</code>. Jau publicētam projektam spied <b>Sync Changes</b>. Ja pogas nav, atver <b>… → Push</b>.</li>
+      <li>Pārlūkā atver savu GitHub projektu un pārbaudi, ka tajā ir šīs nodarbības faili.</li>
+     </ol>
+     <p>Ja Source Control rāda <b>Initialize Repository</b>, vispirms nospied to. Ja parādās kļūda, izmanto <a href="/datorika9/git">GitHub palīdzību</a> un palūdz skolotāja atbalstu.</p>
+    </details>
    </section>
    <details class="course-help extra-task">
     <summary>
@@ -432,7 +464,7 @@ function parbaudit() {
       Papildini <code>&lt;p id="noteikumi"&gt;</code> rindkopu ar informāciju par <code>100</code> punktu meistara titulu un saglabā ar <b>Ctrl+S</b>.
      </li>
      <li>
-      Pārlūkā nospied <b>Ctrl+R</b> un pārbaudi visas četras situācijas ar vērtībām <code>-1</code>, <code>19</code>, <code>20</code>, <code>99</code> un <code>100</code>.
+      Pārlūkā nospied <b>Ctrl+R</b> un pārbaudi visus četrus zarus ar piecām vērtībām: <code>-1</code>, <code>19</code>, <code>20</code>, <code>99</code> un <code>100</code>.
      </li>
     </ol>
     <p class="done-when"><b>Gatavs, kad:</b> <code>20</code> un <code>99</code> rāda parasto uzvaru, <code>100</code> rāda meistara rekordu, un visi pārējie zari joprojām strādā pareizi.</p>
@@ -473,6 +505,11 @@ function parbaudit() {
       Saglabā ar galotni <code>.html</code>. Windows File Explorer ieslēdz <b>View → Show → File name extensions</b> un pārbaudi, ka faila beigās nav <code>.txt</code>.
      </li>
     </ul>
+    <p>
+     <a href="/datorika9/git">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
    </details>
    <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
     <a class="nav-btn" href="/datorika9/dat9_3/nodarbibas/dat9_32">
