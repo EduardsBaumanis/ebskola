@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="lv">
+ <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7.4 Pikšķerēšana un identitātes zādzība — ebSkola</title>
+<meta name="description" content="Datorika 9. klasei (drošība): Identitātes zādzības metodes un četras pikšķerēšanas pazīmes, pikšķerēšanas detektīvspēle JavaScript ar saites mērķa parādīšanu un kontu aizsardzības plāns.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://ebskola.lv/datorika9/dat9_7/nodarbibas/dat9_74">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="7.4 Pikšķerēšana un identitātes zādzība">
+<meta property="og:description" content="Datorika 9. klasei (drošība): Identitātes zādzības metodes un četras pikšķerēšanas pazīmes, pikšķerēšanas detektīvspēle JavaScript ar saites mērķa parādīšanu un kontu aizsardzības plāns.">
+<meta property="og:url" content="https://ebskola.lv/datorika9/dat9_7/nodarbibas/dat9_74">
+<meta property="og:image" content="https://ebskola.lv/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ebSkola — datorikas, programmēšanas un robotikas mācību materiāli">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../../favicon.ico" sizes="48x48">
+<link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../../icon-192.png">
+<link rel="manifest" href="../../../manifest.json">
+<meta name="theme-color" content="#222831">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../lesson.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "7.4 Pikšķerēšana un identitātes zādzība", "description": "Datorika 9. klasei (drošība): Identitātes zādzības metodes un četras pikšķerēšanas pazīmes, pikšķerēšanas detektīvspēle JavaScript ar saites mērķa parādīšanu un kontu aizsardzības plāns.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_7/nodarbibas/dat9_74", "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība (9. klase)", "isPartOf": {"@type": "Course", "name": "Datorika 9. klasei — 7. tēma: Tīkli, internets un drošība", "url": "https://ebskola.lv/datorika9/dat9_7/dat9_7main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Datorika 9. klasei", "item": "https://ebskola.lv/datorika9/datorika9"}, {"@type": "ListItem", "position": 3, "name": "7. tēma: Tīkli, internets un drošība", "item": "https://ebskola.lv/datorika9/dat9_7/dat9_7main"}, {"@type": "ListItem", "position": 4, "name": "7.4 Pikšķerēšana un identitātes zādzība", "item": "https://ebskola.lv/datorika9/dat9_7/nodarbibas/dat9_74"}]}]}</script>
+<script defer src="../../../lesson.js"></script>
+</head>
+ <body class="page-reference datorika-kurss course-lesson has-sidebar">
+  <a class="skip-link" href="#saturs">
+   Uz mācību saturu
+  </a>
+  <header class="topbar">
+<div class="wrap row">
+<a class="brand" href="/">
+<span class="glyph">›_</span>
+<span class="name">ebskola<span>.lv</span></span>
+</a>
+<nav aria-label="Galvenā navigācija" class="nav">
+<a href="/datorika9/datorika9">Datorika 9</a>
+<a href="/datorika9/dat9_7/dat9_7main">7. tēma</a>
+<a href="/datorika9/git">GitHub palīdzība</a>
+<a href="/sasnRez#datorika9">rezultāti</a>
+<a href="/paligm">palīgmateriāli</a>
+</nav>
+<div class="spacer"></div>
+</div>
+</header>
+  <aside aria-label="7. tēmas navigācija" class="sidebar-nav">
+   <div class="sidebar-kicker">
+    Datorika 9
+   </div>
+   <h3>
+    7. tēma — Tīkli, internets un drošība
+   </h3>
+   <nav aria-label="Tēmas nodarbības" class="sidebar-links">
+    <a class="topic-main" href="/datorika9/dat9_7/dat9_7main">
+     Tēmas sākums
+    </a>
+    <a href="/datorika9/dat9_7/nodarbibas/dat9_71">
+     7.1 Kā spēle nonāk pie spēlētāja
+    </a>
+    <a href="/datorika9/dat9_7/nodarbibas/dat9_72">
+     7.2 Mājas un skolas tīkls, pieslēgums un ātrums
+    </a>
+    <a href="/datorika9/dat9_7/nodarbibas/dat9_73">
+     7.3 E-pasts un saziņas rīki
+    </a>
+    <a aria-current="page" class="active" href="/datorika9/dat9_7/nodarbibas/dat9_74">
+     7.4 Pikšķerēšana un identitātes zādzība
+    </a>
+    <a href="/datorika9/dat9_7/nodarbibas/dat9_75">
+     7.5 Ierīču, programmatūras un datu drošība
+    </a>
+    <a href="/datorika9/dat9_7/nodarbibas/dat9_76">
+     7.6 „Droša spēlēšana” lapa tavai spēlei
+    </a>
+   </nav>
+  </aside>
+  <main class="course-content" id="saturs">
+   <p class="breadcrumb">
+    <a href="/datorika9/dat9_7/dat9_7main">
+     7. tēma
+    </a>
+    / 7.4
+   </p>
+   <h1>
+    7.4 Pikšķerēšana un identitātes zādzība
+   </h1>
+   <p class="lesson-goal">
+    <b>
+     Sasniedzamais rezultāts:
+    </b>
+    Atpazīst identitātes zādzības metodes un pazīmes, papildina pikšķerēšanas atpazīšanas spēli un saplāno, kā pasargāt savus kontus.
+   </p>
+<div class="lesson-meta">
+<a href="/sasnRez#dat9-3-3-4" title="Mazina identitātes zādzības iespējas, raksturojot identitātes zādzības metodes un piemērus.">SR 3.3.4. Identitātes zādzība</a>
+<a href="/sasnRez#dat9-3-3-3" title="Rīkojas saskaņā ar drošības un ētikas normām darbā ar programmvadāmajām ierīcēm un tiešsaistē un skaidro to nozīmi.">SR 3.3.3. Drošība un ētika tiešsaistē</a>
+<a href="/sasnRez#dat9-2-6-2" title="Izstrādā kritērijus, pēc kuriem novērtē sava algoritma precizitāti un iespējamās kļūdas. Mērķtiecīgi (pēc iepriekš sastādīta plāna) pārbauda, vai algoritms izpilda doto uzdevumu, meklē algoritma pierakstā pieļautās kļūdas un izlabo tās.">SR 2.6.2. Algoritma pārbaude un kļūdu labošana</a>
+</div>
+   <section id="teorija">
+    <h2>Teorija ar piemēriem</h2>
+    <p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/datorika9/dat9_7/testi/dat9_74_test">Sākt testu →</a></p>
+    <div class="logic-box" id="metodes">
+     <h3>Identitātes zādzība un tās metodes</h3>
+    <p><b>Identitātes zādzība</b> ir tad, kad kāds iegūst tavus datus — paroli, kodu, kartes datus, personas kodu — un izliekas par tevi: pieslēdzas tavam kontam, raksta tavā vārdā vai tērē tavu naudu. Visbiežāk krāpnieks datus nevis „uzlauž”, bet <b>pievilina</b> tevi tos atdot pašam.</p>
+    <div class="table-scroll" role="region" aria-label="Identitātes zādzības metodes" tabindex="0">
+     <table class="theory-table">
+      <thead>
+       <tr>
+        <th scope="col">Metode</th>
+        <th scope="col">Kā tas izskatās</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr><th scope="row">Pikšķerēšana (e-pasts)</th><td>Vēstule „no bankas” vai „no atbalsta” ar saiti uz viltotu pieteikšanās lapu.</td></tr>
+       <tr><th scope="row">SMS pikšķerēšana</th><td>Īsziņa par „aizturētu sūtījumu” vai „bloķētu kontu” ar saiti vai lūgumu atsūtīt kodu.</td></tr>
+       <tr><th scope="row">Līdzīgs domēns</th><td><code>makondisks.example</code> un <code>makondlsks.example</code> — viens burts atšķiras, bet lapa ir krāpnieka.</td></tr>
+       <tr><th scope="row">Viltots profils</th><td>Konts ar drauga vārdu vai pazīstama veikala logo, kas prasa paroli, kodu vai naudu.</td></tr>
+       <tr><th scope="row">Datu noplūde un atkārtota parole</th><td>Kādas vietnes paroles nopludina; ja tā pati parole ir arī e-pastā, krāpnieks tiek arī tur.</td></tr>
+       <tr><th scope="row">Skatīšanās pār plecu</th><td>Kāds redz, kā raksti paroli vai PIN skolā, veikalā vai autobusā.</td></tr>
+       <tr><th scope="row">„Tu esi laimējis”</th><td>Balva par neko — pret tālruņa numuru, kartes datiem vai „nelielu maksu”.</td></tr>
+      </tbody>
+     </table>
+    </div>
+    </div>
+    <div class="logic-box" id="pazimes">
+     <h3>Četras pazīmes, kas jāpārbauda katrai ziņai</h3>
+    <ol>
+     <li><b>Sūtītājs.</b> Vai adrese vai numurs tiešām pieder tam, par ko tas uzdodas? Skaties domēnu aiz <code>@</code> burtu pa burtam (7.3. nodarbība).</li>
+     <li><b>Saites mērķis.</b> Saites teksts var rādīt vienu adresi, bet vest uz citu. Datorā novieto peli virs saites un apskati adresi pārlūka apakšējā kreisajā stūrī; telefonā saiti ilgi tur nospiestu.</li>
+     <li><b>Steidzamība vai draudi.</b> „24 stundu laikā”, „konts tiks bloķēts”, „pēdējā iespēja” — lai tu nepaspētu padomāt.</li>
+     <li><b>Prasība pēc slepena.</b> Parole, SMS kods, kartes dati. Īsta banka, skola vai veikals tos <b>nekad</b> neprasa ar ziņu.</li>
+    </ol>
+    <p>Pietiek ar vienu pazīmi, lai ziņa būtu aizdomīga. Ja šaubies, neej pa saiti: atver vietni pats, ierakstot adresi, vai piezvani sūtītājam uz zināmu numuru.</p>
+    </div>
+    <div class="logic-box" id="ko-darit">
+     <h3>Ko darīt, ja ziņa ir aizdomīga vai tu jau uzķēries</h3>
+    <ul>
+     <li><b>Neklikšķini un neatbildi.</b> Atbilde krāpniekam apliecina, ka numurs vai adrese darbojas.</li>
+     <li><b>Ziņo.</b> E-pastā izvēlies <b>Report phishing</b> vai <b>Junk</b>, tērzētavā — <b>Report</b>. Skolas kontā par to pasaki skolotājam.</li>
+     <li><b>Ja ievadīji paroli</b> — uzreiz nomaini to šajā un visās vietnēs, kur tā bija tāda pati, un ieslēdz divfaktoru autentifikāciju (7.5. nodarbība).</li>
+     <li><b>Ja atdevi kodu vai kartes datus</b> — tūlīt pastāsti vecākiem; viņi sazināsies ar banku.</li>
+     <li><b>Pārbaudi noplūdes.</b> Vietnē <code>haveibeenpwned.com</code> var pārbaudīt, vai tavs e-pasts ir bijis kādā zināmā datu noplūdē. Dari to kopā ar vecākiem vai skolotāju.</li>
+    </ul>
+    </div>
+    <div class="logic-box" id="speles-uzbuve">
+     <h3>Kā uzbūvēta detektīvspēle</h3>
+    <p>Sākuma kods ir spēle ar punktiem un dzīvībām, līdzīgi kā 4. un 5. tēmā. Ziņas glabājas masīvā <code>zinas</code>; katra ziņa ir objekts:</p>
+    <pre><code>{ kanals: "SMS", sutitajs: "Kurjers",
+  teksts: "Jūsu sūtījums aizturēts…",
+  saitesTeksts: "kurjers-piegade.example/maksat",   ← ko redz ziņā
+  saite: "http://kurjers-piegade.example/maksat",   ← kur tā tiešām ved
+  drosa: false,                                     ← pareizā atbilde
+  skaidrojums: "Negaidīts maksājums, steidzamība…" }</code></pre>
+    <p>Ja ziņai nav saites, abi saites lauki ir tukšas pēdiņas <code>""</code>. Visi zīmoli un adreses ir izdomāti, un domēni beidzas ar <code>.example</code> — tāds domēns internetā neeksistē. <b>Neizmanto</b> īstu banku, skolas vai citu īstu vietņu nosaukumus un adreses: ziņa ar īstu zīmolu un viltotu saiti pati kļūtu par pikšķerēšanas paraugu.</p>
+    </div>
+    <details class="course-help">
+     <summary>Pašpārbaude: SMS no „bankas” bez saites lūdz atsūtīt tikko saņemto kodu. Vai tas ir droši, jo saites nav?</summary>
+     <p>Nē. Prasība pēc koda ir pietiekama pazīme. Ar šo kodu krāpnieks pabeidz pieslēgšanos tavam kontam — viņam saite nav vajadzīga, jo kodu atdod pats.</p>
+    </details>
+   </section>
+   <section class="lesson-starter" id="sakuma-kods">
+    <h2>
+     Sākuma kods un darba vieta
+    </h2>
+    <p>VS Code atver <code>Desktop/datorika9-tema7</code>, ielīmē sākuma kodu jaunā failā un saglabā kā <code>74.html</code>. Sākuma kods ir „Pikšķerēšanas detektīvs” ar septiņām ziņām, punktiem un trim dzīvībām. Vienā ziņā ir apzināta kļūda.</p>
+    <div class="starter-actions">
+     <button class="btn" data-copy="pilnais-kods" type="button">
+      Kopēt sākuma kodu
+     </button>
+     <a class="btn" download="74.html" href="../../sakuma-kodi/74.html">
+      Lejupielādēt 74.html
+     </a>
+    </div>
+    <p aria-live="polite" class="copy-status" role="status">
+    </p>
+    <details class="starter-source">
+     <summary>
+      Atvērt pilno sākuma kodu
+     </summary>
+     <pre><code id="pilnais-kods">&lt;!DOCTYPE html&gt;
+&lt;html lang="lv"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Pikšķerēšanas detektīvs&lt;/title&gt;
+&lt;style&gt;
+body { font-family: Arial, sans-serif; max-width: 720px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+h1 { color: #1e3a8a; }
+#raditaji { font-weight: bold; }
+.zina { background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px 18px; margin: 12px 0; }
+.kanals { display: inline-block; background-color: #e2e8f0; border-radius: 6px; padding: 2px 8px; font-size: 14px; }
+.sutitajs { font-family: "Courier New", monospace; font-size: 14px; color: #475569; }
+.saite { color: #1d4ed8; text-decoration: underline; cursor: pointer; }
+#saitesMerkis { font-family: "Courier New", monospace; font-size: 14px; color: #92400e; min-height: 1.4em; }
+button { font: inherit; padding: 10px 16px; margin: 4px 6px 4px 0; cursor: pointer; color: #ffffff; border: 0; border-radius: 8px; }
+#drosa { background-color: #15803d; }
+#aizdomiga { background-color: #b91c1c; }
+#nakama, #atkal { background-color: #245b91; }
+#atsauksme { font-weight: bold; }
+[hidden] { display: none !important; }
+section { margin-top: 28px; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Pikšķerēšanas detektīvs&lt;/h1&gt;
+&lt;p&gt;Izlasi ziņu un izlem: vai tā ir droša vai aizdomīga? Visi zīmoli un adreses ir izdomāti.&lt;/p&gt;
+&lt;p id="raditaji"&gt;&lt;/p&gt;
+
+&lt;div class="zina"&gt;
+&lt;p&gt;&lt;span class="kanals" id="kanals"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p class="sutitajs" id="sutitajs"&gt;&lt;/p&gt;
+&lt;p id="teksts"&gt;&lt;/p&gt;
+&lt;p id="saitesRinda"&gt;Saite: &lt;span class="saite" id="saite"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p id="saitesMerkis"&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;button id="drosa"&gt;Droša&lt;/button&gt;
+&lt;button id="aizdomiga"&gt;Aizdomīga&lt;/button&gt;
+&lt;p id="atsauksme"&gt;&lt;/p&gt;
+&lt;button id="nakama" hidden&gt;Nākamā ziņa →&lt;/button&gt;
+&lt;button id="atkal" hidden&gt;Spēlēt vēlreiz&lt;/button&gt;
+
+&lt;section&gt;
+&lt;h2&gt;Ko es palaidu garām&lt;/h2&gt;
+&lt;!-- 1. UZDEVUMS: par katru nepareizo atbildi uzraksti, kuru pazīmi nepamanīji --&gt;
+&lt;ul&gt;
+&lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+
+&lt;section&gt;
+&lt;h2&gt;Mani 3 soļi kontu aizsardzībai&lt;/h2&gt;
+&lt;!-- 3. UZDEVUMS: uzraksti trīs konkrētus soļus, ko tu darīsi --&gt;
+&lt;ol&gt;
+&lt;li&gt;...&lt;/li&gt;
+&lt;li&gt;...&lt;/li&gt;
+&lt;li&gt;...&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+
+&lt;script&gt;
+// === ZIŅAS: kanāls, sūtītājs, teksts, redzamais saites teksts, īstā saite, vai droša, skaidrojums ===
+// 2. UZDEVUMS: pievieno trīs savas ziņas: līdzīgs domēns, SMS un droša ziņa
+// 3. UZDEVUMS: pārbaudi, vai katrai ziņai "drosa" ir pareiza
+const zinas = [
+  { kanals: "E-pasts", sutitajs: "Mākoņdisks atbalsts &lt;atbalsts@makondlsks.example&gt;",
+    teksts: "Jūsu krātuve ir pilna! Pēc 24 stundām visi faili tiks dzēsti. Piesakieties un apstipriniet kontu.",
+    saitesTeksts: "makondisks.example/pieteikties", saite: "http://makondlsks.example/login", drosa: false,
+    skaidrojums: "Steidzamība un draudi. Sūtītāja domēnā ir „l”, nevis „i”, un saite ved uz to pašu viltoto domēnu." },
+  { kanals: "SMS", sutitajs: "Kurjers",
+    teksts: "Jūsu sūtījums aizturēts. Samaksājiet 1,99 € muitas nodevu, citādi sūtījums tiks atgriezts.",
+    saitesTeksts: "kurjers-piegade.example/maksat", saite: "http://kurjers-piegade.example/maksat", drosa: false,
+    skaidrojums: "Negaidīts maksājums, steidzamība un saite SMS. Pārbaudi sūtījumu pašā kurjera vietnē vai lietotnē." },
+  { kanals: "E-pasts", sutitajs: "Skolotāja &lt;skolotaja@skola.example&gt;",
+    teksts: "Atgādinu: rīt nodarbībā vajadzēs savu GitHub kontu. Paroli nevienam nesūtiet un neprasiet.",
+    saitesTeksts: "", saite: "", drosa: true,
+    skaidrojums: "Pazīstams sūtītājs no skolas domēna, nav saites, nav steigas, un ziņa pat atgādina paroli nesūtīt." },
+  { kanals: "Ziņa sociālajā tīklā", sutitajs: "PikseļuVeikals Balvas",
+    teksts: "Apsveicam! Tu esi laimējis spēļu konsoli! Lai to saņemtu, ievadi savu tālruņa numuru un bankas kartes datus.",
+    saitesTeksts: "pikselu-veikals-balva.example", saite: "http://pikselu-veikals-balva.example/konsole", drosa: false,
+    skaidrojums: "Balva par neko, viltots profils un prasība pēc kartes datiem. Īsts veikals karti balvai neprasa." },
+  { kanals: "E-pasts", sutitajs: "PikseļuVeikals &lt;pasutijumi@pikselu-veikals.example&gt;",
+    teksts: "Paldies par vakardienas pirkumu — austiņām, ko pasūtīji mūsu veikalā! Tās tiks piegādātas piektdien. Pasūtījumu vari apskatīt savā kontā.",
+    saitesTeksts: "pikselu-veikals.example/konts", saite: "https://pikselu-veikals.example/konts", drosa: true,
+    skaidrojums: "Ziņa atbilst pirkumam, ko tiešām veici. Sūtītājs un saite ir no tā paša domēna, nav steigas un nav paroles prasības." },
+  { kanals: "SMS", sutitajs: "Zvaigžņu Banka",
+    teksts: "Kāds mēģina pieslēgties jūsu kontam. Ja tas neesat jūs, atsūtiet mums kodu, ko tikko saņēmāt SMS.",
+    saitesTeksts: "", saite: "", drosa: true,
+    skaidrojums: "Banka nekad neprasa atsūtīt kodu. Ar šo kodu krāpnieks pieslēgsies tavam kontam." },
+  { kanals: "Ziņa tērzētavā", sutitajs: "Klasesbiedrs (jauns konts)",
+    teksts: "Čau! Šis ir mans jaunais konts. Iedod savu skolas konta paroli, es tev ātri salabošu spēli 😊",
+    saitesTeksts: "", saite: "", drosa: false,
+    skaidrojums: "Jauns konts ar pazīstamu vārdu un prasība pēc paroles. Pārbaudi klātienē — paroli nedod nevienam." }
+];
+
+// === SPĒLES STĀVOKLIS ===
+let nr = 0;
+let punkti = 0;
+let dzivibas = 3;
+let atbildets = false;
+
+// === RĀDĪTĀJI UN ZIŅA EKRĀNĀ ===
+function raditaji() {
+  document.getElementById("raditaji").textContent = "Punkti: " + punkti + " | Dzīvības: " + dzivibas + " | Ziņa " + (nr + 1) + " no " + zinas.length;
+}
+function paraditZinu() {
+  const z = zinas[nr];
+  document.getElementById("kanals").textContent = z.kanals;
+  document.getElementById("sutitajs").textContent = z.sutitajs;
+  document.getElementById("teksts").textContent = z.teksts;
+  document.getElementById("saite").textContent = z.saitesTeksts;
+  document.getElementById("saitesRinda").hidden = z.saitesTeksts === "";
+  document.getElementById("saitesMerkis").textContent = "";
+  document.getElementById("atsauksme").textContent = "";
+  document.getElementById("nakama").hidden = true;
+  atbildets = false;
+  raditaji();
+}
+
+// === ATBILDE: lietotajsSaka ir true, ja nospieda "Droša" ===
+function atbildet(lietotajsSaka) {
+  if (atbildets) { return; }
+  atbildets = true;
+  const z = zinas[nr];
+  const atsauksme = document.getElementById("atsauksme");
+  if (lietotajsSaka === z.drosa) {
+    punkti = punkti + 1;
+    atsauksme.style.color = "#15803d";
+    atsauksme.textContent = "Pareizi!";
+  } else {
+    dzivibas = dzivibas - 1;
+    atsauksme.style.color = "#b91c1c";
+    atsauksme.textContent = "Nepareizi — šī ziņa ir " + (z.drosa ? "droša." : "aizdomīga.");
+  }
+  // 2. UZDEVUMS: pievieno atsauksmei skaidrojumu z.skaidrojums
+  raditaji();
+  if (dzivibas &lt;= 0 || nr === zinas.length - 1) {
+    beigas();
+  } else {
+    document.getElementById("nakama").hidden = false;
+  }
+}
+
+// === NĀKAMĀ ZIŅA, BEIGAS UN SĀKŠANA NO JAUNA ===
+function nakama() {
+  nr = nr + 1;
+  paraditZinu();
+}
+function beigas() {
+  const iznakums = dzivibas &lt;= 0 ? "Dzīvības beigušās! " : "Visas ziņas pārbaudītas! ";
+  document.getElementById("atsauksme").textContent += " " + iznakums + "Punkti: " + punkti + " no " + zinas.length + ".";
+  document.getElementById("atkal").hidden = false;
+}
+function saktNoJauna() {
+  nr = 0;
+  punkti = 0;
+  dzivibas = 3;
+  document.getElementById("atkal").hidden = true;
+  paraditZinu();
+}
+
+// === 3. UZDEVUMS: kad pele ir virs saites, parādi #saitesMerkis īsto adresi zinas[nr].saite ===
+
+document.getElementById("drosa").addEventListener("click", function () { atbildet(true); });
+document.getElementById("aizdomiga").addEventListener("click", function () { atbildet(false); });
+document.getElementById("nakama").addEventListener("click", nakama);
+document.getElementById("atkal").addEventListener("click", saktNoJauna);
+paraditZinu();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </details>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-1">
+    <p class="task-number">
+     1. uzdevums
+    </p>
+    <h2>
+     Nospēlē detektīvspēli un pieraksti nepamanītās pazīmes
+    </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#metodes">Identitātes zādzība un tās metodes</a> un <a href="#pazimes">Četras pazīmes</a>.</p>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Saglabā sākuma kodu kā <code>74.html</code> un atver to pārlūkā.
+     </li>
+     <li>
+      Nospēlē spēli līdz beigām. Pie katras ziņas vispirms pārbaudi četras pazīmes, tad spied <b>Droša</b> vai <b>Aizdomīga</b>.
+     </li>
+     <li>
+      Par katru nepareizo atbildi sadaļā „Ko es palaidu garām” ieraksti: kura ziņa, kuru pazīmi nepamanīji un kura metode tā bija.
+     </li>
+     <li>
+      Vienā ziņā spēle tev saka „nepareizi”, lai gan tu atbildēji pareizi. Atrodi to un pieraksti, kāpēc spēle kļūdās. To izlabosi 3. uzdevumā.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     esi nospēlējis visas 7 ziņas, sadaļā „Ko es palaidu garām” ir tavas kļūdas ar pazīmēm, un tu zini, kurā ziņā kļūdās spēle.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-2">
+    <p class="task-number">
+     2. uzdevums
+    </p>
+    <h2>
+     Pievieno skaidrojumu un trīs savas ziņas
+    </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#speles-uzbuve">Kā uzbūvēta detektīvspēle</a> un <a href="#metodes">Metodes</a>.</p>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Funkcijā <code>atbildet</code> komentāra „pievieno atsauksmei skaidrojumu” vietā ieraksti: <code>atsauksme.textContent += " " + z.skaidrojums;</code>. Saglabā un pārbaudi, ka pēc katras atbildes parādās skaidrojums.
+     </li>
+     <li>
+      Masīva <code>zinas</code> beigās pēc pēdējās ziņas uzliec komatu un pievieno trīs savas ziņas pēc parauga teorijā:
+      <ul>
+       <li><b>līdzīgs domēns</b> — <code>saitesTeksts</code> rāda vienu adresi, bet <code>saite</code> ved uz citu (<code>drosa: false</code>);</li>
+       <li><b>SMS</b> ar kādu citu triku no tabulas (<code>drosa: false</code>);</li>
+       <li><b>droša ziņa</b>, kurai nav nevienas no četrām pazīmēm (<code>drosa: true</code>).</li>
+      </ul>
+     </li>
+     <li>
+      Katrai ziņai uzraksti <code>skaidrojums</code> — kuras pazīmes ir vai kāpēc to nav. Lieto tikai izdomātus nosaukumus un domēnus ar <code>.example</code>.
+     </li>
+     <li>
+      Saglabā un nospēlē visu spēli vēlreiz. Pārbaudi, ka rādītājos ir „Ziņa 1 no 10” un ka tavas ziņas parādās beigās.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     spēlē ir 10 ziņas, pēc katras atbildes redzams skaidrojums, un tavas trīs ziņas izmanto izdomātus nosaukumus un <code>.example</code> domēnus.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-3">
+    <p class="task-number">
+     3. uzdevums
+    </p>
+    <h2>
+     Parādi īsto saiti un izlabo kļūdaino ziņu
+    </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#pazimes">Četras pazīmes</a> un <a href="#ko-darit">Ko darīt</a>.</p>
+    <p class="workplace">
+     Vide: VS Code → pārlūks
+    </p>
+    <ol class="step-list">
+     <li>
+      Zem komentāra „kad pele ir virs saites” pievieno divus notikumu klausītājus:
+      <pre><code>document.getElementById("saite").addEventListener("mouseover", function () {
+  document.getElementById("saitesMerkis").textContent = "Saite patiesībā ved uz: " + zinas[nr].saite;
+});
+document.getElementById("saite").addEventListener("mouseout", function () {
+  document.getElementById("saitesMerkis").textContent = "";
+});</code></pre>
+     </li>
+     <li>
+      Saglabā, atjauno lapu un pirmajā ziņā novieto peli virs saites. Salīdzini redzamo tekstu ar īsto adresi.
+     </li>
+     <li>
+      Izlabo 1. uzdevumā atrasto ziņu: nomaini tās <code>drosa</code> vērtību. Tad pārbaudi <b>visas</b> 10 ziņas: vai katras <code>drosa</code> atbilst tās skaidrojumam.
+     </li>
+     <li>
+      Nospēlē spēli, atbildot pareizi uz visām ziņām. Jāiegūst <code>Punkti: 10 no 10</code> ar trim dzīvībām.
+     </li>
+     <li>
+      Sadaļā „Mani 3 soļi kontu aizsardzībai” uzraksti trīs konkrētus soļus, ko darīsi ar saviem kontiem (piemēram, „Nomainīšu GitHub paroli, jo tā ir tāda pati kā …”). Nekad neraksti pašas paroles.
+     </li>
+     <li>
+      Saglabā un nosūti uz GitHub (<b>Sync Changes</b>).
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     virs saites redzama īstā adrese, pareizas atbildes dod 10 no 10, un lapā ir trīs konkrēti tavi soļi.
+    </p>
+    <div class="submission">
+     <h3>
+      Iesniedz 3. uzdevuma rezultātu
+     </h3>
+     <p>
+      Iesniedz GitHub projekta <code>datorika9-tema7</code> saiti skolotāja norādītajā vietā. Projektā jābūt <code>74.html</code>.
+     </p>
+     <p>
+      <b>
+       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
+      </b>
+     </p>
+     <ul class="assessment-checks">
+      <li>
+       Spēlē ir 10 ziņas, pēc katras atbildes parādās skaidrojums, un pareizas atbildes dod 10 no 10.
+      </li>
+      <li>
+       Tavas trīs ziņas ir līdzīgs domēns, SMS un droša ziņa ar izdomātiem nosaukumiem un <code>.example</code> domēniem.
+      </li>
+      <li>
+       Virs saites parādās īstā adrese, un, aizvācot peli, tā pazūd.
+      </li>
+      <li>
+       Kļūdainās bankas ziņas <code>drosa</code> ir izlabota.
+      </li>
+      <li>
+       „Ko es palaidu garām” un „Mani 3 soļi” ir aizpildīti, bez parolēm.
+      </li>
+     </ul>
+     <p>
+      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
+     </p>
+    </div>
+   </section>
+   <details class="course-help extra-task">
+    <summary>
+     Papildu uzdevums: ziņas jauktā secībā un klasesbiedra pārbaude
+    </summary>
+    <p>
+     Sāc, kad 3. uzdevums ir gatavs un iesniegts.
+    </p>
+    <p><b>Izmanto teoriju:</b> <a href="#speles-uzbuve">Kā uzbūvēta detektīvspēle</a>.</p>
+    <ol class="step-list">
+     <li>
+      Funkcijas <code>saktNoJauna</code> sākumā pievieno <code>zinas.sort(function () { return Math.random() - 0.5; });</code> un skripta pēdējo rindu <code>paraditZinu();</code> aizstāj ar <code>saktNoJauna();</code>, lai ziņas katru reizi ir citā secībā.
+     </li>
+     <li>
+      Apmainieties ar klasesbiedru saitēm uz GitHub Pages versiju un nospēlējiet viens otra spēles. Pierakstiet, kura klasesbiedra ziņa bija visgrūtākā un kāpēc.
+     </li>
+    </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> ziņas parādās nejaušā secībā, un lapā ir piezīme par klasesbiedra grūtāko ziņu.</p>
+   </details>
+   <details class="course-help">
+    <summary>
+     Ja kaut kas neizdodas
+    </summary>
+    <ul>
+     <li>
+      <b>
+       Pēc jauno ziņu pievienošanas spēle neparādās?
+      </b>
+      Atver <b>F12 → Console</b>. Visbiežāk trūkst komata starp ziņām <code>},</code>, pēdiņas vai komata starp laukiem.
+     </li>
+     <li>
+      <b>
+       Skaidrojums rāda <code>undefined</code>?
+      </b>
+      Tavai ziņai trūkst lauka <code>skaidrojums</code> vai tas uzrakstīts ar citu burtu.
+     </li>
+     <li>
+      <b>
+       Virs saites nekas neparādās?
+      </b>
+      Pārbaudi, vai klausītāji ir <b>pirms</b> pēdējās rindas <code>paraditZinu();</code> un vai id ir tieši <code>"saite"</code> un <code>"saitesMerkis"</code>.
+     </li>
+     <li>
+      <b>
+       Savā ziņā gribi lietot īstu veikalu vai banku?
+      </b>
+      Neizmanto. Izdomā nosaukumu un domēnu ar <code>.example</code> — tā spēle neiemāca krāpniekiem un nevienu nemaldina.
+     </li>
+    </ul>
+    <p>
+     <a href="/datorika9/git">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
+   </details>
+   <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
+    <a class="nav-btn" href="/datorika9/dat9_7/nodarbibas/dat9_73">
+     ← Iepriekšējā
+    </a>
+    <a class="nav-btn" href="/datorika9/dat9_7/nodarbibas/dat9_75">
+     Nākamā →
+    </a>
+   </nav>
+  </main>
+  <footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="foot-brand" href="/"><span class="glyph">›_</span> ebskola.lv</a>
+        <p>Atvērti, bezmaksas mācību materiāli datorikā, programmēšanā un robotikā latviešu valodā.</p>
+        <div class="foot-social">
+          <a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">LinkedIn</a>
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Kursi</h4>
+        <ul>
+          <li><a href="/datorika9/datorika9">Datorika 9. klasei</a></li>
+          <li><a href="/programmesana1/programmesana1">Programmēšana I</a></li>
+          <li><a href="/programmesana2/programmesana2">Programmēšana II</a></li>
+          <li><a href="/robotika/robotika">Robotika</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resursi</h4>
+        <ul>
+          <li><a href="/sasnRez">Sasniedzamie rezultāti</a></li>
+          <li><a href="/paligm">Palīgmateriāli</a></li>
+          <li><a href="/#structure">Visu tēmu indekss</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Projekts</h4>
+        <ul>
+          <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a></li>
+          <li><a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">Sazināties</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div class="left">
+        <span>© 2026 ebSkola</span>
+        <span>Izstrādājis Eduards Baumanis</span>
+      </div>
+    </div>
+  </div>
+</footer>
+ </body>
+</html>

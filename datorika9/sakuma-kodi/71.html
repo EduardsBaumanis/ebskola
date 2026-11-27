@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tīkla pētnieks</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 760px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+h1 { color: #1e3a8a; }
+button { font: inherit; padding: 10px 14px; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; }
+th { background-color: #e2e8f0; }
+.ok { color: #15803d; font-weight: bold; }
+.kluda { color: #b91c1c; font-weight: bold; }
+img { max-width: 100%; height: auto; border: 1px solid #cbd5e1; }
+section { margin-top: 28px; }
+</style>
+</head>
+<body>
+<h1>Tīkla pētnieks</h1>
+<p>Nospied pogu: lapa nosūtīs pieprasījumu katram failam un parādīs servera atbildi.</p>
+<button id="sutit">Sūtīt pieprasījumus</button>
+<table>
+<thead><tr><th>Fails</th><th>Serveris</th><th>Statuss</th><th>Izmērs</th><th>Laiks</th></tr></thead>
+<tbody id="rezultati"><tr><td colspan="5">Vēl nav pieprasījumu.</td></tr></tbody>
+</table>
+
+<section>
+<h2>Mana tīkla shēma</h2>
+<!-- 2. UZDEVUMS: saglabā diagrammu kā tikls_71.png tajā pašā mapē, kur 71.html -->
+<img src="tikls_71.png" alt="Ceļš no mana datora līdz manas spēles serverim">
+</section>
+
+<section>
+<h2>Mani mērījumi</h2>
+<!-- 2. un 3. UZDEVUMS: punktu ... vietā ieraksti savus rezultātus -->
+<ul>
+<li>Mana IP adrese (ipconfig): ...</li>
+<li>Noklusējuma vārteja (ipconfig): ...</li>
+<li>ping līdz manai spēlei, vidēji: ... ms</li>
+<li>tracert līdz manai spēlei: ... posmi</li>
+</ul>
+</section>
+
+<section>
+<h2>Ko es noskaidroju</h2>
+<!-- 3. UZDEVUMS: uzraksti prognozi PIRMS pogas nospiešanas, tad rezultātu -->
+<p>Prognoze failam ar kļūdu nosaukumā: ...</p>
+<p>Rezultāts: ...</p>
+<p>Ko rāda tabula, kad DevTools ieslēgts Offline: ...</p>
+</section>
+
+<script>
+// === 1. UZDEVUMS — MAINI ŠEIT: tavas publicētās spēles adrese (ar / beigās) ===
+const speleAdrese = "https://pages.github.com/";
+
+// === FAILI, KURUS PIEPRASĪT ===
+// 3. UZDEVUMS: pievieno vēl vienu rindu — savas spēles failu ar kļūdu nosaukumā
+const faili = [
+  { nosaukums: "Spēles lapa", adrese: speleAdrese },
+  { nosaukums: "Attēls citā serverī", adrese: "https://ebskola.lv/icon-192.png" },
+  { nosaukums: "Fails, kura nav", adrese: speleAdrese + "nav-tada-faila.html" }
+];
+
+// === STATUSA KODA SKAIDROJUMS ===
+function statusaTeksts(kods) {
+  if (kods === 200) { return "200 — atrasts"; }
+  if (kods === 404) { return "404 — nav atrasts"; }
+  return kods + " — cita atbilde";
+}
+
+// === SERVERA NOSAUKUMS NO ADRESES ===
+function serveris(adrese) {
+  try {
+    return new URL(adrese).hostname;
+  } catch (kluda) {
+    return "nepareiza adrese";
+  }
+}
+
+// === VIENS PIEPRASĪJUMS: nosūta, gaida atbildi un mēra laiku (šo funkciju nemaini) ===
+async function pieprasit(fails) {
+  const sakums = performance.now();
+  try {
+    const atbilde = await fetch(fails.adrese, { cache: "no-store" });
+    const saturs = await atbilde.blob();
+    const laiks = Math.round(performance.now() - sakums);
+    return {
+      statuss: statusaTeksts(atbilde.status),
+      labi: atbilde.ok,
+      izmers: (saturs.size / 1024).toFixed(1) + " KB",
+      laiks: laiks + " ms"
+    };
+  } catch (kluda) {
+    return { statuss: "Nav atbildes: " + kluda.message, labi: false, izmers: "—", laiks: "—" };
+  }
+}
+
+// === VISI PIEPRASĪJUMI PĒC KĀRTAS UN REZULTĀTU TABULA ===
+async function sutitVisus() {
+  const tabula = document.getElementById("rezultati");
+  tabula.innerHTML = "";
+  for (const fails of faili) {
+    const r = await pieprasit(fails);
+    const rinda = document.createElement("tr");
+    const klase = r.labi ? "ok" : "kluda";
+    rinda.innerHTML = "<td>" + fails.nosaukums + "</td><td>" + serveris(fails.adrese) + "</td>" +
+      "<td class=\"" + klase + "\">" + r.statuss + "</td><td>" + r.izmers + "</td><td>" + r.laiks + "</td>";
+    tabula.appendChild(rinda);
+  }
+}
+
+document.getElementById("sutit").addEventListener("click", sutitVisus);
+</script>
+</body>
+</html>

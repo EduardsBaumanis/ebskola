@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Droša spēlēšana — Mana spēle</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 760px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+h1 { color: #1e3a8a; }
+nav a { margin-right: 12px; }
+section { margin-top: 28px; padding-top: 4px; border-top: 2px solid #e2e8f0; }
+img { max-width: 100%; height: auto; border: 1px solid #cbd5e1; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; vertical-align: top; }
+th { background-color: #e2e8f0; }
+#atgadinajums { background-color: #fef3c7; border: 2px solid #f59e0b; border-radius: 10px; padding: 8px 16px; }
+button { font: inherit; padding: 8px 14px; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<!-- 1. UZDEVUMS: nosaukumā un virsrakstā ieraksti savas spēles nosaukumu -->
+<h1>Droša spēlēšana: Mana spēle</h1>
+<p><a href="index.html">← Atpakaļ uz spēli</a></p>
+<nav>
+<a href="#tikls">Kā spēle nonāk pie tevis</a>
+<a href="#veseliba">Veselīga spēlēšana</a>
+<a href="#drosiba">Drošība un privātums</a>
+<a href="#partraukums">Pārtraukuma atgādinājums</a>
+</nav>
+
+<section id="tikls">
+<h2>Kā spēle nonāk pie tevis</h2>
+<!-- 1. UZDEVUMS: iekopē tikls_71.png šajā mapē un uzraksti 2–3 teikumus spēlētājam -->
+<img src="tikls_71.png" alt="Ceļš no spēlētāja datora līdz GitHub Pages serverim">
+<p>...</p>
+</section>
+
+<section id="veseliba">
+<h2>Veselīga spēlēšana</h2>
+<!-- 1. UZDEVUMS: vismaz četri padomi taviem spēlētājiem; pirmais ir paraugs -->
+<ul>
+<li>Ekrānu novieto roku stiepiena attālumā, tā augšmalu — acu augstumā.</li>
+<li>...</li>
+<li>...</li>
+<li>...</li>
+</ul>
+<h3>Kā pamanīt, ka spēlē par daudz</h3>
+<!-- 1. UZDEVUMS: trīs pazīmes un kā iestatīt ierīces lietošanas laika ierobežojumu -->
+<ul>
+<li>...</li>
+<li>...</li>
+<li>...</li>
+</ul>
+<p>Ierobežojumu var iestatīt: ...</p>
+<h3>Kur meklēt palīdzību</h3>
+<ul>
+<li>Pastāsti vecākiem, klases audzinātājam vai skolas psihologam.</li>
+<li>Bērnu un pusaudžu uzticības tālrunis <b>116111</b> — bez maksas, anonīmi, visu diennakti.</li>
+<li>Kaitīgu saturu internetā var ziņot vietnē <b>drossinternets.lv</b>.</li>
+</ul>
+</section>
+
+<section id="drosiba">
+<h2>Drošība un privātums</h2>
+<!-- 1. UZDEVUMS: uzraksti, kādus datus spēle vāc, un vismaz trīs draudus ar padomu -->
+<p>Šī spēle ...</p>
+<table>
+<thead><tr><th>Drauds</th><th>Ko darīt</th></tr></thead>
+<tbody>
+<tr><td>...</td><td>...</td></tr>
+<tr><td>...</td><td>...</td></tr>
+<tr><td>...</td><td>...</td></tr>
+</tbody>
+</table>
+</section>
+
+<section id="partraukums">
+<h2>Pārtraukuma atgādinājums</h2>
+<p>Spēlē ir atgādinājums: pēc <span id="minutesTeksta"></span> min spēlēšanas spēle apstājas un aicina ieturēt pārtraukumu. Šajā lapā ir tas pats atgādinājums — izmēģini to.</p>
+<p id="lapasLaiks"></p>
+<div id="atgadinajums" hidden>
+<p><b>Laiks pārtraukumam!</b> Piecelies, izstaipies un 20 sekundes paskaties tālumā.</p>
+<button id="aizvert">Labi</button>
+</div>
+</section>
+
+<script>
+// === PĀRTRAUKUMA ATGĀDINĀJUMS ŠAJĀ LAPĀ ===
+// 2. UZDEVUMS: pārbaudei 1, pēc tam 30 (tāpat kā spēlē)
+const partraukumsPecMinutem = 1;
+let lapasSekundes = 0;
+let laikaTaimeris = null;
+
+function skaititLaiku() {
+  lapasSekundes = lapasSekundes + 1;
+  document.getElementById("lapasLaiks").textContent = "Šajā lapā tu esi " + lapasSekundes + " s.";
+  if (lapasSekundes === partraukumsPecMinutem * 60) {
+    document.getElementById("atgadinajums").hidden = false;
+  }
+}
+function aizvert() {
+  document.getElementById("atgadinajums").hidden = true;
+  lapasSekundes = 0;
+}
+
+document.getElementById("minutesTeksta").textContent = partraukumsPecMinutem;
+document.getElementById("aizvert").addEventListener("click", aizvert);
+// Taimeri sāk tikai vienu reizi — divi taimeri skaitītu laiku divreiz ātrāk.
+if (laikaTaimeris === null) { laikaTaimeris = setInterval(skaititLaiku, 1000); }
+</script>
+</body>
+</html>

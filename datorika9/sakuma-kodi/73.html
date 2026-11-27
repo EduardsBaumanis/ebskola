@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-pasta adreses pārbaudītājs</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 800px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+h1 { color: #1e3a8a; }
+input { font: inherit; width: 320px; max-width: 100%; padding: 6px 8px; }
+button { font: inherit; padding: 8px 14px; margin: 6px 6px 6px 0; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+#rezultats { font-weight: bold; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 15px; }
+th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; }
+th { background-color: #e2e8f0; }
+.ok { color: #15803d; font-weight: bold; }
+.kluda { color: #b91c1c; font-weight: bold; }
+.kartite { background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 16px; margin: 12px 0; }
+img { max-width: 100%; height: auto; border: 1px solid #cbd5e1; }
+section { margin-top: 28px; }
+</style>
+</head>
+<body>
+<h1>E-pasta adreses pārbaudītājs</h1>
+<p>Ieraksti adresi un nospied pogu. Pārbaudītājs sadala adresi daļās un pasaka, vai tā ir derīga.</p>
+<input id="adrese" type="text" value="anna.kalnina@example.com">
+<button id="parbaudit">Pārbaudīt</button>
+<p id="rezultats"></p>
+
+<section>
+<h2>Testa adreses</h2>
+<button id="parbauditVisas">Pārbaudīt visas</button>
+<p id="kopsavilkums"></p>
+<table>
+<thead><tr><th>Adrese</th><th>Vajadzētu būt</th><th>Pārbaudītājs saka</th><th>Sakrīt?</th></tr></thead>
+<tbody id="testi"></tbody>
+</table>
+</section>
+
+<section>
+<h2>Mans lietišķais e-pasts</h2>
+<!-- 2. UZDEVUMS: saglabā ekrānuzņēmumu kā epasts_73.png tajā pašā mapē (adreses aizklātas!) -->
+<img src="epasts_73.png" alt="Nosūtītais e-pasts skolotājam ar saiti uz manu spēli">
+</section>
+
+<section>
+<h2>Situāciju kartītes</h2>
+<!-- 3. UZDEVUMS: katrā kartītē punktu ... vietā ieraksti savu atbildi -->
+<div class="kartite">
+<h3>1. Ielūgums 30 vecākiem</h3>
+<p>Klase aicina vecākus uz spēļu turnīra prezentāciju. Tev jānosūta ielūgums 30 vecākiem, kuri cits citu nepazīst.</p>
+<p><b>Rīks:</b> ...</p>
+<p><b>Lauks vai paņēmiens:</b> ...</p>
+<p><b>Kāpēc:</b> ...</p>
+</div>
+<div class="kartite">
+<h3>2. Video 40 MB</h3>
+<p>Skolotājs lūdz atsūtīt 40 MB lielu ierakstu, kurā redzams, kā spēlē tavu spēli.</p>
+<p><b>Rīks:</b> ...</p>
+<p><b>Lauks vai paņēmiens:</b> ...</p>
+<p><b>Kāpēc:</b> ...</p>
+</div>
+<div class="kartite">
+<h3>3. Dusmīga atbilde</h3>
+<p>Klases grupas tērzētavā klasesbiedrs uzrakstīja, ka tava spēle ir „garlaicīga un nozagta”. Tu esi dusmīgs.</p>
+<p><b>Rīks:</b> ...</p>
+<p><b>Lauks vai paņēmiens:</b> ...</p>
+<p><b>Kāpēc:</b> ...</p>
+</div>
+</section>
+
+<script>
+// === TESTA ADRESES: vajadzētu būt derīgai (true) vai nederīgai (false) ===
+// 3. UZDEVUMS: pievieno divas savas izdomātas adreses (nevis īstas!)
+const testaAdreses = [
+  { adrese: "anna.kalnina@example.com", derigai: true },
+  { adrese: "janis_berzins2010@example.lv", derigai: true },
+  { adrese: "skolens@skola.example.lv", derigai: true },
+  { adrese: "anna.kalnina.example.com", derigai: false },
+  { adrese: "anna@@example.com", derigai: false },
+  { adrese: "anna@example", derigai: false },
+  { adrese: "@example.com", derigai: false },
+  { adrese: "anna@", derigai: false },
+  { adrese: "anna kalnina@example.com", derigai: false },
+  { adrese: "anna@exa@mple.com", derigai: false }
+];
+
+// === ADRESES PĀRBAUDE: atgriež, vai adrese derīga, un tās daļas ===
+function parbauditAdresi(adrese) {
+  const vieta = adrese.indexOf("@");
+  if (vieta === -1) { return { derigs: false, iemesls: "nav @ zīmes" }; }
+  const lietotajs = adrese.slice(0, vieta);
+  const domens = adrese.slice(vieta + 1);
+  if (lietotajs === "") { return { derigs: false, iemesls: "trūkst lietotājvārda pirms @" }; }
+  if (domens === "") { return { derigs: false, iemesls: "trūkst domēna pēc @" }; }
+  if (adrese.includes(" ")) { return { derigs: false, iemesls: "adresē ir atstarpe" }; }
+  // 1. UZDEVUMS: pievieno šeit pārbaudi, ka @ zīme adresē ir tikai viena
+  // 1. UZDEVUMS: pievieno šeit pārbaudi, ka domēnā ir punkts
+  const augstakais = domens.slice(domens.lastIndexOf(".") + 1);
+  return { derigs: true, lietotajs: lietotajs, domens: domens, augstakais: augstakais };
+}
+
+// === VIENAS ADRESES REZULTĀTS LAPĀ ===
+function paraditVienu() {
+  const adrese = document.getElementById("adrese").value;
+  const r = parbauditAdresi(adrese);
+  const teksts = document.getElementById("rezultats");
+  if (r.derigs) {
+    teksts.className = "ok";
+    teksts.textContent = "Derīga. Lietotājvārds: " + r.lietotajs + " · domēns: " + r.domens + " · augstākā līmeņa domēns: " + r.augstakais;
+  } else {
+    teksts.className = "kluda";
+    teksts.textContent = "Nederīga: " + r.iemesls;
+  }
+}
+
+// === VISU TESTA ADRESU TABULA (šo funkciju nemaini) ===
+function parbauditVisas() {
+  const tabula = document.getElementById("testi");
+  tabula.innerHTML = "";
+  let pareizi = 0;
+  for (const t of testaAdreses) {
+    const r = parbauditAdresi(t.adrese);
+    const sakrit = r.derigs === t.derigai;
+    if (sakrit) { pareizi = pareizi + 1; }
+    const rinda = document.createElement("tr");
+    rinda.innerHTML = "<td><code>" + t.adrese + "</code></td><td>" + (t.derigai ? "derīga" : "nederīga") + "</td>" +
+      "<td>" + (r.derigs ? "derīga" : "nederīga: " + r.iemesls) + "</td>" +
+      "<td class=\"" + (sakrit ? "ok" : "kluda") + "\">" + (sakrit ? "✓" : "✗") + "</td>";
+    tabula.appendChild(rinda);
+  }
+  document.getElementById("kopsavilkums").textContent = "Pareizi: " + pareizi + " no " + testaAdreses.length;
+}
+
+document.getElementById("parbaudit").addEventListener("click", paraditVienu);
+document.getElementById("parbauditVisas").addEventListener("click", parbauditVisas);
+paraditVienu();
+</script>
+</body>
+</html>

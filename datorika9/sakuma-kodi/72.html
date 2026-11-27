@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lejupielādes kalkulators</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 860px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+h1 { color: #1e3a8a; }
+label { display: block; margin: 8px 0; }
+input { font: inherit; width: 120px; padding: 4px 6px; margin-left: 6px; }
+button { font: inherit; padding: 10px 14px; margin-top: 8px; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+#rezultats { font-size: 18px; font-weight: bold; color: #1e3a8a; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 15px; }
+th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; }
+th { background-color: #e2e8f0; }
+img { max-width: 100%; height: auto; border: 1px solid #cbd5e1; }
+section { margin-top: 28px; }
+</style>
+</head>
+<body>
+<h1>Lejupielādes kalkulators</h1>
+<label>Faila izmērs (MB) <input id="izmers" type="number" value="4000"></label>
+<label>Lejupielādes ātrums (Mbit/s) <input id="atrums" type="number" value="100"></label>
+<!-- 2. UZDEVUMS: pievieno šeit lauku augšupielādes ātrumam ar id="augsupielade" -->
+<button id="aprekinat">Aprēķināt</button>
+<p id="rezultats"></p>
+
+<section>
+<h2>Pieslēgumu piedāvājumi</h2>
+<p>Piedāvājumi ir izdomāti mācībām. Īstās cenas mainās — skolotājs var tās aizstāt ar aktuāliem piedāvājumiem.</p>
+<table>
+<thead><tr><th>Piedāvājums</th><th>Veids</th><th>Lejupielāde</th><th>Augšupielāde</th><th>Cena mēnesī</th><th>Līgums</th><th>Datu limits</th><th>Faila lejupielāde</th>
+<!-- 2. UZDEVUMS: pievieno virsrakstu "Cena par 1 Mbit/s" -->
+</tr></thead>
+<tbody id="piedavajumi"></tbody>
+</table>
+</section>
+
+<section>
+<h2>Mājas un skolas tīkls</h2>
+<!-- 2. UZDEVUMS: saglabā diagrammu kā tikli_72.png tajā pašā mapē, kur 72.html -->
+<img src="tikli_72.png" alt="Mājas tīkla un skolas tīkla shēma">
+</section>
+
+<section>
+<h2>Mana pārbaude</h2>
+<!-- 3. UZDEVUMS: aizpildi tabulu ar saviem pārbaudes gadījumiem -->
+<table>
+<thead><tr><th>Ievade</th><th>Gaidītais rezultāts</th><th>Ko parādīja</th></tr></thead>
+<tbody>
+<tr><td>80 MB, 80 Mbit/s</td><td>8 s</td><td>...</td></tr>
+</tbody>
+</table>
+</section>
+
+<section>
+<h2>Mans ieteikums ģimenei</h2>
+<!-- 3. UZDEVUMS: uzraksti savu ieteikumu ar trim kritērijiem -->
+<p>...</p>
+</section>
+
+<script>
+// === PIEDĀVĀJUMI (izdomāti; ātrums Mbit/s, cena eiro mēnesī, līgums mēnešos) ===
+const piedavajumi = [
+  { nosaukums: "Gaisma Optika 300", veids: "optika", lejupielade: 300, augsupielade: 300, cena: 22.99, ligums: 24, limits: "nav" },
+  { nosaukums: "Vilnis 5G Mājām", veids: "5G mobilais", lejupielade: 500, augsupielade: 50, cena: 19.99, ligums: 0, limits: "nav" },
+  { nosaukums: "Zvaigzne Satelīts", veids: "satelīts", lejupielade: 100, augsupielade: 10, cena: 49.00, ligums: 12, limits: "150 GB" }
+];
+
+// === LEJUPIELĀDES LAIKS SEKUNDĒS ===
+// 1. UZDEVUMS: šajā formulā ir kļūda — atrodi to ar pārbaudi 80 MB un 80 Mbit/s
+function lejupieladesLaiks(izmersMB, atrumsMbit) {
+  return izmersMB / atrumsMbit;
+}
+
+// === SEKUNDES SAPROTAMĀ FORMĀ (šo funkciju nemaini) ===
+function laiksTeksta(sekundes) {
+  if (sekundes < 60) { return sekundes.toFixed(1) + " s"; }
+  const kopa = Math.round(sekundes);
+  const minutes = Math.floor(kopa / 60);
+  if (minutes < 60) { return minutes + " min " + (kopa % 60) + " s"; }
+  return Math.floor(minutes / 60) + " h " + (minutes % 60) + " min";
+}
+
+// === PIEDĀVĀJUMU TABULA ===
+function raditPiedavajumus(izmers) {
+  const tabula = document.getElementById("piedavajumi");
+  tabula.innerHTML = "";
+  for (const p of piedavajumi) {
+    const rinda = document.createElement("tr");
+    const ligums = p.ligums === 0 ? "bez līguma" : p.ligums + " mēn.";
+    rinda.innerHTML = "<td>" + p.nosaukums + "</td><td>" + p.veids + "</td>" +
+      "<td>" + p.lejupielade + " Mbit/s</td><td>" + p.augsupielade + " Mbit/s</td>" +
+      "<td>" + p.cena.toFixed(2) + " €</td><td>" + ligums + "</td><td>" + p.limits + "</td>" +
+      "<td>" + laiksTeksta(lejupieladesLaiks(izmers, p.lejupielade)) + "</td>";
+    // 2. UZDEVUMS: pievieno šūnu ar cenu par 1 Mbit/s (cena / lejupielade)
+    tabula.appendChild(rinda);
+  }
+}
+
+// === APRĒĶINS PĒC POGAS ===
+function aprekinat() {
+  const izmers = Number(document.getElementById("izmers").value);
+  const atrums = Number(document.getElementById("atrums").value);
+  // 3. UZDEVUMS: pārbaudi ievadi šeit, pirms rēķini
+  const laiks = lejupieladesLaiks(izmers, atrums);
+  document.getElementById("rezultats").textContent = "Lejupielāde ilgs: " + laiksTeksta(laiks);
+  // 2. UZDEVUMS: aprēķini un parādi arī augšupielādes laiku
+  raditPiedavajumus(izmers);
+}
+
+document.getElementById("aprekinat").addEventListener("click", aprekinat);
+aprekinat();
+</script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paroles stipruma mērītājs</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 800px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+h1 { color: #1e3a8a; }
+.bridinajums { background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 8px 14px; }
+input { font: inherit; width: 320px; max-width: 100%; padding: 6px 8px; }
+button { font: inherit; padding: 8px 14px; margin: 6px 6px 6px 0; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+#rezultats { font-weight: bold; }
+.vaja { color: #b91c1c; }
+.videja { color: #b45309; }
+.stipra { color: #15803d; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 15px; }
+th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; }
+th { background-color: #e2e8f0; }
+.ok { color: #15803d; font-weight: bold; }
+.kluda { color: #b91c1c; font-weight: bold; }
+section { margin-top: 28px; }
+</style>
+</head>
+<body>
+<h1>Paroles stipruma mērītājs</h1>
+<p class="bridinajums"><b>Neraksti šeit savu īsto paroli!</b> Izmanto tikai izdomātus piemērus. Šī lapa neko nesūta internetā, bet labs paradums ir īsto paroli rakstīt tikai tās īstajā vietā.</p>
+<input id="parole" type="text" value="Parole123!">
+<button id="novertet">Novērtēt</button>
+<p id="rezultats"></p>
+
+<section>
+<h2>Testa paroles</h2>
+<button id="novertetVisas">Novērtēt visas</button>
+<p id="kopsavilkums"></p>
+<table>
+<thead><tr><th>Parole</th><th>Vajadzētu būt</th><th>Mērītājs saka</th><th>Sakrīt?</th></tr></thead>
+<tbody id="testi"></tbody>
+</table>
+</section>
+
+<section>
+<h2>Mana datora drošības plāns</h2>
+<!-- 3. UZDEVUMS: katrā punktā ... vietā ieraksti, ko tieši darīsi un cik bieži -->
+<ol>
+<li><b>Atjauninājumi:</b> ...</li>
+<li><b>Pretvīrusu aizsardzība:</b> ...</li>
+<li><b>Rezerves kopijas:</b> ...</li>
+<li><b>Paroles un divfaktoru autentifikācija:</b> ...</li>
+<li><b>Kopīgotās saites un publiskie projekti:</b> ...</li>
+</ol>
+</section>
+
+<script>
+// === TESTA PAROLES (izdomātas!) un kādam vajadzētu būt vērtējumam ===
+const testaParoles = [
+  { parole: "123456", vajag: "vāja" },
+  { parole: "parole", vajag: "vāja" },
+  { parole: "abcdefgh", vajag: "vāja" },
+  { parole: "K7#vZ!q9Lm2@", vajag: "stipra" },
+  { parole: "Parole123!", vajag: "vāja" },
+  { parole: "qwerty123", vajag: "vāja" },
+  { parole: "Abc123!@", vajag: "vāja" },
+  { parole: "Tg7#pQ", vajag: "vāja" },
+  { parole: "zils zirgs ēd pankūkas", vajag: "stipra" },
+  { parole: "mākonis lido pār jumtu", vajag: "stipra" }
+];
+
+// 2. UZDEVUMS: izveido šeit masīvu biezakasParoles ar 20 bieži lietotām parolēm
+
+// === GATAVAS PALĪGFUNKCIJAS: vai parolē ir šāda veida rakstzīme ===
+function irMazais(parole) { return /[a-z]/.test(parole); }
+function irLielais(parole) { return /[A-Z]/.test(parole); }
+function irCipars(parole) { return /[0-9]/.test(parole); }
+function irSimbols(parole) { return /[^A-Za-z0-9]/.test(parole); }
+
+// === NOVĒRTĒJUMS: punkti un iemesli ===
+function novertet(parole) {
+  let punkti = 0;
+  const iemesli = [];
+  // 2. UZDEVUMS: pārbaudi šeit biežās paroles un īsas paroles
+  if (parole.length >= 8) { punkti = punkti + 1; iemesli.push("vismaz 8 rakstzīmes"); }
+  if (parole.length >= 12) { punkti = punkti + 1; iemesli.push("vismaz 12 rakstzīmes"); }
+  if (irMazais(parole)) { punkti = punkti + 1; iemesli.push("mazie burti"); }
+  if (irLielais(parole)) { punkti = punkti + 1; iemesli.push("lielie burti"); }
+  if (irCipars(parole)) { punkti = punkti + 1; iemesli.push("cipari"); }
+  if (irSimbols(parole)) { punkti = punkti + 1; iemesli.push("simboli"); }
+  // 2. UZDEVUMS: pievieno šeit punktus garai frāzei no 4 vai vairāk vārdiem
+  return { punkti: punkti, iemesli: iemesli };
+}
+
+// === PUNKTI → VĒRTĒJUMS (šo funkciju nemaini) ===
+function vertejums(punkti) {
+  if (punkti <= 2) { return "vāja"; }
+  if (punkti <= 4) { return "vidēja"; }
+  return "stipra";
+}
+function klase(vards) {
+  if (vards === "vāja") { return "vaja"; }
+  if (vards === "vidēja") { return "videja"; }
+  return "stipra";
+}
+
+// === VIENAS PAROLES REZULTĀTS ===
+function paraditVienu() {
+  const r = novertet(document.getElementById("parole").value);
+  const v = vertejums(r.punkti);
+  const teksts = document.getElementById("rezultats");
+  teksts.className = klase(v);
+  teksts.textContent = "Parole ir " + v + " (" + r.punkti + " punkti).";
+  // 2. UZDEVUMS: parādi arī iemeslus: r.iemesli.join(", ")
+}
+
+// === VISU TESTA PAROĻU TABULA (šo funkciju nemaini) ===
+function novertetVisas() {
+  const tabula = document.getElementById("testi");
+  tabula.innerHTML = "";
+  let pareizi = 0;
+  for (const t of testaParoles) {
+    const v = vertejums(novertet(t.parole).punkti);
+    const sakrit = v === t.vajag;
+    if (sakrit) { pareizi = pareizi + 1; }
+    const rinda = document.createElement("tr");
+    rinda.innerHTML = "<td><code>" + t.parole + "</code></td><td>" + t.vajag + "</td>" +
+      "<td class=\"" + klase(v) + "\">" + v + "</td>" +
+      "<td class=\"" + (sakrit ? "ok" : "kluda") + "\">" + (sakrit ? "✓" : "✗") + "</td>";
+    tabula.appendChild(rinda);
+  }
+  document.getElementById("kopsavilkums").textContent = "Pareizi: " + pareizi + " no " + testaParoles.length;
+}
+
+document.getElementById("novertet").addEventListener("click", paraditVienu);
+document.getElementById("novertetVisas").addEventListener("click", novertetVisas);
+paraditVienu();
+</script>
+</body>
+</html>

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="lv">
+ <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7.1 Kā spēle nonāk pie spēlētāja: klients, serveris un tīkls — ebSkola</title>
+<meta name="description" content="Datorika 9. klasei (tīkli): Izseko, kā publicētā spēle no GitHub Pages servera nonāk pārlūkā — klients un serveris, statusa kodi, IP, DNS, tīkla ierīces, ipconfig, ping un tracert.">
+<meta name="author" content="Eduards Baumanis">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="canonical" href="https://ebskola.lv/datorika9/dat9_7/nodarbibas/dat9_71">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="lv_LV">
+<meta property="og:site_name" content="ebSkola">
+<meta property="og:title" content="7.1 Kā spēle nonāk pie spēlētāja: klients, serveris un tīkls">
+<meta property="og:description" content="Datorika 9. klasei (tīkli): Izseko, kā publicētā spēle no GitHub Pages servera nonāk pārlūkā — klients un serveris, statusa kodi, IP, DNS, tīkla ierīces, ipconfig, ping un tracert.">
+<meta property="og:url" content="https://ebskola.lv/datorika9/dat9_7/nodarbibas/dat9_71">
+<meta property="og:image" content="https://ebskola.lv/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ebSkola — datorikas, programmēšanas un robotikas mācību materiāli">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../../favicon.ico" sizes="48x48">
+<link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../../icon-192.png">
+<link rel="manifest" href="../../../manifest.json">
+<meta name="theme-color" content="#222831">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../../style.css">
+<link rel="stylesheet" href="../../../lesson.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "LearningResource", "name": "7.1 Kā spēle nonāk pie spēlētāja: klients, serveris un tīkls", "description": "Datorika 9. klasei (tīkli): Izseko, kā publicētā spēle no GitHub Pages servera nonāk pārlūkā — klients un serveris, statusa kodi, IP, DNS, tīkla ierīces, ipconfig, ping un tracert.", "inLanguage": "lv", "url": "https://ebskola.lv/datorika9/dat9_7/nodarbibas/dat9_71", "learningResourceType": "Lesson", "educationalLevel": "Pamatizglītība (9. klase)", "isPartOf": {"@type": "Course", "name": "Datorika 9. klasei — 7. tēma: Tīkli, internets un drošība", "url": "https://ebskola.lv/datorika9/dat9_7/dat9_7main"}, "author": {"@type": "Person", "name": "Eduards Baumanis", "sameAs": "https://www.linkedin.com/in/eduards-baumanis-81aba4174/"}, "publisher": {"@type": "EducationalOrganization", "@id": "https://ebskola.lv/#organization", "name": "ebSkola", "url": "https://ebskola.lv/"}, "isAccessibleForFree": true, "license": "https://opensource.org/licenses/MIT"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ebSkola", "item": "https://ebskola.lv/"}, {"@type": "ListItem", "position": 2, "name": "Datorika 9. klasei", "item": "https://ebskola.lv/datorika9/datorika9"}, {"@type": "ListItem", "position": 3, "name": "7. tēma: Tīkli, internets un drošība", "item": "https://ebskola.lv/datorika9/dat9_7/dat9_7main"}, {"@type": "ListItem", "position": 4, "name": "7.1 Kā spēle nonāk pie spēlētāja: klients, serveris un tīkls", "item": "https://ebskola.lv/datorika9/dat9_7/nodarbibas/dat9_71"}]}]}</script>
+<script defer src="../../../lesson.js"></script>
+</head>
+ <body class="page-reference datorika-kurss course-lesson has-sidebar">
+  <a class="skip-link" href="#saturs">
+   Uz mācību saturu
+  </a>
+  <header class="topbar">
+<div class="wrap row">
+<a class="brand" href="/">
+<span class="glyph">›_</span>
+<span class="name">ebskola<span>.lv</span></span>
+</a>
+<nav aria-label="Galvenā navigācija" class="nav">
+<a href="/datorika9/datorika9">Datorika 9</a>
+<a href="/datorika9/dat9_7/dat9_7main">7. tēma</a>
+<a href="/datorika9/git">GitHub palīdzība</a>
+<a href="/sasnRez#datorika9">rezultāti</a>
+<a href="/paligm">palīgmateriāli</a>
+</nav>
+<div class="spacer"></div>
+</div>
+</header>
+  <aside aria-label="7. tēmas navigācija" class="sidebar-nav">
+   <div class="sidebar-kicker">
+    Datorika 9
+   </div>
+   <h3>
+    7. tēma — Tīkli, internets un drošība
+   </h3>
+   <nav aria-label="Tēmas nodarbības" class="sidebar-links">
+    <a class="topic-main" href="/datorika9/dat9_7/dat9_7main">
+     Tēmas sākums
+    </a>
+    <a aria-current="page" class="active" href="/datorika9/dat9_7/nodarbibas/dat9_71">
+     7.1 Kā spēle nonāk pie spēlētāja
+    </a>
+    <a href="/datorika9/dat9_7/nodarbibas/dat9_72">
+     7.2 Mājas un skolas tīkls, pieslēgums un ātrums
+    </a>
+    <a href="/datorika9/dat9_7/nodarbibas/dat9_73">
+     7.3 E-pasts un saziņas rīki
+    </a>
+    <a href="/datorika9/dat9_7/nodarbibas/dat9_74">
+     7.4 Pikšķerēšana un identitātes zādzība
+    </a>
+    <a href="/datorika9/dat9_7/nodarbibas/dat9_75">
+     7.5 Ierīču, programmatūras un datu drošība
+    </a>
+    <a href="/datorika9/dat9_7/nodarbibas/dat9_76">
+     7.6 „Droša spēlēšana” lapa tavai spēlei
+    </a>
+   </nav>
+  </aside>
+  <main class="course-content" id="saturs">
+   <p class="breadcrumb">
+    <a href="/datorika9/dat9_7/dat9_7main">
+     7. tēma
+    </a>
+    / 7.1
+   </p>
+   <h1>
+    7.1 Kā spēle nonāk pie spēlētāja: klients, serveris un tīkls
+   </h1>
+   <p class="lesson-goal">
+    <b>
+     Sasniedzamais rezultāts:
+    </b>
+    Izseko, kā publicētā spēle no GitHub servera nonāk līdz pārlūkam, izmēra savienojumu un uzzīmē šī ceļa tīkla shēmu.
+   </p>
+<div class="lesson-meta">
+<a href="/sasnRez#dat9-2-3-2" title="Skaidro vienkārša datortīkla uzbūves pamatprincipus (to skaitā klientservera arhitektūru). Klasificē ar datortīkliem biežāk saistītas ierīces un apraksta to izmantošanas iespējas, modelējot biežāk lietoto datortīklu piemērus.">SR 2.3.2. Datortīkla uzbūve un klientserveris</a>
+<a href="/sasnRez#dat9-2-6-2" title="Izstrādā kritērijus, pēc kuriem novērtē sava algoritma precizitāti un iespējamās kļūdas. Mērķtiecīgi (pēc iepriekš sastādīta plāna) pārbauda, vai algoritms izpilda doto uzdevumu, meklē algoritma pierakstā pieļautās kļūdas un izlabo tās.">SR 2.6.2. Algoritma pārbaude un kļūdu labošana</a>
+</div>
+   <section id="teorija">
+    <h2>Teorija ar piemēriem</h2>
+    <p class="start-test" id="atkartojuma-tests"><a class="btn primary start-test-btn" href="/datorika9/dat9_7/testi/dat9_71_test">Sākt testu →</a></p>
+    <div class="logic-box" id="klients-serveris">
+     <h3>Klients, serveris, pieprasījums un atbilde</h3>
+    <p>5.6. nodarbībā publicēji spēli GitHub Pages. Kad kāds atver tās saiti, notiek saruna starp diviem datoriem:</p>
+    <ul>
+     <li><b>klients</b> — pārlūks spēlētāja datorā vai telefonā — nosūta <b>pieprasījumu</b>: „Lūdzu, failu <code>index.html</code>”;</li>
+     <li><b>serveris</b> — dators GitHub datu centrā, kurā glabājas tava spēle — nosūta <b>atbildi</b>: statusa kodu un faila saturu.</li>
+    </ul>
+    <p>Tā ir <b>klientservera arhitektūra</b>: viens serveris apkalpo daudzus klientus. Katrai lapai, attēlam un skaņai pārlūks sūta atsevišķu pieprasījumu. Atbildes sākumā ir <b>statusa kods</b>:</p>
+    <div class="table-scroll" role="region" aria-label="HTTP statusa kodi" tabindex="0">
+     <table class="theory-table">
+      <thead>
+       <tr>
+        <th scope="col">Kods</th>
+        <th scope="col">Nozīme</th>
+        <th scope="col">Kad redzēsi</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr><td><code>200</code></td><td>Labi — fails atrasts un nosūtīts.</td><td>Spēle atveras.</td></tr>
+       <tr><td><code>301</code>, <code>308</code></td><td>Pārvietots — skaties citā adresē.</td><td>Pārlūks pats aiziet uz jauno adresi.</td></tr>
+       <tr><td><code>404</code></td><td>Nav atrasts — tāda faila serverī nav.</td><td>Kļūda faila nosaukumā vai fails nav nosūtīts uz GitHub.</td></tr>
+       <tr><td><code>500</code></td><td>Kļūda serverī.</td><td>Problēma nav tavā datorā.</td></tr>
+      </tbody>
+     </table>
+    </div>
+    <p>Ja nav savienojuma, statusa koda nav vispār: pieprasījums līdz serverim nenonāk, un pārlūks ziņo <code>Failed to fetch</code> vai „Nav interneta savienojuma”.</p>
+    <p>Sākuma kodā šo sarunu veic komanda <code>fetch(adrese)</code>: tā nosūta pieprasījumu un ar <code>await</code> gaida atbildi. Tev tā nav jāraksta pašam — tu maini tikai adreses un vēro rezultātus.</p>
+    </div>
+    <div class="logic-box" id="adreses">
+     <h3>IP adrese, domēna vārds un DNS</h3>
+    <p>Tīklā katrai ierīcei ir <b>IP adrese</b> — skaitļu virkne, piemēram, <code>185.199.108.153</code>. Cilvēkiem vieglāk atcerēties <b>domēna vārdu</b>, piemēram, <code>lietotajs.github.io</code>. Pirms pieprasījuma pārlūks pajautā <b>DNS serverim</b>: „Kāda IP adrese ir šim vārdam?” DNS darbojas kā tālruņu grāmata: vārds → numurs.</p>
+    <p>Komanda <code>ipconfig</code> (<b>Start → cmd → Enter</b>, tad <code>ipconfig</code>) parāda tava datora adresi lokālajā tīklā:</p>
+    <pre><code>Wireless LAN adapter Wi-Fi:
+   IPv4 Address. . . . . . . . . . . : 192.168.1.23
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 192.168.1.1</code></pre>
+    <ul>
+     <li><b>IPv4 Address</b> — tava datora adrese lokālajā tīklā.</li>
+     <li><b>Default Gateway</b> (noklusējuma vārteja) — maršrutētāja adrese: pa šīm „durvīm” dati iziet no lokālā tīkla uz internetu.</li>
+    </ul>
+    <p>Adreses, kas sākas ar <code>192.168.</code>, <code>10.</code> vai <code>172.16.</code>–<code>172.31.</code>, ir <b>privātas</b>: tās der tikai lokālajā tīklā un atkārtojas tūkstošos māju un skolu. Tās drīkst ierakstīt darbā. <b>Publisko</b> adresi, ko redz serveri internetā, savā publicētajā darbā neraksti: pēc tās var noteikt tīklu, no kura strādā.</p>
+    </div>
+    <div class="logic-box" id="ierices">
+     <h3>Ierīces ceļā no tava datora līdz serverim</h3>
+    <p><b>Lokālais tīkls</b> (<b>LAN</b>) savieno ierīces vienā ēkā — klasē, skolā vai mājās. <b>Internets</b> ir tīklu tīkls, kas savieno miljoniem lokālo tīklu. Tava spēle ceļo pa abiem:</p>
+    <div class="table-scroll" role="region" aria-label="Tīkla ierīces" tabindex="0">
+     <table class="theory-table">
+      <thead>
+       <tr>
+        <th scope="col">Ierīce</th>
+        <th scope="col">Kur atrodas</th>
+        <th scope="col">Ko dara</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr><td><b>Dators vai telefons</b> (klients)</td><td>uz tava galda</td><td>Sūta pieprasījumus un rāda atbildes.</td></tr>
+       <tr><td><b>Wi-Fi piekļuves punkts</b></td><td>klasē pie griestiem vai mājas rūterī</td><td>Savieno bezvadu ierīces ar tīklu.</td></tr>
+       <tr><td><b>Komutators</b> (<i>switch</i>)</td><td>skolas tīkla skapī</td><td>Savieno vadu ierīces vienā lokālajā tīklā un sūta datus tieši vajadzīgajai ierīcei.</td></tr>
+       <tr><td><b>Maršrutētājs</b> (<i>router</i>) — noklusējuma vārteja</td><td>lokālā tīkla izejā</td><td>Sūta datus no lokālā tīkla uz citiem tīkliem un atpakaļ.</td></tr>
+       <tr><td><b>Modems</b> vai optiskais terminālis</td><td>kur ēkā ienāk ārējais kabelis</td><td>Savieno ēkas tīklu ar pakalpojumu sniedzēja līniju (optika, kabelis, mobilais tīkls).</td></tr>
+       <tr><td><b>Pakalpojumu sniedzēja tīkls un internets</b></td><td>ārpus ēkas, citās pilsētās un valstīs</td><td>Daudzi maršrutētāji, kas pa posmiem nogādā datus līdz mērķim.</td></tr>
+       <tr><td><b>DNS serveris</b></td><td>parasti pie pakalpojumu sniedzēja</td><td>Pārvērš domēna vārdu IP adresē.</td></tr>
+       <tr><td><b>Serveris</b></td><td>datu centrā (GitHub Pages)</td><td>Glabā spēles failus un atbild uz pieprasījumiem.</td></tr>
+      </tbody>
+     </table>
+    </div>
+    <p>Mājās viena kaste — <b>rūteris</b> — bieži ir piekļuves punkts, komutators, maršrutētājs un modems reizē. Skolā tās parasti ir atsevišķas ierīces, un tās pārvalda skolas IT speciālists.</p>
+    </div>
+    <div class="logic-box" id="merijumi">
+     <h3>Kā izmērīt, kas notiek tīklā</h3>
+    <ul>
+     <li><b>DevTools → Network</b> (<b>F12</b>, cilne <b>Network</b>, tad <b>Ctrl+R</b>) rāda katru pieprasījumu: nosaukumu (<b>Name</b>), statusu (<b>Status</b>), veidu (<b>Type</b>), izmēru (<b>Size</b>) un laiku (<b>Time</b>). Atzīmē <b>Disable cache</b>, lai pārlūks neizmanto jau saglabātus failus.</li>
+     <li>Sarakstā <b>No throttling</b> var izvēlēties lēnāku savienojumu (piemēram, <b>Slow 4G</b>) vai <b>Offline</b> — tad pārlūks uzvedas tā, it kā interneta nebūtu.</li>
+     <li><code>ping adrese</code> nosūta serverim četrus mazus signālus un rāda, cik milisekundēs atnāk atbilde: <code>time=24ms</code>, beigās <code>Average</code>.</li>
+     <li><code>tracert -d -h 15 adrese</code> parāda maršrutētājus ceļā līdz serverim — katra rinda ir viens <b>posms</b> (<i>hop</i>). Zvaigznīte <code>*</code> nozīmē, ka šis maršrutētājs neatbild; tā ir normāla parādība.</li>
+    </ul>
+    <pre><code>C:\&gt; ping lietotajs.github.io
+Reply from 185.199.108.153: bytes=32 time=24ms TTL=57
+...
+    Minimum = 23ms, Maximum = 26ms, Average = 24ms</code></pre>
+    </div>
+    <details class="course-help">
+     <summary>Pašpārbaude: spēle atveras, bet attēls tajā nerādās, un Network cilnē pie tā ir 404. Kur meklēt kļūdu?</summary>
+     <p>Serveris strādā — tas atbildēja ar 404, nevis klusēja. Tātad serverī nav faila ar tādu nosaukumu: pārbaudi, vai nosaukums kodā sakrīt ar faila nosaukumu (arī lielie un mazie burti) un vai attēls ir nosūtīts uz GitHub.</p>
+    </details>
+   </section>
+   <section class="lesson-starter" id="sakuma-kods">
+    <h2>
+     Sākuma kods un darba vieta
+    </h2>
+    <p>Jauna tēma, jauna mape: VS Code atver <code>Desktop/datorika9-tema7</code>, ielīmē sākuma kodu jaunā failā un saglabā kā <code>71.html</code>. Sākuma kods ir „Tīkla pētnieks”: tas nosūta pieprasījumu trim failiem un parāda servera, statusa, izmēra un laika tabulu.</p>
+    <div class="starter-actions">
+     <button class="btn" data-copy="pilnais-kods" type="button">
+      Kopēt sākuma kodu
+     </button>
+     <a class="btn" download="71.html" href="../../sakuma-kodi/71.html">
+      Lejupielādēt 71.html
+     </a>
+    </div>
+    <p aria-live="polite" class="copy-status" role="status">
+    </p>
+    <details class="starter-source">
+     <summary>
+      Atvērt pilno sākuma kodu
+     </summary>
+     <pre><code id="pilnais-kods">&lt;!DOCTYPE html&gt;
+&lt;html lang="lv"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Tīkla pētnieks&lt;/title&gt;
+&lt;style&gt;
+body { font-family: Arial, sans-serif; max-width: 760px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+h1 { color: #1e3a8a; }
+button { font: inherit; padding: 10px 14px; cursor: pointer; background-color: #245b91; color: #ffffff; border: 0; border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; }
+th { background-color: #e2e8f0; }
+.ok { color: #15803d; font-weight: bold; }
+.kluda { color: #b91c1c; font-weight: bold; }
+img { max-width: 100%; height: auto; border: 1px solid #cbd5e1; }
+section { margin-top: 28px; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Tīkla pētnieks&lt;/h1&gt;
+&lt;p&gt;Nospied pogu: lapa nosūtīs pieprasījumu katram failam un parādīs servera atbildi.&lt;/p&gt;
+&lt;button id="sutit"&gt;Sūtīt pieprasījumus&lt;/button&gt;
+&lt;table&gt;
+&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Fails&lt;/th&gt;&lt;th&gt;Serveris&lt;/th&gt;&lt;th&gt;Statuss&lt;/th&gt;&lt;th&gt;Izmērs&lt;/th&gt;&lt;th&gt;Laiks&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody id="rezultati"&gt;&lt;tr&gt;&lt;td colspan="5"&gt;Vēl nav pieprasījumu.&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;section&gt;
+&lt;h2&gt;Mana tīkla shēma&lt;/h2&gt;
+&lt;!-- 2. UZDEVUMS: saglabā diagrammu kā tikls_71.png tajā pašā mapē, kur 71.html --&gt;
+&lt;img src="tikls_71.png" alt="Ceļš no mana datora līdz manas spēles serverim"&gt;
+&lt;/section&gt;
+
+&lt;section&gt;
+&lt;h2&gt;Mani mērījumi&lt;/h2&gt;
+&lt;!-- 2. un 3. UZDEVUMS: punktu ... vietā ieraksti savus rezultātus --&gt;
+&lt;ul&gt;
+&lt;li&gt;Mana IP adrese (ipconfig): ...&lt;/li&gt;
+&lt;li&gt;Noklusējuma vārteja (ipconfig): ...&lt;/li&gt;
+&lt;li&gt;ping līdz manai spēlei, vidēji: ... ms&lt;/li&gt;
+&lt;li&gt;tracert līdz manai spēlei: ... posmi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/section&gt;
+
+&lt;section&gt;
+&lt;h2&gt;Ko es noskaidroju&lt;/h2&gt;
+&lt;!-- 3. UZDEVUMS: uzraksti prognozi PIRMS pogas nospiešanas, tad rezultātu --&gt;
+&lt;p&gt;Prognoze failam ar kļūdu nosaukumā: ...&lt;/p&gt;
+&lt;p&gt;Rezultāts: ...&lt;/p&gt;
+&lt;p&gt;Ko rāda tabula, kad DevTools ieslēgts Offline: ...&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;script&gt;
+// === 1. UZDEVUMS — MAINI ŠEIT: tavas publicētās spēles adrese (ar / beigās) ===
+const speleAdrese = "https://pages.github.com/";
+
+// === FAILI, KURUS PIEPRASĪT ===
+// 3. UZDEVUMS: pievieno vēl vienu rindu — savas spēles failu ar kļūdu nosaukumā
+const faili = [
+  { nosaukums: "Spēles lapa", adrese: speleAdrese },
+  { nosaukums: "Attēls citā serverī", adrese: "https://ebskola.lv/icon-192.png" },
+  { nosaukums: "Fails, kura nav", adrese: speleAdrese + "nav-tada-faila.html" }
+];
+
+// === STATUSA KODA SKAIDROJUMS ===
+function statusaTeksts(kods) {
+  if (kods === 200) { return "200 — atrasts"; }
+  if (kods === 404) { return "404 — nav atrasts"; }
+  return kods + " — cita atbilde";
+}
+
+// === SERVERA NOSAUKUMS NO ADRESES ===
+function serveris(adrese) {
+  try {
+    return new URL(adrese).hostname;
+  } catch (kluda) {
+    return "nepareiza adrese";
+  }
+}
+
+// === VIENS PIEPRASĪJUMS: nosūta, gaida atbildi un mēra laiku (šo funkciju nemaini) ===
+async function pieprasit(fails) {
+  const sakums = performance.now();
+  try {
+    const atbilde = await fetch(fails.adrese, { cache: "no-store" });
+    const saturs = await atbilde.blob();
+    const laiks = Math.round(performance.now() - sakums);
+    return {
+      statuss: statusaTeksts(atbilde.status),
+      labi: atbilde.ok,
+      izmers: (saturs.size / 1024).toFixed(1) + " KB",
+      laiks: laiks + " ms"
+    };
+  } catch (kluda) {
+    return { statuss: "Nav atbildes: " + kluda.message, labi: false, izmers: "—", laiks: "—" };
+  }
+}
+
+// === VISI PIEPRASĪJUMI PĒC KĀRTAS UN REZULTĀTU TABULA ===
+async function sutitVisus() {
+  const tabula = document.getElementById("rezultati");
+  tabula.innerHTML = "";
+  for (const fails of faili) {
+    const r = await pieprasit(fails);
+    const rinda = document.createElement("tr");
+    const klase = r.labi ? "ok" : "kluda";
+    rinda.innerHTML = "&lt;td&gt;" + fails.nosaukums + "&lt;/td&gt;&lt;td&gt;" + serveris(fails.adrese) + "&lt;/td&gt;" +
+      "&lt;td class=\"" + klase + "\"&gt;" + r.statuss + "&lt;/td&gt;&lt;td&gt;" + r.izmers + "&lt;/td&gt;&lt;td&gt;" + r.laiks + "&lt;/td&gt;";
+    tabula.appendChild(rinda);
+  }
+}
+
+document.getElementById("sutit").addEventListener("click", sutitVisus);
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </details>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-1">
+    <p class="task-number">
+     1. uzdevums
+    </p>
+    <h2>
+     Apskati, ko tava spēle ielādē no servera
+    </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#klients-serveris">Klients, serveris, pieprasījums un atbilde</a> un <a href="#merijumi">Kā izmērīt</a>.</p>
+    <p class="workplace">
+     Vide: pārlūks (DevTools) → VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Atver savu 5.6. nodarbībā publicēto spēli (<code>https://lietotajs.github.io/datorika9-tema5/</code>). Nospied <b>F12</b>, atver cilni <b>Network</b>, atzīmē <b>Disable cache</b> un nospied <b>Ctrl+R</b>.
+     </li>
+     <li>
+      Sarakstā apskati katru failu: <b>Name</b>, <b>Status</b>, <b>Type</b> un <b>Size</b>. Pieraksti, cik failu spēle ielādē, un kurš ir lielākais.
+     </li>
+     <li>
+      Izveido mapi <code>Desktop/datorika9-tema7</code>, VS Code atver to un saglabā sākuma kodu kā <code>71.html</code>.
+     </li>
+     <li>
+      Skripta sākumā <code>speleAdrese</code> vērtību aizstāj ar savas spēles adresi pēdiņās (ar <code>/</code> beigās). Saglabā ar <b>Ctrl+S</b>.
+     </li>
+     <li>
+      Atver <code>71.html</code> pārlūkā (<b>Open with → Edge</b>) un nospied <b>Sūtīt pieprasījumus</b>. Salīdzini spēles lapas statusu un izmēru ar DevTools Network cilnē redzēto.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     tu zini, cik failu ielādē tava spēle un kurš ir lielākais, un „Tīkla pētnieks” tavai spēlei rāda <code>200</code>, attēlam citā serverī — <code>200</code>, bet failam, kura nav, — <code>404</code>.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-2">
+    <p class="task-number">
+     2. uzdevums
+    </p>
+    <h2>
+     Uzzīmē ceļu no sava datora līdz serverim
+    </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#adreses">IP adrese, domēna vārds un DNS</a> un <a href="#ierices">Ierīces ceļā</a>.</p>
+    <p class="workplace">
+     Vide: komandrinda (cmd) → diagrams.net pārlūkā → VS Code
+    </p>
+    <ol class="step-list">
+     <li>
+      Atver <b>Start</b>, ieraksti <code>cmd</code> un nospied <b>Enter</b>. Ieraksti <code>ipconfig</code>. Atrodi adapteri, kuram ir <b>Default Gateway</b>, un pieraksti tā <b>IPv4 Address</b> un <b>Default Gateway</b>.
+     </li>
+     <li>
+      Atver <code>https://app.diagrams.net</code>, izvēlies <b>Device</b> (saglabāt datorā) un <b>Create New Diagram → Blank Diagram</b>.
+     </li>
+     <li>
+      Uzzīmē ceļu no kreisās uz labo pusi: tavs dators → Wi-Fi piekļuves punkts vai komutators → maršrutētājs (vārteja) → pakalpojumu sniedzējs → internets → GitHub Pages serveris. Formas atrodi kreisajā meklēšanas laukā (<code>router</code>, <code>switch</code>, <code>server</code>, <code>cloud</code>) un savieno tās ar līnijām.
+     </li>
+     <li>
+      Pie katras ierīces uzraksti tās nosaukumu un vienā rindā, ko tā dara. Pie sava datora ieraksti savu IP adresi, pie maršrutētāja — vārtejas adresi. Atsevišķi pievieno DNS serveri ar raustītu līniju un uzrakstu „lietotajs.github.io → IP?”.
+     </li>
+     <li>
+      <b>File → Export as → PNG</b> un saglabā kā <code>tikls_71.png</code> mapē <code>datorika9-tema7</code>. Ar <b>File → Save as</b> saglabā arī <code>tikls_71.drawio</code> — to izmantosi 7.2. nodarbībā.
+     </li>
+     <li>
+      Failā <code>71.html</code> sadaļā „Mani mērījumi” punktu <code>...</code> vietā ieraksti savu IP adresi un vārteju. Saglabā un atjauno pārlūku: shēmai jāparādās lapā.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     <code>71.html</code> redzama shēma ar vismaz sešām ierīcēm, katrai ir nosaukums un funkcija, un pie datora un maršrutētāja ir tavas IP un vārtejas adreses.
+    </p>
+   </section>
+   <section class="logic-box lesson-task" id="uzdevums-3">
+    <p class="task-number">
+     3. uzdevums
+    </p>
+    <h2>
+     Salauz pieprasījumu un izmēri savienojumu
+    </h2>
+    <p><b>Izmanto teoriju:</b> <a href="#klients-serveris">Statusa kodi</a> un <a href="#merijumi">Kā izmērīt, kas notiek tīklā</a>.</p>
+    <p class="workplace">
+     Vide: VS Code → pārlūks (DevTools) → komandrinda
+    </p>
+    <ol class="step-list">
+     <li>
+      Masīvā <code>faili</code> pievieno ceturto rindu ar savas spēles failu, kura nosaukumā ir kļūda, piemēram, <code>{ nosaukums: "Kļūda nosaukumā", adrese: speleAdrese + "Index.html" }</code>. Neaizmirsti komatu iepriekšējās rindas beigās.
+     </li>
+     <li>
+      <b>Pirms</b> pogas nospiešanas sadaļā „Ko es noskaidroju” ieraksti prognozi: kādu statusu saņemsi un kāpēc. Tad saglabā, atjauno lapu, nospied pogu un ieraksti rezultātu.
+     </li>
+     <li>
+      Atver DevTools → <b>Network</b>, sarakstā <b>No throttling</b> izvēlies <b>Offline</b> un nospied pogu. Ieraksti, ko rāda tabula. Tad izmēģini <b>Slow 4G</b> un salīdzini laikus. Beigās atgriez <b>No throttling</b>.
+     </li>
+     <li>
+      Komandrindā izpildi <code>ping lietotajs.github.io</code> (ar savu adresi, bez <code>https://</code> un mapes) un <code>tracert -d -h 15 lietotajs.github.io</code>. Sadaļā „Mani mērījumi” ieraksti vidējo laiku ms un posmu skaitu.
+     </li>
+     <li>
+      Saglabā visu, nosūti uz GitHub jaunā projektā <code>datorika9-tema7</code> (atgādne zemāk) un pārbaudi, ka GitHub ir gan <code>71.html</code>, gan <code>tikls_71.png</code>.
+     </li>
+    </ol>
+    <p class="done-when">
+     <b>
+      Gatavs, kad:
+     </b>
+     tabulā ir ceturtā rinda ar 404, „Ko es noskaidroju” ir prognoze, rezultāts un Offline ziņojums, un „Mani mērījumi” ir aizpildīti.
+    </p>
+    <div class="submission">
+     <h3>
+      Iesniedz 3. uzdevuma rezultātu
+     </h3>
+     <p>
+      Iesniedz GitHub projekta <code>datorika9-tema7</code> saiti skolotāja norādītajā vietā. Projektā jābūt <code>71.html</code> un <code>tikls_71.png</code>.
+     </p>
+     <p>
+      <b>
+       Stunda ir ieskaitīta, ja 3. uzdevuma rezultāts atbilst visiem šiem punktiem:
+      </b>
+     </p>
+     <ul class="assessment-checks">
+      <li>
+       <code>speleAdrese</code> ir tavas publicētās spēles adrese, un tabula rāda 200, 200, 404 un tavu ceturto rindu.
+      </li>
+      <li>
+       Shēmā ir vismaz sešas ierīces no datora līdz serverim ar nosaukumiem un funkcijām, kā arī DNS.
+      </li>
+      <li>
+       Pie shēmas vai sadaļā „Mani mērījumi” ir tava privātā IP adrese un vārteja, ping laiks un tracert posmu skaits.
+      </li>
+      <li>
+       „Ko es noskaidroju” ir prognoze pirms pārbaudes, rezultāts un Offline ziņojums.
+      </li>
+     </ul>
+     <p>
+      1. un 2. uzdevums sagatavo šo rezultātu. Papildu uzdevums nav vajadzīgs ieskaitei.
+     </p>
+    </div>
+    <details class="course-help">
+     <summary>
+      Saglabā un nosūti uz GitHub — pogu atgādne
+     </summary>
+     <p class="workplace">
+      Vide: VS Code / Source Control → GitHub pārlūkā
+     </p>
+     <ol class="step-list">
+      <li>
+       Ar <b>File → Save All</b> saglabā failus. Atver <b>Source Control</b> ar <b>Ctrl+Shift+G</b>.
+      </li>
+      <li>
+       Pie <b>Changes</b> nospied <b>+</b> (Stage All Changes). Pārbaudi, ka <code>71.html</code> un <code>tikls_71.png</code> pārvietojas uz <b>Staged Changes</b>.
+      </li>
+      <li>
+       Ziņas laukā ieraksti <code>Pabeigts 7.1 darbs</code> un spied <b>Commit</b>.
+      </li>
+      <li>
+       Šī ir jauna tēmas mape, tāpēc spied <b>Publish to GitHub</b> un izveido publisku projektu <code>datorika9-tema7</code>. Nākamajās nodarbībās spied <b>Sync Changes</b>.
+      </li>
+      <li>
+       Pārlūkā atver savu GitHub projektu un pārbaudi, ka tajā ir abi faili.
+      </li>
+     </ol>
+     <p>
+      Ja Source Control rāda <b>Initialize Repository</b>, vispirms nospied to. Ja parādās kļūda, izmanto <a href="/datorika9/git">palīdzību</a> un palūdz skolotāja atbalstu.
+     </p>
+    </details>
+   </section>
+   <details class="course-help extra-task">
+    <summary>
+     Papildu uzdevums: pajautā DNS un salīdzini divus serverus
+    </summary>
+    <p>
+     Sāc, kad 3. uzdevums ir gatavs un iesniegts.
+    </p>
+    <p><b>Izmanto teoriju:</b> <a href="#adreses">IP adrese, domēna vārds un DNS</a>.</p>
+    <ol class="step-list">
+     <li>
+      Komandrindā izpildi <code>nslookup lietotajs.github.io</code> un <code>nslookup ebskola.lv</code>. Pieraksti, kādas IP adreses atbild DNS.
+     </li>
+     <li>
+      Izpildi <code>tracert -d -h 15 ebskola.lv</code> un salīdzini posmu skaitu ar savu spēli.
+     </li>
+     <li>
+      Failā <code>71.html</code> zem mērījumiem uzraksti divus teikumus: kurš serveris atbild ātrāk un kāpēc ceļš līdz tiem var atšķirties.
+     </li>
+    </ol>
+    <p class="done-when"><b>Gatavs, kad:</b> lapā ir abu domēnu IP adreses, abu ceļu posmu skaits un pamatots salīdzinājums.</p>
+   </details>
+   <details class="course-help">
+    <summary>
+     Ja kaut kas neizdodas
+    </summary>
+    <ul>
+     <li>
+      <b>
+       Visām rindām „Nav atbildes: Failed to fetch”?
+      </b>
+      Pārbaudi, vai adrese sākas ar <code>https://</code> un vai DevTools nav palicis ieslēgts <b>Offline</b>.
+     </li>
+     <li>
+      <b>
+       Spēles lapai 404?
+      </b>
+      Adresē ir kļūda vai GitHub Pages nav ieslēgts. Atver adresi pārlūkā un salīdzini ar 5.6. nodarbības spēles saiti.
+     </li>
+     <li>
+      <b>
+       ping rāda „Request timed out”?
+      </b>
+      Serveris vai skolas tīkls neatbild uz ping. Izmēģini <code>ping ebskola.lv</code> un ieraksti, ka savai spēlei ping nesaņēmi atbildi.
+     </li>
+     <li>
+      <b>
+       tracert rāda daudz zvaigznīšu <code>*</code>?
+      </b>
+      Daļa maršrutētāju neatbild — tas ir normāli. Skaiti visas rindas līdz pēdējai, kurā redzama adrese.
+     </li>
+     <li>
+      <b>
+       ipconfig rāda vairākus adapterus?
+      </b>
+      Izvēlies to, kuram ir aizpildīts <b>Default Gateway</b>.
+     </li>
+     <li>
+      <b>
+       Shēma lapā nerādās?
+      </b>
+      Failam jābūt tieši <code>tikls_71.png</code> tajā pašā mapē, kur <code>71.html</code>. Windows ieslēdz <b>View → Show → File name extensions</b> un pārbaudi, ka nav <code>.png.png</code>.
+     </li>
+     <li>
+      <b>
+       diagrams.net prasa Google Drive vai OneDrive?
+      </b>
+      Izvēlies <b>Device</b> — tad konts nav vajadzīgs.
+     </li>
+    </ul>
+    <p>
+     <a href="/datorika9/git">
+      Palīdzība Git, kontam un darba atvēršanai
+     </a>
+    </p>
+   </details>
+   <nav aria-label="Iepriekšējā un nākamā nodarbība" class="stundas-navigacija">
+    <a class="nav-btn" href="/datorika9/dat9_6/nodarbibas/dat9_66">
+     ← Iepriekšējā
+    </a>
+    <a class="nav-btn" href="/datorika9/dat9_7/nodarbibas/dat9_72">
+     Nākamā →
+    </a>
+   </nav>
+  </main>
+  <footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="foot-brand" href="/"><span class="glyph">›_</span> ebskola.lv</a>
+        <p>Atvērti, bezmaksas mācību materiāli datorikā, programmēšanā un robotikā latviešu valodā.</p>
+        <div class="foot-social">
+          <a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">LinkedIn</a>
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Kursi</h4>
+        <ul>
+          <li><a href="/datorika9/datorika9">Datorika 9. klasei</a></li>
+          <li><a href="/programmesana1/programmesana1">Programmēšana I</a></li>
+          <li><a href="/programmesana2/programmesana2">Programmēšana II</a></li>
+          <li><a href="/robotika/robotika">Robotika</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resursi</h4>
+        <ul>
+          <li><a href="/sasnRez">Sasniedzamie rezultāti</a></li>
+          <li><a href="/paligm">Palīgmateriāli</a></li>
+          <li><a href="/#structure">Visu tēmu indekss</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Projekts</h4>
+        <ul>
+          <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT licence</a></li>
+          <li><a href="https://www.linkedin.com/in/eduards-baumanis-81aba4174/" target="_blank" rel="noopener noreferrer author">Sazināties</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div class="left">
+        <span>© 2026 ebSkola</span>
+        <span>Izstrādājis Eduards Baumanis</span>
+      </div>
+    </div>
+  </div>
+</footer>
+ </body>
+</html>

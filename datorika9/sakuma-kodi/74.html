@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pikšķerēšanas detektīvs</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 720px; margin: 24px auto; padding: 16px; line-height: 1.6; background-color: #f8fafc; color: #1e293b; }
+h1 { color: #1e3a8a; }
+#raditaji { font-weight: bold; }
+.zina { background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px 18px; margin: 12px 0; }
+.kanals { display: inline-block; background-color: #e2e8f0; border-radius: 6px; padding: 2px 8px; font-size: 14px; }
+.sutitajs { font-family: "Courier New", monospace; font-size: 14px; color: #475569; }
+.saite { color: #1d4ed8; text-decoration: underline; cursor: pointer; }
+#saitesMerkis { font-family: "Courier New", monospace; font-size: 14px; color: #92400e; min-height: 1.4em; }
+button { font: inherit; padding: 10px 16px; margin: 4px 6px 4px 0; cursor: pointer; color: #ffffff; border: 0; border-radius: 8px; }
+#drosa { background-color: #15803d; }
+#aizdomiga { background-color: #b91c1c; }
+#nakama, #atkal { background-color: #245b91; }
+#atsauksme { font-weight: bold; }
+[hidden] { display: none !important; }
+section { margin-top: 28px; }
+</style>
+</head>
+<body>
+<h1>Pikšķerēšanas detektīvs</h1>
+<p>Izlasi ziņu un izlem: vai tā ir droša vai aizdomīga? Visi zīmoli un adreses ir izdomāti.</p>
+<p id="raditaji"></p>
+
+<div class="zina">
+<p><span class="kanals" id="kanals"></span></p>
+<p class="sutitajs" id="sutitajs"></p>
+<p id="teksts"></p>
+<p id="saitesRinda">Saite: <span class="saite" id="saite"></span></p>
+<p id="saitesMerkis"></p>
+</div>
+
+<button id="drosa">Droša</button>
+<button id="aizdomiga">Aizdomīga</button>
+<p id="atsauksme"></p>
+<button id="nakama" hidden>Nākamā ziņa →</button>
+<button id="atkal" hidden>Spēlēt vēlreiz</button>
+
+<section>
+<h2>Ko es palaidu garām</h2>
+<!-- 1. UZDEVUMS: par katru nepareizo atbildi uzraksti, kuru pazīmi nepamanīji -->
+<ul>
+<li>...</li>
+</ul>
+</section>
+
+<section>
+<h2>Mani 3 soļi kontu aizsardzībai</h2>
+<!-- 3. UZDEVUMS: uzraksti trīs konkrētus soļus, ko tu darīsi -->
+<ol>
+<li>...</li>
+<li>...</li>
+<li>...</li>
+</ol>
+</section>
+
+<script>
+// === ZIŅAS: kanāls, sūtītājs, teksts, redzamais saites teksts, īstā saite, vai droša, skaidrojums ===
+// 2. UZDEVUMS: pievieno trīs savas ziņas: līdzīgs domēns, SMS un droša ziņa
+// 3. UZDEVUMS: pārbaudi, vai katrai ziņai "drosa" ir pareiza
+const zinas = [
+  { kanals: "E-pasts", sutitajs: "Mākoņdisks atbalsts <atbalsts@makondlsks.example>",
+    teksts: "Jūsu krātuve ir pilna! Pēc 24 stundām visi faili tiks dzēsti. Piesakieties un apstipriniet kontu.",
+    saitesTeksts: "makondisks.example/pieteikties", saite: "http://makondlsks.example/login", drosa: false,
+    skaidrojums: "Steidzamība un draudi. Sūtītāja domēnā ir „l”, nevis „i”, un saite ved uz to pašu viltoto domēnu." },
+  { kanals: "SMS", sutitajs: "Kurjers",
+    teksts: "Jūsu sūtījums aizturēts. Samaksājiet 1,99 € muitas nodevu, citādi sūtījums tiks atgriezts.",
+    saitesTeksts: "kurjers-piegade.example/maksat", saite: "http://kurjers-piegade.example/maksat", drosa: false,
+    skaidrojums: "Negaidīts maksājums, steidzamība un saite SMS. Pārbaudi sūtījumu pašā kurjera vietnē vai lietotnē." },
+  { kanals: "E-pasts", sutitajs: "Skolotāja <skolotaja@skola.example>",
+    teksts: "Atgādinu: rīt nodarbībā vajadzēs savu GitHub kontu. Paroli nevienam nesūtiet un neprasiet.",
+    saitesTeksts: "", saite: "", drosa: true,
+    skaidrojums: "Pazīstams sūtītājs no skolas domēna, nav saites, nav steigas, un ziņa pat atgādina paroli nesūtīt." },
+  { kanals: "Ziņa sociālajā tīklā", sutitajs: "PikseļuVeikals Balvas",
+    teksts: "Apsveicam! Tu esi laimējis spēļu konsoli! Lai to saņemtu, ievadi savu tālruņa numuru un bankas kartes datus.",
+    saitesTeksts: "pikselu-veikals-balva.example", saite: "http://pikselu-veikals-balva.example/konsole", drosa: false,
+    skaidrojums: "Balva par neko, viltots profils un prasība pēc kartes datiem. Īsts veikals karti balvai neprasa." },
+  { kanals: "E-pasts", sutitajs: "PikseļuVeikals <pasutijumi@pikselu-veikals.example>",
+    teksts: "Paldies par vakardienas pirkumu — austiņām, ko pasūtīji mūsu veikalā! Tās tiks piegādātas piektdien. Pasūtījumu vari apskatīt savā kontā.",
+    saitesTeksts: "pikselu-veikals.example/konts", saite: "https://pikselu-veikals.example/konts", drosa: true,
+    skaidrojums: "Ziņa atbilst pirkumam, ko tiešām veici. Sūtītājs un saite ir no tā paša domēna, nav steigas un nav paroles prasības." },
+  { kanals: "SMS", sutitajs: "Zvaigžņu Banka",
+    teksts: "Kāds mēģina pieslēgties jūsu kontam. Ja tas neesat jūs, atsūtiet mums kodu, ko tikko saņēmāt SMS.",
+    saitesTeksts: "", saite: "", drosa: true,
+    skaidrojums: "Banka nekad neprasa atsūtīt kodu. Ar šo kodu krāpnieks pieslēgsies tavam kontam." },
+  { kanals: "Ziņa tērzētavā", sutitajs: "Klasesbiedrs (jauns konts)",
+    teksts: "Čau! Šis ir mans jaunais konts. Iedod savu skolas konta paroli, es tev ātri salabošu spēli 😊",
+    saitesTeksts: "", saite: "", drosa: false,
+    skaidrojums: "Jauns konts ar pazīstamu vārdu un prasība pēc paroles. Pārbaudi klātienē — paroli nedod nevienam." }
+];
+
+// === SPĒLES STĀVOKLIS ===
+let nr = 0;
+let punkti = 0;
+let dzivibas = 3;
+let atbildets = false;
+
+// === RĀDĪTĀJI UN ZIŅA EKRĀNĀ ===
+function raditaji() {
+  document.getElementById("raditaji").textContent = "Punkti: " + punkti + " | Dzīvības: " + dzivibas + " | Ziņa " + (nr + 1) + " no " + zinas.length;
+}
+function paraditZinu() {
+  const z = zinas[nr];
+  document.getElementById("kanals").textContent = z.kanals;
+  document.getElementById("sutitajs").textContent = z.sutitajs;
+  document.getElementById("teksts").textContent = z.teksts;
+  document.getElementById("saite").textContent = z.saitesTeksts;
+  document.getElementById("saitesRinda").hidden = z.saitesTeksts === "";
+  document.getElementById("saitesMerkis").textContent = "";
+  document.getElementById("atsauksme").textContent = "";
+  document.getElementById("nakama").hidden = true;
+  atbildets = false;
+  raditaji();
+}
+
+// === ATBILDE: lietotajsSaka ir true, ja nospieda "Droša" ===
+function atbildet(lietotajsSaka) {
+  if (atbildets) { return; }
+  atbildets = true;
+  const z = zinas[nr];
+  const atsauksme = document.getElementById("atsauksme");
+  if (lietotajsSaka === z.drosa) {
+    punkti = punkti + 1;
+    atsauksme.style.color = "#15803d";
+    atsauksme.textContent = "Pareizi!";
+  } else {
+    dzivibas = dzivibas - 1;
+    atsauksme.style.color = "#b91c1c";
+    atsauksme.textContent = "Nepareizi — šī ziņa ir " + (z.drosa ? "droša." : "aizdomīga.");
+  }
+  // 2. UZDEVUMS: pievieno atsauksmei skaidrojumu z.skaidrojums
+  raditaji();
+  if (dzivibas <= 0 || nr === zinas.length - 1) {
+    beigas();
+  } else {
+    document.getElementById("nakama").hidden = false;
+  }
+}
+
+// === NĀKAMĀ ZIŅA, BEIGAS UN SĀKŠANA NO JAUNA ===
+function nakama() {
+  nr = nr + 1;
+  paraditZinu();
+}
+function beigas() {
+  const iznakums = dzivibas <= 0 ? "Dzīvības beigušās! " : "Visas ziņas pārbaudītas! ";
+  document.getElementById("atsauksme").textContent += " " + iznakums + "Punkti: " + punkti + " no " + zinas.length + ".";
+  document.getElementById("atkal").hidden = false;
+}
+function saktNoJauna() {
+  nr = 0;
+  punkti = 0;
+  dzivibas = 3;
+  document.getElementById("atkal").hidden = true;
+  paraditZinu();
+}
+
+// === 3. UZDEVUMS: kad pele ir virs saites, parādi #saitesMerkis īsto adresi zinas[nr].saite ===
+
+document.getElementById("drosa").addEventListener("click", function () { atbildet(true); });
+document.getElementById("aizdomiga").addEventListener("click", function () { atbildet(false); });
+document.getElementById("nakama").addEventListener("click", nakama);
+document.getElementById("atkal").addEventListener("click", saktNoJauna);
+paraditZinu();
+</script>
+</body>
+</html>

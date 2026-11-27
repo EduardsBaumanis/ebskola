@@ -1,6 +1,16 @@
 # 7. tēma — Tīkli, internets un drošība (plāns)
 
-> **Status:** plan only. No lesson pages, tests or starter files exist yet.
+> **Status:** 7.1 is built (2026-11-27): `dat9_7main.html`,
+> `nodarbibas/dat9_71.html`, `testi/dat9_71_test.html` (repeats 6.6),
+> `sakuma-kodi/71.html`. 7.2 is built (2026-11-27): `nodarbibas/dat9_72.html`,
+> `testi/dat9_72_test.html`, `sakuma-kodi/72.html`. 7.3 is built (2026-11-27):
+> `nodarbibas/dat9_73.html`, `testi/dat9_73_test.html`, `sakuma-kodi/73.html`.
+> 7.4 is built (2026-11-27): `nodarbibas/dat9_74.html`, `testi/dat9_74_test.html`,
+> `sakuma-kodi/74.html`. 7.5 is built (2026-11-27): `nodarbibas/dat9_75.html`,
+> `testi/dat9_75_test.html`, `sakuma-kodi/75.html`. 7.6 is built (2026-11-27):
+> `nodarbibas/dat9_76.html`, `testi/dat9_76_test.html`, `sakuma-kodi/76.html`.
+> **Topic 7 is complete.** The planned badge was removed and the counts updated:
+> course 42 lessons, site 29 topics and 172 lessons.
 > Write the lessons in the format of the existing Datorika 9 lessons: theory
 > with examples, "Sākuma kods un darba vieta", three tasks with "Vide:",
 > "Izmanto teoriju:" and "Gatavs, kad:", and "Iesniedz 3. uzdevuma rezultātu".
@@ -83,10 +93,35 @@ on GitHub, as in topics 1–5.
 ### 7.1 Kā spēle nonāk pie spēlētāja: klients, serveris un tīkls
 
 - **File:** `dat9_71.html`
-- **Starter:** `sakuma-kodi/71.html` is a "Tīkla pētnieks" page. It loads
-  three files with `fetch` (its own `.html`, an image and a missing file)
-  and shows the HTTP status, the size and the time in milliseconds for
-  each.
+- **Starter (built):** `sakuma-kodi/71.html` is the "Tīkla pētnieks" page.
+  - It fetches three files with `fetch(..., { cache: "no-store" })`: the
+    game page at `speleAdrese`, `https://ebskola.lv/icon-192.png` (an
+    image on another server) and `speleAdrese + "nav-tada-faila.html"`.
+    For each it shows the server, status, size and time.
+  - The page also has sections "Mana tīkla shēma"
+    (`<img src="tikls_71.png">`), "Mani mērījumi" and "Ko es noskaidroju"
+    for the students to fill in.
+  - Tested from `file://` in headless Chrome: 200 / 200 / 404, and a bad
+    address shows "Nav atbildes: Failed to fetch".
+- **Why the starter does not fetch its own file:** a page opened from
+  `file://` cannot fetch itself. It can fetch servers that send
+  `Access-Control-Allow-Origin: *`, and GitHub Pages and ebskola.lv both
+  do (checked 2026-11-27).
+- **Why the default address is GitHub Pages:** the default `speleAdrese`
+  is `https://pages.github.com/`, and students replace it with their own
+  game. ebskola.lv is not used as the default because it answers a
+  missing file with **200 and the home page**: Cloudflare Pages does this
+  when the site has no `404.html`. GitHub Pages returns a real 404.
+- **Changes from the plan:**
+  - Task 1 also saves the starter and sets `speleAdrese`.
+  - Task 3's "missing file" is the student's own file with a capital
+    letter (`Index.html`), predicted before checking.
+  - DevTools Offline is followed by Slow 4G.
+  - The hand-in is a new GitHub repository `datorika9-tema7` with
+    `71.html` and `tikls_71.png`.
+  - The extra task uses `nslookup`, which is not in the author's list of
+    allowed commands (`ping`, `tracert`). Remove it if the school blocks
+    it.
 - **Goal:** Šajā nodarbībā tu izsekosi, kā tava spēle no GitHub servera
   nonāk līdz pārlūkam, un uzzīmēsi šī ceļa tīkla shēmu.
 - **SR:** 2.3.2.
@@ -116,9 +151,27 @@ on GitHub, as in topics 1–5.
 ### 7.2 Mājas un skolas tīkls, pieslēgums un ātrums
 
 - **File:** `dat9_72.html`
-- **Starter:** `sakuma-kodi/72.html` is a "Lejupielādes kalkulators". You
-  enter the file size in MB and the speed in Mbit/s, and it shows the time.
-  It has a deliberate bits/bytes bug (it does not multiply by 8).
+- **Starter (built):** `sakuma-kodi/72.html` is the "Lejupielādes
+  kalkulators".
+  - It contains `lejupieladesLaiks` with the bits/bytes bug, and
+    `laiksTeksta` (s, min, h).
+  - It has a table of three **invented** offers: "Gaisma Optika 300",
+    "Vilnis 5G Mājām" and "Zvaigzne Satelīts", labelled as invented.
+  - It has sections for the network diagram (`tikli_72.png`), "Mana
+    pārbaude" (a test table) and "Mans ieteikums ģimenei".
+  - Tested headless, with the reference solution in the scratchpad: the
+    bug shows 40 s, the fix shows 5 min 20 s; 80/80 gives 8.0 s; upload of
+    4000 MB at 20 Mbit/s takes 26 min 40 s; price per Mbit/s is 0.077 /
+    0.040 / 0.490 €. Without the input check, speed 0 shows "Infinity h
+    NaN min" and size −80 shows "-8.0 s".
+- **Changes from the plan:**
+  - There is no stopwatch download in task 1, so 30 students don't
+    download at once. The bug is found with the 80 MB / 80 Mbit/s hand
+    check. The teacher may measure the classroom speed once.
+  - Task 2 gives the exact lines for the upload field and the price
+    column.
+  - Real offers moved to the extra task, with source and date, so open
+    question 2 no longer blocks the lesson.
 - **Goal:** Šajā nodarbībā tu salīdzināsi mājas un skolas tīklu,
   izvēlēsies piemērotāko interneta pieslēgumu pēc kritērijiem un
   izlabosi kalkulatoru, kas jauc bitus ar baitiem.
@@ -155,9 +208,23 @@ on GitHub, as in topics 1–5.
 ### 7.3 E-pasts un saziņas rīki
 
 - **File:** `dat9_73.html`
-- **Starter:** `sakuma-kodi/73.html` is an "E-pasta adreses pārbaudītājs".
-  It splits an address at `@` and shows the user name and the domain. It
-  accepts addresses with two `@` signs, which is a bug the students find.
+- **Starter (built):** `sakuma-kodi/73.html` is the "E-pasta adreses
+  pārbaudītājs".
+  - `parbauditAdresi` returns the parts: user, domain and top-level
+    domain.
+  - It has 10 test addresses with expected results. The starter scores
+    7/10: it accepts `anna@@example.com`, `anna@exa@mple.com` and
+    `anna@example`. The two fixes, `indexOf("@") !== lastIndexOf("@")` and
+    `!domens.includes(".")`, give 10/10 (tested headless).
+  - The page has an `<img src="epasts_73.png">` section and the three
+    scenario cards.
+- **As built:**
+  - Task 2 has students cover **both** email addresses (theirs and the
+    teacher's) in the screenshot before saving it, because the repository
+    is public.
+  - Task 3 adds two invented test addresses (never real ones).
+  - The extra task adds a "Vai tu domāji…?" map for common domain typos
+    (tested).
 - **Goal:** Šajā nodarbībā tu izskaidrosi e-pasta adreses uzbūvi, nosūtīsi
   lietišķu e-pastu ar saiti uz savu spēli un izvēlēsies piemērotāko saziņas
   rīku dažādām situācijām.
@@ -191,9 +258,22 @@ on GitHub, as in topics 1–5.
 ### 7.4 Pikšķerēšana un identitātes zādzība
 
 - **File:** `dat9_74.html`
-- **Starter:** `sakuma-kodi/74.html` is a "Pikšķerēšanas detektīvs" quiz
-  game. An array of messages, each with sender, text, link and `isDrosa`. It
-  has a "Drošs / Aizdomīgs" button pair and score and lives, as in topic 4.
+- **Starter (built):** `sakuma-kodi/74.html` is the "Pikšķerēšanas
+  detektīvs".
+  - It has 7 messages, each with `kanals`, `sutitajs`, `teksts`,
+    `saitesTeksts` (what is shown), `saite` (the real target), `drosa`
+    (renamed from `isDrosa`) and `skaidrojums`.
+  - It has points, 3 lives and Droša/Aizdomīga buttons.
+  - Every brand is invented and every domain is `.example`. There is no
+    `github.com`/`glthub.com`: look-alike real domains may exist and be
+    malicious.
+  - **Deliberate data bug:** the "Zvaigžņu Banka" SMS that asks for a code
+    is marked `drosa: true`. An honest player scores 6/7 with 2 lives.
+  - The explanation is in the data but not shown. Task 2 adds one line to
+    show it, plus 3 messages of the student's own. Task 3 adds the
+    mouseover/mouseout handlers and fixes the bug, which gives 10/10.
+  - All of this was tested headless with simulated play-throughs and
+    dispatched hover events, and so was the extra task's shuffle.
 - **Goal:** Šajā nodarbībā tu atpazīsi identitātes zādzības metodes,
   izveidosi savu pikšķerēšanas atpazīšanas spēli un saplānosi, kā
   pasargāt savus kontus.
@@ -227,8 +307,31 @@ on GitHub, as in topics 1–5.
 ### 7.5 Ierīču, programmatūras un datu drošība
 
 - **File:** `dat9_75.html`
-- **Starter:** `sakuma-kodi/75.html` is a "Paroles stipruma mērītājs". It
-  scores length and character types, so it rates `Parole123!` as "strong".
+- **Starter (built):** `sakuma-kodi/75.html` is the "Paroles stipruma
+  mērītājs".
+  - It shows a yellow warning never to type a real password.
+  - It has 10 invented test passwords with expected ratings.
+  - It gives 1 point each for length ≥ 8, length ≥ 12, lower case, upper
+    case, digit and symbol, using ready-made regex helpers. 0–2 points is
+    vāja, 3–4 vidēja, 5+ stipra.
+  - The starter scores 4/10: `Parole123!` and `Abc123!@` come out stipra,
+    `qwerty123` and `Tg7#pQ` vidēja, and both four-word passphrases
+    vidēja.
+  - Task 2 gives the exact code: the 20-item `biezakasParoles` list with a
+    `toLowerCase().includes` check, the `length < 8` rule, +2 for 4+
+    words, and the reasons shown. With it the score is 10/10 (tested
+    headless, together with the extra task's `crypto.getRandomValues`
+    passphrase generator).
+- **As built, task 3:**
+  - GitHub 2FA: GitHub has been requiring it for code contributors, so it
+    may already be on.
+  - If phones are not allowed in class, the student writes the date they
+    will turn it on at home in the plan. This answers open question 1 for
+    now; the author should still confirm the phone rule.
+  - Recovery codes are stored outside the repository.
+  - The student also checks Sessions, the security of the personal email
+    and their own repositories for personal data, and fills in the
+    five-point plan.
 - **Goal:** Šajā nodarbībā tu noteiksi, kas apdraud ierīces, programmatūru
   un datus, uzlabosi paroles pārbaudītāju un izveidosi sava datora drošības
   plānu.
@@ -270,10 +373,31 @@ on GitHub, as in topics 1–5.
 ### 7.6 Noslēguma darbs: "Droša spēlēšana" lapa tavai spēlei
 
 - **File:** `dat9_76.html`
-- **Starter:** `sakuma-kodi/76.html` is a page template with sections
-  "Kā spēle nonāk pie tevis", "Veselīga spēlēšana", "Drošība un privātums"
-  and "Pārtraukuma atgādinājums". It includes a `setInterval` timer that
-  shows a reminder after N minutes, with N set to 1 for testing.
+- **Starter (built):** `sakuma-kodi/76.html` is the template for
+  `drosiba.html`.
+  - It has the four sections and a back link to `index.html`.
+  - Its help contacts are 116111 (free, anonymous, 24/7, chat at
+    uzticibastalrunis.lv) and drossinternets.lv for reporting harmful
+    content. Both were checked on 2026-11-27. The operator and email
+    details are left out because sources differ.
+  - It includes the page's own `setInterval` reminder demo with
+    N = 1 (tested headless: hidden at 59 s, shown at 61 s).
+- **The game-side snippet:**
+  - It is given in the lesson, written for the names shared by the
+    52–56 starters: `spele.aktiva`, `taimeris`, `cikls`, `sakt()`, the
+    `#sakumaEkrans` and `#spelesEkrans` sections, and the
+    `ekrans("sakumaEkrans")` call at the end.
+  - It contains an overlay `#partraukums`, `skaititLaiku()`, which counts
+    only while `spele.aktiva`, `turpinat()`, a guarded
+    `setInterval(skaititLaiku, 1000)`, and one line in `sakt()` that hides
+    the overlay.
+  - It was tested on a copy of 56.html: the game pauses, arrows stop,
+    Turpināt resumes. With the timer moved into `sakt()`, three starts
+    count 3 s in 1.2 s; that is the task 3 break.
+- **As built:** students add the page to the `datorika9-tema5` game
+  repository and hand in the game link, the `drosiba.html` link and the
+  `datorika9-tema7` link. The SLA rubric has 6 criteria. The extra task lets
+  the player choose 15, 30 or 45 minutes.
 - **Goal:** Šajā noslēguma darbā tu pievienosi savai publicētajai spēlei
   lapu par drošu un veselīgu spēlēšanu ar pārtraukuma atgādinājumu un to
   publicēsi.
@@ -313,11 +437,13 @@ on GitHub, as in topics 1–5.
 
 Still open:
 
-1. **Two-factor authentication on GitHub (7.5).** It needs a phone or an
+1. **Two-factor authentication on GitHub (7.5).** Partly handled: the
+   lesson accepts "a date to turn it on at home". It needs a phone or an
    authenticator app. Check that students may use their phones in class,
    and plan a backup for students without one: recovery codes stored
    safely.
-2. **Provider offers (7.2).** Real prices change quickly. Use a teacher
+2. **Provider offers (7.2).** Handled: the starter uses invented offers,
+   and real offers with source and date are in the extra task. Real prices change quickly. Use a teacher
    handout dated each school year, or the providers' public pages with a
    date noted.
 3. **Overlap with Sociālās zinības or Sports un veselība.** 3.3.1 (overuse,
